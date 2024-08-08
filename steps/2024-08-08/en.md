@@ -1,8 +1,8 @@
-## [2024-08-08] Creating an empty project using NestJS mod.
+## [2024-08-08] Creating an empty project using NestJS-mod.
 
 After many years of writing various projects on NestJS and Angular, I decided to rewrite a group of projects from the repository https://github.com/rucken and to use the current coding style, it has not changed much, it just became less of the same type of code.
 
-I will develop the main fullstack-bolerplate for frontend and backend without business functionality in a separate organization NestJS-Mod (https://github.com/nestjs-mod ).
+I will develop the main fullstack-bolerplate for frontend and backend without business functionality in a separate organization NestJS-mod (https://github.com/nestjs-mod ).
 
 After the completion of the bolerplate, further development will continue in the Rucken organization (https://github.com/rucken ).
 
