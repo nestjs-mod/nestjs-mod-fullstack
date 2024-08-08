@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "scripts": {},
+  "dependencies": {
+    "pm2": ">=5.3.0",
+    "dotenv": ">=16.3.1"
+  },
+  "devScripts": [
+    "manual:prepare",
+    "serve:dev:server"
+  ],
+  "prodScripts": [
+    "manual:prepare",
+    "start:prod:server"
+  ],
+  "testsScripts": [
+    "test:server"
+  ]
+}

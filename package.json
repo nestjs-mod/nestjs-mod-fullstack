@@ -1,0 +1,170 @@
+{
+  "name": "@nestjs-mod-fullstack/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "_____dev infra_____": "_____dev infra_____",
+    "serve:dev": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=serve",
+    "serve:dev:server": "./node_modules/.bin/nx serve server --host=0.0.0.0",
+    "_____prod infra_____": "_____prod infra_____",
+    "start": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start",
+    "build": "npm run generate && npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=build --skip-nx-cache=true",
+    "start:prod:server": "./node_modules/.bin/nx start server",
+    "_____docs_____": "_____docs_____",
+    "docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start --parallel=1",
+    "_____tests_____": "_____tests_____",
+    "test": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
+    "test:server": "./node_modules/.bin/nx test server --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
+    "_____lint_____": "_____lint_____",
+    "lint": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint",
+    "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint --fix",
+    "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
+    "_____utils_____": "_____utils_____",
+    "generate": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=generate --skip-nx-cache=true && npm run make-ts-list && npm run lint:fix",
+    "tsc": "tsc",
+    "nx": "nx",
+    "dep-graph": "./node_modules/.bin/nx dep-graph",
+    "make-ts-list": "./node_modules/.bin/rucken make-ts-list",
+    "manual:prepare": "npm run generate && npm run build && npm run docs:infrastructure && npm run test",
+    "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod -u",
+    "rucken": "rucken",
+    "_____pm2 prod infra_____": "_____pm2 prod infra_____",
+    "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json",
+    "pm2:stop": "./node_modules/.bin/pm2 delete all"
+  },
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@nestjs-mod/schematics": "^2.9.2",
+    "@nestjs-mod/testing": "2.14.0",
+    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/testing": "^10.0.2",
+    "@nx/eslint": "19.5.3",
+    "@nx/eslint-plugin": "19.5.3",
+    "@nx/jest": "19.5.3",
+    "@nx/js": "19.5.3",
+    "@nx/node": "19.5.3",
+    "@nx/web": "19.5.3",
+    "@nx/webpack": "19.5.3",
+    "@nx/workspace": "19.5.3",
+    "@swc-node/register": "~1.9.1",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
+    "@theunderscorer/nx-semantic-release": "^2.11.0",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "~8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "fast-glob": "^3.3.2",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "lint-staged": "^15.2.0",
+    "nx": "19.5.3",
+    "prettier": "^2.6.2",
+    "rucken": "^4.8.1",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.5.2"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix"
+  },
+  "scriptsComments": {
+    "serve:dev": [
+      "Running NestJS application source code in watch mode"
+    ],
+    "serve:dev:server": [
+      "Running server source code in watch mode"
+    ],
+    "start": [
+      "Launching a built NestJS application (you must first build it using the build command)"
+    ],
+    "build": [
+      "Building a NestJS application"
+    ],
+    "start:prod:server": [
+      "Launching a built server (you must first build it using the build command)"
+    ],
+    "docs:infrastructure": [
+      "Creation of documentation for the entire infrastructure and creation of files necessary to launch the infrastructure"
+    ],
+    "test": [
+      "Running tests across the entire project"
+    ],
+    "test:server": [
+      "Running tests for server"
+    ],
+    "lint": [
+      "Checking the typescript code for the entire project"
+    ],
+    "lint:fix": [
+      "Checking the typescript code throughout the project and trying to fix everything possible"
+    ],
+    "tsc:lint": [
+      "Checking typescript code in libraries"
+    ],
+    "generate": [
+      "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
+      "automatically generating an index.ts file for each library",
+      "checking the code and trying to fix it"
+    ],
+    "tsc": [
+      "Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`),",
+      "in order not to install tsc globally in the operating system"
+    ],
+    "nx": [
+      "Alias for running the nx version locally, which is in the project (example: `./node_modules/.bin/nx dep-graph`),",
+      "in order not to install nx globally in the operating system"
+    ],
+    "dep-graph": [
+      "Generating dependency diagrams for nx applications and libraries"
+    ],
+    "make-ts-list": [
+      "Automatically generating an index.ts file for each library,",
+      "works only for nx applications created using the `--projectNameAndRootFormat=as-provided` flag"
+    ],
+    "manual:prepare": [
+      "Preparing code, building code, creating infrastructure documentation",
+      "and all the files necessary to raise the infrastructure and running tests (generate, build, docs:infrastructure, test)"
+    ],
+    "update:nestjs-mod-versions": [
+      "Updating NestJS-mod libraries"
+    ],
+    "rucken": [
+      "Alias for console tools and scripts for nx and not only use to automate the workflow and",
+      "speed up the development process (example: `npm run rucken -- make-ts-list`, site: https://www.npmjs.com/package/rucken)"
+    ],
+    "pm2:start": [
+      "Launch all applications in PM2 mode"
+    ],
+    "pm2:stop": [
+      "Stop all applications in PM2 mode"
+    ]
+  },
+  "dependencies": {
+    "@nestjs-mod/common": "2.14.0",
+    "@nestjs-mod/pino": "1.14.0",
+    "@nestjs-mod/pm2": "1.12.0",
+    "@nestjs-mod/reports": "2.14.0",
+    "@nestjs-mod/terminus": "1.13.0",
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/core": "^10.0.2",
+    "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/terminus": "^10.2.3",
+    "ajv": "^8.17.1",
+    "axios": "^1.6.0",
+    "case-anything": "^2.1.13",
+    "class-validator": "^0.14.0",
+    "dotenv": ">=16.3.1",
+    "nestjs-pino": "^4.1.0",
+    "pino-http": "^10.2.0",
+    "pino-pretty": "^11.2.2",
+    "pm2": "^5.3.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0"
+  }
+}

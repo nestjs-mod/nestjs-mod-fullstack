@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "server",
+      "script": "node ./dist/apps/server/main.js",
+      "node_args": "-r dotenv/config"
+    }
+  ]
+}
