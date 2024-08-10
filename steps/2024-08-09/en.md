@@ -101,7 +101,7 @@ Run "nx show project client" to view details about this project.
 
 ```
 
-### We are launching a trial build of all projects
+### We are launching the build of all projects
 
 _Commands_
 
@@ -161,7 +161,7 @@ Updated file `apps/client/src/test-setup.ts`
 import 'jest-preset-angular/setup-jest';
 ```
 
-### Re-launching the trial build of all projects
+### Re-launching the build of all projects
 
 _Commands_
 

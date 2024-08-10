@@ -101,7 +101,7 @@ Run "nx show project client" to view details about this project.
 
 ```
 
-### Запускаем пробную сборку всех проектов
+### Запускаем сборку всех проектов
 
 _Команды_
 
@@ -161,7 +161,7 @@ Found 1 error in apps/client/src/test-setup.ts:1
 import 'jest-preset-angular/setup-jest';
 ```
 
-### Повторно запускаем пробную сборку всех проектов
+### Повторно запускаем сборку всех проектов
 
 _Команды_
 
