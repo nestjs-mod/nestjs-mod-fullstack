@@ -335,7 +335,7 @@ $ npm run test
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
-### ### To run e2e tests on Angular, you need to install additional libraries
+### To run e2e tests on Angular, you need to install additional libraries
 
 _Commands_
 
