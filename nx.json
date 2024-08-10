@@ -41,6 +41,36 @@
           "codeCoverage": true
         }
       }
+    },
+    "@angular-devkit/build-angular:browser": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "server": {
+      "cache": true
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
+    }
+  ],
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "playwright",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest"
     }
   }
 }

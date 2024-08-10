@@ -4,6 +4,11 @@
       "name": "server",
       "script": "node ./dist/apps/server/main.js",
       "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "client",
+      "script": "./node_modules/.bin/nx serve client --host=0.0.0.0 --disable-host-check",
+      "node_args": "-r dotenv/config"
     }
   ]
 }
