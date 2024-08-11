@@ -10,8 +10,17 @@
     "start": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start",
     "build": "npm run generate && npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=build --skip-nx-cache=true",
     "start:prod:server": "./node_modules/.bin/nx start server",
+    "_____pm2 prod infra_____": "_____pm2 prod infra_____",
+    "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json",
+    "pm2:stop": "./node_modules/.bin/pm2 delete all",
     "_____docs_____": "_____docs_____",
     "docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start --parallel=1",
+    "_____docker-compose infra_____": "_____docker-compose infra_____",
+    "docker-compose:start:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose.yml --compatibility up -d",
+    "docker-compose:stop:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose.yml down",
+    "_____docker-compose prod-infra_____": "_____docker-compose prod-infra_____",
+    "docker-compose:start-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker-compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env --compatibility up -d",
+    "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker-compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down",
     "_____tests_____": "_____tests_____",
     "test": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "test:server": "./node_modules/.bin/nx test server --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
@@ -19,6 +28,12 @@
     "lint": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint",
     "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint --fix",
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
+    "_____db_____": "_____db_____",
+    "db:create": "./node_modules/.bin/nx run-many -t=db-create",
+    "_____flyway_____": "_____flyway_____",
+    "flyway:create:server": "./node_modules/.bin/nx run server:flyway-create-migration",
+    "flyway:migrate:server": "./node_modules/.bin/nx run server:flyway-migrate",
+    "flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=generate --skip-nx-cache=true && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
@@ -27,10 +42,7 @@
     "make-ts-list": "./node_modules/.bin/rucken make-ts-list",
     "manual:prepare": "npm run generate && npm run build && npm run docs:infrastructure && npm run test",
     "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod -u",
-    "rucken": "rucken",
-    "_____pm2 prod infra_____": "_____pm2 prod infra_____",
-    "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json",
-    "pm2:stop": "./node_modules/.bin/pm2 delete all"
+    "rucken": "rucken"
   },
   "private": true,
   "devDependencies": {
@@ -83,6 +95,7 @@
     "jest-environment-node": "^29.4.1",
     "jest-preset-angular": "~14.1.0",
     "lint-staged": "^15.2.0",
+    "node-flywaydb": "^3.0.7",
     "nx": "19.5.3",
     "postcss": "^8.4.5",
     "prettier": "^2.6.2",
@@ -111,8 +124,26 @@
     "start:prod:server": [
       "Launching a built server (you must first build it using the build command)"
     ],
+    "pm2:start": [
+      "Launch all applications in PM2 mode"
+    ],
+    "pm2:stop": [
+      "Stop all applications in PM2 mode"
+    ],
     "docs:infrastructure": [
       "Creation of documentation for the entire infrastructure and creation of files necessary to launch the infrastructure"
+    ],
+    "docker-compose:start:server": [
+      "Running the docker-compose infrastructure for server"
+    ],
+    "docker-compose:stop:server": [
+      "Stopping the docker-compose infrastructure for server"
+    ],
+    "docker-compose:start-prod:server": [
+      "Running the main docker-compose prod infrastructure for server"
+    ],
+    "docker-compose:stop-prod:server": [
+      "Stopping the main docker-compose prod infrastructure for server"
     ],
     "test": [
       "Running tests across the entire project"
@@ -128,6 +159,18 @@
     ],
     "tsc:lint": [
       "Checking typescript code in libraries"
+    ],
+    "db:create": [
+      "Creation all databases of applications and modules"
+    ],
+    "flyway:create:server": [
+      "Command to create new empty migration for server"
+    ],
+    "flyway:migrate:server": [
+      "Applying migrations for server"
+    ],
+    "flyway:migrate": [
+      "Applying migrations of all applications and modules"
     ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
@@ -159,12 +202,6 @@
     "rucken": [
       "Alias for console tools and scripts for nx and not only use to automate the workflow and",
       "speed up the development process (example: `npm run rucken -- make-ts-list`, site: https://www.npmjs.com/package/rucken)"
-    ],
-    "pm2:start": [
-      "Launch all applications in PM2 mode"
-    ],
-    "pm2:stop": [
-      "Stop all applications in PM2 mode"
     ]
   },
   "dependencies": {
@@ -179,6 +216,8 @@
     "@angular/router": "~18.1.0",
     "@angular/ssr": "~18.1.0",
     "@nestjs-mod/common": "2.14.0",
+    "@nestjs-mod/docker-compose": "^1.15.0",
+    "@nestjs-mod/flyway": "^1.6.0",
     "@nestjs-mod/pino": "1.14.0",
     "@nestjs-mod/pm2": "1.12.0",
     "@nestjs-mod/reports": "2.14.0",
