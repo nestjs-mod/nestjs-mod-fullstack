@@ -610,9 +610,9 @@ $ npm run flyway:create:server
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
-### 8. Описываем sql скрипт по созданию демо таблицы
+### 8. We describe the sql script for creating a demo table
 
-Файл миграции `apps/server/src/migrations/V202408112241__NewMigration.sql`
+Migration file `apps/server/src/migrations/V202408112241__New Migration.sql`
 
 ```sql
 CREATE TABLE IF NOT EXISTS "AppDemo"(
@@ -758,7 +758,7 @@ Removing server-postgre-sql ... done
 
 In the next post, I will add working with the database via PrismaORM to the server...
 
-### Ссылки
+### Links
 
 https://nestjs.com - the official website of the framework
 https://nestjs-mod.com - the official website of additional utilities
