@@ -20,7 +20,7 @@ npm i --save @nestjs-mod/docker-compose @nestjs-mod/flyway
 npm i --save-dev node-flywaydb@3.0.7
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm i --save @nestjs-mod/docker-compose @nestjs-mod/flyway
@@ -57,6 +57,8 @@ To address all issues (including breaking changes), run:
 
 Run `npm audit` for details.
 ```
+
+{% endspoiler %}
 
 ### 2. Adding infrastructure modules to the server code
 
@@ -162,7 +164,7 @@ npm run build
 npm run docs:infrastructure
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run build
@@ -374,6 +376,8 @@ Nx read the output from the cache instead of running the command for 1 out of 3 
  NX   Successfully ran target start for project server
 ```
 
+{% endspoiler %}
+
 ### 4. Filling in new environment variables
 
 After launching the server application in infrastructure mode, additional variables will appear in the environment variables file, examples of values can be found in the infrastructure report `apps/server/INFRASTRUCTURE.MD`.
@@ -399,7 +403,7 @@ _Commands_
 npm run docs:infrastructure
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run docs:infrastructure
@@ -562,6 +566,8 @@ $ npm run docs:infrastructure
  NX   Successfully ran target start for project server
 ```
 
+{% endspoiler %}
+
 ### 6. Copy the updated file with the environment variables as an example
 
 Since the file with environment variables is located under gitignore, when cloning an empty project, you need to re-enter all the values for environment variables, to quickly launch the project, you need to have an example of a filled file with environment variables.
@@ -584,7 +590,7 @@ mkdir -p ./apps/server/src/migrations
 npm run flyway:create:server
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run flyway:create:server
@@ -610,6 +616,8 @@ $ npm run flyway:create:server
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+{% endspoiler %}
+
 ### 8. We describe the sql script for creating a demo table
 
 Migration file `apps/server/src/migrations/V202408112241__New Migration.sql`
@@ -634,7 +642,7 @@ _Commands_
 npm run docker-compose:start-prod:server
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run docker-compose:start-prod:server
@@ -651,6 +659,8 @@ Status: Downloaded newer image for bitnami/postgresql:15.5.0
 Creating server-postgre-sql ... done
 ```
 
+{% endspoiler %}
+
 ### 10. Launching the creation of application databases
 
 _Commands_
@@ -659,7 +669,7 @@ _Commands_
 npm run db:create
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run db:create
@@ -682,6 +692,8 @@ $ npm run db:create
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+{% endspoiler %}
+
 ### 11. We apply migrations
 
 _Commands_
@@ -690,7 +702,7 @@ _Commands_
 npm run flyway:migrate
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run flyway:migrate
@@ -713,6 +725,8 @@ $ npm run flyway:migrate
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+{% endspoiler %}
+
 ### 12. We connect to the database and get a list of tables
 
 _Commands_
@@ -722,7 +736,7 @@ docker exec -it server-postgre-sql psql postgres://app:app_password@localhost:54
 \d
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 docker exec -it server-postgre-sql psql postgres://app:app_password@localhost:5432/app
@@ -736,6 +750,8 @@ app-> \d
 app->
 ```
 
+{% endspoiler %}
+
 ### 13. Stopping the database
 
 _Commands_
@@ -744,7 +760,7 @@ _Commands_
 npm run docker-compose:stop-prod:server
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run docker-compose:stop-prod:server
@@ -756,6 +772,8 @@ Stopping server-postgre-sql ... done
 Removing server-postgre-sql ... done
 ```
 
+{% endspoiler %}
+
 In the next post, I will add working with the database via PrismaORM to the server...
 
 ### Links
@@ -763,5 +781,6 @@ In the next post, I will add working with the database via PrismaORM to the serv
 https://nestjs.com - the official website of the framework
 https://nestjs-mod.com - the official website of additional utilities
 https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - commit to current changes
 
 #postgres #flyway #nestjsmod #fullstack

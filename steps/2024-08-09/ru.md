@@ -1,12 +1,14 @@
 ## [2024-08-09] Создание пустого Angular проекта и связь его с существующим сервером на NestJS.
 
+Предыдущая статья: [Создание пустого проекта с помощью NestJS-mod](https://habr.com/ru/articles/834888/)
+
 Создание приложения происходит через nx схематик для Angular.
 
 Адрес сервера задается жестко в коде, в следующих постах адрес будет перенесен в переменные окружения.
 
 Для запуска E2E-тестов используется "Playwright".
 
-### Устанавливаем необходимые библиотеки и создаем пустое Angular приложение
+### 1. Устанавливаем необходимые библиотеки и создаем пустое Angular приложение
 
 _Команды_
 
@@ -18,7 +20,7 @@ npm install --save-dev @nx/angular@19.5.3
 ./node_modules/.bin/nx g @nx/angular:application --directory=apps/client --name=client --projectNameAndRootFormat=as-provided --style=scss --ssr=true --viewEncapsulation=None --addTailwind=true --e2eTestRunner=playwright --bundler=webpack
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm install --save-dev @nx/angular@19.5.3
@@ -100,8 +102,9 @@ Run `npm audit` for details.
 Run "nx show project client" to view details about this project.
 
 ```
+</spoiler>
 
-### Запускаем сборку всех проектов
+### 2. Запускаем сборку всех проектов
 
 _Команды_
 
@@ -110,7 +113,7 @@ _Команды_
 npm run build
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run build
@@ -144,10 +147,11 @@ apps/client/src/test-setup.ts:1:1 - error TS2578: Unused '@ts-expect-error' dire
 
 Found 1 error in apps/client/src/test-setup.ts:1
 ```
+</spoiler>
 
-### Получаем ошибку "Unused '@ts-expect-error' directive." и решаем ее
+### 3. Получаем ошибку "Unused '@ts-expect-error' directive." и решаем ее
 
-Так как nx содержит множество различных шаблонов под разные фреймворки, часто можно встретить неявные ошибки которые не понятно как устранять, для обхода текущей ошибки просто просто перебьем типизацию и удалим директиву.
+Так как nx содержит множество различных шаблонов под разные фреймворки, часто можно встретить неявные ошибки которые не понятно как устранять, для обхода текущей ошибки просто перебьем типизацию и удалим директиву.
 
 Обновленный файл `apps/client/src/test-setup.ts`
 
@@ -161,7 +165,7 @@ Found 1 error in apps/client/src/test-setup.ts:1
 import 'jest-preset-angular/setup-jest';
 ```
 
-### Повторно запускаем сборку всех проектов
+### 4. Повторно запускаем сборку всех проектов
 
 _Команды_
 
@@ -170,7 +174,7 @@ _Команды_
 npm run build
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run build
@@ -223,8 +227,9 @@ Nx read the output from the cache instead of running the command for 2 out of 3 
  NX   Successfully ran target build for 2 projects (15s)
 
 ```
+</spoiler>
 
-### Добавляем команду в конфигурацию pm2 для запуска Angular приложения в режиме watch
+### 5. Добавляем команду в конфигурацию pm2 для запуска Angular приложения в режиме watch
 
 Обновленная конфигурация pm2 `ecosystem.config.json`
 
@@ -245,7 +250,7 @@ Nx read the output from the cache instead of running the command for 2 out of 3 
 }
 ```
 
-### Запускаем все проекты в watch режиме через pm2
+### 6. Запускаем все проекты в watch режиме через pm2
 
 _Команды_
 
@@ -253,7 +258,7 @@ _Команды_
 npm run pm2:start
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run pm2:start
@@ -277,8 +282,9 @@ Local PM2 version: 5.4.2
 │ 0  │ server    │ default     │ N/A     │ fork    │ 454826   │ 0s     │ 0    │ online    │ 0%       │ 25.6mb   │ endy     │ disabled │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+</spoiler>
 
-### Запускаем юнит-тесты
+### 7. Запускаем юнит-тесты
 
 _Команды_
 
@@ -286,7 +292,7 @@ _Команды_
 npm run test
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run test
@@ -334,8 +340,9 @@ $ npm run test
 
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
+</spoiler>
 
-### Для запуска e2e-тестов на Angular необходимо установить дополнительные библиотекти
+### 8. Для запуска e2e-тестов на Angular необходимо установить дополнительные библиотекти
 
 _Команды_
 
@@ -343,7 +350,7 @@ _Команды_
 npx playwright install
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npx playwright install
@@ -360,8 +367,9 @@ Downloading Webkit 18.0 (playwright build v2051) from https://playwright.azureed
 134.5 MiB [====================] 100% 0.0s
 Webkit 18.0 (playwright build v2051) downloaded to /home/endy/.cache/ms-playwright/webkit-2051
 ```
+</spoiler>
 
-### Запускаем e2e-тесты
+### 9. Запускаем e2e-тесты
 
 _Команды_
 
@@ -369,7 +377,7 @@ _Команды_
 ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
@@ -413,8 +421,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
 
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (8s)
 ```
+</spoiler>
 
-### Добавляем работу с хттп в Angular приложении
+### 10. Добавляем работу с хттп в Angular приложении
 
 Обновленный конфиг `apps/client/src/app/app.config.ts`
 
@@ -435,7 +444,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Добавляем получение данных с сервера и сохранение их в локальную переменную
+### 11. Добавляем получение данных с сервера и сохранение их в локальную переменную
 
 Обновленный корневой typescript-файл `apps/client/src/app/app.component.ts`
 
@@ -465,7 +474,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### Добавляем отображение получение данных с сервера
+### 12. Добавляем отображение получение данных с сервера
 
 Обновленный корневой html-файл `apps/client/src/app/app.component.html`
 
@@ -474,7 +483,7 @@ export class AppComponent implements OnInit {
 <div id="serverMessage">{{ serverMessage }}</div>
 ```
 
-### Обновляем E2E-тест в котором проверяем получение и отображение данных с сервера
+### 13. Обновляем E2E-тест в котором проверяем получение и отображение данных с сервера
 
 Обновленный файл с тестом `apps/client-e2e/src/example.spec.ts`
 
@@ -496,7 +505,7 @@ test('has serverMessage', async ({ page }) => {
 });
 ```
 
-### Повторно запускаем e2e-тесты
+### 14. Повторно запускаем e2e-тесты
 
 _Команды_
 
@@ -504,7 +513,7 @@ _Команды_
 ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
@@ -548,8 +557,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
 
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (10s)
 ```
+</spoiler>
 
-### Останавливаем pm2 проекты
+### 15. Останавливаем pm2 проекты
 
 _Команды_
 
@@ -557,7 +567,7 @@ _Команды_
 npm run pm2:stop
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run pm2:stop
@@ -578,6 +588,7 @@ Local PM2 version: 5.4.2
 │ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+</spoiler>
 
 В посте нет картинок, работа приложений проверяется через тесты, но если кому то нужно видеть результат, то ответ сервера можно получить по адресу: http://localhost:3000/api, а ответ клиента по адресу: http://localhost:4200/
 
@@ -588,5 +599,6 @@ Local PM2 version: 5.4.2
 https://nestjs.com - официальный сайт фреймворка
 https://nestjs-mod.com - официальный сайт дополнительных утилит
 https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - коммит на текущие изменения
 
 #angular #typescript #browser #nestjsmod #fullstack

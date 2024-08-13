@@ -8,7 +8,7 @@ After the completion of the bolerplate, further development will continue in the
 
 I will document and describe all the steps in the style I did for the KaufmanBot project (https://dev.to/endykaufman/series/16805 )
 
-### Create an empty NestJS-mod project and specify our organization as the name
+### 1. Create an empty NestJS-mod project and specify our organization as the name
 
 We are creating an empty monorepository with nx-workspace, then we will create applications and libraries in it that will already have the necessary names.
 
@@ -22,7 +22,7 @@ npx --yes create-nx-workspace@19.5.3 --name=nestjs-mod-fullstack --preset=apps -
 cd nestjs-mod-fullstack
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npx --yes create-nx-workspace@19.5.3 --name=nestjs-mod-fullstack --preset=apps --interactive=false --ci=skip
@@ -54,7 +54,9 @@ Run "npm i -g nx" to be able to execute command directly.
 https://nx.dev/getting-started/tutorials/npm-workspaces-tutorial
 ```
 
-### Installed the necessary libraries and created an empty NestJS-mod application
+{% endspoiler %}
+
+### 2. Installed the necessary libraries and created an empty NestJS-mod application
 
 _Commands_
 
@@ -66,7 +68,7 @@ npm install --save-dev @nestjs-mod/schematics@latest
 ./node_modules/.bin/nx g @nestjs-mod/schematics:application --directory=apps/server --name=server --projectNameAndRootFormat=as-provided --strict=true
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm install --save-dev @nestjs-mod/schematics@latest
@@ -143,7 +145,9 @@ added 1152 packages, removed 9 packages, changed 14 packages, and audited 1913 p
 11 vulnerabilities (1 moderate, 10 high)
 ```
 
-### We create documentation for the project and simultaneously create additional code and scripts to run the project
+{% endspoiler %}
+
+### 3. We create documentation for the project and simultaneously create additional code and scripts to run the project
 
 _Commands_
 
@@ -155,7 +159,7 @@ npm run build
 npm ru docs:infrastructure
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $  npm run build
@@ -319,7 +323,9 @@ $ npm run docs:infrastructure
  NX   Successfully ran target start for project server
 ```
 
-### Launching the project in watch mode via pm2
+{% endspoiler %}
+
+### 4. Launching the project in watch mode via pm2
 
 _Commands_
 
@@ -327,7 +333,7 @@ _Commands_
 nm run pm2:start
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run pm2:start
@@ -350,7 +356,9 @@ Local PM2 version: 5.4.2
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
 
-### Running unit tests
+{% endspoiler %}
+
+### 5. Running unit tests
 
 _Commands_
 
@@ -358,7 +366,7 @@ _Commands_
 npm run test
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run test
@@ -387,7 +395,9 @@ $ npm run test
         --passWithNoTests=true
 ```
 
-### Running e2e tests
+{% endspoiler %}
+
+### 6. Running e2e tests
 
 _Commands_
 
@@ -395,7 +405,7 @@ _Commands_
 ./node_modules/.bin/nx runmany --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes
@@ -429,7 +439,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
         --passWithNoTests=true
 ```
 
-### Stopping the pm2 project
+{% endspoiler %}
+
+### 7. Stopping the pm2 project
 
 _Commands_
 
@@ -437,7 +449,7 @@ _Commands_
 nm run pm2:stop
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $  npm run pm2:stop
@@ -458,6 +470,8 @@ Local PM2 version: 5.4.2
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
 
+{% endspoiler %}
+
 In the next post, I will add an empty frontend application to Angular and call backend application methods from it...
 
 ### Links
@@ -465,5 +479,6 @@ In the next post, I will add an empty frontend application to Angular and call b
 https://nestjs.com -the official website of the framework
 https://nestjs-mod.com -the official website of additional utilities
 https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - commit to current changes
 
 #nestjs #typescript #node #nestjsmod #fullstack

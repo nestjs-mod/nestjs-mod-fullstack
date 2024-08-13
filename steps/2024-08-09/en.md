@@ -6,7 +6,7 @@ The server address is set rigidly in the code, in the following posts the addres
 
 To run E2E tests, "Playwright" is used.
 
-### Install the necessary libraries and create an empty Angular application
+### 1. Install the necessary libraries and create an empty Angular application
 
 _Commands_
 
@@ -18,7 +18,7 @@ npm install --save-dev @nx/angular@19.5.3
 ./node_modules/.bin/nx g @nx/angular:application --directory=apps/client --name=client --projectNameAndRootFormat=as-provided --style=scss --ssr=true --viewEncapsulation=None --addTailwind=true --e2eTestRunner=playwright --bundler=webpack
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm install --save-dev @nx/angular@19.5.3
@@ -101,7 +101,9 @@ Run "nx show project client" to view details about this project.
 
 ```
 
-### We are launching the build of all projects
+{% endspoiler %}
+
+### 3. We are launching the build of all projects
 
 _Commands_
 
@@ -110,7 +112,7 @@ _Commands_
 npm run build
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run build
@@ -145,7 +147,9 @@ apps/client/src/test-setup.ts:1:1 - error TS2578: Unused '@ts-expect-error' dire
 Found 1 error in apps/client/src/test-setup.ts:1
 ```
 
-### We get the error "Unused '@ts-expect-error' directive." and solve it
+{% endspoiler %}
+
+### 3. We get the error "Unused '@ts-expect-error' directive." and solve it
 
 Since nx contains many different templates for different frameworks, you can often find implicit errors that are not clear how to fix, to bypass the current error, just simply interrupt the typing and delete the directive.
 
@@ -161,7 +165,7 @@ Updated file `apps/client/src/test-setup.ts`
 import 'jest-preset-angular/setup-jest';
 ```
 
-### Re-launching the build of all projects
+### 4. Re-launching the build of all projects
 
 _Commands_
 
@@ -170,7 +174,7 @@ _Commands_
 npm run build
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run build
@@ -224,7 +228,9 @@ Nx read the output from the cache instead of running the command for 2 out of 3 
 
 ```
 
-### Add a command to the pm2 configuration to launch the Angular application in watch mode
+{% endspoiler %}
+
+### 5. Add a command to the pm2 configuration to launch the Angular application in watch mode
 
 Updated PM2 configuration `ecosystem.config.json`
 
@@ -245,7 +251,7 @@ Updated PM2 configuration `ecosystem.config.json`
 }
 ```
 
-### We launch all projects in watch mode via pm2
+### 6. We launch all projects in watch mode via pm2
 
 _Commands_
 
@@ -253,7 +259,7 @@ _Commands_
 nm run pm2:start
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run pm2:start
@@ -278,7 +284,9 @@ Local PM2 version: 5.4.2
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
 
-### Running unit tests
+{% endspoiler %}
+
+### 7. Running unit tests
 
 _Commands_
 
@@ -286,7 +294,7 @@ _Commands_
 npm run test
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run test
@@ -335,7 +343,9 @@ $ npm run test
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
-### To run e2e tests on Angular, you need to install additional libraries
+{% endspoiler %}
+
+### 8. To run e2e tests on Angular, you need to install additional libraries
 
 _Commands_
 
@@ -343,7 +353,7 @@ _Commands_
 npx playwright install
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npx playwright install
@@ -361,7 +371,9 @@ Downloading Webkit 18.0 (playwright build v2051) from https://playwright.azureed
 Webkit 18.0 (playwright build v2051) downloaded to /home/endy/.cache/ms-playwright/webkit-2051
 ```
 
-### Running e2e tests
+{% endspoiler %}
+
+### 9. Running e2e tests
 
 _Commands_
 
@@ -369,7 +381,7 @@ _Commands_
 ./node_modules/.bin/nx runmany --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
@@ -414,7 +426,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (8s)
 ```
 
-### Adding work with http in the Angular application
+{% endspoiler %}
+
+### 10. Adding work with http in the Angular application
 
 Updated config `apps/client/src/app/app.config.ts`
 
@@ -435,7 +449,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Adding receiving data from the server and saving it to a local variable
+### 11. Adding receiving data from the server and saving it to a local variable
 
 Updated root typescript file `apps/client/src/app/app.component.ts`
 
@@ -465,7 +479,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### Adding the display of receiving data from the server
+### 12. Adding the display of receiving data from the server
 
 Updated root html file `apps/client/src/app/app.component.html `
 
@@ -474,7 +488,7 @@ Updated root html file `apps/client/src/app/app.component.html `
 <div id="serverMessage">{{ serverMessage }}</div>
 ```
 
-### Updating the E2E test in which we check the receipt and display of data from the server
+### 13. Updating the E2E test in which we check the receipt and display of data from the server
 
 Updated test file `apps/client-e2e/src/example.spec.ts`
 
@@ -496,7 +510,7 @@ test('has serverMessage', async ({ page }) => {
 });
 ```
 
-### Re-running the e2e tests
+### 14. Re-running the e2e tests
 
 _Commands_
 
@@ -504,7 +518,7 @@ _Commands_
 ./node_modules/.bin/nx runmany --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
@@ -549,7 +563,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (10s)
 ```
 
-### Stopping pm2 projects
+{% endspoiler %}
+
+### 15. Stopping pm2 projects
 
 _Commands_
 
@@ -557,7 +573,7 @@ _Commands_
 nm run pm2:stop
 ```
 
-_Console output_
+{% spoiler Console output %}
 
 ```bash
 $ npm run pm2:stop
@@ -579,6 +595,8 @@ Local PM2 version: 5.4.2
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
 
+{% endspoiler %}
+
 There are no pictures in the post, the application is checked through tests, but if someone needs to see the result, the server's response can be received at: http://localhost:3000/api , and the client's response to the address: http://localhost:4200/
 
 In the next post, I will add a docker image with the Postgres database and writing and running migrations via Flyaway...
@@ -588,5 +606,6 @@ In the next post, I will add a docker image with the Postgres database and writi
 https://nestjs.com -the official website of the framework
 https://nestjs-mod.com -the official website of additional utilities
 https://github.com/nestjs-mod/nestjs-mod-fullstack -the project from the post
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - commit to current changes
 
 #angular #typescript #browser #nestjsmod #fullstack

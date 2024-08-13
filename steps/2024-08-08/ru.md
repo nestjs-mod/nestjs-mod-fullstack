@@ -8,7 +8,7 @@
 
 Все шаги буду документировать и описывать в стиле как это делал для проекта "KaufmanBot" (https://dev.to/endykaufman/series/16805)
 
-### Создаем пустой NestJS-mod проект и указываем в качестве названия нашу организацию
+### 1. Создаем пустой NestJS-mod проект и указываем в качестве названия нашу организацию
 
 Создаем пустой монорепозиторий с nx-workspace, далее в нем будем создавать приложения и библиотеки, которые уже будут иметь необходимые имена.
 
@@ -22,7 +22,7 @@ npx --yes create-nx-workspace@19.5.3 --name=nestjs-mod-fullstack --preset=apps -
 cd nestjs-mod-fullstack
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npx --yes create-nx-workspace@19.5.3 --name=nestjs-mod-fullstack --preset=apps --interactive=false --ci=skip
@@ -53,8 +53,9 @@ Run "npm i -g nx" to be able to execute command directly.
 
 https://nx.dev/getting-started/tutorials/npm-workspaces-tutorial
 ```
+</spoiler>
 
-### Устанавливаем необходимые библиотеки и создаем пустое NestJS-mod - приложение
+### 2. Устанавливаем необходимые библиотеки и создаем пустое NestJS-mod - приложение
 
 _Команды_
 
@@ -66,7 +67,7 @@ npm install --save-dev @nestjs-mod/schematics@latest
 ./node_modules/.bin/nx g @nestjs-mod/schematics:application --directory=apps/server --name=server --projectNameAndRootFormat=as-provided --strict=true
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm install --save-dev @nestjs-mod/schematics@latest
@@ -142,8 +143,9 @@ added 1152 packages, removed 9 packages, changed 14 packages, and audited 1913 p
 
 11 vulnerabilities (1 moderate, 10 high)
 ```
+</spoiler>
 
-### Создаем документацию по проекту и параллельно создаем дополнительный код и скрипты для запуска проекта
+### 3. Создаем документацию по проекту и параллельно создаем дополнительный код и скрипты для запуска проекта
 
 _Команды_
 
@@ -155,7 +157,7 @@ npm run build
 npm run docs:infrastructure
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $  npm run build
@@ -318,8 +320,9 @@ $ npm run docs:infrastructure
 
  NX   Successfully ran target start for project server
 ```
+</spoiler>
 
-### Запускаем проект в watch режиме через pm2
+### 4. Запускаем проект в watch режиме через pm2
 
 _Команды_
 
@@ -327,7 +330,7 @@ _Команды_
 npm run pm2:start
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run pm2:start
@@ -349,8 +352,9 @@ Local PM2 version: 5.4.2
 │ 0  │ server    │ default     │ N/A     │ fork    │ 390932   │ 0s     │ 0    │ online    │ 0%       │ 45.3mb   │ endy     │ disabled │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+</spoiler>
 
-### Запускаем юнит-тесты
+### 5. Запускаем юнит-тесты
 
 _Команды_
 
@@ -358,7 +362,7 @@ _Команды_
 npm run test
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run test
@@ -386,8 +390,9 @@ $ npm run test
       With additional flags:
         --passWithNoTests=true
 ```
+</spoiler>
 
-### Запускаем e2e-тесты
+### 6. Запускаем e2e-тесты
 
 _Команды_
 
@@ -395,7 +400,7 @@ _Команды_
 ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes
@@ -428,8 +433,9 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
       With additional flags:
         --passWithNoTests=true
 ```
+</spoiler>
 
-### Останавливаем pm2 проект
+### 7. Останавливаем pm2 проект
 
 _Команды_
 
@@ -437,7 +443,7 @@ _Команды_
 npm run pm2:stop
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $  npm run pm2:stop
@@ -457,6 +463,7 @@ Local PM2 version: 5.4.2
 │ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+</spoiler>
 
 В следующем посте я добавлю пустое фронтенд приложение на Angular и из него вызову методы бэкенд приложения...
 
@@ -465,5 +472,6 @@ Local PM2 version: 5.4.2
 https://nestjs.com - официальный сайт фреймворка
 https://nestjs-mod.com - официальный сайт дополнительных утилит
 https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - коммит на текущие изменения
 
 #nestjs #typescript #node #nestjsmod #fullstack

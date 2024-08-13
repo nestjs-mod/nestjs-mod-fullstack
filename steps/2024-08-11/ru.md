@@ -1,5 +1,7 @@
 ## [2024-08-11] Добавление базы данных Postgres в проект и запуск миграций через Flyway для NestJS-mod приложения.
 
+Предыдущая статья: [Создание пустого Angular проекта и связь его с существующим сервером на NestJS](https://habr.com/ru/articles/835168/)
+
 База данных будет подниматься через Docker Compose.
 
 Миграции пишутся вручную и запускаются через Flyway мигратор.
@@ -20,7 +22,7 @@ npm i --save @nestjs-mod/docker-compose @nestjs-mod/flyway
 npm i --save-dev node-flywaydb@3.0.7
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm i --save @nestjs-mod/docker-compose @nestjs-mod/flyway
@@ -57,6 +59,8 @@ To address all issues (including breaking changes), run:
 
 Run `npm audit` for details.
 ```
+
+</spoiler>
 
 ### 2. Добавляем инфраструктурные модули в серверный код
 
@@ -162,7 +166,7 @@ npm run build
 npm run docs:infrastructure
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run build
@@ -374,6 +378,8 @@ Nx read the output from the cache instead of running the command for 1 out of 3 
  NX   Successfully ran target start for project server
 ```
 
+</spoiler>
+
 ### 4. Заполняем новые переменные окружения
 
 После запуска серверного приложения в режиме инфраструктуы в файле переменных окружения появятся дополнительные переменные, примеры значений можно посмотреть в отчете по инфраструктуре `apps/server/INFRASTRUCTURE.MD`.
@@ -399,7 +405,7 @@ _Команды_
 npm run docs:infrastructure
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run docs:infrastructure
@@ -562,6 +568,8 @@ $ npm run docs:infrastructure
  NX   Successfully ran target start for project server
 ```
 
+</spoiler>
+
 ### 6. Копируем обновленный файл с переменными окружения в качестве примера
 
 Так как файл с переменными окружения находтся под gitignore, то при клонировании пустого проекта нужно заново вводить все знаечния для переменных окружения, для быстрого запуска проекта необходимо иметь пример заполненного файл с переменными окружения.
@@ -584,7 +592,7 @@ mkdir -p ./apps/server/src/migrations
 npm run flyway:create:server
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run flyway:create:server
@@ -610,6 +618,8 @@ $ npm run flyway:create:server
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+</spoiler>
+
 ### 8. Описываем sql скрипт по созданию демо таблицы
 
 Файл миграции `apps/server/src/migrations/V202408112241__NewMigration.sql`
@@ -634,7 +644,7 @@ _Команды_
 npm run docker-compose:start-prod:server
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run docker-compose:start-prod:server
@@ -651,6 +661,8 @@ Status: Downloaded newer image for bitnami/postgresql:15.5.0
 Creating server-postgre-sql ... done
 ```
 
+</spoiler>
+
 ### 10. Запускаем создание баз данных приложений
 
 _Команды_
@@ -659,7 +671,7 @@ _Команды_
 npm run db:create
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run db:create
@@ -682,6 +694,8 @@ $ npm run db:create
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+</spoiler>
+
 ### 11. Применяем миграции
 
 _Команды_
@@ -690,7 +704,7 @@ _Команды_
 npm run flyway:migrate
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run flyway:migrate
@@ -713,6 +727,8 @@ $ npm run flyway:migrate
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
 
+</spoiler>
+
 ### 12. Подключаемся к базе данных и получаем список таблиц
 
 _Команды_
@@ -722,7 +738,7 @@ docker exec -it server-postgre-sql psql postgres://app:app_password@localhost:54
 \d
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 docker exec -it server-postgre-sql psql postgres://app:app_password@localhost:5432/app
@@ -736,6 +752,8 @@ app-> \d
 app->
 ```
 
+</spoiler>
+
 ### 13. Останавливаем базу данных
 
 _Команды_
@@ -744,7 +762,7 @@ _Команды_
 npm run docker-compose:stop-prod:server
 ```
 
-_Вывод консоли_
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm run docker-compose:stop-prod:server
@@ -756,6 +774,8 @@ Stopping server-postgre-sql ... done
 Removing server-postgre-sql ... done
 ```
 
+</spoiler>
+
 В следующем посте я добавлю в сервер работу с базой данных через PrismaORM...
 
 ### Ссылки
@@ -763,5 +783,6 @@ Removing server-postgre-sql ... done
 https://nestjs.com - официальный сайт фреймворка
 https://nestjs-mod.com - официальный сайт дополнительных утилит
 https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - коммит на текущие изменения
 
 #postgres #flyway #nestjsmod #fullstack
