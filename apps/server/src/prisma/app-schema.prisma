@@ -1,0 +1,33 @@
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../../../../node_modules/@prisma/app-client"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("SERVER_APP_DATABASE_URL")
+}
+
+model AppDemo {
+  id        String   @id(map: "PK_APP_DEMO") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @unique(map: "UQ_APP_DEMO") @db.VarChar(128)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(now()) @db.Timestamp(6)
+}
+
+model migrations {
+  installed_rank Int      @id(map: "__migrations_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "__migrations_s_idx")
+  @@map("__migrations")
+}

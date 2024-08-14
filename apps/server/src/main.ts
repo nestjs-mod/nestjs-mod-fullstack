@@ -19,6 +19,8 @@ import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
+import { FakePrismaClient, PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
+
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -59,6 +61,18 @@ bootstrapNestApplication({
         staticConfiguration: {
           // When running in infrastructure mode, the backend server does not start.
           mode: isInfrastructureMode() ? 'silent' : 'listen',
+        },
+      }),
+    ],
+    core: [
+      PrismaModule.forRoot({
+        staticConfiguration: {
+          schemaFile: join(appFolder, 'src', 'prisma', `${appFeatureName}-${PRISMA_SCHEMA_FILE}`),
+          featureName: appFeatureName,
+          prismaModule: isInfrastructureMode()
+            ? { PrismaClient: FakePrismaClient }
+            : import(`@prisma/app-client`),
+          addMigrationScripts: false,
         },
       }),
     ],

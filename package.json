@@ -34,6 +34,10 @@
     "flyway:create:server": "./node_modules/.bin/nx run server:flyway-create-migration",
     "flyway:migrate:server": "./node_modules/.bin/nx run server:flyway-migrate",
     "flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate",
+    "_____prisma_____": "_____prisma_____",
+    "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
+    "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull",
+    "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=generate --skip-nx-cache=true && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
@@ -99,6 +103,7 @@
     "nx": "19.5.3",
     "postcss": "^8.4.5",
     "prettier": "^2.6.2",
+    "prisma": "^5.18.0",
     "rucken": "^4.8.1",
     "tailwindcss": "^3.0.2",
     "ts-jest": "^29.1.0",
@@ -172,6 +177,15 @@
     "flyway:migrate": [
       "Applying migrations of all applications and modules"
     ],
+    "prisma:pull:server": [
+      "Generating a prisma schema based on a database for server"
+    ],
+    "prisma:pull": [
+      "Generating a prisma schema based on a database"
+    ],
+    "prisma:generate": [
+      "Generation of client prisma schema of all applications and modules"
+    ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
       "automatically generating an index.ts file for each library",
@@ -220,12 +234,14 @@
     "@nestjs-mod/flyway": "^1.6.0",
     "@nestjs-mod/pino": "1.14.0",
     "@nestjs-mod/pm2": "1.12.0",
+    "@nestjs-mod/prisma": "^1.9.0",
     "@nestjs-mod/reports": "2.14.0",
     "@nestjs-mod/terminus": "1.13.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/terminus": "^10.2.3",
+    "@prisma/client": "^5.18.0",
     "ajv": "^8.17.1",
     "axios": "^1.6.0",
     "case-anything": "^2.1.13",

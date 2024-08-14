@@ -139,6 +139,39 @@
         "envFile": "./.env",
         "color": true
       }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma db pull --schema=./apps/server/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
     }
   }
 }
