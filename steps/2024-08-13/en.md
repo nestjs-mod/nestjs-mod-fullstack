@@ -770,7 +770,7 @@ export class AppController {
 }
 ```
 
-### 11. Adding verification of new E2E test methods
+### 11. Adding verification of new methods in the E2E test
 
 Updated file `apps/server-e2e/src/server/server.spec.ts`
 
