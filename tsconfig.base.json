@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nestjs-mod-fullstack/app-angular-rest-sdk": [
+        "libs/sdk/app-angular-rest-sdk/src/index.ts"
+      ],
+      "@nestjs-mod-fullstack/app-rest-sdk": [
+        "libs/sdk/app-rest-sdk/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

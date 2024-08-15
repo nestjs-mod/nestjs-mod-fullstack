@@ -1,12 +1,21 @@
 generator client {
-  provider   = "prisma-client-js"
-  output     = "../../../../node_modules/@prisma/app-client"
+  provider = "prisma-client-js"
   engineType = "binary"
+  output   = "../../../../node_modules/@prisma/app-client"
+  
+}
+datasource db {
+  provider          = "postgres"
+  url               = env("SERVER_APP_DATABASE_URL")
 }
 
-datasource db {
-  provider = "postgres"
-  url      = env("SERVER_APP_DATABASE_URL")
+
+generator prismaClassGenerator {
+  provider               = "prisma-class-generator"
+  output                 = "../app/generated/rest/dto"
+  dryRun                 = "false"
+  separateRelationFields = "false"
+  makeIndexFile          = "file"
 }
 
 model AppDemo {

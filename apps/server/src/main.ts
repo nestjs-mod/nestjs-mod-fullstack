@@ -15,12 +15,13 @@ import {
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
 import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
-import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
-import { MemoryHealthIndicator } from '@nestjs/terminus';
-import { join } from 'path';
-import { AppModule } from './app/app.module';
 import { FakePrismaClient, PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
-
+import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MemoryHealthIndicator } from '@nestjs/terminus';
+import { writeFileSync } from 'fs';
+import { join, resolve } from 'path';
+import { AppModule } from './app/app.module';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -60,7 +61,35 @@ bootstrapNestApplication({
       DefaultNestApplicationListener.forRoot({
         staticConfiguration: {
           // When running in infrastructure mode, the backend server does not start.
-          mode: isInfrastructureMode() ? 'silent' : 'listen',
+          mode: isInfrastructureMode() ? 'silent' : 'listen', async preListen(options) {
+
+            if (options.app) {
+              options.app.setGlobalPrefix('api');
+
+              const swaggerConf = new DocumentBuilder()
+                .addBearerAuth()
+                .build();
+
+              const document = SwaggerModule.createDocument(options.app, swaggerConf);
+
+              SwaggerModule.setup('swagger', options.app, document);
+
+              if (isInfrastructureMode()) {
+                writeFileSync(
+                  resolve(
+                    __dirname,
+                    '..',
+                    '..',
+                    '..',
+                    'app-swagger.json',
+                  ),
+                  JSON.stringify(document),
+                );
+              }
+
+            }
+
+          },
         },
       }),
     ],

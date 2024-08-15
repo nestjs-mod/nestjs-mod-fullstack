@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { DefaultRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -15,11 +15,10 @@ export class AppComponent implements OnInit {
   title = 'client';
   serverMessage!: string;
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly defaultRestService: DefaultRestService) { }
 
   ngOnInit() {
-    this.httpClient
-      .get<{ message: string }>('http://localhost:3000/api')
+    this.defaultRestService.appControllerGetData()
       .subscribe((result) => (this.serverMessage = result.message));
   }
 }

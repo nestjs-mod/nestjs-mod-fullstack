@@ -1,12 +1,18 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RestClientApiModule, RestClientConfiguration } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { RouterModule } from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NxWelcomeComponent, RouterModule.forRoot([])],
+      imports: [AppComponent, NxWelcomeComponent, RouterModule.forRoot([]), HttpClientModule, RestClientApiModule.forRoot(() => new RestClientConfiguration(
+        {
+          basePath: 'http://localhost:3000'
+        }
+      ))],
     }).compileComponents();
   });
 

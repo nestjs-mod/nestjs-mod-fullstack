@@ -14,7 +14,7 @@
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json",
     "pm2:stop": "./node_modules/.bin/pm2 delete all",
     "_____docs_____": "_____docs_____",
-    "docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start --parallel=1",
+    "docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start --parallel=1 --watch=false",
     "_____docker-compose infra_____": "_____docker-compose infra_____",
     "docker-compose:start:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose.yml --compatibility up -d",
     "docker-compose:stop:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose.yml down",
@@ -76,6 +76,7 @@
     "@nx/web": "19.5.3",
     "@nx/webpack": "19.5.3",
     "@nx/workspace": "19.5.3",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@playwright/test": "^1.36.0",
     "@schematics/angular": "~18.1.0",
     "@swc-node/register": "~1.9.1",
@@ -98,17 +99,22 @@
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "jest-preset-angular": "~14.1.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^15.2.0",
+    "ng-packagr": "~18.1.0",
     "node-flywaydb": "^3.0.7",
     "nx": "19.5.3",
     "postcss": "^8.4.5",
+    "postcss-url": "~10.1.3",
     "prettier": "^2.6.2",
     "prisma": "^5.18.0",
+    "prisma-class-generator": "^0.2.11",
     "rucken": "^4.8.1",
     "tailwindcss": "^3.0.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.5.2"
+    "typescript": "~5.5.2",
+    "verdaccio": "^5.0.4"
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix"
@@ -240,12 +246,14 @@
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/swagger": "^7.4.0",
     "@nestjs/terminus": "^10.2.3",
     "@prisma/client": "^5.18.0",
     "ajv": "^8.17.1",
     "axios": "^1.6.0",
     "case-anything": "^2.1.13",
-    "class-validator": "^0.14.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "dotenv": ">=16.3.1",
     "express": "~4.18.2",
     "nestjs-pino": "^4.1.0",
@@ -256,5 +264,8 @@
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

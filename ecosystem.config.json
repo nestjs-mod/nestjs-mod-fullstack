@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "server",
-      "script": "./node_modules/.bin/nx serve server",
+      "script": "node ./dist/apps/server/main.js",
       "node_args": "-r dotenv/config"
     },
     {

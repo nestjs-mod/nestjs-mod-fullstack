@@ -2,6 +2,7 @@
   "makeTsList": {
     "indexFileName": "index",
     "excludes": [
+      "test-setup.ts",
       "*node_modules*",
       "*public_api.ts*",
       "*.spec*",
