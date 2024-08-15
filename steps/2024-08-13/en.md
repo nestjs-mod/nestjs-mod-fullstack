@@ -704,7 +704,7 @@ Local PM2 version: 5.4.2
 
 {% endspoiler %}
 
-### 9. Adding a module for working with the prism to the AppModule
+### 9. Adding a module for working with the Prisma to the AppModule
 
 Updated file `apps/server/src/app/app.module.ts`
 
