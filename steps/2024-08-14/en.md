@@ -519,7 +519,7 @@ Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud
 
 {% endspoiler %}
 
-### ### 11. We register the created DTOs for the methods in the AppController controller and create all the missing DTOs
+### 11. We register the created DTOs for the methods in the AppController controller and create all the missing DTOs
 
 Updated the `apps/server/src/app/app.controller.ts` file
 
