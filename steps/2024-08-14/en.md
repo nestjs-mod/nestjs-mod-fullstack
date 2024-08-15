@@ -873,7 +873,7 @@ There are no pictures in the post, the application operation is checked through 
 
 In the next post, I will build applications on NestJS and Angular and run them in two versions: via PM2 and via Docker Compose...
 
-### Ссылки
+### Links
 
 https://nestjs.com - the official website of the framework
 https://nestjs-mod.com - the official website of additional utilities
