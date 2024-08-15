@@ -100,8 +100,7 @@ _Changes in apps/server/project.json_
 ```diff
 ...
 -    "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server --host=0.0.0.0 --watch=false",
-...
--    "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server --host=0.0.0.0 --watch=false --inspect=false",
++    "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server --host=0.0.0.0 --watch=false --inspect=false",
 ...
 ```
 
