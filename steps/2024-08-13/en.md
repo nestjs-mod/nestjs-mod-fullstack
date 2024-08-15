@@ -16,7 +16,7 @@ npm i --save @prisma/client @nestjs-mod/prisma
 npm i --save-dev prisma
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $ npm i --save @prisma/client @nestjs-mod/prisma
@@ -54,7 +54,7 @@ To address all issues (including breaking changes), run:
 Run `npm audit` for details.
 ```
 
-</spoiler>
+{% endspoiler %}
 
 ### 2. Adding the PrismaModule module to the server code
 
@@ -171,7 +171,7 @@ npm run build
 npm run docs:infrastructure
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $ npm run build
@@ -398,7 +398,7 @@ $ npm run build
 
 ```
 
-</spoiler>
+{% endspoiler %}
 
 ### 4. After the first generation of the infrastructure code, it is necessary to modify the main application file
 
@@ -513,7 +513,7 @@ npm run prisma:pull --force
 npm run generate
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $ npm run docker-compose:start-prod:server
@@ -583,7 +583,7 @@ $ npm run generate
 Nx read the output from the cache instead of running the command for 2 out of 3 tasks.
 ```
 
-</spoiler>
+{% endspoiler %}
 
 ### 6. Open the created one and make sure that the PrismaORM schema completely repeats the schema of the application database
 
@@ -659,7 +659,7 @@ npm run pm2:stop
 npm run pm2:start
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $ npm run pm2:stop
@@ -702,7 +702,7 @@ Local PM2 version: 5.4.2
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
 
-</spoiler>
+{% endspoiler %}
 
 ### 9. Adding a module for working with the prism to the AppModule
 
@@ -834,7 +834,7 @@ _Commands_
 ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes
@@ -884,7 +884,7 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (21s)
 ```
 
-</spoiler>
+{% endspoiler %}
 
 ### 13. Since now some of the methods of the AppController controller use PrismaClient, we need to change the unit tests
 
@@ -934,7 +934,7 @@ _Commands_
 ./node_modules/.bin/nx run server:test --passWithNoTests
 ```
 
-<spoiler title="Console output">
+{% spoiler Console output %}
 
 ```bash
 $  ./node_modules/.bin/nx run server:test --passWithNoTests
@@ -958,7 +958,7 @@ Ran all test suites.
         --passWithNoTests=true
 ```
 
-</spoiler>
+{% endspoiler %}
 
 In the next post, I will add Swagger documentation generation to the NestJS application and create a REST client with which the Angular application will interact...
 
