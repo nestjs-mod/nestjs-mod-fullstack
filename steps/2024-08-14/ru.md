@@ -425,6 +425,8 @@ Processing triggers for gnome-menus (3.36.0-1ubuntu1) ...
 Processing triggers for desktop-file-utils (0.24-1ubuntu3) ...
 ```
 
+</spoiler>
+
 ### 8. Так как eslint правила библиотек с SDK отличаются от правил приложения, добавляем папки с SDK в .eslintignore
 
 Обновленный файла `.eslintignore`
