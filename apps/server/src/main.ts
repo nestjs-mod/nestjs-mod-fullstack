@@ -20,7 +20,7 @@ import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { writeFileSync } from 'fs';
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
 
 const appFeatureName = 'app';
@@ -69,18 +69,12 @@ bootstrapNestApplication({
               const swaggerConf = new DocumentBuilder()
                 .addBearerAuth()
                 .build();
-
               const document = SwaggerModule.createDocument(options.app, swaggerConf);
-
               SwaggerModule.setup('swagger', options.app, document);
-
               if (isInfrastructureMode()) {
                 writeFileSync(
-                  resolve(
-                    __dirname,
-                    '..',
-                    '..',
-                    '..',
+                  join(
+                    rootFolder,
                     'app-swagger.json',
                   ),
                   JSON.stringify(document),

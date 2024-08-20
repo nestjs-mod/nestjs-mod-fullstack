@@ -15,7 +15,7 @@ generator prismaClassGenerator {
   output                 = "../app/generated/rest/dto"
   dryRun                 = "false"
   separateRelationFields = "false"
-  makeIndexFile          = "file"
+  makeIndexFile          = "false"
 }
 
 model AppDemo {

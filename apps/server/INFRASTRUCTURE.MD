@@ -25,9 +25,18 @@ npm run test:server
 ## All scripts
 |Script|Description|
 |---|---|
+|**pm2-full dev infra**|
+|`npm run pm2-full:dev:start`|Запуск инфраструктуры и всех приложений в режиме watch через PM2|
+|`npm run pm2-full:dev:stop`|Остановка инфраструктуры и всех приложений в режиме watch через PM2|
 |**dev infra**|
 |`npm run serve:dev`|Running NestJS application source code in watch mode|
 |`npm run serve:dev:server`|Running server source code in watch mode|
+|**pm2 dev infra**|
+|`npm run pm2:dev:start`|Запуск всех приложений в режиме watch через PM2|
+|`npm run pm2:dev:stop`|Остановка всех приложений в режиме watch через PM2|
+|**pm2-full prod infra**|
+|`npm run pm2-full:prod:start`|Запуск инфраструктуры и сборка всех приложений с последующим запуском их через PM2|
+|`npm run pm2-full:prod:stop`|Остановка инфраструктуры и всех приложений запущенных через PM2|
 |**prod infra**|
 |`npm run start`|Launching a built NestJS application (you must first build it using the build command)|
 |`npm run build`|Building a NestJS application|
@@ -35,6 +44,11 @@ npm run test:server
 |**pm2 prod infra**|
 |`npm run pm2:start`|Launch all applications in PM2 mode|
 |`npm run pm2:stop`|Stop all applications in PM2 mode|
+|**docker-compose-full prod infra**|
+|`npm run docker-compose-full:prod:start`|Билд и запуск Docker Compose инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx|
+|`npm run docker-compose-full:prod:stop`|Остановка Docker Compose инфраструктуры и всех приложений|
+|`npm run docker-compose-full:prod:only-start`|Запуск Docker Compose инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx|
+|`npm run docker-compose-full:prod:test:e2e`|Запуск E2E-тестов на приложение запущенное через Docker Compose|
 |**docs**|
 |`npm run docs:infrastructure`|Creation of documentation for the entire infrastructure and creation of files necessary to launch the infrastructure|
 |**docker-compose infra**|
@@ -43,8 +57,11 @@ npm run test:server
 |**docker-compose prod-infra**|
 |`npm run docker-compose:start-prod:server`|Running the main docker-compose prod infrastructure for server|
 |`npm run docker-compose:stop-prod:server`|Stopping the main docker-compose prod infrastructure for server|
+|**docker**|
+|`npm run docker:build:server:latest`|Сборка Docker-образа бэкенда|
 |**tests**|
 |`npm run test`|Running tests across the entire project|
+|`npm run test:e2e`|Запуск E2E-тестов для всех пприложений|
 |`npm run test:server`|Running tests for server|
 |**lint**|
 |`npm run lint`|Checking the typescript code for the entire project|
@@ -61,6 +78,7 @@ npm run test:server
 |`npm run prisma:pull`|Generating a prisma schema based on a database|
 |`npm run prisma:generate`|Generation of client prisma schema of all applications and modules|
 |**utils**|
+|`npm run copy-front-to-backend`||
 |`npm run generate`|Running the "generate" nx command in applications and libraries which can be customized at your discretion automatically generating an index.ts file for each library checking the code and trying to fix it|
 |`npm run tsc`|Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`), in order not to install tsc globally in the operating system|
 |`npm run nx`|Alias for running the nx version locally, which is in the project (example: `./node_modules/.bin/nx dep-graph`), in order not to install nx globally in the operating system|
@@ -69,6 +87,7 @@ npm run test:server
 |`npm run manual:prepare`|Preparing code, building code, creating infrastructure documentation and all the files necessary to raise the infrastructure and running tests (generate, build, docs:infrastructure, test)|
 |`npm run update:nestjs-mod-versions`|Updating NestJS-mod libraries|
 |`npm run rucken`|Alias for console tools and scripts for nx and not only use to automate the workflow and speed up the development process (example: `npm run rucken -- make-ts-list`, site: https://www.npmjs.com/package/rucken)|
+|`npm run wait-on`|Утилита для проверки и ожидания доступности сайта|
 ## System modules
 System modules necessary for the operation of the entire application (examples: launching a NestJS application, launching microservices, etc.). Only NestJS-mod compatible modules.
 

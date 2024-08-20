@@ -1,9 +1,17 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { RestClientApiModule, RestClientConfiguration } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  RestClientApiModule,
+  RestClientConfiguration,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { appRoutes } from './app.routes';
+import { serverUrl } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,10 +19,13 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
-    importProvidersFrom(RestClientApiModule.forRoot(() => new RestClientConfiguration(
-      {
-        basePath: 'http://localhost:3000'
-      }
-    )))
+    importProvidersFrom(
+      RestClientApiModule.forRoot(
+        () =>
+          new RestClientConfiguration({
+            basePath: serverUrl,
+          })
+      )
+    ),
   ],
 };
