@@ -4,7 +4,7 @@ To run the built applications in PM2 mode, the frontend will be embedded in the 
 
 To run in the "Docker Compose" mode, the backend will be built as a Docker image, and the built-in static of the frontend will be transmitted via Nginx.
 
-The database is lifted via "Docker Compose".
+The database is start via "Docker Compose".
 
 ### 1. We install all the necessary packages and regenerate Prisma clients
 
@@ -1321,7 +1321,7 @@ export const serverUrl = '';
 
 The config is very large, so below we show only what has been added.
 
-Adding a few lines to the 'apps/client/project' file.json`
+Adding a few lines to the `apps/client/project.json`
 
 ```json
 {
