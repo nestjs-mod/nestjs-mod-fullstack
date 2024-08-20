@@ -177,10 +177,10 @@ export const { AppModule } = createNestModule({
     "test:e2e": ["Запуск E2E-тестов для всех пприложений"],
     "copy-dist-front-to-dist-backend": ["Копирование собранного фронтенд приложения в собранный бэкенд"],
     "wait-on": ["Утилита для проверки и ожидания доступности сайта"],
-    "docker-compose-full:prod:start": ["Билд и запуск "Docker Compose" инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx"],
-    "docker-compose-full:prod:stop": ["Остановка "Docker Compose" инфраструктуры и всех приложений"],
-    "docker-compose-full:prod:only-start": ["Запуск "Docker Compose" инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx"],
-    "docker-compose-full:prod:test:e2e": ["Запуск E2E-тестов на приложение запущенное через "Docker Compose""],
+    "docker-compose-full:prod:start": ["Билд и запуск Docker Compose инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx"],
+    "docker-compose-full:prod:stop": ["Остановка Docker Compose инфраструктуры и всех приложений"],
+    "docker-compose-full:prod:only-start": ["Запуск Docker Compose инфраструктуры с бэкендом в виде Docker контейнера и статикой фронтенда отдающуюся через Nginx"],
+    "docker-compose-full:prod:test:e2e": ["Запуск E2E-тестов на приложение запущенное через Docker Compose"],
     "docker:build:server:latest": ["Сборка Docker образа бэкенда"]
   }
 }
