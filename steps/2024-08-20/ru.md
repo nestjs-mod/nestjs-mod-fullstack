@@ -16,7 +16,7 @@ _Команды_
 
 ```bash
 # Install all need dependencies
-npm install --save @nestjs/serve-static dotenv
+npm install --save @nestjs/serve-static dotenv wait-on
 
 # After installing the packages, the generated Prisma clients are deleted, so you need to run their generation again
 npm i && npm run generate
@@ -869,8 +869,8 @@ Removing network server_server-network
 
 Сборка происходит в несколько этапов:
 
-1. Устанавливаем только dependencies-зависимости
-2. Ставим devDependencies-зависимости необходимые для генерации дополнительного кода и пакетов
+1. Устанавливаем только dependencies
+2. Ставим devDependencies необходимые для генерации дополнительного кода и пакетов
 3. Генерируем СДК для Prisma
 4. Удаляем лишние пакеты из node_modules
 5. Копируем node_modules и приложения в новый чистый образ
