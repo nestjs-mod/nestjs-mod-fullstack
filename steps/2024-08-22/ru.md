@@ -1,4 +1,4 @@
-## [2024-08-22] Ручного деплой NestJS и Angular приложений на выделенном сервер через "Docker Compose" и "PM2".
+## [2024-08-22] Ручной деплой NestJS и Angular приложений на выделенном сервер через "Docker Compose" и "PM2".
 
 Предыдущая статья: [Сборка приложений на NestJS и Angular и запуск их в двух вариантах: через PM2 и через "Docker Compose"](https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/steps/2024-08-20/ru.md)
 
