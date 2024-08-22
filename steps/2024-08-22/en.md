@@ -423,7 +423,7 @@ We are deleting the script for copying the `copy-front-to-backend` statics, sinc
 
 To create databases and apply migrations, we created a separate npm script, since when trying to run two npm commands inside the container, only one was launched.
 
-Updating the `package' file.json`
+Updating the `package.json`
 
 ```json
 {
@@ -678,7 +678,7 @@ npm run docker-compose-full:prod:stop
 
 The tests were passed successfully
 
-### 14. On the local computer, add an additional container with `https-portal` to `docker-compose-full.yml` for proxying `http` to `https` and adding the `restart: 'always' option to all (except migrations) containers
+### 14. On the local computer, add an additional container with `https-portal` to `docker-compose-full.yml` for proxying `http` to `https` and adding the `restart: 'always'` option to all (except migrations) containers
 
 Updated file `.docker/docker-compose-full.yml`
 
@@ -795,24 +795,25 @@ SERVER_DOMAIN=vps1724252356.tech0.ru
 HTTPS_PORTAL_STAGE=production # local|production
 ```
 
-### 17. On the local computer, commit the changes to the repository
+### 16. On the local computer, commit the changes to the repository
 
 _Commands_
-```
+```bash
 git commit -m "fix: some updates"
 git push
 ```
-### 18. We connect to the remote server, get new changes and stop the "PM2" and "Docker Compose" modes
+
+### 17. We connect to the remote server, get new changes and stop the "PM2" and "Docker Compose" modes
 
 _Commands_
-```
+```bash
 ssh root@194.226.49.162
 cd nestjs-mod-fullstack
 npm run pm2-full:prod:stop
 npm run docker-compose-full:prod:stop
 ```
 
-### 19. Restart all applications in the "Docker Compose" mode and run E2E tests, specify the server address https://vps1724252356.tech0.ru
+### 18. Restart all applications in the "Docker Compose" mode and run E2E tests, specify the server address https://vps1724252356.tech0.ru
 
 _Commands_
 
@@ -1111,7 +1112,7 @@ root@vps1724252356:~/nestjs-mod-fullstack# export BASE_URL=https://vps1724252356
 
 {% endspoiler %}
 
-### 20. Restart all applications in PM2 production mode and run E2E tests, specify the server address http://vps1724252356.tech0.ru:3000
+### 19. Restart all applications in PM2 production mode and run E2E tests, specify the server address http://vps1724252356.tech0.ru:3000
 
 _Commands_
 
@@ -1376,7 +1377,7 @@ root@vps1724252356:~/nestjs-mod-fullstack# export BASE_URL=http://vps1724252356.
 
 {% endspoiler %}
 
-### 21. Setting up the automatic restart of PM2 production mode when restarting the dedicated server
+### 20. Setting up the automatic restart of PM2 production mode when restarting the dedicated server
 
 _Commands_
 
@@ -1438,7 +1439,7 @@ root@vps1724252356:~/nestjs-mod-fullstack# ./node_modules/.bin/pm2 save
 
 {% endspoiler %}
 
-### 22. We reboot and check through the E2E test the operation of both modes
+### 21. We reboot and check through the E2E test the operation of both modes
 
 _Commands_
 

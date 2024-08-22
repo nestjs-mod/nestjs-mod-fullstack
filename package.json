@@ -187,7 +187,9 @@
     "docker-compose-full:prod:only-start": [
       "Launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx"
     ],
-    "docker-compose-full:prod:fill:database": ["Create and fill databases"],
+    "docker-compose-full:prod:fill:database": [
+      "Create and fill databases"
+    ],
     "docker-compose-full:prod:test:e2e": [
       "Launching E2E tests on an application launched via Docker Compose"
     ],

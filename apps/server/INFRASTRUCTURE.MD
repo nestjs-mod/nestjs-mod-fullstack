@@ -48,7 +48,7 @@ npm run test:server
 |`npm run docker-compose-full:prod:start`|Build and launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx|
 |`npm run docker-compose-full:prod:stop`|Stopping Docker Compose infrastructure and all applications|
 |`npm run docker-compose-full:prod:only-start`|Launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx|
-|`npm run docker-compose-full:prod:fill:database`||
+|`npm run docker-compose-full:prod:fill:database`|Create and fill databases|
 |`npm run docker-compose-full:prod:test:e2e`|Launching E2E tests on an application launched via Docker Compose|
 |**docs**|
 |`npm run docs:infrastructure`|Creation of documentation for the entire infrastructure and creation of files necessary to launch the infrastructure|
@@ -79,7 +79,6 @@ npm run test:server
 |`npm run prisma:pull`|Generating a prisma schema based on a database|
 |`npm run prisma:generate`|Generation of client prisma schema of all applications and modules|
 |**utils**|
-|`npm run copy-front-to-backend`||
 |`npm run generate`|Running the "generate" nx command in applications and libraries which can be customized at your discretion automatically generating an index.ts file for each library checking the code and trying to fix it|
 |`npm run tsc`|Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`), in order not to install tsc globally in the operating system|
 |`npm run nx`|Alias for running the nx version locally, which is in the project (example: `./node_modules/.bin/nx dep-graph`), in order not to install nx globally in the operating system|
