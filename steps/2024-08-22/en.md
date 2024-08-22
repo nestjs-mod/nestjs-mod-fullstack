@@ -6,7 +6,7 @@ Adding https://github.com/SteveLTN/https-portal in "Docker compose" for automati
 
 ### 1. Find a free or buy a dedicated server
 
-I will not describe the steps on this point, I have already described them earlier in the "Buy VPS" section of another post - [Deploy nestjs project to VPS with dokku](https://dev.to/endykaufman/deploy-nestjs-project-to-vps-with-dokku-31c5 ).
+I will not describe the steps on this point, I have already described them earlier in the "Buy VPS" section of another post - [Deploy nestjs project to VPS with dokku](https://dev.to/endykaufman/deploy-nestjs-project-to-vps-with-dokku-31c5).
 
 As part of the current posts, I bought the cheapest dedicated server on the same site.
 
@@ -437,7 +437,7 @@ Updating the `package.json`
     // ...
     "_____docker-compose prod-infra_____": "_____docker-compose prod-infra_____",
     "docker-compose:start-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env --compatibility up -d",
-    "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down",
+    "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down"
   }
 }
 ```
@@ -450,7 +450,7 @@ Updated file `.docker/docker-compose-full.yml`
 version: '3'
 networks:
   nestjs-mod-fullstack-network:
-    driver: 'bridge'
+    driver: "bridge"
 services:
   nestjs-mod-fullstack-postgre-sql:
     image: 'bitnami/postgresql:15.5.0'
@@ -459,8 +459,6 @@ services:
       - 'nestjs-mod-fullstack-network'
     volumes:
       - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
-    ports:
-      - '5432:5432'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -497,7 +495,11 @@ services:
     networks:
       - 'nestjs-mod-fullstack-network'
     healthcheck:
-      test: ['CMD-SHELL', 'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health']
+      test:
+        [
+          'CMD-SHELL',
+          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health',
+        ]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -518,14 +520,38 @@ services:
     volumes:
       - ../.docker/nginx:/etc/nginx/conf.d
       - ../dist/apps/client/browser:/usr/share/nginx/html
+    restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:
         condition: service_healthy
     ports:
       - '8080:8080'
+  nestjs-mod-fullstack-https-portal:
+    image: steveltn/https-portal:1
+    container_name: 'nestjs-mod-fullstack-https-portal'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - nestjs-mod-fullstack-nginx
+    restart: always
+    environment:
+      STAGE: '${HTTPS_PORTAL_STAGE}'
+      FORCE_RENEW: 'true'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:8080'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_started
+    volumes:
+      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
+  nestjs-mod-fullstack-https-portal-volume:
+    name: 'nestjs-mod-fullstack-https-portal-volume'
+
 ```
 
 ### 11. On the local computer, we open access to the Swagger interface of the backend in Nginx
@@ -776,9 +802,13 @@ services:
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_started
+    volumes:
+      - nestjs-mod-fullstack-postgre-https-portal-volume:/var/lib/https-portal
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
+  nestjs-mod-fullstack-postgre-https-portal-volume:
+    name: 'nestjs-mod-fullstack-postgre-https-portal-volume'
 ```
 
 ### 15. On the local computer, we add a new environment variable with our domain vps1724252356.tech0.ru
@@ -798,6 +828,7 @@ HTTPS_PORTAL_STAGE=production # local|production
 ### 16. On the local computer, commit the changes to the repository
 
 _Commands_
+
 ```bash
 git commit -m "fix: some updates"
 git push
@@ -806,6 +837,7 @@ git push
 ### 17. We connect to the remote server, get new changes and stop the "PM2" and "Docker Compose" modes
 
 _Commands_
+
 ```bash
 ssh root@194.226.49.162
 cd nestjs-mod-fullstack

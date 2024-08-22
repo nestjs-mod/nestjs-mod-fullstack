@@ -463,8 +463,6 @@ services:
       - 'nestjs-mod-fullstack-network'
     volumes:
       - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
-    ports:
-      - '5432:5432'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -522,14 +520,37 @@ services:
     volumes:
       - ../.docker/nginx:/etc/nginx/conf.d
       - ../dist/apps/client/browser:/usr/share/nginx/html
+    restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:
         condition: service_healthy
     ports:
       - '8080:8080'
+  nestjs-mod-fullstack-https-portal:
+    image: steveltn/https-portal:1
+    container_name: 'nestjs-mod-fullstack-https-portal'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - nestjs-mod-fullstack-nginx
+    restart: always
+    environment:
+      STAGE: '${HTTPS_PORTAL_STAGE}'
+      FORCE_RENEW: 'true'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:8080'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_started
+    volumes:
+      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
+  nestjs-mod-fullstack-https-portal-volume:
+    name: 'nestjs-mod-fullstack-https-portal-volume'
 ```
 
 ### 11. На локальном компьютере, открываем доступ к Swagger-интерфейсу бэкенда в Nginx
