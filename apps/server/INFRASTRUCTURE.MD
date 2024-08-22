@@ -48,6 +48,7 @@ npm run test:server
 |`npm run docker-compose-full:prod:start`|Build and launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx|
 |`npm run docker-compose-full:prod:stop`|Stopping Docker Compose infrastructure and all applications|
 |`npm run docker-compose-full:prod:only-start`|Launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx|
+|`npm run docker-compose-full:prod:fill:database`||
 |`npm run docker-compose-full:prod:test:e2e`|Launching E2E tests on an application launched via Docker Compose|
 |**docs**|
 |`npm run docs:infrastructure`|Creation of documentation for the entire infrastructure and creation of files necessary to launch the infrastructure|
