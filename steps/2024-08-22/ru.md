@@ -801,9 +801,13 @@ services:
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_started
+    volumes:
+      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
+  nestjs-mod-fullstack-https-portal-volume:
+    name: 'nestjs-mod-fullstack-https-portal-volume'
 ```
 
 ### 15. На локальном компьютере, добавляем новую переменную окружения с нашим доменом vps1724252356.tech0.ru

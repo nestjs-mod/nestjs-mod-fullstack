@@ -803,12 +803,12 @@ services:
       nestjs-mod-fullstack-nginx:
         condition: service_started
     volumes:
-      - nestjs-mod-fullstack-postgre-https-portal-volume:/var/lib/https-portal
+      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
-  nestjs-mod-fullstack-postgre-https-portal-volume:
-    name: 'nestjs-mod-fullstack-postgre-https-portal-volume'
+  nestjs-mod-fullstack-https-portal-volume:
+    name: 'nestjs-mod-fullstack-https-portal-volume'
 ```
 
 ### 15. On the local computer, we add a new environment variable with our domain vps1724252356.tech0.ru
