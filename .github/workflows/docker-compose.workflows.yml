@@ -9,6 +9,11 @@ jobs:
     name: Deploy
     # environment: docker-compose-full
     runs-on: [self-hosted]
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
