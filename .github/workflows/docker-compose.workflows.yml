@@ -2,7 +2,7 @@ name: 'Docker Compose'
 
 on:
   push:
-    branches: [feature/post-24]
+    branches: [master]
 
 jobs:
   deploy:
