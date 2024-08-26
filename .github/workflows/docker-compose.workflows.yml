@@ -1,14 +1,14 @@
 name: 'Docker Compose'
 
-on:
-  push:
-    branches: [post-24]
+# on:
+#   push:
+#     branches: [post-24]
 
 jobs:
   deploy:
     name: Deploy
-    environment: docker-compose-full
-    runs-on: [self-hosted]
+    # environment: docker-compose-full
+    runs-on: [self-hosted, vps1724252356]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
