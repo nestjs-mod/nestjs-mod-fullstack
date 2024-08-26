@@ -31,8 +31,6 @@ jobs:
           NX_DAEMON: false
           DISABLE_SERVE_STATIC: true
         run: |
-          node -v
-          npm -v
           npm i
           npm run docker-compose-full:prod:stop
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down
@@ -41,3 +39,10 @@ jobs:
           npm run build -- -c production
           npm run docker:build:server:latest
           docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
+
+      - name: E2E-tests
+        env:
+          BASE_URL: https://${{ secrets.SERVER_DOMAIN }}
+          NX_DAEMON: false
+        run: |
+          npm run test:e2e
