@@ -38,5 +38,5 @@ jobs:
           echo "HTTPS_PORTAL_STAGE=${HTTPS_PORTAL_STAGE}" > .docker/docker-compose-full.env
           node -v
           npm -v
-          npm i
+          npm ci
           npm run docker-compose-full:prod:start
