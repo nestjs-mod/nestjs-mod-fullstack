@@ -1,6 +1,6 @@
 ## [2024-08-20] Сборка приложений на NestJS и Angular и запуск их в двух вариантах: через PM2 и через "Docker Compose".
 
-Предыдущая статья: [Добавление Swagger документации в NestJS-mod приложение и генерация REST-клиента для Angular-приложения](https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/steps/2024-08-14/ru.md)
+Предыдущая статья: [Добавление Swagger документации в NestJS-mod приложение и генерация REST-клиента для Angular-приложения](https://habr.com/ru/articles/838620/)
 
 Для запуска собранных приложений в режиме PM2 фронтенд будет встроен в бэкенд в виде статичных файлов.
 

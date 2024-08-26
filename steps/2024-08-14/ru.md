@@ -1,6 +1,6 @@
 ## [2024-08-14] Добавление Swagger документации в NestJS-mod приложение и генерация REST-клиента для Angular-приложения.
 
-Предыдущая статья: [Подключение PrismaORM в NestJS-mod приложение и проверка его работы через REST](https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/steps/2024-08-13/ru.md)
+Предыдущая статья: [Подключение PrismaORM в NestJS-mod приложение и проверка его работы через REST](https://habr.com/ru/articles/837008/)
 
 Подключение генератора Swagger документации к бэкенду.
 
