@@ -242,8 +242,6 @@ _Number of IPv4 address_: `1`
 
 ### 7. Creating a workflow configuration for deployment in the "Docker Compose" mode
 
-When testing, we use the HTTP protocol and not HTTPS, since the binding of the domain name to the IP address does not happen immediately and we can use poor settings to divert requests `https-portal => letsencrypt` to error 429.
-
 The created file is `.github/workflows/docker-compose.workflows.yml`
 
 ```yaml
