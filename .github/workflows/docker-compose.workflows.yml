@@ -45,4 +45,5 @@ jobs:
           BASE_URL: http://${{ secrets.SERVER_DOMAIN }}
           NX_DAEMON: false
         run: |
+          npm run wait-on -- --log http://${{ secrets.SERVER_DOMAIN }}/api/health --log http://${{ secrets.SERVER_DOMAIN }}
           npm run test:e2e
