@@ -8,7 +8,7 @@ jobs:
   deploy:
     name: Deploy
     # environment: docker-compose-full
-    runs-on: [self-hosted, vps1724252356]
+    runs-on: [self-hosted]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
