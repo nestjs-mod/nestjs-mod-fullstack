@@ -42,7 +42,7 @@ jobs:
 
       - name: E2E-tests
         env:
-          BASE_URL: https://${{ secrets.SERVER_DOMAIN }}
+          BASE_URL: http://${{ secrets.SERVER_DOMAIN }}
           NX_DAEMON: false
         run: |
           npm run test:e2e
