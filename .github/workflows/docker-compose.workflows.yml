@@ -39,4 +39,6 @@ jobs:
           npm -v
           npm i -g yarn
           yarn install
+          npm run docker-compose-full:prod:stop
+          cp -r ./.env ./example.env
           npm run docker-compose-full:prod:start
