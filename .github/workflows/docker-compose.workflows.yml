@@ -1,0 +1,48 @@
+name: 'Docker Compose'
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    name: Deploy
+    environment: docker-compose-full
+    runs-on: [self-hosted]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # We must fetch at least the immediate parents so that if this is
+          # a pull request then we can checkout the head.
+          fetch-depth: 2
+
+      - name: Deploy
+        env:
+          SERVER_ROOT_DATABASE_URL: ${{ secrets.SERVER_ROOT_DATABASE_URL }}
+          SERVER_APP_DATABASE_URL: ${{ secrets.SERVER_APP_DATABASE_URL }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
+          SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
+          HTTPS_PORTAL_STAGE: ${{ secrets.HTTPS_PORTAL_STAGE }}
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          NX_DAEMON: false
+          DISABLE_SERVE_STATIC: true
+        run: |
+          docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
+          npm i
+          npx playwright install
+          cp -r ./example.env ./.env
+          npm run generate
+          npm run build -- -c production
+          npm run docker:build:server:latest
+          docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
+
+      - name: E2E-tests
+        env:
+          BASE_URL: https://${{ secrets.SERVER_DOMAIN }}
+          NX_DAEMON: false
+        run: |
+          npm run test:e2e
