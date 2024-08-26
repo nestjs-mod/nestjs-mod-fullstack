@@ -31,10 +31,9 @@ jobs:
           NX_DAEMON: false
           DISABLE_SERVE_STATIC: true
         run: |
+          docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
           npm i
           npx playwright install
-          npm run docker-compose-full:prod:stop
-          docker compose -f ./.docker/docker-compose-full.yml --compatibility down
           cp -r ./example.env ./.env
           npm run generate
           npm run build -- -c production
