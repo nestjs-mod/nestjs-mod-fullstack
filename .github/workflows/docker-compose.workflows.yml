@@ -27,7 +27,6 @@ jobs:
           SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
           HTTPS_PORTAL_STAGE: ${{ secrets.HTTPS_PORTAL_STAGE }}
-          NODE_OPTIONS: --max-old-space-size=512
         run: |
           echo "SERVER_ROOT_DATABASE_URL=${SERVER_ROOT_DATABASE_URL}" > .docker/docker-compose-full.env
           echo "SERVER_APP_DATABASE_URL=${SERVER_APP_DATABASE_URL}" > .docker/docker-compose-full.env
