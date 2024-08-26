@@ -34,5 +34,7 @@ jobs:
           echo "SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE=${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}" > .docker/docker-compose-full.env
           echo "SERVER_DOMAIN=${SERVER_DOMAIN}" > .docker/docker-compose-full.env
           echo "HTTPS_PORTAL_STAGE=${HTTPS_PORTAL_STAGE}" > .docker/docker-compose-full.env
+          node -v
+          npm -v
           npm i
           npm run docker-compose-full:prod:start
