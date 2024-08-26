@@ -30,7 +30,6 @@ jobs:
           COMPOSE_INTERACTIVE_NO_CLI: 1
           NX_DAEMON: false
           DISABLE_SERVE_STATIC: true
-          NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: |
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
           npm i
@@ -47,5 +46,5 @@ jobs:
           NX_DAEMON: false
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: |
-          npm run wait-on -- --log http://${{ secrets.SERVER_DOMAIN }}/api/health --log http://${{ secrets.SERVER_DOMAIN }}
+          npm run wait-on -- --log https://${{ secrets.SERVER_DOMAIN }}/api/health --log http://${{ secrets.SERVER_DOMAIN }}
           npm run test:e2e
