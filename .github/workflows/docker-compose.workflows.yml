@@ -1,8 +1,8 @@
 name: 'Docker Compose'
 
-# on:
-#   push:
-#     branches: [post-24]
+on:
+  push:
+    branches: [post-24]
 
 jobs:
   deploy:
