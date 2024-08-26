@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    # environment: docker-compose-full
+    environment: docker-compose-full
     runs-on: [self-hosted]
 
     steps:
