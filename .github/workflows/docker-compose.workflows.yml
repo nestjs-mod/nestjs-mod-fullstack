@@ -32,6 +32,7 @@ jobs:
           DISABLE_SERVE_STATIC: true
         run: |
           npm i
+          npx playwright install
           npm run docker-compose-full:prod:stop
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down
           cp -r ./example.env ./.env
