@@ -42,9 +42,9 @@ jobs:
 
       - name: E2E-tests
         env:
-          BASE_URL: http://${{ secrets.SERVER_DOMAIN }}
+          BASE_URL: https://${{ secrets.SERVER_DOMAIN }}
           NX_DAEMON: false
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: |
-          npm run wait-on -- --log https://${{ secrets.SERVER_DOMAIN }}/api/health --log http://${{ secrets.SERVER_DOMAIN }}
+          npm run wait-on -- --log https://${{ secrets.SERVER_DOMAIN }}/api/health --log https://${{ secrets.SERVER_DOMAIN }}
           npm run test:e2e
