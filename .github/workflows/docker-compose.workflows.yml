@@ -37,8 +37,7 @@ jobs:
           echo "HTTPS_PORTAL_STAGE=${HTTPS_PORTAL_STAGE}" > .docker/docker-compose-full.env
           node -v
           npm -v
-          npm i -g yarn
-          yarn install
+          npm i
           cp -r ./example.env ./.env
           npm run docker-compose-full:prod:stop
           npm run docker-compose-full:prod:start
