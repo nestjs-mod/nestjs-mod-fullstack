@@ -90,7 +90,6 @@ services:
     restart: always
     environment:
       STAGE: '${HTTPS_PORTAL_STAGE}'
-      FORCE_RENEW: 'true'
       DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:8080'
     depends_on:
       nestjs-mod-fullstack-nginx:
