@@ -27,7 +27,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "PKG_VERSION=$(npm pkg get version --workspaces=false | tr -d \\\")" >> $env:GITHUB_ENV
+          echo $(npm pkg get version --workspaces=false | tr -d \")
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Log in to the Container registry
@@ -43,8 +43,8 @@ jobs:
           context: .
           push: true
           file: ./.docker/base.Dockerfile
-          build-args: PKG_VERSION=${{ env.PKG_VERSION }}
-          tags: ${{ env.BASE_IMAGE_NAME}}:${{ env.PKG_VERSION }}
+          build-args: PKG_VERSION=${{ steps.version.outputs }}
+          tags: ${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs }}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
