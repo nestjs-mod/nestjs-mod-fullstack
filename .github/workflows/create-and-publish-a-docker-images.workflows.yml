@@ -24,12 +24,12 @@ jobs:
       id-token: write
       #
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(cd .. && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - name: Checkout repository
-        uses: actions/checkout@v4
+          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
