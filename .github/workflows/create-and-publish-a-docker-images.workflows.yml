@@ -27,7 +27,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "{"version":"$(npm pkg get version --workspaces=false | tr -d \\"")"}
+          echo "{\"version\":"$(npm pkg get version --workspaces=false | tr -d \\\")"\"}"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Log in to the Container registry
