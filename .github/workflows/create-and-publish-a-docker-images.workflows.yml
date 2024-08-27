@@ -86,7 +86,7 @@ jobs:
           push-to-registry: true
   build-and-push-builder-image:
     runs-on: ubuntu-latest
-    needs: build-and-push-base-image
+    needs: build-and-push-base-server-image
     permissions:
       contents: read
       packages: write
