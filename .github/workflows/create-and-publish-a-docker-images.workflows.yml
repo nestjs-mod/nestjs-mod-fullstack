@@ -137,14 +137,14 @@ jobs:
         id: version
         run: |
           echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - name: Generate and build production code
-        run: docker run -d --name generate-and-build-production --mount source=./dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate and build production code
+        run: docker run -d --name generate-and-build-production --mount source=./dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
