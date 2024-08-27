@@ -1,21 +1,15 @@
+ARG PKG_VERSION=latest
+ARG REGISTRY=ghcr.io
+ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack/nestjs-mod-fullstack-base-server
 
-FROM node:20.16.0-alpine AS builder
+FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${PKG_VERSION} AS builder
 WORKDIR /usr/src/app
 COPY . .
-# To work as a PID 1
-RUN apk add dumb-init
-# Remove dev dependencies
-RUN apk add jq
-RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Removing unnecessary settings
 RUN rm -rf nx.json package-lock.json .dockerignore && \
     # Replacing the settings
     cp .docker/nx.json nx.json && \
     cp .docker/.dockerignore .dockerignore && \
-    # Install dependencies
-    npm install && \
-    # Installing utilities to generate additional files
-    npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11 && \
     # Some utilities require a ".env" file
     echo '' > .env && \ 
     # Generating additional code
