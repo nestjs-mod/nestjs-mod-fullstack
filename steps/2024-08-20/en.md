@@ -194,7 +194,7 @@ _Descriptions of new scripts_
 | pm2-full:prod:start | Launching the infrastructure and building all applications, followed by launching them via PM2 |
 | pm2-full:prod:stop | Stopping the infrastructure and all applications running through PM2 |
 | test:e2e | Running E2E tests for all applications |
-| opy-dist-front-to-dist-backend | Copying a built frontend application to a built backend |
+| copy-dist-front-to-dist-backend | Copying a built frontend application to a built backend |
 | wait-on | A utility for checking and waiting for site availability |
 | docker-compose-full:prod:start | Build and launch of the "Docker Compose" infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx |
 | docker-compose-full:prod:stop | Stopping the "Docker Compose" infrastructure and all applications |
