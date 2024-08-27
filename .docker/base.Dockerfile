@@ -1,6 +1,5 @@
 ARG PKG_VERSION=latest
 ARG REGISTRY=ghcr.io
-ARG IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack/nestjs-mod-fullstack-base
 
 FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
