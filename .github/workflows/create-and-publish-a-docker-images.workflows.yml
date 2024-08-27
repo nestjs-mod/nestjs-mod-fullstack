@@ -9,8 +9,8 @@ on:
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
   REGISTRY: ghcr.io
-  BASE_IMAGE_NAME: ${{ github.repository }}/nestjs-mod-fullstack-base
-  BASE_SERVER_IMAGE_NAME: ${{ github.repository }}/nestjs-mod-fullstack-base-server
+  BASE_IMAGE_NAME: ${{ github.repository }}-base
+  BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
