@@ -37,6 +37,7 @@
     "docker-compose:start-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env --compatibility up -d",
     "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down",
     "_____docker_____": "_____docker_____",
+    "generate-and-build-production": "npm run generate && npm run build -- -c production",
     "docker:build:base:current": "export PKG_VERSION=$(npm pkg get version --workspaces=false | tr -d \\\") && docker build -t ghcr.io/nestjs-mod/nestjs-mod-fullstack/nestjs-mod-fullstack-base:${PKG_VERSION} -f ./.docker/base.Dockerfile . --progress=plain --build-arg=\"PKG_VERSION=${PKG_VERSION}\"",
     "docker:build:base-server:current": "export PKG_VERSION=$(npm pkg get version --workspaces=false | tr -d \\\") && docker build -t ghcr.io/nestjs-mod/nestjs-mod-fullstack/nestjs-mod-fullstack-base-server:${PKG_VERSION} -f ./.docker/base-server.Dockerfile . --progress=plain --build-arg=\"PKG_VERSION=${PKG_VERSION}\"",
     "docker:build:server:latest": "export PKG_VERSION=$(npm pkg get version --workspaces=false | tr -d \\\") && docker build -t ghcr.io/nestjs-mod/nestjs-mod-fullstack/nestjs-mod-fullstack-server:latest -f ./.docker/server.Dockerfile . --progress=plain --build-arg=\"PKG_VERSION=${PKG_VERSION}\"",
