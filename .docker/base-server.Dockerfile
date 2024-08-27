@@ -6,17 +6,17 @@ FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${PKG_VERSION} AS builder
 WORKDIR /usr/src/app
 COPY . .
 # JSON utils 
-RUN apk add jq && \
-    # Remove dev dependencies
-    echo $(cat package.json | jq 'del(.devDependencies)') > package.json && \
-    # Removing unnecessary settings
-    rm -rf .dockerignore && \
-    # Replacing the settings
-    cp .docker/.dockerignore .dockerignore && \
-    # Install dependencies
-    npm install && \
-    # Installing utilities to generate additional files
-    npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11
+RUN apk add jq
+# Remove dev dependencies
+RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
+# Removing unnecessary settings
+RUN rm -rf .dockerignore
+# Replacing the settings
+RUN cp .docker/.dockerignore .dockerignore
+# Install dependencies
+RUN npm install
+# Installing utilities to generate additional files
+RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app

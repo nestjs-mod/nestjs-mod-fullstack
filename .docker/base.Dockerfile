@@ -5,10 +5,13 @@ FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
 COPY . .
 # Removing unnecessary settings
-RUN rm -rf .dockerignore && \
-    # Replacing the settings
-    cp .docker/.dockerignore .dockerignore && \
-    apk add dumb-init && npm install
+RUN rm -rf .dockerignore
+# Replacing the settings
+RUN cp .docker/.dockerignore .dockerignore
+# Install utils
+RUN apk add dumb-init
+# Install deps
+RUN npm install
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app

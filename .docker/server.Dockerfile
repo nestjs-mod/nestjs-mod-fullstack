@@ -6,16 +6,16 @@ FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${PKG_VERSION} AS builder
 WORKDIR /usr/src/app
 COPY . .
 # Removing unnecessary settings
-RUN rm -rf nx.json package-lock.json .dockerignore && \
-    # Replacing the settings
-    cp .docker/nx.json nx.json && \
-    cp .docker/.dockerignore .dockerignore && \
-    # Some utilities require a ".env" file
-    echo '' > .env && \ 
-    # Generating additional code
-    npm run prisma:generate && \
-    # Remove unnecessary packages
-    rm -rf /usr/src/app/node_modules/@nx && \
+RUN rm -rf nx.json package-lock.json .dockerignore
+# Replacing the settings
+RUN cp .docker/nx.json nx.json
+RUN cp .docker/.dockerignore .dockerignore
+# Some utilities require a ".env" file
+RUN echo '' > .env
+# Generating additional code
+RUN npm run prisma:generate
+# Remove unnecessary packages
+RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@prisma-class-generator && \
     rm -rf /usr/src/app/node_modules/@angular  && \
     rm -rf /usr/src/app/node_modules/@swc  && \
