@@ -14,12 +14,15 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: current
         with:
           registry: ${{ env.REGISTRY }}
@@ -37,12 +40,15 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: current
         with:
           registry: ${{ env.REGISTRY }}
@@ -60,12 +66,15 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: current
         with:
           registry: ${{ env.REGISTRY }}
@@ -83,12 +92,15 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: current
         with:
           registry: ${{ env.REGISTRY }}
