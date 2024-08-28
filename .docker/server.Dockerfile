@@ -8,6 +8,7 @@ COPY ./dist ./dist
 COPY ./apps ./apps
 COPY ./libs ./libs
 COPY ./apps/server/package.json ./dist/apps/server/package.json
+COPY ./apps/server/project.json ./dist/apps/server/project.json
 # Generating additional code
 RUN npm run prisma:generate
 # Remove unnecessary packages

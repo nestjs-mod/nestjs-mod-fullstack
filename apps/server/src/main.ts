@@ -3,6 +3,7 @@ import {
   DefaultNestApplicationListener,
   InfrastructureMarkdownReportGenerator,
   PACKAGE_JSON_FILE,
+  PROJECT_JSON_FILE,
   ProjectUtils,
   bootstrapNestApplication,
   isInfrastructureMode,
@@ -36,11 +37,6 @@ if (!existsSync(join(appFolder, PACKAGE_JSON_FILE))) {
   appFolder = join(rootFolder, 'dist', 'apps', 'server');
 }
 
-console.log({
-  rootFolder,
-  appFolder,
-});
-
 bootstrapNestApplication({
   modules: {
     system: [
@@ -48,6 +44,7 @@ bootstrapNestApplication({
         staticConfiguration: {
           applicationPackageJsonFile: join(appFolder, PACKAGE_JSON_FILE),
           packageJsonFile: join(rootFolder, PACKAGE_JSON_FILE),
+          nxProjectJsonFile: join(appFolder, PROJECT_JSON_FILE),
           envFile: join(rootFolder, '.env'),
         },
       }),
