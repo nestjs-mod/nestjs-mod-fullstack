@@ -14,9 +14,11 @@ RUN rm -rf nx.json
 # Replacing the settings
 RUN cp .docker/nx.json nx.json
 # Installing utilities to generate additional files
-RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1
+RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1 && \
+    ./node_modules/.bin/flyway -c ./.flyway.js info || echo 'skip flyway errors'
 # Install java
-RUN apk add openjdk11-jre && apk add bash
+RUN apk add openjdk11-jre && \
+    apk add bash
 # Some utilities require a ".env" file
 RUN echo '' > .env
 CMD ["npm","run", "docker-compose-full:prod:fill:database"]
