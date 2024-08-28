@@ -276,7 +276,7 @@ jobs:
           rm -rf dist .dockerignore
           cp .docker/.dockerignore .dockerignore
           mkdir -p dist
-          docker run --name generate-and-build-production --mount source=dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          docker run --name generate-and-build-production -v ${PWD}/dist:/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           ls dist
           ls dist/server
       - name: Build and push Docker image
