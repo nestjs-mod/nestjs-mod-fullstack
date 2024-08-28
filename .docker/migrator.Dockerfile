@@ -17,7 +17,7 @@ RUN cp .docker/nx.json nx.json
 # Installing utilities to generate additional files
 RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1
 # Install java
-RUN apk add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && apk add bash
+RUN apk add openjdk11-jre && apk add bash
 # Some utilities require a ".env" file
 RUN echo '' > .env
 CMD ["npm","run", "docker-compose-full:prod:fill:database"]

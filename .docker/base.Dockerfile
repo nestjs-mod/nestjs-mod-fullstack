@@ -4,7 +4,7 @@ FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
 COPY . .
 # Removing unnecessary settings
-RUN rm -rf .dockerignore
+RUN rm -rf .dockerignore tmp
 # Replacing the settings
 RUN cp .docker/.dockerignore .dockerignore
 # Install utils
