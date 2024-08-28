@@ -24,13 +24,13 @@ services:
       POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
       POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
   nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'node:20-bullseye-slim'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrator:0.0.0'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'
-    working_dir: '/app'
+    working_dir: '/usr/src/app'
     volumes:
-      - './../:/app'
+      - './../:/usr/src/app'
     command: 'npm run docker-compose-full:prod:fill:database'
     tty: true
     environment:
@@ -41,7 +41,7 @@ services:
       nestjs-mod-fullstack-postgre-sql:
         condition: 'service_healthy'
   nestjs-mod-fullstack-server:
-    image: 'nestjs-mod-fullstack-server:latest'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:0.0.1'
     container_name: 'nestjs-mod-fullstack-server'
     networks:
       - 'nestjs-mod-fullstack-network'
