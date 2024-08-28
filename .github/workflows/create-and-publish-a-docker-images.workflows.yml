@@ -274,7 +274,7 @@ jobs:
 
   build-and-push-migrator-image:
     runs-on: ubuntu-latest
-    needs: [build-and-push-base-image, check-base-image, check-builder-image]
+    needs: [build-and-push-base-server-image, check-base-server-image, check-builder-image]
     permissions:
       contents: read
       packages: write
