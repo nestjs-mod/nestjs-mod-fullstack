@@ -17,7 +17,7 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
-# Copy all project files
+# Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy utility for "To work as a PID 1"
 COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
