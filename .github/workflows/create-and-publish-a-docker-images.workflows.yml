@@ -18,7 +18,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
         id: current
         with:
@@ -28,7 +28,7 @@ jobs:
           image_name: ${{ env.BASE_IMAGE_NAME }}
           organization: ${{ github.event.repository.owner.login }}
           repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.root_version }}
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -41,7 +41,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
         id: current
         with:
@@ -51,7 +51,7 @@ jobs:
           image_name: ${{ env.BASE_SERVER_IMAGE_NAME }}
           organization: ${{ github.event.repository.owner.login }}
           repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.app_version }}
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -64,7 +64,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
         id: current
         with:
@@ -74,7 +74,7 @@ jobs:
           image_name: ${{ env.BUILDER_IMAGE_NAME }}
           organization: ${{ github.event.repository.owner.login }}
           repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.root_version }}
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -87,7 +87,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
         id: current
         with:
@@ -97,7 +97,7 @@ jobs:
           image_name: ${{ env.SERVER_IMAGE_NAME }}
           organization: ${{ github.event.repository.owner.login }}
           repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.app_version }}
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -111,33 +111,33 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: needs.check-base-image.outputs.result != 'success'
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: needs.check-base-image.outputs.result != 'success'
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: needs.check-base-image.outputs.result != 'success'
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: needs.check-base-image.outputs.result != 'success'
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
           file: ./.docker/base.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: needs.check-base-image.outputs.result != 'success'
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BASE_IMAGE_NAME}}
@@ -154,35 +154,35 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: needs.check-base-server-image.outputs.result != 'success'
+        if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: needs.check-base-server-image.outputs.result != 'success'
+        if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
-          echo "builder_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: needs.check-base-server-image.outputs.result != 'success'
+        if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: needs.check-base-server-image.outputs.result != 'success'
+        if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
           file: ./.docker/base-server.Dockerfile
-          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.builder_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: needs.check-base-server-image.outputs.result != 'success'
+        if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BASE_SERVER_IMAGE_NAME}}
@@ -199,34 +199,34 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: needs.check-builder-image.outputs.result != 'success'
+        if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: needs.check-builder-image.outputs.result != 'success'
+        if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: needs.check-builder-image.outputs.result != 'success'
+        if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
-        if: needs.check-builder-image.outputs.result != 'success'
+        if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
           file: ./.docker/builder.Dockerfile
-          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.version }}
-          tags: ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: needs.check-builder-image.outputs.result != 'success'
+        if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BUILDER_IMAGE_NAME}}
@@ -243,42 +243,44 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: version
         run: |
-          echo "builder_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate and build production code
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         run: |
           rm -rf dist .dockerignore
           cp .docker/.dockerignore .dockerignore
           mkdir -p dist
-          docker run --name generate-and-build-production --mount source=dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.builder_version }}
+          docker run --name generate-and-build-production --mount source=dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          ls dist
+          ls dist/server
       - name: Build and push Docker image
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
           file: ./.docker/server.Dockerfile
-          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.version }}
-          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: needs.check-server-image.outputs.result != 'success'
+        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.SERVER_IMAGE_NAME}}
