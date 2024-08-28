@@ -32,8 +32,8 @@ let rootFolder = join(__dirname, '..', '..', '..');
 let appFolder = join(rootFolder, 'apps', 'server');
 
 if (!existsSync(join(appFolder, PACKAGE_JSON_FILE))) {
-  rootFolder = join(__dirname, '..', '..', '..', '..');
-  appFolder = join(__dirname);
+  rootFolder = join(__dirname, '..', '..', '..');
+  appFolder = join(rootFolder, 'dist', 'apps', 'server');
 }
 
 console.log({
