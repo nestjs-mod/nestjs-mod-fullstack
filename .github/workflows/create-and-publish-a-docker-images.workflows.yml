@@ -351,7 +351,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.MIGRATIONS_IMAGE_NAME}}
