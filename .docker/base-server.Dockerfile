@@ -25,4 +25,5 @@ COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
 COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
+COPY --from=builder /usr/src/app/tsconfig.base.json /usr/src/app/tsconfig.base.json
 COPY --from=builder /usr/src/app/.env /usr/src/app/.env
