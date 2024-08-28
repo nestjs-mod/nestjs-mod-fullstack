@@ -29,11 +29,11 @@ import { join } from 'path';
 import { AppModule } from './app/app.module';
 
 const appFeatureName = 'app';
-let rootFolder = join(__dirname, '..', '..', '..');
+const rootFolder = join(__dirname, '..', '..', '..');
+
 let appFolder = join(rootFolder, 'apps', 'server');
 
 if (!existsSync(join(appFolder, PACKAGE_JSON_FILE))) {
-  rootFolder = join(__dirname, '..', '..', '..');
   appFolder = join(rootFolder, 'dist', 'apps', 'server');
 }
 
