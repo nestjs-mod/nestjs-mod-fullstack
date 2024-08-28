@@ -4,14 +4,8 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
-COPY . .
-# Removing unnecessary settings
-RUN rm -rf nx.json package-lock.json .dockerignore
-# Replacing the settings
-RUN cp .docker/nx.json nx.json
-RUN cp .docker/.dockerignore .dockerignore
-# Some utilities require a ".env" file
-RUN echo '' > .env
+COPY ./apps ./apps
+COPY ./libs ./libs
 # Generating additional code
 RUN npm run prisma:generate
 # Remove unnecessary packages
@@ -31,6 +25,11 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ /usr/src/app/
 # Copy utility for "To work as a PID 1"
 COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
+# Copy the settings
+COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
+COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
+COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
+COPY --from=builder /usr/src/app/.env /usr/src/app/.env
 # Set server port
 ENV SERVER_PORT=8080
 # Share port
