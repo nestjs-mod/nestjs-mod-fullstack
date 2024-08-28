@@ -10,9 +10,8 @@ RUN apk add jq
 # Remove dev dependencies
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Removing unnecessary settings
-RUN rm -rf nx.json .dockerignore
+RUN rm -rf nx.json
 # Replacing the settings
-RUN cp .docker/.dockerignore .dockerignore
 RUN cp .docker/nx.json nx.json
 # Installing utilities to generate additional files
 RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1

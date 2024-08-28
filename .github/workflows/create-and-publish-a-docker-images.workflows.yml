@@ -252,6 +252,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Replace dockerignore file
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        run: |
+          rm -rf dist .dockerignore
+          cp .docker/.dockerignore .dockerignore
       - name: Build Docker image
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-migrator-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrator cache]')}}
         id: push
