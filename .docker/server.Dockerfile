@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY ./dist ./dist
 COPY ./apps ./apps
 COPY ./libs ./libs
+COPY ./apps/server/package.json ./dist/apps/server/package.json
 # Generating additional code
 RUN npm run prisma:generate
 # Remove unnecessary packages
