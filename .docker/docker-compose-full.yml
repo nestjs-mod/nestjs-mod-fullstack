@@ -30,7 +30,8 @@ services:
       - 'nestjs-mod-fullstack-network'
     working_dir: '/usr/src/app'
     volumes:
-      - './../:/usr/src/app'
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
     command: 'npm run docker-compose-full:prod:fill:database'
     tty: true
     environment:
