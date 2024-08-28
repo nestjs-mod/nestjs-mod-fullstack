@@ -10,6 +10,6 @@ COPY ./libs ./libs
 RUN apk add openjdk11-jre && \
     apk add bash
 # Installing utilities to generate additional files
-RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1 && \
+RUN npm install --save-dev nx@19.5.3 node-flywaydb@3.0.7 rucken@4.8.1 && \
     ./node_modules/.bin/flyway -c ./.flyway.js info || echo 'skip flyway errors'
 CMD ["npm","run", "docker-compose-full:prod:fill:database"]

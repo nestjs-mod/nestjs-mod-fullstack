@@ -4,6 +4,7 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
+COPY ./dist ./dist
 COPY ./apps ./apps
 COPY ./libs ./libs
 # Generating additional code
@@ -17,7 +18,9 @@ RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@angular-devkit && \
     rm -rf /usr/src/app/node_modules/@ngneat && \
     rm -rf /usr/src/app/node_modules/@types && \
-    rm -rf /usr/src/app/node_modules/@ng-packagr
+    rm -rf /usr/src/app/node_modules/@ng-packagr && \
+    rm -rf /usr/src/app/apps && \
+    rm -rf /usr/src/app/libs
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
@@ -25,11 +28,6 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ /usr/src/app/
 # Copy utility for "To work as a PID 1"
 COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
-# Copy the settings
-COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
-COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
-COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
-COPY --from=builder /usr/src/app/.env /usr/src/app/.env
 # Set server port
 ENV SERVER_PORT=8080
 # Share port
