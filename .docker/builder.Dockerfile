@@ -12,5 +12,5 @@ RUN cp .docker/nx.json nx.json
 # Some utilities require a ".env" file
 RUN echo '' > .env
 # Install java
-RUN apk add openjdk8-jre
+RUN apk add openjdk11-jre
 CMD ["npm","run", "generate-and-build-production"]
