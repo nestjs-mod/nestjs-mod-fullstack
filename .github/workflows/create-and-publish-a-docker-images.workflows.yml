@@ -277,7 +277,6 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -298,9 +297,8 @@ jobs:
           context: .
           push: true
           file: ./.docker/base-migrations.Dockerfile
-          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
