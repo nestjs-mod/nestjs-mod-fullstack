@@ -24,7 +24,7 @@ services:
       POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
       POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
   nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrator:0.0.1'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:0.0.1'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'
