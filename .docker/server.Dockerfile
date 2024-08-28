@@ -5,6 +5,8 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
 COPY ./dist ./dist
+COPY ./apps ./apps
+COPY ./libs ./libs
 # Generating additional code
 RUN npm run prisma:generate
 # Remove unnecessary packages

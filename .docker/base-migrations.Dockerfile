@@ -1,6 +1,9 @@
 FROM node:20-bullseye-slim AS builder
 WORKDIR /usr/src/app
 COPY . .
+# Copy the settings
+COPY .docker/.dockerignore .dockerignore
+COPY .docker/nx.json nx.json
 # JSON utils 
 RUN apt-get update && apt-get install -y jq
 # Remove dev dependencies info
