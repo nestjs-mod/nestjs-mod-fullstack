@@ -9,10 +9,8 @@ COPY ./dist ./dist
 COPY ./apps ./apps
 COPY ./libs ./libs
 COPY ./apps/server/package.json ./dist/apps/server/package.json
-COPY ./apps/server/project.json ./dist/apps/server/project.json
 # Generating additional code
-RUN ./node_modules/.bin/nx reset && \
-    npm run prisma:generate
+RUN npm run prisma:generate
 # Remove unnecessary packages
 RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@prisma-class-generator && \
