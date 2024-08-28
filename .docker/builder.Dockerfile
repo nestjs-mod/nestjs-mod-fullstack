@@ -11,4 +11,6 @@ RUN rm -rf /usr/src/app/dist && rm -rf nx.json
 RUN cp .docker/nx.json nx.json
 # Some utilities require a ".env" file
 RUN echo '' > .env
+# Install java
+RUN apk add openjdk8-jre
 CMD ["npm","run", "generate-and-build-production"]
