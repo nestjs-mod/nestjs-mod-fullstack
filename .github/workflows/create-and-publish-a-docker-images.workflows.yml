@@ -249,6 +249,7 @@ jobs:
         if: needs.check-server-image.outputs.result != 'success'
         id: version
         run: |
+          echo "builder_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: needs.check-server-image.outputs.result != 'success'
@@ -263,7 +264,7 @@ jobs:
           rm -rf dist .dockerignore
           cp .docker/.dockerignore .dockerignore
           mkdir -p dist
-          docker run --name generate-and-build-production --mount source=dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
+          docker run --name generate-and-build-production --mount source=dist,target=/usr/src/app/dist ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.builder_version }}
       - name: Build and push Docker image
         if: needs.check-server-image.outputs.result != 'success'
         id: push
