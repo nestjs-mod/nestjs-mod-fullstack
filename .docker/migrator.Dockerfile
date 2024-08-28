@@ -14,12 +14,10 @@ RUN rm -rf nx.json .dockerignore
 # Replacing the settings
 RUN cp .docker/.dockerignore .dockerignore
 RUN cp .docker/nx.json nx.json
-# Install dependencies
-RUN npm install
 # Installing utilities to generate additional files
 RUN npm install --save-dev node-flywaydb@3.0.7 rucken@4.8.1
 # Install java
-RUN apk add openjdk11-jre && apk add bash
+RUN apk add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && apk add bash
 # Some utilities require a ".env" file
 RUN echo '' > .env
 CMD ["npm","run", "docker-compose-full:prod:fill:database"]
