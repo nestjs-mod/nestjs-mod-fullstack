@@ -4,6 +4,7 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
+ENV NX_DAEMON=false
 COPY ./dist ./dist
 COPY ./apps ./apps
 COPY ./libs ./libs
