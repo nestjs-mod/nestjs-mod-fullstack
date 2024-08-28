@@ -42,22 +42,22 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: check-base-image.test.outputs.result != 'success'
+        if: needs.check-base-image.outputs.result != 'success'
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: check-base-image.test.outputs.result != 'success'
+        if: needs.check-base-image.outputs.result != 'success'
         id: version
         run: |
           echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: check-base-image.test.outputs.result != 'success'
+        if: needs.check-base-image.outputs.result != 'success'
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: check-base-image.test.outputs.result != 'success'
+        if: needs.check-base-image.outputs.result != 'success'
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -69,7 +69,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: check-base-image.test.outputs.result != 'success'
+        if: needs.check-base-image.outputs.result != 'success'
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BASE_IMAGE_NAME}}
