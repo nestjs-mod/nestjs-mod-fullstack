@@ -41,7 +41,7 @@ jobs:
       - name: Set ENV vars
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - uses: cloudposse/github-action-docker-image-exists@main
         id: current
         with:
