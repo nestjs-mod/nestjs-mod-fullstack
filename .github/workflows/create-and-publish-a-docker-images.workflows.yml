@@ -133,7 +133,6 @@ jobs:
           context: .
           push: true
           file: ./.docker/base.Dockerfile
-          build-args: PKG_VERSION=${{ steps.version.outputs.version }}
           tags: ${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-to: type=inline
@@ -161,7 +160,8 @@ jobs:
         if: needs.check-base-server-image.outputs.result != 'success'
         id: version
         run: |
-          echo "version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "builder_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: needs.check-base-server-image.outputs.result != 'success'
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -177,7 +177,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/base-server.Dockerfile
-          build-args: PKG_VERSION=${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.builder_version }}
           tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-to: type=inline
@@ -221,7 +221,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/builder.Dockerfile
-          build-args: PKG_VERSION=${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.version }}
           tags: ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-to: type=inline
@@ -273,7 +273,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/server.Dockerfile
-          build-args: PKG_VERSION=${{ steps.version.outputs.version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.version }}
           tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.version }}
           cache-to: type=inline

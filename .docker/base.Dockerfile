@@ -1,4 +1,3 @@
-ARG PKG_VERSION=latest
 ARG REGISTRY=ghcr.io
 
 FROM node:20.16.0-alpine AS builder
