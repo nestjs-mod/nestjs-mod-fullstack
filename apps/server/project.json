@@ -20,7 +20,8 @@
         "assets": [
           "apps/server/src/assets"
         ],
-        "webpackConfig": "apps/server/webpack.config.js"
+        "webpackConfig": "apps/server/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {},
