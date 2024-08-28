@@ -4,7 +4,6 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
-COPY . .
 # JSON utils 
 RUN apk add jq
 # Remove dev dependencies info
