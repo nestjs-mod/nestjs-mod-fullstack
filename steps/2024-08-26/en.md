@@ -1,4 +1,4 @@
-## [2024-08-26] Adding the CI/CD config for deployment to a dedicated server using GitHub Actions.
+## [2024-08-26] Adding the CI/CD config for deployment NestJS and Angular applications to a dedicated server using GitHub Actions.
 
 We register secret environment variables in github.
 
