@@ -443,7 +443,7 @@ jobs:
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         run: |
           mkdir -p dist
-          docker run -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          docker run --name generate-and-build-production-code -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
       - name: Build and push Docker image
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         id: push
@@ -492,7 +492,7 @@ jobs:
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
         run: |
           mkdir -p dist
-          docker run -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          docker run --name generate-and-build-production-code -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
       - name: Build and push Docker image
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
         id: push
