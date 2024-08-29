@@ -45,7 +45,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health',
+          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${SERVER_PORT}/api/health',
         ]
       interval: 30s
       timeout: 10s
@@ -53,7 +53,7 @@ services:
     tty: true
     environment:
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
-      SERVER_PORT: 8080
+      SERVER_PORT: '${SERVER_PORT}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
@@ -65,14 +65,24 @@ services:
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${NGINX_PORT}/api/health --log http://localhost:${NGINX_PORT}',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
     environment:
-      SERVER_PORT: 8080
+      SERVER_PORT: '${SERVER_PORT}'
+      NGINX_PORT: '${NGINX_PORT}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:
         condition: service_healthy
     ports:
-      - '8080:8080'
+      - '${NGINX_PORT}:${NGINX_PORT}'
   nestjs-mod-fullstack-https-portal:
     image: steveltn/https-portal:1
     container_name: 'nestjs-mod-fullstack-https-portal'
@@ -86,7 +96,7 @@ services:
     restart: always
     environment:
       STAGE: '${HTTPS_PORTAL_STAGE}'
-      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:8080'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${SERVER_PORT}'
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_started

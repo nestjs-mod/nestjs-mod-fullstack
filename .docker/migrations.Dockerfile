@@ -12,4 +12,4 @@ ENV NX_DAEMON=false
 COPY ./apps ./apps
 COPY ./libs ./libs
 
-CMD ["npm","run", "docker-compose-full:prod:fill:database"]
+CMD ["npm","run", "db:create-and-fill"]
