@@ -28,11 +28,6 @@ services:
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'
-    working_dir: '/usr/src/app'
-    volumes:
-      - './../apps:/usr/src/app/apps'
-      - './../libs:/usr/src/app/libs'
-    command: 'npm run docker-compose-full:prod:fill:database'
     tty: true
     environment:
       NX_SKIP_NX_CACHE: 'true'
@@ -58,6 +53,7 @@ services:
     tty: true
     environment:
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      SERVER_PORT: 8080
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
@@ -65,13 +61,12 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-nginx:
-    image: nginx:alpine
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:0.0.1'
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'
-    volumes:
-      - ../.docker/nginx:/etc/nginx/conf.d
-      - ../dist/apps/client/browser:/usr/share/nginx/html
+    environment:
+      SERVER_PORT: 8080
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:

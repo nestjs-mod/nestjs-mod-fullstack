@@ -35,8 +35,7 @@ jobs:
           npm i
           npx playwright install
           cp -r ./example.env ./.env
-          npm run generate
-          npm run build -- -c production
+          npm run build:prod
           npm run docker:build:server:latest
           docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
 

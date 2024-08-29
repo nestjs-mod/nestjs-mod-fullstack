@@ -10,6 +10,7 @@ env:
   BUILDER_IMAGE_NAME: ${{ github.repository }}-builder
   MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-migrations
   SERVER_IMAGE_NAME: ${{ github.repository }}-server
+  NGINX_IMAGE_NAME: ${{ github.repository }}-nginx
 jobs:
   check-base-image:
     runs-on: ubuntu-latest
@@ -161,6 +162,32 @@ jobs:
           login: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           image_name: ${{ env.SERVER_IMAGE_NAME }}
+          organization: ${{ github.event.repository.owner.login }}
+          repository: ${{ github.event.repository.name }}
+          tag: ${{ steps.version.outputs.app_version }}
+    outputs:
+      result: ${{ steps.current.conclusion }}
+
+  check-nginx-image:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        uses: actions/checkout@v4
+      - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        id: version
+        run: |
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+      - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        id: current
+        with:
+          registry: ${{ env.REGISTRY }}
+          login: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image_name: ${{ env.NGINX_IMAGE_NAME }}
           organization: ${{ github.event.repository.owner.login }}
           repository: ${{ github.event.repository.name }}
           tag: ${{ steps.version.outputs.app_version }}
@@ -416,7 +443,7 @@ jobs:
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         run: |
           mkdir -p dist
-          docker run --name generate-and-build-production -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          docker run -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
       - name: Build and push Docker image
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         id: push
@@ -434,5 +461,53 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.SERVER_IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  build-and-push-nginx-image:
+    runs-on: ubuntu-latest
+    needs: [check-nginx-image]
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        uses: actions/checkout@v4
+      - name: Set ENV vars
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        id: version
+        run: |
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+      - name: Log in to the Container registry
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate and build production code
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        run: |
+          mkdir -p dist
+          docker run -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+      - name: Build and push Docker image
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          file: ./.docker/nginx.Dockerfile
+          tags: ${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          cache-to: type=inline
+      - name: Generate artifact attestation
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.NGINX_IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true

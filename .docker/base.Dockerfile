@@ -2,9 +2,14 @@ ARG REGISTRY=ghcr.io
 
 FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
+
+# Copy all files in repository to image
 COPY . .
+
 # Install utils
 RUN apk add dumb-init
+# Clean up
+RUN rm -rf /var/cache/apk/*
 # Install deps
 RUN npm install
 # Some utilities require a ".env" file
@@ -12,6 +17,7 @@ RUN echo '' > .env
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
+
 # Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy utility for "To work as a PID 1"

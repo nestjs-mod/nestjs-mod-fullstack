@@ -4,8 +4,11 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
+
 # JSON utils 
 RUN apk add jq
+# Clean up
+RUN rm -rf /var/cache/apk/*
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install dependencies
@@ -17,6 +20,7 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
+
 # Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy utility for "To work as a PID 1"

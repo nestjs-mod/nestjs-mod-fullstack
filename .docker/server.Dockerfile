@@ -4,11 +4,18 @@ ARG BASE_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
 FROM ${REGISTRY}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
+
+# Disable nx daemon
 ENV NX_DAEMON=false
+
+# Copy the generated code
 COPY ./dist ./dist
+# Copy prisma schema files
 COPY ./apps ./apps
 COPY ./libs ./libs
+# Copy the application's package.json file to use its information at runtime.
 COPY ./apps/server/package.json ./dist/apps/server/package.json
+
 # Generating additional code
 RUN npm run prisma:generate
 # Remove unnecessary packages
@@ -26,13 +33,17 @@ RUN rm -rf /usr/src/app/node_modules/@nx && \
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
+
+# Set server port
+ENV SERVER_PORT=8080
+
 # Copy all project files
 COPY --from=builder /usr/src/app/ /usr/src/app/
 # Copy utility for "To work as a PID 1"
 COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
-# Set server port
-ENV SERVER_PORT=8080
-# Share port
+
+# Expose server port
 EXPOSE 8080
+
 # Run server
 CMD ["dumb-init","node", "dist/apps/server/main.js"]

@@ -1,6 +1,9 @@
 FROM node:20-bullseye-slim AS builder
 WORKDIR /usr/src/app
+
+# Copy all files in repository to image
 COPY . .
+
 # JSON utils 
 RUN apt-get update && \
     apt-get install -y jq
@@ -16,6 +19,7 @@ RUN echo '' > .env
 
 FROM node:20-bullseye-slim
 WORKDIR /usr/src/app
+
 # Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy the settings
