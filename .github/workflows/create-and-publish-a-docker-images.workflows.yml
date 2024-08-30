@@ -11,6 +11,7 @@ env:
   MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-migrations
   SERVER_IMAGE_NAME: ${{ github.repository }}-server
   NGINX_IMAGE_NAME: ${{ github.repository }}-nginx
+  E2E_TESTS_IMAGE_NAME: ${{ github.repository }}-e2e-tests
 jobs:
   check-base-image:
     runs-on: ubuntu-latest
@@ -194,6 +195,32 @@ jobs:
     outputs:
       result: ${{ steps.current.conclusion }}
 
+  check-e2e-tests-image:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout repository
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        uses: actions/checkout@v4
+      - name: Set ENV vars
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        id: version
+        run: |
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+      - uses: cloudposse/github-action-docker-image-exists@main
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        id: current
+        with:
+          registry: ${{ env.REGISTRY }}
+          login: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image_name: ${{ env.E2E_TESTS_IMAGE_NAME }}
+          organization: ${{ github.event.repository.owner.login }}
+          repository: ${{ github.event.repository.name }}
+          tag: ${{ steps.version.outputs.app_version }}
+    outputs:
+      result: ${{ steps.current.conclusion }}
+
   build-and-push-base-image:
     runs-on: ubuntu-latest
     needs: [check-base-image]
@@ -226,7 +253,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/base.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }},${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -271,7 +298,7 @@ jobs:
           push: true
           file: ./.docker/base-server.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -314,7 +341,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/base-migrations.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }},${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -359,7 +386,7 @@ jobs:
           push: true
           file: ./.docker/migrations.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -403,14 +430,14 @@ jobs:
           push: true
           file: ./.docker/builder.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }},${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.MIGRATIONS_IMAGE_NAME}}
+          subject-name: ${{ env.REGISTRY }}/${{ env.BUILDER_IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
@@ -453,7 +480,7 @@ jobs:
           push: true
           file: ./.docker/server.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.app_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -502,7 +529,7 @@ jobs:
           context: .
           push: true
           file: ./.docker/nginx.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
@@ -510,5 +537,50 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.NGINX_IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  build-and-push-e2e-tests-image:
+    runs-on: ubuntu-latest
+    needs: [build-and-push-base-image, check-base-image, check-e2e-tests-image]
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        uses: actions/checkout@v4
+      - name: Set ENV vars
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        id: version
+        run: |
+          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+      - name: Log in to the Container registry
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          file: ./.docker/e2e-tests.Dockerfile
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          cache-to: type=inline
+      - name: Generate artifact attestation
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.E2E_TESTS_IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true

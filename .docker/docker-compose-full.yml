@@ -8,8 +8,6 @@ services:
     container_name: 'nestjs-mod-fullstack-postgre-sql'
     networks:
       - 'nestjs-mod-fullstack-network'
-    volumes:
-      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -23,6 +21,8 @@ services:
       POSTGRESQL_USERNAME: '${SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
       POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
       POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+    volumes:
+      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
   nestjs-mod-fullstack-postgre-sql-migrations:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:0.0.1'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
@@ -36,8 +36,12 @@ services:
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
         condition: 'service_healthy'
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
   nestjs-mod-fullstack-server:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:0.0.1'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:latest'
     container_name: 'nestjs-mod-fullstack-server'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -61,7 +65,7 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-nginx:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:0.0.1'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:latest'
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -83,6 +87,20 @@ services:
         condition: service_healthy
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
+  nestjs-mod-fullstack-e2e-tests:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:0.0.1'
+    container_name: 'nestjs-mod-fullstack-e2e-tests'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      BASE_URL: 'http://localhost:${NGINX_PORT}'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_healthy
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
   nestjs-mod-fullstack-https-portal:
     image: steveltn/https-portal:1
     container_name: 'nestjs-mod-fullstack-https-portal'
@@ -99,7 +117,7 @@ services:
       DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${SERVER_PORT}'
     depends_on:
       nestjs-mod-fullstack-nginx:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
