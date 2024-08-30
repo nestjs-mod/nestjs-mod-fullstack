@@ -15,4 +15,4 @@ RUN apk add openjdk11-jre
 # Clean up
 RUN rm -rf /var/cache/apk/*
 
-CMD ["npm","run", "only-build:prod"]
+CMD ["npm","run", "build:prod"]
