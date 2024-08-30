@@ -2,7 +2,6 @@
   "name": "server-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["server"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
@@ -10,8 +9,7 @@
       "options": {
         "jestConfig": "apps/server-e2e/jest.config.ts",
         "passWithNoTests": true
-      },
-      "dependsOn": ["server:build"]
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint"

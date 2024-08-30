@@ -1,7 +1,7 @@
 version: '3'
 networks:
   nestjs-mod-fullstack-network:
-    driver: "bridge"
+    driver: 'bridge'
 services:
   nestjs-mod-fullstack-postgre-sql:
     image: 'bitnami/postgresql:15.5.0'
@@ -73,7 +73,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${NGINX_PORT}/api/health --log http://localhost:${NGINX_PORT}',
+          'curl -so /dev/null http://localhost:${NGINX_PORT} || exit 1',
         ]
       interval: 30s
       timeout: 10s
@@ -88,12 +88,12 @@ services:
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
   nestjs-mod-fullstack-e2e-tests:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:0.0.1'
+    image: 'demo'
     container_name: 'nestjs-mod-fullstack-e2e-tests'
     networks:
       - 'nestjs-mod-fullstack-network'
     environment:
-      BASE_URL: 'http://localhost:${NGINX_PORT}'
+      BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_healthy
@@ -101,6 +101,7 @@ services:
     volumes:
       - './../apps:/usr/src/app/apps'
       - './../libs:/usr/src/app/libs'
+      - './../.docker/nx.json:/usr/src/app/nx.json'
   nestjs-mod-fullstack-https-portal:
     image: steveltn/https-portal:1
     container_name: 'nestjs-mod-fullstack-https-portal'

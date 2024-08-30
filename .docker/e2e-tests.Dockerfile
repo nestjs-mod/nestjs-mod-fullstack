@@ -14,4 +14,7 @@ ENV BASE_URL=http://localhost:8080
 COPY ./apps ./apps
 COPY ./libs ./libs
 
+# Install external utils
+RUN npx playwright install
+
 CMD ["npm","run", "test:e2e"]
