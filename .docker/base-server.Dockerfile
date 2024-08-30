@@ -14,7 +14,7 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install dependencies
 RUN npm install
 # Installing utilities to generate additional files
-RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11 @nx/playwright
+RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11 @nx/playwright @swc-node/register@1.9.1 @swc/core@1.5.7
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
