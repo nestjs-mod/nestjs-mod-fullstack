@@ -493,7 +493,7 @@ jobs:
 
   build-and-push-nginx-image:
     runs-on: ubuntu-latest
-    needs: [check-nginx-image]
+    needs: [build-and-push-builder-image, check-nginx-image]
     permissions:
       contents: read
       packages: write
