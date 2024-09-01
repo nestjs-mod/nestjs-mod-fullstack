@@ -28,9 +28,6 @@ RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@ngneat && \
     rm -rf /usr/src/app/node_modules/@types && \
     rm -rf /usr/src/app/node_modules/@ng-packagr && \
-    rm -rf /usr/src/app/node_modules/@swc-node && \
-    rm -rf /usr/src/app/node_modules/@swc && \
-    rm -rf /usr/src/app/node_modules/@playwright/test && \
     rm -rf /usr/src/app/apps && \
     rm -rf /usr/src/app/libs
 

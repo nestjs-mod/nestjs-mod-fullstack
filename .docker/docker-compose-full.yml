@@ -88,7 +88,7 @@ services:
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
   nestjs-mod-fullstack-e2e-tests:
-    image: 'demo'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:0.0.1'
     container_name: 'nestjs-mod-fullstack-e2e-tests'
     networks:
       - 'nestjs-mod-fullstack-network'

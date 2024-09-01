@@ -11,10 +11,12 @@ RUN apk add jq
 RUN rm -rf /var/cache/apk/*
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
+# Remove plugins section from nx config
+RUN echo $(cat nx.json | jq 'del(.plugins)') > nx.json
 # Install dependencies
 RUN npm install
 # Installing utilities to generate additional files
-RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11 @nx/playwright @swc-node/register@1.9.1 @swc/core@1.5.7 @playwright/test
+RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 

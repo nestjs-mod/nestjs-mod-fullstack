@@ -9,6 +9,8 @@ RUN apt-get update && \
     apt-get install -y jq
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
+# Remove plugins section from nx config
+RUN echo $(cat nx.json | jq 'del(.plugins)') > nx.json
 # Install dependencies
 RUN npm install
 # Installing utilities to generate additional files

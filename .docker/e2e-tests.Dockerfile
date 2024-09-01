@@ -17,4 +17,7 @@ COPY ./libs ./libs
 # Install external utils
 RUN npx playwright install
 
+# Installing utilities to generate additional files
+RUN npm install --save-dev @nx/playwright @swc-node/register@1.9.1 @swc/core@1.5.7 @playwright/test
+
 CMD ["npm","run", "test:e2e"]
