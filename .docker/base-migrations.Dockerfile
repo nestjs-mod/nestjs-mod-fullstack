@@ -4,6 +4,10 @@ WORKDIR /usr/src/app
 # Copy all files in repository to image
 COPY . .
 
+# Copy the settings
+COPY ./.docker/.dockerignore .dockerignore
+COPY ./.docker/nx.json nx.json
+
 # JSON utils 
 RUN apt-get update && \
     apt-get install -y jq
@@ -25,8 +29,8 @@ WORKDIR /usr/src/app
 # Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy the settings
-COPY --from=builder /usr/src/app/.docker/.dockerignore /usr/src/app/.dockerignore
-COPY --from=builder /usr/src/app/.docker/nx.json /usr/src/app/nx.json
+COPY --from=builder /usr/src/app/.dockerignore /usr/src/app/.dockerignore
+COPY --from=builder /usr/src/app/nx.json /usr/src/app/nx.json
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
 COPY --from=builder /usr/src/app/tsconfig.base.json /usr/src/app/tsconfig.base.json
