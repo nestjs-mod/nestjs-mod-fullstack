@@ -17,7 +17,7 @@ COPY ./libs ./libs
 COPY ./apps/server/package.json ./dist/apps/server/package.json
 
 # Generating additional code
-RUN npm run prisma:generate
+RUN npm run prisma:generate -- --verbose
 # Remove unnecessary packages
 RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@prisma-class-generator && \
