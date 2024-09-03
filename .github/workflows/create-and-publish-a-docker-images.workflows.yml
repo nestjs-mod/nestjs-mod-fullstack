@@ -6,7 +6,6 @@ env:
   REGISTRY: ghcr.io
   BASE_IMAGE_NAME: ${{ github.repository }}-base
   BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server
-  BASE_MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-base-migrations
   BUILDER_IMAGE_NAME: ${{ github.repository }}-builder
   MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-migrations
   SERVER_IMAGE_NAME: ${{ github.repository }}-server
@@ -65,32 +64,6 @@ jobs:
     outputs:
       result: ${{ steps.current.conclusion }}
   
-  check-base-migrations-image:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        uses: actions/checkout@v4
-      - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        id: version
-        run: |
-          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.BASE_MIGRATIONS_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.root_version }}
-    outputs:
-      result: ${{ steps.current.conclusion }}
-
   check-builder-image:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -309,52 +282,9 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-  build-and-push-base-migrations-image:
-    runs-on: ubuntu-latest
-    needs: [check-base-migrations-image]
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
-    steps:
-      - name: Checkout repository
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
-        uses: actions/checkout@v4
-      - name: Set ENV vars
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
-        id: version
-        run: |
-          echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - name: Log in to the Container registry
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Docker image
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
-        id: push
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-        with:
-          context: .
-          push: true
-          file: ./.docker/base-migrations.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }},${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
-          cache-to: type=inline
-      - name: Generate artifact attestation
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.BASE_MIGRATIONS_IMAGE_NAME}}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
-
   build-and-push-migrations-image:
     runs-on: ubuntu-latest
-    needs: [build-and-push-base-migrations-image, check-base-migrations-image, check-migrations-image]
+    needs: [check-migrations-image]
     permissions:
       contents: read
       packages: write
@@ -362,23 +292,23 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -390,7 +320,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-migrations-image.outputs.result != 'success' || needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.MIGRATIONS_IMAGE_NAME}}
