@@ -29,7 +29,7 @@ jobs:
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}1
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
