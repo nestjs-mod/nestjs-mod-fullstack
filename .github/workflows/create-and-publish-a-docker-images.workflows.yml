@@ -24,6 +24,11 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+      - name: Generate and build production code
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        run: |
+          export TOKEN=$(curl -u <username>:<personal_access_token> https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - uses: cloudposse/github-action-docker-image-exists@main
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
         id: current
