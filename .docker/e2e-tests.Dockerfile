@@ -1,4 +1,4 @@
-FROM node:20-bullseye-slim AS builder
+FROM node:20-bullseye-slim
 WORKDIR /usr/src/app
 
 # Disable nx daemon
@@ -14,16 +14,19 @@ COPY ./.docker/e2e-tests-package.json package.json
 COPY ./.docker/.dockerignore .dockerignore
 COPY ./.docker/nx.json nx.json
 
-# Install dependencies
-RUN npm install
 # Some utilities require a ".env" file
 RUN echo '' > .env
 
-# Copy folders with migrations
-COPY ./apps ./apps
-COPY ./libs ./libs
+# Install dependencies
+RUN rm -rf package-lock.json && \
+    npm install && \
+    # Install external utils
+    npx playwright install --with-deps && \
+    # Clear cache
+    npm cache clean --force
 
-# Install external utils
-RUN npx playwright install --with-deps
+# Copy folders with migrations
+# COPY ./apps ./apps
+# COPY ./libs ./libs
 
 CMD ["npm","run", "test:e2e"]

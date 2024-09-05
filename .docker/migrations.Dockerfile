@@ -19,7 +19,7 @@ RUN apt-get update && \
 RUN echo $(cat nx.json | jq 'del(.plugins)') > nx.json
 
 # Install dependencies
-RUN npm install
+RUN rm -rf package-lock.json && npm install
 # Some utilities require a ".env" file
 RUN echo '' > .env
 
@@ -43,7 +43,7 @@ COPY --from=builder /usr/src/app/tmp /usr/src/app/tmp
 COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
 
 # Copy folders with migrations
-COPY ./apps ./apps
-COPY ./libs ./libs
+# COPY ./apps ./apps
+# COPY ./libs ./libs
 
 CMD ["npm","run", "db:create-and-fill"]
