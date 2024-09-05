@@ -17,22 +17,22 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: check-exists
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -43,50 +43,50 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.BASE_SERVER_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.app_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_SERVER_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
-  
+
   check-builder-image:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.BUILDER_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.root_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BUILDER_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BUILDER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -95,24 +95,24 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.MIGRATIONS_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.app_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.MIGRATIONS_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.MIGRATIONS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -121,24 +121,24 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.SERVER_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.app_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.SERVER_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -147,24 +147,24 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.NGINX_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.app_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.NGINX_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.NGINX_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -173,24 +173,24 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: version
         run: |
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.E2E_TESTS_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.app_version }}
+      - name: Check exists docker image
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
+        id: check-exists
+        run: |
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.E2E_TESTS_IMAGE_NAME}}:pull" | jq -r .token)
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.E2E_TESTS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
       result: ${{ steps.current.conclusion }}
 
@@ -204,22 +204,22 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -230,7 +230,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BASE_IMAGE_NAME}}
@@ -239,7 +239,8 @@ jobs:
 
   build-and-push-base-server-image:
     runs-on: ubuntu-latest
-    needs: [build-and-push-base-image, check-base-image, check-base-server-image]
+    needs:
+      [build-and-push-base-image, check-base-image, check-base-server-image]
     permissions:
       contents: read
       packages: write
@@ -247,23 +248,23 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -275,7 +276,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BASE_SERVER_IMAGE_NAME}}
@@ -292,23 +293,23 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
-        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -320,7 +321,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')}}
+        if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.MIGRATIONS_IMAGE_NAME}}
@@ -337,22 +338,22 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -364,7 +365,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.BUILDER_IMAGE_NAME}}
@@ -373,7 +374,13 @@ jobs:
 
   build-and-push-server-image:
     runs-on: ubuntu-latest
-    needs: [build-and-push-builder-image, build-and-push-base-server-image, check-base-image, check-server-image]
+    needs:
+      [
+        build-and-push-builder-image,
+        build-and-push-base-server-image,
+        check-base-image,
+        check-server-image,
+      ]
     permissions:
       contents: read
       packages: write
@@ -381,28 +388,28 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate and build production code
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         run: |
           mkdir -p dist
           docker run --name generate-and-build-production-code -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
       - name: Build and push Docker image
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -414,7 +421,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.SERVER_IMAGE_NAME}}
@@ -431,28 +438,28 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate and build production code
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         run: |
           mkdir -p dist
           docker run --name generate-and-build-production-code -v ${PWD}/dist:/usr/src/app/dist -v ${PWD}/apps:/usr/src/app/apps -v ${PWD}/libs:/usr/src/app/libs ${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
       - name: Build and push Docker image
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -463,7 +470,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]')}}
+        if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.NGINX_IMAGE_NAME}}
@@ -480,23 +487,23 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
           echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
@@ -508,7 +515,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
-        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]')}}
+        if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.E2E_TESTS_IMAGE_NAME}}
