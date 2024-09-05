@@ -25,23 +25,18 @@ jobs:
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
+        id: check-exists
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]')}}
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}1
-      - uses: cloudposse/github-action-docker-image-exists@main
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]')}}
-        id: current
-        with:
-          registry: ${{ env.REGISTRY }}
-          login: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: ${{ env.BASE_IMAGE_NAME }}
-          organization: ${{ github.event.repository.owner.login }}
-          repository: ${{ github.event.repository.name }}
-          tag: ${{ steps.version.outputs.root_version }}
+      - name: Store result of check exists docker image
+        id: store-check-exists
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        run: |
+          echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
-      result: ${{ steps.current.conclusion }}
+      result: ${{ steps.store-check-exists.outputs.conclusion }}
 
   check-base-server-image:
     runs-on: ubuntu-latest
