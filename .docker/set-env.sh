@@ -3,7 +3,6 @@ set -e
 
 export REPOSITORY=nestjs-mod/nestjs-mod-fullstack
 export REGISTRY=ghcr.io
-export BASE_IMAGE_NAME="${REPOSITORY}-base"
 export BASE_SERVER_IMAGE_NAME="${REPOSITORY}-base-server"
 export BUILDER_IMAGE_NAME="${REPOSITORY}-builder"
 export MIGRATIONS_IMAGE_NAME="${REPOSITORY}-migrations"

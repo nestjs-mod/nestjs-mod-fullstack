@@ -11,8 +11,8 @@ COPY . .
 
 # Copy the settings
 COPY ./.docker/e2e-tests-package.json package.json
+COPY ./.docker/e2e-tests-nx.json nx.json
 COPY ./.docker/.dockerignore .dockerignore
-COPY ./.docker/nx.json nx.json
 
 # Some utilities require a ".env" file
 RUN echo '' > .env
