@@ -24,7 +24,7 @@ services:
     volumes:
       - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
   nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:0.0.1'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -41,7 +41,7 @@ services:
       - './../apps:/usr/src/app/apps'
       - './../libs:/usr/src/app/libs'
   nestjs-mod-fullstack-server:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:latest'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-server'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -65,7 +65,7 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-nginx:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:latest'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -88,7 +88,7 @@ services:
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
   nestjs-mod-fullstack-e2e-tests:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:0.0.1'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-e2e-tests'
     networks:
       - 'nestjs-mod-fullstack-network'

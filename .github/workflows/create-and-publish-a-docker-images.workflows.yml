@@ -15,6 +15,7 @@ env:
   NX_DAEMON: false
   NX_PARALLEL: 1
   NX_SKIP_NX_CACHE: true
+  DISABLE_SERVE_STATIC: true
 jobs:
   check-base-image:
     runs-on: ubuntu-latest
@@ -53,13 +54,13 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_SERVER_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
@@ -105,13 +106,13 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: version
         run: |
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.MIGRATIONS_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.MIGRATIONS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.MIGRATIONS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
@@ -131,13 +132,13 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: version
         run: |
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.SERVER_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
@@ -157,13 +158,13 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: version
         run: |
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.NGINX_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.NGINX_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.NGINX_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
@@ -183,13 +184,13 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: version
         run: |
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.E2E_TESTS_IMAGE_NAME}}:pull" | jq -r .token)
-          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.E2E_TESTS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.app_version }}
+          curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.E2E_TESTS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
@@ -259,7 +260,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -276,8 +277,8 @@ jobs:
           push: true
           file: ./.docker/base-server.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.server_version }},${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
@@ -304,7 +305,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -321,8 +322,8 @@ jobs:
           push: true
           file: ./.docker/migrations.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.server_version }},${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ (needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')) }}
@@ -404,7 +405,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -425,9 +426,9 @@ jobs:
           context: .
           push: true
           file: ./.docker/server.Dockerfile
-          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.app_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.server_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.server_version }},${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
@@ -458,7 +459,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -479,8 +480,8 @@ jobs:
           context: .
           push: true
           file: ./.docker/nginx.Dockerfile
-          tags: ${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.server_version }},${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
@@ -512,7 +513,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "app_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -529,8 +530,8 @@ jobs:
           push: true
           file: ./.docker/e2e-tests.Dockerfile
           build-args: BASE_IMAGE_TAG=${{ steps.version.outputs.root_version }}
-          tags: ${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }},${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.app_version }}
+          tags: ${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.server_version }},${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
         if: ${{ needs.check-base-image.outputs.result != 'success' || needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
