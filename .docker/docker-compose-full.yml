@@ -101,7 +101,6 @@ services:
     volumes:
       - './../apps:/usr/src/app/apps'
       - './../libs:/usr/src/app/libs'
-      - './../.docker/nx.json:/usr/src/app/nx.json'
   nestjs-mod-fullstack-https-portal:
     image: steveltn/https-portal:1
     container_name: 'nestjs-mod-fullstack-https-portal'
