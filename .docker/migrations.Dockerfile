@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 ENV NX_DAEMON=false
 
 # Copy all files in repository to image
-COPY . .
+COPY --chown=node:node . .
 
 # Copy the settings
 COPY ./.docker/migrations-package.json package.json
@@ -37,7 +37,7 @@ COPY --from=builder /usr/src/app/tmp /usr/src/app/tmp
 COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
 
 # Copy folders with migrations
-# COPY ./apps ./apps
-# COPY ./libs ./libs
+# COPY --chown=node:node ./apps ./apps
+# COPY --chown=node:node ./libs ./libs
 
 CMD ["npm","run", "db:create-and-fill"]

@@ -28,6 +28,7 @@ npm run test:server
 |**pm2-full dev infra**|
 |`npm run pm2-full:dev:start`|Launching infrastructure and all applications in watch mode via PM2|
 |`npm run pm2-full:dev:stop`|Stopping infrastructure and all applications in watch mode via PM2|
+|`npm run pm2-full:dev:test:e2e`||
 |**dev infra**|
 |`npm run serve:dev`|Running NestJS application source code in watch mode|
 |`npm run serve:dev:server`|Running server source code in watch mode|
@@ -37,6 +38,7 @@ npm run test:server
 |**pm2-full prod infra**|
 |`npm run pm2-full:prod:start`|Launching the infrastructure and building all applications, followed by launching them via PM2|
 |`npm run pm2-full:prod:stop`|Stopping infrastructure and all applications running through PM2|
+|`npm run pm2-full:prod:test:e2e`||
 |**prod infra**|
 |`npm run start`|Launching a built NestJS application (you must first build it using the build command)|
 |`npm run build`|Building a NestJS application|
@@ -79,7 +81,6 @@ npm run test:server
 |`npm run prisma:pull`|Generating a prisma schema based on a database|
 |`npm run prisma:generate`|Generation of client prisma schema of all applications and modules|
 |**utils**|
-|`npm run only-generate`||
 |`npm run generate`|Running the "generate" nx command in applications and libraries which can be customized at your discretion automatically generating an index.ts file for each library checking the code and trying to fix it|
 |`npm run tsc`|Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`), in order not to install tsc globally in the operating system|
 |`npm run nx`|Alias for running the nx version locally, which is in the project (example: `./node_modules/.bin/nx dep-graph`), in order not to install nx globally in the operating system|

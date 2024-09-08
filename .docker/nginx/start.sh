@@ -18,8 +18,10 @@ else
     NGINX_PORT="${NGINX_PORT}"
 fi
 
+# Replacing Nginx Dynamic Parameters
 sed -i "s/___SERVER_NAME___/$SERVER_NAME/g" /etc/nginx/conf.d/nginx.conf
 sed -i "s/___SERVER_PORT___/$SERVER_PORT/g" /etc/nginx/conf.d/nginx.conf
 sed -i "s/___NGINX_PORT___/$NGINX_PORT/g" /etc/nginx/conf.d/nginx.conf
 
+# Launch Nginx
 /usr/sbin/nginx -g "daemon off;"

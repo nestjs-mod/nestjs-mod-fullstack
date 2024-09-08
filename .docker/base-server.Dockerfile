@@ -1,10 +1,8 @@
-ARG REGISTRY=ghcr.io
-
 FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
 
 # Copy all files in repository to image
-COPY . .
+COPY --chown=node:node . .
 
 # Install utils
 RUN apk add jq dumb-init

@@ -7,7 +7,7 @@ ENV NX_DAEMON=false
 ENV BASE_URL=http://localhost:8080
 
 # Copy all files in repository to image
-COPY . .
+COPY --chown=node:node . .
 
 # Copy the settings
 COPY ./.docker/e2e-tests-package.json package.json
@@ -26,7 +26,7 @@ RUN rm -rf package-lock.json && \
     npm cache clean --force
 
 # Copy folders with migrations
-# COPY ./apps ./apps
-# COPY ./libs ./libs
+# COPY --chown=node:node ./apps ./apps
+# COPY --chown=node:node ./libs ./libs
 
 CMD ["npm","run", "test:e2e"]

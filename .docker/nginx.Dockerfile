@@ -6,9 +6,9 @@ ENV SERVER_PORT=8080
 ENV NGINX_PORT=8080
 
 # Copy nginx config
-COPY ../.docker/nginx /etc/nginx/conf.d
+COPY --chown=node:node ../.docker/nginx /etc/nginx/conf.d
 # Copy frontend
-COPY ../dist/apps/client/browser /usr/share/nginx/html
+COPY --chown=node:node ../dist/apps/client/browser /usr/share/nginx/html
 
 # Install Bash Shell
 RUN apk add --update bash
@@ -16,7 +16,7 @@ RUN apk add --update bash
 RUN rm -rf /var/cache/apk/*
 
 # Add a startup script
-COPY ../.docker/nginx/start.sh /start.sh
+COPY --chown=node:node ../.docker/nginx/start.sh /start.sh
 RUN chmod 755 /start.sh
 
 # Expose nginx port

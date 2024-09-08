@@ -1,10 +1,8 @@
-ARG REGISTRY=ghcr.io
-
 FROM node:20.16.0-alpine AS builder
 WORKDIR /usr/src/app
 
 # Copy all files in repository to image
-COPY . .
+COPY --chown=node:node . .
 
 # Install utils
 RUN apk add dumb-init
@@ -34,10 +32,20 @@ COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
 COPY --from=builder /usr/src/app/tsconfig.base.json /usr/src/app/tsconfig.base.json
 COPY --from=builder /usr/src/app/.env /usr/src/app/.env
+# Copy the settings for linting
+COPY --from=builder /usr/src/app/.nxignore /usr/src/app/.nxignore
+COPY --from=builder /usr/src/app/.eslintrc.json /usr/src/app/.eslintrc.json
+COPY --from=builder /usr/src/app/.eslintignore /usr/src/app/.eslintignore
+COPY --from=builder /usr/src/app/.prettierignore /usr/src/app/.prettierignore
+COPY --from=builder /usr/src/app/.prettierrc /usr/src/app/.prettierrc
+COPY --from=builder /usr/src/app/jest.config.ts /usr/src/app/jest.config.ts
+COPY --from=builder /usr/src/app/jest.preset.js /usr/src/app/jest.preset.js
 
 # Install java
 RUN apk add openjdk11-jre
 # Clean up
 RUN rm -rf /var/cache/apk/*
 
-CMD ["npm","run", "build:prod"]
+# We build the source code as the "node" user 
+# and set permissions for new files: full access from outside the container
+CMD npm run build:prod && chmod -R augo+rw libs apps dist

@@ -9,12 +9,12 @@ WORKDIR /usr/src/app
 ENV NX_DAEMON=false
 
 # Copy the generated code
-COPY ./dist ./dist
+COPY --chown=node:node ./dist ./dist
 # Copy prisma schema files
-COPY ./apps ./apps
-COPY ./libs ./libs
+COPY --chown=node:node ./apps ./apps
+COPY --chown=node:node ./libs ./libs
 # Copy the application's package.json file to use its information at runtime.
-COPY ./apps/server/package.json ./dist/apps/server/package.json
+COPY --chown=node:node ./apps/server/package.json ./dist/apps/server/package.json
 
 # Generating additional code
 RUN npm run prisma:generate -- --verbose
