@@ -20,8 +20,7 @@
     "_____prod infra_____": "_____prod infra_____",
     "start": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start",
     "build": "npm run generate && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=build --skip-nx-cache=true",
-    "build:prod": "npm run generate && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=build --skip-nx-cache=true -c production",
-    "start:prod:server": "./node_modules/.bin/nx start server",
+    "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=build --skip-nx-cache=true -c production",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
     "pm2:stop": "./node_modules/.bin/pm2 delete all",
@@ -147,7 +146,9 @@
     "pm2-full:dev:stop": [
       "Stopping infrastructure and all applications in watch mode via PM2"
     ],
-    "pm2-full:dev:test:e2e": [],
+    "pm2-full:dev:test:e2e": [
+      "Running E2E tests for all applications in PM2 dev mode"
+    ],
     "serve:dev": [
       "Running NestJS application source code in watch mode"
     ],
@@ -166,16 +167,17 @@
     "pm2-full:prod:stop": [
       "Stopping infrastructure and all applications running through PM2"
     ],
-    "pm2-full:prod:test:e2e": [],
+    "pm2-full:prod:test:e2e": [
+      "Running E2E tests for all applications in PM2 prod mode"
+    ],
     "start": [
       "Launching a built NestJS application (you must first build it using the build command)"
     ],
     "build": [
       "Building a NestJS application"
     ],
-    "build:prod": [],
-    "start:prod:server": [
-      "Launching a built server (you must first build it using the build command)"
+    "build:prod": [
+      "Building a NestJS application in prod mode"
     ],
     "pm2:start": [
       "Launch all applications in PM2 mode"
@@ -183,7 +185,9 @@
     "pm2:stop": [
       "Stop all applications in PM2 mode"
     ],
-    "docker-compose-full:prod:build": [],
+    "docker-compose-full:prod:build": [
+      "Building Docker images"
+    ],
     "docker-compose-full:prod:start": [
       "Build and launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx"
     ],

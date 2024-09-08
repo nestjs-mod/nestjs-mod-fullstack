@@ -7,13 +7,15 @@ COPY --chown=node:node . .
 # Install utils
 RUN apk add jq dumb-init
 # Clean up
-RUN rm -rf /var/cache/apk/*
+RUN rm -rf /var/cache/apk/* node_modules
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install deps
-RUN npm install
+RUN npm install --prefer-offline --no-audit --progress=false
 # Installing utilities to generate additional files
-RUN npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev nx@19.5.3
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev prisma@5.18.0
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev prisma-class-generator@0.2.11
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

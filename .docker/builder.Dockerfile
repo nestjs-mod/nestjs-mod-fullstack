@@ -7,9 +7,9 @@ COPY --chown=node:node . .
 # Install utils
 RUN apk add dumb-init
 # Clean up
-RUN rm -rf /var/cache/apk/*
+RUN rm -rf /var/cache/apk/* node_modules
 # Install deps
-RUN npm install
+RUN npm install --prefer-offline --no-audit --progress=false
 # Some utilities require a ".env" file
 RUN echo '' > .env
 
@@ -48,4 +48,4 @@ RUN rm -rf /var/cache/apk/*
 
 # We build the source code as the "node" user 
 # and set permissions for new files: full access from outside the container
-CMD npm run build:prod && chmod -R augo+rw libs apps dist
+CMD ["npm","run", "build:prod"]

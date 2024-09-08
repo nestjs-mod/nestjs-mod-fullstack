@@ -13,7 +13,7 @@ COPY ./.docker/.dockerignore .dockerignore
 COPY ./.docker/nx.json nx.json
 
 # Install dependencies
-RUN rm -rf package-lock.json && npm install
+RUN rm -rf package-lock.json node_modules && npm install --prefer-offline --no-audit --progress=false
 # Some utilities require a ".env" file
 RUN echo '' > .env
 
