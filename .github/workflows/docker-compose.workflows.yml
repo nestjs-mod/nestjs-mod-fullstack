@@ -477,6 +477,8 @@ jobs:
           SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
           HTTPS_PORTAL_STAGE: ${{ secrets.HTTPS_PORTAL_STAGE }}
+          SERVER_PORT: 9090
+          NGINX_PORT: 8080
         run: |
           . .docker/set-env.sh
           docker stop $(docker ps -a -q) || echo 'docker containers not started'
