@@ -209,6 +209,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BASE_SERVER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
@@ -252,6 +253,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.MIGRATIONS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ (needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]')) }}
         uses: actions/attest-build-provenance@v1
         with:
@@ -295,6 +297,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.BUILDER_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
@@ -350,6 +353,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.SERVER_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
@@ -399,6 +403,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.NGINX_IMAGE_NAME}}:${{ steps.version.outputs.server_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
@@ -442,6 +447,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY}}/${{ env.E2E_TESTS_IMAGE_NAME}}:${{ steps.version.outputs.root_version }}
           cache-to: type=inline
       - name: Generate artifact attestation
+        continue-on-error: true
         if: ${{ needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: actions/attest-build-provenance@v1
         with:
