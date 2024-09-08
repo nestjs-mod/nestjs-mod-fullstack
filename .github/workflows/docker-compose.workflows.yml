@@ -453,9 +453,7 @@ jobs:
     environment: docker-compose-full
     needs:
       [
-        build-and-push-base-server-image,
         build-and-push-migrations-image,
-        build-and-push-builder-image,
         build-and-push-server-image,
         build-and-push-nginx-image,
         build-and-push-e2e-tests-image,
@@ -480,6 +478,7 @@ jobs:
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
           HTTPS_PORTAL_STAGE: ${{ secrets.HTTPS_PORTAL_STAGE }}
         run: |
+          . .docker/set-env.sh
           docker stop $(docker ps -a -q) || echo 'docker containers not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
