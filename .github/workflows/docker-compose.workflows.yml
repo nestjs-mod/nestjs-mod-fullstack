@@ -451,6 +451,15 @@ jobs:
 
   deploy:
     environment: docker-compose-full
+    needs:
+      [
+        build-and-push-base-server-image,
+        build-and-push-migrations-image,
+        build-and-push-builder-image,
+        build-and-push-server-image,
+        build-and-push-nginx-image,
+        build-and-push-e2e-tests-image,
+      ]
     runs-on: [self-hosted]
 
     steps:
