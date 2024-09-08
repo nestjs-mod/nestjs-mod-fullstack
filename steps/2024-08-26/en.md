@@ -380,7 +380,7 @@ Current run of all E2E tests: `50s`
 
 In the next post, I will speed up the deployment by using public GitHub runners and creating intermediate images...
 
-### Ссылки
+### Links
 
 https://nestjs.com - the official website of the framework
 https://nestjs-mod.com - the official website of additional utilities
