@@ -1,7 +1,7 @@
 import { Configuration, DefaultApi } from '@nestjs-mod-fullstack/app-rest-sdk';
 
 describe('GET /api', () => {
-  const defaultApi = new DefaultApi(new Configuration({ basePath: '/api' }))
+  const defaultApi = new DefaultApi(new Configuration({ basePath: '/api' }));
   let newDemoObject: { id: string };
 
   it('should return a message', async () => {
@@ -21,7 +21,7 @@ describe('GET /api', () => {
   });
 
   it('should get demo object by id', async () => {
-    const res = await defaultApi.appControllerDemoFindOne(newDemoObject.id)
+    const res = await defaultApi.appControllerDemoFindOne(newDemoObject.id);
 
     expect(res.status).toBe(200);
     expect(res.data).toMatchObject(newDemoObject);
@@ -31,7 +31,9 @@ describe('GET /api', () => {
     const res = await defaultApi.appControllerDemoFindMany();
 
     expect(res.status).toBe(200);
-    expect(res.data.filter(row => row.id === newDemoObject.id)).toMatchObject([newDemoObject]);
+    expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
+      [newDemoObject]
+    );
   });
 
   it('should delete demo object by id', async () => {
@@ -45,6 +47,8 @@ describe('GET /api', () => {
     const res = await defaultApi.appControllerDemoFindMany();
 
     expect(res.status).toBe(200);
-    expect(res.data.filter(row => row.id === newDemoObject.id)).toMatchObject([]);
+    expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
+      []
+    );
   });
 });

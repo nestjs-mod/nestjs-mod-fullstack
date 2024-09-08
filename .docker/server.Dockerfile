@@ -1,27 +1,25 @@
+ARG BASE_SERVER_IMAGE_TAG=latest
+ARG REGISTRY=ghcr.io
+ARG BASE_SERVER_IMAGE_NAME=nestjs-mod/nestjs-mod-fullstack-base-server
 
-FROM node:20.16.0-alpine AS builder
+FROM ${REGISTRY}/${BASE_SERVER_IMAGE_NAME}:${BASE_SERVER_IMAGE_TAG} AS builder
 WORKDIR /usr/src/app
-COPY . .
-# To work as a PID 1
-RUN apk add dumb-init
-# Remove dev dependencies
-RUN apk add jq
-RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
-# Removing unnecessary settings
-RUN rm -rf nx.json package-lock.json .dockerignore && \
-    # Replacing the settings
-    cp .docker/nx.json nx.json && \
-    cp .docker/.dockerignore .dockerignore && \
-    # Install dependencies
-    npm install && \
-    # Installing utilities to generate additional files
-    npm install --save-dev nx@19.5.3 prisma@5.18.0 prisma-class-generator@0.2.11 && \
-    # Some utilities require a ".env" file
-    echo '' > .env && \ 
-    # Generating additional code
-    npm run prisma:generate && \
-    # Remove unnecessary packages
-    rm -rf /usr/src/app/node_modules/@nx && \
+
+# Disable nx daemon
+ENV NX_DAEMON=false
+
+# Copy the generated code
+COPY --chown=node:node ./dist ./dist
+# Copy prisma schema files
+COPY --chown=node:node ./apps ./apps
+COPY --chown=node:node ./libs ./libs
+# Copy the application's package.json file to use its information at runtime.
+COPY --chown=node:node ./apps/server/package.json ./dist/apps/server/package.json
+
+# Generating additional code
+RUN npm run prisma:generate -- --verbose
+# Remove unnecessary packages
+RUN rm -rf /usr/src/app/node_modules/@nx && \
     rm -rf /usr/src/app/node_modules/@prisma-class-generator && \
     rm -rf /usr/src/app/node_modules/@angular  && \
     rm -rf /usr/src/app/node_modules/@swc  && \
@@ -29,17 +27,23 @@ RUN rm -rf nx.json package-lock.json .dockerignore && \
     rm -rf /usr/src/app/node_modules/@angular-devkit && \
     rm -rf /usr/src/app/node_modules/@ngneat && \
     rm -rf /usr/src/app/node_modules/@types && \
-    rm -rf /usr/src/app/node_modules/@ng-packagr
+    rm -rf /usr/src/app/node_modules/@ng-packagr && \
+    rm -rf /usr/src/app/apps && \
+    rm -rf /usr/src/app/libs
 
 FROM node:20.16.0-alpine
 WORKDIR /usr/src/app
+
+# Set server port
+ENV SERVER_PORT=8080
+
 # Copy all project files
 COPY --from=builder /usr/src/app/ /usr/src/app/
 # Copy utility for "To work as a PID 1"
 COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
-# Set server port
-ENV SERVER_PORT=8080
-# Share port
+
+# Expose server port
 EXPOSE 8080
+
 # Run server
 CMD ["dumb-init","node", "dist/apps/server/main.js"]

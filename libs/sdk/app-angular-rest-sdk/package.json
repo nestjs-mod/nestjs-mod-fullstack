@@ -1,10 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/app-angular-rest-sdk",
   "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^18.1.0",
-    "@angular/core": "^18.1.0",
-    "rxjs": "^7.8.0"
-  },
+  "peerDependencies": {},
   "sideEffects": false
 }

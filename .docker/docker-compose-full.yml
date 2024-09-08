@@ -1,15 +1,13 @@
 version: '3'
 networks:
   nestjs-mod-fullstack-network:
-    driver: "bridge"
+    driver: 'bridge'
 services:
   nestjs-mod-fullstack-postgre-sql:
     image: 'bitnami/postgresql:15.5.0'
     container_name: 'nestjs-mod-fullstack-postgre-sql'
     networks:
       - 'nestjs-mod-fullstack-network'
-    volumes:
-      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -23,15 +21,13 @@ services:
       POSTGRESQL_USERNAME: '${SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
       POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
       POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+    volumes:
+      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
   nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'node:20-bullseye-slim'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'
-    working_dir: '/app'
-    volumes:
-      - './../:/app'
-    command: 'npm run docker-compose-full:prod:fill:database'
     tty: true
     environment:
       NX_SKIP_NX_CACHE: 'true'
@@ -40,8 +36,12 @@ services:
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
         condition: 'service_healthy'
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
   nestjs-mod-fullstack-server:
-    image: 'nestjs-mod-fullstack-server:latest'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-server'
     networks:
       - 'nestjs-mod-fullstack-network'
@@ -49,7 +49,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health',
+          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${SERVER_PORT}/api/health',
         ]
       interval: 30s
       timeout: 10s
@@ -57,6 +57,7 @@ services:
     tty: true
     environment:
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      SERVER_PORT: '${SERVER_PORT}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
@@ -64,19 +65,42 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-nginx:
-    image: nginx:alpine
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${SERVER_VERSION}'
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'
-    volumes:
-      - ../.docker/nginx:/etc/nginx/conf.d
-      - ../dist/apps/client/browser:/usr/share/nginx/html
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'curl -so /dev/null http://localhost:${NGINX_PORT} || exit 1',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    environment:
+      SERVER_PORT: '${SERVER_PORT}'
+      NGINX_PORT: '${NGINX_PORT}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:
         condition: service_healthy
     ports:
-      - '8080:8080'
+      - '${NGINX_PORT}:${NGINX_PORT}'
+  nestjs-mod-fullstack-e2e-tests:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:${ROOT_VERSION}'
+    container_name: 'nestjs-mod-fullstack-e2e-tests'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_healthy
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
   nestjs-mod-fullstack-https-portal:
     image: steveltn/https-portal:1
     container_name: 'nestjs-mod-fullstack-https-portal'
@@ -90,10 +114,10 @@ services:
     restart: always
     environment:
       STAGE: '${HTTPS_PORTAL_STAGE}'
-      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:8080'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
     depends_on:
       nestjs-mod-fullstack-nginx:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
 volumes:
