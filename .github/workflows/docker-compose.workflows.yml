@@ -2,7 +2,7 @@ name: 'Docker Compose'
 
 on:
   push:
-    branches: ['feature/post-27']
+    branches: ['master']
 env:
   REGISTRY: ghcr.io
   BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server
