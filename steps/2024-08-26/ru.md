@@ -1,6 +1,6 @@
 ## [2024-08-26] Добавляем CI/CD конфиг для деплоя на выделенный сервер с помощью GitHub Actions.
 
-Предыдущая статья: [Ручной деплой NestJS и Angular приложений на выделенном сервер через "Docker Compose" и "PM2"](https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/steps/2024-08-22/ru.md)
+Предыдущая статья: [Ручной деплой NestJS и Angular приложений на выделенном сервер через "Docker Compose" и "PM2"](https://habr.com/ru/articles/839400/)
 
 Прописываем секретные переменные окружения в гитхаб.
 
