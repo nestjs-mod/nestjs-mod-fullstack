@@ -114,7 +114,7 @@ services:
     restart: always
     environment:
       STAGE: '${HTTPS_PORTAL_STAGE}'
-      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${SERVER_PORT}'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_healthy
