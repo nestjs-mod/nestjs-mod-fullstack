@@ -10,7 +10,7 @@ In this post, I will set up the build of Docker images:
 
 ### 1. Creating a Docker image with all dependencies
 
-In this post, the code and Docker images will be collected on public runners, which have a limit per month in total execution time and with intensive development, this limit can easily be exhausted.
+In this post, the code and Docker images will be collected on public runners, which have a limit per month in total execution time and with intensive development, this limit can easily be exhausted, so you need to be prepared to move to your own runner. 
 
 In the previous post, dependencies were installed on the host machine in which the code was assembled, this was done as an example of how it is possible, but it is not necessary to do so.
 
