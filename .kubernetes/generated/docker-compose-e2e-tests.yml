@@ -6,12 +6,10 @@ services:
   nestjs-mod-fullstack-e2e-tests:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:0.0.2'
     container_name: 'nestjs-mod-fullstack-e2e-tests'
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - 'nestjs-mod-fullstack-network'
     environment:
-      BASE_URL: 'http://host.docker.internal:30222'
+      BASE_URL: 'http://example.com:30222'
     working_dir: '/usr/src/app'
     volumes:
       - './../../apps:/usr/src/app/apps'
