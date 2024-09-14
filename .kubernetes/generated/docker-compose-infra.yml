@@ -42,4 +42,5 @@ services:
       - './../../libs:/usr/src/app/libs'
 volumes:
   nestjs-mod-fullstack-postgre-sql-volume:
+    external: true
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
