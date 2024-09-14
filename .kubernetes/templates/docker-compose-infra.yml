@@ -1,0 +1,45 @@
+version: '3'
+networks:
+  nestjs-mod-fullstack-network:
+    driver: 'bridge'
+services:
+  nestjs-mod-fullstack-postgre-sql:
+    image: 'bitnami/postgresql:15.5.0'
+    container_name: 'nestjs-mod-fullstack-postgre-sql'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'pg_isready -U postgres'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
+    environment:
+      POSTGRESQL_USERNAME: '%SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME%'
+      POSTGRESQL_PASSWORD: '%SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD%'
+      POSTGRESQL_DATABASE: '%SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE%'
+    volumes:
+      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
+  nestjs-mod-fullstack-postgre-sql-migrations:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:%ROOT_VERSION%'
+    container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    tty: true
+    environment:
+      NX_SKIP_NX_CACHE: 'true'
+      SERVER_ROOT_DATABASE_URL: '%SERVER_ROOT_DATABASE_URL%'
+      SERVER_APP_DATABASE_URL: '%SERVER_APP_DATABASE_URL%'
+    depends_on:
+      nestjs-mod-fullstack-postgre-sql:
+        condition: 'service_healthy'
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../../apps:/usr/src/app/apps'
+      - './../../libs:/usr/src/app/libs'
+volumes:
+  nestjs-mod-fullstack-postgre-sql-volume:
+    name: 'nestjs-mod-fullstack-postgre-sql-volume'

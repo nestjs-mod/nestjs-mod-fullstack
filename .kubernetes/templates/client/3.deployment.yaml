@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: %NAMESPACE%-client-container
+  template:
+    metadata:
+      namespace: "%NAMESPACE%"
+      labels:
+        app: %NAMESPACE%-client
+        pod: %NAMESPACE%-client-container
+    spec:
+      containers:
+        - name: %NAMESPACE%-client
+          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:%SERVER_VERSION%
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: %NGINX_PORT%
+          envFrom:
+            - configMapRef:
+                name: %NAMESPACE%-config
+            - configMapRef:
+                name: %NAMESPACE%-client-config
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+              cpu: 300m
+      imagePullSecrets:
+        - name: docker-regcred

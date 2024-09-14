@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: "master"
+  name: master-config
+data:
+  DEBUG: "true"
+  BITNAMI_DEBUG: "true"

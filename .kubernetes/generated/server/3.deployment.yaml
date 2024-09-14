@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: "master"
+  name: master-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: master-server-container
+  template:
+    metadata:
+      namespace: "master"
+      labels:
+        app: master-server
+        pod: master-server-container
+    spec:
+      containers:
+        - name: master-server
+          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:0.0.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9191
+          envFrom:
+            - configMapRef:
+                name: master-config
+            - configMapRef:
+                name: master-server-config
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+              cpu: 300m
+      imagePullSecrets:
+        - name: docker-regcred
