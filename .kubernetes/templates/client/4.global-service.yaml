@@ -7,7 +7,7 @@ metadata:
     app: %NAMESPACE%-client-global
 spec:
   selector:
-    app: %NAMESPACE%-client-global
+    app: %NAMESPACE%-client
   ports:
     - port: 30222
       nodePort: 30222
