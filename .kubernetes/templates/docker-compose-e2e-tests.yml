@@ -11,7 +11,7 @@ services:
     networks:
       - 'nestjs-mod-fullstack-network'
     environment:
-      BASE_URL: 'http://host.docker.internal:%NGINX_PORT%'
+      BASE_URL: 'http://host.docker.internal:30222'
     working_dir: '/usr/src/app'
     volumes:
       - './../../apps:/usr/src/app/apps'

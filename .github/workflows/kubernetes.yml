@@ -494,4 +494,4 @@ jobs:
           docker compose -f ./.kubernetes/generated/docker-compose-e2e-tests.yml --compatibility down || echo 'docker-compose-e2e-tests not started'
           docker compose -f ./.kubernetes/generated/docker-compose-infra.yml --compatibility up -d
           .kubernetes/generated/install.sh
-          docker compose -f ./.kubernetes/generated/docker-compose-e2e-tests.yml --compatibility up -d
+          docker compose -f ./.kubernetes/generated/docker-compose-e2e-tests.yml --compatibility up

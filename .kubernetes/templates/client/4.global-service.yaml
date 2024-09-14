@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-client-global
+  labels:
+    app: %NAMESPACE%-client-global
+spec:
+  selector:
+    app: %NAMESPACE%-client-global
+  ports:
+    - port: 30222
+      nodePort: 30222
+      targetPort: %NGINX_PORT%
+  type: NodePort

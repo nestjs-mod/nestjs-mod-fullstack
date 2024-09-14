@@ -8,6 +8,8 @@ services:
     container_name: 'nestjs-mod-fullstack-postgre-sql'
     networks:
       - 'nestjs-mod-fullstack-network'
+    ports:
+      - '5432:5432'
     healthcheck:
       test:
         - 'CMD-SHELL'
