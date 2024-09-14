@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-client-config
+data:
+  SERVER_PORT: '%SERVER_PORT%'
+  NGINX_PORT: '%NGINX_PORT%'
+  SERVER_NAME: %NAMESPACE%-server.%NAMESPACE%

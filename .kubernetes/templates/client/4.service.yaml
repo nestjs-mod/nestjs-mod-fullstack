@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-client
+  labels:
+    app: %NAMESPACE%-client
+spec:
+  selector:
+    app: %NAMESPACE%-client
+  ports:
+    - name: '%NGINX_PORT%'
+      protocol: TCP
+      port: %NGINX_PORT%
+      targetPort: %NGINX_PORT%
+  type: ClusterIP

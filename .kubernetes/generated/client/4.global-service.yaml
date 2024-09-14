@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: "master"
+  name: master-client-global
+  labels:
+    app: master-client-global
+spec:
+  selector:
+    app: master-client
+  ports:
+    - port: 30222
+      nodePort: 30222
+      targetPort: 8181
+  type: NodePort
