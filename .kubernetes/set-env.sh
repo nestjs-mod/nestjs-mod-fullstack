@@ -57,11 +57,3 @@ fi
 if [ -z "${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}" ]; then
     export SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE=postgres
 fi
-
-# migrations
-if [ -z "${SERVER_ROOT_DATABASE_URL}" ]; then
-    export SERVER_ROOT_DATABASE_URL=postgres://${SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME}:${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}@nestjs-mod-fullstack-postgre-sql:5432/${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}?schema=public
-fi
-if [ -z "${SERVER_APP_DATABASE_URL}" ]; then
-    export SERVER_APP_DATABASE_URL=postgres://${SERVER_APP_DATABASE_USERNAME}:${SERVER_APP_DATABASE_PASSWORD}@nestjs-mod-fullstack-postgre-sql:5432/${SERVER_APP_DATABASE_NAME}?schema=public
-fi
