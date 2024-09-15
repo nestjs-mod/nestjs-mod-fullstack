@@ -499,6 +499,7 @@ jobs:
           SERVER_APP_DATABASE_NAME: ${{ secrets.SERVER_APP_DATABASE_NAME }}
           SERVER_APP_DATABASE_PASSWORD: ${{ secrets.SERVER_APP_DATABASE_PASSWORD }}
           SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
+          SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
         run: |
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
