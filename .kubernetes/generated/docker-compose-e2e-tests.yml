@@ -9,7 +9,7 @@ services:
     networks:
       - 'nestjs-mod-fullstack-network'
     environment:
-      BASE_URL: 'http://example.com:30222'
+      BASE_URL: 'https://example.com'
     working_dir: '/usr/src/app'
     volumes:
       - './../../apps:/usr/src/app/apps'

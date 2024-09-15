@@ -459,6 +459,7 @@ jobs:
     environment: kubernetes
     needs:
       [
+        check-server-image,
         build-and-push-migrations-image,
         build-and-push-server-image,
         build-and-push-nginx-image,
@@ -502,8 +503,7 @@ jobs:
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
           chmod +x .kubernetes/generated/install.sh
-          .kubernetes/generated/install.sh > /dev/null 2>&1 &
-
+          .kubernetes/generated/install.sh
 
       - name: Run E2E-tests
         # if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e]') }}
