@@ -14,3 +14,6 @@ sudo microk8s kubectl apply -f .kubernetes/generated/server
 
 # client
 sudo microk8s kubectl apply -f .kubernetes/generated/client
+
+# depricated
+sudo microk8s kubectl delete service %NAMESPACE%-client-global --namespace %NAMESPACE% || echo 'not need delete %NAMESPACE%-client-global'
