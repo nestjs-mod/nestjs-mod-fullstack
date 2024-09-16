@@ -17,6 +17,23 @@ env:
   NX_SKIP_NX_CACHE: true
   DISABLE_SERVE_STATIC: true
 jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
+      - name: configure git
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - run: npm ci
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
+      - run: npx nx run my-app:semantic-release
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   check-base-server-image:
     runs-on: ubuntu-latest
     continue-on-error: true
