@@ -501,12 +501,10 @@ jobs:
           SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
         run: |
-          echo 'Remove generated folder'
           rm -rf ./.kubernetes/generated
-          echo 'Copy paste templates to genearted'
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
-          echo 'Start install applications to Kubernetes'
-          chmod +x .kubernetes/generated/install.sh && .kubernetes/generated/install.sh > /dev/null 2>&1 &
+          chmod +x .kubernetes/generated/install.sh
+          .kubernetes/generated/install.sh > /dev/null 2>&1 &
 
       - name: Run E2E-tests
         # if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e]') }}
