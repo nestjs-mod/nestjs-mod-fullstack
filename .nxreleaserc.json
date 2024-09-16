@@ -2,6 +2,7 @@
     "changelog": true,
     "npm": false,
     "github": true,
+    "repositoryUrl": "https://github.com/nestjs-mod/nestjs-mod-fullstack",
     "branches": [
         "master"
     ]

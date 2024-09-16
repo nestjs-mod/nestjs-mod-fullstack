@@ -19,17 +19,17 @@ env:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         if: ${{ contains(github.event.head_commit.message, '[release]') }}
-      - name: configure git
-        if: ${{ contains(github.event.head_commit.message, '[release]') }}
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - run: npm install --prefer-offline --no-audit --progress=false
         if: ${{ contains(github.event.head_commit.message, '[release]') }}
-      - run: npm run nx -- run-many --exclude=@nestjs-mod-fullstack/source --target=semantic-release
+      - run: npm run nx -- run-many --target=semantic-release --all --parallel=1
         if: ${{ contains(github.event.head_commit.message, '[release]') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
