@@ -144,7 +144,7 @@ spec:
 
 По умолчанию эта сущность создается на основе Nginx, ну можно настроить и Traefik, в данном проекте будет использоваться Nginx, так как он подставляется по умолчанию.
 
-Создаем файл `.kubernetes/templates/node/8.issuer.yaml`
+Создаем файл `.kubernetes/templates/client/5.ingress.yaml`
 
 ```yaml
 apiVersion: networking.k8s.io/v1

@@ -142,7 +142,7 @@ spec:
 
 By default, this entity is created based on Nginx, well, you can configure Traefik, Nginx will be used in this project, since it is substituted by default.
 
-Creating the file `.kubernetes/templates/node/8.issuer.yaml`
+Creating the file `.kubernetes/templates/client/5.ingress.yaml`
 
 ```yaml
 apiVersion: networking.k8s.io/v1
