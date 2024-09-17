@@ -1,5 +1,5 @@
 # server
-> Version: 0.0.1
+> Version: 0.0.3
 
 ## Running the app in watch mode
 ```bash
@@ -67,6 +67,8 @@ npm run test:server
 |`npm run lint`|Checking the typescript code for the entire project|
 |`npm run lint:fix`|Checking the typescript code throughout the project and trying to fix everything possible|
 |`npm run tsc:lint`|Checking typescript code in libraries|
+|**kubernetes**|
+|`npm run kubernetes:generate`||
 |**db**|
 |`npm run db:create`|Creation all databases of applications and modules|
 |`npm run db:create-and-fill`|Create and fill databases|
@@ -102,10 +104,10 @@ Static variables of primitive and complex types that are used in the module and 
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`applicationPackageJsonFile`|Application package.json-file|**optional**|-|```/usr/src/app/apps/server/package.json```|
-|`packageJsonFile`|Root package.json-file|**optional**|-|```/usr/src/app/package.json```|
-|`nxProjectJsonFile`|Application project.json-file (nx)|**optional**|-|```/usr/src/app/apps/server/project.json```|
-|`envFile`|Dot-env file with environment variables|**optional**|-|```/usr/src/app/.env```|
+|`applicationPackageJsonFile`|Application package.json-file|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/package.json```|
+|`packageJsonFile`|Root package.json-file|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/package.json```|
+|`nxProjectJsonFile`|Application project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/project.json```|
+|`envFile`|Dot-env file with environment variables|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.env```|
 
 ### DefaultNestApplicationInitializer
 Default NestJS application initializer.
@@ -150,7 +152,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -159,7 +161,7 @@ Static variables of primitive and complex types that are used in the module and 
 | ------ | ----------- | ----------- | ------- | ----- |
 |`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
-|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
 
 ## Feature modules
@@ -199,7 +201,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`ecosystemConfigFile`|Configuration file for PM2|**isNotEmpty** (ecosystemConfigFile should not be empty)|-|```/usr/src/app/ecosystem.config.json```|
+|`ecosystemConfigFile`|Configuration file for PM2|**isNotEmpty** (ecosystemConfigFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/ecosystem.config.json```|
 |`applicationScriptFile`|Application script file name for run|**isNotEmpty** (applicationScriptFile should not be empty)|-|```dist/apps/server/main.js```|
 
 ### DockerCompose
@@ -213,7 +215,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`dockerComposeFile`|Main file for docker-compose, the Compose specification establishes a standard for the definition of multi-container platform-agnostic applications.|**isNotEmpty** (dockerComposeFile should not be empty)|-|```/usr/src/app/apps/server/docker-compose.yml```|
+|`dockerComposeFile`|Main file for docker-compose, the Compose specification establishes a standard for the definition of multi-container platform-agnostic applications.|**isNotEmpty** (dockerComposeFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/docker-compose.yml```|
 
 #### Modules that use feature configuration
 ##### Feature module name: SERVER_POSTGRE_SQL
@@ -233,7 +235,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -241,8 +243,8 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`featureName`|Flyway feature name for generate prefix to environments keys|**optional**|-|```app```|
-|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/usr/src/app/apps/server/src/migrations```|
-|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/usr/src/app/.flyway.js```|
+|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.flyway.js```|
 
 ### InfrastructureMarkdownReportGenerator
 Infrastructure markdown report generator.
@@ -255,7 +257,7 @@ Static variables of primitive and complex types that are used in the module and 
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`markdownFile`|Name of the markdown-file in which to save the infrastructure report|**optional**|-|```/usr/src/app/apps/server/INFRASTRUCTURE.MD```|
+|`markdownFile`|Name of the markdown-file in which to save the infrastructure report|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/INFRASTRUCTURE.MD```|
 |`skipEmptySettings`|Skip empty values of env and config models|**optional**|-|```true```|
 
 ### DockerComposePostgreSQL
@@ -266,7 +268,7 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`rootDatabaseUrl`|Connection string for PostgreSQL with root credentials (example: postgres://postgres:postgres_password@localhost:5432/postgres?schema=public, username must be "postgres")|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|-|-|
+|`rootDatabaseUrl`|Connection string for PostgreSQL with root credentials (example: postgres://postgres:postgres_password@localhost:5432/postgres?schema=public, username must be "postgres")|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|-|```postgres://postgres:postgres_password@localhost:5432/postgres?schema=public```|
 
 #### Feature environments
 Feature variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
@@ -281,7 +283,7 @@ Feature variables with primitive types used in the module, the values of which c
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 
 ## License

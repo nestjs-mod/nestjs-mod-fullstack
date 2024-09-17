@@ -38,8 +38,6 @@
     "_____docker-compose prod-infra_____": "_____docker-compose prod-infra_____",
     "docker-compose:start-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env --compatibility up -d",
     "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down",
-    "_____kubernetes_____": "_____kubernetes_____",
-    "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____tests_____": "_____tests_____",
     "test": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "test:e2e": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes",
@@ -48,6 +46,8 @@
     "lint": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint",
     "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=lint --fix",
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
+    "_____kubernetes_____": "_____kubernetes_____",
+    "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
     "db:create": "./node_modules/.bin/nx run-many -t=db-create",
     "db:create-and-fill": "npm run db:create && npm run flyway:migrate",
@@ -235,6 +235,7 @@
     "tsc:lint": [
       "Checking typescript code in libraries"
     ],
+    "kubernetes:generate": [],
     "db:create": [
       "Creation all databases of applications and modules"
     ],
