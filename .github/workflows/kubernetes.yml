@@ -19,6 +19,7 @@ env:
 jobs:
   release:
     runs-on: ubuntu-latest
+    continue-on-error: true
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
@@ -26,11 +27,11 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     steps:
       - uses: actions/checkout@v4
-        if: ${{ contains(github.event.head_commit.message, '[release]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: npm install --prefer-offline --no-audit --progress=false
-        if: ${{ contains(github.event.head_commit.message, '[release]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: npm run nx -- run-many --target=semantic-release --all --parallel=false
-        if: ${{ contains(github.event.head_commit.message, '[release]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
