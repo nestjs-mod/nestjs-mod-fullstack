@@ -297,7 +297,8 @@
     ],
     "wait-on": [
       "Utility for checking and waiting for site availability"
-    ]
+    ],
+    "prepare": []
   },
   "dependencies": {
     "@angular/animations": "~18.1.0",

@@ -611,9 +611,7 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoCreateOne(
-      options?: RawAxiosRequestConfig
-    ): AxiosPromise<AppDemo> {
+    appControllerDemoCreateOne(options?: any): AxiosPromise<AppDemo> {
       return localVarFp
         .appControllerDemoCreateOne(options)
         .then((request) => request(axios, basePath));
@@ -626,7 +624,7 @@ export const DefaultApiFactory = function (
      */
     appControllerDemoDeleteOne(
       id: string,
-      options?: RawAxiosRequestConfig
+      options?: any
     ): AxiosPromise<AppDemo> {
       return localVarFp
         .appControllerDemoDeleteOne(id, options)
@@ -637,9 +635,7 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindMany(
-      options?: RawAxiosRequestConfig
-    ): AxiosPromise<Array<AppDemo>> {
+    appControllerDemoFindMany(options?: any): AxiosPromise<Array<AppDemo>> {
       return localVarFp
         .appControllerDemoFindMany(options)
         .then((request) => request(axios, basePath));
@@ -650,10 +646,7 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindOne(
-      id: string,
-      options?: RawAxiosRequestConfig
-    ): AxiosPromise<AppDemo> {
+    appControllerDemoFindOne(id: string, options?: any): AxiosPromise<AppDemo> {
       return localVarFp
         .appControllerDemoFindOne(id, options)
         .then((request) => request(axios, basePath));
@@ -663,9 +656,7 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerGetData(
-      options?: RawAxiosRequestConfig
-    ): AxiosPromise<AppData> {
+    appControllerGetData(options?: any): AxiosPromise<AppData> {
       return localVarFp
         .appControllerGetData(options)
         .then((request) => request(axios, basePath));
@@ -676,7 +667,7 @@ export const DefaultApiFactory = function (
      * @throws {RequiredError}
      */
     terminusHealthCheckControllerCheck(
-      options?: RawAxiosRequestConfig
+      options?: any
     ): AxiosPromise<TerminusHealthCheckControllerCheck200Response> {
       return localVarFp
         .terminusHealthCheckControllerCheck(options)
