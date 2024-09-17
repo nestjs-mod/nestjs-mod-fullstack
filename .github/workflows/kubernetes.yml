@@ -528,7 +528,7 @@ jobs:
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
           chmod +x .kubernetes/generated/install.sh
-          .kubernetes/generated/install.sh
+          .kubernetes/generated/install.sh > /dev/null 2>&1 &
 
   e2e-tests:
     environment: kubernetes
