@@ -2,7 +2,8 @@
 set -e
 
 # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
-sudo microk8s stop && sudo microk8s start
+sudo microk8s stop
+sudo microk8s start
 
 # docker regcred for pull docker images
 sudo microk8s kubectl delete secret docker-regcred || echo 'not need delete secret docker-regcred'
