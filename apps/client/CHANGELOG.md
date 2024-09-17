@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.0.0...client-v1.0.1) (2024-09-17)
+
+### Bug Fixes
+
+- disable parallel run sem ver, add private=true to libs ([c4664e3](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/c4664e3c7934c3fae98ce3c0693de3964c6da8d8))
+
 # 1.0.0 (2024-09-17)
 
 ### Features
