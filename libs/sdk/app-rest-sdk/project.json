@@ -36,7 +36,7 @@
         "jestConfig": "libs/sdk/app-rest-sdk/jest.config.ts"
       }
     },
-    "semantic-release": {
+    "semantic-release:disabled": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
         "buildTarget": "${PROJECT_NAME}:build",
