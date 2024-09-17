@@ -379,7 +379,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "client_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1

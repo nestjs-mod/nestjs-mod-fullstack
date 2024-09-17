@@ -402,7 +402,7 @@ jobs:
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
-          echo "client_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Log in to the Container registry
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -530,8 +530,26 @@ jobs:
           chmod +x .kubernetes/generated/install.sh
           .kubernetes/generated/install.sh > /dev/null 2>&1 &
 
+  e2e-tests:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Run E2E-tests
-        # if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e]') }}
+        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
         env:
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
         run: |
