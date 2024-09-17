@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.1.0...app-rest-sdk-v1.1.1) (2024-09-17)
+
+### Bug Fixes
+
+- add strict rules to tsconfig.base.json ([934c872](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/934c8727c51a73dab6d7373bacd3e4014583df0e))
+
 # [1.1.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.0.0...app-rest-sdk-v1.1.0) (2024-09-17)
 
 ### Bug Fixes
