@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-# since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
-sudo microk8s stop
-sudo microk8s start
-
 # docker regcred for pull docker images
 sudo microk8s kubectl delete secret docker-regcred || echo 'not need delete secret docker-regcred'
 sudo microk8s kubectl create secret docker-registry docker-regcred --docker-server=%DOCKER_SERVER% --docker-username=%DOCKER_USERNAME% --docker-password=%DOCKER_PASSWORD% --docker-email=docker-regcred
