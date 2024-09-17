@@ -531,6 +531,7 @@ jobs:
           .kubernetes/generated/install.sh > /dev/null 2>&1 &
 
   e2e-tests:
+    environment: kubernetes
     runs-on: ubuntu-latest
     needs: [deploy]
     permissions:
