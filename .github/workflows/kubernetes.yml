@@ -539,17 +539,17 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         uses: actions/checkout@v4
       - name: Log in to the Container registry
-        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Run E2E-tests
-        if: ${{ contains(github.event.head_commit.message, '[skip e2e]') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         env:
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
         run: |
