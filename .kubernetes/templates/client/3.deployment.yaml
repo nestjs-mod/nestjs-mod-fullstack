@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: %NAMESPACE%-client
-          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:%SERVER_VERSION%
+          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:%CLIENT_VERSION%
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: %NGINX_PORT%

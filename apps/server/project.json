@@ -182,7 +182,7 @@
       "options": {
         "github": true,
         "changelog": true,
-        "npm": false,
+        "npm": true,
         "tagFormat": "server-v${VERSION}"
       }
     }

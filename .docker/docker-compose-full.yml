@@ -65,7 +65,7 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-nginx:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${SERVER_VERSION}'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${CLIENT_VERSION}'
     container_name: 'nestjs-mod-fullstack-nginx'
     networks:
       - 'nestjs-mod-fullstack-network'

@@ -1,6 +1,7 @@
 {
   "name": "server",
   "version": "0.0.3",
+  "private": true,
   "scripts": {},
   "dependencies": {
     "pm2": ">=5.3.0",

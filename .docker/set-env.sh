@@ -17,3 +17,4 @@ export DISABLE_SERVE_STATIC=true
 
 export ROOT_VERSION=$(npm pkg get version --workspaces=false | tr -d \")
 export SERVER_VERSION=$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \")
+export CLIENT_VERSION=$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \")
