@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: master-server
-          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:0.0.3
+          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:1.1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9191

@@ -10,7 +10,12 @@ sudo microk8s kubectl apply -f .kubernetes/generated/node
 sudo microk8s kubectl get secret docker-regcred -n default -o yaml || sed s/"namespace: default"/"namespace: master"/ || microk8s kubectl apply -n master -f - || echo 'not need update docker-regcred'
 
 # server
+sudo microk8s kubectl delete -f .kubernetes/generated/server/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/server
 
 # client
+sudo microk8s kubectl delete -f .kubernetes/generated/client/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/client
+
+# depricated
+sudo microk8s kubectl delete service master-client-global --namespace master || echo 'not need delete master-client-global'
