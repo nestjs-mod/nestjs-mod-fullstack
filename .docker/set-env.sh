@@ -11,7 +11,7 @@ export NGINX_IMAGE_NAME="${REPOSITORY}-nginx"
 export E2E_TESTS_IMAGE_NAME="${REPOSITORY}-e2e-tests"
 export COMPOSE_INTERACTIVE_NO_CLI=1
 export NX_DAEMON=false
-export NX_PARALLEL=1
+export NX_PARALLEL=false
 export NX_SKIP_NX_CACHE=true
 export DISABLE_SERVE_STATIC=true
 
