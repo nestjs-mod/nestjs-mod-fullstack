@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.1.1...server-v1.1.2) (2024-09-19)
+
+### Bug Fixes
+
+- update versions of libraries ([d28e785](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d28e785321d5389368618ab840b3f56b65989580))
+
 ## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.1.0...server-v1.1.1) (2024-09-17)
 
 ### Bug Fixes
