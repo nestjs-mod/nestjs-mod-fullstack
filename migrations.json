@@ -1,0 +1,53 @@
+{
+  "migrations": [
+    {
+      "cli": "nx",
+      "version": "19.6.3-beta.0",
+      "description": "Migrate proxy config files to match new format from webpack-dev-server v5.",
+      "implementation": "./src/migrations/update-19-6-3/proxy-config",
+      "package": "@nx/webpack",
+      "name": "update-19-6-3-proxy-config"
+    },
+    {
+      "cli": "nx",
+      "version": "19.6.0-beta.4",
+      "description": "Ensure Module Federation DTS is turned off by default.",
+      "factory": "./src/migrations/update-19-6-0/turn-off-dts-by-default",
+      "package": "@nx/angular",
+      "name": "update-19-6-0"
+    },
+    {
+      "cli": "nx",
+      "version": "19.6.0-beta.7",
+      "requires": { "@angular/core": ">=18.2.0" },
+      "description": "Update the @angular/cli package version to ~18.2.0.",
+      "factory": "./src/migrations/update-19-6-0/update-angular-cli",
+      "package": "@nx/angular",
+      "name": "update-angular-cli-version-18-2-0"
+    },
+    {
+      "cli": "nx",
+      "version": "19.6.1-beta.0",
+      "description": "Ensure Target Defaults are set correctly for Module Federation.",
+      "factory": "./src/migrations/update-19-6-1/ensure-depends-on-for-mf",
+      "package": "@nx/angular",
+      "name": "update-19-6-1-ensure-module-federation-target-defaults"
+    },
+    {
+      "cli": "nx",
+      "version": "19.6.0-beta.0",
+      "description": "Use serve-static or preview for webServerCommand.",
+      "implementation": "./src/migrations/update-19-6-0/use-serve-static-preview-for-command",
+      "package": "@nx/playwright",
+      "name": "19-6-0-use-serve-static-preview-for-command"
+    },
+    {
+      "cli": "nx",
+      "version": "19.6.0-beta.1",
+      "description": "Add inferred ciTargetNames to targetDefaults with dependsOn to ensure dependent application builds are scheduled before atomized tasks.",
+      "implementation": "./src/migrations/update-19-6-0/add-e2e-ci-target-defaults",
+      "package": "@nx/playwright",
+      "name": "update-19-6-0-add-e2e-ci-target-defaults"
+    }
+  ]
+}
