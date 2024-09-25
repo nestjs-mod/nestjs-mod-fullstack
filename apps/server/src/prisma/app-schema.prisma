@@ -8,15 +8,13 @@ datasource db {
   provider          = "postgres"
   url               = env("SERVER_APP_DATABASE_URL")
 }
-
-
 generator prismaClassGenerator {
   provider                 = "prisma-class-generator"
   output                   = "../app/generated/rest/dto"
-  dryRun                   = "false"
-  separateRelationFields   = "false"
-  useNonNullableAssertions = "true"
   makeIndexFile            = "false"
+  useNonNullableAssertions = "true"
+  separateRelationFields   = "false"
+  dryRun                   = "false"
 }
 
 model AppDemo {

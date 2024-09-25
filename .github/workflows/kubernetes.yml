@@ -507,6 +507,9 @@ jobs:
           SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
           SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD }}
           SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME }}
+          SERVER_WEBHOOK_DATABASE_NAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_NAME }}
+          SERVER_WEBHOOK_DATABASE_PASSWORD: ${{ secrets.SERVER_WEBHOOK_DATABASE_PASSWORD }}
+          SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME }}
         run: |
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true

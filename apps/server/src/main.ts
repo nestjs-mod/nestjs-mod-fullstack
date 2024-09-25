@@ -1,3 +1,4 @@
+import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod-fullstack/webhook';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -110,6 +111,27 @@ bootstrapNestApplication({
           addMigrationScripts: false,
         },
       }),
+      PrismaModule.forRoot({
+        staticConfiguration: {
+          schemaFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            'src',
+            'prisma',
+            PRISMA_SCHEMA_FILE
+          ),
+          featureName: WEBHOOK_FEATURE,
+          prismaModule: isInfrastructureMode()
+            ? import(`@nestjs-mod/prisma`)
+            : import(`@nestjs-mod-fullstack/webhook`),
+          addMigrationScripts: false,
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
+        },
+      }),
     ],
     feature: [AppModule.forRoot()],
     infrastructure: [
@@ -140,6 +162,33 @@ bootstrapNestApplication({
           featureName: appFeatureName,
           migrationsFolder: join(appFolder, 'src', 'migrations'),
           configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
+        },
+      }),
+      DockerComposePostgreSQL.forFeatureAsync({
+        featureModuleName: WEBHOOK_FEATURE,
+        featureConfiguration: {
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
+        },
+      }),
+      Flyway.forRoot({
+        staticConfiguration: {
+          featureName: WEBHOOK_FEATURE,
+          migrationsFolder: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            'src',
+            'migrations'
+          ),
+          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
         },
       }),
     ],

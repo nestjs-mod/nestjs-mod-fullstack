@@ -55,10 +55,13 @@
     "flyway:create:server": "./node_modules/.bin/nx run server:flyway-create-migration",
     "flyway:migrate:server": "./node_modules/.bin/nx run server:flyway-migrate",
     "flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate",
+    "flyway:create:webhook": "./node_modules/.bin/nx run webhook:flyway-create-migration",
+    "flyway:migrate:webhook": "./node_modules/.bin/nx run webhook:flyway-migrate",
     "_____prisma_____": "_____prisma_____",
     "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
     "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull",
     "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate",
+    "prisma:pull:webhook": "./node_modules/.bin/nx run webhook:prisma-pull",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=generate --skip-nx-cache=true && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
@@ -66,7 +69,7 @@
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "make-ts-list": "./node_modules/.bin/rucken make-ts-list",
     "manual:prepare": "npm run generate && npm run docs:infrastructure && npm run test",
-    "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod @nestjs/* nestjs -u",
+    "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod @nestjs/* nestjs rucken -u",
     "rucken": "rucken",
     "wait-on": "./node_modules/.bin/wait-on --timeout=240000 --interval=1000 --window --verbose",
     "prepare": "npx -y husky install"
@@ -84,10 +87,10 @@
     "@angular/language-service": "18.2.5",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@nestjs-mod/schematics": "^2.10.1",
-    "@nestjs-mod/testing": "2.15.0",
+    "@nestjs-mod/schematics": "^2.11.1",
+    "@nestjs-mod/testing": "2.16.0",
     "@nestjs/schematics": "^10.1.4",
-    "@nestjs/testing": "^10.4.3",
+    "@nestjs/testing": "^10.4.4",
     "@nx/angular": "19.7.4",
     "@nx/devkit": "19.7.4",
     "@nx/eslint": "19.7.4",
@@ -255,6 +258,12 @@
     "flyway:migrate": [
       "Applying migrations of all applications and modules"
     ],
+    "flyway:create:webhook": [
+      "Command to create new empty migration for webhook"
+    ],
+    "flyway:migrate:webhook": [
+      "Applying migrations for webhook"
+    ],
     "prisma:pull:server": [
       "Generating a prisma schema based on a database for server"
     ],
@@ -263,6 +272,9 @@
     ],
     "prisma:generate": [
       "Generation of client prisma schema of all applications and modules"
+    ],
+    "prisma:pull:webhook": [
+      "Generating a prisma schema based on a database for webhook"
     ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
@@ -311,17 +323,17 @@
     "@angular/platform-server": "18.2.5",
     "@angular/router": "18.2.5",
     "@angular/ssr": "18.2.5",
-    "@nestjs-mod/common": "2.15.0",
-    "@nestjs-mod/docker-compose": "^1.15.2",
-    "@nestjs-mod/flyway": "^1.6.2",
-    "@nestjs-mod/pino": "1.14.2",
-    "@nestjs-mod/pm2": "1.12.2",
-    "@nestjs-mod/prisma": "^1.9.2",
-    "@nestjs-mod/reports": "2.15.0",
-    "@nestjs-mod/terminus": "1.13.2",
-    "@nestjs/common": "^10.4.3",
-    "@nestjs/core": "^10.4.3",
-    "@nestjs/platform-express": "^10.4.3",
+    "@nestjs-mod/common": "2.16.0",
+    "@nestjs-mod/docker-compose": "^1.16.1",
+    "@nestjs-mod/flyway": "^1.7.0",
+    "@nestjs-mod/pino": "1.14.3",
+    "@nestjs-mod/pm2": "1.12.3",
+    "@nestjs-mod/prisma": "^1.10.1",
+    "@nestjs-mod/reports": "2.16.0",
+    "@nestjs-mod/terminus": "1.13.3",
+    "@nestjs/common": "^10.4.4",
+    "@nestjs/core": "^10.4.4",
+    "@nestjs/platform-express": "^10.4.4",
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.4.2",
     "@nestjs/terminus": "^10.2.3",
