@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.2.0...server-v1.2.1) (2024-10-06)
+
+### Bug Fixes
+
+- add "private": true to all new libraries ([cf619d9](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/cf619d95e4027fa0ac5fc61668e65ae0c0d07f52))
+
 # [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.1.2...server-v1.2.0) (2024-10-06)
 
 ### Features
