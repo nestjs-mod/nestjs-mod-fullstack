@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.1.0...client-v1.1.1) (2024-10-06)
+
+### Bug Fixes
+
+- rebuild all [skip cache] ([62d60d4](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/62d60d4090732423abdf54e22c8aefd02a592fb7))
+
 # [1.1.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.0.3...client-v1.1.0) (2024-10-06)
 
 ### Features
