@@ -6,6 +6,9 @@ ENV NX_DAEMON=false
 # Url with stage to run e2e tests
 ENV BASE_URL=http://localhost:8080
 
+ENV NX_PARALLEL=1
+ENV NX_SKIP_NX_CACHE=true
+
 # Copy all files in repository to image
 COPY --chown=node:node . .
 

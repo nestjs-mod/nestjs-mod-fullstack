@@ -4,6 +4,9 @@ WORKDIR /usr/src/app
 # Disable nx daemon
 ENV NX_DAEMON=false
 
+ENV NX_PARALLEL=1
+ENV NX_SKIP_NX_CACHE=true
+
 # Copy all files in repository to image
 COPY --chown=node:node . .
 

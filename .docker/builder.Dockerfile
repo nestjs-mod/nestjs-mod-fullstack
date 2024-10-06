@@ -21,6 +21,9 @@ ENV NX_DAEMON=false
 # Disable the statics server built into NestJS
 ENV DISABLE_SERVE_STATIC=true
 
+ENV NX_PARALLEL=1
+ENV NX_SKIP_NX_CACHE=true
+
 # Copy node_modules
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 # Copy utility for "To work as a PID 1"

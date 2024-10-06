@@ -8,6 +8,9 @@ WORKDIR /usr/src/app
 # Disable nx daemon
 ENV NX_DAEMON=false
 
+ENV NX_PARALLEL=1
+ENV NX_SKIP_NX_CACHE=true
+
 # Copy the generated code
 COPY --chown=node:node ./dist ./dist
 # Copy prisma schema files
