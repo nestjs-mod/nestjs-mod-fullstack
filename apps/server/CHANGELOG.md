@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.2.1...server-v1.2.2) (2024-10-06)
+
+### Bug Fixes
+
+- rebuild all [skip cache] ([62d60d4](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/62d60d4090732423abdf54e22c8aefd02a592fb7))
+
 ## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.2.0...server-v1.2.1) (2024-10-06)
 
 ### Bug Fixes
