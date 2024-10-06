@@ -29,7 +29,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: npm install --prefer-offline --no-audit --progress=false
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
-      - run: npm run generate -- --verbose
+      - run: echo '' > .env && npm run generate -- --verbose
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: npm run nx -- run-many --target=semantic-release --all --parallel=false
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
