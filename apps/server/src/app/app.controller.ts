@@ -1,7 +1,20 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
-import { ApiCreatedResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiProperty,
+} from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { AppService } from './app.service';
@@ -12,16 +25,23 @@ export class AppData {
   message!: string;
 }
 
+enum AppDemoEventName {
+  'app-demo.create' = 'app-demo.create',
+  'app-demo.update' = 'app-demo.update',
+  'app-demo.delete' = 'app-demo.delete',
+}
+
 @Controller()
 export class AppController {
   constructor(
-    @InjectPrismaClient()
+    @InjectPrismaClient('app')
     private readonly appPrismaClient: AppPrismaClient,
-    private readonly appService: AppService
+    private readonly appService: AppService,
+    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
   ) {}
 
   @Get()
-  @ApiResponse({ type: AppData })
+  @ApiOkResponse({ type: AppData })
   getData() {
     return this.appService.getData();
   }
@@ -29,27 +49,57 @@ export class AppController {
   @Post('/demo')
   @ApiCreatedResponse({ type: AppDemo })
   async demoCreateOne() {
-    return await this.appPrismaClient.appDemo.create({
-      data: { name: 'demo name' + randomUUID() },
-    });
+    return await this.appPrismaClient.appDemo
+      .create({
+        data: { name: 'demo name' + randomUUID() },
+      })
+      .then(async (result) => {
+        await this.webhookService.sendEvent(
+          AppDemoEventName['app-demo.create'],
+          result
+        );
+        return result;
+      });
   }
 
   @Get('/demo/:id')
-  @ApiResponse({ type: AppDemo })
-  async demoFindOne(@Param('id') id: string) {
+  @ApiOkResponse({ type: AppDemo })
+  async demoFindOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.appPrismaClient.appDemo.findFirstOrThrow({
       where: { id },
     });
   }
 
   @Delete('/demo/:id')
-  @ApiResponse({ type: AppDemo })
-  async demoDeleteOne(@Param('id') id: string) {
-    return await this.appPrismaClient.appDemo.delete({ where: { id } });
+  @ApiOkResponse({ type: AppDemo })
+  async demoDeleteOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.appPrismaClient.appDemo
+      .delete({ where: { id } })
+      .then(async (result) => {
+        await this.webhookService.sendEvent(
+          AppDemoEventName['app-demo.delete'],
+          result
+        );
+        return result;
+      });
+  }
+
+  @Put('/demo/:id')
+  @ApiOkResponse({ type: AppDemo })
+  async demoUpdateOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.appPrismaClient.appDemo
+      .update({ data: { name: 'new demo name' + randomUUID() }, where: { id } })
+      .then(async (result) => {
+        await this.webhookService.sendEvent(
+          AppDemoEventName['app-demo.update'],
+          result
+        );
+        return result;
+      });
   }
 
   @Get('/demo')
-  @ApiResponse({ type: AppDemo, isArray: true })
+  @ApiOkResponse({ type: AppDemo, isArray: true })
   async demoFindMany() {
     return await this.appPrismaClient.appDemo.findMany();
   }
