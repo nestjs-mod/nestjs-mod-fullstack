@@ -9,6 +9,7 @@
   "devDependencies": {
     "@nx/jest": "19.5.3",
     "@nx/playwright": "19.5.3",
+    "@types/express": "4.17.14",
     "@playwright/test": "^1.36.0",
     "@types/jest": "^29.4.0",
     "@types/node": "~18.16.9",
