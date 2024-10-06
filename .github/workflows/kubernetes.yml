@@ -532,7 +532,9 @@ jobs:
         run: |
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
+          sudo microk8s status --wait-ready | echo 'Skip error'
           sudo microk8s stop
+          sudo microk8s status --wait-ready | echo 'Skip error'
           sudo microk8s start
           sudo microk8s status --wait-ready
           chmod +x .kubernetes/generated/install.sh
