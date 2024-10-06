@@ -2,12 +2,12 @@
   "apps": [
     {
       "name": "server",
-      "script": "./node_modules/.bin/nx serve server",
+      "script": "./node_modules/.bin/nx serve server --skip-nx-cache=true",
       "node_args": "-r dotenv/config"
     },
     {
       "name": "client",
-      "script": "./node_modules/.bin/nx serve client --host=0.0.0.0 --disable-host-check",
+      "script": "./node_modules/.bin/nx serve client --skip-nx-cache=true",
       "node_args": "-r dotenv/config"
     }
   ]

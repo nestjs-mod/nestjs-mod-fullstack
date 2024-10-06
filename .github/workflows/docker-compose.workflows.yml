@@ -486,6 +486,8 @@ jobs:
           HTTPS_PORTAL_STAGE: ${{ secrets.HTTPS_PORTAL_STAGE }}
           SERVER_PORT: 9090
           NGINX_PORT: 8080
+          SERVER_WEBHOOK_DATABASE_URL: ${{ secrets.SERVER_WEBHOOK_DATABASE_URL }}
+          SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
         run: |
           . .docker/set-env.sh
           docker stop $(docker ps -a -q) || echo 'docker containers not started'

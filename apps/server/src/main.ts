@@ -1,3 +1,9 @@
+import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
+import {
+  WEBHOOK_FEATURE,
+  WEBHOOK_FOLDER,
+  WebhookModule,
+} from '@nestjs-mod-fullstack/webhook';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -16,11 +22,7 @@ import {
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
 import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
-import {
-  FakePrismaClient,
-  PRISMA_SCHEMA_FILE,
-  PrismaModule,
-} from '@nestjs-mod/prisma';
+import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
@@ -95,23 +97,63 @@ bootstrapNestApplication({
       }),
     ],
     core: [
+      PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
+        contextName: appFeatureName,
         staticConfiguration: {
+          featureName: appFeatureName,
           schemaFile: join(
             appFolder,
             'src',
             'prisma',
             `${appFeatureName}-${PRISMA_SCHEMA_FILE}`
           ),
-          featureName: appFeatureName,
           prismaModule: isInfrastructureMode()
-            ? { PrismaClient: FakePrismaClient }
+            ? import(`@nestjs-mod/prisma`)
             : import(`@prisma/app-client`),
           addMigrationScripts: false,
         },
       }),
+      PrismaModule.forRoot({
+        contextName: WEBHOOK_FEATURE,
+        staticConfiguration: {
+          featureName: WEBHOOK_FEATURE,
+          schemaFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            'src',
+            'prisma',
+            PRISMA_SCHEMA_FILE
+          ),
+          prismaModule: isInfrastructureMode()
+            ? import(`@nestjs-mod/prisma`)
+            : import(`@prisma/webhook-client`),
+          addMigrationScripts: false,
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
+        },
+      }),
     ],
-    feature: [AppModule.forRoot()],
+    feature: [
+      AppModule.forRoot(),
+      WebhookModule.forRoot({
+        staticConfiguration: {
+          events: ['create', 'update', 'delete'].map((key) => ({
+            eventName: `app-demo.${key}`,
+            description: `${key}`,
+            example: {
+              id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+              name: 'demo name',
+              createdAt: '2024-10-02T18:49:07.992Z',
+              updatedAt: '2024-10-02T18:49:07.992Z',
+            },
+          })),
+        },
+      }),
+    ],
     infrastructure: [
       InfrastructureMarkdownReportGenerator.forRoot({
         staticConfiguration: {
@@ -140,6 +182,33 @@ bootstrapNestApplication({
           featureName: appFeatureName,
           migrationsFolder: join(appFolder, 'src', 'migrations'),
           configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
+        },
+      }),
+      DockerComposePostgreSQL.forFeatureAsync({
+        featureModuleName: WEBHOOK_FEATURE,
+        featureConfiguration: {
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
+        },
+      }),
+      Flyway.forRoot({
+        staticConfiguration: {
+          featureName: WEBHOOK_FEATURE,
+          migrationsFolder: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            'src',
+            'migrations'
+          ),
+          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
+          nxProjectJsonFile: join(
+            rootFolder,
+            WEBHOOK_FOLDER,
+            PROJECT_JSON_FILE
+          ),
         },
       }),
     ],

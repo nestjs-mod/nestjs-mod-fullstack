@@ -3,6 +3,7 @@ const { composePlugins, withNx } = require('@nx/webpack');
 // Nx plugins for webpack.
 module.exports = composePlugins(
   withNx({
+    sourceMap: true,
     target: 'node',
   }),
   (config) => {

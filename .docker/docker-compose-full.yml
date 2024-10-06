@@ -33,6 +33,7 @@ services:
       NX_SKIP_NX_CACHE: 'true'
       SERVER_ROOT_DATABASE_URL: '${SERVER_ROOT_DATABASE_URL}'
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
         condition: 'service_healthy'
@@ -58,6 +59,8 @@ services:
     environment:
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
       SERVER_PORT: '${SERVER_PORT}'
+      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
+      SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:

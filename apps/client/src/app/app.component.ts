@@ -15,10 +15,11 @@ export class AppComponent implements OnInit {
   title = 'client';
   serverMessage!: string;
 
-  constructor(private readonly defaultRestService: DefaultRestService) { }
+  constructor(private readonly defaultRestService: DefaultRestService) {}
 
   ngOnInit() {
-    this.defaultRestService.appControllerGetData()
+    this.defaultRestService
+      .appControllerGetData()
       .subscribe((result) => (this.serverMessage = result.message));
   }
 }
