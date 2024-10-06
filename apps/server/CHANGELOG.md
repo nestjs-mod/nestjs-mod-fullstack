@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.1.2...server-v1.2.0) (2024-10-06)
+
+### Features
+
+- Creating a configurable Webhook module for a NestJS application (2024-10-06) ([9f15399](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/9f1539978321075aa969d653356d7fecd2ad03df))
+
 ## [1.1.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.1.1...server-v1.1.2) (2024-09-19)
 
 ### Bug Fixes
