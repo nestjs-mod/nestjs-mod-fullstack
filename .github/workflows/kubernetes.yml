@@ -528,6 +528,7 @@ jobs:
           SERVER_APP_DATABASE_PASSWORD: ${{ secrets.SERVER_APP_DATABASE_PASSWORD }}
           SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
+          SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME}}
         # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
         run: |
           rm -rf ./.kubernetes/generated
