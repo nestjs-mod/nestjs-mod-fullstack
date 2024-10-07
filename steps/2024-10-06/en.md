@@ -216,7 +216,7 @@ CREATE libs/feature/webhook/src/lib/webhook.module.ts
 
 Since for the `@nestjs-mod/prisma` module to work, it is necessary to transfer the module with the generated client to our database, which does not yet exist, then we transfer the `@nestjs-mod/prisma` itself, since it has a stub.
 
-Adding new modules to `apps/server/src/main.ts'.
+Adding new modules to `apps/server/src/main.ts`.
 
 ```typescript
 import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod-fullstack/webhook';
@@ -626,7 +626,7 @@ bootstrapNestApplication({
 
 I usually create migration files with my hands using this template: `V%Y%m%d%H%M__New Migration.sql`.
 
-After starting the generation of additional infrastructure code, additional commands for working with migrations appear in the library, the same commands can be run from the scripts of the root package.json`.
+After starting the generation of additional infrastructure code, additional commands for working with migrations appear in the library, the same commands can be run from the scripts of the root `package.json`.
 
 _Commands_
 
@@ -1352,7 +1352,7 @@ The generator creates a typical configuration of the NestJS-mod module, but we d
 ```bash
 rm -rf libs/common/src/lib
 rm -rf libs/testing/src/lib
-rm -rf libs/core/prisma-tools/src/lib/prisma-tools.environments.ts
+rm -rf libs/core/prisma-tools/src/lib/prisma-tools.configuration.ts
 ```
 
 ### 12. Adding common types that can be reused in other modules
@@ -1414,7 +1414,7 @@ There are very few utilities at this stage, but as the application expands, ther
 
 **Module environment variables**
 
-Information on how to transfer them can be found in the infrastructure document https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/apps/server/INFRASTRUCTURE.MD, using the `hidden: true` option we hide when generating `.env' files.
+Information on how to transfer them can be found in the infrastructure document https://github.com/nestjs-mod/nestjs-mod-fullstack/blob/master/apps/server/INFRASTRUCTURE.MD, using the `hidden: true` option we hide when generating `.env` files.
 
 Example of environment variables:
 
@@ -1763,7 +1763,7 @@ export class WebhookEnvironments {
 
 **Module configuration**
 
-Environment variables can be changed from site to site, but there are also settings that are set when building the application, they are the same between all stands.
+Environment variables can be changed from stand to stand, but there are also settings that are set when building the application, they are the same between all stands.
 
 These settings include the types of events that can be sent as webhooks, as well as the names of the header keys to identify the current user or the current company.
 
@@ -1796,7 +1796,7 @@ export class WebhookConfiguration {
 
 **Class with module errors**
 
-Since at this stage the project is being developed as a `REST` backend, which is available on the frontend as an `OpenAPI` library, the class with errors is also published in the 'Swagger` schema.
+Since at this stage the project is being developed as a `REST` backend, which is available on the frontend as an `OpenAPI` library, the class with errors is also published in the `Swagger` schema.
 
 In order for the error description to be more detailed, it uses decorators that add meta information that will be output to the `Swagger` schema.
 
@@ -1970,7 +1970,7 @@ export type WebhookRequest = {
 
 **Module Decorators**
 
-The 'SkipWebhookGuard`decorator is needed to exclude the controller method or the entire controller from the`Guard` check.
+The `SkipWebhookGuard` decorator is needed to exclude the controller method or the entire controller from the`Guard` check.
 
 The `CheckWebhookRole` decorator starts checking the user's role availability.
 
@@ -2576,7 +2576,7 @@ export class WebhookServiceBootstrap implements OnApplicationBootstrap, OnModule
 
 **Filter for module errors**
 
-To convert module errors to an `Http' error, create a 'WebhookExceptionsFilter'.
+To convert module errors to an `Http` error, create a `WebhookExceptionsFilter`.
 
 Creating a file _libs/feature/webhook/src/lib/webhook.filter.ts_
 
@@ -2765,7 +2765,7 @@ export class WebhookGuard implements CanActivate {
 
 **NestJS-mod module**
 
-Unlike `PrismaToolsModule' (example: SERVER_USE_FILTERS), the environment variables of the current module will have a prefix (example: SERVER_WEBHOOK_USE_FILTERS), this is done by overriding `getFeatureDotEnvPropertyNameFormatter'.
+Unlike `PrismaToolsModule` (example: SERVER_USE_FILTERS), the environment variables of the current module will have a prefix (example: SERVER_WEBHOOK_USE_FILTERS), this is done by overriding `getFeatureDotEnvPropertyNameFormatter`.
 
 Turning off the `Guard` and `Filter` on the controllers occurs by wrapping them in special decorators when the module is connected.
 
@@ -4282,7 +4282,7 @@ node:internal/child_process/serialization:159
 
 The `createNestModule` utility from the `@nestjs-mod/common` package provides various module configuration options for `NestJS-mod` and `NestJS` applications, this allows us not to invent our own configuration options.
 
-Since the module has its own database, it can be moved to a separate microservice or reused in various projects.
+Since the `WebhookModule` module has its own database, it can be moved to a separate microservice or reused in various projects.
 
 ### Plans
 
