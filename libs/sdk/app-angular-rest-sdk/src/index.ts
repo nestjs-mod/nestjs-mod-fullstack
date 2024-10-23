@@ -21,11 +21,15 @@ export * from './lib/model/terminus-health-check-controller-check200-response.in
 export * from './lib/model/terminus-health-check-controller-check503-response.interface';
 export * from './lib/model/update-webhook-args.interface';
 export * from './lib/model/update-webhook-user-args.interface';
+export * from './lib/model/webhook-entities.interface';
 export * from './lib/model/webhook-error-enum.interface';
 export * from './lib/model/webhook-error.interface';
 export * from './lib/model/webhook-event.interface';
 export * from './lib/model/webhook-log-object.interface';
+export * from './lib/model/webhook-log-scalar-field-enum.interface';
 export * from './lib/model/webhook-object.interface';
 export * from './lib/model/webhook-role.interface';
+export * from './lib/model/webhook-scalar-field-enum.interface';
 export * from './lib/model/webhook-status.interface';
 export * from './lib/model/webhook-user-object.interface';
+export * from './lib/model/webhook-user-scalar-field-enum.interface';

@@ -30,6 +30,9 @@
         "libs/sdk/app-rest-sdk/src/index.ts"
       ],
       "@nestjs-mod-fullstack/common": ["libs/common/src/index.ts"],
+      "@nestjs-mod-fullstack/common-angular": [
+        "libs/common-angular/src/index.ts"
+      ],
       "@nestjs-mod-fullstack/prisma-tools": [
         "libs/core/prisma-tools/src/index.ts"
       ],

@@ -548,6 +548,7 @@ export class WebhookRestService {
    * @param curPage
    * @param perPage
    * @param searchText
+   * @param sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -557,6 +558,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -571,6 +573,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -585,6 +588,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -599,6 +603,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -627,6 +632,13 @@ export class WebhookRestService {
         localVarQueryParameters,
         <any>searchText,
         'searchText'
+      );
+    }
+    if (sort !== undefined && sort !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>sort,
+        'sort'
       );
     }
 
@@ -708,6 +720,7 @@ export class WebhookRestService {
    * @param curPage
    * @param perPage
    * @param searchText
+   * @param sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -718,6 +731,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -725,7 +739,7 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<Array<FindManyWebhookLogResponseInterface>>;
+  ): Observable<FindManyWebhookLogResponseInterface>;
   public webhookControllerFindManyLogs(
     id: string,
     xExternalUserId?: string,
@@ -733,6 +747,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -740,7 +755,7 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<Array<FindManyWebhookLogResponseInterface>>>;
+  ): Observable<HttpResponse<FindManyWebhookLogResponseInterface>>;
   public webhookControllerFindManyLogs(
     id: string,
     xExternalUserId?: string,
@@ -748,6 +763,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -755,7 +771,7 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<Array<FindManyWebhookLogResponseInterface>>>;
+  ): Observable<HttpEvent<FindManyWebhookLogResponseInterface>>;
   public webhookControllerFindManyLogs(
     id: string,
     xExternalUserId?: string,
@@ -763,6 +779,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -797,6 +814,13 @@ export class WebhookRestService {
         localVarQueryParameters,
         <any>searchText,
         'searchText'
+      );
+    }
+    if (sort !== undefined && sort !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>sort,
+        'sort'
       );
     }
 
@@ -863,7 +887,7 @@ export class WebhookRestService {
       dataType: 'string',
       dataFormat: undefined,
     })}/logs`;
-    return this.httpClient.request<Array<FindManyWebhookLogResponseInterface>>(
+    return this.httpClient.request<FindManyWebhookLogResponseInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {
@@ -1447,6 +1471,7 @@ export class WebhookRestService {
    * @param curPage
    * @param perPage
    * @param searchText
+   * @param sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -1456,6 +1481,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1470,6 +1496,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1484,6 +1511,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1498,6 +1526,7 @@ export class WebhookRestService {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1526,6 +1555,13 @@ export class WebhookRestService {
         localVarQueryParameters,
         <any>searchText,
         'searchText'
+      );
+    }
+    if (sort !== undefined && sort !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>sort,
+        'sort'
       );
     }
 

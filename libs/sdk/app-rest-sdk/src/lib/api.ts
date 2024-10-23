@@ -358,6 +358,32 @@ export interface UpdateWebhookUserArgs {
 /**
  *
  * @export
+ * @interface WebhookEntities
+ */
+export interface WebhookEntities {
+  /**
+   *
+   * @type {WebhookScalarFieldEnum}
+   * @memberof WebhookEntities
+   */
+  webhook: WebhookScalarFieldEnum;
+  /**
+   *
+   * @type {WebhookLogScalarFieldEnum}
+   * @memberof WebhookEntities
+   */
+  webhookLog: WebhookLogScalarFieldEnum;
+  /**
+   *
+   * @type {WebhookUserScalarFieldEnum}
+   * @memberof WebhookEntities
+   */
+  webhookUser: WebhookUserScalarFieldEnum;
+}
+
+/**
+ *
+ * @export
  * @interface WebhookError
  */
 export interface WebhookError {
@@ -432,6 +458,12 @@ export interface WebhookEvent {
 export interface WebhookLogObject {
   /**
    *
+   * @type {string}
+   * @memberof WebhookLogObject
+   */
+  id: string;
+  /**
+   *
    * @type {object}
    * @memberof WebhookLogObject
    */
@@ -455,6 +487,27 @@ export interface WebhookLogObject {
    */
   webhookStatus: WebhookStatus;
 }
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const WebhookLogScalarFieldEnum = {
+  Id: 'id',
+  Request: 'request',
+  ResponseStatus: 'responseStatus',
+  Response: 'response',
+  WebhookStatus: 'webhookStatus',
+  WebhookId: 'webhookId',
+  ExternalTenantId: 'externalTenantId',
+  CreatedAt: 'createdAt',
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type WebhookLogScalarFieldEnum =
+  (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
 
 /**
  *
@@ -518,6 +571,29 @@ export type WebhookRole = (typeof WebhookRole)[keyof typeof WebhookRole];
  * @enum {string}
  */
 
+export const WebhookScalarFieldEnum = {
+  Id: 'id',
+  EventName: 'eventName',
+  Endpoint: 'endpoint',
+  Enabled: 'enabled',
+  Headers: 'headers',
+  RequestTimeout: 'requestTimeout',
+  ExternalTenantId: 'externalTenantId',
+  CreatedBy: 'createdBy',
+  UpdatedBy: 'updatedBy',
+  CreatedAt: 'createdAt',
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type WebhookScalarFieldEnum =
+  (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
 export const WebhookStatus = {
   Pending: 'Pending',
   Process: 'Process',
@@ -559,6 +635,24 @@ export interface WebhookUserObject {
    */
   userRole: WebhookRole;
 }
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const WebhookUserScalarFieldEnum = {
+  Id: 'id',
+  ExternalTenantId: 'externalTenantId',
+  ExternalUserId: 'externalUserId',
+  UserRole: 'userRole',
+  CreatedAt: 'createdAt',
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type WebhookUserScalarFieldEnum =
+  (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
 
 /**
  * DefaultApi - axios parameter creator
@@ -1449,6 +1543,7 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1458,6 +1553,7 @@ export const WebhookApiAxiosParamCreator = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/webhook`;
@@ -1486,6 +1582,10 @@ export const WebhookApiAxiosParamCreator = function (
 
       if (searchText !== undefined) {
         localVarQueryParameter['searchText'] = searchText;
+      }
+
+      if (sort !== undefined) {
+        localVarQueryParameter['sort'] = sort;
       }
 
       if (xExternalUserId != null) {
@@ -1519,6 +1619,7 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1529,6 +1630,7 @@ export const WebhookApiAxiosParamCreator = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -1562,6 +1664,10 @@ export const WebhookApiAxiosParamCreator = function (
 
       if (searchText !== undefined) {
         localVarQueryParameter['searchText'] = searchText;
+      }
+
+      if (sort !== undefined) {
+        localVarQueryParameter['sort'] = sort;
       }
 
       if (xExternalUserId != null) {
@@ -1834,6 +1940,7 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1843,6 +1950,7 @@ export const WebhookApiAxiosParamCreator = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/webhook/users`;
@@ -1871,6 +1979,10 @@ export const WebhookApiAxiosParamCreator = function (
 
       if (searchText !== undefined) {
         localVarQueryParameter['searchText'] = searchText;
+      }
+
+      if (sort !== undefined) {
+        localVarQueryParameter['sort'] = sort;
       }
 
       if (xExternalUserId != null) {
@@ -2152,6 +2264,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2161,6 +2274,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
@@ -2175,6 +2289,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
           curPage,
           perPage,
           searchText,
+          sort,
           options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2198,6 +2313,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2208,12 +2324,13 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<Array<FindManyWebhookLogResponse>>
+      ) => AxiosPromise<FindManyWebhookLogResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.webhookControllerFindManyLogs(
@@ -2223,6 +2340,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
           curPage,
           perPage,
           searchText,
+          sort,
           options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2392,6 +2510,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2401,6 +2520,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
@@ -2415,6 +2535,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
           curPage,
           perPage,
           searchText,
+          sort,
           options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2594,6 +2715,7 @@ export const WebhookApiFactory = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2603,6 +2725,7 @@ export const WebhookApiFactory = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
     ): AxiosPromise<FindManyWebhookResponse> {
       return localVarFp
@@ -2612,6 +2735,7 @@ export const WebhookApiFactory = function (
           curPage,
           perPage,
           searchText,
+          sort,
           options
         )
         .then((request) => request(axios, basePath));
@@ -2624,6 +2748,7 @@ export const WebhookApiFactory = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2634,8 +2759,9 @@ export const WebhookApiFactory = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
-    ): AxiosPromise<Array<FindManyWebhookLogResponse>> {
+    ): AxiosPromise<FindManyWebhookLogResponse> {
       return localVarFp
         .webhookControllerFindManyLogs(
           id,
@@ -2644,6 +2770,7 @@ export const WebhookApiFactory = function (
           curPage,
           perPage,
           searchText,
+          sort,
           options
         )
         .then((request) => request(axios, basePath));
@@ -2743,6 +2870,7 @@ export const WebhookApiFactory = function (
      * @param {number} [curPage]
      * @param {number} [perPage]
      * @param {string} [searchText]
+     * @param {string} [sort]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2752,6 +2880,7 @@ export const WebhookApiFactory = function (
       curPage?: number,
       perPage?: number,
       searchText?: string,
+      sort?: string,
       options?: RawAxiosRequestConfig
     ): AxiosPromise<FindManyWebhookUserResponse> {
       return localVarFp
@@ -2761,6 +2890,7 @@ export const WebhookApiFactory = function (
           curPage,
           perPage,
           searchText,
+          sort,
           options
         )
         .then((request) => request(axios, basePath));
@@ -2899,6 +3029,7 @@ export class WebhookApi extends BaseAPI {
    * @param {number} [curPage]
    * @param {number} [perPage]
    * @param {string} [searchText]
+   * @param {string} [sort]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WebhookApi
@@ -2909,6 +3040,7 @@ export class WebhookApi extends BaseAPI {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     options?: RawAxiosRequestConfig
   ) {
     return WebhookApiFp(this.configuration)
@@ -2918,6 +3050,7 @@ export class WebhookApi extends BaseAPI {
         curPage,
         perPage,
         searchText,
+        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath));
@@ -2931,6 +3064,7 @@ export class WebhookApi extends BaseAPI {
    * @param {number} [curPage]
    * @param {number} [perPage]
    * @param {string} [searchText]
+   * @param {string} [sort]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WebhookApi
@@ -2942,6 +3076,7 @@ export class WebhookApi extends BaseAPI {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     options?: RawAxiosRequestConfig
   ) {
     return WebhookApiFp(this.configuration)
@@ -2952,6 +3087,7 @@ export class WebhookApi extends BaseAPI {
         curPage,
         perPage,
         searchText,
+        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath));
@@ -3055,6 +3191,7 @@ export class WebhookApi extends BaseAPI {
    * @param {number} [curPage]
    * @param {number} [perPage]
    * @param {string} [searchText]
+   * @param {string} [sort]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WebhookApi
@@ -3065,6 +3202,7 @@ export class WebhookApi extends BaseAPI {
     curPage?: number,
     perPage?: number,
     searchText?: string,
+    sort?: string,
     options?: RawAxiosRequestConfig
   ) {
     return WebhookApiFp(this.configuration)
@@ -3074,6 +3212,7 @@ export class WebhookApi extends BaseAPI {
         curPage,
         perPage,
         searchText,
+        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath));

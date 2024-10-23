@@ -11,6 +11,7 @@
 import { WebhookStatusInterface } from './webhook-status.interface';
 
 export interface WebhookLogObjectInterface {
+  id: string;
   request: object;
   responseStatus: string;
   response?: object;
