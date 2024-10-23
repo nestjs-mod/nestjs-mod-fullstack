@@ -1,4 +1,5 @@
 import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
+import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
@@ -19,7 +20,6 @@ import {
   ApiTags,
   refs,
 } from '@nestjs/swagger';
-import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
 import { WebhookUser } from '../generated/rest/dto/webhook_user';
 import { WebhookToolsService } from '../services/webhook-tools.service';
@@ -32,6 +32,7 @@ import {
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
   CheckWebhookRole,
+  CurrentWebhookExternalTenantId,
   CurrentWebhookRequest,
   CurrentWebhookUser,
 } from '../webhook.decorators';
@@ -65,6 +66,22 @@ export class WebhookUsersController {
         perPage: args.perPage,
       });
     const searchText = args.searchText;
+
+    const orderBy = (args.sort || 'createdAt:desc')
+      .split(',')
+      .map((s) => s.split(':'))
+      .reduce(
+        (all, [key, value]) => ({
+          ...all,
+          ...(key in Prisma.WebhookUserScalarFieldEnum
+            ? {
+                [key]: value === 'desc' ? 'desc' : 'asc',
+              }
+            : {}),
+        }),
+        {}
+      );
+
     const result = await this.prismaClient.$transaction(async (prisma) => {
       return {
         webhookUsers: await prisma.webhookUser.findMany({
@@ -85,7 +102,7 @@ export class WebhookUsersController {
           },
           take,
           skip,
-          orderBy: { createdAt: 'desc' },
+          orderBy,
         }),
         totalResults: await prisma.webhookUser.count({
           where: {
@@ -119,7 +136,7 @@ export class WebhookUsersController {
   @Put(':id')
   @ApiOkResponse({ type: WebhookUserObject })
   async updateOne(
-    @CurrentWebhookRequest() webhookRequest: WebhookRequest,
+    @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() args: UpdateWebhookUserArgs
@@ -130,7 +147,7 @@ export class WebhookUsersController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookRequest.externalTenantId
+          externalTenantId
         ),
       },
     });
@@ -139,7 +156,7 @@ export class WebhookUsersController {
   @Delete(':id')
   @ApiOkResponse({ type: StatusResponse })
   async deleteOne(
-    @CurrentWebhookRequest() webhookRequest: WebhookRequest,
+    @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
@@ -148,7 +165,7 @@ export class WebhookUsersController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookRequest.externalTenantId
+          externalTenantId
         ),
       },
     });

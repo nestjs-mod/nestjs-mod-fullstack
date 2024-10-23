@@ -8,12 +8,13 @@ import {
 import { BaseExceptionFilter } from '@nestjs/core';
 import { WebhookError } from './webhook.errors';
 
-@Catch()
+@Catch(WebhookError)
 export class WebhookExceptionsFilter extends BaseExceptionFilter {
   private logger = new Logger(WebhookExceptionsFilter.name);
 
-  override catch(exception: WebhookError | HttpException, host: ArgumentsHost) {
+  override catch(exception: WebhookError, host: ArgumentsHost) {
     if (exception instanceof WebhookError) {
+      this.logger.error(exception, exception.stack);
       super.catch(
         new HttpException(
           {
@@ -26,7 +27,8 @@ export class WebhookExceptionsFilter extends BaseExceptionFilter {
         host
       );
     } else {
-      this.logger.error(exception, exception.stack);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.logger.error(exception, (exception as any)?.stack);
       super.catch(exception, host);
     }
   }

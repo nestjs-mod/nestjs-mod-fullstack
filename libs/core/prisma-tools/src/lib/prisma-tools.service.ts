@@ -69,7 +69,7 @@ export class PrismaToolsService {
           };
         }
 
-        this.logger.debug({ ...exception });
+        this.logger.error(exception, exception.stack);
 
         return {
           message:

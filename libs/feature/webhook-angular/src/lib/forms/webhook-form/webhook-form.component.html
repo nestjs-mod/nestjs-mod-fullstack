@@ -1,0 +1,24 @@
+@if (formlyFields$ | async) {
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <formly-form
+    [model]="formlyModel$ | async"
+    [fields]="(formlyFields$ | async) || []"
+    [form]="form"
+  >
+  </formly-form>
+  @if (!hideButtons) {
+  <nz-form-control>
+    <button
+      nzBlock
+      nz-button
+      nzType="primary"
+      type="submit"
+      [disabled]="!form.valid"
+    >
+      {{ id ? 'Save' : 'Create' }}
+    </button>
+  </nz-form-control>
+  }
+</form>
+
+}

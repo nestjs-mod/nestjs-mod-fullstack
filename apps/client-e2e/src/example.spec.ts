@@ -7,7 +7,7 @@ test('has title', async ({ page }) => {
   });
 
   // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
+  expect(await page.locator('.logo').innerText()).toContain('client');
 });
 
 test('has serverMessage', async ({ page }) => {

@@ -2,7 +2,7 @@ name: 'Kubernetes'
 
 on:
   push:
-    branches: ['master']
+    branches: ['feature/post-2024-10-11']
 env:
   REGISTRY: ghcr.io
   BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server

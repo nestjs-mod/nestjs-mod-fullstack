@@ -15,6 +15,7 @@ export * from './lib/generated/rest/dto/webhook_user';
 export * from './lib/services/webhook-bootstrap.service';
 export * from './lib/services/webhook-tools.service';
 export * from './lib/services/webhook.service';
+export * from './lib/types/webhook-entities';
 export * from './lib/types/webhook-event-object';
 export * from './lib/types/webhook-log-object';
 export * from './lib/types/webhook-object';

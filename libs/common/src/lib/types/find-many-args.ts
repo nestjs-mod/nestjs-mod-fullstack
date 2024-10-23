@@ -9,4 +9,7 @@ export class FindManyArgs {
 
   @ApiPropertyOptional({ type: String })
   searchText?: string;
+
+  @ApiPropertyOptional({ type: String })
+  sort?: string;
 }
