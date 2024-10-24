@@ -1,24 +1,45 @@
-import { test, expect } from '@playwright/test';
+import { expect, Page, test } from '@playwright/test';
+import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
-test('has title', async ({ page }) => {
-  await page.goto('/', {
-    timeout: 5000,
+test.describe('basic usage', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  let page: Page;
+
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage({
+      viewport: { width: 1280, height: 1280 },
+      recordVideo: {
+        dir: join(__dirname, 'video'),
+        size: { width: 1280, height: 1280 },
+      },
+    });
   });
 
-  // Expect h1 to contain a substring.
-  expect(await page.locator('.logo').innerText()).toContain('client');
-});
-
-test('has serverMessage', async ({ page }) => {
-  await page.goto('/', {
-    timeout: 5000,
+  test.afterAll(async () => {
+    await page.close();
   });
 
-  await setTimeout(20000);
+  test('has title', async () => {
+    await page.goto('/', {
+      timeout: 5000,
+    });
 
-  // Expect h1 to contain a substring.
-  expect(await page.locator('#serverMessage').innerText()).toContain(
-    'Hello API'
-  );
+    // Expect h1 to contain a substring.
+    expect(await page.locator('.logo').innerText()).toContain('client');
+  });
+
+  test('has serverMessage', async () => {
+    await page.goto('/', {
+      timeout: 5000,
+    });
+
+    await setTimeout(3000);
+
+    // Expect h1 to contain a substring.
+    expect(await page.locator('#serverMessage').innerText()).toContain(
+      'Hello API'
+    );
+  });
 });

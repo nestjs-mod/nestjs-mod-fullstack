@@ -1,6 +1,6 @@
 import { getRandomExternalHeaders } from '@nestjs-mod-fullstack/testing';
 import { expect, Page, test } from '@playwright/test';
-import { writeFileSync } from 'fs';
+import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('CRUD operations with Webhook as "User" role', () => {
@@ -12,7 +12,17 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   let webhookId: string | null;
 
   test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage();
+    page = await browser.newPage({
+      viewport: { width: 1280, height: 1280 },
+      recordVideo: {
+        dir: join(__dirname, 'video'),
+        size: { width: 1280, height: 1280 },
+      },
+    });
+  });
+
+  test.afterAll(async () => {
+    await page.close();
   });
 
   test('sign in as user', async () => {
@@ -57,7 +67,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   test('should create new webhook', async () => {
     await page.locator('webhook-grid').locator('button').first().click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await page
       .locator('webhook-form')
@@ -85,7 +95,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     webhookId = await page
       .locator('webhook-grid')
@@ -118,7 +128,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=eventName]')
@@ -144,7 +154,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await expect(
       page.locator('webhook-grid').locator('td').nth(0)
@@ -175,7 +185,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await expect(
       page
@@ -190,7 +200,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await expect(
       page.locator('webhook-grid').locator('nz-embed-empty')
@@ -213,7 +223,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(2000);
+    await setTimeout(3000);
 
     await expect(
       page.locator('nz-header').locator('[nz-menu-item]').last()
