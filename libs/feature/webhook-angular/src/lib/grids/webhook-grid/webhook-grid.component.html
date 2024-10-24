@@ -46,8 +46,12 @@
 >
   <thead>
     <tr>
-      @for (key of columnsKeys; track $index) {
-      <th [nzColumnKey]="key" [nzSortFn]="true" [nzSortOrder]="meta.sort[key]">
+      @for (key of columns; track $index) {
+      <th
+        [nzColumnKey]="key"
+        [nzSortFn]="true"
+        [nzSortOrder]="meta.sort[key] | nzTableSortOrderDetector"
+      >
         webhook.grid.{{ key }}
       </th>
       }
@@ -61,7 +65,7 @@
       (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
       [class.selected]="selectedIds[0] === data.id"
     >
-      @for (key of columnsKeys; track $index) {
+      @for (key of columns; track $index) {
       <td>{{ data[key] }}</td>
       }
       <td>

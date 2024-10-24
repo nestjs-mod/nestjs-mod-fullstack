@@ -23,11 +23,11 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
-import { WebhookLogScalarFieldEnumInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   getQueryMeta,
   getQueryMetaByParams,
   NgChanges,
+  NzTableSortOrderDetectorPipe,
   RequestMeta,
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookLogService } from '../../services/webhook-log.service';
@@ -49,6 +49,7 @@ import { WebhookLogService } from '../../services/webhook-log.service';
     NzIconModule,
     FormsModule,
     ReactiveFormsModule,
+    NzTableSortOrderDetectorPipe,
   ],
   selector: 'webhook-log-grid',
   templateUrl: './webhook-log-grid.component.html',
@@ -58,27 +59,11 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   @Input({ required: true })
   webhookId!: string | undefined;
 
-  @Input()
-  columns: Record<
-    keyof Pick<
-      typeof WebhookLogScalarFieldEnumInterface,
-      'id' | 'request' | 'response' | 'responseStatus' | 'webhookStatus'
-    >,
-    'boolean' | 'string' | 'number'
-  > = {
-    id: 'string',
-    request: 'string',
-    response: 'string',
-    responseStatus: 'string',
-    webhookStatus: 'string',
-  };
-
   items$ = new BehaviorSubject<WebhookLogObjectInterface[]>([]);
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
-
-  columnsKeys: string[] = [];
+  columns = ['id', 'request', 'response', 'responseStatus', 'webhookStatus'];
 
   private filters?: Record<string, string>;
 
@@ -103,7 +88,6 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.columnsKeys = Object.keys(this.columns);
     this.loadMany();
   }
 

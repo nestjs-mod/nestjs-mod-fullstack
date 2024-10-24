@@ -22,7 +22,7 @@
 >
   <thead>
     <tr>
-      @for (key of columnsKeys; track $index) {
+      @for (key of columns; track $index) {
       <th [nzColumnKey]="key">demo.grid.{{ key }}</th>
       }
       <th>Action</th>
@@ -35,7 +35,7 @@
       (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
       [class.selected]="selectedIds[0] === data.id"
     >
-      @for (key of columnsKeys; track $index) {
+      @for (key of columns; track $index) {
       <td>{{ data[key] }}</td>
       }
       <td>

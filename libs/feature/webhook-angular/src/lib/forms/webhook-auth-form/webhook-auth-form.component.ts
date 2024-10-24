@@ -52,12 +52,6 @@ export class WebhookAuthFormComponent implements OnInit {
   @Input()
   hideButtons?: boolean;
 
-  @Input()
-  inputs: WebhookAuthCredentials = {
-    xExternalUserId: 'string',
-    xExternalTenantId: 'string',
-  };
-
   @Output()
   afterSignIn = new EventEmitter<WebhookAuthCredentials>();
 
@@ -81,42 +75,40 @@ export class WebhookAuthFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: Partial<WebhookAuthCredentials> = {}) {
-    this.formlyFields$.next(
-      ['xExternalUserId', 'xExternalTenantId']
-        .filter((key) => this.getFormlyFieldType(key))
-        .map((key) => ({
-          key,
-          type: this.getFormlyFieldType(key),
-          validation: {
-            show: true,
-          },
-          props: {
-            label: `webhook.signInForm.${key}`,
-            placeholder: key,
-            required: false,
-          },
-        }))
-    );
-    this.formlyModel$.next(
-      ['xExternalUserId', 'xExternalTenantId']
-        .filter((key) => this.getFormlyFieldType(key))
-        .reduce(
-          (all, key) => ({
-            ...all,
-            [key]:
-              (this.getFormlyFieldType(key) === 'textarea'
-                ? JSON.stringify(data[key])
-                : data[key]) || '',
-          }),
-          {}
-        )
-    );
+    this.formlyFields$.next([
+      {
+        key: 'xExternalUserId',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.xExternalUserId`,
+          placeholder: 'xExternalUserId',
+          required: true,
+        },
+      },
+      {
+        key: 'xExternalTenantId',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.xExternalTenantId`,
+          placeholder: 'xExternalTenantId',
+          required: true,
+        },
+      },
+    ]);
+    this.formlyModel$.next(this.toModel(data));
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      this.afterSignIn.next(this.form.value);
-      this.webhookAuthService.setWebhookAuthCredentials(this.form.value);
+      const value = this.toJson(this.form.value);
+      this.afterSignIn.next(value);
+      this.webhookAuthService.setWebhookAuthCredentials(value);
       this.nzMessageService.success('Success');
     } else {
       console.log(this.form.controls);
@@ -139,16 +131,17 @@ export class WebhookAuthFormComponent implements OnInit {
     });
   }
 
-  private getFormlyFieldType(key: string): string {
-    if (!this.inputs[key]) {
-      return '';
-    }
-    if (this.inputs[key] === 'boolean') {
-      return 'checkbox';
-    }
-    if (this.inputs[key] === 'text') {
-      return 'textarea';
-    }
-    return 'input';
+  private toModel(data: Partial<WebhookAuthCredentials>): object | null {
+    return {
+      xExternalUserId: data['xExternalUserId'],
+      xExternalTenantId: data['xExternalTenantId'],
+    };
+  }
+
+  private toJson(data: Partial<WebhookAuthCredentials>) {
+    return {
+      xExternalUserId: data['xExternalUserId'],
+      xExternalTenantId: data['xExternalTenantId'],
+    };
   }
 }

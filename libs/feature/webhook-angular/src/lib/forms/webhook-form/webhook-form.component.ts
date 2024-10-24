@@ -17,8 +17,8 @@ import {
 import {
   WebhookEventInterface,
   WebhookObjectInterface,
-  WebhookScalarFieldEnumInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { safeParseJson } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -53,21 +53,6 @@ export class WebhookFormComponent implements OnInit {
 
   @Input()
   hideButtons?: boolean;
-
-  @Input()
-  inputs: Record<
-    keyof Pick<
-      typeof WebhookScalarFieldEnumInterface,
-      'enabled' | 'endpoint' | 'eventName' | 'headers' | 'requestTimeout'
-    >,
-    'boolean' | 'string' | 'number' | 'text'
-  > = {
-    enabled: 'boolean',
-    endpoint: 'string',
-    eventName: 'string',
-    headers: 'text',
-    requestTimeout: 'number',
-  };
 
   @Output()
   afterFind = new EventEmitter<WebhookObjectInterface>();
@@ -118,42 +103,73 @@ export class WebhookFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: Partial<WebhookObjectInterface> = {}) {
-    this.formlyFields$.next(
-      Object.keys(WebhookScalarFieldEnumInterface)
-        .filter((key) => this.getFormlyFieldType(key))
-        .map((key) => ({
-          key,
-          type: this.getFormlyFieldType(key),
-          validation: {
-            show: true,
-          },
-          props: {
-            label: `webhook.form.${key}`,
-            placeholder: key,
-            required: true,
-            options: this.events.map((e) => ({
-              value: e.eventName,
-              label: e.description,
-            })),
-          },
-        }))
-    );
-    this.formlyModel$.next(
-      this.getFormValue(
-        Object.keys(WebhookScalarFieldEnumInterface)
-          .filter((key) => this.getFormlyFieldType(key))
-          .reduce(
-            (all, key) => ({
-              ...all,
-              [key]:
-                (this.getFormlyFieldType(key) === 'textarea'
-                  ? JSON.stringify(data[key])
-                  : data[key]) || '',
-            }),
-            {}
-          ) as WebhookObjectInterface
-      )
-    );
+    this.formlyFields$.next([
+      {
+        key: 'enabled',
+        type: 'checkbox',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.enabled`,
+          placeholder: 'enabled',
+          required: true,
+        },
+      },
+      {
+        key: 'endpoint',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.endpoint`,
+          placeholder: 'endpoint',
+          required: true,
+        },
+      },
+      {
+        key: 'eventName',
+        type: 'select',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.eventName`,
+          placeholder: 'eventName',
+          required: true,
+          options: this.events.map((e) => ({
+            value: e.eventName,
+            label: e.description,
+          })),
+        },
+      },
+      {
+        key: 'headers',
+        type: 'textarea',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.headers`,
+          placeholder: 'headers',
+          required: true,
+        },
+      },
+      {
+        key: 'requestTimeout',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `webhook.form.requestTimeout`,
+          placeholder: 'requestTimeout',
+          required: true,
+        },
+      },
+    ]);
+    this.formlyModel$.next(this.toModel(data));
   }
 
   submitForm(): void {
@@ -187,20 +203,14 @@ export class WebhookFormComponent implements OnInit {
   }
 
   createOne() {
-    return this.webhookService.createOne({
-      ...this.form.value,
-      headers: this.safeParseJson(this.form.value.headers),
-    });
+    return this.webhookService.createOne(this.toJson(this.form.value));
   }
 
   updateOne() {
     if (!this.id) {
       throw new Error('id not set');
     }
-    return this.webhookService.updateOne(this.id, {
-      ...this.form.value,
-      headers: this.safeParseJson(this.form.value.headers),
-    });
+    return this.webhookService.updateOne(this.id, this.toJson(this.form.value));
   }
 
   findOne() {
@@ -214,42 +224,31 @@ export class WebhookFormComponent implements OnInit {
     );
   }
 
-  private getFormlyFieldType(key: string): string {
-    if (!this.inputs[key]) {
-      return '';
-    }
-    if (key === 'eventName') {
-      return 'select';
-    }
-    if (this.inputs[key] === 'boolean') {
-      return 'checkbox';
-    }
-    if (this.inputs[key] === 'text') {
-      return 'textarea';
-    }
-    return 'input';
+  private toModel(data: Partial<WebhookObjectInterface>): object | null {
+    return {
+      enabled:
+        (data['enabled'] as unknown as string) === 'true' ||
+        data['enabled'] === true,
+      endpoint: data['endpoint'],
+      eventName: data['eventName'],
+      headers: data['headers'] ? JSON.stringify(data['headers']) : '',
+      requestTimeout:
+        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
+          ? data['requestTimeout']
+          : '',
+    };
   }
 
-  private getFormValue(data: WebhookObjectInterface) {
-    return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => {
-        if (this.inputs[key] === 'boolean') {
-          value = Boolean(value === 'true' || value === true);
-        }
-        if (this.inputs[key] === 'number') {
-          value = +Number(value);
-        }
-        return [key, value];
-      })
-    ) as unknown as WebhookObjectInterface;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private safeParseJson(data: any) {
-    try {
-      return JSON.parse(data);
-    } catch (err) {
-      return data;
-    }
+  private toJson(data: Partial<WebhookObjectInterface>) {
+    return {
+      enabled: data['enabled'] === true,
+      endpoint: data['endpoint'] || '',
+      eventName: data['eventName'] || '',
+      headers: data['headers'] ? safeParseJson(data['headers']) : null,
+      requestTimeout:
+        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
+          ? +data['requestTimeout']
+          : undefined,
+    };
   }
 }

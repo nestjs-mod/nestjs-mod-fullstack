@@ -27,6 +27,7 @@ import { WebhookScalarFieldEnumInterface } from '@nestjs-mod-fullstack/app-angul
 import {
   getQueryMeta,
   getQueryMetaByParams,
+  NzTableSortOrderDetectorPipe,
   RequestMeta,
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookFormComponent } from '../../forms/webhook-form/webhook-form.component';
@@ -49,34 +50,25 @@ import { WebhookService } from '../../services/webhook.service';
     NzIconModule,
     FormsModule,
     ReactiveFormsModule,
+    NzTableSortOrderDetectorPipe,
   ],
   selector: 'webhook-grid',
   templateUrl: './webhook-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WebhookGridComponent implements OnInit {
-  @Input()
-  columns: Record<
-    keyof Pick<
-      typeof WebhookScalarFieldEnumInterface,
-      'id' | 'enabled' | 'endpoint' | 'eventName' | 'headers' | 'requestTimeout'
-    >,
-    'boolean' | 'string' | 'number' | 'text'
-  > = {
-    id: 'string',
-    enabled: 'boolean',
-    endpoint: 'string',
-    eventName: 'string',
-    headers: 'text',
-    requestTimeout: 'number',
-  };
-
   items$ = new BehaviorSubject<WebhookObjectInterface[]>([]);
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
-
-  columnsKeys: string[] = [];
+  columns = [
+    'id',
+    'enabled',
+    'endpoint',
+    'eventName',
+    'headers',
+    'requestTimeout',
+  ];
 
   private filters?: Record<string, string>;
 
@@ -96,7 +88,6 @@ export class WebhookGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.columnsKeys = Object.keys(this.columns);
     this.loadMany();
   }
 

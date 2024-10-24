@@ -90,40 +90,23 @@ export class DemoFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: Partial<AppDemoInterface> = {}) {
-    this.formlyFields$.next(
-      Object.keys(this.inputs)
-        .filter((key) => this.getFormlyFieldType(key))
-        .map((key) => ({
-          key,
-          type: this.getFormlyFieldType(key),
-          validation: {
-            show: true,
-          },
-          props: {
-            label: `demo.form.${key}`,
-            description: 'read-only field, set and updated on the backend',
-            placeholder: key,
-            required: false,
-            readonly: true,
-          },
-        }))
-    );
-    this.formlyModel$.next(
-      this.getFormValue(
-        Object.keys(this.inputs)
-          .filter((key) => this.getFormlyFieldType(key))
-          .reduce(
-            (all, key) => ({
-              ...all,
-              [key]:
-                (this.getFormlyFieldType(key) === 'textarea'
-                  ? JSON.stringify(data[key])
-                  : data[key]) || '',
-            }),
-            {}
-          ) as AppDemoInterface
-      )
-    );
+    this.formlyFields$.next([
+      {
+        key: 'name',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `demo.form.name`,
+          placeholder: 'name',
+          readonly: true,
+          description: 'read-only field, set and updated on the backend',
+          required: false,
+        },
+      },
+    ]);
+    this.formlyModel$.next(this.toModel(data));
   }
 
   submitForm(): void {
@@ -178,18 +161,9 @@ export class DemoFormComponent implements OnInit {
     );
   }
 
-  private getFormlyFieldType(key: string): string {
-    if (!this.inputs[key]) {
-      return '';
-    }
-    return 'input';
-  }
-
-  private getFormValue(data: AppDemoInterface) {
-    return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => {
-        return [key, value];
-      })
-    ) as unknown as AppDemoInterface;
+  private toModel(data: Partial<AppDemoInterface>): object | null {
+    return {
+      name: data['name'],
+    };
   }
 }

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
@@ -47,16 +46,9 @@ import { DemoService } from '../../services/demo.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DemoGridComponent implements OnInit {
-  @Input()
-  columns = {
-    id: 'string',
-    name: 'string',
-  };
-
   items$ = new BehaviorSubject<AppDemoInterface[]>([]);
   selectedIds$ = new BehaviorSubject<string[]>([]);
-
-  columnsKeys: string[] = [];
+  columns = ['id', 'name'];
 
   constructor(
     private readonly demoService: DemoService,
@@ -65,7 +57,6 @@ export class DemoGridComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.columnsKeys = Object.keys(this.columns);
     this.loadMany();
   }
 
