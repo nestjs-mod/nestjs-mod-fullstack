@@ -541,7 +541,7 @@ jobs:
           sudo microk8s start | echo 'Skip error'
           sudo microk8s status --wait-ready | echo 'Skip error'
           chmod +x .kubernetes/generated/install.sh
-          .kubernetes/generated/install.sh > /dev/null 2>&1 &
+          .kubernetes/generated/install.sh > /dev/null 2>&1
 
   e2e-tests:
     environment: kubernetes
