@@ -533,15 +533,21 @@ jobs:
           CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
         # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
         run: |
+          echo 'Start'
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
+          echo 'Check k8s'
           sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Stop k8s'
           sudo microk8s stop
           sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Start k8s'
           sudo microk8s start
-          sudo microk8s status --wait-ready
+          sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Start apply k8s'
           chmod +x .kubernetes/generated/install.sh
           .kubernetes/generated/install.sh > /dev/null 2>&1
+          echo 'End'
 
   e2e-tests:
     environment: kubernetes
