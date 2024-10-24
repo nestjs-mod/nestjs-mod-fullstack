@@ -17,14 +17,7 @@ export default defineConfig({
   maxFailures: 1,
   timeout: 60 * 1000,
   ...nxE2EPreset(__filename, { testDir: './src' }),
-  reporter: [
-    [
-      'html',
-      {
-        open: process.env['CI'] ? 'never' : 'always', // if on CI then "never" otherwise "always" show
-      },
-    ],
-  ],
+  reporter: [['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,
