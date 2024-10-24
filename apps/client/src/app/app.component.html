@@ -3,6 +3,7 @@
     <div class="logo flex items-center justify-center">{{ title }}</div>
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLink="/home">Home</li>
+      <li nz-menu-item routerLink="/demo">Demo</li>
       @if ((webhookAuthCredentials$|async)?.xExternalUserId) {
       <li nz-menu-item routerLink="/webhook">Webhook</li>
       @if (webhookUser$ | async; as webhookUser) {

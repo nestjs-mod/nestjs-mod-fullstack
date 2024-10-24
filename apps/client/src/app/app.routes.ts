@@ -7,10 +7,12 @@ import {
 import { HomeComponent } from './pages/home/home.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { WebhookComponent } from './pages/webhook/webhook.component';
+import { DemoComponent } from './pages/demo/demo.component';
 
 export const appRoutes: Route[] = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'demo', component: DemoComponent },
   {
     path: 'webhook',
     component: WebhookComponent,

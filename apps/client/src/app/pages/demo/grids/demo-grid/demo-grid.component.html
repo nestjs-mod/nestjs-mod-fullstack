@@ -1,0 +1,50 @@
+<div class="table-operations" nz-row nzJustify="space-between">
+  <div nz-col nzSpan="4">
+    <button nz-button nzType="primary" (click)="showCreateOrUpdateModal()">
+      Create new
+    </button>
+  </div>
+  <div nz-col>
+    <button (click)="loadMany()" nz-button nzType="primary" nzSearch>
+      <span nz-icon nzType="search"></span>
+    </button>
+  </div>
+</div>
+<nz-table
+  #basicTable
+  [nzBordered]="true"
+  [nzOuterBordered]="true"
+  nzShowPagination
+  nzShowSizeChanger
+  [nzFrontPagination]="false"
+  (nzQueryParams)="loadMany()"
+  [nzData]="(items$ | async) || []"
+>
+  <thead>
+    <tr>
+      @for (key of columnsKeys; track $index) {
+      <th [nzColumnKey]="key">demo.grid.{{ key }}</th>
+      }
+      <th>Action</th>
+    </tr>
+  </thead>
+  @if (selectedIds$ | async; as selectedIds) {
+  <tbody>
+    @for (data of basicTable.data; track $index) {
+    <tr
+      (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
+      [class.selected]="selectedIds[0] === data.id"
+    >
+      @for (key of columnsKeys; track $index) {
+      <td>{{ data[key] }}</td>
+      }
+      <td>
+        <a (click)="showCreateOrUpdateModal(data.id)">Edit</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="showDeleteModal(data.id)">Delete</a>
+      </td>
+    </tr>
+    }
+  </tbody>
+  }
+</nz-table>
