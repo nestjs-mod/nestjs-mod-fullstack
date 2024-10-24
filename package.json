@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/source",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "license": "MIT",
   "scripts": {
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
@@ -130,7 +130,6 @@
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^15.2.0",
     "ng-packagr": "18.2.1",
-    "ng-zorro-antd": "^18.1.1",
     "node-flywaydb": "^3.0.7",
     "nx": "20.0.3",
     "postcss": "^8.4.5",
@@ -316,6 +315,7 @@
     "prepare": []
   },
   "dependencies": {
+    "ng-zorro-antd": "^18.1.1",
     "@angular/animations": "18.2.5",
     "@angular/common": "18.2.5",
     "@angular/compiler": "18.2.5",
