@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.2.2...server-v1.3.0) (2024-10-25)
+
+### Features
+
+- Creating a user interface for the Webhook module using Angular (2024-10-25) ([a3b54d6](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a3b54d6d7febda6d508127b637461f742816a18a))
+
 ## [1.2.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.2.1...server-v1.2.2) (2024-10-06)
 
 ### Bug Fixes
