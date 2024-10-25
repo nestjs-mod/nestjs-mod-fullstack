@@ -2,8 +2,8 @@
   "name": "@nestjs-mod-fullstack/common-angular",
   "version": "0.0.1",
   "peerDependencies": {
-    "@ngx-formly/core": "^6.3.7",
-    "ng-zorro-antd": "^18.1.1"
+    "ng-zorro-antd": "^18.1.1",
+    "@angular/core": "18.2.5"
   },
   "sideEffects": false
 }
