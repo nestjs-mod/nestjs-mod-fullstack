@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/prisma-tools",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "tslib": "^2.3.0"
