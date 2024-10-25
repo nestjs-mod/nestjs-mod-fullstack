@@ -17,12 +17,15 @@ export default defineConfig({
   maxFailures: 1,
   timeout: 60 * 1000,
   ...nxE2EPreset(__filename, { testDir: './src' }),
+  reporter: [['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     ignoreHTTPSErrors: true,
+    video: 'on',
+    viewport: { width: 1920, height: 1080 },
   },
   projects: [
     {

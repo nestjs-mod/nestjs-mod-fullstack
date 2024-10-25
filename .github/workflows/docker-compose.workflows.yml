@@ -488,8 +488,14 @@ jobs:
           NGINX_PORT: 8080
           SERVER_WEBHOOK_DATABASE_URL: ${{ secrets.SERVER_WEBHOOK_DATABASE_URL }}
           SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
+          CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
         run: |
           . .docker/set-env.sh
           docker stop $(docker ps -a -q) || echo 'docker containers not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
+      - uses: actions/upload-artifact@v4
+        with:
+          name: e2e-tests-videos
+          path: apps/client-e2e/src/video/
+

@@ -12,6 +12,10 @@
         "{options.outputPath}"
       ],
       "options": {
+        "allowedCommonJsDependencies": [
+          "lodash/fp/isEqual",
+          "lodash/fp/omit"
+        ],
         "outputPath": "dist/apps/client/browser",
         "index": "apps/client/src/index.html",
         "main": "apps/client/src/main.ts",
@@ -36,8 +40,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "600kb",
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",

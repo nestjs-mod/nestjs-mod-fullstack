@@ -1,0 +1,81 @@
+<div class="table-operations" nz-row nzJustify="space-between">
+  <div nz-col nzSpan="4">
+    <button nz-button nzType="primary" (click)="showCreateOrUpdateModal()">
+      Create new
+    </button>
+  </div>
+  <div nz-col nzSpan="4">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input
+        type="text"
+        [formControl]="searchField"
+        nz-input
+        placeholder="input search text"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button
+        (click)="loadMany({ force: true })"
+        nz-button
+        nzType="primary"
+        nzSearch
+      >
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+</div>
+@if ((meta$ | async); as meta){
+<nz-table
+  #basicTable
+  [nzBordered]="true"
+  [nzOuterBordered]="true"
+  nzShowPagination
+  nzShowSizeChanger
+  [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[1, 5, 10, 20, 30, 40]"
+  [nzPageIndex]="meta.curPage"
+  [nzPageSize]="meta.perPage"
+  [nzTotal]="meta.totalResults || 0"
+  (nzQueryParams)="
+    loadMany({
+      queryParams: $event
+    })
+  "
+  [nzData]="(items$ | async) || []"
+>
+  <thead>
+    <tr>
+      @for (key of columns; track $index) {
+      <th
+        [nzColumnKey]="key"
+        [nzSortFn]="true"
+        [nzSortOrder]="meta.sort[key] | nzTableSortOrderDetector"
+      >
+        webhook.grid.{{ key }}
+      </th>
+      }
+      <th>Action</th>
+    </tr>
+  </thead>
+  @if (selectedIds$ | async; as selectedIds) {
+  <tbody>
+    @for (data of basicTable.data; track $index) {
+    <tr
+      (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
+      [class.selected]="selectedIds[0] === data.id"
+    >
+      @for (key of columns; track $index) {
+      <td>{{ data[key] }}</td>
+      }
+      <td>
+        <a (click)="showCreateOrUpdateModal(data.id)">Edit</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="showDeleteModal(data.id)">Delete</a>
+      </td>
+    </tr>
+    }
+  </tbody>
+  }
+</nz-table>
+}

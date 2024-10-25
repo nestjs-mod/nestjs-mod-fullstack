@@ -30,11 +30,17 @@
         "libs/sdk/app-rest-sdk/src/index.ts"
       ],
       "@nestjs-mod-fullstack/common": ["libs/common/src/index.ts"],
+      "@nestjs-mod-fullstack/common-angular": [
+        "libs/common-angular/src/index.ts"
+      ],
       "@nestjs-mod-fullstack/prisma-tools": [
         "libs/core/prisma-tools/src/index.ts"
       ],
       "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"],
-      "@nestjs-mod-fullstack/webhook": ["libs/feature/webhook/src/index.ts"]
+      "@nestjs-mod-fullstack/webhook": ["libs/feature/webhook/src/index.ts"],
+      "@nestjs-mod-fullstack/webhook-angular": [
+        "libs/feature/webhook-angular/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

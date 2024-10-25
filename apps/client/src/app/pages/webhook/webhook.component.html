@@ -1,0 +1,13 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Webhook</nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-row class="inner-content">
+  <webhook-grid nz-col [nzSpan]="24" #webhookGrid> </webhook-grid>
+  <webhook-log-grid
+    *ngIf="(webhookGrid.selectedIds$ | async)?.[0] as webhookId"
+    nz-col
+    [nzSpan]="24"
+    [webhookId]="webhookId"
+  >
+  </webhook-log-grid>
+</nz-row>

@@ -1,17 +1,30 @@
 import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
+  ErrorHandler,
   importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
   RestClientApiModule,
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  WEBHOOK_CONFIGURATION_TOKEN,
+  WebhookConfiguration,
+} from '@nestjs-mod-fullstack/webhook-angular';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import {
+  serverUrl,
+  webhookSuperAdminExternalUserId,
+} from '../environments/environment';
+import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
-import { serverUrl } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,13 +32,22 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
+    provideNzI18n(en_US),
+    {
+      provide: WEBHOOK_CONFIGURATION_TOKEN,
+      useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
+    },
     importProvidersFrom(
+      BrowserAnimationsModule,
       RestClientApiModule.forRoot(
         () =>
           new RestClientConfiguration({
             basePath: serverUrl,
           })
-      )
+      ),
+      FormlyModule.forRoot(),
+      FormlyNgZorroAntdModule
     ),
+    { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
 };

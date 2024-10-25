@@ -1,2 +1,32 @@
-<app-nx-welcome></app-nx-welcome> <router-outlet></router-outlet>
-<div id="serverMessage">{{ serverMessage }}</div>
+<nz-layout class="layout">
+  <nz-header>
+    <div class="logo flex items-center justify-center">{{ title }}</div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item routerLink="/home">Home</li>
+      <li nz-menu-item routerLink="/demo">Demo</li>
+      @if ((webhookAuthCredentials$|async)?.xExternalUserId) {
+      <li nz-menu-item routerLink="/webhook">Webhook</li>
+      @if (webhookUser$ | async; as webhookUser) {
+      <li
+        nz-submenu
+        [nzTitle]="'You are logged in as ' + webhookUser.userRole"
+        [style]="{ float: 'right' }"
+      >
+        <ul>
+          <li nz-menu-item (click)="signOut()">Sign-out</li>
+        </ul>
+      </li>
+      } } @else {
+      <li nz-menu-item routerLink="/sign-in" [style]="{ float: 'right' }">
+        Sign-in
+      </li>
+      }
+    </ul>
+  </nz-header>
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
+  <nz-footer>
+    <div id="serverMessage">{{ serverMessage$ | async }}</div>
+  </nz-footer>
+</nz-layout>

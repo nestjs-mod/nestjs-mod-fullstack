@@ -43,12 +43,16 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       res.send(req.body);
     });
     server = app.listen(0);
-    endpoint = `http://localhost:${
-      (server.address() as AddressInfo).port
-    }${appHandler}`;
-    wrongEndpoint = `http://localhost:${
-      (server.address() as AddressInfo).port
-    }${appHandler}-is-wrong`;
+    endpoint = `http://${
+      process.env.IS_DOCKER_COMPOSE
+        ? 'nestjs-mod-fullstack-e2e-tests'
+        : 'localhost'
+    }:${(server.address() as AddressInfo).port}${appHandler}`;
+    wrongEndpoint = `http://${
+      process.env.IS_DOCKER_COMPOSE
+        ? 'nestjs-mod-fullstack-e2e-tests'
+        : 'localhost'
+    }:${(server.address() as AddressInfo).port}${appHandler}-is-wrong`;
   });
 
   afterAll(async () => {

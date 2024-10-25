@@ -23,13 +23,17 @@ model/terminus-health-check-controller-check200-response.interface.ts
 model/terminus-health-check-controller-check503-response.interface.ts
 model/update-webhook-args.interface.ts
 model/update-webhook-user-args.interface.ts
+model/webhook-entities.interface.ts
 model/webhook-error-enum.interface.ts
 model/webhook-error.interface.ts
 model/webhook-event.interface.ts
 model/webhook-log-object.interface.ts
+model/webhook-log-scalar-field-enum.interface.ts
 model/webhook-object.interface.ts
 model/webhook-role.interface.ts
+model/webhook-scalar-field-enum.interface.ts
 model/webhook-status.interface.ts
 model/webhook-user-object.interface.ts
+model/webhook-user-scalar-field-enum.interface.ts
 param.ts
 variables.ts

@@ -529,17 +529,25 @@ jobs:
           SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
           SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME}}
+          SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
+          CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
         # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
         run: |
+          echo 'Start'
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
+          echo 'Check k8s'
           sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Stop k8s'
           sudo microk8s stop
           sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Start k8s'
           sudo microk8s start
-          sudo microk8s status --wait-ready
+          sudo microk8s status --wait-ready | echo 'Skip error'
+          echo 'Start apply k8s'
           chmod +x .kubernetes/generated/install.sh
-          .kubernetes/generated/install.sh > /dev/null 2>&1 &
+          .kubernetes/generated/install.sh > /dev/null 2>&1
+          echo 'End'
 
   e2e-tests:
     environment: kubernetes
@@ -564,8 +572,14 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         env:
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
+          SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
+          CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: ${{ secrets.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID }}
         run: |
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
           npx -y wait-on --log https://$SERVER_DOMAIN/api/health --log https://$SERVER_DOMAIN
           docker compose -f ./.kubernetes/generated/docker-compose-e2e-tests.yml --compatibility up
+      - uses: actions/upload-artifact@v4
+        with:
+          name: e2e-tests-videos
+          path: apps/client-e2e/src/video/

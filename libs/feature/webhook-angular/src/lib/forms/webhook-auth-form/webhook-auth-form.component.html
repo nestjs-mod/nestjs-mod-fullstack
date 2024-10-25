@@ -1,0 +1,27 @@
+@if (formlyFields$ | async; as formlyFields) {
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <formly-form
+    [model]="formlyModel$ | async"
+    [fields]="formlyFields"
+    [form]="form"
+  >
+  </formly-form>
+  @if (!hideButtons) {
+  <nz-form-control>
+    <div class="flex justify-between">
+      <div>
+        <button nz-button type="button" (click)="fillUserCredentials()">
+          Fill user credentials
+        </button>
+        <button nz-button type="button" (click)="fillAdminCredentials()">
+          Fill admin credentials
+        </button>
+      </div>
+      <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">
+        Sign-in
+      </button>
+    </div>
+  </nz-form-control>
+  }
+</form>
+}

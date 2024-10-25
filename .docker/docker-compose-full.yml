@@ -46,6 +46,8 @@ services:
     container_name: 'nestjs-mod-fullstack-server'
     networks:
       - 'nestjs-mod-fullstack-network'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     healthcheck:
       test:
         [
@@ -84,6 +86,7 @@ services:
     environment:
       SERVER_PORT: '${SERVER_PORT}'
       NGINX_PORT: '${NGINX_PORT}'
+      CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-server:
@@ -96,7 +99,10 @@ services:
     networks:
       - 'nestjs-mod-fullstack-network'
     environment:
+      IS_DOCKER_COMPOSE: 'true'
       BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
+      SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
+      CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
     depends_on:
       nestjs-mod-fullstack-nginx:
         condition: service_healthy

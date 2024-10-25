@@ -50,3 +50,5 @@ docker-compose.yml
 docker-compose-prod.env
 
 access.log
+
+apps/client-e2e/src/video
