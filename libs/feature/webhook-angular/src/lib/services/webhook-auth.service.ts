@@ -34,7 +34,7 @@ export class WebhookAuthService {
 
   setWebhookAuthCredentials(webhookAuthCredentials: WebhookAuthCredentials) {
     this.webhookAuthCredentials$.next(webhookAuthCredentials);
-    this.loadWebhookUser().subscribe();
+    this.loadWebhookUser().pipe(untilDestroyed(this)).subscribe();
   }
 
   loadWebhookUser() {
@@ -50,8 +50,7 @@ export class WebhookAuthService {
             return of(null);
           }
           return throwError(() => err);
-        }),
-        untilDestroyed(this)
+        })
       );
   }
 

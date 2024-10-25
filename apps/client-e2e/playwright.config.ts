@@ -25,7 +25,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     ignoreHTTPSErrors: true,
     video: 'on',
-    viewport: { width: 1280, height: 1280 },
+    viewport: { width: 1920, height: 1080 },
   },
   projects: [
     {

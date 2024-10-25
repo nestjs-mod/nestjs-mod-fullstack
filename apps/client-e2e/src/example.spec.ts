@@ -9,10 +9,10 @@ test.describe('basic usage', () => {
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage({
-      viewport: { width: 1280, height: 1280 },
+      viewport: { width: 1920, height: 1080 },
       recordVideo: {
         dir: join(__dirname, 'video'),
-        size: { width: 1280, height: 1280 },
+        size: { width: 1920, height: 1080 },
       },
     });
   });

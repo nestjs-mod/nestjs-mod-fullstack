@@ -79,7 +79,7 @@ export class WebhookGridComponent implements OnInit {
   ) {
     this.searchField.valueChanges
       .pipe(
-        debounceTime(400),
+        debounceTime(700),
         distinctUntilChanged(),
         tap(() => this.loadMany({ force: true })),
         untilDestroyed(this)

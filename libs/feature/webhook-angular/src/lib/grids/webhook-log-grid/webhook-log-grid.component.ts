@@ -70,7 +70,7 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   constructor(private readonly webhookLogService: WebhookLogService) {
     this.searchField.valueChanges
       .pipe(
-        debounceTime(400),
+        debounceTime(700),
         distinctUntilChanged(),
         tap(() => this.loadMany({ force: true })),
         untilDestroyed(this)

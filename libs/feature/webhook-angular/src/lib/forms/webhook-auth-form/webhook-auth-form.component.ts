@@ -14,7 +14,6 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -31,7 +30,6 @@ import {
   WebhookConfiguration,
 } from '../../services/webhook.configuration';
 
-@UntilDestroy()
 @Component({
   standalone: true,
   imports: [
@@ -74,7 +72,12 @@ export class WebhookAuthFormComponent implements OnInit {
     this.setFieldsAndModel(this.webhookAuthService.getWebhookAuthCredentials());
   }
 
-  setFieldsAndModel(data: Partial<WebhookAuthCredentials> = {}) {
+  setFieldsAndModel(
+    data: Partial<WebhookAuthCredentials> = {},
+    options: { xExternalTenantIdIsRequired: boolean } = {
+      xExternalTenantIdIsRequired: true,
+    }
+  ) {
     this.formlyFields$.next([
       {
         key: 'xExternalUserId',
@@ -97,7 +100,7 @@ export class WebhookAuthFormComponent implements OnInit {
         props: {
           label: `webhook.form.xExternalTenantId`,
           placeholder: 'xExternalTenantId',
-          required: true,
+          required: options.xExternalTenantIdIsRequired,
         },
       },
     ]);
@@ -124,11 +127,14 @@ export class WebhookAuthFormComponent implements OnInit {
   }
 
   fillAdminCredentials() {
-    this.setFieldsAndModel({
-      xExternalTenantId: '',
-      xExternalUserId:
-        this.webhookConfiguration.webhookSuperAdminExternalUserId,
-    });
+    this.setFieldsAndModel(
+      {
+        xExternalTenantId: '',
+        xExternalUserId:
+          this.webhookConfiguration.webhookSuperAdminExternalUserId,
+      },
+      { xExternalTenantIdIsRequired: false }
+    );
   }
 
   private toModel(data: Partial<WebhookAuthCredentials>): object | null {

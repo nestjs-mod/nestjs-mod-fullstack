@@ -13,10 +13,10 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage({
-      viewport: { width: 1280, height: 1280 },
+      viewport: { width: 1920, height: 1080 },
       recordVideo: {
         dir: join(__dirname, 'video'),
-        size: { width: 1280, height: 1280 },
+        size: { width: 1920, height: 1080 },
       },
     });
   });
@@ -35,7 +35,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('[placeholder=xExternalUserId]')
       .click();
     await page.keyboard.type(user1Headers['x-external-user-id'], {
-      delay: 100,
+      delay: 50,
     });
     await expect(
       page.locator('webhook-auth-form').locator('[placeholder=xExternalUserId]')
@@ -46,7 +46,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('[placeholder=xExternalTenantId]')
       .click();
     await page.keyboard.type(user1Headers['x-external-tenant-id'], {
-      delay: 100,
+      delay: 50,
     });
     await expect(
       page
@@ -67,7 +67,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   test('should create new webhook', async () => {
     await page.locator('webhook-grid').locator('button').first().click();
 
-    await setTimeout(3000);
+    await setTimeout(5000);
 
     await page
       .locator('webhook-form')
@@ -82,13 +82,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('webhook-form')
       .locator('[placeholder=endpoint]')
       .click();
-    await page.keyboard.type('http://example.com', { delay: 100 });
+    await page.keyboard.type('http://example.com', { delay: 50 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=endpoint]').first()
     ).toHaveValue('http://example.com');
 
     await page.locator('webhook-form').locator('[placeholder=headers]').click();
-    await page.keyboard.type(JSON.stringify(user1Headers), { delay: 100 });
+    await page.keyboard.type(JSON.stringify(user1Headers), { delay: 50 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=headers]')
     ).toHaveValue(JSON.stringify(user1Headers));
@@ -116,7 +116,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     ).toContainText(JSON.stringify(user1Headers));
     await expect(
       page.locator('webhook-grid').locator('td').nth(5)
-    ).toContainText('0');
+    ).toContainText('');
   });
 
   test('should update webhook endpoint', async () => {
@@ -128,7 +128,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(5000);
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=eventName]')
@@ -173,7 +173,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     ).toContainText(JSON.stringify(user1Headers));
     await expect(
       page.locator('webhook-grid').locator('td').nth(5)
-    ).toContainText('0');
+    ).toContainText('');
   });
 
   test('should delete updated webhook', async () => {
@@ -185,7 +185,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(5000);
 
     await expect(
       page

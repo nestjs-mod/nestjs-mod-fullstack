@@ -165,7 +165,7 @@ export class WebhookFormComponent implements OnInit {
         props: {
           label: `webhook.form.requestTimeout`,
           placeholder: 'requestTimeout',
-          required: true,
+          required: false,
         },
       },
     ]);

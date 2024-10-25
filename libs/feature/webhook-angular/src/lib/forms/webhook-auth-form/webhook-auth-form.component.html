@@ -1,8 +1,8 @@
-@if (formlyFields$ | async) {
+@if (formlyFields$ | async; as formlyFields) {
 <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
   <formly-form
     [model]="formlyModel$ | async"
-    [fields]="(formlyFields$ | async) || []"
+    [fields]="formlyFields"
     [form]="form"
   >
   </formly-form>

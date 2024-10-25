@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { WebhookRoleInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { UntilDestroy } from '@ngneat/until-destroy';
 import { map, of } from 'rxjs';
 import { WebhookAuthService } from './webhook-auth.service';
 
@@ -15,7 +14,6 @@ export class WebhookGuardData {
   }
 }
 
-@UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class WebhookGuardService implements CanActivate {
   constructor(private readonly webhookAuthService: WebhookAuthService) {}

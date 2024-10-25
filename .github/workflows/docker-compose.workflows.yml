@@ -494,3 +494,8 @@ jobs:
           docker stop $(docker ps -a -q) || echo 'docker containers not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility down || echo 'docker-compose-full not started'
           docker compose -f ./.docker/docker-compose-full.yml --compatibility up -d
+      - uses: actions/upload-artifact@v4
+        with:
+          name: e2e-tests-videos
+          path: apps/client-e2e/src/video/
+
