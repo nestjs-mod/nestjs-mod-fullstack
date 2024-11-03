@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/source",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "license": "MIT",
   "scripts": {
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
@@ -21,7 +21,7 @@
     "_____prod infra_____": "_____prod infra_____",
     "start": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -t=start",
     "build": "npm run generate && ./node_modules/.bin/nx run-many -p server client --all -t=build",
-    "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p server client --all -t=build -c production",
+    "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p server client --all -t=build -c production --parallel=false",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
     "pm2:stop": "./node_modules/.bin/pm2 delete all",
