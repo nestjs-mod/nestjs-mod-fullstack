@@ -5,7 +5,7 @@ import { WebhookUser } from '../generated/rest/dto/webhook_user';
 export class WebhookToolsService {
   externalTenantIdQuery(
     webhookUser: Pick<WebhookUser, 'userRole' | 'externalTenantId'> | null,
-    externalTenantId: string
+    externalTenantId?: string
   ): {
     externalTenantId: string;
   } {
@@ -20,6 +20,8 @@ export class WebhookToolsService {
         externalTenantId: string;
       };
     }
-    return q;
+    return q as {
+      externalTenantId: string;
+    };
   }
 }

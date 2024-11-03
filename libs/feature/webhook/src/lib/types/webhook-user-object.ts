@@ -5,8 +5,14 @@ import { WebhookUser } from '../generated/rest/dto/webhook_user';
 export class WebhookUserObject extends OmitType(WebhookUser, [
   'Webhook_Webhook_createdByToWebhookUser',
   'Webhook_Webhook_updatedByToWebhookUser',
+]) {}
+
+export class CreateWebhookUserArgs extends OmitType(WebhookUser, [
+  'id',
   'createdAt',
   'updatedAt',
+  'Webhook_Webhook_createdByToWebhookUser',
+  'Webhook_Webhook_updatedByToWebhookUser',
 ]) {}
 
 export class UpdateWebhookUserArgs extends PartialType(

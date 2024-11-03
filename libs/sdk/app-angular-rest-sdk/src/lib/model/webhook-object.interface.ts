@@ -16,4 +16,9 @@ export interface WebhookObjectInterface {
   enabled: boolean;
   headers?: object;
   requestTimeout?: number;
+  externalTenantId: string;
+  createdBy: string;
+  updatedBy: string;
+  createdAt: string;
+  updatedAt: string;
 }

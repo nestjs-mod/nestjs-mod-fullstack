@@ -14,7 +14,8 @@
       "options": {
         "allowedCommonJsDependencies": [
           "lodash/fp/isEqual",
-          "lodash/fp/omit"
+          "lodash/fp/omit",
+          "cross-fetch"
         ],
         "outputPath": "dist/apps/client/browser",
         "index": "apps/client/src/index.html",

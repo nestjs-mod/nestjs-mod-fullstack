@@ -15,5 +15,7 @@ export interface WebhookUserObjectInterface {
   externalTenantId: string;
   externalUserId: string;
   userRole: WebhookRoleInterface;
+  createdAt: string;
+  updatedAt: string;
 }
 export namespace WebhookUserObjectInterface {}

@@ -1,22 +1,24 @@
-import { Configuration, WebhookApi } from '@nestjs-mod-fullstack/app-rest-sdk';
-import { getRandomExternalHeaders } from '@nestjs-mod-fullstack/testing';
+import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { get } from 'env-var';
 
 describe('CRUD operations with Webhook as "Admin" role', () => {
-  const webhookApi = new WebhookApi(new Configuration({ basePath: '/api' }));
-  const user1Headers = getRandomExternalHeaders();
-  const adminHeaders = {
-    ...getRandomExternalHeaders(),
-    ['x-external-user-id']:
-      process.env.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID,
-  };
+  const user1 = new RestClientHelper();
+  const admin = new RestClientHelper({
+    isAdmin: true,
+  });
 
   let createEventName: string;
 
   beforeAll(async () => {
-    const { data: events } = await webhookApi.webhookControllerEvents(
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
+    await user1.createAndLoginAsUser();
+    await admin.login({
+      email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
+      password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
+    });
+
+    const { data: events } = await user1
+      .getWebhookApi()
+      .webhookControllerEvents();
     createEventName =
       events.find((e) => e.eventName.includes('create'))?.eventName || 'create';
     expect(events.map((e) => e.eventName)).toEqual([
@@ -27,83 +29,70 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
   });
 
   afterAll(async () => {
-    const { data: manyWebhooks } = await webhookApi.webhookControllerFindMany(
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
+    const { data: manyWebhooks } = await user1
+      .getWebhookApi()
+      .webhookControllerFindMany();
     for (const webhook of manyWebhooks.webhooks) {
-      await webhookApi.webhookControllerUpdateOne(
-        webhook.id,
-        {
+      if (webhook.endpoint.startsWith(user1.getGeneratedRandomUser().site)) {
+        await user1.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
           enabled: false,
-        },
-        user1Headers['x-external-user-id'],
-        user1Headers['x-external-tenant-id']
-      );
+        });
+      }
     }
     //
 
-    const { data: manyWebhooks2 } = await webhookApi.webhookControllerFindMany(
-      adminHeaders['x-external-user-id'],
-      adminHeaders['x-external-tenant-id']
-    );
+    const { data: manyWebhooks2 } = await admin
+      .getWebhookApi()
+      .webhookControllerFindMany();
     for (const webhook of manyWebhooks2.webhooks) {
-      await webhookApi.webhookControllerUpdateOne(
-        webhook.id,
-        {
+      if (webhook.endpoint.startsWith(admin.getGeneratedRandomUser().site)) {
+        await admin.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
           enabled: false,
-        },
-        adminHeaders['x-external-user-id'],
-        adminHeaders['x-external-tenant-id']
-      );
+        });
+      }
     }
   });
 
   it('should create new webhook as user1', async () => {
-    const { data: newWebhook } = await webhookApi.webhookControllerCreateOne(
-      {
+    const { data: newWebhook } = await user1
+      .getWebhookApi()
+      .webhookControllerCreateOne({
         enabled: false,
-        endpoint: 'http://example.com',
+        endpoint: user1.getGeneratedRandomUser().site,
         eventName: createEventName,
-      },
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
+      });
     expect(newWebhook).toMatchObject({
       enabled: false,
-      endpoint: 'http://example.com',
+      endpoint: user1.getGeneratedRandomUser().site,
       eventName: createEventName,
     });
   });
 
   it('should create new webhook as admin', async () => {
-    const { data: newWebhook } = await webhookApi.webhookControllerCreateOne(
-      {
+    const { data: newWebhook } = await admin
+      .getWebhookApi()
+      .webhookControllerCreateOne({
         enabled: false,
-        endpoint: 'http://example.com',
+        endpoint: admin.getGeneratedRandomUser().site,
         eventName: createEventName,
-      },
-      adminHeaders['x-external-user-id'],
-      adminHeaders['x-external-tenant-id']
-    );
+      });
     expect(newWebhook).toMatchObject({
       enabled: false,
-      endpoint: 'http://example.com',
+      endpoint: admin.getGeneratedRandomUser().site,
       eventName: createEventName,
     });
   });
 
   it('should read one webhooks as user', async () => {
-    const { data: manyWebhooks } = await webhookApi.webhookControllerFindMany(
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
+    const { data: manyWebhooks } = await user1
+      .getWebhookApi()
+      .webhookControllerFindMany();
     expect(manyWebhooks).toMatchObject({
       meta: { curPage: 1, perPage: 5, totalResults: 1 },
       webhooks: [
         {
           enabled: false,
-          endpoint: 'http://example.com',
+          endpoint: user1.getGeneratedRandomUser().site,
           eventName: createEventName,
         },
       ],
@@ -111,9 +100,9 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
   });
 
   it('should read all webhooks as admin', async () => {
-    const { data: manyWebhooks } = await webhookApi.webhookControllerFindMany(
-      adminHeaders['x-external-user-id']
-    );
+    const { data: manyWebhooks } = await admin
+      .getWebhookApi()
+      .webhookControllerFindMany();
     expect(manyWebhooks.meta.totalResults).toBeGreaterThan(1);
     expect(manyWebhooks).toMatchObject({
       meta: { curPage: 1, perPage: 5 },

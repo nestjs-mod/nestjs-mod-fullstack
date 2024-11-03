@@ -16,5 +16,8 @@ export interface WebhookLogObjectInterface {
   responseStatus: string;
   response?: object;
   webhookStatus: WebhookStatusInterface;
+  externalTenantId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export namespace WebhookLogObjectInterface {}

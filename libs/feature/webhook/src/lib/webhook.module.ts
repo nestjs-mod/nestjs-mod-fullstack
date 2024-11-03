@@ -11,19 +11,24 @@ import { ApiHeaders } from '@nestjs/swagger';
 import { WebhookUsersController } from './controllers/webhook-users.controller';
 import { WebhookController } from './controllers/webhook.controller';
 import { WebhookServiceBootstrap } from './services/webhook-bootstrap.service';
+import { WebhookToolsService } from './services/webhook-tools.service';
+import { WebhookUsersService } from './services/webhook-users.service';
 import { WebhookService } from './services/webhook.service';
-import { WebhookConfiguration } from './webhook.configuration';
+import {
+  WebhookConfiguration,
+  WebhookStaticConfiguration,
+} from './webhook.configuration';
 import { WEBHOOK_FEATURE, WEBHOOK_MODULE } from './webhook.constants';
 import { WebhookEnvironments } from './webhook.environments';
 import { WebhookExceptionsFilter } from './webhook.filter';
 import { WebhookGuard } from './webhook.guard';
-import { WebhookToolsService } from './services/webhook-tools.service';
 
 export const { WebhookModule } = createNestModule({
   moduleName: WEBHOOK_MODULE,
   moduleCategory: NestModuleCategory.feature,
   staticEnvironmentsModel: WebhookEnvironments,
-  staticConfigurationModel: WebhookConfiguration,
+  staticConfigurationModel: WebhookStaticConfiguration,
+  configurationModel: WebhookConfiguration,
   imports: [
     HttpModule,
     PrismaModule.forFeature({
@@ -34,9 +39,15 @@ export const { WebhookModule } = createNestModule({
       featureModuleName: WEBHOOK_FEATURE,
     }),
   ],
+  sharedImports: [
+    PrismaModule.forFeature({
+      contextName: WEBHOOK_FEATURE,
+      featureModuleName: WEBHOOK_FEATURE,
+    }),
+  ],
   providers: [WebhookToolsService, WebhookServiceBootstrap],
   controllers: [WebhookUsersController, WebhookController],
-  sharedProviders: [WebhookService],
+  sharedProviders: [WebhookService, WebhookUsersService],
   wrapForRootAsync: (asyncModuleOptions) => {
     if (!asyncModuleOptions) {
       asyncModuleOptions = {};
@@ -56,7 +67,7 @@ export const { WebhookModule } = createNestModule({
     const staticEnvironments =
       current.staticEnvironments as WebhookEnvironments;
     const staticConfiguration =
-      current.staticConfiguration as WebhookConfiguration;
+      current.staticConfiguration as WebhookStaticConfiguration;
 
     for (const ctrl of [WebhookController, WebhookUsersController]) {
       if (staticEnvironments.useFilters) {
@@ -66,7 +77,6 @@ export const { WebhookModule } = createNestModule({
         UseGuards(WebhookGuard)(ctrl);
       }
       if (
-        staticEnvironments.checkHeaders &&
         staticConfiguration.externalUserIdHeaderName &&
         staticConfiguration.externalTenantIdHeaderName
       ) {

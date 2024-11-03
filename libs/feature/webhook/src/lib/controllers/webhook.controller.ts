@@ -34,14 +34,12 @@ import {
   UpdateWebhookArgs,
   WebhookObject,
 } from '../types/webhook-object';
-import { WebhookRequest } from '../types/webhook-request';
 import { WebhookUserObject } from '../types/webhook-user-object';
 import { WebhookConfiguration } from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
   CheckWebhookRole,
   CurrentWebhookExternalTenantId,
-  CurrentWebhookRequest,
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
@@ -77,7 +75,7 @@ export class WebhookController {
   @Get()
   @ApiOkResponse({ type: FindManyWebhookResponse })
   async findMany(
-    @CurrentWebhookRequest() webhookRequest: WebhookRequest,
+    @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Query() args: FindManyArgs
   ) {
@@ -124,7 +122,7 @@ export class WebhookController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookRequest.externalTenantId
+              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
             ),
           },
           take,
@@ -151,7 +149,7 @@ export class WebhookController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookRequest.externalTenantId
+              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
             ),
           },
         }),
@@ -205,7 +203,7 @@ export class WebhookController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          externalTenantId
+          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
         ),
       },
     });
@@ -223,7 +221,7 @@ export class WebhookController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          externalTenantId
+          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
         ),
       },
     });
@@ -233,7 +231,7 @@ export class WebhookController {
   @Get(':id')
   @ApiOkResponse({ type: WebhookObject })
   async findOne(
-    @CurrentWebhookRequest() webhookRequest: WebhookRequest,
+    @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
@@ -242,7 +240,7 @@ export class WebhookController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookRequest.externalTenantId
+          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
         ),
       },
     });
@@ -251,7 +249,7 @@ export class WebhookController {
   @Get(':id/logs')
   @ApiOkResponse({ type: FindManyWebhookLogResponse })
   async findManyLogs(
-    @CurrentWebhookRequest() webhookRequest: WebhookRequest,
+    @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string,
     @Query() args: FindManyArgs
@@ -305,7 +303,7 @@ export class WebhookController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookRequest.externalTenantId
+              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
             ),
             webhookId: id,
           },
@@ -338,7 +336,7 @@ export class WebhookController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookRequest.externalTenantId
+              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
             ),
             webhookId: id,
           },

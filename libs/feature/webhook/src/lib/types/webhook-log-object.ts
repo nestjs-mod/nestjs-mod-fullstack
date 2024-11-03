@@ -3,9 +3,6 @@ import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { WebhookLog } from '../generated/rest/dto/webhook_log';
 
 export class WebhookLogObject extends OmitType(WebhookLog, [
-  'externalTenantId',
-  'createdAt',
-  'updatedAt',
   'Webhook',
   'webhookId',
 ]) {}

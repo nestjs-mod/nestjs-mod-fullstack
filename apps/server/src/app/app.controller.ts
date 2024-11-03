@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { AllowEmptyUser } from '@nestjs-mod/authorizer';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   ApiCreatedResponse,
@@ -31,6 +32,7 @@ enum AppDemoEventName {
   'app-demo.delete' = 'app-demo.delete',
 }
 
+@AllowEmptyUser()
 @Controller()
 export class AppController {
   constructor(

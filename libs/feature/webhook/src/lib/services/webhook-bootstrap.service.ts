@@ -17,7 +17,6 @@ import {
   timeout,
   TimeoutError,
 } from 'rxjs';
-import { WebhookConfiguration } from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import { WebhookEnvironments } from '../webhook.environments';
 import { WebhookService } from './webhook.service';
@@ -33,7 +32,6 @@ export class WebhookServiceBootstrap
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly webhookEnvironments: WebhookEnvironments,
-    private readonly webhookConfiguration: WebhookConfiguration,
     private readonly httpService: HttpService,
     private readonly webhookService: WebhookService
   ) {}

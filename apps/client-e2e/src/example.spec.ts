@@ -28,6 +28,8 @@ test.describe('basic usage', () => {
 
     // Expect h1 to contain a substring.
     expect(await page.locator('.logo').innerText()).toContain('client');
+
+    await setTimeout(3000);
   });
 
   test('has serverMessage', async () => {

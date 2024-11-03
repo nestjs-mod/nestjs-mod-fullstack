@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import {
+  APP_INITIALIZER,
   ApplicationConfig,
   ErrorHandler,
   importProvidersFrom,
@@ -9,9 +10,12 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
+  DefaultRestService,
   RestClientApiModule,
   RestClientConfiguration,
+  WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import {
   WEBHOOK_CONFIGURATION_TOKEN,
   WebhookConfiguration,
@@ -23,6 +27,7 @@ import {
   serverUrl,
   webhookSuperAdminExternalUserId,
 } from '../environments/environment';
+import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 
@@ -49,5 +54,22 @@ export const appConfig: ApplicationConfig = {
       FormlyNgZorroAntdModule
     ),
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    {
+      provide: APP_INITIALIZER,
+      useFactory:
+        (
+          defaultRestService: DefaultRestService,
+          webhookRestService: WebhookRestService,
+          authService: AuthService
+        ) =>
+        () =>
+          new AppInitializer(
+            defaultRestService,
+            webhookRestService,
+            authService
+          ).resolve(),
+      multi: true,
+      deps: [DefaultRestService, WebhookRestService, AuthService],
+    },
   ],
 };

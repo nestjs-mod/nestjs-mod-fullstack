@@ -20,15 +20,14 @@ export class WebhookGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot) {
     if (route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY] instanceof WebhookGuardData) {
       const webhookGuardData = route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY];
+      const webhookGuardDataRoles = webhookGuardData.roles || [];
       return this.webhookAuthService.loadWebhookUser().pipe(
         map((webhookUser) => {
           return Boolean(
-            (webhookGuardData.roles &&
-              webhookUser &&
-              webhookGuardData.roles.length > 0 &&
-              webhookGuardData.roles.includes(webhookUser.userRole)) ||
-              ((webhookGuardData.roles || []).length === 0 &&
-                !webhookUser?.userRole)
+            (webhookUser &&
+              webhookGuardDataRoles.length > 0 &&
+              webhookGuardDataRoles.includes(webhookUser.userRole)) ||
+              (webhookGuardDataRoles.length === 0 && !webhookUser?.userRole)
           );
         })
       );

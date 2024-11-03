@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
@@ -23,7 +22,6 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
-import { WebhookScalarFieldEnumInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   getQueryMeta,
   getQueryMetaByParams,

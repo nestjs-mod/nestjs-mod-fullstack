@@ -1,11 +1,11 @@
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
 
+import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',

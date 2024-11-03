@@ -1,56 +1,43 @@
-import {
-  Configuration,
-  WebhookApi,
-  WebhookErrorEnum,
-} from '@nestjs-mod-fullstack/app-rest-sdk';
-import { getRandomExternalHeaders } from '@nestjs-mod-fullstack/testing';
+import { WebhookErrorEnum } from '@nestjs-mod-fullstack/app-rest-sdk';
+import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { get } from 'env-var';
 
 describe('CRUD operations with WebhookUser as "Admin" role', () => {
-  const webhookApi = new WebhookApi(new Configuration({ basePath: '/api' }));
-  const user1Headers = getRandomExternalHeaders();
-  const adminHeaders = {
-    ...getRandomExternalHeaders(),
-    ['x-external-user-id']:
-      process.env.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID,
-  };
+  const user1 = new RestClientHelper();
+  const admin = new RestClientHelper({
+    isAdmin: true,
+  });
 
   beforeAll(async () => {
-    // on any request we create new user
-    await webhookApi.webhookControllerEvents(
-      adminHeaders['x-external-user-id'],
-      adminHeaders['x-external-tenant-id']
-    );
+    await user1.createAndLoginAsUser();
+    await admin.login({
+      email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
+      password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
+    });
 
     // on any request we create new user
-    await webhookApi.webhookControllerEvents(
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
+    await admin.getWebhookApi().webhookControllerEvents();
+
+    // on any request we create new user
+    await user1.getWebhookApi().webhookControllerEvents();
   });
 
   afterAll(async () => {
-    const { data: manyWebhooks } = await webhookApi.webhookControllerFindMany(
-      adminHeaders['x-external-user-id'],
-      adminHeaders['x-external-tenant-id']
-    );
+    const { data: manyWebhooks } = await admin
+      .getWebhookApi()
+      .webhookControllerFindMany();
     for (const webhook of manyWebhooks.webhooks) {
-      await webhookApi.webhookControllerUpdateOne(
-        webhook.id,
-        {
+      if (webhook.endpoint.startsWith(admin.getGeneratedRandomUser().site)) {
+        await admin.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
           enabled: false,
-        },
-        adminHeaders['x-external-user-id'],
-        adminHeaders['x-external-tenant-id']
-      );
+        });
+      }
     }
   });
 
   it('should return error when we try read webhook users as user', async () => {
     await expect(
-      webhookApi.webhookUsersControllerFindMany(
-        user1Headers['x-external-user-id'],
-        user1Headers['x-external-tenant-id']
-      )
+      user1.getWebhookApi().webhookUsersControllerFindMany()
     ).rejects.toHaveProperty('response.data', {
       code: WebhookErrorEnum._001,
       message: 'Forbidden',
@@ -58,29 +45,25 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
   });
 
   it('should update webhook user role to admin as admin', async () => {
-    const { data: userProfile } = await webhookApi.webhookControllerProfile(
-      user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
-    );
-    const { data: newWebhook } =
-      await webhookApi.webhookUsersControllerUpdateOne(
-        userProfile.id,
-        { userRole: 'Admin' },
-        adminHeaders['x-external-user-id']
-      );
+    const { data: userProfile } = await user1
+      .getWebhookApi()
+      .webhookControllerProfile();
+    const { data: newWebhook } = await admin
+      .getWebhookApi()
+      .webhookUsersControllerUpdateOne(userProfile.id, { userRole: 'Admin' });
     expect(newWebhook).toMatchObject({
       userRole: 'Admin',
     });
   });
 
   it('should read webhook users as user', async () => {
-    const webhookUsersControllerFindManyResult =
-      await webhookApi.webhookUsersControllerFindMany(
-        user1Headers['x-external-user-id'],
-        user1Headers['x-external-tenant-id']
-      );
+    const webhookUsersControllerFindManyResult = await user1
+      .getWebhookApi()
+      .webhookUsersControllerFindMany();
     expect(
-      webhookUsersControllerFindManyResult.data.webhookUsers[0]
+      webhookUsersControllerFindManyResult.data.webhookUsers.filter(
+        (u) => u.externalUserId === user1.authorizationTokens?.user?.id
+      )[0]
     ).toMatchObject({
       userRole: 'Admin',
     });
