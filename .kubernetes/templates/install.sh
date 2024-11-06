@@ -9,6 +9,10 @@ sudo microk8s kubectl create secret docker-registry docker-regcred --docker-serv
 sudo microk8s kubectl apply -f .kubernetes/generated/node
 sudo microk8s kubectl get secret docker-regcred -n default -o yaml || sed s/"namespace: default"/"namespace: %NAMESPACE%"/ || microk8s kubectl apply -n %NAMESPACE% -f - || echo 'not need update docker-regcred'
 
+# authorizer
+sudo microk8s kubectl delete -f .kubernetes/templates/authorizer/1.configmap.yaml || echo 'not need delete configmap'
+sudo microk8s kubectl apply -f .kubernetes/generated/authorizer
+
 # server
 sudo microk8s kubectl delete -f .kubernetes/templates/server/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/server

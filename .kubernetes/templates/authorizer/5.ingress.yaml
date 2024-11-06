@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-authorizer-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  rules:
+    - host: sso.%SERVER_DOMAIN%
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+              service:
+                name: %NAMESPACE%-authorizer
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - sso.%SERVER_DOMAIN%
+      secretName: %NAMESPACE%-authorizer-tls

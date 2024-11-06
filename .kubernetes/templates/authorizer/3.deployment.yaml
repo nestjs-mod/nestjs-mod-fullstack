@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-authorizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: %NAMESPACE%-authorizer-container
+  template:
+    metadata:
+      namespace: "%NAMESPACE%"
+      labels:
+        app: %NAMESPACE%-authorizer
+        pod: %NAMESPACE%-authorizer-container
+    spec:
+      containers:
+        - name: %NAMESPACE%-authorizer
+          image: lakhansamani/authorizer:1.4.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: %NAMESPACE%-config
+            - configMapRef:
+                name: %NAMESPACE%-authorizer-config
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 150m
+            limits:
+              memory: 128Mi
+              cpu: 300m
