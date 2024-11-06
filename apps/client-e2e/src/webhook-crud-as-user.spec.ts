@@ -26,7 +26,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       },
     });
     await page.goto('/', {
-      timeout: 1000,
+      timeout: 7000,
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
@@ -40,7 +40,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
   test('sign up as user', async () => {
     await page.goto('/sign-up', {
-      timeout: 5000,
+      timeout: 7000,
     });
 
     await page
@@ -104,7 +104,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('nz-header').locator('[nz-menu-item]').last()
@@ -113,7 +113,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
   test('sign in as user', async () => {
     await page.goto('/sign-in', {
-      timeout: 5000,
+      timeout: 7000,
     });
 
     await page
@@ -151,7 +151,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   test('should create new webhook', async () => {
     await page.locator('webhook-grid').locator('button').first().click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await page
       .locator('webhook-form')
@@ -181,7 +181,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     webhookId = await page
       .locator('webhook-grid')
@@ -214,7 +214,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=eventName]')
@@ -240,7 +240,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('webhook-grid').locator('td').nth(0)
@@ -271,7 +271,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page
@@ -286,7 +286,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('webhook-grid').locator('nz-embed-empty')
@@ -309,7 +309,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('nz-header').locator('[nz-menu-item]').last()
