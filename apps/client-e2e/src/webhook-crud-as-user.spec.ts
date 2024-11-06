@@ -1,21 +1,23 @@
-import {
-  generateRandomUser,
-  GenerateRandomUserResult,
-} from '@nestjs-mod-fullstack/testing';
+import { faker } from '@faker-js/faker';
 import { expect, Page, test } from '@playwright/test';
+import { get } from 'env-var';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('CRUD operations with Webhook as "User" role', () => {
   test.describe.configure({ mode: 'serial' });
 
-  let user: Required<GenerateRandomUserResult>;
+  const user = {
+    email: faker.internet.email({
+      provider: 'example.fakerjs.dev',
+    }),
+    password: faker.internet.password({ length: 8 }),
+    site: `http://${faker.internet.domainName()}`,
+  };
   let page: Page;
   let webhookId: string | null;
 
   test.beforeAll(async ({ browser }) => {
-    user = await generateRandomUser();
-
     page = await browser.newPage({
       viewport: { width: 1920, height: 1080 },
       recordVideo: {
@@ -23,6 +25,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    await page.goto('/', {
+      timeout: 1000,
+    });
+    await page.evaluate(
+      (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
+      get('SERVER_AUTHORIZER_URL').required().asString()
+    );
   });
 
   test.afterAll(async () => {

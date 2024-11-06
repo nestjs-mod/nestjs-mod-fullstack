@@ -24,11 +24,18 @@ else
     CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID="${CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}"
 fi
 
+if [[ -z "${CLIENT_AUTHORIZER_URL}" ]]; then
+    CLIENT_AUTHORIZER_URL="http://localhost:8080"
+else
+    CLIENT_AUTHORIZER_URL="${CLIENT_AUTHORIZER_URL}" | sed "s|/|\/|g"
+fi
+
 # Replacing Nginx Dynamic Parameters
 sed -i "s/___SERVER_NAME___/$SERVER_NAME/g" /etc/nginx/conf.d/nginx.conf
 sed -i "s/___SERVER_PORT___/$SERVER_PORT/g" /etc/nginx/conf.d/nginx.conf
 sed -i "s/___NGINX_PORT___/$NGINX_PORT/g" /etc/nginx/conf.d/nginx.conf
 find /usr/share/nginx/html -type f -name "*.js" -print0 | xargs -0 sed -i "s/___CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID___/$CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID/g"
+find /usr/share/nginx/html -type f -name "*.js" -print0 | xargs -0 sed -i "s#___CLIENT_AUTHORIZER_URL___#$CLIENT_AUTHORIZER_URL#"
 
 # Launch Nginx
 /usr/sbin/nginx -g "daemon off;"

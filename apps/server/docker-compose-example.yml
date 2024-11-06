@@ -31,12 +31,8 @@ services:
     networks:
       - "server-network"
     environment:
-      ADMIN_SECRET: ""
-      DATABASE_TYPE: ""
-      DATABASE_URL: ""
       DATABASE_NAME: ""
       PORT: ""
-      AUTHORIZER_URL: ""
       COOKIE_NAME: ""
       DISABLE_PLAYGROUND: ""
       ACCESS_TOKEN_EXPIRY_TIME: ""

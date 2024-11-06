@@ -15,7 +15,10 @@ import {
   RestClientConfiguration,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AUTHORIZER_URL,
+  AuthService,
+} from '@nestjs-mod-fullstack/auth-angular';
 import {
   WEBHOOK_CONFIGURATION_TOKEN,
   WebhookConfiguration,
@@ -31,45 +34,55 @@ import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes),
-    provideHttpClient(),
-    provideNzI18n(en_US),
-    {
-      provide: WEBHOOK_CONFIGURATION_TOKEN,
-      useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
-    },
-    importProvidersFrom(
-      BrowserAnimationsModule,
-      RestClientApiModule.forRoot(
-        () =>
-          new RestClientConfiguration({
-            basePath: serverUrl,
-          })
+export const appConfig = ({
+  authorizerURL,
+}: {
+  authorizerURL?: string;
+}): ApplicationConfig => {
+  return {
+    providers: [
+      provideClientHydration(),
+      provideZoneChangeDetection({ eventCoalescing: true }),
+      provideRouter(appRoutes),
+      provideHttpClient(),
+      provideNzI18n(en_US),
+      {
+        provide: WEBHOOK_CONFIGURATION_TOKEN,
+        useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
+      },
+      importProvidersFrom(
+        BrowserAnimationsModule,
+        RestClientApiModule.forRoot(
+          () =>
+            new RestClientConfiguration({
+              basePath: serverUrl,
+            })
+        ),
+        FormlyModule.forRoot(),
+        FormlyNgZorroAntdModule
       ),
-      FormlyModule.forRoot(),
-      FormlyNgZorroAntdModule
-    ),
-    { provide: ErrorHandler, useClass: AppErrorHandler },
-    {
-      provide: APP_INITIALIZER,
-      useFactory:
-        (
-          defaultRestService: DefaultRestService,
-          webhookRestService: WebhookRestService,
-          authService: AuthService
-        ) =>
-        () =>
-          new AppInitializer(
-            defaultRestService,
-            webhookRestService,
-            authService
-          ).resolve(),
-      multi: true,
-      deps: [DefaultRestService, WebhookRestService, AuthService],
-    },
-  ],
+      { provide: ErrorHandler, useClass: AppErrorHandler },
+      {
+        provide: AUTHORIZER_URL,
+        useValue: authorizerURL,
+      },
+      {
+        provide: APP_INITIALIZER,
+        useFactory:
+          (
+            defaultRestService: DefaultRestService,
+            webhookRestService: WebhookRestService,
+            authService: AuthService
+          ) =>
+          () =>
+            new AppInitializer(
+              defaultRestService,
+              webhookRestService,
+              authService
+            ).resolve(),
+        multi: true,
+        deps: [DefaultRestService, WebhookRestService, AuthService],
+      },
+    ],
+  };
 };
