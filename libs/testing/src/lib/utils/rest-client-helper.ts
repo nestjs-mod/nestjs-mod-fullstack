@@ -13,7 +13,7 @@ import {
 import { getUrls } from './get-urls';
 
 export class RestClientHelper {
-  private authorizerClientID?: string;
+  private authorizerClientID!: string;
 
   authorizationTokens?: AuthToken;
 

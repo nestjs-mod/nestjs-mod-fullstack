@@ -6,10 +6,17 @@ import {
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AppComponent } from './app.component';
-
+import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
+import { authorizerURL } from '../environments/environment';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: AUTHORIZER_URL,
+          useValue: authorizerURL,
+        },
+      ],
       imports: [
         AppComponent,
         RouterModule.forRoot([]),

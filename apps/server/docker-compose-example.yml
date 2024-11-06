@@ -31,6 +31,9 @@ services:
     networks:
       - "server-network"
     environment:
+      ADMIN_SECRET: ""
+      DATABASE_TYPE: ""
+      DATABASE_URL: ""
       DATABASE_NAME: ""
       PORT: ""
       COOKIE_NAME: ""
