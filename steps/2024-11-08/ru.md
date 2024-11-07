@@ -1,14 +1,16 @@
-## [2024-10-29] Integration of external authorization server https://authorizer.dev into a full-stack application on NestJS and Angular
+## [2024-11-08] Интеграция внешнего сервера авторизации https://authorizer.dev в фулстек приложение на NestJS и Angular
 
-In this article, I will connect an external authorization server https://authorizer.dev to the project and write additional backend and frontend modules for integration with it.
+Предыдущая статья: [Создание пользовательского интерфейса для модуля Webhook с помощью Angular](https://habr.com/ru/articles/853582/)
 
-The code will be compiled for running via `Docker Compose` and `Kubernetes`.
+В этой статье я подключу в проект внешний сервер авторизации https://authorizer.dev и напишу дополнительные бэкенд и фронтенд модули для интеграции с ним.
 
-### 1. Create an Angular library for authorization
+Код будет собран для запуска через `Docker Compose` и `Kubernetes`.
 
-Create an empty `Angular` library to store components with authorization and registration forms, as well as various services and `Guard`.
+### 1. Создаем Angular-библиотеку по авторизации
 
-_Commands_
+Создаем пустую `Angular`-библиотеку для хранения компонент с формами авторизации и регистрации, а также различные сервисы и `Guards`.
+
+_Команды_
 
 ```bash
 # Create Angular library
@@ -19,7 +21,7 @@ rm -rf libs/core/auth-angular/src/test-setup.ts
 cp apps/client/src/test-setup.ts libs/core/auth-angular/src/test-setup.ts
 ```
 
-{% spoiler Console output %}
+<spoiler title="Вывод консоли">
 
 ```bash
 $ ./node_modules/.bin/nx g @nx/angular:library --name=auth-angular --buildable --publishable --directory=libs/core/auth-angular --simpleName=true --strict=true --prefix= --standalone=true --selector= --changeDetection=OnPush --importPath=@nestjs-mod-fullstack/auth-angular
@@ -49,19 +51,19 @@ UPDATE tsconfig.base.json
 Run "nx show project auth-angular" to view details about this project.
 ```
 
-{% endspoiler %}
+</spoiler>
 
-### 2. Create a NestJS library for authorization
+### 2. Создаем NestJS-библиотеку по авторизации
 
-Create an empty `NestJS` library.
+Создаем пустую `NestJS`-библиотеку.
 
-_Commands_
+_Команды_
 
 ```bash
 ./node_modules/.bin/nx g @nestjs-mod/schematics:library auth --buildable --publishable --directory=libs/core/auth --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
 ```
 
-{% spoiler Console output %}
+<spoiler title="Вывод консоли">
 
 ```bash
 $ ./node_modules/.bin/nx g @nestjs-mod/schematics:library auth --buildable --publishable --directory=libs/core/auth --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
@@ -84,20 +86,20 @@ CREATE libs/core/auth/src/lib/auth.environments.ts
 CREATE libs/core/auth/src/lib/auth.module.ts
 ```
 
-{% endspoiler %}
+</spoiler>
 
-### 3. Install additional libraries
+### 3. Устанавливаем дополнительные библиотеки
 
-Install `JS`-client and `NestJS`-module for working with `authorizer` server from frontend and backend.
-In tests we often use random data, for fast generation of such data we install package `@faker-js/faker`.
+Устанавливаем `JS`-клиент и `NestJS`-модуль для работы с сервером `authorizer` с фронтенда и бэкенда.
+В тестах мы часто используем случайные данные, для быстрой генерации таких данных устанавливаем пакет `@faker-js/faker`.
 
-_Commands_
+_Команды_
 
 ```bash
 npm install --save @nestjs-mod/authorizer @authorizerdev/authorizer-js @faker-js/faker
 ```
 
-{% spoiler Console output %}
+<spoiler title="Вывод консоли">
 
 ```bash
 $ npm install --save @nestjs-mod/authorizer @authorizerdev/authorizer-js @faker-js/faker
@@ -118,9 +120,9 @@ To address all issues (including breaking changes), run:
 Run `npm audit` for details.
 ```
 
-{% endspoiler %}
+</spoiler>
 
-### 4. Connecting new modules to the backend
+### 4. Подключаем новые модули в бэкенд
 
 _apps/server/src/main.ts_
 
@@ -202,19 +204,19 @@ bootstrapNestApplication({
     );
 ```
 
-### 5. We are starting the generation of additional code for the infrastructure
+### 5. Запускаем генерацию дополнительного кода по инфраструктуре
 
-_Commands_
+_Команды_
 
 ```bash
 npm run docs:infrastructure
 ```
 
-### 6. Add all the necessary code to the AuthModule module (NestJS library)
+### 6. Добавляем весь необходимый код в модуль AuthModule (NestJS-библиотека)
 
-When the application is launched, the module can create a default administrator, his email and password must be passed through environment variables, if not passed, the default administrator will not be created.
+При запуске приложения модуль может создать администратора по умолчанию, его емайл и пароль нужно передавать через переменные окружения, если не передали, то админ по умолчанию не будет создан.
 
-Update the file _libs/core/auth/src/lib/auth.environments.ts_
+Обновляем файл _libs/core/auth/src/lib/auth.environments.ts_
 
 ```typescript
 import { EnvModel, EnvModelProperty } from '@nestjs-mod/common';
@@ -242,9 +244,9 @@ export class AuthEnvironments {
 }
 ```
 
-We create a service for calling the authorization server's admin methods, add a method for creating an admin, this method will be called when the application starts and create a default system admin.
+Создаем сервис для вызова администраторских методов сервера авторизации, добавляем метод создания админа, этот метод будет вызываться при старте приложения и создавать админа системы по умолчанию.
 
-We create the file _libs/core/auth/src/lib/services/auth-authorizer.service.ts_
+Создаем файл _libs/core/auth/src/lib/services/auth-authorizer.service.ts_
 
 ```typescript
 import { AuthorizerService } from '@nestjs-mod/authorizer';
@@ -320,9 +322,9 @@ export class AuthAuthorizerService {
 }
 ```
 
-Create a service with an `OnModuleInit` hook in which, when the module starts, we start the process of creating a default admin if it does not exist.
+Создаем сервис с `OnModuleInit`-хуком в котором при старте модуля запускаем процесс создания дефолтного админа, если его не существует.
 
-Create a file _libs/core/auth/src/lib/services/auth-authorizer-bootstrap.service.ts_
+Создаем файл _libs/core/auth/src/lib/services/auth-authorizer-bootstrap.service.ts_
 
 ```typescript
 import { isInfrastructureMode } from '@nestjs-mod/common';
@@ -365,13 +367,13 @@ export class AuthAuthorizerBootstrapService implements OnModuleInit {
 }
 ```
 
-Add the created services to `AuthModule`, in this module we connect the global `Guard` for constant checking of the presence of an authorization token when calling any backend methods, and also connect a filter for transforming authorization errors.
+Добавляем созданные сервисы в `AuthModule`, в этом модуле подключаем глобальный `Guard` для постоянной проверки наличия токена авторизации при вызове любых методов бэкенда, а также подключаем фильтр для трансформации ошибок авторизации.
 
-The environment variables for this module will have the `AUTH_` prefix, to enable this prefix you need to override the `propertyNameFormatters` option.
+Переменные окружения для этого модуля будут иметь префикс `AUTH_`, для включения этого префикса нужно переопределить опцию `propertyNameFormatters`.
 
-The names of the environment variables: `SERVER_AUTH_ADMIN_EMAIL`, `SERVER_AUTH_ADMIN_USERNAME`, `SERVER_AUTH_ADMIN_PASSWORD`.
+Названия переменных окружения: `SERVER_AUTH_ADMIN_EMAIL`, `SERVER_AUTH_ADMIN_USERNAME`, `SERVER_AUTH_ADMIN_PASSWORD`.
 
-Update the file _libs/core/auth/src/lib/auth.module.ts_
+Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
 
 ```typescript
 import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
@@ -412,13 +414,13 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### 7. Adding logic for automatic user creation for the WebhookModule
+### 7. Добавляем логику автоматического создания пользователей для модуля WebhookModule
 
-Since the authorization guard is triggered automatically when calling any methods, including methods of the `WebhookModule` module, we can create a new user for the `WebhookModule` module at the time of authorization token validation.
+Так как гард авторизации срабатывает автоматически при вызове любых методов, в том числе методов модуля `WebhookModule`, то мы можем создать нового пользователя для модуля `WebhookModule` в момент валидации токена авторизации.
 
-We will move the method for creating a new user to a separate service, which will be available when importing the module as a feature `WebhookModule.forFeature()`.
+Метод создания нового пользователя вынесем в отдельный сервис, который будет доступен при импорте модуля как фича `WebhookModule.forFeature()`.
 
-Create a file _libs/feature/webhook/src/lib/services/webhook-users.service.ts_
+Создаем файл _libs/feature/webhook/src/lib/services/webhook-users.service.ts_
 
 ```typescript
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
@@ -458,9 +460,9 @@ export class WebhookUsersService {
 }
 ```
 
-Export the new service from the module and the prism module it uses.
+Экспортируем новый сервис из модуля и призма модуль который он использует.
 
-Update the file _libs/feature/webhook/src/lib/webhook.module.ts_
+Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
@@ -548,9 +550,9 @@ export const { WebhookModule } = createNestModule({
 });
 ```
 
-We update the function for creating the configuration of the module `AuthorizerModule`, add the use of the service from the module `WebhookModule`.
+Обновляем функцию создания конфигурации модуля `AuthorizerModule`, добавляем использование сервиса из модуля `WebhookModule`.
 
-We update the file _apps/server/src/main.ts_
+Обновляем файл _apps/server/src/main.ts_
 
 ```typescript
 //...
@@ -597,11 +599,11 @@ bootstrapNestApplication({
 });
 ```
 
-### 8. Add all the necessary code to the Angular library for authorization
+### 8. Добавляем весь необходимый код в Angular-библиотеку по авторизации
 
-Create an instance of the authorization server client using `DI` from `Angular`.
+Экземпляр клиента сервера авторизации создаем с помощью `DI` от `Angular`.
 
-Create the file _libs/core/auth-angular/src/lib/services/authorizer.service.ts_
+Создаем файл _libs/core/auth-angular/src/lib/services/authorizer.service.ts_
 
 ```typescript
 import { Inject, Injectable, InjectionToken } from '@angular/core';
@@ -628,9 +630,9 @@ export class AuthorizerService extends Authorizer {
 }
 ```
 
-All additional methods for working with the authorization server are added to `AuthService`.
+Все дополнительные методы для работе с сервером авторизации, добавляем в `AuthService`.
 
-Create the file _libs/core/auth-angular/src/lib/services/auth.service.ts_
+Создаем файл _libs/core/auth-angular/src/lib/services/auth.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -733,9 +735,9 @@ export class AuthService {
 }
 ```
 
-Some pages have role restrictions, to activate this feature we need to create `Guard`.
+Часть страниц имеют ограничения по ролям, для активации такой возможности нам нужно создать `Guard`.
 
-Create the file _libs/core/auth-angular/src/lib/services/auth-guard.service.ts_
+Создаем файл _libs/core/auth-angular/src/lib/services/auth-guard.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -767,7 +769,7 @@ export class AuthGuardService implements CanActivate {
 }
 ```
 
-Add the registration form component _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.ts_
+Добавляем компоненту формы регистрации _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.ts_
 
 ```typescript
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -906,7 +908,7 @@ export class AuthSignUpFormComponent implements OnInit {
 }
 ```
 
-Add the registration form template _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.html_
+Добавляем шаблон формы регистрации _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.html_
 
 ```html
 @if (formlyFields$ | async; as formlyFields) {
@@ -926,7 +928,7 @@ Add the registration form template _libs/core/auth-angular/src/lib/forms/auth-si
 }
 ```
 
-Adding a component to the authorization form _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.ts_
+Добавляем компоненту формы авторизации _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.ts_
 
 ```typescript
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -1050,7 +1052,7 @@ export class AuthSignInFormComponent implements OnInit {
 }
 ```
 
-Adding a login form template _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.html_
+Добавляем шаблон формы авторизации _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.html_
 
 ```html
 @if (formlyFields$ | async; as formlyFields) {
@@ -1070,11 +1072,11 @@ Adding a login form template _libs/core/auth-angular/src/lib/forms/auth-sign-in-
 }
 ```
 
-### 9. Adding an initialization service to an Angular application
+### 9. Добавляем сервис инициализации в Angular-приложение
 
-In this service, we try to refresh the authorization token, and also subscribe to receive a token during registration, authorization and refresh, and setup the received token in the `sdk` to work with the backend.
+В данном сервисе мы пытаемся рефрешить токен авторизации, а также подписываемся на получение токена при регистрации, авторизации и рефреше, полученный токен устанавливаем в `sdk` для работы с бэкендом.
 
-Create the file _apps/client/src/app/app-initializer.ts_
+Создаем файл _apps/client/src/app/app-initializer.ts_
 
 ```typescript
 import { HttpHeaders } from '@angular/common/http';
@@ -1127,9 +1129,9 @@ export class AppInitializer {
 }
 ```
 
-### 10. Updating the Angular application configuration
+### 10. Обновляем конфигурацию Angular-приложения
 
-Updating the file _apps/client/src/app/app.config.ts_
+Обновляем файл _apps/client/src/app/app.config.ts_
 
 ```typescript
 import { provideHttpClient } from '@angular/common/http';
@@ -1187,11 +1189,11 @@ export const appConfig = ({ authorizerURL }: { authorizerURL?: string }): Applic
 };
 ```
 
-### 11. Update files and add new ones to run docker-compose and kubernetes
+### 11. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
 
-I will not fully describe the changes in all files, you can see them in the commit with changes for the current post, below I will simply add the updated `docker-compose-full.yml` and its file with environment variables.
+Полностью описывать изменения во всех файлах я не буду, их можно посмотреть по коммиту с изменениями для текущего поста, ниже просто добавлю обновленный `docker-compose-full.yml` и его файл с переменными окружения.
 
-Update the file _.docker/docker-compose-full.yml_
+Обновляем файл _.docker/docker-compose-full.yml_
 
 ```yaml
 version: '3'
@@ -1379,7 +1381,7 @@ volumes:
     name: 'nestjs-mod-fullstack-https-portal-volume'
 ```
 
-Update the file _.docker/docker-compose-full.env_
+Обновляем файл _.docker/docker-compose-full.env_
 
 ```sh
 SERVER_PORT=9090
@@ -1420,11 +1422,11 @@ SERVER_AUTHORIZER_DEFAULT_ROLES=user
 SERVER_AUTHORIZER_JWT_ROLE_CLAIM=role
 ```
 
-### 12. Updating E2E tests
+### 12. Обновляем E2E-тесты
 
-When writing and running E2E tests, a lot of code is duplicated, in order to remove duplication, we create a test utility.
+При написании и запуске E2E-тестов много кода дублируется, для того чтобы убрать дублирование создаем тестовую утилиту.
 
-Create the file _libs/testing/src/lib/utils/rest-client-helper.ts_
+Создаем файл _libs/testing/src/lib/utils/rest-client-helper.ts_
 
 ```typescript
 import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
@@ -1626,9 +1628,9 @@ export class RestClientHelper {
 }
 ```
 
-I will not describe the changes in all the files with tests, I will add only one where users with different roles are used.
+Описывать изменения во всех файлах с тестами я не буду, добавлю только один где используются пользователи с разными ролями.
 
-Update the file _apps/server-e2e/src/server/webhook-crud-as-admin.spec.ts_
+Обновляем файл _apps/server-e2e/src/server/webhook-crud-as-admin.spec.ts_
 
 ```typescript
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
@@ -1725,25 +1727,25 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
 });
 ```
 
-### Conclusion
+### Заключение
 
-In this post, https://authorizer.dev was chosen as the authorization server, but the principle of working with other authorization servers is approximately the same and the additional code that was written on the frontend and backend will not differ much.
+В данном посте в качестве сервера авторизации был выбран - https://authorizer.dev, но принцип работы с другими серверами авторизации примерно такой же и дополнительный код который был написан на фронтенде и бэкенде не сильно будет отличаться.
 
-The authorization server chosen for this project is very easy to implement in the project, but it does not support mutable tenancy, so if you need this option, it is better to choose another authorization server or write your own.
+Выбранный для этого проекта сервер авторизации очень простой в плане внедрения в проект, но он не поддерживает мутитенантность, так что если вам нужна такая опция, то лучше выбрать другой сервер авторизации или написать свой.
 
-Auto refresh of the token in case of error 401 is not provided in this version of the project, it will be implemented in future posts.
+Авто рефрешь токена при ошибке 401 в данной версии проекта не предусмотрен, он будет внедрен в будущих постах.
 
-### Plans
+### Планы
 
-The login server user has a `picture` field, but the login server does not have a method to upload a photo. In the next post, I will include https://min.io/ in the project and configure the integration with NestJS and Angular...
+У пользователя сервера авторизации есть поле `picture`, но на сервере авторизации нет метода для загрузки фотографии. В следующем посте я подключу https://min.io/ в проект и настрою интеграцию с NestJS и Angular...
 
-### Links
+### Ссылки
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - current changes
-https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - video of the tests
+https://nestjs.com - официальный сайт фреймворка
+https://nestjs-mod.com - официальный сайт дополнительных утилит
+https://fullstack.nestjs-mod.com - сайт из поста
+https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
+https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - видео тестов
 
 #angular #authorizer #nestjsmod #fullstack
