@@ -1,4 +1,4 @@
-FROM node:20-bullseye-slim AS builder
+FROM node:22-bullseye-slim AS builder
 WORKDIR /usr/src/app
 
 # Disable nx daemon
@@ -23,7 +23,7 @@ RUN echo '' > .env
 # Generate additional files
 RUN ./node_modules/.bin/flyway -c ./.flyway.js info || echo 'skip flyway errors'
 
-FROM node:20-bullseye-slim
+FROM node:22-bullseye-slim
 WORKDIR /usr/src/app
 
 # Copy node_modules

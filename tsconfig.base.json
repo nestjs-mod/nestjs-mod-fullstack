@@ -29,6 +29,10 @@
       "@nestjs-mod-fullstack/app-rest-sdk": [
         "libs/sdk/app-rest-sdk/src/index.ts"
       ],
+      "@nestjs-mod-fullstack/auth": ["libs/core/auth/src/index.ts"],
+      "@nestjs-mod-fullstack/auth-angular": [
+        "libs/core/auth-angular/src/index.ts"
+      ],
       "@nestjs-mod-fullstack/common": ["libs/common/src/index.ts"],
       "@nestjs-mod-fullstack/common-angular": [
         "libs/common-angular/src/index.ts"

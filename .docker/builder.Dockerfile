@@ -1,4 +1,4 @@
-FROM node:20.16.0-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /usr/src/app
 
 # Copy all files in repository to image
@@ -13,7 +13,7 @@ RUN npm install --prefer-offline --no-audit --progress=false
 # Some utilities require a ".env" file
 RUN echo '' > .env
 
-FROM node:20.16.0-alpine
+FROM node:22-alpine
 WORKDIR /usr/src/app
 
 # Disable nx daemon

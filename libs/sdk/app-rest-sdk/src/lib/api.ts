@@ -86,6 +86,59 @@ export interface AppDemo {
 /**
  *
  * @export
+ * @interface AuthError
+ */
+export interface AuthError {
+  /**
+   * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
+   * @type {string}
+   * @memberof AuthError
+   */
+  message: string;
+  /**
+   *
+   * @type {AuthErrorEnum}
+   * @memberof AuthError
+   */
+  code: AuthErrorEnum;
+  /**
+   *
+   * @type {object}
+   * @memberof AuthError
+   */
+  metadata?: object;
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const AuthErrorEnum = {
+  _000: 'AUTH-000',
+  _001: 'AUTH-001',
+  _002: 'AUTH-002',
+} as const;
+
+export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
+
+/**
+ *
+ * @export
+ * @interface AuthorizerClientID
+ */
+export interface AuthorizerClientID {
+  /**
+   *
+   * @type {string}
+   * @memberof AuthorizerClientID
+   */
+  clientID: string;
+}
+/**
+ *
+ * @export
  * @interface CreateWebhookArgs
  */
 export interface CreateWebhookArgs {
@@ -486,6 +539,24 @@ export interface WebhookLogObject {
    * @memberof WebhookLogObject
    */
   webhookStatus: WebhookStatus;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookLogObject
+   */
+  externalTenantId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookLogObject
+   */
+  createdAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookLogObject
+   */
+  updatedAt: string;
 }
 
 /**
@@ -551,6 +622,36 @@ export interface WebhookObject {
    * @memberof WebhookObject
    */
   requestTimeout?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookObject
+   */
+  externalTenantId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookObject
+   */
+  createdBy: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookObject
+   */
+  updatedBy: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookObject
+   */
+  createdAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookObject
+   */
+  updatedAt: string;
 }
 /**
  *
@@ -634,6 +735,18 @@ export interface WebhookUserObject {
    * @memberof WebhookUserObject
    */
   userRole: WebhookRole;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookUserObject
+   */
+  createdAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof WebhookUserObject
+   */
+  updatedAt: string;
 }
 
 /**
@@ -916,6 +1029,44 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    authorizerControllerGetAuthorizerClientID: async (
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/authorizer/client-id`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     terminusHealthCheckControllerCheck: async (
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
@@ -1120,6 +1271,36 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async authorizerControllerGetAuthorizerClientID(
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<AuthorizerClientID>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authorizerControllerGetAuthorizerClientID(
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'DefaultApi.authorizerControllerGetAuthorizerClientID'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async terminusHealthCheckControllerCheck(
       options?: RawAxiosRequestConfig
     ): Promise<
@@ -1242,6 +1423,18 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    authorizerControllerGetAuthorizerClientID(
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AuthorizerClientID> {
+      return localVarFp
+        .authorizerControllerGetAuthorizerClientID(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     terminusHealthCheckControllerCheck(
       options?: RawAxiosRequestConfig
     ): AxiosPromise<TerminusHealthCheckControllerCheck200Response> {
@@ -1337,6 +1530,20 @@ export class DefaultApi extends BaseAPI {
   public appControllerGetData(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .appControllerGetData(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public authorizerControllerGetAuthorizerClientID(
+    options?: RawAxiosRequestConfig
+  ) {
+    return DefaultApiFp(this.configuration)
+      .authorizerControllerGetAuthorizerClientID(options)
       .then((request) => request(this.axios, this.basePath));
   }
 

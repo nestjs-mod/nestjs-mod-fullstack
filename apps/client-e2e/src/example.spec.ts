@@ -28,6 +28,8 @@ test.describe('basic usage', () => {
 
     // Expect h1 to contain a substring.
     expect(await page.locator('.logo').innerText()).toContain('client');
+
+    await setTimeout(4000);
   });
 
   test('has serverMessage', async () => {
@@ -35,7 +37,7 @@ test.describe('basic usage', () => {
       timeout: 5000,
     });
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     // Expect h1 to contain a substring.
     expect(await page.locator('#serverMessage').innerText()).toContain(

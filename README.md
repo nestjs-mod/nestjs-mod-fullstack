@@ -2,117 +2,103 @@
   <a href="https://github.com/nestjs-mod/" target="blank"><img src="https://avatars.githubusercontent.com/u/155752954?s=200&v=4" width="120" alt="NestJS-mod Logo" /></a>
 </p>
 
-  <p align="center">A collection of utilities for unifying <a href="https://nestjs.com/" target="_blank">NestJS</a> applications and modules.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs-mod/common.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs-mod/common.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs-mod/common.svg" alt="NPM Downloads" /></a>
-<a href="https://github.com/nestjs-mod/nestjs-mod/actions/workflows/release.yml" target="_blank"><img src="https://github.com/nestjs-mod/nestjs-mod/actions/workflows/release.yml/badge.svg" alt="Release to NPM" /></a>
-<a href="https://t.me/nestjs_mod" target="_blank"><img src="https://img.shields.io/badge/group-telegram-blue.svg?maxAge=2592000" alt="Telegram Group"/></a>
-</p>
+  <p align="center">Boilerplate for creating a fullstack application on NestJS and Angular</p>
 
-## Description
+## Dev/Watch mode
 
-NestJS is a great framework and you can do great things with it, but often when developing a large number of applications within the same organization, we end up with different application architectures, file structures, and a lot of duplicate code.
+Infrastructure is running using docker-compose, applications are launched in watch pm2 mode.
 
-The NestJS-mod collection of utilities are designed to unify applications and modules, and also introduce new logical options for dividing responsibilities between modules (Core, Feature, Integration, System, Infrastructure).
+### Init
 
-Since all parts of the application are unified, you can create a report on the entire project infrastructure.
-
-## Getting started
-
-### Create new application
-
-Commands for create empty NestJS-mod application
-
-```bash
-# Create empty nx project
-npx --yes create-nx-workspace@19.5.3 --name=project-name --preset=apps --interactive=false --ci=skip
-
-# Go to created project
-cd project-name
-
-# Install all need main dev-dependencies
-npm install --save-dev @nestjs-mod/schematics@latest
-
-# Create NestJS-mod application
-./node_modules/.bin/nx g @nestjs-mod/schematics:application --directory=apps/app-name --name=app-name --projectNameAndRootFormat=as-provided --strict=true
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
 ```
 
-Start created application
+### Start
 
-```bash
-# Prepare all files
-npm run manual:prepare
-
-# Start application in dev mode
-npm run serve:dev:app-name
-
-# Build and start application in prod mode
-
-## Build
-npm run build:prod:app-name
-
-## Start
-npm run start:prod:app-name
+```sh
+npm run pm2-full:dev:start
 ```
 
-### Create new library
+### Open in browser
 
-Commands for create empty NestJS-mod library
+http://localhost:4200
 
-```bash
-# Create NestJS-mod library
-./node_modules/.bin/nx g @nestjs-mod/schematics:library feature-name --buildable --publishable --directory=libs/feature-name --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
+### Testing
+
+```sh
+npm run pm2-full:dev:test:e2e
 ```
 
-Add created library to `apps/app-name/src/main.ts`
+### Stop
 
-```ts
-
-// Example without options
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot()],
-  }
-});
-
-// Example with options
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot({
-      configuration: { optionsName: 'options name' },
-    })],
-  }
-});
-
-
-// By default, in the example, the application looks for env by the key `APP_NAME_ENV_NAME`, but you can override it, for example:
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot({
-      environments: { envName: 'env name' },
-    })],
-  }
-});
+```sh
+npm run pm2-full:dev:stop
 ```
 
-### Create an infrastructure report
+## Prod mode
 
-You can generate a report for all modules and their configurations.
+Infrastructure is running using docker-compose, built applications are launched using pm2.
 
-```bash
-# Build all applications and library
-npm run build
+### Init
 
-# Generate markdown report
-npm run docs:infrastructure
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
 ```
 
-After which the file `INFRASTRUCTURE.MD` appear in the application folder `apps/app-name`.
+### Start
+
+```sh
+npm run pm2-full:prod:start
+```
+
+### Open in browser
+
+http://localhost:3000
+
+### Testing
+
+```sh
+npm run pm2-full:prod:test:e2e
+```
+
+### Stop
+
+```sh
+npm run pm2-full:prod:stop
+```
+
+## Docker-compose prod mode
+
+Infrastructure and applications built into Docker images are run using docker-compose.
+
+### Init
+
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
+```
+
+### Start
+
+```sh
+npm run docker-compose-full:prod:start
+```
+
+### Open in browser
+
+http://localhost:8080
+
+### Stop
+
+```sh
+npm run docker-compose-full:prod:stop
+```
 
 ## Links
 
@@ -135,3 +121,7 @@ For questions and support please use the official [Telegram group](https://t.me/
 ## License
 
 [MIT licensed](LICENSE).
+
+```
+
+```

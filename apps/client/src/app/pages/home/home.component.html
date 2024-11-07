@@ -1,4 +1,188 @@
 <nz-breadcrumb>
   <nz-breadcrumb-item>Home</nz-breadcrumb-item>
 </nz-breadcrumb>
-<div class="inner-content">Hello Static</div>
+<div class="inner-content">
+  Hello Static
+
+  <nz-collapse>
+    <nz-collapse-panel
+      nzActive="true"
+      nzHeader="Dev/Watch mode: the infrastructure is running using docker-compose,
+ applications are launched in watch pm2 mode"
+    >
+      <h6
+        nz-typography
+        nzCopyable
+        nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i"
+      >
+        Init
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="3"
+        readonly="true"
+      >
+git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:start">
+        Start
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:dev:start</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="http://localhost:4200">
+        Open in browser
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+http://localhost:4200</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:test:e2e">
+        Testing
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:dev:test:e2e</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:stop">
+        Stop
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:dev:stop</textarea
+      >
+    </nz-collapse-panel>
+    <nz-collapse-panel
+      nzHeader="Prod mode: the infrastructure is running using docker-compose,
+ built applications are launched using pm2"
+    >
+      <h6
+        nz-typography
+        nzCopyable
+        nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i"
+      >
+        Init
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="3"
+        readonly="true"
+      >
+git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
+        Start
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:prod:start</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="http://localhost:3000">
+        Open in browser
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+http://localhost:3000</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:test:e2e">
+        Testing
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:prod:test:e2e</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:stop">
+        Stop
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run pm2-full:prod:stop</textarea
+      >
+    </nz-collapse-panel>
+    <nz-collapse-panel
+      nzHeader="Docker-compose prod mode: the infrastructure and applications built into Docker images are run using docker-compose"
+    >
+      <h6
+        nz-typography
+        nzCopyable
+        nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i"
+      >
+        Init
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="3"
+        readonly="true"
+      >
+git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
+        Start
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run docker-compose-full:prod:start</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="http://localhost:8080">
+        Open in browser
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+http://localhost:8080</textarea
+      >
+      <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:stop">
+        Stop
+      </h6>
+      <textarea
+        class="border-1 p-2 bg-slate-100 w-full h-auto"
+        rows="1"
+        readonly="true"
+      >
+npm run docker-compose-full:prod:stop</textarea
+      >
+    </nz-collapse-panel>
+  </nz-collapse>
+</div>

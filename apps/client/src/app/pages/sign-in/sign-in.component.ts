@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { WebhookAuthFormComponent } from '@nestjs-mod-fullstack/webhook-angular';
+import { AuthSignInFormComponent } from '@nestjs-mod-fullstack/auth-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({
   standalone: true,
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  imports: [NzBreadCrumbModule, WebhookAuthFormComponent],
+  imports: [NzBreadCrumbModule, AuthSignInFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent {

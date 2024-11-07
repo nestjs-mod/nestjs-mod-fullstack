@@ -7,7 +7,10 @@ export class WebhookConfiguration {
     description: 'List of available events.',
   })
   events!: WebhookEvent[];
+}
 
+@ConfigModel()
+export class WebhookStaticConfiguration {
   @ConfigModelProperty({
     description: 'The name of the header key that stores the external user ID.',
     default: 'x-external-user-id',

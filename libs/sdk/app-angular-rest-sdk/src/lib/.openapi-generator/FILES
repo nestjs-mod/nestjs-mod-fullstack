@@ -11,6 +11,9 @@ git_push.sh
 index.ts
 model/app-data.interface.ts
 model/app-demo.interface.ts
+model/auth-error-enum.interface.ts
+model/auth-error.interface.ts
+model/authorizer-client-id.interface.ts
 model/create-webhook-args.interface.ts
 model/find-many-response-meta.interface.ts
 model/find-many-webhook-log-response.interface.ts

@@ -10,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
 import { WebhookRequest } from './types/webhook-request';
-import { WebhookConfiguration } from './webhook.configuration';
+import { WebhookStaticConfiguration } from './webhook.configuration';
 import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
 import { WebhookEnvironments } from './webhook.environments';
@@ -25,7 +25,7 @@ export class WebhookGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly webhookEnvironments: WebhookEnvironments,
-    private readonly webhookConfiguration: WebhookConfiguration
+    private readonly webhookStaticConfiguration: WebhookStaticConfiguration
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -139,29 +139,33 @@ export class WebhookGuard implements CanActivate {
   private getExternalTenantIdFromRequest(req: WebhookRequest) {
     const externalTenantId =
       req.externalTenantId || this.webhookEnvironments.checkHeaders
-        ? this.webhookConfiguration.externalTenantIdHeaderName &&
-          req.headers?.[this.webhookConfiguration.externalTenantIdHeaderName]
+        ? this.webhookStaticConfiguration.externalTenantIdHeaderName &&
+          req.headers?.[
+            this.webhookStaticConfiguration.externalTenantIdHeaderName
+          ]
         : undefined;
     if (externalTenantId) {
       req.externalTenantId = externalTenantId;
     }
-    return externalTenantId;
+    return req.externalTenantId;
   }
 
   private getExternalUserIdFromRequest(req: WebhookRequest) {
     const externalUserId =
       req.externalUserId || this.webhookEnvironments.checkHeaders
-        ? this.webhookConfiguration.externalUserIdHeaderName &&
-          req.headers?.[this.webhookConfiguration.externalUserIdHeaderName]
+        ? this.webhookStaticConfiguration.externalUserIdHeaderName &&
+          req.headers?.[
+            this.webhookStaticConfiguration.externalUserIdHeaderName
+          ]
         : undefined;
     if (externalUserId) {
       req.externalUserId = externalUserId;
     }
 
-    if (!externalUserId || !isUUID(externalUserId)) {
+    if (!req.externalUserId || !isUUID(req.externalUserId)) {
       throw new WebhookError(WebhookErrorEnum.EXTERNAL_USER_ID_NOT_SET);
     }
-    return externalUserId;
+    return req.externalUserId;
   }
 
   private getRequestFromExecutionContext(context: ExecutionContext) {

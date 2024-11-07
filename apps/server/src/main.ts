@@ -1,9 +1,19 @@
+import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,
   WebhookModule,
+  WebhookRequest,
+  WebhookUsersService,
 } from '@nestjs-mod-fullstack/webhook';
+import {
+  AUTHORIZER_ENV_PREFIX,
+  AuthorizerModule,
+  AuthorizerUser,
+  CheckAccessOptions,
+  defaultAuthorizerCheckAccessValidator,
+} from '@nestjs-mod/authorizer';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -12,11 +22,13 @@ import {
   PROJECT_JSON_FILE,
   ProjectUtils,
   bootstrapNestApplication,
+  getRequestFromExecutionContext,
   isInfrastructureMode,
 } from '@nestjs-mod/common';
 import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
+  DockerComposeAuthorizer,
   DockerComposePostgreSQL,
 } from '@nestjs-mod/docker-compose';
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
@@ -24,6 +36,7 @@ import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
+import { ExecutionContext } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
@@ -97,6 +110,52 @@ bootstrapNestApplication({
       }),
     ],
     core: [
+      AuthorizerModule.forRootAsync({
+        imports: [
+          WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
+        ],
+        inject: [WebhookUsersService],
+        configurationFactory: (webhookUsersService: WebhookUsersService) => {
+          return {
+            extraHeaders: {
+              'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
+            },
+            checkAccessValidator: async (
+              authorizerUser?: AuthorizerUser,
+              options?: CheckAccessOptions,
+              ctx?: ExecutionContext
+            ) => {
+              if (
+                typeof ctx?.getClass === 'function' &&
+                typeof ctx?.getHandler === 'function' &&
+                ctx?.getClass().name === 'TerminusHealthCheckController' &&
+                ctx?.getHandler().name === 'check'
+              ) {
+                return true;
+              }
+
+              const result = await defaultAuthorizerCheckAccessValidator(
+                authorizerUser,
+                options
+              );
+
+              if (ctx && authorizerUser?.id) {
+                const webhookUser = await webhookUsersService.createUser({
+                  externalUserId: authorizerUser?.id,
+                  externalTenantId: authorizerUser?.id,
+                  userRole: authorizerUser.roles?.includes('admin')
+                    ? 'Admin'
+                    : 'User',
+                });
+                const req: WebhookRequest = getRequestFromExecutionContext(ctx);
+                req.externalTenantId = webhookUser.externalTenantId;
+              }
+
+              return result;
+            },
+          };
+        },
+      }),
       PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
         contextName: appFeatureName,
@@ -139,8 +198,10 @@ bootstrapNestApplication({
     ],
     feature: [
       AppModule.forRoot(),
-      WebhookModule.forRoot({
-        staticConfiguration: {
+      AuthModule.forRootAsync({}),
+      WebhookModule.forRootAsync({
+        staticEnvironments: { checkHeaders: false },
+        configuration: {
           events: ['create', 'update', 'delete'].map((key) => ({
             eventName: `app-demo.${key}`,
             description: `${key}`,
@@ -176,6 +237,24 @@ bootstrapNestApplication({
       DockerComposePostgreSQL.forRoot(),
       DockerComposePostgreSQL.forFeature({
         featureModuleName: appFeatureName,
+      }),
+      DockerComposePostgreSQL.forFeature({
+        featureModuleName: AUTHORIZER_ENV_PREFIX,
+      }),
+      DockerComposeAuthorizer.forRoot({
+        staticConfiguration: {
+          image: 'lakhansamani/authorizer:1.4.4',
+          disableStrongPassword: 'true',
+          disableEmailVerification: 'true',
+          featureName: AUTHORIZER_ENV_PREFIX,
+          organizationName: 'NestJSModFullstack',
+          dependsOnServiceNames: {
+            'postgre-sql': 'service_healthy',
+          },
+          isEmailServiceEnabled: 'true',
+          isSmsServiceEnabled: 'false',
+          env: 'development',
+        },
       }),
       Flyway.forRoot({
         staticConfiguration: {

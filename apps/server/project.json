@@ -67,7 +67,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}"
+          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}",
+          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTHORIZER_DATABASE_URL}"
         ],
         "parallel": false,
         "envFile": "./.env",

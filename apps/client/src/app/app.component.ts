@@ -1,14 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import {
-  DefaultRestService,
-  WebhookUserObjectInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import {
-  WebhookAuthCredentials,
-  WebhookAuthService,
-} from '@nestjs-mod-fullstack/webhook-angular';
+import { User } from '@authorizerdev/authorizer-js';
+import { DefaultRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
@@ -33,17 +28,14 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'client';
   serverMessage$ = new BehaviorSubject('');
-  webhookAuthCredentials$: Observable<WebhookAuthCredentials>;
-  webhookUser$: Observable<WebhookUserObjectInterface | null>;
+  authUser$: Observable<User | undefined>;
 
   constructor(
     private readonly defaultRestService: DefaultRestService,
-    private readonly webhookAuthService: WebhookAuthService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {
-    this.webhookAuthCredentials$ =
-      this.webhookAuthService.webhookAuthCredentialsUpdates();
-    this.webhookUser$ = this.webhookAuthService.webhookUserUpdates();
+    this.authUser$ = this.authService.profile$.asObservable();
   }
 
   ngOnInit() {
@@ -57,10 +49,12 @@ export class AppComponent implements OnInit {
   }
 
   signOut() {
-    this.webhookAuthService.setWebhookAuthCredentials({
-      xExternalTenantId: undefined,
-      xExternalUserId: undefined,
-    });
-    this.router.navigate(['/home']);
+    this.authService
+      .signOut()
+      .pipe(
+        tap(() => this.router.navigate(['/home'])),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 }

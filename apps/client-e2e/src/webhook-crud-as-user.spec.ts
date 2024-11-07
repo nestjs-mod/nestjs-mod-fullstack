@@ -1,13 +1,19 @@
-import { getRandomExternalHeaders } from '@nestjs-mod-fullstack/testing';
+import { faker } from '@faker-js/faker';
 import { expect, Page, test } from '@playwright/test';
+import { get } from 'env-var';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('CRUD operations with Webhook as "User" role', () => {
-  const user1Headers = getRandomExternalHeaders();
-
   test.describe.configure({ mode: 'serial' });
 
+  const user = {
+    email: faker.internet.email({
+      provider: 'example.fakerjs.dev',
+    }),
+    password: faker.internet.password({ length: 8 }),
+    site: `http://${faker.internet.domainName()}`,
+  };
   let page: Page;
   let webhookId: string | null;
 
@@ -19,47 +25,125 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    await page.goto('/', {
+      timeout: 7000,
+    });
+    await page.evaluate(
+      (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
+      get('SERVER_AUTHORIZER_URL').required().asString()
+    );
   });
 
   test.afterAll(async () => {
     await page.close();
   });
 
-  test('sign in as user', async () => {
-    await page.goto('/sign-in', {
-      timeout: 5000,
+  test('sign up as user', async () => {
+    await page.goto('/sign-up', {
+      timeout: 7000,
     });
 
     await page
-      .locator('webhook-auth-form')
-      .locator('[placeholder=xExternalUserId]')
+      .locator('auth-sign-up-form')
+      .locator('[placeholder=email]')
       .click();
-    await page.keyboard.type(user1Headers['x-external-user-id'], {
+    await page.keyboard.type(user.email.toLowerCase(), {
       delay: 50,
     });
     await expect(
-      page.locator('webhook-auth-form').locator('[placeholder=xExternalUserId]')
-    ).toHaveValue(user1Headers['x-external-user-id']);
+      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+    ).toHaveValue(user.email.toLowerCase());
 
     await page
-      .locator('webhook-auth-form')
-      .locator('[placeholder=xExternalTenantId]')
+      .locator('auth-sign-up-form')
+      .locator('[placeholder=password]')
       .click();
-    await page.keyboard.type(user1Headers['x-external-tenant-id'], {
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(
+      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+    ).toHaveValue(user.password);
+
+    await page
+      .locator('auth-sign-up-form')
+      .locator('[placeholder=confirm_password]')
+      .click();
+    await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
       page
-        .locator('webhook-auth-form')
-        .locator('[placeholder=xExternalTenantId]')
-    ).toHaveValue(user1Headers['x-external-tenant-id']);
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirm_password]')
+    ).toHaveValue(user.password);
 
     await expect(
-      page.locator('webhook-auth-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]')
+    ).toHaveText('Sign-up');
+
+    await page
+      .locator('auth-sign-up-form')
+      .locator('button[type=submit]')
+      .click();
+  });
+
+  test('sign out after sign-up', async () => {
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(
+      page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]')
+    ).toContainText(`Sign-out`);
+
+    await page
+      .locator('[nz-submenu-none-inline-child]')
+      .locator('[nz-menu-item]')
+      .first()
+      .click();
+
+    await setTimeout(4000);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-menu-item]').last()
+    ).toContainText(`Sign-in`);
+  });
+
+  test('sign in as user', async () => {
+    await page.goto('/sign-in', {
+      timeout: 7000,
+    });
+
+    await page
+      .locator('auth-sign-in-form')
+      .locator('[placeholder=email]')
+      .click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(
+      page.locator('auth-sign-in-form').locator('[placeholder=email]')
+    ).toHaveValue(user.email.toLowerCase());
+
+    await page
+      .locator('auth-sign-in-form')
+      .locator('[placeholder=password]')
+      .click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(
+      page.locator('auth-sign-in-form').locator('[placeholder=password]')
+    ).toHaveValue(user.password);
+
+    await expect(
+      page.locator('auth-sign-in-form').locator('button[type=submit]')
     ).toHaveText('Sign-in');
 
     await page
-      .locator('webhook-auth-form')
+      .locator('auth-sign-in-form')
       .locator('button[type=submit]')
       .click();
   });
@@ -67,7 +151,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   test('should create new webhook', async () => {
     await page.locator('webhook-grid').locator('button').first().click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await page
       .locator('webhook-form')
@@ -82,20 +166,22 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('webhook-form')
       .locator('[placeholder=endpoint]')
       .click();
-    await page.keyboard.type('http://example.com', { delay: 50 });
+    await page.keyboard.type(user.site, { delay: 50 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=endpoint]').first()
-    ).toHaveValue('http://example.com');
+    ).toHaveValue(user.site);
 
     await page.locator('webhook-form').locator('[placeholder=headers]').click();
-    await page.keyboard.type(JSON.stringify(user1Headers), { delay: 50 });
+    await page.keyboard.type(JSON.stringify(user.email.toLowerCase()), {
+      delay: 50,
+    });
     await expect(
       page.locator('webhook-form').locator('[placeholder=headers]')
-    ).toHaveValue(JSON.stringify(user1Headers));
+    ).toHaveValue(JSON.stringify(user.email.toLowerCase()));
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     webhookId = await page
       .locator('webhook-grid')
@@ -107,13 +193,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     ).toContainText('false');
     await expect(
       page.locator('webhook-grid').locator('td').nth(2)
-    ).toContainText('http://example.com');
+    ).toContainText(user.site);
     await expect(
       page.locator('webhook-grid').locator('td').nth(3)
     ).toContainText('app-demo.create');
     await expect(
       page.locator('webhook-grid').locator('td').nth(4)
-    ).toContainText(JSON.stringify(user1Headers));
+    ).toContainText(JSON.stringify(user.email.toLowerCase()));
     await expect(
       page.locator('webhook-grid').locator('td').nth(5)
     ).toContainText('');
@@ -128,7 +214,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=eventName]')
@@ -136,25 +222,25 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=endpoint]').first()
-    ).toHaveValue('http://example.com');
+    ).toHaveValue(user.site);
 
     await expect(
       page.locator('webhook-form').locator('[placeholder=headers]')
-    ).toHaveValue(JSON.stringify(user1Headers));
+    ).toHaveValue(JSON.stringify(user.email.toLowerCase()));
 
     await page
       .locator('webhook-form')
       .locator('[placeholder=endpoint]')
       .click();
     await page.keyboard.press('Control+a');
-    await page.keyboard.type('http://example.com/new', { delay: 100 });
+    await page.keyboard.type(`${user.site}/new`, { delay: 100 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=endpoint]').first()
-    ).toHaveValue('http://example.com/new');
+    ).toHaveValue(`${user.site}/new`);
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('webhook-grid').locator('td').nth(0)
@@ -164,13 +250,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     ).toContainText('false');
     await expect(
       page.locator('webhook-grid').locator('td').nth(2)
-    ).toContainText('http://example.com/new');
+    ).toContainText(`${user.site}/new`);
     await expect(
       page.locator('webhook-grid').locator('td').nth(3)
     ).toContainText('app-demo.create');
     await expect(
       page.locator('webhook-grid').locator('td').nth(4)
-    ).toContainText(JSON.stringify(user1Headers));
+    ).toContainText(JSON.stringify(user.email.toLowerCase()));
     await expect(
       page.locator('webhook-grid').locator('td').nth(5)
     ).toContainText('');
@@ -185,7 +271,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page
@@ -200,7 +286,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .last()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('webhook-grid').locator('nz-embed-empty')
@@ -210,7 +296,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   test('sign out', async () => {
     await expect(
       page.locator('nz-header').locator('[nz-submenu]')
-    ).toContainText(`You are logged in as User`);
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
     await expect(
@@ -223,7 +309,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .first()
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(4000);
 
     await expect(
       page.locator('nz-header').locator('[nz-menu-item]').last()

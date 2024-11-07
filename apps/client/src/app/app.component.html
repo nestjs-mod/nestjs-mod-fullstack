@@ -4,19 +4,21 @@
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLink="/home">Home</li>
       <li nz-menu-item routerLink="/demo">Demo</li>
-      @if ((webhookAuthCredentials$|async)?.xExternalUserId) {
+      @if (authUser$|async; as authUser) {
       <li nz-menu-item routerLink="/webhook">Webhook</li>
-      @if (webhookUser$ | async; as webhookUser) {
       <li
         nz-submenu
-        [nzTitle]="'You are logged in as ' + webhookUser.userRole"
+        [nzTitle]="'You are logged in as ' + authUser.email"
         [style]="{ float: 'right' }"
       >
         <ul>
           <li nz-menu-item (click)="signOut()">Sign-out</li>
         </ul>
       </li>
-      } } @else {
+      } @else {
+      <li nz-menu-item routerLink="/sign-up" [style]="{ float: 'right' }">
+        Sign-up
+      </li>
       <li nz-menu-item routerLink="/sign-in" [style]="{ float: 'right' }">
         Sign-in
       </li>

@@ -1,5 +1,5 @@
 # server
-> Version: 1.2.2-alpha-1
+> Version: 1.3.0
 
 ## Running the app in watch mode
 ```bash
@@ -146,6 +146,31 @@ Variables of primitive and complex types that are used in the module; values for
 ## Core modules
 Core modules necessary for the operation of feature and integration modules (examples: main module with connection to the database, main module for connecting to aws, etc.). NestJS and NestJS-mod compatible modules.
 
+### AuthorizerModule
+Universal javaScript SDK for Authorizer API
+
+#### Shared providers
+`AuthorizerService`
+
+#### Environments
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`clientId`|Client ID|`obj['clientId']`, `process.env['SERVER_AUTHORIZER_CLIENT_ID']`|**optional**|-|-|
+|`authorizerURL`|Authorizer URL|`obj['authorizerURL']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**isNotEmpty** (authorizerURL should not be empty)|-|```http://localhost:8080```|
+|`redirectURL`|Redirect URL|`obj['redirectURL']`, `process.env['SERVER_AUTHORIZER_REDIRECT_URL']`|**isNotEmpty** (redirectURL should not be empty)|-|```http://localhost:4200```|
+|`adminSecret`|Admin secret|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**optional**|-|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
+|`allowedExternalAppIds`|Allowed identifiers of external applications, if you have logged in previously and do not need to log in again in the authorization service, these identifiers must be private and can be used for testing.|`obj['allowedExternalAppIds']`, `process.env['SERVER_AUTHORIZER_ALLOWED_EXTERNAL_APP_IDS']`|**optional**|-|-|
+
+#### Configuration
+Variables of primitive and complex types that are used in the module; values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`extraHeaders`|Extra headers|**optional**|-|```{"x-authorizer-url":"http://localhost:8080"}```|
+|`checkAccessValidator`|External function for validate permissions|**optional**|```defaultAuthorizerCheckAccessValidator```|```checkAccessValidator```|
+
 ### PrismaToolsModule
 #### Shared providers
 `PrismaToolsService`
@@ -246,9 +271,29 @@ Static variables of primitive and complex types that are used in the module and 
 Feature modules with business logic of the application. NestJS and NestJS-mod compatible modules.
 
 ### AppModule
+### AuthModule
+#### Static environments
+Static variables with primitive types used in the module and can be used at the time of generating module metadata (import, controllers), the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`adminEmail`|Global admin username|`obj['adminEmail']`, `process.env['SERVER_AUTH_ADMIN_EMAIL']`|**optional**|```admin@example.com```|```nestjs-mod-fullstack@site15.ru```|
+|`adminUsername`|Global admin username|`obj['adminUsername']`, `process.env['SERVER_AUTH_ADMIN_USERNAME']`|**isNotEmpty** (adminUsername should not be empty)|```admin```|```admin```|
+|`adminPassword`|Global admin password|`obj['adminPassword']`, `process.env['SERVER_AUTH_ADMIN_PASSWORD']`|**optional**|-|```SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA```|
+
 ### WebhookModule
 #### Shared providers
-`WebhookService`
+`WebhookService`, `WebhookUsersService`
+
+#### Shared imports
+`PrismaModule`
+
+#### Configuration
+Variables of primitive and complex types that are used in the module; values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`events`|List of available events.|**optional**|-|[ ```{"eventName":"app-demo.create","description":"create","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}```, ```{"eventName":"app-demo.update","description":"update","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}```, ```{"eventName":"app-demo.delete","description":"delete","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}``` ]|
 
 #### Static environments
 Static variables with primitive types used in the module and can be used at the time of generating module metadata (import, controllers), the values of which can be obtained from various sources, such as: process.env or consul key value.
@@ -258,16 +303,9 @@ Static variables with primitive types used in the module and can be used at the 
 |`useGuards`|Use guards.|`obj['useGuards']`, `process.env['SERVER_WEBHOOK_USE_GUARDS']`|**optional**|```true```|```true```|
 |`useFilters`|Use filters.|`obj['useFilters']`, `process.env['SERVER_WEBHOOK_USE_FILTERS']`|**optional**|```true```|```true```|
 |`autoCreateUser`|Auto create user from guard.|`obj['autoCreateUser']`, `process.env['SERVER_WEBHOOK_AUTO_CREATE_USER']`|**optional**|```true```|```true```|
-|`checkHeaders`|Search tenantId and userId in headers.|`obj['checkHeaders']`, `process.env['SERVER_WEBHOOK_CHECK_HEADERS']`|**optional**|```true```|```true```|
+|`checkHeaders`|Search tenantId and userId in headers.|`obj['checkHeaders']`, `process.env['SERVER_WEBHOOK_CHECK_HEADERS']`|**optional**|```true```|```false```|
 |`skipGuardErrors`|Skip any guard errors.|`obj['skipGuardErrors']`, `process.env['SERVER_WEBHOOK_SKIP_GUARD_ERRORS']`|**optional**|```false```|```false```|
 |`superAdminExternalUserId`|User ID with super admin role.|`obj['superAdminExternalUserId']`, `process.env['SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID']`|**optional**|-|```248ec37f-628d-43f0-8de2-f58da037dd0f```|
-
-#### Static configuration
-Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
-
-| Key    | Description | Constraints | Default | Value |
-| ------ | ----------- | ----------- | ------- | ----- |
-|`events`|List of available events.|**optional**|-|[ ```{"eventName":"app-demo.create","description":"create","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}```, ```{"eventName":"app-demo.update","description":"update","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}```, ```{"eventName":"app-demo.delete","description":"delete","example":{"id":"e4be9194-8c41-4058-bf70-f52a30bccbeb","name":"demo name","createdAt":"2024-10-02T18:49:07.992Z","updatedAt":"2024-10-02T18:49:07.992Z"}}``` ]|
 
 ## Integration modules
 Integration modules are necessary to organize communication between feature or core modules (example: after creating a user in the UsersModule feature module, you need to send him a letter from the NotificationsModule core module). NestJS and NestJS-mod compatible modules.
@@ -327,6 +365,15 @@ Variables of primitive and complex types that are used in the module; values for
 |`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-postgre-sql":{"image":"bitnami/postgresql:15.5.0","container_name":"server-postgre-sql","volumes":["server-postgre-sql-volume:/bitnami/postgresql"],"ports":["5432:5432"],"networks":["server-network"],"healthcheck":{"test":["CMD-SHELL","pg_isready -U postgres"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|Networks are the layer that allow services to communicate with each other. @see https://github.com/compose-spec/compose-spec/blob/master/06-networks.md|**optional**|-|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|Volumes are persistent data stores implemented by the container engine. @see https://github.com/compose-spec/compose-spec/blob/master/07-volumes.md|**optional**|-|```{"server-postgre-sql-volume":{"name":"server-postgre-sql-volume"}}```|
+
+#### Modules that use feature configuration
+##### Feature module name: SERVER_AUTHORIZER
+
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"NestJSModFullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
+|`networks`|Networks are the layer that allow services to communicate with each other. @see https://github.com/compose-spec/compose-spec/blob/master/06-networks.md|**optional**|-|```{"server-network":{"driver":"bridge"}}```|
 
 ### Flyway
 Flyway - utility for working with database migrations (official site: https://flywaydb.org, preview version only for Postgres)
@@ -414,12 +461,102 @@ Feature variables with primitive types used in the module, the values of which c
 |`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Modules that use feature environments
+##### Feature module name: authorizer
+
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
+
+#### Modules that use feature environments
 ##### Feature module name: webhook
 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
 |`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+
+### DockerComposeAuthorizer
+Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+Static variables with primitive types used in the module and can be used at the time of generating module metadata (import, controllers), the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`adminSecret`|Super admin secret used to access the master data.|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|-|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
+|`databaseType`|Which database you are using. Supported database types are postgres, mysql, planetscale, sqlite, sqlserver, mongodb, arangodb, yugabyte, mariadb, cassandradb, scylladb, couchbase, dynamodb.|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|-|```postgres```|
+|`databaseUrl`|Database connection string. In case of cluster url eg. for cassandra db, you can use comma separated IPs.|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
+|`databaseName`|Name of database to connect to. This is useful in case of arangodb and mongodb. If not set, default value will be used.|`obj['databaseName']`, `process.env['SERVER_AUTHORIZER_DATABASE_NAME']`|**optional**|```authorizer```|```authorizer```|
+|`redisUrl`|Redis URL where sessions can be persisted	false	sessions will be stored in memory.|`obj['redisUrl']`, `process.env['SERVER_AUTHORIZER_REDIS_URL']`|**optional**|-|-|
+|`databasePort`|Port on which database connection should be made. This is used when DATABASE_URL is not mentioned. At the moment supported by cassandradb.|`obj['databasePort']`, `process.env['SERVER_AUTHORIZER_DATABASE_PORT']`|**optional**|-|-|
+|`databaseHost`|Host/IP on which database connection should be made. This is used when DATABASE_URL is not mentioned. At the moment supported by cassandradb type.|`obj['databaseHost']`, `process.env['SERVER_AUTHORIZER_DATABASE_HOST']`|**optional**|-|-|
+|`databaseUsername`|Username for the database access with permission to create tables and records. At the moment supported by cassandradb, scylladb type.|`obj['databaseUsername']`, `process.env['SERVER_AUTHORIZER_DATABASE_USERNAME']`|**optional**|-|-|
+|`databasePassword`|Password for the database access with permission to create tables and records. At the moment supported by cassandradb, scylladb type.|`obj['databasePassword']`, `process.env['SERVER_AUTHORIZER_DATABASE_PASSWORD']`|**optional**|-|-|
+|`databaseCert`|Base64 encoded certificate string used to make SSL connection. At the moment supported by cassandradb,scylladb type.|`obj['databaseCert']`, `process.env['SERVER_AUTHORIZER_DATABASE_CERT']`|**optional**|-|-|
+|`databaseCertKey`|Base64 encoded key string used to make SSL connection. At the moment supported by cassandradb,scylladb type|`obj['databaseCertKey']`, `process.env['SERVER_AUTHORIZER_DATABASE_CERT_KEY']`|**optional**|-|-|
+|`databaseCaCert`|Base64 encoded CA certificate string used to make SSL connection. At the moment supported by cassandradb, scylladb type.|`obj['databaseCaCert']`, `process.env['SERVER_AUTHORIZER_DATABASE_CA_CERT']`|**optional**|-|-|
+|`port`|Port on which server should be running.|`obj['port']`, `process.env['SERVER_AUTHORIZER_PORT']`|**optional**|```8080```|```8080```|
+|`authorizerUrl`|Domain name of the server, eg https://authorizer.herokuapp.com.|`obj['authorizerUrl']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**optional**|-|```http://localhost:8080```|
+|`cookieName`|Name of cookie to be set by server.|`obj['cookieName']`, `process.env['SERVER_AUTHORIZER_COOKIE_NAME']`|**optional**|```authorizer```|```authorizer```|
+|`smtpHost`|SMTP host is used to send email verification emails and forgot password emails	false	If not set email sending can fail.|`obj['smtpHost']`, `process.env['SERVER_AUTHORIZER_SMTP_HOST']`|**optional**|-|-|
+|`smtpPort`|SMTP Port is used along with SMTP host.|`obj['smtpPort']`, `process.env['SERVER_AUTHORIZER_SMTP_PORT']`|**optional**|-|-|
+|`smtpUsername`|Username for your smtp provider.|`obj['smtpUsername']`, `process.env['SERVER_AUTHORIZER_SMTP_USERNAME']`|**optional**|-|-|
+|`smtpPassword`|Password for your smt provider|`obj['smtpPassword']`, `process.env['SERVER_AUTHORIZER_SMTP_PASSWORD']`|**optional**|-|-|
+|`senderEmail`|Email to be used in From section while sending emails.|`obj['senderEmail']`, `process.env['SERVER_AUTHORIZER_SENDER_EMAIL']`|**optional**|-|-|
+|`senderName`|Email sender name that is displayed in the inbox instead of just showing the email address.|`obj['senderName']`, `process.env['SERVER_AUTHORIZER_SENDER_NAME']`|**optional**|-|-|
+|`disablePlayground`|To disable playground|`obj['disablePlayground']`, `process.env['SERVER_AUTHORIZER_DISABLE_PLAYGROUND']`|**optional**|```true```|```true```|
+|`accessTokenExpiryTime`|Time interval for how long access token will be expired in 1h15m15s format.|`obj['accessTokenExpiryTime']`, `process.env['SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME']`|**optional**|```30m```|```30m```|
+|`awsAccessKeyId`|AWS access key used for connecting to dynamodb. Make sure access credentials has rights for dynamodb. Used with DATABASE_TYPE=dynamodb.|`obj['awsAccessKeyId']`, `process.env['SERVER_AUTHORIZER_AWS_ACCESS_KEY_ID']`|**optional**|-|-|
+|`awsSecretAccessKey`|AWS secret access key used for connecting to dynamodb. Make sure access credentials has rights for dynamodb. Used with DATABASE_TYPE=dynamodb.|`obj['awsSecretAccessKey']`, `process.env['SERVER_AUTHORIZER_AWS_SECRET_ACCESS_KEY']`|**optional**|-|-|
+|`googleClientId`|OAuth Google login client id.|`obj['googleClientId']`, `process.env['SERVER_AUTHORIZER_GOOGLE_CLIENT_ID']`|**optional**|-|-|
+|`googleClientSecret`|OAuth Google login client secret.|`obj['googleClientSecret']`, `process.env['SERVER_AUTHORIZER_GOOGLE_CLIENT_SECRET']`|**optional**|-|-|
+|`githubClientId`|OAuth Github login client id.|`obj['githubClientId']`, `process.env['SERVER_AUTHORIZER_GITHUB_CLIENT_ID']`|**optional**|-|-|
+|`githubClientSecret`|OAuth Github login client secret.|`obj['githubClientSecret']`, `process.env['SERVER_AUTHORIZER_GITHUB_CLIENT_SECRET']`|**optional**|-|-|
+|`facebookClientId`|OAuth Facebook login client id.|`obj['facebookClientId']`, `process.env['SERVER_AUTHORIZER_FACEBOOK_CLIENT_ID']`|**optional**|-|-|
+|`facebookClientSecret`|OAuth Facebook login client secret.|`obj['facebookClientSecret']`, `process.env['SERVER_AUTHORIZER_FACEBOOK_CLIENT_SECRET']`|**optional**|-|-|
+|`linkedinClientId`|OAuth LinkedIn login client id.|`obj['linkedinClientId']`, `process.env['SERVER_AUTHORIZER_LINKEDIN_CLIENT_ID']`|**optional**|-|-|
+|`linkedinClientSecret`|OAuth LinkedIn login client secret.|`obj['linkedinClientSecret']`, `process.env['SERVER_AUTHORIZER_LINKEDIN_CLIENT_SECRET']`|**optional**|-|-|
+|`appleClientId`|OAuth Apple login client id.|`obj['appleClientId']`, `process.env['SERVER_AUTHORIZER_APPLE_CLIENT_ID']`|**optional**|-|-|
+|`appleClientSecret`|OAuth Apple login client secret.|`obj['appleClientSecret']`, `process.env['SERVER_AUTHORIZER_APPLE_CLIENT_SECRET']`|**optional**|-|-|
+|`twitterClientId`|OAuth Twitter login client id.|`obj['twitterClientId']`, `process.env['SERVER_AUTHORIZER_TWITTER_CLIENT_ID']`|**optional**|-|-|
+|`twitterClientSecret`|OAuth Twitter login client secret.|`obj['twitterClientSecret']`, `process.env['SERVER_AUTHORIZER_TWITTER_CLIENT_SECRET']`|**optional**|-|-|
+|`microsoftClientId`|OAuth Microsoft login client id.|`obj['microsoftClientId']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_CLIENT_ID']`|**optional**|-|-|
+|`microsoftClientSecret`|OAuth Microsoft login client secret.|`obj['microsoftClientSecret']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_CLIENT_SECRET']`|**optional**|-|-|
+|`microsoftActiveDirectoryTenantId`|Microsoft Active Directory Tenant ID obtained from azure portal.|`obj['microsoftActiveDirectoryTenantId']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_ACTIVE_DIRECTORY_TENANT_ID']`|**optional**|-|-|
+|`smtpLocalName`|-|`obj['smtpLocalName']`, `process.env['SERVER_AUTHORIZER_SMTP_LOCAL_NAME']`|**optional**|-|-|
+|`jwtSecret`|-|`obj['jwtSecret']`, `process.env['SERVER_AUTHORIZER_JWT_SECRET']`|**optional**|-|-|
+|`jwtPrivateKey`|-|`obj['jwtPrivateKey']`, `process.env['SERVER_AUTHORIZER_JWT_PRIVATE_KEY']`|**optional**|-|-|
+|`jwtPublicKey`|-|`obj['jwtPublicKey']`, `process.env['SERVER_AUTHORIZER_JWT_PUBLIC_KEY']`|**optional**|-|-|
+|`appUrl`|-|`obj['appUrl']`, `process.env['SERVER_AUTHORIZER_APP_URL']`|**optional**|-|-|
+|`discordClientId`|-|`obj['discordClientId']`, `process.env['SERVER_AUTHORIZER_DISCORD_CLIENT_ID']`|**optional**|-|-|
+|`discordClientSecret`|-|`obj['discordClientSecret']`, `process.env['SERVER_AUTHORIZER_DISCORD_CLIENT_SECRET']`|**optional**|-|-|
+|`twitchClientId`|-|`obj['twitchClientId']`, `process.env['SERVER_AUTHORIZER_TWITCH_CLIENT_ID']`|**optional**|-|-|
+|`twitchClientSecret`|-|`obj['twitchClientSecret']`, `process.env['SERVER_AUTHORIZER_TWITCH_CLIENT_SECRET']`|**optional**|-|-|
+|`clientId`|-|`obj['clientId']`, `process.env['SERVER_AUTHORIZER_CLIENT_ID']`|**optional**|-|-|
+|`clientSecret`|-|`obj['clientSecret']`, `process.env['SERVER_AUTHORIZER_CLIENT_SECRET']`|**optional**|-|-|
+|`encryptionKey`|-|`obj['encryptionKey']`, `process.env['SERVER_AUTHORIZER_ENCRYPTION_KEY']`|**optional**|-|-|
+|`isProd`|-|`obj['isProd']`, `process.env['SERVER_AUTHORIZER_IS_PROD']`|**optional**|-|-|
+|`allowedOrigins`|-|`obj['allowedOrigins']`, `process.env['SERVER_AUTHORIZER_ALLOWED_ORIGINS']`|**optional**|-|-|
+|`twilioApiKey`|-|`obj['twilioApiKey']`, `process.env['SERVER_AUTHORIZER_TWILIO_API_KEY']`|**optional**|-|-|
+|`twilioApiSecret`|-|`obj['twilioApiSecret']`, `process.env['SERVER_AUTHORIZER_TWILIO_API_SECRET']`|**optional**|-|-|
+|`twilioAccountSid`|-|`obj['twilioAccountSid']`, `process.env['SERVER_AUTHORIZER_TWILIO_ACCOUNT_SID']`|**optional**|-|-|
+|`twilioSender`|-|`obj['twilioSender']`, `process.env['SERVER_AUTHORIZER_TWILIO_SENDER']`|**optional**|-|-|
+
+#### Static configuration
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`image`|Docker image name.|**optional**|```lakhansamani/authorizer:1.3.8```|```lakhansamani/authorizer:1.4.4```|
+|`featureName`|Feature name for generate prefix to environments keys.|**optional**|-|```authorizer```|
+|`dependsOnServiceNames`|Depends on services|**optional**|-|```{"postgre-sql":"service_healthy"}```|
+|`env`|Which env you are running your server in. Supported envs production, development.|**optional**|```production```|```development```|
+|`disableEmailVerification`|Used to disable the email verification while signing up.|**optional**|-|```true```|
+|`organizationName`|Name of organization that you want on default login page.|**optional**|```Authorizer```|```NestJSModFullstack```|
+|`isEmailServiceEnabled`|-|**optional**|-|```true```|
+|`isSmsServiceEnabled`|-|**optional**|-|```false```|
+|`disableStrongPassword`|-|**optional**|-|```true```|
 
 
 ## License
