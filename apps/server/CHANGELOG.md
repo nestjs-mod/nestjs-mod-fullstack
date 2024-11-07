@@ -1,3 +1,9 @@
+## [1.4.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.4.1...server-v1.4.2) (2024-11-07)
+
+### Bug Fixes
+
+- npm run manual:prepare ([8244c53](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/8244c53536e39d33b9ebca2876cf9a7c3e76abc2))
+
 ## [1.4.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.4.0...server-v1.4.1) (2024-11-07)
 
 ### Bug Fixes
