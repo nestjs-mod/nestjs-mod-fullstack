@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.3.0...client-v1.3.1) (2024-11-07)
+
+### Bug Fixes
+
+- npm run manual:prepare ([8244c53](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/8244c53536e39d33b9ebca2876cf9a7c3e76abc2))
+
 # [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.2.0...client-v1.3.0) (2024-11-07)
 
 ### Features
