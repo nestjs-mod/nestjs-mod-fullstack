@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.1.1...app-rest-sdk-v1.2.0) (2024-11-07)
+
+### Bug Fixes
+
+- update versions of libraries ([d28e785](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d28e785321d5389368618ab840b3f56b65989580))
+
+### Features
+
+- Creating a configurable Webhook module for a NestJS application (2024-10-06) ([9f15399](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/9f1539978321075aa969d653356d7fecd2ad03df))
+- Creating a user interface for the Webhook module using Angular (2024-10-25) ([a3b54d6](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a3b54d6d7febda6d508127b637461f742816a18a))
+- Integration of external authorization server https://authorizer.dev into a full-stack application on NestJS and Angular (2024-10-29) ([#8](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/8)) ([038fea7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/038fea7238f5459ff4f917fd0a963b82d1656978))
+
 ## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.1.0...app-rest-sdk-v1.1.1) (2024-09-17)
 
 ### Bug Fixes
