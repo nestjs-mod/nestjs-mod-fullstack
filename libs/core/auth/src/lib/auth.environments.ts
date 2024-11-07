@@ -1,8 +1,4 @@
-import {
-  BooleanTransformer,
-  EnvModel,
-  EnvModelProperty,
-} from '@nestjs-mod/common';
+import { EnvModel, EnvModelProperty } from '@nestjs-mod/common';
 import { IsNotEmpty } from 'class-validator';
 
 @EnvModel()

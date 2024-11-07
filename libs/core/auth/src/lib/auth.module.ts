@@ -5,7 +5,6 @@ import {
   NestModuleCategory,
 } from '@nestjs-mod/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
@@ -17,15 +16,11 @@ export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
   moduleCategory: NestModuleCategory.feature,
   staticEnvironmentsModel: AuthEnvironments,
-  configurationModel: AuthConfiguration,
-  staticConfigurationModel: AuthConfiguration,
   imports: [
     AuthorizerModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
   ],
-  sharedImports: [],
-  sharedProviders: [],
   controllers: [AuthorizerController],
   providers: [
     { provide: APP_GUARD, useClass: AuthorizerGuard },

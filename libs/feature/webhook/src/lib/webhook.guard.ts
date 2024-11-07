@@ -71,17 +71,13 @@ export class WebhookGuard implements CanActivate {
     checkWebhookRole: WebhookRole[] | undefined,
     req: WebhookRequest
   ) {
-    this.logger.debug({ checkWebhookRole });
-    this.logger.debug({ webhookUser: req.webhookUser });
     if (
       checkWebhookRole &&
       req.webhookUser &&
       !checkWebhookRole?.includes(req.webhookUser.userRole)
     ) {
-      this.logger.debug({ result: false });
       throw new WebhookError(WebhookErrorEnum.FORBIDDEN);
     }
-    this.logger.debug({ result: true });
   }
 
   private throwErrorIfCurrentUserNotSet(req: WebhookRequest) {

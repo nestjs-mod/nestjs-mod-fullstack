@@ -49,7 +49,6 @@ export class WebhookAuthService {
           if (err.error?.code === 'WEBHOOK-002') {
             return of(null);
           }
-          console.error(err);
           return throwError(() => err);
         })
       );

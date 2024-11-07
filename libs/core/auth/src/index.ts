@@ -1,4 +1,3 @@
-export * from './lib/auth.configuration';
 export * from './lib/auth.constants';
 export * from './lib/auth.environments';
 export * from './lib/auth.errors';
