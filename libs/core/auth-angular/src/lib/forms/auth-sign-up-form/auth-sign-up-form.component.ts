@@ -94,6 +94,7 @@ export class AuthSignUpFormComponent implements OnInit {
           label: `auth.form.password`,
           placeholder: 'password',
           required: true,
+          type: 'password',
         },
       },
       {
@@ -106,6 +107,7 @@ export class AuthSignUpFormComponent implements OnInit {
           label: `auth.form.confirm_password`,
           placeholder: 'confirm_password',
           required: true,
+          type: 'password',
         },
       },
     ]);

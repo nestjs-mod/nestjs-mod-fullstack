@@ -92,6 +92,7 @@ export class AuthSignInFormComponent implements OnInit {
           label: `auth.form.password`,
           placeholder: 'password',
           required: true,
+          type: 'password',
         },
       },
     ]);
