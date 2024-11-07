@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.2.0...client-v1.3.0) (2024-11-07)
+
+### Features
+
+- Integration of external authorization server https://authorizer.dev into a full-stack application on NestJS and Angular (2024-10-29) ([#8](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/8)) ([038fea7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/038fea7238f5459ff4f917fd0a963b82d1656978))
+
 # [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.1.1...client-v1.2.0) (2024-10-25)
 
 ### Features
