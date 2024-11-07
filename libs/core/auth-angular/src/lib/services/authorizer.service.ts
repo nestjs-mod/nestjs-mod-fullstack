@@ -11,9 +11,10 @@ export class AuthorizerService extends Authorizer {
   ) {
     super({
       authorizerURL:
+        // need for override from e2e-tests
         localStorage.getItem('authorizerURL') ||
-        authorizerURL ||
-        `${window.location.protocol}//${window.location.hostname}:8080`,
+        // use from environments
+        authorizerURL,
       clientID: '',
       redirectURL: window.location.origin,
     } as ConfigType);
