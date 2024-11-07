@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.4.0...server-v1.4.1) (2024-11-07)
+
+### Bug Fixes
+
+- add "private": true to auth library ([fa8c041](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/fa8c0415cf41bba69cd0d8166d637449974e58dd))
+
 # [1.4.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.3.0...server-v1.4.0) (2024-11-07)
 
 ### Features
