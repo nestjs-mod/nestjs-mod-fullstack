@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/app-rest-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "dependencies": {
     "tslib": "^2.3.0"
