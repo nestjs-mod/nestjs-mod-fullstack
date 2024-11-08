@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/webhook-v1.2.0...webhook-v1.2.1) (2024-11-08)
+
+### Bug Fixes
+
+- update dependencies ([6aad935](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6aad935d8470e92ff77858e9bb6cd58b9c51f1af))
+
 # [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/webhook-v1.1.0...webhook-v1.2.0) (2024-11-07)
 
 ### Features
