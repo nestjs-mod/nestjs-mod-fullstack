@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/auth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "tslib": "^2.3.0"
