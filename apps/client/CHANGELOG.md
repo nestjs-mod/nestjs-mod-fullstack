@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.3.1...client-v1.3.2) (2024-11-08)
+
+### Bug Fixes
+
+- update dependencies ([6aad935](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6aad935d8470e92ff77858e9bb6cd58b9c51f1af))
+
 ## [1.3.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.3.0...client-v1.3.1) (2024-11-07)
 
 ### Bug Fixes
