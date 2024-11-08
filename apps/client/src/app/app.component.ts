@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '@authorizerdev/authorizer-js';
-import { DefaultRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AppRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   authUser$: Observable<User | undefined>;
 
   constructor(
-    private readonly defaultRestService: DefaultRestService,
+    private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
     private readonly router: Router
   ) {
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.defaultRestService
+    this.appRestService
       .appControllerGetData()
       .pipe(
         tap((result) => this.serverMessage$.next(result.message)),

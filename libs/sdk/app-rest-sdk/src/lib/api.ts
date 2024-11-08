@@ -768,10 +768,10 @@ export type WebhookUserScalarFieldEnum =
   (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
 
 /**
- * DefaultApi - axios parameter creator
+ * AppApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (
+export const AppApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
@@ -1024,91 +1024,15 @@ export const DefaultApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authorizerControllerGetAuthorizerClientID: async (
-      options: RawAxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/authorizer/client-id`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    terminusHealthCheckControllerCheck: async (
-      options: RawAxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/health`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
   };
 };
 
 /**
- * DefaultApi - functional programming interface
+ * AppApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
+export const AppApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = AppApiAxiosParamCreator(configuration);
   return {
     /**
      *
@@ -1124,7 +1048,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerDemoCreateOne(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerDemoCreateOne']?.[
+        operationServerMap['AppApi.appControllerDemoCreateOne']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1151,7 +1075,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerDemoDeleteOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerDemoDeleteOne']?.[
+        operationServerMap['AppApi.appControllerDemoDeleteOne']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1176,7 +1100,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerDemoFindMany(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerDemoFindMany']?.[
+        operationServerMap['AppApi.appControllerDemoFindMany']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1203,7 +1127,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerDemoFindOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerDemoFindOne']?.[
+        operationServerMap['AppApi.appControllerDemoFindOne']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1230,7 +1154,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerDemoUpdateOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerDemoUpdateOne']?.[
+        operationServerMap['AppApi.appControllerDemoUpdateOne']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1255,67 +1179,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.appControllerGetData(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.appControllerGetData']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authorizerControllerGetAuthorizerClientID(
-      options?: RawAxiosRequestConfig
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string
-      ) => AxiosPromise<AuthorizerClientID>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authorizerControllerGetAuthorizerClientID(
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap[
-          'DefaultApi.authorizerControllerGetAuthorizerClientID'
-        ]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async terminusHealthCheckControllerCheck(
-      options?: RawAxiosRequestConfig
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string
-      ) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.terminusHealthCheckControllerCheck']?.[
+        operationServerMap['AppApi.appControllerGetData']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -1330,15 +1194,15 @@ export const DefaultApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * DefaultApi - factory interface
+ * AppApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (
+export const AppApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
-  const localVarFp = DefaultApiFp(configuration);
+  const localVarFp = AppApiFp(configuration);
   return {
     /**
      *
@@ -1418,6 +1282,199 @@ export const DefaultApiFactory = function (
         .appControllerGetData(options)
         .then((request) => request(axios, basePath));
     },
+  };
+};
+
+/**
+ * AppApi - object-oriented interface
+ * @export
+ * @class AppApi
+ * @extends {BaseAPI}
+ */
+export class AppApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerDemoCreateOne(options?: RawAxiosRequestConfig) {
+    return AppApiFp(this.configuration)
+      .appControllerDemoCreateOne(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerDemoDeleteOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AppApiFp(this.configuration)
+      .appControllerDemoDeleteOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerDemoFindMany(options?: RawAxiosRequestConfig) {
+    return AppApiFp(this.configuration)
+      .appControllerDemoFindMany(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig) {
+    return AppApiFp(this.configuration)
+      .appControllerDemoFindOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerDemoUpdateOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AppApiFp(this.configuration)
+      .appControllerDemoUpdateOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public appControllerGetData(options?: RawAxiosRequestConfig) {
+    return AppApiFp(this.configuration)
+      .appControllerGetData(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * AuthorizerApi - axios parameter creator
+ * @export
+ */
+export const AuthorizerApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizerControllerGetAuthorizerClientID: async (
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/authorizer/client-id`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * AuthorizerApi - functional programming interface
+ * @export
+ */
+export const AuthorizerApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    AuthorizerApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authorizerControllerGetAuthorizerClientID(
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<AuthorizerClientID>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authorizerControllerGetAuthorizerClientID(
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'AuthorizerApi.authorizerControllerGetAuthorizerClientID'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * AuthorizerApi - factory interface
+ * @export
+ */
+export const AuthorizerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = AuthorizerApiFp(configuration);
+  return {
     /**
      *
      * @param {*} [options] Override http request option.
@@ -1430,6 +1487,134 @@ export const DefaultApiFactory = function (
         .authorizerControllerGetAuthorizerClientID(options)
         .then((request) => request(axios, basePath));
     },
+  };
+};
+
+/**
+ * AuthorizerApi - object-oriented interface
+ * @export
+ * @class AuthorizerApi
+ * @extends {BaseAPI}
+ */
+export class AuthorizerApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthorizerApi
+   */
+  public authorizerControllerGetAuthorizerClientID(
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthorizerApiFp(this.configuration)
+      .authorizerControllerGetAuthorizerClientID(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * TerminusHealthCheckApi - axios parameter creator
+ * @export
+ */
+export const TerminusHealthCheckApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    terminusHealthCheckControllerCheck: async (
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/health`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * TerminusHealthCheckApi - functional programming interface
+ * @export
+ */
+export const TerminusHealthCheckApiFp = function (
+  configuration?: Configuration
+) {
+  const localVarAxiosParamCreator =
+    TerminusHealthCheckApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async terminusHealthCheckControllerCheck(
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'TerminusHealthCheckApi.terminusHealthCheckControllerCheck'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * TerminusHealthCheckApi - factory interface
+ * @export
+ */
+export const TerminusHealthCheckApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = TerminusHealthCheckApiFp(configuration);
+  return {
     /**
      *
      * @param {*} [options] Override http request option.
@@ -1446,115 +1631,20 @@ export const DefaultApiFactory = function (
 };
 
 /**
- * DefaultApi - object-oriented interface
+ * TerminusHealthCheckApi - object-oriented interface
  * @export
- * @class DefaultApi
+ * @class TerminusHealthCheckApi
  * @extends {BaseAPI}
  */
-export class DefaultApi extends BaseAPI {
+export class TerminusHealthCheckApi extends BaseAPI {
   /**
    *
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerDemoCreateOne(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .appControllerDemoCreateOne(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerDemoDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .appControllerDemoDeleteOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerDemoFindMany(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .appControllerDemoFindMany(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .appControllerDemoFindOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerDemoUpdateOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .appControllerDemoUpdateOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public appControllerGetData(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .appControllerGetData(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public authorizerControllerGetAuthorizerClientID(
-    options?: RawAxiosRequestConfig
-  ) {
-    return DefaultApiFp(this.configuration)
-      .authorizerControllerGetAuthorizerClientID(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
+   * @memberof TerminusHealthCheckApi
    */
   public terminusHealthCheckControllerCheck(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
+    return TerminusHealthCheckApiFp(this.configuration)
       .terminusHealthCheckControllerCheck(options)
       .then((request) => request(this.axios, this.basePath));
   }

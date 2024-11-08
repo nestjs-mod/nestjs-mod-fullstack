@@ -1,7 +1,7 @@
-import { Configuration, DefaultApi } from '@nestjs-mod-fullstack/app-rest-sdk';
+import { Configuration, AppApi } from '@nestjs-mod-fullstack/app-rest-sdk';
 
 describe('GET /api', () => {
-  const defaultApi = new DefaultApi(new Configuration({ basePath: '/api' }));
+  const defaultApi = new AppApi(new Configuration({ basePath: '/api' }));
   let newDemoObject: { id: string };
 
   it('should return a message', async () => {

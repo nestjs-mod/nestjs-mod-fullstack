@@ -1,7 +1,8 @@
 import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
 import {
   Configuration,
-  DefaultApi,
+  AppApi,
+  AuthorizerApi,
   WebhookApi,
 } from '@nestjs-mod-fullstack/app-rest-sdk';
 import axios, { AxiosInstance } from 'axios';
@@ -18,10 +19,12 @@ export class RestClientHelper {
   authorizationTokens?: AuthToken;
 
   private webhookApi?: WebhookApi;
-  private defaultApi?: DefaultApi;
+  private appApi?: AppApi;
+  private authorizerApi?: AuthorizerApi;
   private authorizer?: Authorizer;
 
-  private defaultApiAxios?: AxiosInstance;
+  private authorizerApiAxios?: AxiosInstance;
+  private appApiAxios?: AxiosInstance;
   private webhookApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
@@ -45,6 +48,13 @@ export class RestClientHelper {
     return this.randomUser as Required<GenerateRandomUserResult>;
   }
 
+  getAuthorizerApi() {
+    if (!this.authorizerApi) {
+      throw new Error('authorizerApi not set');
+    }
+    return this.authorizerApi;
+  }
+
   getWebhookApi() {
     if (!this.webhookApi) {
       throw new Error('webhookApi not set');
@@ -52,17 +62,17 @@ export class RestClientHelper {
     return this.webhookApi;
   }
 
-  getDefaultApi() {
-    if (!this.defaultApi) {
+  getAppApi() {
+    if (!this.appApi) {
       throw new Error('defaultApi not set');
     }
-    return this.defaultApi;
+    return this.appApi;
   }
 
   async getAuthorizerClient() {
-    if (!this.authorizerClientID && this.defaultApi) {
+    if (!this.authorizerClientID && this.authorizerApi) {
       this.authorizerClientID = (
-        await this.defaultApi.authorizerControllerGetAuthorizerClientID()
+        await this.authorizerApi.authorizerControllerGetAuthorizerClientID()
       ).data.clientID;
       if (!this.options?.isAdmin) {
         this.authorizer = new Authorizer({
@@ -173,9 +183,9 @@ export class RestClientHelper {
         this.getAuthorizationHeaders()
       );
     }
-    if (this.defaultApiAxios) {
+    if (this.appApiAxios) {
       Object.assign(
-        this.defaultApiAxios.defaults.headers.common,
+        this.appApiAxios.defaults.headers.common,
         this.getAuthorizationHeaders()
       );
     }
@@ -197,9 +207,17 @@ export class RestClientHelper {
   }
 
   private createApiClients() {
+    this.authorizerApiAxios = axios.create();
     this.webhookApiAxios = axios.create();
-    this.defaultApiAxios = axios.create();
+    this.appApiAxios = axios.create();
 
+    this.authorizerApi = new AuthorizerApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.webhookApiAxios
+    );
     this.webhookApi = new WebhookApi(
       new Configuration({
         basePath: this.getServerUrl(),
@@ -207,12 +225,12 @@ export class RestClientHelper {
       undefined,
       this.webhookApiAxios
     );
-    this.defaultApi = new DefaultApi(
+    this.appApi = new AppApi(
       new Configuration({
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.defaultApiAxios
+      this.appApiAxios
     );
   }
 

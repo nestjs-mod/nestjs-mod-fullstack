@@ -3,7 +3,9 @@
 README.md
 api.module.ts
 api/api.ts
-api/default-rest.service.ts
+api/app-rest.service.ts
+api/authorizer-rest.service.ts
+api/terminus-health-check-rest.service.ts
 api/webhook-rest.service.ts
 configuration.ts
 encoder.ts

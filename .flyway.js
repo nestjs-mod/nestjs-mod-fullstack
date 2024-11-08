@@ -1,4 +1,3 @@
-
 const { ConnectionString } = require('connection-string');
 const cs = new ConnectionString(process.env.DATABASE_URL);
 const {
@@ -15,18 +14,20 @@ module.exports = {
     url: `jdbc:postgresql://${HOST}/${DATABASE}`,
     schemas: SCHEMAS || SCHEMA,
     defaultSchema: SCHEMA,
-    locations: `filesystem:${process.env.DATABASE_MIGRATIONS_LOCATIONS || 'migrations'}`,
+    locations: `filesystem:${
+      process.env.DATABASE_MIGRATIONS_LOCATIONS || 'migrations'
+    }`,
     user: USERNAME,
     password: PASSWORD,
     table: '__migrations',
     sqlMigrationSuffixes: '.sql',
-    baselineOnMigrate: true
+    baselineOnMigrate: true,
   },
   // Use to configure environment variables used by flyway
   env: {
     JAVA_ARGS: '-Djava.util.logging.config.file=./conf/logging.properties',
   },
-  version: '10.1.0', // optional, empty or missing will download the latest
+  version: '10.21.0', // optional, empty or missing will download the latest
   mavinPlugins: [
     {
       // optional, use to add any plugins (ie. logging)

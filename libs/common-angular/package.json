@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "peerDependencies": {
     "ng-zorro-antd": "^18.1.1",
-    "@angular/core": "18.2.5",
+    "@angular/core": "18.2.11",
     "rxjs": "^7.8.0"
   },
   "sideEffects": false

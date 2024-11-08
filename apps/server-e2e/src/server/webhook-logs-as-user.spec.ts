@@ -129,7 +129,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
   });
 
   it('should create webhook log info after create app-demo', async () => {
-    const { data } = await user1.getDefaultApi().appControllerDemoCreateOne();
+    const { data } = await user1.getAppApi().appControllerDemoCreateOne();
 
     // wait event processing
     await setTimeout(1000);
@@ -138,7 +138,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     expect(appHandlerLogs).toHaveLength(1);
 
     const { data: findMany } = await user1
-      .getDefaultApi()
+      .getAppApi()
       .appControllerDemoFindMany();
     expect(findMany.filter((d) => d.id === appHandlerLogs[0].id)).toHaveLength(
       1
@@ -146,9 +146,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
   });
 
   it('should create webhook log info after update app-demo', async () => {
-    await user1
-      .getDefaultApi()
-      .appControllerDemoUpdateOne(appHandlerLogs[0].id);
+    await user1.getAppApi().appControllerDemoUpdateOne(appHandlerLogs[0].id);
 
     // wait event processing
     await setTimeout(1000);
@@ -156,7 +154,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     expect(appHandlerLogs).toHaveLength(1);
 
     const { data: findMany } = await user1
-      .getDefaultApi()
+      .getAppApi()
       .appControllerDemoFindMany();
 
     // wait event processing
@@ -169,7 +167,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
 
   it('should create webhook log info after delete app-demo', async () => {
     const { data } = await user1
-      .getDefaultApi()
+      .getAppApi()
       .appControllerDemoDeleteOne(appHandlerLogs[0].id);
 
     // wait event processing
@@ -179,7 +177,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     expect(appHandlerLogs).toHaveLength(2);
 
     const { data: findMany } = await user1
-      .getDefaultApi()
+      .getAppApi()
       .appControllerDemoFindMany();
     expect(findMany.filter((d) => d.id === appHandlerLogs[0].id)).toHaveLength(
       0

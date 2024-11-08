@@ -10,7 +10,8 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
-  DefaultRestService,
+  AppRestService,
+  AuthorizerRestService,
   RestClientApiModule,
   RestClientConfiguration,
   WebhookRestService,
@@ -70,18 +71,25 @@ export const appConfig = ({
         provide: APP_INITIALIZER,
         useFactory:
           (
-            defaultRestService: DefaultRestService,
+            appRestService: AppRestService,
             webhookRestService: WebhookRestService,
-            authService: AuthService
+            authService: AuthService,
+            authorizerRestService: AuthorizerRestService
           ) =>
           () =>
             new AppInitializer(
-              defaultRestService,
+              appRestService,
               webhookRestService,
-              authService
+              authService,
+              authorizerRestService
             ).resolve(),
         multi: true,
-        deps: [DefaultRestService, WebhookRestService, AuthService],
+        deps: [
+          AppRestService,
+          WebhookRestService,
+          AuthService,
+          AuthorizerRestService,
+        ],
       },
     ],
   };

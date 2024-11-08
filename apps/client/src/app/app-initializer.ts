@@ -1,7 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
 import {
-  DefaultRestService,
+  AppRestService,
   WebhookRestService,
+  AuthorizerRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -18,9 +19,10 @@ export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
-    private readonly defaultRestService: DefaultRestService,
+    private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly authorizerRestService: AuthorizerRestService
   ) {}
 
   resolve() {
@@ -28,7 +30,7 @@ export class AppInitializer {
     return (
       this.authService.getAuthorizerClientID()
         ? of(null)
-        : this.defaultRestService
+        : this.authorizerRestService
             .authorizerControllerGetAuthorizerClientID()
             .pipe(
               map(({ clientID }) => {
@@ -56,10 +58,13 @@ export class AppInitializer {
           const authorizationHeaders =
             this.authService.getAuthorizationHeaders();
           if (authorizationHeaders) {
-            this.defaultRestService.defaultHeaders = new HttpHeaders(
+            this.appRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
             this.webhookRestService.defaultHeaders = new HttpHeaders(
+              authorizationHeaders
+            );
+            this.authorizerRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
           }
