@@ -72,7 +72,6 @@ export class FileSelectComponent
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
-    // console.log(file);
     this.formControl.setValue(file);
     this.switchToReloadMode();
     this.fileList$.next([file]);

@@ -110,7 +110,6 @@ export class FilesService {
         downloadUrl: this.minioURL + presignedUrls.downloadUrl,
         uploadUrl: this.minioURL + presignedUrls.uploadUrl,
       };
-      console.log(outPresignedUrls);
       if (presignedUrls.uploadUrl) {
         const xhr = new XMLHttpRequest();
         xhr.open('PUT', outPresignedUrls.uploadUrl);
