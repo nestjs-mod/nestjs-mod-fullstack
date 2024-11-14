@@ -1,4 +1,5 @@
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
+import { FilesModule } from '@nestjs-mod-fullstack/files';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import {
   WEBHOOK_FEATURE,
@@ -29,9 +30,11 @@ import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
   DockerComposeAuthorizer,
+  DockerComposeMinio,
   DockerComposePostgreSQL,
 } from '@nestjs-mod/docker-compose';
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
+import { MinioModule } from '@nestjs-mod/minio';
 import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
@@ -195,6 +198,8 @@ bootstrapNestApplication({
           ),
         },
       }),
+      MinioModule.forRoot(),
+      FilesModule.forRoot(),
     ],
     feature: [
       AppModule.forRoot(),
@@ -255,6 +260,9 @@ bootstrapNestApplication({
           isSmsServiceEnabled: 'false',
           env: 'development',
         },
+      }),
+      DockerComposeMinio.forRoot({
+        staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
       }),
       Flyway.forRoot({
         staticConfiguration: {

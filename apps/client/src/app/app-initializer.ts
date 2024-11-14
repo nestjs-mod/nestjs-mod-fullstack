@@ -3,6 +3,7 @@ import {
   AppRestService,
   WebhookRestService,
   AuthorizerRestService,
+  FilesRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -22,7 +23,8 @@ export class AppInitializer {
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
     private readonly authService: AuthService,
-    private readonly authorizerRestService: AuthorizerRestService
+    private readonly authorizerRestService: AuthorizerRestService,
+    private readonly filesRestService: FilesRestService
   ) {}
 
   resolve() {
@@ -65,6 +67,9 @@ export class AppInitializer {
               authorizationHeaders
             );
             this.authorizerRestService.defaultHeaders = new HttpHeaders(
+              authorizationHeaders
+            );
+            this.filesRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
           }

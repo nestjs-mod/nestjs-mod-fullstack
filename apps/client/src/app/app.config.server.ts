@@ -1,6 +1,6 @@
 import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
-import { authorizerURL } from '../environments/environment';
+import { authorizerURL, minioURL } from '../environments/environment';
 import { appConfig } from './app.config';
 
 const serverConfig: ApplicationConfig = {
@@ -8,6 +8,6 @@ const serverConfig: ApplicationConfig = {
 };
 
 export const config = mergeApplicationConfig(
-  appConfig({ authorizerURL }),
+  appConfig({ authorizerURL, minioURL }),
   serverConfig
 );

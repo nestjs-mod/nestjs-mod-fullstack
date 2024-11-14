@@ -12,6 +12,7 @@ import { provideRouter } from '@angular/router';
 import {
   AppRestService,
   AuthorizerRestService,
+  FilesRestService,
   RestClientApiModule,
   RestClientConfiguration,
   WebhookRestService,
@@ -20,6 +21,10 @@ import {
   AUTHORIZER_URL,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  FileSelectComponent,
+  MINIO_URL,
+} from '@nestjs-mod-fullstack/files-angular';
 import {
   WEBHOOK_CONFIGURATION_TOKEN,
   WebhookConfiguration,
@@ -34,11 +39,14 @@ import {
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
+import { provideAppAuthConfiguration } from './integrations/auth.configuration';
 
 export const appConfig = ({
   authorizerURL,
+  minioURL,
 }: {
-  authorizerURL?: string;
+  authorizerURL: string;
+  minioURL: string;
 }): ApplicationConfig => {
   return {
     providers: [
@@ -59,7 +67,15 @@ export const appConfig = ({
               basePath: serverUrl,
             })
         ),
-        FormlyModule.forRoot(),
+        FormlyModule.forRoot({
+          types: [
+            {
+              name: 'file-select',
+              component: FileSelectComponent,
+              extends: 'input',
+            },
+          ],
+        }),
         FormlyNgZorroAntdModule
       ),
       { provide: ErrorHandler, useClass: AppErrorHandler },
@@ -68,20 +84,27 @@ export const appConfig = ({
         useValue: authorizerURL,
       },
       {
+        provide: MINIO_URL,
+        useValue: minioURL,
+      },
+      provideAppAuthConfiguration(),
+      {
         provide: APP_INITIALIZER,
         useFactory:
           (
             appRestService: AppRestService,
             webhookRestService: WebhookRestService,
             authService: AuthService,
-            authorizerRestService: AuthorizerRestService
+            authorizerRestService: AuthorizerRestService,
+            filesRestService: FilesRestService
           ) =>
           () =>
             new AppInitializer(
               appRestService,
               webhookRestService,
               authService,
-              authorizerRestService
+              authorizerRestService,
+              filesRestService
             ).resolve(),
         multi: true,
         deps: [
@@ -89,6 +112,7 @@ export const appConfig = ({
           WebhookRestService,
           AuthService,
           AuthorizerRestService,
+          FilesRestService,
         ],
       },
     ],

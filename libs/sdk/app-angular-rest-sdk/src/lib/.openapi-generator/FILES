@@ -5,6 +5,7 @@ api.module.ts
 api/api.ts
 api/app-rest.service.ts
 api/authorizer-rest.service.ts
+api/files-rest.service.ts
 api/terminus-health-check-rest.service.ts
 api/webhook-rest.service.ts
 configuration.ts
@@ -17,11 +18,14 @@ model/auth-error-enum.interface.ts
 model/auth-error.interface.ts
 model/authorizer-client-id.interface.ts
 model/create-webhook-args.interface.ts
+model/files-error-enum.interface.ts
+model/files-error.interface.ts
 model/find-many-response-meta.interface.ts
 model/find-many-webhook-log-response.interface.ts
 model/find-many-webhook-response.interface.ts
 model/find-many-webhook-user-response.interface.ts
 model/models.ts
+model/presigned-urls.interface.ts
 model/status-response.interface.ts
 model/terminus-health-check-controller-check200-response-info-value.interface.ts
 model/terminus-health-check-controller-check200-response.interface.ts

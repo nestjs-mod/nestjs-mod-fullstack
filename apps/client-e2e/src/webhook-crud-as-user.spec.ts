@@ -95,13 +95,16 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
     await expect(
-      page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]')
+      page
+        .locator('[nz-submenu-none-inline-child]')
+        .locator('[nz-menu-item]')
+        .last()
     ).toContainText(`Sign-out`);
 
     await page
       .locator('[nz-submenu-none-inline-child]')
       .locator('[nz-menu-item]')
-      .first()
+      .last()
       .click();
 
     await setTimeout(4000);
@@ -300,13 +303,16 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
     await expect(
-      page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]')
+      page
+        .locator('[nz-submenu-none-inline-child]')
+        .locator('[nz-menu-item]')
+        .last()
     ).toContainText(`Sign-out`);
 
     await page
       .locator('[nz-submenu-none-inline-child]')
       .locator('[nz-menu-item]')
-      .first()
+      .last()
       .click();
 
     await setTimeout(4000);
