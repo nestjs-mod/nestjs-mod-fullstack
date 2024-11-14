@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-minio
+  labels:
+    app: %NAMESPACE%-minio
+spec:
+  selector:
+    app: %NAMESPACE%-minio
+  ports:
+    - name: '9000'
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    - name: '9001'
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+  type: ClusterIP
