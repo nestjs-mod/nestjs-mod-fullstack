@@ -1239,11 +1239,11 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/ec8de9d574a6dbcef3c3339e876ce156a3974aae..414980df21e585cb798e1ff756300c4547e68a42 - изменения
-https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11523894922/artifacts/2105784301 - видео тестов
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/ec8de9d574a6dbcef3c3339e876ce156a3974aae..414980df21e585cb798e1ff756300c4547e68a42 - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11523894922/artifacts/2105784301 - видео тестов
 
 #angular #webhook #nestjsmod #fullstack

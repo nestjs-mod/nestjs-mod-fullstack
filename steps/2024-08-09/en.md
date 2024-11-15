@@ -603,9 +603,9 @@ In the next post, I will add a docker image with the Postgres database and writi
 
 ### Links
 
-https://nestjs.com -the official website of the framework
-https://nestjs-mod.com -the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack -the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - commit to current changes
+- https://nestjs.com -the official website of the framework
+- https://nestjs-mod.com -the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack -the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - commit to current changes
 
 #angular #typescript #browser #nestjsmod #fullstack

@@ -1729,9 +1729,9 @@ In the next post, I will add a deployment to a dedicated server in two modes PM2
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d97b4121e910627e19fa55f01919557ae898dc42 - commit to current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d97b4121e910627e19fa55f01919557ae898dc42 - commit to current changes
 
 #pm2 #docker #nestjsmod #fullstack

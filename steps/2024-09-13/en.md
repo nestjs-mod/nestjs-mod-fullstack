@@ -719,10 +719,10 @@ In the next post, I will add Ingress to organize access to the site by domain na
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-http://fullstack.nestjs-mod.com:30222 - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4b1c3c7d6bcb0b3bac479d5f414bbefd49aa5e87 - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- http://fullstack.nestjs-mod.com:30222 - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4b1c3c7d6bcb0b3bac479d5f414bbefd49aa5e87 - current changes
 
 #kubernetes #github #nestjsmod #fullstack

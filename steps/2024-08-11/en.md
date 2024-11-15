@@ -778,9 +778,9 @@ In the next post, I will add working with the database via PrismaORM to the serv
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - commit to current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - commit to current changes
 
 #postgres #flyway #nestjsmod #fullstack

@@ -4292,10 +4292,10 @@ node:internal/child_process/serialization:159
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/460257364bb4ce8e23fe761fbc9ca7462bc89b61..ec8de9d574a6dbcef3c3339e876ce156a3974aae - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/460257364bb4ce8e23fe761fbc9ca7462bc89b61..ec8de9d574a6dbcef3c3339e876ce156a3974aae - изменения
 
 #nestjs #webhook #nestjsmod #fullstack

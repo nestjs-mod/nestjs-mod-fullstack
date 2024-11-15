@@ -311,10 +311,10 @@ In the next post, I will add semantic versioning of applications that will run d
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/28ebc77b38b2b1c9945e87806e5726451b8d22a2..33b51edf67471600e583f89f10b2d99a1b9b79da - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/28ebc77b38b2b1c9945e87806e5726451b8d22a2..33b51edf67471600e583f89f10b2d99a1b9b79da - current changes
 
 #kubernetes #github #nestjsmod #fullstack

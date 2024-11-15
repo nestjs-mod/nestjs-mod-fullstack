@@ -1311,11 +1311,11 @@ In the next post I will connect `Redis` to the project and set up caching of use
 
 ### Ссылки
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - current changes
-https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - video of the tests
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - video of the tests
 
 #angular #minio #nestjsmod #fullstack

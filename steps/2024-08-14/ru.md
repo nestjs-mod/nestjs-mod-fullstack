@@ -879,9 +879,9 @@ Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0353b23b1b65d1ff8e6e5f6185e235bbe05cf523 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0353b23b1b65d1ff8e6e5f6185e235bbe05cf523 - коммит на текущие изменения
 
 #nestjs #angular #nestjsmod #fullstack

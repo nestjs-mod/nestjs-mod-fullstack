@@ -631,10 +631,10 @@ In the next post, I will create a webhook module on `NestJS` to provide access t
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2f9b6eddb32a9777fabda81afa92d9aaebd432cc..460257364bb4ce8e23fe761fbc9ca7462bc89b61 - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2f9b6eddb32a9777fabda81afa92d9aaebd432cc..460257364bb4ce8e23fe761fbc9ca7462bc89b61 - current changes
 
 #lint #format #nestjsmod #fullstack

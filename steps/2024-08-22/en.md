@@ -450,7 +450,7 @@ Updated file `.docker/docker-compose-full.yml`
 version: '3'
 networks:
   nestjs-mod-fullstack-network:
-    driver: "bridge"
+    driver: 'bridge'
 services:
   nestjs-mod-fullstack-postgre-sql:
     image: 'bitnami/postgresql:15.5.0'
@@ -495,11 +495,7 @@ services:
     networks:
       - 'nestjs-mod-fullstack-network'
     healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health',
-        ]
+      test: ['CMD-SHELL', 'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:8080/api/health']
       interval: 30s
       timeout: 10s
       retries: 10
@@ -551,7 +547,6 @@ volumes:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
   nestjs-mod-fullstack-https-portal-volume:
     name: 'nestjs-mod-fullstack-https-portal-volume'
-
 ```
 
 ### 11. On the local computer, we open access to the Swagger interface of the backend in Nginx
@@ -1543,9 +1538,9 @@ In the next post, I will add the CI/CD config for deployment to a dedicated serv
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/b9715a203364877a4ffae6e7cb3a1dff59ede6d6 - commit to current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/b9715a203364877a4ffae6e7cb3a1dff59ede6d6 - commit to current changes
 
 #pm2 #docker #nestjsmod #fullstack

@@ -53,6 +53,7 @@ Run "npm i -g nx" to be able to execute command directly.
 
 https://nx.dev/getting-started/tutorials/npm-workspaces-tutorial
 ```
+
 </spoiler>
 
 ### 2. Устанавливаем необходимые библиотеки и создаем пустое NestJS-mod - приложение
@@ -143,6 +144,7 @@ added 1152 packages, removed 9 packages, changed 14 packages, and audited 1913 p
 
 11 vulnerabilities (1 moderate, 10 high)
 ```
+
 </spoiler>
 
 ### 3. Создаем документацию по проекту и параллельно создаем дополнительный код и скрипты для запуска проекта
@@ -320,6 +322,7 @@ $ npm run docs:infrastructure
 
  NX   Successfully ran target start for project server
 ```
+
 </spoiler>
 
 ### 4. Запускаем проект в watch режиме через pm2
@@ -352,6 +355,7 @@ Local PM2 version: 5.4.2
 │ 0  │ server    │ default     │ N/A     │ fork    │ 390932   │ 0s     │ 0    │ online    │ 0%       │ 45.3mb   │ endy     │ disabled │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+
 </spoiler>
 
 ### 5. Запускаем юнит-тесты
@@ -390,6 +394,7 @@ $ npm run test
       With additional flags:
         --passWithNoTests=true
 ```
+
 </spoiler>
 
 ### 6. Запускаем e2e-тесты
@@ -433,6 +438,7 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
       With additional flags:
         --passWithNoTests=true
 ```
+
 </spoiler>
 
 ### 7. Останавливаем pm2 проект
@@ -463,15 +469,16 @@ Local PM2 version: 5.4.2
 │ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+
 </spoiler>
 
 В следующем посте я добавлю пустое фронтенд приложение на Angular и из него вызову методы бэкенд приложения...
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - коммит на текущие изменения
 
 #nestjs #typescript #node #nestjsmod #fullstack

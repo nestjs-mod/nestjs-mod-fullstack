@@ -165,7 +165,6 @@ jobs:
     # ...
 ```
 
-
 ### 5. Commit the changes and wait for CI/CD to work successfully
 
 The current result of CI/CD operation: https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/10879176772
@@ -182,10 +181,10 @@ In the next post, I will add git hooks for preformatting code during commit, and
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/49806d9680fd8045172597e930e69185fabe33cf..2190202deeb42cd6176123c4d574653b849ef5ed - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/49806d9680fd8045172597e930e69185fabe33cf..2190202deeb42cd6176123c4d574653b849ef5ed - current changes
 
 #nx #github #nestjsmod #fullstack

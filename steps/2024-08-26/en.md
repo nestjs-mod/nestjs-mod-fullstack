@@ -382,10 +382,10 @@ In the next post, I will speed up the deployment by using public GitHub runners 
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/6dd40bb74621315c79e24f86b3856e58e159c73f..1b8f3f0a96e87f71408422518f63d424b3db7f28 - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/6dd40bb74621315c79e24f86b3856e58e159c73f..1b8f3f0a96e87f71408422518f63d424b3db7f28 - current changes
 
 #docker #github #nestjsmod #fullstack

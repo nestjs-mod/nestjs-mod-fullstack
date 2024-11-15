@@ -877,9 +877,9 @@ In the next post, I will build applications on NestJS and Angular and run them i
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0353b23b1b65d1ff8e6e5f6185e235bbe05cf523 - commit to current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0353b23b1b65d1ff8e6e5f6185e235bbe05cf523 - commit to current changes
 
 #nestjs #angular #nestjsmod #fullstack

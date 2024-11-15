@@ -10,7 +10,7 @@ In this post, I will set up the build of Docker images:
 
 ### 1. Creating a Docker image with all dependencies
 
-In this post, the code and Docker images will be collected on public runners, which have a limit per month in total execution time and with intensive development, this limit can easily be exhausted, so you need to be prepared to move to your own runner. 
+In this post, the code and Docker images will be collected on public runners, which have a limit per month in total execution time and with intensive development, this limit can easily be exhausted, so you need to be prepared to move to your own runner.
 
 In the previous post, dependencies were installed on the host machine in which the code was assembled, this was done as an example of how it is possible, but it is not necessary to do so.
 
@@ -1523,10 +1523,10 @@ In the next post, I will install Kubernetes on a dedicated server and reconfigur
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6270febc23d50100133897630c1476b30b7e8751 - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6270febc23d50100133897630c1476b30b7e8751 - current changes
 
 #docker #github #nestjsmod #fullstack

@@ -4290,10 +4290,10 @@ In the next post, I will write a frontend for the webhooks module in `Angular`..
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/460257364bb4ce8e23fe761fbc9ca7462bc89b61..ec8de9d574a6dbcef3c3339e876ce156a3974aae - current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/460257364bb4ce8e23fe761fbc9ca7462bc89b61..ec8de9d574a6dbcef3c3339e876ce156a3974aae - current changes
 
 #nestjs #webhook #nestjsmod #fullstack
