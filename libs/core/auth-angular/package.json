@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@nestjs-mod-fullstack/common-angular": "0.0.1",
-    "@nestjs-mod-fullstack/files-angular": "0.0.1",
     "@angular/common": "18.2.11",
     "@angular/core": "18.2.11",
     "@angular/forms": "18.2.11",
