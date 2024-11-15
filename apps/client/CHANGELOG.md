@@ -1,3 +1,11 @@
+## [1.4.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.4.0...client-v1.4.1) (2024-11-15)
+
+### Bug Fixes
+
+- bump nestjs libraries version ([4ff301f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4ff301f694a3849f72cdd1d9cf0338926817abdc))
+- remove use ImageFileComponent in AuthProfileFormComponent ([0bae002](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0bae002ca2e31fc11d3c910599c45a39b5fe995a))
+- update nx version ([7a485f7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/7a485f72661d8252937fd7b6190f0191aa90dc92))
+
 # [1.4.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.3.2...client-v1.4.0) (2024-11-15)
 
 ### Features
