@@ -88,7 +88,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(1500);
+    await setTimeout(3000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]')
@@ -157,7 +157,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(1500);
+    await setTimeout(3000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]')
