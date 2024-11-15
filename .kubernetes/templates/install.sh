@@ -13,6 +13,10 @@ sudo microk8s kubectl get secret docker-regcred -n default -o yaml || sed s/"nam
 sudo microk8s kubectl delete -f .kubernetes/templates/authorizer/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/authorizer
 
+# minio
+sudo microk8s kubectl delete -f .kubernetes/templates/minio/1.configmap.yaml || echo 'not need delete configmap'
+sudo microk8s kubectl apply -f .kubernetes/generated/minio
+
 # server
 sudo microk8s kubectl delete -f .kubernetes/templates/server/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/server

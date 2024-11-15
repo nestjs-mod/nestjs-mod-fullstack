@@ -63,9 +63,35 @@ services:
     depends_on:
       server-postgre-sql:
         condition: "service_healthy"
+  server-minio:
+    image: "bitnami/minio:2024.11.7"
+    container_name: "server-minio"
+    volumes:
+      - "server-minio-volume:/bitnami/minio/data"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - "server-network"
+    environment:
+      MINIO_ROOT_USER: ""
+      MINIO_ROOT_PASSWORD: ""
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "mc"
+        - "ready"
+        - "local"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
 networks:
   server-network:
     driver: "bridge"
 volumes:
   server-postgre-sql-volume:
     name: "server-postgre-sql-volume"
+  server-minio-volume:
+    name: "server-minio-volume"

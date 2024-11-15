@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 
 export class WebhookConfiguration {
   webhookSuperAdminExternalUserId?: string;
-  constructor(options: { webhookSuperAdminExternalUserId?: string }) {
+  constructor(options?: WebhookConfiguration) {
     Object.assign(this, options);
   }
 }

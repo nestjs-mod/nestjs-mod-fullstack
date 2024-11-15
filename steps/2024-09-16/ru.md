@@ -167,7 +167,6 @@ jobs:
     # ...
 ```
 
-
 ### 5. Коммитим изменения и ждем когда CI/CD отработает успешно
 
 Текущий результат работы CI/CD: https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/10879176772
@@ -184,10 +183,10 @@ jobs:
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/49806d9680fd8045172597e930e69185fabe33cf..2190202deeb42cd6176123c4d574653b849ef5ed - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/49806d9680fd8045172597e930e69185fabe33cf..2190202deeb42cd6176123c4d574653b849ef5ed - изменения
 
 #nx #github #nestjsmod #fullstack

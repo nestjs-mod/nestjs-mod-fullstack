@@ -721,10 +721,10 @@ DevOps - инженеры также должны поставить норма�
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-http://fullstack.nestjs-mod.com:30222 - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4b1c3c7d6bcb0b3bac479d5f414bbefd49aa5e87 - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- http://fullstack.nestjs-mod.com:30222 - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4b1c3c7d6bcb0b3bac479d5f414bbefd49aa5e87 - изменения
 
 #kubernetes #github #nestjsmod #fullstack

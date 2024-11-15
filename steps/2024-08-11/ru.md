@@ -780,9 +780,9 @@ Removing server-postgre-sql ... done
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4661c2f29170568fdf62d3ba0dd4bf20a79a1afa - коммит на текущие изменения
 
 #postgres #flyway #nestjsmod #fullstack

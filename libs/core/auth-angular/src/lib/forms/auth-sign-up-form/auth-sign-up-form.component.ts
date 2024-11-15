@@ -79,7 +79,7 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.form.email`,
+          label: `auth.sign-up-form.email`,
           placeholder: 'email',
           required: true,
         },
@@ -91,7 +91,7 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.form.password`,
+          label: `auth.sign-up-form.password`,
           placeholder: 'password',
           required: true,
           type: 'password',
@@ -104,7 +104,7 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.form.confirm_password`,
+          label: `auth.sign-up-form.confirm_password`,
           placeholder: 'confirm_password',
           required: true,
           type: 'password',

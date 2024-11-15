@@ -35,6 +35,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
   });
 
   test.afterAll(async () => {
+    await setTimeout(1000);
     await page.close();
   });
 
@@ -86,6 +87,12 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('auth-sign-up-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
@@ -95,13 +102,16 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
     await expect(
-      page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]')
+      page
+        .locator('[nz-submenu-none-inline-child]')
+        .locator('[nz-menu-item]')
+        .last()
     ).toContainText(`Sign-out`);
 
     await page
       .locator('[nz-submenu-none-inline-child]')
       .locator('[nz-menu-item]')
-      .first()
+      .last()
       .click();
 
     await setTimeout(4000);
@@ -146,6 +156,12 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('auth-sign-in-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('should create new webhook', async () => {
@@ -300,13 +316,16 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
     await expect(
-      page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]')
+      page
+        .locator('[nz-submenu-none-inline-child]')
+        .locator('[nz-menu-item]')
+        .last()
     ).toContainText(`Sign-out`);
 
     await page
       .locator('[nz-submenu-none-inline-child]')
       .locator('[nz-menu-item]')
-      .first()
+      .last()
       .click();
 
     await setTimeout(4000);

@@ -2,7 +2,7 @@
   "name": "@nestjs-mod-fullstack/common-angular",
   "version": "0.0.1",
   "peerDependencies": {
-    "ng-zorro-antd": "^18.1.1",
+    "ng-zorro-antd": "^18.2.0",
     "@angular/core": "18.2.11",
     "rxjs": "^7.8.0"
   },

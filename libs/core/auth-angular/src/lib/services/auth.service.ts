@@ -1,12 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import {
   AuthToken,
   LoginInput,
   SignupInput,
+  UpdateProfileInput,
   User,
 } from '@authorizerdev/authorizer-js';
 import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
-import { BehaviorSubject, catchError, from, map, of, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  map,
+  mergeMap,
+  of,
+  tap,
+} from 'rxjs';
+import {
+  AUTH_CONFIGURATION_TOKEN,
+  AuthConfiguration,
+} from './auth.configuration';
 import { AuthorizerService } from './authorizer.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,7 +27,12 @@ export class AuthService {
   profile$ = new BehaviorSubject<User | undefined>(undefined);
   tokens$ = new BehaviorSubject<AuthToken | undefined>(undefined);
 
-  constructor(private readonly authorizerService: AuthorizerService) {}
+  constructor(
+    private readonly authorizerService: AuthorizerService,
+    @Optional()
+    @Inject(AUTH_CONFIGURATION_TOKEN)
+    private readonly authConfiguration?: AuthConfiguration
+  ) {}
 
   getAuthorizerClientID() {
     return this.authorizerService.config.clientID;
@@ -39,6 +57,37 @@ export class AuthService {
           tokens: this.tokens$.value,
         };
       })
+    );
+  }
+
+  updateProfile(data: UpdateProfileInput) {
+    const oldProfile = this.profile$.value;
+    return (
+      this.authConfiguration?.beforeUpdateProfile
+        ? this.authConfiguration.beforeUpdateProfile(data)
+        : of(data)
+    ).pipe(
+      mergeMap((data) =>
+        from(
+          this.authorizerService.updateProfile({
+            ...data,
+          })
+        )
+      ),
+      mapGraphqlErrors(),
+      mergeMap(() => this.authorizerService.getProfile()),
+      mapGraphqlErrors(),
+      tap((result) => this.setProfile(result)),
+      mergeMap((updatedProfile) =>
+        this.authConfiguration?.afterUpdateProfile
+          ? this.authConfiguration.afterUpdateProfile({
+              new: updatedProfile,
+              old: oldProfile,
+            })
+          : of({
+              new: updatedProfile,
+            })
+      )
     );
   }
 
@@ -91,7 +140,7 @@ export class AuthService {
 
   setProfileAndTokens(result: AuthToken | undefined) {
     this.tokens$.next(result as AuthToken);
-    this.profile$.next(result?.user);
+    this.setProfile(result?.user);
   }
 
   getAuthorizationHeaders() {
@@ -101,5 +150,9 @@ export class AuthService {
     return {
       Authorization: `Bearer ${this.tokens$.value.access_token}`,
     };
+  }
+
+  setProfile(result: User | undefined) {
+    this.profile$.next(result);
   }
 }

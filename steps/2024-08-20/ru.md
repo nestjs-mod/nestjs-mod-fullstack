@@ -1731,9 +1731,9 @@ webpack compiled successfully (1e208138c6e6150d)
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d97b4121e910627e19fa55f01919557ae898dc42 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/d97b4121e910627e19fa55f01919557ae898dc42 - коммит на текущие изменения
 
 #pm2 #docker #nestjsmod #fullstack

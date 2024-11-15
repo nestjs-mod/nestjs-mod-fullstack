@@ -476,9 +476,9 @@ In the next post, I will add an empty frontend application to Angular and call b
 
 ### Links
 
-https://nestjs.com -the official website of the framework
-https://nestjs-mod.com -the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - commit to current changes
+- https://nestjs.com -the official website of the framework
+- https://nestjs-mod.com -the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5fab437a5d4a9122aee021f3a49756419dc8dee2 - commit to current changes
 
 #nestjs #typescript #node #nestjsmod #fullstack

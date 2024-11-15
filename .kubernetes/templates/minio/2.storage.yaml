@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: "%NAMESPACE%"
+  name: %NAMESPACE%-minio-pv-claim
+  labels:
+    type: local
+    app: %NAMESPACE%-minio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

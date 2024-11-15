@@ -384,10 +384,10 @@ test('has serverMessage', async ({ page }) => {
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/6dd40bb74621315c79e24f86b3856e58e159c73f..1b8f3f0a96e87f71408422518f63d424b3db7f28 - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/6dd40bb74621315c79e24f86b3856e58e159c73f..1b8f3f0a96e87f71408422518f63d424b3db7f28 - изменения
 
 #docker #github #nestjsmod #fullstack

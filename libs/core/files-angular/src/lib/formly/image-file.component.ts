@@ -1,0 +1,103 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { BehaviorSubject } from 'rxjs';
+import { MINIO_URL } from '../services/files.service';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: 'image-file',
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzInputModule,
+    NzButtonModule,
+    NzUploadModule,
+    NzModalModule,
+    NzIconModule,
+    AsyncPipe,
+  ],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <nz-upload
+      [nzAccept]="'image/png, image/jpeg'"
+      [nzListType]="'picture'"
+      [nzFileList]="(fileList$ | async)!"
+      (nzFileListChange)="onFileListChange($event)"
+      [nzLimit]="1"
+      [nzBeforeUpload]="beforeUpload"
+    >
+      <button nz-button type="button">
+        <span nz-icon [nzType]="(icon$ | async)!"></span>
+        {{ title$ | async }}
+      </button>
+    </nz-upload>
+  `,
+})
+export class ImageFileComponent
+  extends FieldType<FieldTypeConfig>
+  implements OnInit
+{
+  fileList$ = new BehaviorSubject<NzUploadFile[]>([]);
+  title$ = new BehaviorSubject<string>('');
+  icon$ = new BehaviorSubject<string>('');
+
+  constructor(
+    @Inject(MINIO_URL)
+    private readonly minioURL: string
+  ) {
+    super();
+  }
+
+  ngOnInit(): void {
+    if (this.formControl.value) {
+      this.switchToReloadMode();
+      this.fileList$.next([
+        {
+          uid: this.formControl.value,
+          name: this.formControl.value.split('/').at(-1),
+          status: 'done',
+          url: this.minioURL + this.formControl.value,
+        },
+      ]);
+    } else {
+      this.switchToUploadMode();
+    }
+  }
+
+  onFileListChange(files: NzUploadFile[]) {
+    if (files.length === 0) {
+      this.formControl.setValue(null);
+      this.fileList$.next([]);
+      this.switchToUploadMode();
+    }
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.formControl.setValue(file);
+    this.switchToReloadMode();
+    this.fileList$.next([file]);
+    return false;
+  };
+
+  private switchToReloadMode() {
+    this.icon$.next('reload');
+    this.title$.next('Change file');
+  }
+
+  private switchToUploadMode() {
+    this.icon$.next('upload');
+    this.title$.next('Select file...');
+  }
+}

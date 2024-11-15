@@ -964,9 +964,9 @@ In the next post, I will add Swagger documentation generation to the NestJS appl
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a8b7f6ae2660a21730860b384c30da9fc82e9238 - commit to current changes
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a8b7f6ae2660a21730860b384c30da9fc82e9238 - commit to current changes
 
 #nestjs #prisma #nestjsmod #fullstack

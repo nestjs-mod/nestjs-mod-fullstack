@@ -4,6 +4,7 @@ import {
   AppApi,
   AuthorizerApi,
   WebhookApi,
+  FilesApi,
 } from '@nestjs-mod-fullstack/app-rest-sdk';
 import axios, { AxiosInstance } from 'axios';
 import { get } from 'env-var';
@@ -18,14 +19,17 @@ export class RestClientHelper {
 
   authorizationTokens?: AuthToken;
 
+  private authorizer?: Authorizer;
+
   private webhookApi?: WebhookApi;
   private appApi?: AppApi;
   private authorizerApi?: AuthorizerApi;
-  private authorizer?: Authorizer;
+  private filesApi?: FilesApi;
 
-  private authorizerApiAxios?: AxiosInstance;
-  private appApiAxios?: AxiosInstance;
   private webhookApiAxios?: AxiosInstance;
+  private appApiAxios?: AxiosInstance;
+  private authorizerApiAxios?: AxiosInstance;
+  private filesApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
 
@@ -64,9 +68,16 @@ export class RestClientHelper {
 
   getAppApi() {
     if (!this.appApi) {
-      throw new Error('defaultApi not set');
+      throw new Error('appApi not set');
     }
     return this.appApi;
+  }
+
+  getFilesApi() {
+    if (!this.filesApi) {
+      throw new Error('filesApi not set');
+    }
+    return this.filesApi;
   }
 
   async getAuthorizerClient() {
@@ -189,6 +200,18 @@ export class RestClientHelper {
         this.getAuthorizationHeaders()
       );
     }
+    if (this.authorizerApiAxios) {
+      Object.assign(
+        this.authorizerApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
+    if (this.filesApiAxios) {
+      Object.assign(
+        this.filesApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
 
     return this;
   }
@@ -231,6 +254,13 @@ export class RestClientHelper {
       }),
       undefined,
       this.appApiAxios
+    );
+    this.filesApi = new FilesApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.filesApiAxios
     );
   }
 

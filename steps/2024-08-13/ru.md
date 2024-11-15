@@ -966,9 +966,9 @@ Ran all test suites.
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a8b7f6ae2660a21730860b384c30da9fc82e9238 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a8b7f6ae2660a21730860b384c30da9fc82e9238 - коммит на текущие изменения
 
 #nestjs #prisma #nestjsmod #fullstack

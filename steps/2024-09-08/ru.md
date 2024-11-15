@@ -3,6 +3,7 @@
 Предыдущая статья: [Добавляем CI/CD конфиг для деплоя на выделенный сервер с помощью GitHub Actions](https://habr.com/ru/articles/839678/)
 
 В этом посте я настрою сборку Docker-образов:
+
 - Билдер NestJS и Angular приложений;
 - Мигратор баз данных с помощью Flyway;
 - Тест-раннер для запуска фронтенд и бэкенд E2E-тестов;
@@ -1524,10 +1525,10 @@ jobs:
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6270febc23d50100133897630c1476b30b7e8751 - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6270febc23d50100133897630c1476b30b7e8751 - изменения
 
 #docker #github #nestjsmod #fullstack

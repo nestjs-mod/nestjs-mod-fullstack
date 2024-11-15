@@ -1237,11 +1237,11 @@ In the next post, I will connect an external authorization server https://author
 
 ### Links
 
-https://nestjs.com - the official website of the framework
-https://nestjs-mod.com - the official website of additional utilities
-https://fullstack.nestjs-mod.com - website from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/ec8de9d574a6dbcef3c3339e876ce156a3974aae..414980df21e585cb798e1ff756300c4547e68a42 - current changes
-https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11523894922/artifacts/2105784301 - video of the tests
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/ec8de9d574a6dbcef3c3339e876ce156a3974aae..414980df21e585cb798e1ff756300c4547e68a42 - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11523894922/artifacts/2105784301 - video of the tests
 
 #angular #webhook #nestjsmod #fullstack

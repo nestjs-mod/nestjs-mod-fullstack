@@ -102,6 +102,7 @@ Run `npm audit` for details.
 Run "nx show project client" to view details about this project.
 
 ```
+
 </spoiler>
 
 ### 2. Запускаем сборку всех проектов
@@ -147,6 +148,7 @@ apps/client/src/test-setup.ts:1:1 - error TS2578: Unused '@ts-expect-error' dire
 
 Found 1 error in apps/client/src/test-setup.ts:1
 ```
+
 </spoiler>
 
 ### 3. Получаем ошибку "Unused '@ts-expect-error' directive." и решаем ее
@@ -227,6 +229,7 @@ Nx read the output from the cache instead of running the command for 2 out of 3 
  NX   Successfully ran target build for 2 projects (15s)
 
 ```
+
 </spoiler>
 
 ### 5. Добавляем команду в конфигурацию pm2 для запуска Angular приложения в режиме watch
@@ -282,6 +285,7 @@ Local PM2 version: 5.4.2
 │ 0  │ server    │ default     │ N/A     │ fork    │ 454826   │ 0s     │ 0    │ online    │ 0%       │ 25.6mb   │ endy     │ disabled │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+
 </spoiler>
 
 ### 7. Запускаем юнит-тесты
@@ -340,6 +344,7 @@ $ npm run test
 
 Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
 ```
+
 </spoiler>
 
 ### 8. Для запуска e2e-тестов на Angular необходимо установить дополнительные библиотекти
@@ -367,6 +372,7 @@ Downloading Webkit 18.0 (playwright build v2051) from https://playwright.azureed
 134.5 MiB [====================] 100% 0.0s
 Webkit 18.0 (playwright build v2051) downloaded to /home/endy/.cache/ms-playwright/webkit-2051
 ```
+
 </spoiler>
 
 ### 9. Запускаем e2e-тесты
@@ -421,6 +427,7 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
 
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (8s)
 ```
+
 </spoiler>
 
 ### 10. Добавляем работу с хттп в Angular приложении
@@ -557,6 +564,7 @@ $ ./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --all -
 
  NX   Successfully ran target e2e for 2 projects and 1 task they depend on (10s)
 ```
+
 </spoiler>
 
 ### 15. Останавливаем pm2 проекты
@@ -588,6 +596,7 @@ Local PM2 version: 5.4.2
 │ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
 └────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
 ```
+
 </spoiler>
 
 В посте нет картинок, работа приложений проверяется через тесты, но если кому то нужно видеть результат, то ответ сервера можно получить по адресу: http://localhost:3000/api, а ответ клиента по адресу: http://localhost:4200/
@@ -596,9 +605,9 @@ Local PM2 version: 5.4.2
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/32bcd1171985f5bd22e10b67c6b179807ef75cfc - коммит на текущие изменения
 
 #angular #typescript #browser #nestjsmod #fullstack

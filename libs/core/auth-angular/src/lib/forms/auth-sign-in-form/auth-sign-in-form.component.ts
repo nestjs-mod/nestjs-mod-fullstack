@@ -77,7 +77,7 @@ export class AuthSignInFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.form.email`,
+          label: `auth.sign-in-form.email`,
           placeholder: 'email',
           required: true,
         },
@@ -89,7 +89,7 @@ export class AuthSignInFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.form.password`,
+          label: `auth.sign-in-form.password`,
           placeholder: 'password',
           required: true,
           type: 'password',

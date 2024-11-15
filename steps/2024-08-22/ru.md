@@ -1542,9 +1542,9 @@ root@vps1724252356:~/nestjs-mod-fullstack# export BASE_URL=http://vps1724252356.
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/b9715a203364877a4ffae6e7cb3a1dff59ede6d6 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/b9715a203364877a4ffae6e7cb3a1dff59ede6d6 - коммит на текущие изменения
 
 #pm2 #docker #nestjsmod #fullstack

@@ -313,10 +313,10 @@ sudo microk8s kubectl delete service master-client-global --namespace master || 
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://fullstack.nestjs-mod.com - сайт из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/28ebc77b38b2b1c9945e87806e5726451b8d22a2..33b51edf67471600e583f89f10b2d99a1b9b79da - изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/28ebc77b38b2b1c9945e87806e5726451b8d22a2..33b51edf67471600e583f89f10b2d99a1b9b79da - изменения
 
 #kubernetes #github #nestjsmod #fullstack

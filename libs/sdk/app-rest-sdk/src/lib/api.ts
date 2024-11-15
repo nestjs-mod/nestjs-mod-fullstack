@@ -176,6 +176,46 @@ export interface CreateWebhookArgs {
 /**
  *
  * @export
+ * @interface FilesError
+ */
+export interface FilesError {
+  /**
+   * Files error (FILES-000), Forbidden (FILES-001)
+   * @type {string}
+   * @memberof FilesError
+   */
+  message: string;
+  /**
+   *
+   * @type {FilesErrorEnum}
+   * @memberof FilesError
+   */
+  code: FilesErrorEnum;
+  /**
+   *
+   * @type {object}
+   * @memberof FilesError
+   */
+  metadata?: object;
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const FilesErrorEnum = {
+  _000: 'FILES-000',
+  _001: 'FILES-001',
+} as const;
+
+export type FilesErrorEnum =
+  (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
+
+/**
+ *
+ * @export
  * @interface FindManyResponseMeta
  */
 export interface FindManyResponseMeta {
@@ -254,6 +294,25 @@ export interface FindManyWebhookUserResponse {
    * @memberof FindManyWebhookUserResponse
    */
   meta: FindManyResponseMeta;
+}
+/**
+ *
+ * @export
+ * @interface PresignedUrls
+ */
+export interface PresignedUrls {
+  /**
+   *
+   * @type {string}
+   * @memberof PresignedUrls
+   */
+  downloadUrl: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PresignedUrls
+   */
+  uploadUrl: string;
 }
 /**
  *
@@ -1508,6 +1567,265 @@ export class AuthorizerApi extends BaseAPI {
   ) {
     return AuthorizerApiFp(this.configuration)
       .authorizerControllerGetAuthorizerClientID(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * FilesApi - axios parameter creator
+ * @export
+ */
+export const FilesApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerDeleteFile: async (
+      downloadUrl: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'downloadUrl' is not null or undefined
+      assertParamExists(
+        'filesControllerDeleteFile',
+        'downloadUrl',
+        downloadUrl
+      );
+      const localVarPath = `/api/files/delete-file`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (downloadUrl !== undefined) {
+        localVarQueryParameter['downloadUrl'] = downloadUrl;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerGetPresignedUrl: async (
+      ext: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'ext' is not null or undefined
+      assertParamExists('filesControllerGetPresignedUrl', 'ext', ext);
+      const localVarPath = `/api/files/get-presigned-url`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (ext !== undefined) {
+        localVarQueryParameter['ext'] = ext;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * FilesApi - functional programming interface
+ * @export
+ */
+export const FilesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = FilesApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async filesControllerDeleteFile(
+      downloadUrl: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.filesControllerDeleteFile(
+          downloadUrl,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['FilesApi.filesControllerDeleteFile']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async filesControllerGetPresignedUrl(
+      ext: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PresignedUrls>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.filesControllerGetPresignedUrl(
+          ext,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['FilesApi.filesControllerGetPresignedUrl']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * FilesApi - factory interface
+ * @export
+ */
+export const FilesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = FilesApiFp(configuration);
+  return {
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerDeleteFile(
+      downloadUrl: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<StatusResponse> {
+      return localVarFp
+        .filesControllerDeleteFile(downloadUrl, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerGetPresignedUrl(
+      ext: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<PresignedUrls> {
+      return localVarFp
+        .filesControllerGetPresignedUrl(ext, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * FilesApi - object-oriented interface
+ * @export
+ * @class FilesApi
+ * @extends {BaseAPI}
+ */
+export class FilesApi extends BaseAPI {
+  /**
+   *
+   * @param {string} downloadUrl
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FilesApi
+   */
+  public filesControllerDeleteFile(
+    downloadUrl: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return FilesApiFp(this.configuration)
+      .filesControllerDeleteFile(downloadUrl, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} ext
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FilesApi
+   */
+  public filesControllerGetPresignedUrl(
+    ext: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return FilesApiFp(this.configuration)
+      .filesControllerGetPresignedUrl(ext, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

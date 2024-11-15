@@ -140,9 +140,9 @@ _Логика после изменений:_
 
 ### Ссылки
 
-https://nestjs.com - официальный сайт фреймворка
-https://nestjs-mod.com - официальный сайт дополнительных утилит
-https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/554f2fa53a62b6171a63d465a67fcdde7b333f69 - коммит на текущие изменения
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/554f2fa53a62b6171a63d465a67fcdde7b333f69 - коммит на текущие изменения
 
 #pm2 #bug #nestjsmod #fullstack
