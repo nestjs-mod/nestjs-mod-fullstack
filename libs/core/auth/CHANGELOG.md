@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/auth-v1.1.0...auth-v1.1.1) (2024-11-15)
+
+### Bug Fixes
+
+- bump nestjs libraries version ([4ff301f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4ff301f694a3849f72cdd1d9cf0338926817abdc))
+
 # [1.1.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/auth-v1.0.1...auth-v1.1.0) (2024-11-15)
 
 ### Features
