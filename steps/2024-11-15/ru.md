@@ -1318,6 +1318,5 @@ test.describe('Work with profile as "User" role', () => {
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - видео тестов
 
 #angular #minio #nestjsmod #fullstack
