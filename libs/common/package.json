@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/common",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "private": true,
   "dependencies": {
     "tslib": "^2.3.0"

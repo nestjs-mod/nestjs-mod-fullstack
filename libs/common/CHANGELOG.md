@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/common-v1.3.0...common-v1.3.1) (2024-11-15)
+
+### Bug Fixes
+
+- bump nestjs libraries version ([4ff301f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4ff301f694a3849f72cdd1d9cf0338926817abdc))
+
 # [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/common-v1.2.1...common-v1.3.0) (2024-11-15)
 
 ### Features
