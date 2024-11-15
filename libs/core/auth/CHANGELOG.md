@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/auth-v1.1.1...auth-v1.1.2) (2024-11-15)
+
+### Bug Fixes
+
+- update nx version ([7a485f7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/7a485f72661d8252937fd7b6190f0191aa90dc92))
+
 ## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/auth-v1.1.0...auth-v1.1.1) (2024-11-15)
 
 ### Bug Fixes
