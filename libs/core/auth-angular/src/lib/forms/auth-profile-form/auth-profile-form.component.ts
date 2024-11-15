@@ -14,7 +14,6 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
-import { ImageFileComponent } from '@nestjs-mod-fullstack/files-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -38,7 +37,6 @@ import { AuthService } from '../../services/auth.service';
     AsyncPipe,
     NgIf,
     RouterModule,
-    ImageFileComponent,
   ],
   selector: 'auth-profile-form',
   template: `@if (formlyFields$ | async; as formlyFields) {
