@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/prisma-tools-v1.2.1...prisma-tools-v1.3.0) (2024-11-15)
+
+### Features
+
+- Integrating an external file server https://min.io into a full-stack application on NestJS and Angular (2024-11-115) ([#9](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/9)) ([41d8b55](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/41d8b555923e3d6343dc2ac1304443d3df60d5e8))
+
 ## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/prisma-tools-v1.2.0...prisma-tools-v1.2.1) (2024-11-08)
 
 ### Bug Fixes
