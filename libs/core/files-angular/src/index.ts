@@ -1,3 +1,2 @@
-export * from './lib/formly/file-select.component';
-export * from './lib/formly/files-formly.module';
+export * from './lib/formly/image-file.component';
 export * from './lib/services/files.service';

@@ -22,7 +22,7 @@ import {
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
-  FileSelectComponent,
+  ImageFileComponent,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
 import {
@@ -70,8 +70,8 @@ export const appConfig = ({
         FormlyModule.forRoot({
           types: [
             {
-              name: 'file-select',
-              component: FileSelectComponent,
+              name: 'image-file',
+              component: ImageFileComponent,
               extends: 'input',
             },
           ],

@@ -61,6 +61,7 @@ export class AuthService {
   }
 
   updateProfile(data: UpdateProfileInput) {
+    const oldProfile = this.profile$.value;
     return (
       this.authConfiguration?.beforeUpdateProfile
         ? this.authConfiguration.beforeUpdateProfile(data)
@@ -76,7 +77,17 @@ export class AuthService {
       mapGraphqlErrors(),
       mergeMap(() => this.authorizerService.getProfile()),
       mapGraphqlErrors(),
-      tap((result) => this.setProfile(result))
+      tap((result) => this.setProfile(result)),
+      mergeMap((updatedProfile) =>
+        this.authConfiguration?.afterUpdateProfile
+          ? this.authConfiguration.afterUpdateProfile({
+              new: updatedProfile,
+              old: oldProfile,
+            })
+          : of({
+              new: updatedProfile,
+            })
+      )
     );
   }
 

@@ -1,24 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { FilesRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { PresignedUrls } from '@nestjs-mod-fullstack/app-rest-sdk';
-import { Observable, from, map, mergeMap } from 'rxjs';
-
-export const bucketTypes = {
-  sounds: {
-    ext: ['mp3'],
-  },
-  video: {
-    ext: ['mp4'],
-  },
-  documents: {
-    ext: ['doc', 'docx', 'xls', 'md', 'odt', 'txt', 'xml', 'rtf', 'csv'],
-  },
-  images: {
-    ext: ['jpg', 'jpeg', 'png', 'gif'],
-  },
-};
-
-export type BucketType = keyof typeof bucketTypes;
+import { Observable, from, map, mergeMap, of } from 'rxjs';
 
 export const MINIO_URL = new InjectionToken<string>('MinioURL');
 
@@ -30,28 +13,24 @@ export class FilesService {
     private readonly filesRestService: FilesRestService
   ) {}
 
-  getBucketType(fileOrDownloadUrl: File | string): BucketType {
-    const ext =
-      typeof fileOrDownloadUrl === 'string'
-        ? this.getFileExtByLink(fileOrDownloadUrl)
-        : this.getFileExt(fileOrDownloadUrl);
-    const bucketType = Object.entries(bucketTypes)
-      .filter(([, options]) => options.ext.includes(ext))
-      .map(([name]) => name)[0];
-    if (!bucketType) {
-      throw new Error(`Uploading files with extension ${ext} is not supported`);
+  getPresignedUrlAndUploadFile(file: null | undefined | string | File) {
+    if (!file) {
+      return of('');
     }
-    return bucketType as BucketType;
-  }
-
-  getFileExtByLink(fileOrDownloadUrl: string) {
-    return fileOrDownloadUrl
-      .split('/')
-      .slice(-1)[0]
-      .split('.')
-      .slice(1)
-      .join('.')
-      .toLowerCase();
+    if (typeof file !== 'string') {
+      return this.getPresignedUrl(file).pipe(
+        mergeMap((presignedUrls) =>
+          this.uploadFile({
+            file,
+            presignedUrls,
+          })
+        ),
+        map((presignedUrls) =>
+          presignedUrls.downloadUrl.replace(this.minioURL, '')
+        )
+      );
+    }
+    return of(file.replace(this.minioURL, ''));
   }
 
   getPresignedUrl(file: File) {
@@ -60,42 +39,6 @@ export class FilesService {
         this.getFileExt(file)
       )
     );
-  }
-
-  getFileExt(file: File) {
-    return file?.type?.split('/')?.[1].toLowerCase();
-  }
-
-  isIOS() {
-    return (
-      [
-        'iPad Simulator',
-        'iPhone Simulator',
-        'iPod Simulator',
-        'iPad',
-        'iPhone',
-        'iPod',
-      ].includes(navigator.platform) ||
-      // iPad on iOS 13 detection
-      (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
-    );
-  }
-
-  openTargetURI(uri: string) {
-    if (this.isIOS()) {
-      document.location.href = uri;
-    } else {
-      const link = document.createElement('a');
-      link.target = '_blank';
-      link.href = uri;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  }
-
-  deleteFile(downloadUrl: string) {
-    return from(this.filesRestService.filesControllerDeleteFile(downloadUrl));
   }
 
   uploadFile({
@@ -131,22 +74,39 @@ export class FilesService {
     });
   }
 
-  getPresignedUrlAndUploadFile(file: File) {
-    return this.getPresignedUrl(file).pipe(
-      mergeMap((presignedUrls) => {
-        return this.uploadFile({
-          file,
-          presignedUrls,
-        }).pipe(
-          map((uploadFileResult) => {
-            return {
-              file,
-              presignedUrls,
-              uploadFileResult,
-            };
-          })
-        );
-      })
+  deleteFile(downloadUrl: string) {
+    return from(this.filesRestService.filesControllerDeleteFile(downloadUrl));
+  }
+
+  openTargetURI(uri: string) {
+    if (this.isIOS()) {
+      document.location.href = uri;
+    } else {
+      const link = document.createElement('a');
+      link.target = '_blank';
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  private getFileExt(file: File) {
+    return file?.type?.split('/')?.[1].toLowerCase();
+  }
+
+  private isIOS() {
+    return (
+      [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod',
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
     );
   }
 }

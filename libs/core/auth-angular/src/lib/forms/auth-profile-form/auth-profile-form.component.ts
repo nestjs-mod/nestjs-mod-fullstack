@@ -2,12 +2,10 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Inject,
   Input,
   OnInit,
   Optional,
-  Output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -15,8 +13,8 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
-import { FilesFormlyModule } from '@nestjs-mod-fullstack/files-angular';
+import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { ImageFileComponent } from '@nestjs-mod-fullstack/files-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -40,18 +38,39 @@ import { AuthService } from '../../services/auth.service';
     AsyncPipe,
     NgIf,
     RouterModule,
-    FilesFormlyModule,
+    ImageFileComponent,
   ],
   selector: 'auth-profile-form',
-  templateUrl: './auth-profile-form.component.html',
+  template: `@if (formlyFields$ | async; as formlyFields) {
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <formly-form
+        [model]="formlyModel$ | async"
+        [fields]="formlyFields"
+        [form]="form"
+      >
+      </formly-form>
+      @if (!hideButtons) {
+      <nz-form-control>
+        <div class="flex justify-between">
+          <div></div>
+          <button
+            nz-button
+            nzType="primary"
+            type="submit"
+            [disabled]="!form.valid"
+          >
+            Update
+          </button>
+        </div>
+      </nz-form-control>
+      }
+    </form>
+    } `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthProfileFormComponent implements OnInit {
   @Input()
   hideButtons?: boolean;
-
-  @Output()
-  afterUpdateProfile = new EventEmitter<User>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -74,7 +93,7 @@ export class AuthProfileFormComponent implements OnInit {
     this.formlyFields$.next([
       {
         key: 'picture',
-        type: 'file-select',
+        type: 'image-file',
         validation: {
           show: true,
         },
@@ -129,13 +148,9 @@ export class AuthProfileFormComponent implements OnInit {
       this.authService
         .updateProfile(value)
         .pipe(
-          tap((result) => {
-            if (result) {
-              this.authService.setProfile(result);
-              this.fillFromProfile();
-              this.afterUpdateProfile.next(result);
-              this.nzMessageService.success('Updated');
-            }
+          tap(() => {
+            this.fillFromProfile();
+            this.nzMessageService.success('Updated');
           }),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {

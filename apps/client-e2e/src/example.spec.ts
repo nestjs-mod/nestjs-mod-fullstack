@@ -18,6 +18,7 @@ test.describe('basic usage', () => {
   });
 
   test.afterAll(async () => {
+    await setTimeout(1000);
     await page.close();
   });
 

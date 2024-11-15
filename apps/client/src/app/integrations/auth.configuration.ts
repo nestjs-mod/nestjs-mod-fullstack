@@ -1,26 +1,21 @@
-import { Inject, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
-import { FilesRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
+  AfterUpdateProfileEvent,
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { FilesService, MINIO_URL } from '@nestjs-mod-fullstack/files-angular';
-import { map, mergeMap, Observable, of } from 'rxjs';
+import { FilesService } from '@nestjs-mod-fullstack/files-angular';
+import { map, Observable, of } from 'rxjs';
 
 export class AppAuthConfiguration implements AuthConfiguration {
-  constructor(
-    @Inject(MINIO_URL)
-    private readonly minioURL: string,
-    private readonly filesRestService: FilesRestService,
-    private readonly filesService: FilesService
-  ) {}
+  constructor(private readonly filesService: FilesService) {}
 
   beforeUpdateProfile(
     data: UpdateProfileInput
   ): Observable<UpdateProfileInput> {
     if (data.picture) {
-      return this.uploadFile(data.picture).pipe(
+      return this.filesService.getPresignedUrlAndUploadFile(data.picture).pipe(
         map((picture) => {
           return {
             ...data,
@@ -29,29 +24,16 @@ export class AppAuthConfiguration implements AuthConfiguration {
         })
       );
     }
-    return of(data);
+    return of({ ...data, picture: '' });
   }
 
-  private uploadFile(file: null | undefined | string | File) {
-    if (!file) {
-      return of('');
+  afterUpdateProfile(event: AfterUpdateProfileEvent) {
+    if (event.old?.picture && event.new?.picture !== event.old.picture) {
+      return this.filesService
+        .deleteFile(event.old.picture)
+        .pipe(map(() => event.new));
     }
-    if (typeof file !== 'string') {
-      return this.filesRestService
-        .filesControllerGetPresignedUrl(this.filesService.getFileExt(file))
-        .pipe(
-          mergeMap((presignedUrls) =>
-            this.filesService.uploadFile({
-              file,
-              presignedUrls,
-            })
-          ),
-          map((presignedUrls) =>
-            presignedUrls.downloadUrl.replace(this.minioURL, '')
-          )
-        );
-    }
-    return of(file.replace(this.minioURL, ''));
+    return of(event.new);
   }
 }
 
@@ -59,6 +41,6 @@ export function provideAppAuthConfiguration(): Provider {
   return {
     provide: AUTH_CONFIGURATION_TOKEN,
     useClass: AppAuthConfiguration,
-    deps: [MINIO_URL, FilesRestService, FilesService],
+    deps: [FilesService],
   };
 }

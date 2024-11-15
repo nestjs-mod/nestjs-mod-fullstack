@@ -16,7 +16,7 @@ export class WebhookUsersService {
     private readonly prismaClient: PrismaClient
   ) {}
 
-  async createUser(user: Omit<CreateWebhookUserArgs, 'id'>) {
+  async createUserIfNotExists(user: Omit<CreateWebhookUserArgs, 'id'>) {
     const data = {
       externalTenantId: randomUUID(),
       userRole: 'User',

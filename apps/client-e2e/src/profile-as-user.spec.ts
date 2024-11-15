@@ -34,6 +34,7 @@ test.describe('Work with profile as "User" role', () => {
   });
 
   test.afterAll(async () => {
+    await setTimeout(1000);
     await page.close();
   });
 
@@ -85,6 +86,12 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-sign-up-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
@@ -148,6 +155,12 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-sign-in-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('should change password in profile', async () => {
@@ -206,6 +219,12 @@ test.describe('Work with profile as "User" role', () => {
         .locator('[placeholder=confirm_new_password]')
     ).toHaveValue(user.password + user.password);
 
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    page.locator('nz-upload').locator('button').click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(join(__dirname, 'dep.jpg'));
+    await setTimeout(1000);
+
     await expect(
       page.locator('auth-profile-form').locator('button[type=submit]')
     ).toHaveText('Update');
@@ -214,6 +233,8 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-profile-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
   });
 
   test('sign out', async () => {
@@ -277,5 +298,11 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-sign-in-form')
       .locator('button[type=submit]')
       .click();
+
+    await setTimeout(1500);
+
+    await expect(
+      page.locator('nz-header').locator('[nz-submenu]')
+    ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 });

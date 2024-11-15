@@ -131,18 +131,14 @@ _apps/server/src/main.ts_
 ```typescript
 
 import {
-  AuthorizerModule,
-  AuthorizerUser,
-  CheckAccessOptions,
-  defaultAuthorizerCheckAccessValidator,AUTHORIZER_ENV_PREFIX
-} from '@nestjs-mod/authorizer';
-// ...
-import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
   DockerComposeAuthorizer,
+  DockerComposeMinio,
   DockerComposePostgreSQL,
 } from '@nestjs-mod/docker-compose';
+// ...
+import { MinioModule } from '@nestjs-mod/minio';
 // ...
 
 import { ExecutionContext } from '@nestjs/common';
@@ -152,55 +148,11 @@ bootstrapNestApplication({
    // ...
 
     core: [
-      AuthorizerModule.forRoot({
-        staticConfiguration: {
-          extraHeaders: {
-            'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
-          },
-          checkAccessValidator: async (
-            authorizerUser?: AuthorizerUser,
-            options?: CheckAccessOptions,
-            ctx?: ExecutionContext
-          ) => {
-            if (
-              typeof ctx?.getClass === 'function' &&
-              typeof ctx?.getHandler === 'function' &&
-              ctx?.getClass().name === 'TerminusHealthCheckController' &&
-              ctx?.getHandler().name === 'check'
-            ) {
-              return true;
-            }
-
-            return defaultAuthorizerCheckAccessValidator(
-              authorizerUser,
-              options
-            );
-          },
-        },
-      }),
+      MinioModule.forRoot(),
     ],
     infrastructure: [
-      DockerComposePostgreSQL.forFeature({
-        featureModuleName: AUTHORIZER_ENV_PREFIX,
-      }),
-      DockerComposeAuthorizer.forRoot({
-        staticEnvironments: {
-          databaseUrl: '%SERVER_AUTHORIZER_INTERNAL_DATABASE_URL%',
-        },
-        staticConfiguration: {
-          image: 'lakhansamani/authorizer:1.4.4',
-          disableStrongPassword: 'true',
-          disableEmailVerification: 'true',
-          featureName: AUTHORIZER_ENV_PREFIX,
-          organizationName: 'NestJSModFullstack',
-          dependsOnServiceNames: {
-            'postgre-sql': 'service_healthy',
-            redis: 'service_healthy',
-          },
-          isEmailServiceEnabled: 'true',
-          isSmsServiceEnabled: 'false',
-          env: 'development',
-        },
+      DockerComposeMinio.forRoot({
+        staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
       }),
     ]}
     );
@@ -214,378 +166,136 @@ _Команды_
 npm run docs:infrastructure
 ```
 
-### 6. Добавляем весь необходимый код в модуль AuthModule (NestJS-библиотека)
+### 6. Добавляем весь необходимый код в модуль FilesModule (NestJS-библиотека)
 
-При запуске приложения модуль может создать администратора по умолчанию, его емайл и пароль нужно передавать через переменные окружения, если не передали, то админ по умолчанию не будет создан.
+Так как основная логика по подключению к файловому серверу и работа с ним происходит с помощью библиотеки `@nestjs-mod/minio`, то в нашей новой библиотеке будет только контроллер который будет предоставлять фронтенд приложению необходимые методы и при этом проверять права пользователя.
 
-Обновляем файл _libs/core/auth/src/lib/auth.environments.ts_
+Загрузка файла с фронтенда происходит с помощью временной ссылки напрямую в файловый сервер, временную ссылку создает наш бэкенд.
+
+Удалять загруженные файлы могут только пользователи кто загрузил файл и администраторы сайта.
+
+Идентификатор пользователя должен находится в `Request`, в поле `externalUserId`.
+
+Создаем файл _libs/core/files/src/lib/controllers/files.controller.ts_
 
 ```typescript
-import { EnvModel, EnvModelProperty } from '@nestjs-mod/common';
-import { IsNotEmpty } from 'class-validator';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 
-@EnvModel()
-export class AuthEnvironments {
-  @EnvModelProperty({
-    description: 'Global admin username',
-    default: 'admin@example.com',
-  })
-  adminEmail?: string;
+import { MinioConfiguration, MinioFilesService, PresignedUrlsRequest, PresignedUrls as PresignedUrlsResponse } from '@nestjs-mod/minio';
+import { ApiExtraModels, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import { FilesError, FilesErrorEnum } from '../files.errors';
 
-  @EnvModelProperty({
-    description: 'Global admin username',
-    default: 'admin',
-  })
-  @IsNotEmpty()
-  adminUsername?: string;
+import { CurrentFilesRequest } from '../files.decorators';
+import { FilesRequest } from '../types/files-request';
+import { StatusResponse } from '@nestjs-mod-fullstack/common';
+import { map } from 'rxjs';
+import { FilesRole } from '../types/files-role';
 
-  @EnvModelProperty({
-    description: 'Global admin password',
-  })
-  adminPassword?: string;
+export class GetPresignedUrlArgs implements PresignedUrlsRequest {
+  @ApiProperty({ type: String })
+  ext!: string;
 }
-```
 
-Создаем сервис для вызова администраторских методов сервера авторизации, добавляем метод создания админа, этот метод будет вызываться при старте приложения и создавать админа системы по умолчанию.
+export class PresignedUrls implements PresignedUrlsResponse {
+  @ApiProperty({ type: String })
+  downloadUrl!: string;
 
-Создаем файл _libs/core/auth/src/lib/services/auth-authorizer.service.ts_
+  @ApiProperty({ type: String })
+  uploadUrl!: string;
+}
 
-```typescript
-import { AuthorizerService } from '@nestjs-mod/authorizer';
-import { Injectable, Logger } from '@nestjs/common';
-import { AuthError } from '../auth.errors';
+export class DeleteFileArgs {
+  @ApiProperty({ type: String })
+  downloadUrl!: string;
+}
 
-@Injectable()
-export class AuthAuthorizerService {
-  private logger = new Logger(AuthAuthorizerService.name);
+@ApiExtraModels(FilesError)
+@Controller()
+export class FilesController {
+  constructor(private readonly minioConfiguration: MinioConfiguration, private readonly minioFilesService: MinioFilesService) {}
 
-  constructor(private readonly authorizerService: AuthorizerService) {}
-
-  authorizerClientID() {
-    return this.authorizerService.config.clientID;
-  }
-
-  async createAdmin(user: { username?: string; password: string; email: string }) {
-    const signupUserResult = await this.authorizerService.signup({
-      nickname: user.username,
-      password: user.password,
-      confirm_password: user.password,
-      email: user.email.toLowerCase(),
-      roles: ['admin'],
+  @Get('/files/get-presigned-url')
+  @ApiOkResponse({ type: PresignedUrls })
+  getPresignedUrl(@Query() getPresignedUrlArgs: GetPresignedUrlArgs, @CurrentFilesRequest() filesRequest: FilesRequest) {
+    const bucketName = Object.entries(this.minioConfiguration.buckets || {})
+      .filter(([, options]) => options.ext.includes(getPresignedUrlArgs.ext))
+      .map(([name]) => name)?.[0];
+    if (!bucketName) {
+      throw new FilesError(`Uploading files with extension "{{ext}}" is not supported`, FilesErrorEnum.FORBIDDEN, { ext: getPresignedUrlArgs.ext });
+    }
+    return this.minioFilesService.getPresignedUrls({
+      bucketName,
+      expiry: 60,
+      ext: getPresignedUrlArgs.ext,
+      userId: filesRequest.externalUserId,
     });
-    if (signupUserResult.errors.length > 0) {
-      this.logger.error(signupUserResult.errors[0].message, signupUserResult.errors[0].stack);
-      if (!signupUserResult.errors[0].message.includes('has already signed up')) {
-        throw new AuthError(signupUserResult.errors[0].message);
-      }
-    } else {
-      if (!signupUserResult.data?.user) {
-        throw new AuthError('Failed to create a user');
-      }
+  }
 
-      await this.verifyUser({
-        externalUserId: signupUserResult.data.user.id,
-        email: signupUserResult.data.user.email,
-      });
-
-      this.logger.debug(`Admin with email: ${signupUserResult.data.user.email} successfully created!`);
+  @Post('/files/delete-file')
+  @ApiOkResponse({ type: StatusResponse })
+  deleteFile(@Query() deleteFileArgs: DeleteFileArgs, @CurrentFilesRequest() filesRequest: FilesRequest) {
+    if (filesRequest.filesUser?.userRole === FilesRole.Admin || deleteFileArgs.downloadUrl.includes(`/${filesRequest.externalUserId}/`)) {
+      return this.minioFilesService.deleteFile(deleteFileArgs.downloadUrl).pipe(map(() => ({ message: 'ok' })));
     }
-  }
-
-  async verifyUser({ externalUserId, email }: { externalUserId: string; email: string }) {
-    await this.updateUser(externalUserId, { email_verified: true, email });
-    return this;
-  }
-
-  async updateUser(
-    externalUserId: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    params: Partial<Record<string, any>>
-  ) {
-    if (Object.keys(params).length > 0) {
-      const paramsForUpdate = Object.entries(params)
-        .map(([key, value]) => (typeof value === 'boolean' ? `${key}: ${value}` : `${key}: "${value}"`))
-        .join(',');
-      const updateUserResult = await this.authorizerService.graphqlQuery({
-        query: `mutation {
-  _update_user(params: { 
-      id: "${externalUserId}", ${paramsForUpdate} }) {
-    id
-  }
-}`,
-      });
-
-      if (updateUserResult.errors.length > 0) {
-        this.logger.error(updateUserResult.errors[0].message, updateUserResult.errors[0].stack);
-        throw new AuthError(updateUserResult.errors[0].message);
-      }
-    }
+    throw new FilesError(`Only those who uploaded files can delete them`, FilesErrorEnum.FORBIDDEN);
   }
 }
 ```
 
-Создаем сервис с `OnModuleInit`-хуком в котором при старте модуля запускаем процесс создания дефолтного админа, если его не существует.
+Добавляем контроллер в `FilesModule`, и подключаем `MinioModule.forFeature` для доступа к сервисам внешнего модуля.
 
-Создаем файл _libs/core/auth/src/lib/services/auth-authorizer-bootstrap.service.ts_
-
-```typescript
-import { isInfrastructureMode } from '@nestjs-mod/common';
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { AuthAuthorizerService } from './auth-authorizer.service';
-import { AuthEnvironments } from '../auth.environments';
-
-@Injectable()
-export class AuthAuthorizerBootstrapService implements OnModuleInit {
-  private logger = new Logger(AuthAuthorizerBootstrapService.name);
-
-  constructor(private readonly authAuthorizerService: AuthAuthorizerService, private readonly authEnvironments: AuthEnvironments) {}
-
-  async onModuleInit() {
-    this.logger.debug('onModuleInit');
-    if (!isInfrastructureMode()) {
-      try {
-        await this.createAdmin();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        this.logger.error(err, err.stack);
-      }
-    }
-  }
-
-  private async createAdmin() {
-    try {
-      if (this.authEnvironments.adminEmail && this.authEnvironments.adminPassword) {
-        await this.authAuthorizerService.createAdmin({
-          username: this.authEnvironments.adminUsername,
-          password: this.authEnvironments.adminPassword,
-          email: this.authEnvironments.adminEmail,
-        });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      this.logger.error(err, err.stack);
-    }
-  }
-}
-```
-
-Добавляем созданные сервисы в `AuthModule`, в этом модуле подключаем глобальный `Guard` для постоянной проверки наличия токена авторизации при вызове любых методов бэкенда, а также подключаем фильтр для трансформации ошибок авторизации.
-
-Переменные окружения для этого модуля будут иметь префикс `AUTH_`, для включения этого префикса нужно переопределить опцию `propertyNameFormatters`.
-
-Названия переменных окружения: `SERVER_AUTH_ADMIN_EMAIL`, `SERVER_AUTH_ADMIN_USERNAME`, `SERVER_AUTH_ADMIN_PASSWORD`.
-
-Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
+Обновляем файл _libs/core/files/src/lib/files.module.ts_
 
 ```typescript
-import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
-import { createNestModule, getFeatureDotEnvPropertyNameFormatter, NestModuleCategory } from '@nestjs-mod/common';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
-import { AuthEnvironments } from './auth.environments';
-import { AuthExceptionsFilter } from './auth.filter';
-import { AuthorizerController } from './controllers/authorizer.controller';
-import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-bootstrap.service';
-import { AuthAuthorizerService } from './services/auth-authorizer.service';
+import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
+import { MinioModule } from '@nestjs-mod/minio';
+import { FilesController } from './controllers/files.controller';
+import { FILES_FEATURE, FILES_MODULE } from './files.constants';
 
-export const { AuthModule } = createNestModule({
-  moduleName: AUTH_MODULE,
+export const { FilesModule } = createNestModule({
+  moduleName: FILES_MODULE,
   moduleCategory: NestModuleCategory.feature,
-  staticEnvironmentsModel: AuthEnvironments,
+  controllers: [FilesController],
   imports: [
-    AuthorizerModule.forFeature({
-      featureModuleName: AUTH_FEATURE,
+    MinioModule.forFeature({
+      featureModuleName: FILES_FEATURE,
     }),
   ],
-  controllers: [AuthorizerController],
-  providers: [{ provide: APP_GUARD, useClass: AuthorizerGuard }, { provide: APP_FILTER, useClass: AuthExceptionsFilter }, AuthAuthorizerService, AuthAuthorizerBootstrapService],
-  wrapForRootAsync: (asyncModuleOptions) => {
-    if (!asyncModuleOptions) {
-      asyncModuleOptions = {};
-    }
-    const FomatterClass = getFeatureDotEnvPropertyNameFormatter(AUTH_FEATURE);
-    Object.assign(asyncModuleOptions, {
-      environmentsOptions: {
-        propertyNameFormatters: [new FomatterClass()],
-        name: AUTH_FEATURE,
-      },
-    });
-
-    return { asyncModuleOptions };
-  },
 });
 ```
 
-### 7. Добавляем логику автоматического создания пользователей для модуля WebhookModule
+### 7. Добавляем модуль FilesModule в main.ts
 
-Так как гард авторизации срабатывает автоматически при вызове любых методов, в том числе методов модуля `WebhookModule`, то мы можем создать нового пользователя для модуля `WebhookModule` в момент валидации токена авторизации.
-
-Метод создания нового пользователя вынесем в отдельный сервис, который будет доступен при импорте модуля как фича `WebhookModule.forFeature()`.
-
-Создаем файл _libs/feature/webhook/src/lib/services/webhook-users.service.ts_
-
-```typescript
-import { InjectPrismaClient } from '@nestjs-mod/prisma';
-import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/webhook-client';
-import { omit } from 'lodash/fp';
-import { randomUUID } from 'node:crypto';
-import { CreateWebhookUserArgs, WebhookUserObject } from '../types/webhook-user-object';
-import { WEBHOOK_FEATURE } from '../webhook.constants';
-
-@Injectable()
-export class WebhookUsersService {
-  constructor(
-    @InjectPrismaClient(WEBHOOK_FEATURE)
-    private readonly prismaClient: PrismaClient
-  ) {}
-
-  async createUser(user: Omit<CreateWebhookUserArgs, 'id'>) {
-    const data = {
-      externalTenantId: randomUUID(),
-      userRole: 'User',
-      ...omit(['id', 'createdAt', 'updatedAt', 'Webhook_Webhook_createdByToWebhookUser', 'Webhook_Webhook_updatedByToWebhookUser'], user),
-    } as WebhookUserObject;
-    const existsUser = await this.prismaClient.webhookUser.findFirst({
-      where: {
-        externalTenantId: user.externalTenantId,
-        externalUserId: user.externalUserId,
-      },
-    });
-    if (!existsUser) {
-      return await this.prismaClient.webhookUser.create({
-        data,
-      });
-    }
-    return existsUser;
-  }
-}
-```
-
-Экспортируем новый сервис из модуля и призма модуль который он использует.
-
-Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
-
-```typescript
-import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
-import { createNestModule, getFeatureDotEnvPropertyNameFormatter, NestModuleCategory } from '@nestjs-mod/common';
-import { PrismaModule } from '@nestjs-mod/prisma';
-import { HttpModule } from '@nestjs/axios';
-import { UseFilters, UseGuards } from '@nestjs/common';
-import { ApiHeaders } from '@nestjs/swagger';
-import { WebhookUsersController } from './controllers/webhook-users.controller';
-import { WebhookController } from './controllers/webhook.controller';
-import { WebhookServiceBootstrap } from './services/webhook-bootstrap.service';
-import { WebhookToolsService } from './services/webhook-tools.service';
-import { WebhookUsersService } from './services/webhook-users.service';
-import { WebhookService } from './services/webhook.service';
-import { WebhookConfiguration, WebhookStaticConfiguration } from './webhook.configuration';
-import { WEBHOOK_FEATURE, WEBHOOK_MODULE } from './webhook.constants';
-import { WebhookEnvironments } from './webhook.environments';
-import { WebhookExceptionsFilter } from './webhook.filter';
-import { WebhookGuard } from './webhook.guard';
-
-export const { WebhookModule } = createNestModule({
-  moduleName: WEBHOOK_MODULE,
-  moduleCategory: NestModuleCategory.feature,
-  staticEnvironmentsModel: WebhookEnvironments,
-  staticConfigurationModel: WebhookStaticConfiguration,
-  configurationModel: WebhookConfiguration,
-  imports: [
-    HttpModule,
-    PrismaModule.forFeature({
-      contextName: WEBHOOK_FEATURE,
-      featureModuleName: WEBHOOK_FEATURE,
-    }),
-    PrismaToolsModule.forFeature({
-      featureModuleName: WEBHOOK_FEATURE,
-    }),
-  ],
-  sharedImports: [
-    PrismaModule.forFeature({
-      contextName: WEBHOOK_FEATURE,
-      featureModuleName: WEBHOOK_FEATURE,
-    }),
-  ],
-  providers: [WebhookToolsService, WebhookServiceBootstrap],
-  controllers: [WebhookUsersController, WebhookController],
-  sharedProviders: [WebhookService, WebhookUsersService],
-  wrapForRootAsync: (asyncModuleOptions) => {
-    if (!asyncModuleOptions) {
-      asyncModuleOptions = {};
-    }
-    const FomatterClass = getFeatureDotEnvPropertyNameFormatter(WEBHOOK_FEATURE);
-    Object.assign(asyncModuleOptions, {
-      environmentsOptions: {
-        propertyNameFormatters: [new FomatterClass()],
-        name: WEBHOOK_FEATURE,
-      },
-    });
-
-    return { asyncModuleOptions };
-  },
-  preWrapApplication: async ({ current }) => {
-    const staticEnvironments = current.staticEnvironments as WebhookEnvironments;
-    const staticConfiguration = current.staticConfiguration as WebhookStaticConfiguration;
-
-    for (const ctrl of [WebhookController, WebhookUsersController]) {
-      if (staticEnvironments.useFilters) {
-        UseFilters(WebhookExceptionsFilter)(ctrl);
-      }
-      if (staticEnvironments.useGuards) {
-        UseGuards(WebhookGuard)(ctrl);
-      }
-      if (staticConfiguration.externalUserIdHeaderName && staticConfiguration.externalTenantIdHeaderName) {
-        ApiHeaders([
-          {
-            name: staticConfiguration.externalUserIdHeaderName,
-            allowEmptyValue: true,
-          },
-          {
-            name: staticConfiguration.externalTenantIdHeaderName,
-            allowEmptyValue: true,
-          },
-        ])(ctrl);
-      }
-    }
-  },
-});
-```
-
-Обновляем функцию создания конфигурации модуля `AuthorizerModule`, добавляем использование сервиса из модуля `WebhookModule`.
+Добавляем модуль FilesModule в импорты приложения, а также модифицируем внешний валидатор модуля сервера авторизации, в котором расширяем `Request`-пользователя дополнительным обьектом `filesUser` в котором будет храниться роль пользователя.
 
 Обновляем файл _apps/server/src/main.ts_
 
 ```typescript
 //...
+import { FilesModule } from '@nestjs-mod-fullstack/files';
 
 bootstrapNestApplication({
   modules: {
     //...
     core: [
       AuthorizerModule.forRootAsync({
-        imports: [WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE })],
-        inject: [WebhookUsersService],
+        //...
         configurationFactory: (webhookUsersService: WebhookUsersService) => {
           return {
-            extraHeaders: {
-              'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
-            },
+            //...
             checkAccessValidator: async (authorizerUser?: AuthorizerUser, options?: CheckAccessOptions, ctx?: ExecutionContext) => {
-              if (typeof ctx?.getClass === 'function' && typeof ctx?.getHandler === 'function' && ctx?.getClass().name === 'TerminusHealthCheckController' && ctx?.getHandler().name === 'check') {
-                return true;
-              }
-
-              const result = await defaultAuthorizerCheckAccessValidator(authorizerUser, options);
+              //...
 
               if (ctx && authorizerUser?.id) {
-                const webhookUser = await webhookUsersService.createUser({
-                  externalUserId: authorizerUser?.id,
-                  externalTenantId: authorizerUser?.id,
-                  userRole: authorizerUser.roles?.includes('admin') ? 'Admin' : 'User',
-                });
-                const req: WebhookRequest = getRequestFromExecutionContext(ctx);
+                const req: WebhookRequest & FilesRequest = getRequestFromExecutionContext(ctx);
+
+                //...
                 req.externalTenantId = webhookUser.externalTenantId;
+
+                // files
+                req.filesUser = {
+                  userRole: authorizerUser.roles?.includes('admin') ? FilesRole.Admin : FilesRole.User,
+                };
               }
 
               return result;
@@ -593,6 +303,7 @@ bootstrapNestApplication({
           };
         },
       }),
+      FilesModule.forRoot(),
       //...
     ],
     //...
@@ -601,46 +312,417 @@ bootstrapNestApplication({
 });
 ```
 
-### 8. Добавляем весь необходимый код в Angular-библиотеку по авторизации
+### 8. Добавляем весь необходимый код в Angular-библиотеку по работе с файлами
 
-Экземпляр клиента сервера авторизации создаем с помощью `DI` от `Angular`.
+Отправка файлов происходит на адрес полученный с нашего бэкенда.
 
-Создаем файл _libs/core/auth-angular/src/lib/services/authorizer.service.ts_
+Файл можно как загрузить так и удалить, удаление происходит с помощью запроса на наш бекенд.
+
+Все необходимые методы для работы с нашим бэкендом и сервером авторизации создаем в сервисе `FilesService`.
+
+Создаем файл _libs/core/files-angular/src/lib/services/files.service.ts_
 
 ```typescript
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Authorizer, ConfigType } from '@authorizerdev/authorizer-js';
+import { FilesRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { PresignedUrls } from '@nestjs-mod-fullstack/app-rest-sdk';
+import { Observable, from, map, mergeMap, of } from 'rxjs';
 
-export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
+export const MINIO_URL = new InjectionToken<string>('MinioURL');
 
 @Injectable({ providedIn: 'root' })
-export class AuthorizerService extends Authorizer {
+export class FilesService {
   constructor(
-    @Inject(AUTHORIZER_URL)
-    private readonly authorizerURL: string
-  ) {
-    super({
-      authorizerURL:
-        // need for override from e2e-tests
-        localStorage.getItem('authorizerURL') ||
-        // use from environments
-        authorizerURL,
-      clientID: '',
-      redirectURL: window.location.origin,
-    } as ConfigType);
+    @Inject(MINIO_URL)
+    private readonly minioURL: string,
+    private readonly filesRestService: FilesRestService
+  ) {}
+
+  getPresignedUrlAndUploadFile(file: null | undefined | string | File) {
+    if (!file) {
+      return of('');
+    }
+    if (typeof file !== 'string') {
+      return this.getPresignedUrl(file).pipe(
+        mergeMap((presignedUrls) =>
+          this.uploadFile({
+            file,
+            presignedUrls,
+          })
+        ),
+        map((presignedUrls) => presignedUrls.downloadUrl.replace(this.minioURL, ''))
+      );
+    }
+    return of(file.replace(this.minioURL, ''));
+  }
+
+  getPresignedUrl(file: File) {
+    return from(this.filesRestService.filesControllerGetPresignedUrl(this.getFileExt(file)));
+  }
+
+  uploadFile({ file, presignedUrls }: { file: File; presignedUrls: PresignedUrls }) {
+    return new Observable<PresignedUrls>((observer) => {
+      const outPresignedUrls: PresignedUrls = {
+        downloadUrl: this.minioURL + presignedUrls.downloadUrl,
+        uploadUrl: this.minioURL + presignedUrls.uploadUrl,
+      };
+      if (presignedUrls.uploadUrl) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', outPresignedUrls.uploadUrl);
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              observer.next(outPresignedUrls);
+              observer.complete();
+            } else {
+              observer.error(new Error('Error in upload file'));
+            }
+          }
+        };
+        xhr.send(file);
+      } else {
+        observer.next(outPresignedUrls);
+        observer.complete();
+      }
+    });
+  }
+
+  deleteFile(downloadUrl: string) {
+    return from(this.filesRestService.filesControllerDeleteFile(downloadUrl));
+  }
+
+  private getFileExt(file: File) {
+    return file?.type?.split('/')?.[1].toLowerCase();
   }
 }
 ```
 
-Все дополнительные методы для работе с сервером авторизации, добавляем в `AuthService`.
+Создаем компоненту для `Formly`, которая добавит поддержку загрузки и отображения файлов с изображениями.
 
-Создаем файл _libs/core/auth-angular/src/lib/services/auth.service.ts_
+Создаем файл _libs/core/files-angular/src/lib/formly/image-file.component.ts_
 
 ```typescript
-import { Injectable } from '@angular/core';
-import { AuthToken, LoginInput, SignupInput, User } from '@authorizerdev/authorizer-js';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { BehaviorSubject } from 'rxjs';
+import { MINIO_URL } from '../services/files.service';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: 'image-file',
+  imports: [ReactiveFormsModule, FormlyModule, NzInputModule, NzButtonModule, NzUploadModule, NzModalModule, NzIconModule, AsyncPipe],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <nz-upload [nzAccept]="'image/png, image/jpeg'" [nzListType]="'picture'" [nzFileList]="(fileList$ | async)!" (nzFileListChange)="onFileListChange($event)" [nzLimit]="1" [nzBeforeUpload]="beforeUpload">
+      <button nz-button type="button">
+        <span nz-icon [nzType]="(icon$ | async)!"></span>
+        {{ title$ | async }}
+      </button>
+    </nz-upload>
+  `,
+})
+export class ImageFileComponent extends FieldType<FieldTypeConfig> implements OnInit {
+  fileList$ = new BehaviorSubject<NzUploadFile[]>([]);
+  title$ = new BehaviorSubject<string>('');
+  icon$ = new BehaviorSubject<string>('');
+
+  constructor(
+    @Inject(MINIO_URL)
+    private readonly minioURL: string
+  ) {
+    super();
+  }
+
+  ngOnInit(): void {
+    if (this.formControl.value) {
+      this.switchToReloadMode();
+      this.fileList$.next([
+        {
+          uid: this.formControl.value,
+          name: this.formControl.value.split('/').at(-1),
+          status: 'done',
+          url: this.minioURL + this.formControl.value,
+        },
+      ]);
+    } else {
+      this.switchToUploadMode();
+    }
+  }
+
+  onFileListChange(files: NzUploadFile[]) {
+    if (files.length === 0) {
+      this.formControl.setValue(null);
+      this.fileList$.next([]);
+      this.switchToUploadMode();
+    }
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.formControl.setValue(file);
+    this.switchToReloadMode();
+    this.fileList$.next([file]);
+    return false;
+  };
+
+  private switchToReloadMode() {
+    this.icon$.next('reload');
+    this.title$.next('Change file');
+  }
+
+  private switchToUploadMode() {
+    this.icon$.next('upload');
+    this.title$.next('Select file...');
+  }
+}
+```
+
+Регистрируем компоненту в `FormlyModule`.
+
+Обновляем файл _apps/client/src/app/app.config.ts_
+
+```typescript
+// ..
+export const appConfig = ({
+  authorizerURL,
+  minioURL,
+}: {
+  authorizerURL: string;
+  minioURL: string;
+}): ApplicationConfig => {
+  return {
+    providers: [
+      // ..
+      importProvidersFrom(
+        // ..
+        FormlyModule.forRoot({
+          types: [
+            {
+              name: 'image-file',
+              component: ImageFileComponent,
+              extends: 'input',
+            },
+          ],
+        }),
+        // ..
+      )
+      // ..
+    ]}
+```
+
+### 9. Добавляем форму и метод в сервисе для модификации профиля в Angular-модуль по авторизации
+
+Создаем форму для отображения и редактирования профиля, в рамках данной статьи я добавляю только возможность смены пароля и загрузку изображения для пользователя сервера авторизации.
+
+Создаем файл _libs/core/auth-angular/src/lib/forms/auth-profile-form/auth-profile-form.component.ts_
+
+```typescript
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { ImageFileComponent } from '@nestjs-mod-fullstack/files-angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
+import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+
+@UntilDestroy()
+@Component({
+  standalone: true,
+  imports: [FormlyModule, NzFormModule, NzInputModule, NzButtonModule, FormsModule, ReactiveFormsModule, AsyncPipe, NgIf, RouterModule, ImageFileComponent],
+  selector: 'auth-profile-form',
+  template: `@if (formlyFields$ | async; as formlyFields) {
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
+      @if (!hideButtons) {
+      <nz-form-control>
+        <div class="flex justify-between">
+          <div></div>
+          <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Update</button>
+        </div>
+      </nz-form-control>
+      }
+    </form>
+    } `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AuthProfileFormComponent implements OnInit {
+  @Input()
+  hideButtons?: boolean;
+
+  form = new UntypedFormGroup({});
+  formlyModel$ = new BehaviorSubject<object | null>(null);
+  formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+
+  constructor(
+    @Optional()
+    @Inject(NZ_MODAL_DATA)
+    private readonly nzModalData: AuthProfileFormComponent,
+    private readonly authService: AuthService,
+    private readonly nzMessageService: NzMessageService
+  ) {}
+
+  ngOnInit(): void {
+    Object.assign(this, this.nzModalData);
+    this.fillFromProfile();
+  }
+
+  setFieldsAndModel(data: UpdateProfileInput = {}) {
+    this.formlyFields$.next([
+      {
+        key: 'picture',
+        type: 'image-file',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `auth.profile-form.picture`,
+          placeholder: 'picture',
+        },
+      },
+      {
+        key: 'old_password',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `auth.profile-form.old_password`,
+          placeholder: 'old_password',
+          type: 'password',
+        },
+      },
+      {
+        key: 'new_password',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `auth.profile-form.new_password`,
+          placeholder: 'new_password',
+          type: 'password',
+        },
+      },
+      {
+        key: 'confirm_new_password',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: `auth.profile-form.confirm_new_password`,
+          placeholder: 'confirm_new_password',
+          type: 'password',
+        },
+      },
+    ]);
+    this.formlyModel$.next(this.toModel(data));
+  }
+
+  submitForm(): void {
+    if (this.form.valid) {
+      const value = this.toJson(this.form.value);
+      this.authService
+        .updateProfile(value)
+        .pipe(
+          tap(() => {
+            this.fillFromProfile();
+            this.nzMessageService.success('Updated');
+          }),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          catchError((err: any) => {
+            console.error(err);
+            this.nzMessageService.error(err.message);
+            return of(null);
+          }),
+          untilDestroyed(this)
+        )
+        .subscribe();
+    } else {
+      console.log(this.form.controls);
+      this.nzMessageService.warning('Validation errors');
+    }
+  }
+
+  private fillFromProfile() {
+    this.setFieldsAndModel({
+      picture: this.authService.profile$.value?.picture || '',
+    });
+  }
+
+  private toModel(data: UpdateProfileInput): object | null {
+    return {
+      old_password: data['old_password'],
+      new_password: data['new_password'],
+      confirm_new_password: data['confirm_new_password'],
+      picture: data['picture'],
+    };
+  }
+
+  private toJson(data: UpdateProfileInput) {
+    return {
+      old_password: data['old_password'],
+      new_password: data['new_password'],
+      confirm_new_password: data['confirm_new_password'],
+      picture: data['picture'],
+    };
+  }
+}
+```
+
+Хотя мы и видем файловое поле в форме профиля, физически модуль авторизации и файловый модуль не связаны, но при сохранении данных по профилю нам нужно предварительно загрузить файл на внешний файловый сервер и ссылку на этот файл записать в поле изображения профиля.
+
+Связь файлового модуля и формы редактирования профиля будем докидывать с помощью дополнительных обработчиков с верхнего уровня приложения используя `DI` от `Angular`.
+
+Создаем файл _libs/core/auth-angular/src/lib/services/auth.configuration.ts_
+
+```typescript
+import { InjectionToken } from '@angular/core';
+import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
+import { Observable } from 'rxjs';
+
+export type AfterUpdateProfileEvent = {
+  old?: User;
+  new?: User;
+};
+
+export class AuthConfiguration {
+  constructor(options?: AuthConfiguration) {
+    Object.assign(this, options);
+  }
+
+  beforeUpdateProfile?(data: UpdateProfileInput): Observable<UpdateProfileInput>;
+
+  afterUpdateProfile?(data: AfterUpdateProfileEvent): Observable<User | undefined>;
+}
+
+export const AUTH_CONFIGURATION_TOKEN = new InjectionToken<string>('AUTH_CONFIGURATION_TOKEN');
+```
+
+Добавляем новый метод для обновления профиля в `AuthService`, который будет проверять наличие дополнительных обработчиков в конфиге.
+
+Создаем файл _libs/core/auth-angular/src/lib/services/auth.configuration.ts_
+
+```typescript
+import { Inject, Injectable, Optional } from '@angular/core';
+import { AuthToken, LoginInput, SignupInput, UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
 import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
-import { BehaviorSubject, catchError, from, map, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, from, map, mergeMap, of, tap } from 'rxjs';
+import { AUTH_CONFIGURATION_TOKEN, AuthConfiguration } from './auth.configuration';
 import { AuthorizerService } from './authorizer.service';
 
 @Injectable({ providedIn: 'root' })
@@ -648,547 +730,110 @@ export class AuthService {
   profile$ = new BehaviorSubject<User | undefined>(undefined);
   tokens$ = new BehaviorSubject<AuthToken | undefined>(undefined);
 
-  constructor(private readonly authorizerService: AuthorizerService) {}
-
-  getAuthorizerClientID() {
-    return this.authorizerService.config.clientID;
-  }
-
-  setAuthorizerClientID(clientID: string) {
-    this.authorizerService.config.clientID = clientID;
-  }
-
-  signUp(data: SignupInput) {
-    return from(
-      this.authorizerService.signup({
-        ...data,
-        email: data.email?.toLowerCase(),
-      })
-    ).pipe(
-      mapGraphqlErrors(),
-      map((result) => {
-        this.setProfileAndTokens(result);
-        return {
-          profile: result?.user,
-          tokens: this.tokens$.value,
-        };
-      })
-    );
-  }
-
-  signIn(data: LoginInput) {
-    return from(
-      this.authorizerService.login({
-        ...data,
-        email: data.email?.toLowerCase(),
-      })
-    ).pipe(
-      mapGraphqlErrors(),
-      map((result) => {
-        this.setProfileAndTokens(result);
-        return {
-          profile: result?.user,
-          tokens: this.tokens$.value,
-        };
-      })
-    );
-  }
-
-  signOut() {
-    return from(this.authorizerService.logout(this.getAuthorizationHeaders())).pipe(
-      mapGraphqlErrors(),
-      tap(() => {
-        this.clearProfileAndTokens();
-      })
-    );
-  }
-
-  refreshToken() {
-    return from(this.authorizerService.browserLogin()).pipe(
-      mapGraphqlErrors(),
-      tap((result) => {
-        this.setProfileAndTokens(result);
-      }),
-      catchError((err) => {
-        console.error(err);
-        this.clearProfileAndTokens();
-        return of(null);
-      })
-    );
-  }
-
-  clearProfileAndTokens() {
-    this.setProfileAndTokens({} as AuthToken);
-  }
-
-  setProfileAndTokens(result: AuthToken | undefined) {
-    this.tokens$.next(result as AuthToken);
-    this.profile$.next(result?.user);
-  }
-
-  getAuthorizationHeaders() {
-    if (!this.tokens$.value?.access_token) {
-      return undefined;
-    }
-    return {
-      Authorization: `Bearer ${this.tokens$.value.access_token}`,
-    };
-  }
-}
-```
-
-Часть страниц имеют ограничения по ролям, для активации такой возможности нам нужно создать `Guard`.
-
-Создаем файл _libs/core/auth-angular/src/lib/services/auth-guard.service.ts_
-
-```typescript
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
-import { of } from 'rxjs';
-import { AuthService } from './auth.service';
-export const AUTH_GUARD_DATA_ROUTE_KEY = 'authGuardData';
-
-export class AuthGuardData {
-  roles?: string[];
-
-  constructor(options?: AuthGuardData) {
-    Object.assign(this, options);
-  }
-}
-
-@Injectable({ providedIn: 'root' })
-export class AuthGuardService implements CanActivate {
-  constructor(private readonly authAuthService: AuthService) {}
-  canActivate(route: ActivatedRouteSnapshot) {
-    if (route.data[AUTH_GUARD_DATA_ROUTE_KEY] instanceof AuthGuardData) {
-      const authGuardData = route.data[AUTH_GUARD_DATA_ROUTE_KEY];
-      const authUser = this.authAuthService.profile$.value;
-      const authGuardDataRoles = (authGuardData.roles || []).map((role) => role.toLowerCase());
-      return of(Boolean((authUser && authGuardDataRoles.length > 0 && authGuardDataRoles.some((r) => authUser.roles?.includes(r))) || (authGuardDataRoles.length === 0 && !authUser?.roles)));
-    }
-    return of(true);
-  }
-}
-```
-
-Добавляем компоненту формы регистрации _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.ts_
-
-```typescript
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { AuthToken, SignupInput } from '@authorizerdev/authorizer-js';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-
-@UntilDestroy()
-@Component({
-  standalone: true,
-  imports: [FormlyModule, NzFormModule, NzInputModule, NzButtonModule, FormsModule, ReactiveFormsModule, AsyncPipe, NgIf, RouterModule],
-  selector: 'auth-sign-up-form',
-  templateUrl: './auth-sign-up-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class AuthSignUpFormComponent implements OnInit {
-  @Input()
-  hideButtons?: boolean;
-
-  @Output()
-  afterSignUp = new EventEmitter<AuthToken>();
-
-  form = new UntypedFormGroup({});
-  formlyModel$ = new BehaviorSubject<object | null>(null);
-  formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
-
   constructor(
+    private readonly authorizerService: AuthorizerService,
     @Optional()
-    @Inject(NZ_MODAL_DATA)
-    private readonly nzModalData: AuthSignUpFormComponent,
-    private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    @Inject(AUTH_CONFIGURATION_TOKEN)
+    private readonly authConfiguration?: AuthConfiguration
   ) {}
 
-  ngOnInit(): void {
-    Object.assign(this, this.nzModalData);
-    this.setFieldsAndModel({ password: '', confirm_password: '' });
-  }
+  // ..
 
-  setFieldsAndModel(data: SignupInput = { password: '', confirm_password: '' }) {
-    this.formlyFields$.next([
-      {
-        key: 'email',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.form.email`,
-          placeholder: 'email',
-          required: true,
-        },
-      },
-      {
-        key: 'password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.form.password`,
-          placeholder: 'password',
-          required: true,
-          type: 'password',
-        },
-      },
-      {
-        key: 'confirm_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.form.confirm_password`,
-          placeholder: 'confirm_password',
-          required: true,
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
-  }
-
-  submitForm(): void {
-    if (this.form.valid) {
-      const value = this.toJson(this.form.value);
-      this.authService
-        .signUp({ ...value })
-        .pipe(
-          tap((result) => {
-            if (result.tokens) {
-              this.afterSignUp.next(result.tokens);
-              this.nzMessageService.success('Success');
-            }
-          }),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          catchError((err: any) => {
-            console.error(err);
-            this.nzMessageService.error(err.message);
-            return of(null);
-          }),
-          untilDestroyed(this)
+  updateProfile(data: UpdateProfileInput) {
+    const oldProfile = this.profile$.value;
+    return (this.authConfiguration?.beforeUpdateProfile ? this.authConfiguration.beforeUpdateProfile(data) : of(data)).pipe(
+      mergeMap((data) =>
+        from(
+          this.authorizerService.updateProfile({
+            ...data,
+          })
         )
-        .subscribe();
-    } else {
-      console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
-    }
-  }
-
-  private toModel(data: SignupInput): object | null {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
-  }
-
-  private toJson(data: SignupInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
-  }
-}
-```
-
-Добавляем шаблон формы регистрации _libs/core/auth-angular/src/lib/forms/auth-sign-up-form/auth-sign-up-form.component.html_
-
-```html
-@if (formlyFields$ | async; as formlyFields) {
-<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-  <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
-  @if (!hideButtons) {
-  <nz-form-control>
-    <div class="flex justify-between">
-      <div>
-        <button nz-button nzType="default" type="button" [routerLink]="'/sign-in'">Sign-in</button>
-      </div>
-      <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Sign-up</button>
-    </div>
-  </nz-form-control>
-  }
-</form>
-}
-```
-
-Добавляем компоненту формы авторизации _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.ts_
-
-```typescript
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { AuthToken, LoginInput } from '@authorizerdev/authorizer-js';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-
-@UntilDestroy()
-@Component({
-  standalone: true,
-  imports: [FormlyModule, NzFormModule, NzInputModule, NzButtonModule, FormsModule, ReactiveFormsModule, AsyncPipe, NgIf, RouterModule],
-  selector: 'auth-sign-in-form',
-  templateUrl: './auth-sign-in-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class AuthSignInFormComponent implements OnInit {
-  @Input()
-  hideButtons?: boolean;
-
-  @Output()
-  afterSignIn = new EventEmitter<AuthToken>();
-
-  form = new UntypedFormGroup({});
-  formlyModel$ = new BehaviorSubject<object | null>(null);
-  formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
-
-  constructor(
-    @Optional()
-    @Inject(NZ_MODAL_DATA)
-    private readonly nzModalData: AuthSignInFormComponent,
-    private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
-  ) {}
-
-  ngOnInit(): void {
-    Object.assign(this, this.nzModalData);
-    this.setFieldsAndModel({ password: '' });
-  }
-
-  setFieldsAndModel(data: LoginInput = { password: '' }) {
-    this.formlyFields$.next([
-      {
-        key: 'email',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.form.email`,
-          placeholder: 'email',
-          required: true,
-        },
-      },
-      {
-        key: 'password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.form.password`,
-          placeholder: 'password',
-          required: true,
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
-  }
-
-  submitForm(): void {
-    if (this.form.valid) {
-      const value = this.toJson(this.form.value);
-      this.authService
-        .signIn(value)
-        .pipe(
-          tap((result) => {
-            if (result.tokens) {
-              this.afterSignIn.next(result.tokens);
-              this.nzMessageService.success('Success');
-            }
-          }),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          catchError((err: any) => {
-            console.error(err);
-            this.nzMessageService.error(err.message);
-            return of(null);
-          }),
-          untilDestroyed(this)
-        )
-        .subscribe();
-    } else {
-      console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
-    }
-  }
-
-  private toModel(data: LoginInput): object | null {
-    return {
-      email: data['email'],
-      password: data['password'],
-    };
-  }
-
-  private toJson(data: LoginInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-    };
-  }
-}
-```
-
-Добавляем шаблон формы авторизации _libs/core/auth-angular/src/lib/forms/auth-sign-in-form/auth-sign-in-form.component.html_
-
-```html
-@if (formlyFields$ | async; as formlyFields) {
-<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-  <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
-  @if (!hideButtons) {
-  <nz-form-control>
-    <div class="flex justify-between">
-      <div>
-        <button nz-button nzType="default" type="button" [routerLink]="'/sign-up'">Sign-up</button>
-      </div>
-      <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Sign-in</button>
-    </div>
-  </nz-form-control>
-  }
-</form>
-}
-```
-
-### 9. Добавляем сервис инициализации в Angular-приложение
-
-В данном сервисе мы пытаемся рефрешить токен авторизации, а также подписываемся на получение токена при регистрации, авторизации и рефреше, полученный токен устанавливаем в `sdk` для работы с бэкендом.
-
-Создаем файл _apps/client/src/app/app-initializer.ts_
-
-```typescript
-import { HttpHeaders } from '@angular/common/http';
-import { DefaultRestService, WebhookRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
-import { catchError, map, mergeMap, of, Subscription, tap, throwError } from 'rxjs';
-
-export class AppInitializer {
-  private subscribeToTokenUpdatesSubscription?: Subscription;
-
-  constructor(private readonly defaultRestService: DefaultRestService, private readonly webhookRestService: WebhookRestService, private readonly authService: AuthService) {}
-
-  resolve() {
-    this.subscribeToTokenUpdates();
-    return (
-      this.authService.getAuthorizerClientID()
-        ? of(null)
-        : this.defaultRestService.authorizerControllerGetAuthorizerClientID().pipe(
-            map(({ clientID }) => {
-              this.authService.setAuthorizerClientID(clientID);
-              return null;
+      ),
+      mapGraphqlErrors(),
+      mergeMap(() => this.authorizerService.getProfile()),
+      mapGraphqlErrors(),
+      tap((result) => this.setProfile(result)),
+      mergeMap((updatedProfile) =>
+        this.authConfiguration?.afterUpdateProfile
+          ? this.authConfiguration.afterUpdateProfile({
+              new: updatedProfile,
+              old: oldProfile,
             })
-          )
-    ).pipe(
-      mergeMap(() => this.authService.refreshToken()),
-      catchError((err) => {
-        console.error(err);
-        return throwError(() => err);
-      })
+          : of({
+              new: updatedProfile,
+            })
+      )
     );
   }
-
-  private subscribeToTokenUpdates() {
-    if (this.subscribeToTokenUpdatesSubscription) {
-      this.subscribeToTokenUpdatesSubscription.unsubscribe();
-      this.subscribeToTokenUpdatesSubscription = undefined;
-    }
-    this.subscribeToTokenUpdatesSubscription = this.authService.tokens$
-      .pipe(
-        tap(() => {
-          const authorizationHeaders = this.authService.getAuthorizationHeaders();
-          if (authorizationHeaders) {
-            this.defaultRestService.defaultHeaders = new HttpHeaders(authorizationHeaders);
-            this.webhookRestService.defaultHeaders = new HttpHeaders(authorizationHeaders);
-          }
-        })
-      )
-      .subscribe();
-  }
+  // ..
 }
 ```
 
-### 10. Обновляем конфигурацию Angular-приложения
+### 10. Описываем и подключаем интеграцию модуля авторизации и файлового модуля
+
+Создаем файл _apps/client/src/app/integrations/auth.configuration.ts_
+
+```typescript
+import { Provider } from '@angular/core';
+import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { AfterUpdateProfileEvent, AUTH_CONFIGURATION_TOKEN, AuthConfiguration } from '@nestjs-mod-fullstack/auth-angular';
+import { FilesService } from '@nestjs-mod-fullstack/files-angular';
+import { map, Observable, of } from 'rxjs';
+
+export class AppAuthConfiguration implements AuthConfiguration {
+  constructor(private readonly filesService: FilesService) {}
+
+  beforeUpdateProfile(data: UpdateProfileInput): Observable<UpdateProfileInput> {
+    if (data.picture) {
+      return this.filesService.getPresignedUrlAndUploadFile(data.picture).pipe(
+        map((picture) => {
+          return {
+            ...data,
+            picture,
+          };
+        })
+      );
+    }
+    return of({ ...data, picture: '' });
+  }
+
+  afterUpdateProfile(event: AfterUpdateProfileEvent) {
+    if (event.old?.picture && event.new?.picture !== event.old.picture) {
+      return this.filesService.deleteFile(event.old.picture).pipe(map(() => event.new));
+    }
+    return of(event.new);
+  }
+}
+
+export function provideAppAuthConfiguration(): Provider {
+  return {
+    provide: AUTH_CONFIGURATION_TOKEN,
+    useClass: AppAuthConfiguration,
+    deps: [FilesService],
+  };
+}
+```
+
+Подключаем интеграцию в конфиг `Angular`-приложения
 
 Обновляем файл _apps/client/src/app/app.config.ts_
 
 ```typescript
-import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, ErrorHandler, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
-import { DefaultRestService, RestClientApiModule, RestClientConfiguration, WebhookRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AUTHORIZER_URL, AuthService } from '@nestjs-mod-fullstack/auth-angular';
-import { WEBHOOK_CONFIGURATION_TOKEN, WebhookConfiguration } from '@nestjs-mod-fullstack/webhook-angular';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
-import { serverUrl, webhookSuperAdminExternalUserId } from '../environments/environment';
-import { AppInitializer } from './app-initializer';
-import { AppErrorHandler } from './app.error-handler';
-import { appRoutes } from './app.routes';
 
-export const appConfig = ({ authorizerURL }: { authorizerURL?: string }): ApplicationConfig => {
+export const appConfig = ({
+  authorizerURL,
+  minioURL,
+}: {
+  authorizerURL: string;
+  minioURL: string;
+}): ApplicationConfig => {
   return {
     providers: [
-      provideClientHydration(),
-      provideZoneChangeDetection({ eventCoalescing: true }),
-      provideRouter(appRoutes),
-      provideHttpClient(),
-      provideNzI18n(en_US),
-      {
-        provide: WEBHOOK_CONFIGURATION_TOKEN,
-        useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
-      },
-      importProvidersFrom(
-        BrowserAnimationsModule,
-        RestClientApiModule.forRoot(
-          () =>
-            new RestClientConfiguration({
-              basePath: serverUrl,
-            })
-        ),
-        FormlyModule.forRoot(),
-        FormlyNgZorroAntdModule
-      ),
-      { provide: ErrorHandler, useClass: AppErrorHandler },
-      {
-        provide: AUTHORIZER_URL,
-        useValue: authorizerURL,
-      },
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (defaultRestService: DefaultRestService, webhookRestService: WebhookRestService, authService: AuthService) => () => new AppInitializer(defaultRestService, webhookRestService, authService).resolve(),
-        multi: true,
-        deps: [DefaultRestService, WebhookRestService, AuthService],
-      },
-    ],
-  };
-};
+      // ..
+      provideAppAuthConfiguration(),
+      // ..
+    ]
+  }
 ```
 
 ### 11. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
@@ -1264,6 +909,30 @@ services:
         condition: service_healthy
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
+  nestjs-mod-fullstack-minio:
+    image: 'bitnami/minio:2024.11.7'
+    container_name: 'nestjs-mod-fullstack-minio'
+    volumes:
+      - 'nestjs-mod-fullstack-minio-volume:/bitnami/minio/data'
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      MINIO_ROOT_USER: '${SERVER_MINIO_MINIO_ROOT_USER}'
+      MINIO_ROOT_PASSWORD: '${SERVER_MINIO_MINIO_ROOT_PASSWORD}'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'mc'
+        - 'ready'
+        - 'local'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
   nestjs-mod-fullstack-postgre-sql-migrations:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
@@ -1297,18 +966,21 @@ services:
       retries: 10
     tty: true
     environment:
-      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      NODE_TLS_REJECT_UNAUTHORIZED: '0'
       SERVER_PORT: '${SERVER_PORT}'
+      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
       SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
       SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
       SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'
-      NODE_TLS_REJECT_UNAUTHORIZED: '0'
       SERVER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_URL}'
       SERVER_AUTHORIZER_REDIRECT_URL: '${SERVER_AUTHORIZER_REDIRECT_URL}'
       SERVER_AUTHORIZER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_AUTHORIZER_URL}'
       SERVER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
+      SERVER_MINIO_SERVER_HOST: '${SERVER_MINIO_SERVER_HOST}'
+      SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
+      SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
@@ -1329,6 +1001,7 @@ services:
       SERVER_PORT: '${SERVER_PORT}'
       NGINX_PORT: '${NGINX_PORT}'
       CLIENT_AUTHORIZER_URL: '${CLIENT_AUTHORIZER_URL}'
+      CLIENT_MINIO_URL: '${CLIENT_MINIO_URL}'
       CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
     restart: 'always'
     depends_on:
@@ -1381,6 +1054,8 @@ volumes:
     name: 'nestjs-mod-fullstack-postgre-sql-volume'
   nestjs-mod-fullstack-https-portal-volume:
     name: 'nestjs-mod-fullstack-https-portal-volume'
+  nestjs-mod-fullstack-minio-volume:
+    name: 'nestjs-mod-fullstack-minio-volume'
 ```
 
 Обновляем файл _.docker/docker-compose-full.env_
@@ -1398,6 +1073,7 @@ SERVER_DOMAIN=example.com
 HTTPS_PORTAL_STAGE=local # local|stage|production
 
 CLIENT_AUTHORIZER_URL=http://localhost:8000
+CLIENT_MINIO_URL=http://localhost:9000
 SERVER_AUTHORIZER_REDIRECT_URL=http://localhost:8080
 SERVER_AUTH_ADMIN_EMAIL=nestjs-mod-fullstack@site15.ru
 SERVER_AUTH_ADMIN_USERNAME=admin
@@ -1422,324 +1098,220 @@ SERVER_AUTHORIZER_RESET_PASSWORD_URL=/reset-password
 SERVER_AUTHORIZER_ROLES=user,admin
 SERVER_AUTHORIZER_DEFAULT_ROLES=user
 SERVER_AUTHORIZER_JWT_ROLE_CLAIM=role
+
+SERVER_MINIO_SERVER_HOST=nestjs-mod-fullstack-minio
+SERVER_MINIO_ACCESS_KEY=FWGmrAGaeMKM
+SERVER_MINIO_SECRET_KEY=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
+SERVER_MINIO_ROOT_USER=FWGmrAGaeMKM
+SERVER_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
+SERVER_MINIO_MINIO_ROOT_USER=FWGmrAGaeMKM
+SERVER_MINIO_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
 ```
 
-### 12. Обновляем E2E-тесты
+### 12. Создаем E2E-тест для проверки обнволения профиля и загрузки файла на сервер
 
-При написании и запуске E2E-тестов много кода дублируется, для того чтобы убрать дублирование создаем тестовую утилиту.
-
-Создаем файл _libs/testing/src/lib/utils/rest-client-helper.ts_
+Создаем файл _apps/client-e2e/src/profile-as-user.spec.ts_
 
 ```typescript
-import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
-import { Configuration, DefaultApi, WebhookApi } from '@nestjs-mod-fullstack/app-rest-sdk';
-import axios, { AxiosInstance } from 'axios';
+import { faker } from '@faker-js/faker';
+import { expect, Page, test } from '@playwright/test';
 import { get } from 'env-var';
-import { GenerateRandomUserResult, generateRandomUser } from './generate-random-user';
-import { getUrls } from './get-urls';
+import { join } from 'path';
+import { setTimeout } from 'timers/promises';
 
-export class RestClientHelper {
-  private authorizerClientID!: string;
+test.describe('Work with profile as "User" role', () => {
+  test.describe.configure({ mode: 'serial' });
 
-  authorizationTokens?: AuthToken;
+  const user = {
+    email: faker.internet.email({
+      provider: 'example.fakerjs.dev',
+    }),
+    password: faker.internet.password({ length: 8 }),
+    site: `http://${faker.internet.domainName()}`,
+  };
+  let page: Page;
 
-  private webhookApi?: WebhookApi;
-  private defaultApi?: DefaultApi;
-  private authorizer?: Authorizer;
-
-  private defaultApiAxios?: AxiosInstance;
-  private webhookApiAxios?: AxiosInstance;
-
-  randomUser?: GenerateRandomUserResult;
-
-  constructor(
-    private readonly options?: {
-      isAdmin?: boolean;
-      serverUrl?: string;
-      authorizerURL?: string;
-      randomUser?: GenerateRandomUserResult;
-    }
-  ) {
-    this.randomUser = options?.randomUser;
-    this.createApiClients();
-  }
-
-  getGeneratedRandomUser(): Required<GenerateRandomUserResult> {
-    if (!this.randomUser) {
-      throw new Error('this.randomUser not set');
-    }
-    return this.randomUser as Required<GenerateRandomUserResult>;
-  }
-
-  getWebhookApi() {
-    if (!this.webhookApi) {
-      throw new Error('webhookApi not set');
-    }
-    return this.webhookApi;
-  }
-
-  getDefaultApi() {
-    if (!this.defaultApi) {
-      throw new Error('defaultApi not set');
-    }
-    return this.defaultApi;
-  }
-
-  async getAuthorizerClient() {
-    if (!this.authorizerClientID && this.defaultApi) {
-      this.authorizerClientID = (await this.defaultApi.authorizerControllerGetAuthorizerClientID()).data.clientID;
-      if (!this.options?.isAdmin) {
-        this.authorizer = new Authorizer({
-          authorizerURL: this.getAuthorizerUrl(),
-          clientID: this.authorizerClientID,
-          redirectURL: this.getServerUrl(),
-        });
-      } else {
-        this.authorizer = new Authorizer({
-          authorizerURL: this.getAuthorizerUrl(),
-          clientID: this.authorizerClientID,
-          redirectURL: this.getServerUrl(),
-          extraHeaders: {
-            'x-authorizer-admin-secret': get('SERVER_AUTHORIZER_ADMIN_SECRET').required().asString(),
-          },
-        });
-      }
-    }
-    return this.authorizer as Authorizer;
-  }
-
-  async setRoles(roles: string[]) {
-    const _updateUserResult = await (
-      await this.getAuthorizerClient()
-    ).graphqlQuery({
-      query: `mutation {
-  _update_user(
-    params: { id: "${this.authorizationTokens?.user?.id}", roles: ${JSON.stringify(roles)} }
-  ) {
-    id
-    roles
-  }
-}`,
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage({
+      viewport: { width: 1920, height: 1080 },
+      recordVideo: {
+        dir: join(__dirname, 'video'),
+        size: { width: 1920, height: 1080 },
+      },
     });
-    if (_updateUserResult.errors.length > 0) {
-      console.error(_updateUserResult.errors);
-      throw new Error(_updateUserResult.errors[0].message);
-    }
-    await this.login();
-
-    return this;
-  }
-
-  async createAndLoginAsUser(options?: Pick<GenerateRandomUserResult, 'email' | 'password'>) {
-    await this.generateRandomUser(options);
-    await this.reg();
-    await this.login(options);
-
-    if (this.options?.isAdmin) {
-      await this.setRoles(['admin', 'user']);
-    }
-
-    return this;
-  }
-
-  async generateRandomUser(options?: Pick<GenerateRandomUserResult, 'email' | 'password'> | undefined) {
-    if (!this.randomUser || options) {
-      this.randomUser = await generateRandomUser(undefined, options);
-    }
-    return this;
-  }
-
-  async reg() {
-    if (!this.randomUser) {
-      this.randomUser = await generateRandomUser();
-    }
-    await (
-      await this.getAuthorizerClient()
-    ).signup({
-      email: this.randomUser.email,
-      confirm_password: this.randomUser.password,
-      password: this.randomUser.password,
+    await page.goto('/', {
+      timeout: 7000,
     });
-    return this;
-  }
-
-  async login(options?: Partial<Pick<GenerateRandomUserResult, 'email' | 'password'>>) {
-    if (!this.randomUser) {
-      this.randomUser = await generateRandomUser();
-    }
-    const loginOptions = {
-      email: options?.email || this.randomUser.email,
-      password: options?.password || this.randomUser.password,
-    };
-    const loginResult = await (await this.getAuthorizerClient()).login(loginOptions);
-
-    if (loginResult.errors.length) {
-      throw new Error(loginResult.errors[0].message);
-    }
-
-    this.authorizationTokens = loginResult.data;
-
-    if (this.webhookApiAxios) {
-      Object.assign(this.webhookApiAxios.defaults.headers.common, this.getAuthorizationHeaders());
-    }
-    if (this.defaultApiAxios) {
-      Object.assign(this.defaultApiAxios.defaults.headers.common, this.getAuthorizationHeaders());
-    }
-
-    return this;
-  }
-
-  async logout() {
-    await (await this.getAuthorizerClient()).logout(this.getAuthorizationHeaders());
-    return this;
-  }
-
-  getAuthorizationHeaders() {
-    return {
-      Authorization: `Bearer ${this.authorizationTokens?.access_token}`,
-    };
-  }
-
-  private createApiClients() {
-    this.webhookApiAxios = axios.create();
-    this.defaultApiAxios = axios.create();
-
-    this.webhookApi = new WebhookApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.webhookApiAxios
-    );
-    this.defaultApi = new DefaultApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.defaultApiAxios
-    );
-  }
-
-  private getAuthorizerUrl(): string {
-    return this.options?.authorizerURL || getUrls().authorizerUrl;
-  }
-
-  private getServerUrl(): string {
-    return this.options?.serverUrl || getUrls().serverUrl;
-  }
-}
-```
-
-Описывать изменения во всех файлах с тестами я не буду, добавлю только один где используются пользователи с разными ролями.
-
-Обновляем файл _apps/server-e2e/src/server/webhook-crud-as-admin.spec.ts_
-
-```typescript
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
-import { get } from 'env-var';
-
-describe('CRUD operations with Webhook as "Admin" role', () => {
-  const user1 = new RestClientHelper();
-  const admin = new RestClientHelper({
-    isAdmin: true,
+    await page.evaluate((authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL), get('SERVER_AUTHORIZER_URL').required().asString());
   });
 
-  let createEventName: string;
-
-  beforeAll(async () => {
-    await user1.createAndLoginAsUser();
-    await admin.login({
-      email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
-      password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
-    });
-
-    const { data: events } = await user1.getWebhookApi().webhookControllerEvents();
-    createEventName = events.find((e) => e.eventName.includes('create'))?.eventName || 'create';
-    expect(events.map((e) => e.eventName)).toEqual(['app-demo.create', 'app-demo.update', 'app-demo.delete']);
+  test.afterAll(async () => {
+    await setTimeout(1000);
+    await page.close();
   });
 
-  afterAll(async () => {
-    const { data: manyWebhooks } = await user1.getWebhookApi().webhookControllerFindMany();
-    for (const webhook of manyWebhooks.webhooks) {
-      if (webhook.endpoint.startsWith(user1.getGeneratedRandomUser().site)) {
-        await user1.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
-          enabled: false,
-        });
-      }
-    }
+  test('sign up as user', async () => {
+    await page.goto('/sign-up', {
+      timeout: 7000,
+    });
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=password]')).toHaveValue(user.password);
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]')).toHaveValue(user.password);
+
+    await expect(page.locator('auth-sign-up-form').locator('button[type=submit]')).toHaveText('Sign-up');
+
+    await page.locator('auth-sign-up-form').locator('button[type=submit]').click();
+
+    await setTimeout(1500);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+  });
+
+  test('sign out after sign-up', async () => {
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Sign-out`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
+
+    await setTimeout(4000);
+
+    await expect(page.locator('nz-header').locator('[nz-menu-item]').last()).toContainText(`Sign-in`);
+  });
+
+  test('sign in as user', async () => {
+    await page.goto('/sign-in', {
+      timeout: 7000,
+    });
+
+    await page.locator('auth-sign-in-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
+
+    await page.locator('auth-sign-in-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=password]')).toHaveValue(user.password);
+
+    await expect(page.locator('auth-sign-in-form').locator('button[type=submit]')).toHaveText('Sign-in');
+
+    await page.locator('auth-sign-in-form').locator('button[type=submit]').click();
+
+    await setTimeout(1500);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+  });
+
+  test('should change password in profile', async () => {
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first()).toContainText(`Profile`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first().click();
+
+    await setTimeout(4000);
     //
+    await page.locator('auth-profile-form').locator('[placeholder=old_password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-profile-form').locator('[placeholder=old_password]')).toHaveValue(user.password);
 
-    const { data: manyWebhooks2 } = await admin.getWebhookApi().webhookControllerFindMany();
-    for (const webhook of manyWebhooks2.webhooks) {
-      if (webhook.endpoint.startsWith(admin.getGeneratedRandomUser().site)) {
-        await admin.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
-          enabled: false,
-        });
-      }
-    }
+    await page.locator('auth-profile-form').locator('[placeholder=new_password]').click();
+    await page.keyboard.type(user.password + user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-profile-form').locator('[placeholder=new_password]')).toHaveValue(user.password + user.password);
+
+    await page.locator('auth-profile-form').locator('[placeholder=confirm_new_password]').click();
+    await page.keyboard.type(user.password + user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-profile-form').locator('[placeholder=confirm_new_password]')).toHaveValue(user.password + user.password);
+
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    page.locator('nz-upload').locator('button').click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(join(__dirname, 'dep.jpg'));
+    await setTimeout(1000);
+
+    await expect(page.locator('auth-profile-form').locator('button[type=submit]')).toHaveText('Update');
+
+    await page.locator('auth-profile-form').locator('button[type=submit]').click();
+
+    await setTimeout(1500);
   });
 
-  it('should create new webhook as user1', async () => {
-    const { data: newWebhook } = await user1.getWebhookApi().webhookControllerCreateOne({
-      enabled: false,
-      endpoint: user1.getGeneratedRandomUser().site,
-      eventName: createEventName,
-    });
-    expect(newWebhook).toMatchObject({
-      enabled: false,
-      endpoint: user1.getGeneratedRandomUser().site,
-      eventName: createEventName,
-    });
+  test('sign out', async () => {
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Sign-out`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
+
+    await setTimeout(4000);
+
+    await expect(page.locator('nz-header').locator('[nz-menu-item]').last()).toContainText(`Sign-in`);
   });
 
-  it('should create new webhook as admin', async () => {
-    const { data: newWebhook } = await admin.getWebhookApi().webhookControllerCreateOne({
-      enabled: false,
-      endpoint: admin.getGeneratedRandomUser().site,
-      eventName: createEventName,
+  test('sign in as user with new password', async () => {
+    await page.goto('/sign-in', {
+      timeout: 7000,
     });
-    expect(newWebhook).toMatchObject({
-      enabled: false,
-      endpoint: admin.getGeneratedRandomUser().site,
-      eventName: createEventName,
-    });
-  });
 
-  it('should read one webhooks as user', async () => {
-    const { data: manyWebhooks } = await user1.getWebhookApi().webhookControllerFindMany();
-    expect(manyWebhooks).toMatchObject({
-      meta: { curPage: 1, perPage: 5, totalResults: 1 },
-      webhooks: [
-        {
-          enabled: false,
-          endpoint: user1.getGeneratedRandomUser().site,
-          eventName: createEventName,
-        },
-      ],
+    await page.locator('auth-sign-in-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
     });
-  });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
 
-  it('should read all webhooks as admin', async () => {
-    const { data: manyWebhooks } = await admin.getWebhookApi().webhookControllerFindMany();
-    expect(manyWebhooks.meta.totalResults).toBeGreaterThan(1);
-    expect(manyWebhooks).toMatchObject({
-      meta: { curPage: 1, perPage: 5 },
+    await page.locator('auth-sign-in-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password + user.password, {
+      delay: 50,
     });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=password]')).toHaveValue(user.password + user.password);
+
+    await expect(page.locator('auth-sign-in-form').locator('button[type=submit]')).toHaveText('Sign-in');
+
+    await page.locator('auth-sign-in-form').locator('button[type=submit]').click();
+
+    await setTimeout(1500);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 });
 ```
 
 ### Заключение
 
-В данном посте в качестве сервера авторизации был выбран - https://authorizer.dev, но принцип работы с другими серверами авторизации примерно такой же и дополнительный код который был написан на фронтенде и бэкенде не сильно будет отличаться.
+В данном посте и проекте конфигурация для файлового сервера `Minio` написана без учета больших нагрузок и без репликаций, все описывается в качестве примера, при деплое в реальный продакшен нужно будет почитать дополнительный материал.
 
-Выбранный для этого проекта сервер авторизации очень простой в плане внедрения в проект, но он не поддерживает мутитенантность, так что если вам нужна такая опция, то лучше выбрать другой сервер авторизации или написать свой.
-
-Авто рефрешь токена при ошибке 401 в данной версии проекта не предусмотрен, он будет внедрен в будущих постах.
+Текущий проект использует одного админа файлового сервера `Minio` для всех пользователей приложения, если вам не потходит такой вариант, то вы можете взять в качестве сервера авторизации `Keycloak`, и настроить его связку с `Minio` для использования общих пользователей.
 
 ### Планы
 
-У пользователя сервера авторизации есть поле `picture`, но на сервере авторизации нет метода для загрузки фотографии. В следующем посте я подключу https://min.io/ в проект и настрою интеграцию с NestJS и Angular...
+В следующем посте я подключу к проекту `Redis` и настрою кэширование при получении информации о профиле пользователя...
 
 ### Ссылки
 
@@ -1750,4 +1322,4 @@ https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из пост�
 https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
 https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/11729520686/artifacts/2159651164 - видео тестов
 
-#angular #authorizer #nestjsmod #fullstack
+#angular #minio #nestjsmod #fullstack

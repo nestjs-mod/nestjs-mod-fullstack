@@ -8,7 +8,6 @@
     "@ngx-formly/core": "^6.3.10",
     "ng-zorro-antd": "^18.2.0",
     "rxjs": "^7.8.0",
-    "@angular/common": "18.2.11",
     "@angular/forms": "18.2.11"
   },
   "sideEffects": false

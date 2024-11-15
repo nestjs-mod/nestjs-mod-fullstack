@@ -1,5 +1,9 @@
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
-import { FilesModule } from '@nestjs-mod-fullstack/files';
+import {
+  FilesModule,
+  FilesRequest,
+  FilesRole,
+} from '@nestjs-mod-fullstack/files';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import {
   WEBHOOK_FEATURE,
@@ -143,15 +147,26 @@ bootstrapNestApplication({
               );
 
               if (ctx && authorizerUser?.id) {
-                const webhookUser = await webhookUsersService.createUser({
-                  externalUserId: authorizerUser?.id,
-                  externalTenantId: authorizerUser?.id,
-                  userRole: authorizerUser.roles?.includes('admin')
-                    ? 'Admin'
-                    : 'User',
-                });
-                const req: WebhookRequest = getRequestFromExecutionContext(ctx);
+                const req: WebhookRequest & FilesRequest =
+                  getRequestFromExecutionContext(ctx);
+
+                // webhook
+                const webhookUser =
+                  await webhookUsersService.createUserIfNotExists({
+                    externalUserId: authorizerUser?.id,
+                    externalTenantId: authorizerUser?.id,
+                    userRole: authorizerUser.roles?.includes('admin')
+                      ? 'Admin'
+                      : 'User',
+                  });
                 req.externalTenantId = webhookUser.externalTenantId;
+
+                // files
+                req.filesUser = {
+                  userRole: authorizerUser.roles?.includes('admin')
+                    ? FilesRole.Admin
+                    : FilesRole.User,
+                };
               }
 
               return result;

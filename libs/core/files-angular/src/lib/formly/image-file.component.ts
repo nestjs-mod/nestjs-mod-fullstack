@@ -4,20 +4,32 @@ import {
   Inject,
   OnInit,
 } from '@angular/core';
-import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { BehaviorSubject } from 'rxjs';
 import { MINIO_URL } from '../services/files.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'file-select',
+  selector: 'image-file',
+  imports: [
+    ReactiveFormsModule,
+    FormlyModule,
+    NzInputModule,
+    NzButtonModule,
+    NzUploadModule,
+    NzModalModule,
+    NzIconModule,
+    AsyncPipe,
+  ],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <input
-      type="hidden"
-      [formControl]="formControl"
-      [formlyAttributes]="field"
-    />
     <nz-upload
       [nzAccept]="'image/png, image/jpeg'"
       [nzListType]="'picture'"
@@ -33,7 +45,7 @@ import { MINIO_URL } from '../services/files.service';
     </nz-upload>
   `,
 })
-export class FileSelectComponent
+export class ImageFileComponent
   extends FieldType<FieldTypeConfig>
   implements OnInit
 {
@@ -66,6 +78,7 @@ export class FileSelectComponent
 
   onFileListChange(files: NzUploadFile[]) {
     if (files.length === 0) {
+      this.formControl.setValue(null);
       this.fileList$.next([]);
       this.switchToUploadMode();
     }
