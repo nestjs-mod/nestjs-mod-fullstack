@@ -51,6 +51,7 @@ export class WebhookUsersService {
         user,
         15_000 // 15 seconds
       );
+      return user;
     }
     return null;
   }
@@ -71,8 +72,8 @@ export class WebhookUsersService {
       ),
     } as WebhookUserObject;
     const existsUser = await this.getUserByExternalUserId(
-      user.externalUserId,
-      user.externalTenantId
+      data.externalUserId,
+      data.externalTenantId
     );
     if (existsUser) {
       return existsUser;
@@ -81,8 +82,8 @@ export class WebhookUsersService {
       data,
     });
     return await this.getUserByExternalUserId(
-      user.externalUserId,
-      user.externalTenantId
+      data.externalUserId,
+      data.externalTenantId
     );
   }
 }
