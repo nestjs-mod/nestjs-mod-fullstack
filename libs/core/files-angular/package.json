@@ -2,7 +2,7 @@
   "name": "@nestjs-mod-fullstack/files-angular",
   "version": "0.0.1",
   "peerDependencies": {
-    "@nestjs-mod-fullstack/app-rest-sdk": "1.3.0",
+    "@nestjs-mod-fullstack/app-rest-sdk": "1.3.2",
     "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
     "@angular/core": "18.2.11",
     "@ngx-formly/core": "^6.3.10",

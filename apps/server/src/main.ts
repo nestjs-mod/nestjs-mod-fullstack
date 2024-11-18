@@ -19,6 +19,7 @@ import {
   CheckAccessOptions,
   defaultAuthorizerCheckAccessValidator,
 } from '@nestjs-mod/authorizer';
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -36,6 +37,7 @@ import {
   DockerComposeAuthorizer,
   DockerComposeMinio,
   DockerComposePostgreSQL,
+  DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
 import { MinioModule } from '@nestjs-mod/minio';
@@ -50,6 +52,7 @@ import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
+console.log(process.env);
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
 
@@ -159,7 +162,9 @@ bootstrapNestApplication({
                       ? 'Admin'
                       : 'User',
                   });
-                req.externalTenantId = webhookUser.externalTenantId;
+                if (webhookUser) {
+                  req.externalTenantId = webhookUser.externalTenantId;
+                }
 
                 // files
                 req.filesUser = {
@@ -211,6 +216,11 @@ bootstrapNestApplication({
             WEBHOOK_FOLDER,
             PROJECT_JSON_FILE
           ),
+        },
+      }),
+      CacheManagerModule.forRoot({
+        staticConfiguration: {
+          type: isInfrastructureMode() ? 'memory' : 'redis',
         },
       }),
       MinioModule.forRoot(),
@@ -275,6 +285,9 @@ bootstrapNestApplication({
           isSmsServiceEnabled: 'false',
           env: 'development',
         },
+      }),
+      DockerComposeRedis.forRoot({
+        staticConfiguration: { image: 'bitnami/redis:7.4.1' },
       }),
       DockerComposeMinio.forRoot({
         staticConfiguration: { image: 'bitnami/minio:2024.11.7' },

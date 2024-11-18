@@ -63,6 +63,30 @@ services:
     depends_on:
       server-postgre-sql:
         condition: "service_healthy"
+  server-redis:
+    image: "bitnami/redis:7.4.1"
+    container_name: "server-redis"
+    volumes:
+      - "server-redis-volume:/bitnami/redis/data"
+    ports:
+      - "6379:6379"
+    networks:
+      - "server-network"
+    environment:
+      REDIS_DATABASE: ""
+      REDIS_PASSWORD: ""
+      REDIS_DISABLE_COMMANDS: ""
+      REDIS_IO_THREADS: ""
+      REDIS_IO_THREADS_DO_READS: ""
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
   server-minio:
     image: "bitnami/minio:2024.11.7"
     container_name: "server-minio"
@@ -93,5 +117,7 @@ networks:
 volumes:
   server-postgre-sql-volume:
     name: "server-postgre-sql-volume"
+  server-redis-volume:
+    name: "server-redis-volume"
   server-minio-volume:
     name: "server-minio-volume"

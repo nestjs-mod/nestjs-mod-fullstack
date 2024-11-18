@@ -23,6 +23,8 @@ import { WebhookEnvironments } from './webhook.environments';
 import { WebhookExceptionsFilter } from './webhook.filter';
 import { WebhookGuard } from './webhook.guard';
 
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+
 export const { WebhookModule } = createNestModule({
   moduleName: WEBHOOK_MODULE,
   moduleCategory: NestModuleCategory.feature,
@@ -38,10 +40,16 @@ export const { WebhookModule } = createNestModule({
     PrismaToolsModule.forFeature({
       featureModuleName: WEBHOOK_FEATURE,
     }),
+    CacheManagerModule.forFeature({
+      featureModuleName: WEBHOOK_FEATURE,
+    }),
   ],
   sharedImports: [
     PrismaModule.forFeature({
       contextName: WEBHOOK_FEATURE,
+      featureModuleName: WEBHOOK_FEATURE,
+    }),
+    CacheManagerModule.forFeature({
       featureModuleName: WEBHOOK_FEATURE,
     }),
   ],

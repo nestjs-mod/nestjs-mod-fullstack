@@ -19,6 +19,7 @@ import {
 } from 'rxjs';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import { WebhookEnvironments } from '../webhook.environments';
+import { WebhookUsersService } from './webhook-users.service';
 import { WebhookService } from './webhook.service';
 
 @Injectable()
@@ -33,7 +34,8 @@ export class WebhookServiceBootstrap
     private readonly prismaClient: PrismaClient,
     private readonly webhookEnvironments: WebhookEnvironments,
     private readonly httpService: HttpService,
-    private readonly webhookService: WebhookService
+    private readonly webhookService: WebhookService,
+    private readonly webhookUsersService: WebhookUsersService
   ) {}
 
   onModuleDestroy() {
@@ -138,21 +140,11 @@ export class WebhookServiceBootstrap
   private async createDefaultUsers() {
     try {
       if (this.webhookEnvironments.superAdminExternalUserId) {
-        const existsUser = await this.prismaClient.webhookUser.findFirst({
-          where: {
-            externalUserId: this.webhookEnvironments.superAdminExternalUserId,
-            userRole: 'Admin',
-          },
+        await this.webhookUsersService.createUserIfNotExists({
+          externalTenantId: randomUUID(),
+          externalUserId: this.webhookEnvironments.superAdminExternalUserId,
+          userRole: 'Admin',
         });
-        if (!existsUser) {
-          await this.prismaClient.webhookUser.create({
-            data: {
-              externalTenantId: randomUUID(),
-              externalUserId: this.webhookEnvironments.superAdminExternalUserId,
-              userRole: 'Admin',
-            },
-          });
-        }
       }
     } catch (err) {
       this.logger.error(err, (err as Error).stack);
