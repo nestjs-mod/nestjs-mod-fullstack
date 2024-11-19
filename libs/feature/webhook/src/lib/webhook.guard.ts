@@ -1,4 +1,5 @@
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   CanActivate,
   ExecutionContext,
@@ -6,24 +7,27 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { WebhookRole } from '@prisma/webhook-client';
+import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
-import { WebhookUsersService } from './services/webhook-users.service';
 import { WebhookRequest } from './types/webhook-request';
 import { WebhookStaticConfiguration } from './webhook.configuration';
+import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
 import { WebhookEnvironments } from './webhook.environments';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
+import { WebhookCacheService } from './services/webhook-cache.service';
 
 @Injectable()
 export class WebhookGuard implements CanActivate {
   private logger = new Logger(WebhookGuard.name);
 
   constructor(
+    @InjectPrismaClient(WEBHOOK_FEATURE)
+    private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly webhookEnvironments: WebhookEnvironments,
     private readonly webhookStaticConfiguration: WebhookStaticConfiguration,
-    private readonly webhookUsersService: WebhookUsersService
+    private readonly webhookCacheService: WebhookCacheService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -94,18 +98,23 @@ export class WebhookGuard implements CanActivate {
         throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
       }
       if (this.webhookEnvironments.autoCreateUser) {
-        req.webhookUser = await this.webhookUsersService.createUserIfNotExists({
-          externalTenantId,
-          externalUserId,
-          userRole: 'User',
-        });
-      } else {
         req.webhookUser =
-          await this.webhookUsersService.getUserByExternalUserId(
+          await this.webhookCacheService.getCachedUserByExternalUserId(
             externalUserId,
             externalTenantId
           );
+
+        if (!req.webhookUser) {
+          await this.prismaClient.webhookUser.create({
+            data: { externalTenantId, externalUserId, userRole: 'User' },
+          });
+        }
       }
+      req.webhookUser =
+        await this.webhookCacheService.getCachedUserByExternalUserId(
+          externalUserId,
+          externalTenantId
+        );
     }
   }
 
@@ -115,14 +124,15 @@ export class WebhookGuard implements CanActivate {
   ) {
     if (this.webhookEnvironments.superAdminExternalUserId) {
       const webhookUser =
-        await this.webhookUsersService.getUserByExternalUserId(externalUserId);
-      if (
+        await this.webhookCacheService.getCachedUserByExternalUserId(
+          externalUserId
+        );
+      req.webhookUser =
         webhookUser?.externalUserId ===
           this.webhookEnvironments.superAdminExternalUserId &&
-        webhookUser.userRole === 'Admin'
-      ) {
-        req.webhookUser = webhookUser;
-      }
+        webhookUser?.userRole === 'Admin'
+          ? webhookUser
+          : undefined;
     }
   }
 

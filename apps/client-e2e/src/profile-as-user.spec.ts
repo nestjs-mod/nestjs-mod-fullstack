@@ -31,6 +31,10 @@ test.describe('Work with profile as "User" role', () => {
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
       get('SERVER_AUTHORIZER_URL').required().asString()
     );
+    await page.evaluate(
+      (minioURL) => localStorage.setItem('minioURL', minioURL),
+      get('SERVER_MINIO_URL').required().asString()
+    );
   });
 
   test.afterAll(async () => {
@@ -233,7 +237,6 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-profile-form')
       .locator('button[type=submit]')
       .click();
-
     await setTimeout(3000);
   });
 

@@ -35,7 +35,7 @@ import {
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
-import { WebhookUsersService } from '../services/webhook-users.service';
+import { WebhookCacheService } from '../services/webhook-cache.service';
 
 @ApiExtraModels(WebhookError)
 @ApiBadRequestResponse({
@@ -50,7 +50,7 @@ export class WebhookUsersController {
     private readonly prismaClient: PrismaClient,
     private readonly prismaToolsService: PrismaToolsService,
     private readonly webhookToolsService: WebhookToolsService,
-    private readonly webhookUsersService: WebhookUsersService
+    private readonly webhookCacheService: WebhookCacheService
   ) {}
 
   @Get()
@@ -141,11 +141,7 @@ export class WebhookUsersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() args: UpdateWebhookUserArgs
   ) {
-    await this.webhookUsersService.clearCacheByExternalUserId(
-      webhookUser.externalUserId
-    );
-
-    return await this.prismaClient.webhookUser.update({
+    const result = await this.prismaClient.webhookUser.update({
       data: { ...args },
       where: {
         id,
@@ -155,6 +151,10 @@ export class WebhookUsersController {
         ),
       },
     });
+    await this.webhookCacheService.clearCacheByExternalUserId(
+      webhookUser.externalUserId
+    );
+    return result;
   }
 
   @Delete(':id')
@@ -164,10 +164,6 @@ export class WebhookUsersController {
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
-    await this.webhookUsersService.clearCacheByExternalUserId(
-      webhookUser.externalUserId
-    );
-
     await this.prismaClient.webhookUser.delete({
       where: {
         id,
@@ -177,6 +173,7 @@ export class WebhookUsersController {
         ),
       },
     });
+    await this.webhookCacheService.clearCacheByExternalUserId(id);
     return { message: 'ok' };
   }
 

@@ -24,6 +24,7 @@ import { WebhookExceptionsFilter } from './webhook.filter';
 import { WebhookGuard } from './webhook.guard';
 
 import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { WebhookCacheService } from './services/webhook-cache.service';
 
 export const { WebhookModule } = createNestModule({
   moduleName: WEBHOOK_MODULE,
@@ -53,7 +54,11 @@ export const { WebhookModule } = createNestModule({
       featureModuleName: WEBHOOK_FEATURE,
     }),
   ],
-  providers: [WebhookToolsService, WebhookServiceBootstrap],
+  providers: [
+    WebhookToolsService,
+    WebhookCacheService,
+    WebhookServiceBootstrap,
+  ],
   controllers: [WebhookUsersController, WebhookController],
   sharedProviders: [WebhookService, WebhookUsersService],
   wrapForRootAsync: (asyncModuleOptions) => {

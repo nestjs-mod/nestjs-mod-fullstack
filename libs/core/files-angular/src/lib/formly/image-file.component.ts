@@ -1,9 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -12,8 +8,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { BehaviorSubject } from 'rxjs';
-import { MINIO_URL } from '../services/files.service';
-import { AsyncPipe } from '@angular/common';
+import { FilesService } from '../services/files.service';
 
 @Component({
   selector: 'image-file',
@@ -53,10 +48,7 @@ export class ImageFileComponent
   title$ = new BehaviorSubject<string>('');
   icon$ = new BehaviorSubject<string>('');
 
-  constructor(
-    @Inject(MINIO_URL)
-    private readonly minioURL: string
-  ) {
+  constructor(private readonly filesService: FilesService) {
     super();
   }
 
@@ -68,7 +60,7 @@ export class ImageFileComponent
           uid: this.formControl.value,
           name: this.formControl.value.split('/').at(-1),
           status: 'done',
-          url: this.minioURL + this.formControl.value,
+          url: this.filesService.getMinioURL() + this.formControl.value,
         },
       ]);
     } else {
