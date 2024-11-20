@@ -1,24 +1,22 @@
-## [2024-11-18] Кэширование информации в Redis на NestJS
+## [2024-11-20] Caching information in Redis on NestJS
 
-Предыдущая статья: [Интеграция внешнего сервера авторизации https://authorizer.dev в фулстек приложение на NestJS и Angular](https://habr.com/ru/articles/856896/)
+Each frontend request to the backend requests user profile information from the database, this creates an additional load on the database and increases the backend response time, to speed up such requests, you can cache the database response.
 
-На каждом фронтенд запросе к бэкенду запрашивается информация по профилю пользователя из базы данных, это создает дополнительную нагрузку на базу данных и увеличивает время ответа бэкенда, для ускорения подобных запросов можно кэшировать ответ базы данных.
+In this post, I will connect `Redis` to the project and set up data caching via `@nestjs-mod/cache-manager`.
 
-В этом посте я подключу `Redis` к проекту и настрою кэширование данных через `@nestjs-mod/cache-manager`.
+The project can be run in `Docker Compose` and `Kubernetes`.
 
-Проект можно запускать в `Docker Compose` и `Kubernetes`.
+### 1. Install additional libraries
 
-### 1. Устанавливаем дополнительные библиотеки
+Install `JS`-client and `NestJS`-module for working with `cache-manager` and `Redis`.
 
-Устанавливаем `JS`-клиент и `NestJS`-модуль для работы с `cache-manager` и `Redis`.
-
-_Команды_
+_Commands_
 
 ```bash
 npm install --save redis cache-manager-redis-yet cache-manager @nestjs-mod/cache-manager
 ```
 
-<spoiler title="Вывод консоли">
+{% spoiler Console output %}
 
 ```bash
 $ npm install --save redis cache-manager-redis-yet cache-manager @nestjs-mod/cache-manager
@@ -43,11 +41,11 @@ a different dependency.
 Run `npm audit` for details.
 ```
 
-</spoiler>
+{% endspoiler %}
 
-### 2. Подключаем новые модули в бэкенд
+### 2. Connecting new modules to the backend
 
-Обновляем файл _apps/server/src/main.ts_
+Updating the file _apps/server/src/main.ts_
 
 ```typescript
 
@@ -83,17 +81,17 @@ bootstrapNestApplication({
     );
 ```
 
-### 3. Запускаем генерацию дополнительного кода по инфраструктуре
+### 3. We are starting the generation of additional code for the infrastructure
 
-_Команды_
+_Commands_
 
 ```bash
 npm run docs:infrastructure
 ```
 
-После запуска в `docker-compose`-файле появится новый сервис `server-redis` и в переменной окружения появится новая переменная окружения `SERVER_REDIS_URL`, которую нужно заполнить.
+After running, a new service `server-redis` will appear in the `docker-compose` file and a new environment variable `SERVER_REDIS_URL` will appear in the environment variable, which needs to be filled.
 
-Обновленный файл _apps/server/docker-compose-prod.yml_
+Updated file _apps/server/docker-compose-prod.yml_
 
 ```yaml
 server-redis:
@@ -120,22 +118,22 @@ server-redis:
   restart: 'always'
 ```
 
-Обновляем файл _.env_
+Updating the file _.env_
 
 ```bash
 # ...
 SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379
 ```
 
-Повторно запускаем генерацию дополнительного кода по инфраструктуре, для генерации дополнительных переменных окружения.
+We re-run the generation of additional code for the infrastructure to generate additional environment variables.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run docs:infrastructure
 ```
 
-Обновленный файл _apps/server/docker-compose-prod.yml_
+Updated file _apps/server/docker-compose-prod.yml_
 
 ```yaml
 server-redis:
@@ -164,18 +162,18 @@ server-redis:
   restart: 'always'
 ```
 
-### 4. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем через E2E-тесты
+### 4. We launch the infrastructure with applications in development mode and check it through E2E tests
 
-_Команды_
+_Commands_
 
 ```bash
 npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### 5. Добавляем сервис для кэширования в WebhookModule-модуль
+### 5. Adding a caching service to the WebhookModule
 
-Создаем файл _libs\feature\webhook\src\lib\services\webhook-cache.service.ts_
+Creating a file _libs\feature\webhook\src\lib\services\webhook-cache.service.ts_
 
 ```typescript
 import { CacheManagerService } from '@nestjs-mod/cache-manager';
@@ -232,9 +230,9 @@ export class WebhookCacheService {
 }
 ```
 
-Данные по пользователю кэшируются на 15 секунд, время кэширования устанавливается через конфигурацию модуля.
+User data is cached for 15 seconds, the caching time is set through the module configuration.
 
-Обновляем файл _libs\feature\webhook\src\lib\webhook.configuration.ts_
+Updating the file _libs\feature\webhook\src\lib\webhook.configuration.ts_
 
 ```typescript
 import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
@@ -257,9 +255,9 @@ export class WebhookConfiguration {
 // ...
 ```
 
-В `WebhookGuard` заменяем получение данных через орм на получение данных из сервиса кэирования.
+In `WebhookGuard` we replace receiving data via ORM with receiving data from the keying service.
 
-Обновляем файл _libs\feature\webhook\src\lib\webhook.guard.ts_
+Updating the file _libs\feature\webhook\src\lib\webhook.guard.ts_
 
 ```typescript
 //...
@@ -303,9 +301,9 @@ export class WebhookGuard implements CanActivate {
 }
 ```
 
-В контроллере с методами модификации пользователей добавляем вызов инвалидации кэша при изменении и удалении пользователя.
+In the controller with user modification methods, we add a call to invalidate the cache when changing and deleting a user.
 
-Обновляем файл _libs\feature\webhook\src\lib\controllers\webhook-users.controller.ts_
+Updating the file _libs\feature\webhook\src\lib\controllers\webhook-users.controller.ts_
 
 ```typescript
 //...
@@ -356,9 +354,9 @@ export class WebhookUsersController {
 }
 ```
 
-Подключаем сервис кэшировнаия в модуль `WebhookModule`.
+Connect the caching service to the `WebhookModule`.
 
-Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
+Updating the file _libs/feature/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 //...
@@ -385,11 +383,11 @@ export const { WebhookModule } = createNestModule({
 });
 ```
 
-### 6. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
+### 6. Updates and adding new ones for running docker-compose and kubernetes
 
-Полностью описывать изменения во всех файлах я не буду, их можно посмотреть по коммиту с изменениями для текущего поста, ниже просто добавлю обновленный `docker-compose-full.yml` и его файл с переменными окружения.
+I will not fully describe the changes in all files, you can see them in the commit with changes for the current post, below I will simply add the updated `docker-compose-full.yml` and its file with environment variables.
 
-Обновляем файл _.docker/docker-compose-full.yml_
+Updating the file _.docker/docker-compose-full.yml_
 
 ```yaml
 version: '3'
@@ -641,7 +639,7 @@ volumes:
     name: 'nestjs-mod-fullstack-redis-volume'
 ```
 
-Обновляем файл _.docker/docker-compose-full.env_
+Updating the file _.docker/docker-compose-full.env_
 
 ```sh
 SERVER_PORT=9090
@@ -700,20 +698,20 @@ SERVER_REDIS_REDIS_IO_THREADS_DO_READS=
 SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@nestjs-mod-fullstack-redis:6379
 ```
 
-### Заключение
+### Conclusion
 
-В данном посте показан простой способ кэширования и инвалидации кэша, если сущностей и данных для кэширования больше, то нужно продумывать иной способ кэширования и инвалидации, для того чтобы писать меньше кода.
+This post shows a simple way to cache and invalidate a cache. If there are more entities and data to cache, then you need to think of another way to cache and invalidate in order to write less code.
 
-### Планы
+### Plans
 
-В следующем посте я добавлю получение сереверного времени через `WebSockets` и отображение его в `Angular`-приложении...
+In the next post I will add getting server time via `WebSockets` and displaying it in an `Angular` application...
 
-### Ссылки
+### Links
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2e4639867c55e350f0c52dee4cb581fc624b5f9d..41d8b555923e3d6343dc2ac1304443d3df60d5e8 - current changes
 
 #nestjs #redis #nestjsmod #fullstack
