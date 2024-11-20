@@ -706,7 +706,7 @@ SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@nestjs-mod-fullstack-
 
 ### Планы
 
-В следующем посте я добавлю получение сереверного времени через `WebSockets` и отображение его в `Angular`-приложении...
+В следующем посте я добавлю получение серверного времени через `WebSockets` и отображение его в `Angular`-приложении...
 
 ### Ссылки
 
