@@ -1,10 +1,12 @@
 import { expect, Page, test } from '@playwright/test';
+import { isDateString } from 'class-validator';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('basic usage', () => {
   test.describe.configure({ mode: 'serial' });
 
+  const correctStringDateLength = '2024-11-20T11:58:03.338Z'.length;
   let page: Page;
 
   test.beforeAll(async ({ browser }) => {
@@ -27,10 +29,9 @@ test.describe('basic usage', () => {
       timeout: 7000,
     });
 
-    // Expect h1 to contain a substring.
-    expect(await page.locator('.logo').innerText()).toContain('client');
-
     await setTimeout(4000);
+
+    expect(await page.locator('.logo').innerText()).toContain('client');
   });
 
   test('has serverMessage', async () => {
@@ -40,9 +41,20 @@ test.describe('basic usage', () => {
 
     await setTimeout(4000);
 
-    // Expect h1 to contain a substring.
     expect(await page.locator('#serverMessage').innerText()).toContain(
       'Hello API'
     );
+  });
+
+  test('has serverTime', async () => {
+    await page.goto('/', {
+      timeout: 7000,
+    });
+
+    await setTimeout(4000);
+
+    const serverTime = await page.locator('#serverTime').innerText();
+    expect(serverTime).toHaveLength(correctStringDateLength);
+    expect(isDateString(serverTime)).toBeTruthy();
   });
 });

@@ -1,18 +1,22 @@
 import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
 import {
-  Configuration,
   AppApi,
   AuthorizerApi,
-  WebhookApi,
+  Configuration,
   FilesApi,
+  TimeApi,
+  WebhookApi,
 } from '@nestjs-mod-fullstack/app-rest-sdk';
 import axios, { AxiosInstance } from 'axios';
 import { get } from 'env-var';
+import { Observable, finalize } from 'rxjs';
 import {
   GenerateRandomUserResult,
   generateRandomUser,
 } from './generate-random-user';
 import { getUrls } from './get-urls';
+
+import WebSocket from 'ws';
 
 export class RestClientHelper {
   private authorizerClientID!: string;
@@ -25,11 +29,13 @@ export class RestClientHelper {
   private appApi?: AppApi;
   private authorizerApi?: AuthorizerApi;
   private filesApi?: FilesApi;
+  private timeApi?: TimeApi;
 
   private webhookApiAxios?: AxiosInstance;
   private appApiAxios?: AxiosInstance;
   private authorizerApiAxios?: AxiosInstance;
   private filesApiAxios?: AxiosInstance;
+  private timeApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
 
@@ -50,6 +56,46 @@ export class RestClientHelper {
       throw new Error('this.randomUser not set');
     }
     return this.randomUser as Required<GenerateRandomUserResult>;
+  }
+
+  webSocket<T>({
+    path,
+    eventName,
+    options,
+  }: {
+    path: string;
+    eventName: string;
+    options?: WebSocket.ClientOptions;
+  }) {
+    const wss = new WebSocket(
+      this.getServerUrl().replace('/api', '').replace('http', 'ws') + path,
+      options
+    );
+    return new Observable<{ data: T; event: string }>((observer) => {
+      wss.on('open', () => {
+        wss.on('message', (data) => {
+          observer.next(JSON.parse(data.toString()));
+        });
+        wss.on('error', (err) => {
+          observer.error(err);
+          if (wss?.readyState == WebSocket.OPEN) {
+            wss.close();
+          }
+        });
+        wss.send(
+          JSON.stringify({
+            event: eventName,
+            data: true,
+          })
+        );
+      });
+    }).pipe(
+      finalize(() => {
+        if (wss?.readyState == WebSocket.OPEN) {
+          wss.close();
+        }
+      })
+    );
   }
 
   getAuthorizerApi() {
@@ -78,6 +124,13 @@ export class RestClientHelper {
       throw new Error('filesApi not set');
     }
     return this.filesApi;
+  }
+
+  getTimeApi() {
+    if (!this.timeApi) {
+      throw new Error('timeApi not set');
+    }
+    return this.timeApi;
   }
 
   async getAuthorizerClient() {
@@ -231,9 +284,6 @@ export class RestClientHelper {
 
   private createApiClients() {
     this.authorizerApiAxios = axios.create();
-    this.webhookApiAxios = axios.create();
-    this.appApiAxios = axios.create();
-
     this.authorizerApi = new AuthorizerApi(
       new Configuration({
         basePath: this.getServerUrl(),
@@ -241,6 +291,9 @@ export class RestClientHelper {
       undefined,
       this.webhookApiAxios
     );
+    //
+
+    this.webhookApiAxios = axios.create();
     this.webhookApi = new WebhookApi(
       new Configuration({
         basePath: this.getServerUrl(),
@@ -248,6 +301,9 @@ export class RestClientHelper {
       undefined,
       this.webhookApiAxios
     );
+    //
+
+    this.appApiAxios = axios.create();
     this.appApi = new AppApi(
       new Configuration({
         basePath: this.getServerUrl(),
@@ -255,12 +311,25 @@ export class RestClientHelper {
       undefined,
       this.appApiAxios
     );
+    //
+
+    this.filesApiAxios = axios.create();
     this.filesApi = new FilesApi(
       new Configuration({
         basePath: this.getServerUrl(),
       }),
       undefined,
       this.filesApiAxios
+    );
+    //
+
+    this.timeApiAxios = axios.create();
+    this.timeApi = new TimeApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.timeApiAxios
     );
   }
 

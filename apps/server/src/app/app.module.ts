@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TimeController } from './time.controller';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',
@@ -26,6 +27,6 @@ export const { AppModule } = createNestModule({
           }),
         ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TimeController],
+  providers: [AppService, TimeController],
 });

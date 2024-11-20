@@ -29,7 +29,8 @@
   <nz-content>
     <router-outlet></router-outlet>
   </nz-content>
-  <nz-footer>
+  <nz-footer class="flex justify-between">
     <div id="serverMessage">{{ serverMessage$ | async }}</div>
+    <div id="serverTime">{{ serverTime$ | async }}</div>
   </nz-footer>
 </nz-layout>

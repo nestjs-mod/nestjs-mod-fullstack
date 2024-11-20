@@ -51,6 +51,7 @@ import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -107,6 +108,9 @@ bootstrapNestApplication({
                 swaggerConf
               );
               SwaggerModule.setup('swagger', options.app, document);
+
+              options.app.useWebSocketAdapter(new WsAdapter(options.app));
+
               if (isInfrastructureMode()) {
                 writeFileSync(
                   join(rootFolder, 'app-swagger.json'),

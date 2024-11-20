@@ -318,7 +318,7 @@ Static variables with primitive types used in the module and can be used at the 
 `WebhookService`, `WebhookUsersService`
 
 #### Shared imports
-`PrismaModule`, `CacheManagerModule`
+`PrismaModule`
 
 #### Configuration
 Variables of primitive and complex types that are used in the module; values for them must be passed when connecting the module to the application.

@@ -1,9 +1,11 @@
 import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   AppRestService,
-  WebhookRestService,
   AuthorizerRestService,
   FilesRestService,
+  TimeRestService,
+  WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -16,14 +18,16 @@ import {
   throwError,
 } from 'rxjs';
 
+@Injectable({ providedIn: 'root' })
 export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
+    private readonly authorizerRestService: AuthorizerRestService,
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
+    private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
-    private readonly authorizerRestService: AuthorizerRestService,
     private readonly filesRestService: FilesRestService
   ) {}
 
@@ -70,6 +74,9 @@ export class AppInitializer {
               authorizationHeaders
             );
             this.filesRestService.defaultHeaders = new HttpHeaders(
+              authorizationHeaders
+            );
+            this.timeRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
           }

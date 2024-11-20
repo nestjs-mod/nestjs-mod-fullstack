@@ -42,7 +42,7 @@ export class AppController {
     private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
   ) {}
 
-  @Get()
+  @Get('/get-data')
   @ApiOkResponse({ type: AppData })
   getData() {
     return this.appService.getData();

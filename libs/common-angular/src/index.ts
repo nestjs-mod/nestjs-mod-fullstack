@@ -4,3 +4,4 @@ export * from './lib/grid-utils/nz-table-sort-order-detector.pipe';
 export * from './lib/grid-utils/query-meta';
 export * from './lib/transformers/map-graphql-errors';
 export * from './lib/transformers/safe-parse-json';
+export * from './lib/utils/web-socket';
