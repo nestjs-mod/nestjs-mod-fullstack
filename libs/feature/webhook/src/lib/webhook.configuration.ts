@@ -7,6 +7,12 @@ export class WebhookConfiguration {
     description: 'List of available events.',
   })
   events!: WebhookEvent[];
+
+  @ConfigModelProperty({
+    description: 'TTL for cached data.',
+    default: 15_000,
+  })
+  cacheTTL?: number;
 }
 
 @ConfigModel()

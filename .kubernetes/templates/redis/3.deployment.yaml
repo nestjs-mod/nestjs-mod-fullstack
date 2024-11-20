@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '%NAMESPACE%'
+  name: %NAMESPACE%-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: %NAMESPACE%-redis-container
+  template:
+    metadata:
+      namespace: '%NAMESPACE%'
+      labels:
+        app: %NAMESPACE%-redis
+        pod: %NAMESPACE%-redis-container
+    spec:
+      containers:
+        - name: %NAMESPACE%-redis
+          image: bitnami/redis:7.4.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: %NAMESPACE%-redis-config
+          volumeMounts:
+            - mountPath: /bitnami/redis/data
+              name: %NAMESPACE%-redis-volume
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 150m
+            limits:
+              memory: 128Mi
+              cpu: 300m
+      volumes:
+        - name: %NAMESPACE%-redis-volume
+          persistentVolumeClaim:
+            claimName: %NAMESPACE%-redis-pv-claim

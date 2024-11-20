@@ -17,6 +17,10 @@ sudo microk8s kubectl apply -f .kubernetes/generated/authorizer
 sudo microk8s kubectl delete -f .kubernetes/templates/minio/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/minio
 
+# redis
+sudo microk8s kubectl delete -f .kubernetes/templates/redis/1.configmap.yaml || echo 'not need delete configmap'
+sudo microk8s kubectl apply -f .kubernetes/generated/redis
+
 # server
 sudo microk8s kubectl delete -f .kubernetes/templates/server/1.configmap.yaml || echo 'not need delete configmap'
 sudo microk8s kubectl apply -f .kubernetes/generated/server

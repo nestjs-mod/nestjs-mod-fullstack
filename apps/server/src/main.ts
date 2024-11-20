@@ -52,7 +52,6 @@ import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
-console.log(process.env);
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
 
@@ -154,7 +153,7 @@ bootstrapNestApplication({
                   getRequestFromExecutionContext(ctx);
 
                 // webhook
-                const webhookUser =
+                req.webhookUser =
                   await webhookUsersService.createUserIfNotExists({
                     externalUserId: authorizerUser?.id,
                     externalTenantId: authorizerUser?.id,
@@ -162,8 +161,8 @@ bootstrapNestApplication({
                       ? 'Admin'
                       : 'User',
                   });
-                if (webhookUser) {
-                  req.externalTenantId = webhookUser.externalTenantId;
+                if (req.webhookUser) {
+                  req.externalTenantId = req.webhookUser.externalTenantId;
                 }
 
                 // files

@@ -2,7 +2,7 @@ name: 'Kubernetes'
 
 on:
   push:
-    branches: ['master']
+    branches: ['feature/post-11-18']
 env:
   REGISTRY: ghcr.io
   BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server
@@ -516,6 +516,7 @@ jobs:
           SERVER_AUTH_ADMIN_PASSWORD: ${{ secrets.SERVER_AUTH_ADMIN_PASSWORD }}
           SERVER_MINIO_MINIO_ROOT_USER: ${{ secrets.SERVER_MINIO_MINIO_ROOT_USER }}
           SERVER_MINIO_MINIO_ROOT_PASSWORD: ${{ secrets.SERVER_MINIO_MINIO_ROOT_PASSWORD }}
+          SERVER_REDIS_REDIS_PASSWORD: ${{ secrets.SERVER_REDIS_REDIS_PASSWORD }}
         run: |
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
@@ -539,6 +540,7 @@ jobs:
           SERVER_AUTH_ADMIN_PASSWORD: ${{ secrets.SERVER_AUTH_ADMIN_PASSWORD }}
           SERVER_MINIO_MINIO_ROOT_USER: ${{ secrets.SERVER_MINIO_MINIO_ROOT_USER }}
           SERVER_MINIO_MINIO_ROOT_PASSWORD: ${{ secrets.SERVER_MINIO_MINIO_ROOT_PASSWORD }}
+          SERVER_REDIS_REDIS_PASSWORD: ${{ secrets.SERVER_REDIS_REDIS_PASSWORD }}
         # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
         run: |
           echo 'Start'

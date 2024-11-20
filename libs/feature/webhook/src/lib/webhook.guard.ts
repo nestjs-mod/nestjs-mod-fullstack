@@ -122,17 +122,14 @@ export class WebhookGuard implements CanActivate {
     req: WebhookRequest,
     externalUserId: string
   ) {
-    if (this.webhookEnvironments.superAdminExternalUserId) {
-      const webhookUser =
+    if (
+      !req.webhookUser &&
+      this.webhookEnvironments.superAdminExternalUserId === externalUserId
+    ) {
+      req.webhookUser =
         await this.webhookCacheService.getCachedUserByExternalUserId(
           externalUserId
         );
-      req.webhookUser =
-        webhookUser?.externalUserId ===
-          this.webhookEnvironments.superAdminExternalUserId &&
-        webhookUser?.userRole === 'Admin'
-          ? webhookUser
-          : undefined;
     }
   }
 

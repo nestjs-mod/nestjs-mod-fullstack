@@ -3,12 +3,14 @@ import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable } from '@nestjs/common';
 import { PrismaClient, WebhookUser } from '@prisma/webhook-client';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
+import { WebhookConfiguration } from '../webhook.configuration';
 
 @Injectable()
 export class WebhookCacheService {
   constructor(
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
+    private readonly webhookConfiguration: WebhookConfiguration,
     private readonly cacheManagerService: CacheManagerService
   ) {}
 
@@ -17,9 +19,7 @@ export class WebhookCacheService {
       where: { externalUserId },
     });
     for (const webhookUser of webhookUsers) {
-      await this.cacheManagerService.del(
-        `${webhookUser.externalTenantId}_${webhookUser.externalUserId}`
-      );
+      await this.cacheManagerService.del(this.getUserCacheKey(webhookUser));
     }
   }
 
@@ -28,7 +28,10 @@ export class WebhookCacheService {
     externalTenantId?: string
   ) {
     const cached = await this.cacheManagerService.get<WebhookUser | null>(
-      `${externalTenantId}_${externalUserId}`
+      this.getUserCacheKey({
+        externalUserId,
+        externalTenantId,
+      })
     );
     if (cached) {
       return cached;
@@ -41,12 +44,22 @@ export class WebhookCacheService {
     });
     if (user) {
       await this.cacheManagerService.set(
-        `${user.externalTenantId}_${user.externalUserId}`,
+        this.getUserCacheKey({ externalTenantId, externalUserId }),
         user,
-        15_000 // 15 seconds
+        this.webhookConfiguration.cacheTTL
       );
       return user;
     }
     return null;
+  }
+
+  private getUserCacheKey({
+    externalTenantId,
+    externalUserId,
+  }: {
+    externalTenantId: string | undefined;
+    externalUserId: string;
+  }): string {
+    return `${externalTenantId}_${externalUserId}`;
   }
 }
