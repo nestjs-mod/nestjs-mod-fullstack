@@ -1,6 +1,5 @@
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
 
-import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -18,9 +17,6 @@ export const { AppModule } = createNestModule({
     }),
     PrismaModule.forFeature({
       contextName: 'app',
-      featureModuleName: 'app',
-    }),
-    PrismaToolsModule.forFeature({
       featureModuleName: 'app',
     }),
     ...(process.env.DISABLE_SERVE_STATIC

@@ -2,15 +2,18 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '@authorizerdev/authorizer-js';
-import { AppRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  AppRestService,
+  TimeRestService,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
+import { webSocket } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { TimeService } from './services/time.service';
+import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -33,7 +36,7 @@ export class AppComponent implements OnInit {
   authUser$: Observable<User | undefined>;
 
   constructor(
-    private readonly timeService: TimeService,
+    private readonly timeRestService: TimeRestService,
     private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
     private readonly router: Router
@@ -50,10 +53,15 @@ export class AppComponent implements OnInit {
       )
       .subscribe();
 
-    this.timeService
-      .getTimeStream()
+    merge(
+      this.timeRestService.timeControllerTime(),
+      webSocket<string>({
+        address: this.timeRestService.configuration.basePath + '/ws/time',
+        eventName: 'ChangeTimeStream',
+      }).pipe(map((result) => result.data))
+    )
       .pipe(
-        tap((result) => this.serverTime$.next(result)),
+        tap((result) => this.serverTime$.next(result as string)),
         untilDestroyed(this)
       )
       .subscribe();
