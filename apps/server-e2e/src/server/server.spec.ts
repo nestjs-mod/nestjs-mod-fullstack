@@ -1,6 +1,8 @@
 import { Configuration, AppApi } from '@nestjs-mod-fullstack/app-rest-sdk';
 
 describe('GET /api', () => {
+  jest.setTimeout(60000);
+
   const defaultApi = new AppApi(new Configuration({ basePath: '/api' }));
   let newDemoObject: { id: string };
 

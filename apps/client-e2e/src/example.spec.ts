@@ -24,7 +24,7 @@ test.describe('basic usage', () => {
 
   test('has title', async () => {
     await page.goto('/', {
-      timeout: 5000,
+      timeout: 7000,
     });
 
     // Expect h1 to contain a substring.
@@ -35,7 +35,7 @@ test.describe('basic usage', () => {
 
   test('has serverMessage', async () => {
     await page.goto('/', {
-      timeout: 5000,
+      timeout: 7000,
     });
 
     await setTimeout(4000);

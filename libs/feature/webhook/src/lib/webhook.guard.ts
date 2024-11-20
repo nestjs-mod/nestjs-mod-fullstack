@@ -15,6 +15,7 @@ import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
 import { WebhookEnvironments } from './webhook.environments';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
+import { WebhookCacheService } from './services/webhook-cache.service';
 
 @Injectable()
 export class WebhookGuard implements CanActivate {
@@ -25,7 +26,8 @@ export class WebhookGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly webhookEnvironments: WebhookEnvironments,
-    private readonly webhookStaticConfiguration: WebhookStaticConfiguration
+    private readonly webhookStaticConfiguration: WebhookStaticConfiguration,
+    private readonly webhookCacheService: WebhookCacheService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -96,24 +98,23 @@ export class WebhookGuard implements CanActivate {
         throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
       }
       if (this.webhookEnvironments.autoCreateUser) {
-        req.webhookUser = await this.prismaClient.webhookUser.upsert({
-          create: { externalTenantId, externalUserId, userRole: 'User' },
-          update: {},
-          where: {
-            externalTenantId_externalUserId: {
-              externalTenantId,
-              externalUserId,
-            },
-          },
-        });
-      } else {
-        req.webhookUser = await this.prismaClient.webhookUser.findFirst({
-          where: {
-            externalTenantId,
+        req.webhookUser =
+          await this.webhookCacheService.getCachedUserByExternalUserId(
             externalUserId,
-          },
-        });
+            externalTenantId
+          );
+
+        if (!req.webhookUser) {
+          await this.prismaClient.webhookUser.create({
+            data: { externalTenantId, externalUserId, userRole: 'User' },
+          });
+        }
       }
+      req.webhookUser =
+        await this.webhookCacheService.getCachedUserByExternalUserId(
+          externalUserId,
+          externalTenantId
+        );
     }
   }
 
@@ -121,18 +122,14 @@ export class WebhookGuard implements CanActivate {
     req: WebhookRequest,
     externalUserId: string
   ) {
-    if (this.webhookEnvironments.superAdminExternalUserId) {
-      req.webhookUser = await this.prismaClient.webhookUser.findFirst({
-        where: {
-          AND: [
-            { externalUserId },
-            {
-              externalUserId: this.webhookEnvironments.superAdminExternalUserId,
-            },
-          ],
-          userRole: 'Admin',
-        },
-      });
+    if (
+      !req.webhookUser &&
+      this.webhookEnvironments.superAdminExternalUserId === externalUserId
+    ) {
+      req.webhookUser =
+        await this.webhookCacheService.getCachedUserByExternalUserId(
+          externalUserId
+        );
     }
   }
 

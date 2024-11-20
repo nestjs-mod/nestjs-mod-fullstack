@@ -13,6 +13,7 @@ export * from './lib/generated/rest/dto/webhook';
 export * from './lib/generated/rest/dto/webhook_log';
 export * from './lib/generated/rest/dto/webhook_user';
 export * from './lib/services/webhook-bootstrap.service';
+export * from './lib/services/webhook-cache.service';
 export * from './lib/services/webhook-tools.service';
 export * from './lib/services/webhook-users.service';
 export * from './lib/services/webhook.service';

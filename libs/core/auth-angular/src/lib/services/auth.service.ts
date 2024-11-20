@@ -69,13 +69,18 @@ export class AuthService {
     ).pipe(
       mergeMap((data) =>
         from(
-          this.authorizerService.updateProfile({
-            ...data,
-          })
+          this.authorizerService.updateProfile(
+            {
+              ...data,
+            },
+            this.getAuthorizationHeaders()
+          )
         )
       ),
       mapGraphqlErrors(),
-      mergeMap(() => this.authorizerService.getProfile()),
+      mergeMap(() =>
+        this.authorizerService.getProfile(this.getAuthorizationHeaders())
+      ),
       mapGraphqlErrors(),
       tap((result) => this.setProfile(result)),
       mergeMap((updatedProfile) =>

@@ -37,11 +37,9 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-    /*
-    todo: need check with real webkit, now we didn't change password of user
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-    },*/
+    },
   ],
 });

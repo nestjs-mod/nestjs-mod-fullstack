@@ -88,6 +88,30 @@ services:
       retries: 5
     tty: true
     restart: "always"
+  nestjs-mod-fullstack-redis:
+    image: "bitnami/redis:7.4.1"
+    container_name: "nestjs-mod-fullstack-redis"
+    volumes:
+      - "nestjs-mod-fullstack-redis-volume:/bitnami/redis/data"
+    ports:
+      - "6379:6379"
+    networks:
+      - "nestjs-mod-fullstack-network"
+    environment:
+      REDIS_DATABASE: "${SERVER_REDIS_REDIS_DATABASE}"
+      REDIS_PASSWORD: "${SERVER_REDIS_REDIS_PASSWORD}"
+      REDIS_DISABLE_COMMANDS: "${SERVER_REDIS_REDIS_DISABLE_COMMANDS}"
+      REDIS_IO_THREADS: "${SERVER_REDIS_REDIS_IO_THREADS}"
+      REDIS_IO_THREADS_DO_READS: "${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
   nestjs-mod-fullstack-postgre-sql-migrations:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
@@ -140,8 +164,15 @@ services:
       SERVER_MINIO_SERVER_HOST: '${SERVER_MINIO_SERVER_HOST}'
       SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
       SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
+      SERVER_REDIS_URL: '${SERVER_REDIS_URL}'
     restart: 'always'
     depends_on:
+      nestjs-mod-fullstack-authorizer:
+        condition: 'service_started'
+      nestjs-mod-fullstack-minio:
+        condition: 'service_started'
+      nestjs-mod-fullstack-redis:
+        condition: 'service_healthy'
       nestjs-mod-fullstack-postgre-sql:
         condition: service_healthy
       nestjs-mod-fullstack-postgre-sql-migrations:
@@ -181,6 +212,7 @@ services:
       IS_DOCKER_COMPOSE: 'true'
       BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
       SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
+      SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
       SERVER_URL: 'http://nestjs-mod-fullstack-server:8080'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
@@ -219,3 +251,5 @@ volumes:
     name: 'nestjs-mod-fullstack-https-portal-volume'
   nestjs-mod-fullstack-minio-volume:
     name: "nestjs-mod-fullstack-minio-volume"
+  nestjs-mod-fullstack-redis-volume:
+    name: "nestjs-mod-fullstack-redis-volume"

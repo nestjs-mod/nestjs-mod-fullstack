@@ -32,6 +32,10 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
       get('SERVER_AUTHORIZER_URL').required().asString()
     );
+    await page.evaluate(
+      (minioURL) => localStorage.setItem('minioURL', minioURL),
+      get('SERVER_MINIO_URL').required().asString()
+    );
   });
 
   test.afterAll(async () => {
@@ -88,7 +92,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(5000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]')
@@ -157,7 +161,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(5000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]')

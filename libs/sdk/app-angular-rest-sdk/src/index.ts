@@ -5,6 +5,7 @@ export * from './lib/index';
 export * from './lib/param';
 export * from './lib/variables';
 export * from './lib/api/api';
+
 export * from './lib/api/app-rest.service';
 export * from './lib/api/authorizer-rest.service';
 export * from './lib/api/files-rest.service';

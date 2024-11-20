@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '%NAMESPACE%'
+  name: %NAMESPACE%-redis
+  labels:
+    app: %NAMESPACE%-redis
+spec:
+  selector:
+    app: %NAMESPACE%-redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP
