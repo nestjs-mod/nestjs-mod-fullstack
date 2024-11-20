@@ -8,6 +8,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/secure-servers: 'true'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   rules:
     - host: %SERVER_DOMAIN%
