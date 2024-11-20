@@ -41,7 +41,7 @@ import { WebhookCacheService } from '../services/webhook-cache.service';
 @ApiBadRequestResponse({
   schema: { allOf: refs(WebhookError) },
 })
-@ApiTags('webhook')
+@ApiTags('Webhook')
 @CheckWebhookRole([WebhookRole.Admin])
 @Controller('/webhook/users')
 export class WebhookUsersController {

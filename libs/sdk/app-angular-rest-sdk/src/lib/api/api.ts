@@ -6,6 +6,8 @@ export * from './files-rest.service';
 import { FilesRestService } from './files-rest.service';
 export * from './terminus-health-check-rest.service';
 import { TerminusHealthCheckRestService } from './terminus-health-check-rest.service';
+export * from './time-rest.service';
+import { TimeRestService } from './time-rest.service';
 export * from './webhook-rest.service';
 import { WebhookRestService } from './webhook-rest.service';
 export const APIS = [
@@ -13,5 +15,6 @@ export const APIS = [
   AuthorizerRestService,
   FilesRestService,
   TerminusHealthCheckRestService,
+  TimeRestService,
   WebhookRestService,
 ];

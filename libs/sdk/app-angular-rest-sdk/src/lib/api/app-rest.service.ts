@@ -748,7 +748,7 @@ export class AppRestService {
       }
     }
 
-    let localVarPath = `/api`;
+    let localVarPath = `/api/get-data`;
     return this.httpClient.request<AppDataInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,

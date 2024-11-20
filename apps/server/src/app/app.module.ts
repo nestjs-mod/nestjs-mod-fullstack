@@ -1,11 +1,13 @@
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
 
+import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TimeController } from './time.controller';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',
@@ -18,6 +20,9 @@ export const { AppModule } = createNestModule({
       contextName: 'app',
       featureModuleName: 'app',
     }),
+    PrismaToolsModule.forFeature({
+      featureModuleName: 'app',
+    }),
     ...(process.env.DISABLE_SERVE_STATIC
       ? []
       : [
@@ -26,6 +31,6 @@ export const { AppModule } = createNestModule({
           }),
         ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TimeController],
+  providers: [AppService, TimeController],
 });

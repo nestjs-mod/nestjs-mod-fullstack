@@ -90,30 +90,10 @@ export const appConfig = ({
       provideAppAuthConfiguration(),
       {
         provide: APP_INITIALIZER,
-        useFactory:
-          (
-            appRestService: AppRestService,
-            webhookRestService: WebhookRestService,
-            authService: AuthService,
-            authorizerRestService: AuthorizerRestService,
-            filesRestService: FilesRestService
-          ) =>
-          () =>
-            new AppInitializer(
-              appRestService,
-              webhookRestService,
-              authService,
-              authorizerRestService,
-              filesRestService
-            ).resolve(),
+        useFactory: (appInitializer: AppInitializer) => () =>
+          appInitializer.resolve(),
         multi: true,
-        deps: [
-          AppRestService,
-          WebhookRestService,
-          AuthService,
-          AuthorizerRestService,
-          FilesRestService,
-        ],
+        deps: [AppInitializer],
       },
     ],
   };

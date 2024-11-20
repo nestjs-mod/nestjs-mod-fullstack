@@ -1,0 +1,712 @@
+## [2024-11-21] Получение серверного времени через `WebSockets` и отображение его в `Angular`-приложении
+
+Предыдущая статья: [Кэширование информации в Redis на NestJS](https://nestjs-mod.com/docs/ru-posts/fullstack/2024-11-20)
+
+### 1. Устанавливаем дополнительные библиотеки
+
+Устанавливаем `JS`-клиент и `NestJS`-модуль для работы с `cache-manager` и `Redis`.
+
+_Команды_
+
+```bash
+npm install --save @nestjs/websockets @nestjs/platform-socket.io @nestjs/platform-ws
+```
+
+<spoiler title="Вывод консоли">
+
+```bash
+$ npm install --save @nestjs/websockets @nestjs/platform-socket.io @nestjs/platform-ws
+
+added 4 packages, removed 2 packages, and audited 2938 packages in 1m
+
+360 packages are looking for funding
+  run `npm fund` for details
+
+42 vulnerabilities (21 low, 3 moderate, 18 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+```
+
+</spoiler>
+
+### 2. Подключаем новые модули в бэкенд
+
+Обновляем файл _apps/server/src/main.ts_
+
+```typescript
+
+import {
+  DOCKER_COMPOSE_FILE,
+  DockerCompose,
+  DockerComposeAuthorizer,
+  DockerComposeMinio,
+  DockerComposePostgreSQL,
+} from '@nestjs-mod/docker-compose';
+// ...
+import { MinioModule } from '@nestjs-mod/minio';
+// ...
+
+import { ExecutionContext } from '@nestjs/common';
+// ...
+bootstrapNestApplication({
+  modules: {
+   // ...
+
+    core: [
+      CacheManagerModule.forRoot({
+        staticConfiguration: {
+          type: isInfrastructureMode() ? 'memory' : 'redis',
+        },
+      }),
+    ],
+    infrastructure: [
+      DockerComposeMinio.forRoot({
+        staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
+      }),
+    ]}
+    );
+```
+
+### 3. Запускаем генерацию дополнительного кода по инфраструктуре
+
+_Команды_
+
+```bash
+npm run docs:infrastructure
+```
+
+После запуска в `docker-compose`-файле появится новый сервис `server-redis` и в переменной окружения появится новая переменная окружения `SERVER_REDIS_URL`, которую нужно заполнить.
+
+Обновленный файл _apps/server/docker-compose-prod.yml_
+
+```yaml
+server-redis:
+  image: 'bitnami/redis:7.4.1'
+  container_name: 'server-redis'
+  volumes:
+    - 'server-redis-volume:/bitnami/redis/data'
+  ports:
+    - '6379:6379'
+  networks:
+    - 'server-network'
+  environment:
+    REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
+    REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
+    REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
+  healthcheck:
+    test:
+      - 'CMD-SHELL'
+      - 'redis-cli ping | grep PONG'
+    interval: '5s'
+    timeout: '5s'
+    retries: 5
+  tty: true
+  restart: 'always'
+```
+
+Обновляем файл _.env_
+
+```bash
+# ...
+SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379
+```
+
+Повторно запускаем генерацию дополнительного кода по инфраструктуре, для генерации дополнительных переменных окружения.
+
+_Команды_
+
+```bash
+npm run docs:infrastructure
+```
+
+Обновленный файл _apps/server/docker-compose-prod.yml_
+
+```yaml
+server-redis:
+  image: 'bitnami/redis:7.4.1'
+  container_name: 'server-redis'
+  volumes:
+    - 'server-redis-volume:/bitnami/redis/data'
+  ports:
+    - '6379:6379'
+  networks:
+    - 'server-network'
+  environment:
+    REDIS_DATABASE: '${SERVER_REDIS_REDIS_DATABASE}'
+    REDIS_PASSWORD: '${SERVER_REDIS_REDIS_PASSWORD}'
+    REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
+    REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
+    REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
+  healthcheck:
+    test:
+      - 'CMD-SHELL'
+      - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+    interval: '5s'
+    timeout: '5s'
+    retries: 5
+  tty: true
+  restart: 'always'
+```
+
+### 4. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем через E2E-тесты
+
+_Команды_
+
+```bash
+npm run pm2-full:dev:start
+npm run pm2-full:dev:test:e2e
+```
+
+### 5. Добавляем сервис для кэширования в WebhookModule-модуль
+
+Создаем файл _libs\feature\webhook\src\lib\services\webhook-cache.service.ts_
+
+```typescript
+import { CacheManagerService } from '@nestjs-mod/cache-manager';
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { Injectable } from '@nestjs/common';
+import { PrismaClient, WebhookUser } from '@prisma/webhook-client';
+import { WEBHOOK_FEATURE } from '../webhook.constants';
+import { WebhookConfiguration } from '../webhook.configuration';
+
+@Injectable()
+export class WebhookCacheService {
+  constructor(
+    @InjectPrismaClient(WEBHOOK_FEATURE)
+    private readonly prismaClient: PrismaClient,
+    private readonly webhookConfiguration: WebhookConfiguration,
+    private readonly cacheManagerService: CacheManagerService
+  ) {}
+
+  async clearCacheByExternalUserId(externalUserId: string) {
+    const webhookUsers = await this.prismaClient.webhookUser.findMany({
+      where: { externalUserId },
+    });
+    for (const webhookUser of webhookUsers) {
+      await this.cacheManagerService.del(this.getUserCacheKey(webhookUser));
+    }
+  }
+
+  async getCachedUserByExternalUserId(externalUserId: string, externalTenantId?: string) {
+    const cached = await this.cacheManagerService.get<WebhookUser | null>(
+      this.getUserCacheKey({
+        externalUserId,
+        externalTenantId,
+      })
+    );
+    if (cached) {
+      return cached;
+    }
+    const user = await this.prismaClient.webhookUser.findFirst({
+      where: {
+        externalUserId,
+        ...(externalTenantId ? { externalTenantId } : {}),
+      },
+    });
+    if (user) {
+      await this.cacheManagerService.set(this.getUserCacheKey({ externalTenantId, externalUserId }), user, this.webhookConfiguration.cacheTTL);
+      return user;
+    }
+    return null;
+  }
+
+  private getUserCacheKey({ externalTenantId, externalUserId }: { externalTenantId: string | undefined; externalUserId: string }): string {
+    return `${externalTenantId}_${externalUserId}`;
+  }
+}
+```
+
+Данные по пользователю кэшируются на 15 секунд, время кэширования устанавливается через конфигурацию модуля.
+
+Обновляем файл _libs\feature\webhook\src\lib\webhook.configuration.ts_
+
+```typescript
+import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
+import { WebhookEvent } from './types/webhook-event-object';
+
+@ConfigModel()
+export class WebhookConfiguration {
+  @ConfigModelProperty({
+    description: 'List of available events.',
+  })
+  events!: WebhookEvent[];
+
+  @ConfigModelProperty({
+    description: 'TTL for cached data.',
+    default: 15_000,
+  })
+  cacheTTL?: number;
+}
+
+// ...
+```
+
+В `WebhookGuard` заменяем получение данных через орм на получение данных из сервиса кэирования.
+
+Обновляем файл _libs\feature\webhook\src\lib\webhook.guard.ts_
+
+```typescript
+//...
+import { WebhookCacheService } from './services/webhook-cache.service';
+
+@Injectable()
+export class WebhookGuard implements CanActivate {
+  private logger = new Logger(WebhookGuard.name);
+
+  constructor(
+    //...
+    private readonly webhookCacheService: WebhookCacheService
+  ) {}
+
+  //...
+
+  private async tryGetOrCreateCurrentUserWithExternalUserId(req: WebhookRequest, externalTenantId: string | undefined, externalUserId: string) {
+    if (!req.webhookUser) {
+      if (!externalTenantId || !isUUID(externalTenantId)) {
+        throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
+      }
+      if (this.webhookEnvironments.autoCreateUser) {
+        req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId, externalTenantId);
+
+        if (!req.webhookUser) {
+          await this.prismaClient.webhookUser.create({
+            data: { externalTenantId, externalUserId, userRole: 'User' },
+          });
+        }
+      }
+      req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId, externalTenantId);
+    }
+  }
+
+  private async tryGetCurrentSuperAdminUserWithExternalUserId(req: WebhookRequest, externalUserId: string) {
+    if (!req.webhookUser && this.webhookEnvironments.superAdminExternalUserId === externalUserId) {
+      req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId);
+    }
+  }
+  //...
+}
+```
+
+В контроллере с методами модификации пользователей добавляем вызов инвалидации кэша при изменении и удалении пользователя.
+
+Обновляем файл _libs\feature\webhook\src\lib\controllers\webhook-users.controller.ts_
+
+```typescript
+//...
+import { WebhookCacheService } from '../services/webhook-cache.service';
+
+@ApiExtraModels(WebhookError)
+@ApiBadRequestResponse({
+  schema: { allOf: refs(WebhookError) },
+})
+@ApiTags('webhook')
+@CheckWebhookRole([WebhookRole.Admin])
+@Controller('/webhook/users')
+export class WebhookUsersController {
+  constructor(
+    //...
+    private readonly webhookCacheService: WebhookCacheService
+  ) {}
+
+  //...
+
+  @Put(':id')
+  @ApiOkResponse({ type: WebhookUserObject })
+  async updateOne(@CurrentWebhookExternalTenantId() externalTenantId: string, @CurrentWebhookUser() webhookUser: WebhookUser, @Param('id', new ParseUUIDPipe()) id: string, @Body() args: UpdateWebhookUserArgs) {
+    const result = await this.prismaClient.webhookUser.update({
+      data: { ...args },
+      where: {
+        id,
+        ...this.webhookToolsService.externalTenantIdQuery(webhookUser, webhookUser.userRole === 'Admin' ? undefined : externalTenantId),
+      },
+    });
+    await this.webhookCacheService.clearCacheByExternalUserId(webhookUser.externalUserId);
+    return result;
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ type: StatusResponse })
+  async deleteOne(@CurrentWebhookExternalTenantId() externalTenantId: string, @CurrentWebhookUser() webhookUser: WebhookUser, @Param('id', new ParseUUIDPipe()) id: string) {
+    await this.prismaClient.webhookUser.delete({
+      where: {
+        id,
+        ...this.webhookToolsService.externalTenantIdQuery(webhookUser, webhookUser.userRole === 'Admin' ? undefined : externalTenantId),
+      },
+    });
+    await this.webhookCacheService.clearCacheByExternalUserId(id);
+    return { message: 'ok' };
+  }
+  //...
+}
+```
+
+Подключаем сервис кэшировнаия в модуль `WebhookModule`.
+
+Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
+
+```typescript
+//...
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { WebhookCacheService } from './services/webhook-cache.service';
+
+export const { WebhookModule } = createNestModule({
+  moduleName: WEBHOOK_MODULE,
+  moduleCategory: NestModuleCategory.feature,
+  staticEnvironmentsModel: WebhookEnvironments,
+  staticConfigurationModel: WebhookStaticConfiguration,
+  configurationModel: WebhookConfiguration,
+  imports: [
+    //...
+    CacheManagerModule.forFeature({
+      featureModuleName: WEBHOOK_FEATURE,
+    }),
+  ],
+  providers: [
+    //...
+    WebhookCacheService,
+  ],
+  //...
+});
+```
+
+### 6. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
+
+Полностью описывать изменения во всех файлах я не буду, их можно посмотреть по коммиту с изменениями для текущего поста, ниже просто добавлю обновленный `docker-compose-full.yml` и его файл с переменными окружения.
+
+Обновляем файл _.docker/docker-compose-full.yml_
+
+```yaml
+version: '3'
+networks:
+  nestjs-mod-fullstack-network:
+    driver: 'bridge'
+services:
+  nestjs-mod-fullstack-postgre-sql:
+    image: 'bitnami/postgresql:15.5.0'
+    container_name: 'nestjs-mod-fullstack-postgre-sql'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'pg_isready -U postgres'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
+    environment:
+      POSTGRESQL_USERNAME: '${SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
+      POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
+      POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+    volumes:
+      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
+  nestjs-mod-fullstack-authorizer:
+    image: 'lakhansamani/authorizer:1.4.4'
+    container_name: 'nestjs-mod-fullstack-authorizer'
+    ports:
+      - '8000:8080'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      DATABASE_URL: '${SERVER_AUTHORIZER_DATABASE_URL}'
+      DATABASE_TYPE: '${SERVER_AUTHORIZER_DATABASE_TYPE}'
+      DATABASE_NAME: '${SERVER_AUTHORIZER_DATABASE_NAME}'
+      ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
+      PORT: '${SERVER_AUTHORIZER_PORT}'
+      AUTHORIZER_URL: '${SERVER_AUTHORIZER_URL}'
+      COOKIE_NAME: '${SERVER_AUTHORIZER_COOKIE_NAME}'
+      SMTP_HOST: '${SERVER_AUTHORIZER_SMTP_HOST}'
+      SMTP_PORT: '${SERVER_AUTHORIZER_SMTP_PORT}'
+      SMTP_USERNAME: '${SERVER_AUTHORIZER_SMTP_USERNAME}'
+      SMTP_PASSWORD: '${SERVER_AUTHORIZER_SMTP_PASSWORD}'
+      SENDER_EMAIL: '${SERVER_AUTHORIZER_SENDER_EMAIL}'
+      SENDER_NAME: '${SERVER_AUTHORIZER_SENDER_NAME}'
+      DISABLE_PLAYGROUND: '${SERVER_AUTHORIZER_DISABLE_PLAYGROUND}'
+      ACCESS_TOKEN_EXPIRY_TIME: '${SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}'
+      DISABLE_STRONG_PASSWORD: '${SERVER_AUTHORIZER_DISABLE_STRONG_PASSWORD}'
+      DISABLE_EMAIL_VERIFICATION: '${SERVER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION}'
+      ORGANIZATION_NAME: '${SERVER_AUTHORIZER_ORGANIZATION_NAME}'
+      IS_SMS_SERVICE_ENABLED: '${SERVER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
+      IS_EMAIL_SERVICE_ENABLED: '${SERVER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
+      ENV: '${SERVER_AUTHORIZER_ENV}'
+      RESET_PASSWORD_URL: '${SERVER_AUTHORIZER_RESET_PASSWORD_URL}'
+      ROLES: '${SERVER_AUTHORIZER_ROLES}'
+      DEFAULT_ROLES: '${SERVER_AUTHORIZER_DEFAULT_ROLES}'
+      JWT_ROLE_CLAIM: '${SERVER_AUTHORIZER_JWT_ROLE_CLAIM}'
+      ORGANIZATION_LOGO: '${SERVER_AUTHORIZER_ORGANIZATION_LOGO}'
+    tty: true
+    restart: 'always'
+    depends_on:
+      nestjs-mod-fullstack-postgre-sql:
+        condition: service_healthy
+      nestjs-mod-fullstack-postgre-sql-migrations:
+        condition: service_completed_successfully
+  nestjs-mod-fullstack-minio:
+    image: 'bitnami/minio:2024.11.7'
+    container_name: 'nestjs-mod-fullstack-minio'
+    volumes:
+      - 'nestjs-mod-fullstack-minio-volume:/bitnami/minio/data'
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      MINIO_ROOT_USER: '${SERVER_MINIO_MINIO_ROOT_USER}'
+      MINIO_ROOT_PASSWORD: '${SERVER_MINIO_MINIO_ROOT_PASSWORD}'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'mc'
+        - 'ready'
+        - 'local'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
+  nestjs-mod-fullstack-redis:
+    image: 'bitnami/redis:7.4.1'
+    container_name: 'nestjs-mod-fullstack-redis'
+    volumes:
+      - 'nestjs-mod-fullstack-redis-volume:/bitnami/redis/data'
+    ports:
+      - '6379:6379'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      REDIS_DATABASE: '${SERVER_REDIS_REDIS_DATABASE}'
+      REDIS_PASSWORD: '${SERVER_REDIS_REDIS_PASSWORD}'
+      REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
+      REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
+      REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
+  nestjs-mod-fullstack-postgre-sql-migrations:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
+    container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    tty: true
+    environment:
+      NX_SKIP_NX_CACHE: 'true'
+      SERVER_ROOT_DATABASE_URL: '${SERVER_ROOT_DATABASE_URL}'
+      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
+      SERVER_AUTHORIZER_DATABASE_URL: '${SERVER_AUTHORIZER_DATABASE_URL}'
+    depends_on:
+      nestjs-mod-fullstack-postgre-sql:
+        condition: 'service_healthy'
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
+  nestjs-mod-fullstack-server:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:${SERVER_VERSION}'
+    container_name: 'nestjs-mod-fullstack-server'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    healthcheck:
+      test: ['CMD-SHELL', 'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${SERVER_PORT}/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    tty: true
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: '0'
+      SERVER_PORT: '${SERVER_PORT}'
+      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
+      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
+      SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
+      SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
+      SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
+      SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'
+      SERVER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_URL}'
+      SERVER_AUTHORIZER_REDIRECT_URL: '${SERVER_AUTHORIZER_REDIRECT_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_AUTHORIZER_URL}'
+      SERVER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
+      SERVER_MINIO_SERVER_HOST: '${SERVER_MINIO_SERVER_HOST}'
+      SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
+      SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
+      SERVER_REDIS_URL: '${SERVER_REDIS_URL}'
+    restart: 'always'
+    depends_on:
+      nestjs-mod-fullstack-authorizer:
+        condition: 'service_started'
+      nestjs-mod-fullstack-minio:
+        condition: 'service_started'
+      nestjs-mod-fullstack-redis:
+        condition: 'service_healthy'
+      nestjs-mod-fullstack-postgre-sql:
+        condition: service_healthy
+      nestjs-mod-fullstack-postgre-sql-migrations:
+        condition: service_completed_successfully
+  nestjs-mod-fullstack-nginx:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${CLIENT_VERSION}'
+    container_name: 'nestjs-mod-fullstack-nginx'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -so /dev/null http://localhost:${NGINX_PORT} || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    environment:
+      SERVER_PORT: '${SERVER_PORT}'
+      NGINX_PORT: '${NGINX_PORT}'
+      CLIENT_AUTHORIZER_URL: '${CLIENT_AUTHORIZER_URL}'
+      CLIENT_MINIO_URL: '${CLIENT_MINIO_URL}'
+      CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
+    restart: 'always'
+    depends_on:
+      nestjs-mod-fullstack-server:
+        condition: service_healthy
+    ports:
+      - '${NGINX_PORT}:${NGINX_PORT}'
+  nestjs-mod-fullstack-e2e-tests:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:${ROOT_VERSION}'
+    container_name: 'nestjs-mod-fullstack-e2e-tests'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      IS_DOCKER_COMPOSE: 'true'
+      BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
+      SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
+      SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
+      SERVER_URL: 'http://nestjs-mod-fullstack-server:8080'
+      SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
+      SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
+      SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'
+      SERVER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_healthy
+    working_dir: '/usr/src/app'
+    volumes:
+      - './../apps:/usr/src/app/apps'
+      - './../libs:/usr/src/app/libs'
+  nestjs-mod-fullstack-https-portal:
+    image: steveltn/https-portal:1
+    container_name: 'nestjs-mod-fullstack-https-portal'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - nestjs-mod-fullstack-nginx
+    restart: always
+    environment:
+      STAGE: '${HTTPS_PORTAL_STAGE}'
+      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
+    depends_on:
+      nestjs-mod-fullstack-nginx:
+        condition: service_healthy
+    volumes:
+      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
+volumes:
+  nestjs-mod-fullstack-postgre-sql-volume:
+    name: 'nestjs-mod-fullstack-postgre-sql-volume'
+  nestjs-mod-fullstack-https-portal-volume:
+    name: 'nestjs-mod-fullstack-https-portal-volume'
+  nestjs-mod-fullstack-minio-volume:
+    name: 'nestjs-mod-fullstack-minio-volume'
+  nestjs-mod-fullstack-redis-volume:
+    name: 'nestjs-mod-fullstack-redis-volume'
+```
+
+Обновляем файл _.docker/docker-compose-full.env_
+
+```sh
+SERVER_PORT=9090
+NGINX_PORT=8080
+SERVER_ROOT_DATABASE_URL=postgres://postgres:postgres_password@nestjs-mod-fullstack-postgre-sql:5432/postgres?schema=public
+SERVER_APP_DATABASE_URL=postgres://app:app_password@nestjs-mod-fullstack-postgre-sql:5432/app?schema=public
+SERVER_WEBHOOK_DATABASE_URL=postgres://webhook:webhook_password@nestjs-mod-fullstack-postgre-sql:5432/webhook?schema=public
+SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME=postgres
+SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD=postgres_password
+SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE=postgres
+SERVER_DOMAIN=example.com
+HTTPS_PORTAL_STAGE=local # local|stage|production
+
+CLIENT_AUTHORIZER_URL=http://localhost:8000
+CLIENT_MINIO_URL=http://localhost:9000
+SERVER_AUTHORIZER_REDIRECT_URL=http://localhost:8080
+SERVER_AUTH_ADMIN_EMAIL=nestjs-mod-fullstack@site15.ru
+SERVER_AUTH_ADMIN_USERNAME=admin
+SERVER_AUTH_ADMIN_PASSWORD=SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA
+SERVER_URL=http://localhost:9090/api
+SERVER_AUTHORIZER_URL=http://localhost:8000
+SERVER_MINIO_URL=http://localhost:9000
+SERVER_AUTHORIZER_ADMIN_SECRET=VfKSfPPljhHBXCEohnitursmgDxfAyiD
+SERVER_AUTHORIZER_DATABASE_TYPE=postgres
+SERVER_AUTHORIZER_DATABASE_URL=postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@nestjs-mod-fullstack-postgre-sql:5432/authorizer
+SERVER_AUTHORIZER_DATABASE_NAME=authorizer
+SERVER_AUTHORIZER_PORT=8080
+SERVER_AUTHORIZER_AUTHORIZER_URL=http://nestjs-mod-fullstack-authorizer:8080
+SERVER_AUTHORIZER_COOKIE_NAME=authorizer
+SERVER_AUTHORIZER_DISABLE_PLAYGROUND=true
+SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME=30m
+SERVER_AUTHORIZER_DISABLE_STRONG_PASSWORD=true
+SERVER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION=true
+SERVER_AUTHORIZER_ORGANIZATION_NAME=NestJSModFullstack
+SERVER_AUTHORIZER_IS_EMAIL_SERVICE_ENABLED=true
+SERVER_AUTHORIZER_IS_SMS_SERVICE_ENABLED=false
+SERVER_AUTHORIZER_RESET_PASSWORD_URL=/reset-password
+SERVER_AUTHORIZER_ROLES=user,admin
+SERVER_AUTHORIZER_DEFAULT_ROLES=user
+SERVER_AUTHORIZER_JWT_ROLE_CLAIM=role
+
+SERVER_MINIO_SERVER_HOST=nestjs-mod-fullstack-minio
+SERVER_MINIO_ACCESS_KEY=FWGmrAGaeMKM
+SERVER_MINIO_SECRET_KEY=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
+SERVER_MINIO_ROOT_USER=FWGmrAGaeMKM
+SERVER_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
+SERVER_MINIO_MINIO_ROOT_USER=FWGmrAGaeMKM
+SERVER_MINIO_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
+
+SERVER_REDIS_REDIS_DATABASE=0
+SERVER_REDIS_REDIS_PASSWORD=CHmeOQrZWUHwgahrfzsrzuREOxgAENsC
+SERVER_REDIS_REDIS_DISABLE_COMMANDS=
+SERVER_REDIS_REDIS_IO_THREADS=
+SERVER_REDIS_REDIS_IO_THREADS_DO_READS=
+
+SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@nestjs-mod-fullstack-redis:6379
+```
+
+### Заключение
+
+В данном посте показан простой способ кэширования и инвалидации кэша, если сущностей и данных для кэширования больше, то нужно продумывать иной способ кэширования и инвалидации, для того чтобы писать меньше кода.
+
+### Планы
+
+В следующем посте я добавлю получение сереверного времени через `WebSockets` и отображение его в `Angular`-приложении...
+
+### Ссылки
+
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/06f453a5d6350a562766216a4f87d70547af8292..82e050c24a0d1a2111f499460896c6d00e0f5af4 - изменения
+
+#nestjs #redis #nestjsmod #fullstack

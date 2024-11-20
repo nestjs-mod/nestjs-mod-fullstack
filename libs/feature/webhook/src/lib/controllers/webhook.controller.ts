@@ -48,7 +48,7 @@ import { WebhookError } from '../webhook.errors';
 @ApiBadRequestResponse({
   schema: { allOf: refs(WebhookError) },
 })
-@ApiTags('webhook')
+@ApiTags('Webhook')
 @CheckWebhookRole([WebhookRole.User, WebhookRole.Admin])
 @Controller('/webhook')
 export class WebhookController {

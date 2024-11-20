@@ -10,6 +10,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { TimeService } from './services/time.service';
 
 @UntilDestroy()
 @Component({
@@ -28,9 +29,11 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'client';
   serverMessage$ = new BehaviorSubject('');
+  serverTime$ = new BehaviorSubject('');
   authUser$: Observable<User | undefined>;
 
   constructor(
+    private readonly timeService: TimeService,
     private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
     private readonly router: Router
@@ -43,6 +46,14 @@ export class AppComponent implements OnInit {
       .appControllerGetData()
       .pipe(
         tap((result) => this.serverMessage$.next(result.message)),
+        untilDestroyed(this)
+      )
+      .subscribe();
+
+    this.timeService
+      .getTimeStream()
+      .pipe(
+        tap((result) => this.serverTime$.next(result)),
         untilDestroyed(this)
       )
       .subscribe();
