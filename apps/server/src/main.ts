@@ -161,9 +161,8 @@ bootstrapNestApplication({
                       ? 'Admin'
                       : 'User',
                   });
-                if (req.webhookUser) {
-                  req.externalTenantId = req.webhookUser.externalTenantId;
-                }
+
+                req.externalTenantId = req.webhookUser.externalTenantId;
 
                 // files
                 req.filesUser = {

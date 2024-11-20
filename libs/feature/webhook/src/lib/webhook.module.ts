@@ -50,14 +50,11 @@ export const { WebhookModule } = createNestModule({
       contextName: WEBHOOK_FEATURE,
       featureModuleName: WEBHOOK_FEATURE,
     }),
-    CacheManagerModule.forFeature({
-      featureModuleName: WEBHOOK_FEATURE,
-    }),
   ],
   providers: [
     WebhookToolsService,
-    WebhookCacheService,
     WebhookServiceBootstrap,
+    WebhookCacheService,
   ],
   controllers: [WebhookUsersController, WebhookController],
   sharedProviders: [WebhookService, WebhookUsersService],

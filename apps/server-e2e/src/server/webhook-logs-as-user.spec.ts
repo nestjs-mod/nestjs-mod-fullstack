@@ -8,6 +8,7 @@ import { setTimeout } from 'timers/promises';
 
 describe('CRUD and business operations with WebhookLog as "User" role', () => {
   jest.setTimeout(60000);
+
   const appId = randomUUID();
 
   const appHandler = '/api/callback-user';

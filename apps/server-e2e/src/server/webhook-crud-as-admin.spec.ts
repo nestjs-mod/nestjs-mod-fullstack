@@ -2,6 +2,8 @@ import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 import { get } from 'env-var';
 
 describe('CRUD operations with Webhook as "Admin" role', () => {
+  jest.setTimeout(60000);
+
   const user1 = new RestClientHelper();
   const admin = new RestClientHelper({
     isAdmin: true,

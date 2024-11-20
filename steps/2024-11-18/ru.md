@@ -2,7 +2,7 @@
 
 Предыдущая статья: [Интеграция внешнего сервера авторизации https://authorizer.dev в фулстек приложение на NestJS и Angular](https://habr.com/ru/articles/856896/)
 
-Информация по профилю пользователя запрашивается из базы данных на каждом запросе, это создает дополнительную нагрузку на базу данных и увеличивает время ответа бэкенда, для ускорения подобных запросов можно кэшировать ответ базы данных.
+На каждом фронтенд запросе к бэкенду запрашивается информация по профилю пользователя из базы данных, это создает дополнительную нагрузку на базу данных и увеличивает время ответа бэкенда, для ускорения подобных запросов можно кэшировать ответ базы данных.
 
 В этом посте я подключу `Redis` к проекту и настрою кэширование данных через `@nestjs-mod/cache-manager`.
 
@@ -10,7 +10,7 @@
 
 ### 1. Устанавливаем дополнительные библиотеки
 
-Устанавливаем `JS`-клиент и `NestJS`-модуль для работы с `cache-manager`.
+Устанавливаем `JS`-клиент и `NestJS`-модуль для работы с `cache-manager` и `Redis`.
 
 _Команды_
 
@@ -45,9 +45,9 @@ Run `npm audit` for details.
 
 </spoiler>
 
-### 4. Подключаем новые модули в бэкенд
+### 2. Подключаем новые модули в бэкенд
 
-_apps/server/src/main.ts_
+Обновляем файл _apps/server/src/main.ts_
 
 ```typescript
 
@@ -83,7 +83,7 @@ bootstrapNestApplication({
     );
 ```
 
-### 5. Запускаем генерацию дополнительного кода по инфраструктуре
+### 3. Запускаем генерацию дополнительного кода по инфраструктуре
 
 _Команды_
 
@@ -91,7 +91,7 @@ _Команды_
 npm run docs:infrastructure
 ```
 
-После запуска в `docker-compose`-файле появится новый сервис и в переменной окружения появится новая переменная окружения `SERVER_REDIS_URL`, которую нужно заполнить.
+После запуска в `docker-compose`-файле появится новый сервис `server-redis` и в переменной окружения появится новая переменная окружения `SERVER_REDIS_URL`, которую нужно заполнить.
 
 Обновленный файл _apps/server/docker-compose-prod.yml_
 
@@ -127,7 +127,7 @@ server-redis:
 SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379
 ```
 
-Повторно запускаем генерацию дополнительного кода по инфраструктуре.
+Повторно запускаем генерацию дополнительного кода по инфраструктуре, для генерации дополнительных переменных окружения.
 
 _Команды_
 
@@ -164,7 +164,7 @@ server-redis:
   restart: 'always'
 ```
 
-### 6. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем через E2E-тесты
+### 4. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем через E2E-тесты
 
 _Команды_
 
@@ -173,677 +173,219 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### 6. Добавляем весь необходимый код в модуль FilesModule (NestJS-библиотека)
+### 5. Добавляем сервис для кэширования в WebhookModule-модуль
 
-Так как основная логика по подключению к файловому серверу и работа с ним происходит с помощью библиотеки `@nestjs-mod/minio`, то в нашей новой библиотеке будет только контроллер который будет предоставлять фронтенд приложению необходимые методы и при этом проверять права пользователя.
-
-Загрузка файла с фронтенда происходит с помощью временной ссылки напрямую в файловый сервер, временную ссылку создает наш бэкенд.
-
-Удалять загруженные файлы могут только пользователи кто загрузил файл и администраторы сайта.
-
-Идентификатор пользователя должен находится в `Request`, в поле `externalUserId`.
-
-Создаем файл _libs/core/files/src/lib/controllers/files.controller.ts_
+Создаем файл _libs\feature\webhook\src\lib\services\webhook-cache.service.ts_
 
 ```typescript
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { CacheManagerService } from '@nestjs-mod/cache-manager';
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { Injectable } from '@nestjs/common';
+import { PrismaClient, WebhookUser } from '@prisma/webhook-client';
+import { WEBHOOK_FEATURE } from '../webhook.constants';
+import { WebhookConfiguration } from '../webhook.configuration';
 
-import { MinioConfiguration, MinioFilesService, PresignedUrlsRequest, PresignedUrls as PresignedUrlsResponse } from '@nestjs-mod/minio';
-import { ApiExtraModels, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
-import { FilesError, FilesErrorEnum } from '../files.errors';
+@Injectable()
+export class WebhookCacheService {
+  constructor(
+    @InjectPrismaClient(WEBHOOK_FEATURE)
+    private readonly prismaClient: PrismaClient,
+    private readonly webhookConfiguration: WebhookConfiguration,
+    private readonly cacheManagerService: CacheManagerService
+  ) {}
 
-import { CurrentFilesRequest } from '../files.decorators';
-import { FilesRequest } from '../types/files-request';
-import { StatusResponse } from '@nestjs-mod-fullstack/common';
-import { map } from 'rxjs';
-import { FilesRole } from '../types/files-role';
-
-export class GetPresignedUrlArgs implements PresignedUrlsRequest {
-  @ApiProperty({ type: String })
-  ext!: string;
-}
-
-export class PresignedUrls implements PresignedUrlsResponse {
-  @ApiProperty({ type: String })
-  downloadUrl!: string;
-
-  @ApiProperty({ type: String })
-  uploadUrl!: string;
-}
-
-export class DeleteFileArgs {
-  @ApiProperty({ type: String })
-  downloadUrl!: string;
-}
-
-@ApiExtraModels(FilesError)
-@Controller()
-export class FilesController {
-  constructor(private readonly minioConfiguration: MinioConfiguration, private readonly minioFilesService: MinioFilesService) {}
-
-  @Get('/files/get-presigned-url')
-  @ApiOkResponse({ type: PresignedUrls })
-  getPresignedUrl(@Query() getPresignedUrlArgs: GetPresignedUrlArgs, @CurrentFilesRequest() filesRequest: FilesRequest) {
-    const bucketName = Object.entries(this.minioConfiguration.buckets || {})
-      .filter(([, options]) => options.ext.includes(getPresignedUrlArgs.ext))
-      .map(([name]) => name)?.[0];
-    if (!bucketName) {
-      throw new FilesError(`Uploading files with extension "{{ext}}" is not supported`, FilesErrorEnum.FORBIDDEN, { ext: getPresignedUrlArgs.ext });
-    }
-    return this.minioFilesService.getPresignedUrls({
-      bucketName,
-      expiry: 60,
-      ext: getPresignedUrlArgs.ext,
-      userId: filesRequest.externalUserId,
+  async clearCacheByExternalUserId(externalUserId: string) {
+    const webhookUsers = await this.prismaClient.webhookUser.findMany({
+      where: { externalUserId },
     });
+    for (const webhookUser of webhookUsers) {
+      await this.cacheManagerService.del(this.getUserCacheKey(webhookUser));
+    }
   }
 
-  @Post('/files/delete-file')
-  @ApiOkResponse({ type: StatusResponse })
-  deleteFile(@Query() deleteFileArgs: DeleteFileArgs, @CurrentFilesRequest() filesRequest: FilesRequest) {
-    if (filesRequest.filesUser?.userRole === FilesRole.Admin || deleteFileArgs.downloadUrl.includes(`/${filesRequest.externalUserId}/`)) {
-      return this.minioFilesService.deleteFile(deleteFileArgs.downloadUrl).pipe(map(() => ({ message: 'ok' })));
+  async getCachedUserByExternalUserId(externalUserId: string, externalTenantId?: string) {
+    const cached = await this.cacheManagerService.get<WebhookUser | null>(
+      this.getUserCacheKey({
+        externalUserId,
+        externalTenantId,
+      })
+    );
+    if (cached) {
+      return cached;
     }
-    throw new FilesError(`Only those who uploaded files can delete them`, FilesErrorEnum.FORBIDDEN);
+    const user = await this.prismaClient.webhookUser.findFirst({
+      where: {
+        externalUserId,
+        ...(externalTenantId ? { externalTenantId } : {}),
+      },
+    });
+    if (user) {
+      await this.cacheManagerService.set(this.getUserCacheKey({ externalTenantId, externalUserId }), user, this.webhookConfiguration.cacheTTL);
+      return user;
+    }
+    return null;
+  }
+
+  private getUserCacheKey({ externalTenantId, externalUserId }: { externalTenantId: string | undefined; externalUserId: string }): string {
+    return `${externalTenantId}_${externalUserId}`;
   }
 }
 ```
 
-Добавляем контроллер в `FilesModule`, и подключаем `MinioModule.forFeature` для доступа к сервисам внешнего модуля.
+Данные по пользователю кэшируются на 15 секунд, время кэширования устанавливается через конфигурацию модуля.
 
-Обновляем файл _libs/core/files/src/lib/files.module.ts_
+Обновляем файл _libs\feature\webhook\src\lib\webhook.configuration.ts_
 
 ```typescript
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
-import { MinioModule } from '@nestjs-mod/minio';
-import { FilesController } from './controllers/files.controller';
-import { FILES_FEATURE, FILES_MODULE } from './files.constants';
+import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
+import { WebhookEvent } from './types/webhook-event-object';
 
-export const { FilesModule } = createNestModule({
-  moduleName: FILES_MODULE,
-  moduleCategory: NestModuleCategory.feature,
-  controllers: [FilesController],
-  imports: [
-    MinioModule.forFeature({
-      featureModuleName: FILES_FEATURE,
-    }),
-  ],
-});
+@ConfigModel()
+export class WebhookConfiguration {
+  @ConfigModelProperty({
+    description: 'List of available events.',
+  })
+  events!: WebhookEvent[];
+
+  @ConfigModelProperty({
+    description: 'TTL for cached data.',
+    default: 15_000,
+  })
+  cacheTTL?: number;
+}
+
+// ...
 ```
 
-### 7. Добавляем модуль FilesModule в main.ts
+В `WebhookGuard` заменяем получение данных через орм на получение данных из сервиса кэирования.
 
-Добавляем модуль FilesModule в импорты приложения, а также модифицируем внешний валидатор модуля сервера авторизации, в котором расширяем `Request`-пользователя дополнительным обьектом `filesUser` в котором будет храниться роль пользователя.
-
-Обновляем файл _apps/server/src/main.ts_
+Обновляем файл _libs\feature\webhook\src\lib\webhook.guard.ts_
 
 ```typescript
 //...
-import { FilesModule } from '@nestjs-mod-fullstack/files';
+import { WebhookCacheService } from './services/webhook-cache.service';
 
-bootstrapNestApplication({
-  modules: {
+@Injectable()
+export class WebhookGuard implements CanActivate {
+  private logger = new Logger(WebhookGuard.name);
+
+  constructor(
     //...
-    core: [
-      AuthorizerModule.forRootAsync({
-        //...
-        configurationFactory: (webhookUsersService: WebhookUsersService) => {
-          return {
-            //...
-            checkAccessValidator: async (authorizerUser?: AuthorizerUser, options?: CheckAccessOptions, ctx?: ExecutionContext) => {
-              //...
+    private readonly webhookCacheService: WebhookCacheService
+  ) {}
 
-              if (ctx && authorizerUser?.id) {
-                const req: WebhookRequest & FilesRequest = getRequestFromExecutionContext(ctx);
+  //...
 
-                //...
-                req.externalTenantId = webhookUser.externalTenantId;
+  private async tryGetOrCreateCurrentUserWithExternalUserId(req: WebhookRequest, externalTenantId: string | undefined, externalUserId: string) {
+    if (!req.webhookUser) {
+      if (!externalTenantId || !isUUID(externalTenantId)) {
+        throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
+      }
+      if (this.webhookEnvironments.autoCreateUser) {
+        req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId, externalTenantId);
 
-                // files
-                req.filesUser = {
-                  userRole: authorizerUser.roles?.includes('admin') ? FilesRole.Admin : FilesRole.User,
-                };
-              }
+        if (!req.webhookUser) {
+          await this.prismaClient.webhookUser.create({
+            data: { externalTenantId, externalUserId, userRole: 'User' },
+          });
+        }
+      }
+      req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId, externalTenantId);
+    }
+  }
 
-              return result;
-            },
-          };
-        },
-      }),
-      FilesModule.forRoot(),
-      //...
-    ],
+  private async tryGetCurrentSuperAdminUserWithExternalUserId(req: WebhookRequest, externalUserId: string) {
+    if (!req.webhookUser && this.webhookEnvironments.superAdminExternalUserId === externalUserId) {
+      req.webhookUser = await this.webhookCacheService.getCachedUserByExternalUserId(externalUserId);
+    }
+  }
+  //...
+}
+```
+
+В контроллере с методами модификации пользователей добавляем вызов инвалидации кэша при изменении и удалении пользователя.
+
+Обновляем файл _libs\feature\webhook\src\lib\controllers\webhook-users.controller.ts_
+
+```typescript
+//...
+import { WebhookCacheService } from '../services/webhook-cache.service';
+
+@ApiExtraModels(WebhookError)
+@ApiBadRequestResponse({
+  schema: { allOf: refs(WebhookError) },
+})
+@ApiTags('webhook')
+@CheckWebhookRole([WebhookRole.Admin])
+@Controller('/webhook/users')
+export class WebhookUsersController {
+  constructor(
     //...
-  },
+    private readonly webhookCacheService: WebhookCacheService
+  ) {}
+
+  //...
+
+  @Put(':id')
+  @ApiOkResponse({ type: WebhookUserObject })
+  async updateOne(@CurrentWebhookExternalTenantId() externalTenantId: string, @CurrentWebhookUser() webhookUser: WebhookUser, @Param('id', new ParseUUIDPipe()) id: string, @Body() args: UpdateWebhookUserArgs) {
+    const result = await this.prismaClient.webhookUser.update({
+      data: { ...args },
+      where: {
+        id,
+        ...this.webhookToolsService.externalTenantIdQuery(webhookUser, webhookUser.userRole === 'Admin' ? undefined : externalTenantId),
+      },
+    });
+    await this.webhookCacheService.clearCacheByExternalUserId(webhookUser.externalUserId);
+    return result;
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ type: StatusResponse })
+  async deleteOne(@CurrentWebhookExternalTenantId() externalTenantId: string, @CurrentWebhookUser() webhookUser: WebhookUser, @Param('id', new ParseUUIDPipe()) id: string) {
+    await this.prismaClient.webhookUser.delete({
+      where: {
+        id,
+        ...this.webhookToolsService.externalTenantIdQuery(webhookUser, webhookUser.userRole === 'Admin' ? undefined : externalTenantId),
+      },
+    });
+    await this.webhookCacheService.clearCacheByExternalUserId(id);
+    return { message: 'ok' };
+  }
+  //...
+}
+```
+
+Подключаем сервис кэшировнаия в модуль `WebhookModule`.
+
+Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
+
+```typescript
+//...
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { WebhookCacheService } from './services/webhook-cache.service';
+
+export const { WebhookModule } = createNestModule({
+  moduleName: WEBHOOK_MODULE,
+  moduleCategory: NestModuleCategory.feature,
+  staticEnvironmentsModel: WebhookEnvironments,
+  staticConfigurationModel: WebhookStaticConfiguration,
+  configurationModel: WebhookConfiguration,
+  imports: [
+    //...
+    CacheManagerModule.forFeature({
+      featureModuleName: WEBHOOK_FEATURE,
+    }),
+  ],
+  providers: [
+    //...
+    WebhookCacheService,
+  ],
   //...
 });
 ```
 
-### 8. Добавляем весь необходимый код в Angular-библиотеку по работе с файлами
-
-Отправка файлов происходит на адрес полученный с нашего бэкенда.
-
-Файл можно как загрузить так и удалить, удаление происходит с помощью запроса на наш бекенд.
-
-Все необходимые методы для работы с нашим бэкендом и сервером авторизации создаем в сервисе `FilesService`.
-
-Создаем файл _libs/core/files-angular/src/lib/services/files.service.ts_
-
-```typescript
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { FilesRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { PresignedUrls } from '@nestjs-mod-fullstack/app-rest-sdk';
-import { Observable, from, map, mergeMap, of } from 'rxjs';
-
-export const MINIO_URL = new InjectionToken<string>('MinioURL');
-
-@Injectable({ providedIn: 'root' })
-export class FilesService {
-  constructor(
-    @Inject(MINIO_URL)
-    private readonly minioURL: string,
-    private readonly filesRestService: FilesRestService
-  ) {}
-
-  getPresignedUrlAndUploadFile(file: null | undefined | string | File) {
-    if (!file) {
-      return of('');
-    }
-    if (typeof file !== 'string') {
-      return this.getPresignedUrl(file).pipe(
-        mergeMap((presignedUrls) =>
-          this.uploadFile({
-            file,
-            presignedUrls,
-          })
-        ),
-        map((presignedUrls) => presignedUrls.downloadUrl.replace(this.minioURL, ''))
-      );
-    }
-    return of(file.replace(this.minioURL, ''));
-  }
-
-  getPresignedUrl(file: File) {
-    return from(this.filesRestService.filesControllerGetPresignedUrl(this.getFileExt(file)));
-  }
-
-  uploadFile({ file, presignedUrls }: { file: File; presignedUrls: PresignedUrls }) {
-    return new Observable<PresignedUrls>((observer) => {
-      const outPresignedUrls: PresignedUrls = {
-        downloadUrl: this.minioURL + presignedUrls.downloadUrl,
-        uploadUrl: this.minioURL + presignedUrls.uploadUrl,
-      };
-      if (presignedUrls.uploadUrl) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('PUT', outPresignedUrls.uploadUrl);
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              observer.next(outPresignedUrls);
-              observer.complete();
-            } else {
-              observer.error(new Error('Error in upload file'));
-            }
-          }
-        };
-        xhr.send(file);
-      } else {
-        observer.next(outPresignedUrls);
-        observer.complete();
-      }
-    });
-  }
-
-  deleteFile(downloadUrl: string) {
-    return from(this.filesRestService.filesControllerDeleteFile(downloadUrl));
-  }
-
-  private getFileExt(file: File) {
-    return file?.type?.split('/')?.[1].toLowerCase();
-  }
-}
-```
-
-Создаем компоненту для `Formly`, которая добавит поддержку загрузки и отображения файлов с изображениями.
-
-Создаем файл _libs/core/files-angular/src/lib/formly/image-file.component.ts_
-
-```typescript
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
-import { BehaviorSubject } from 'rxjs';
-import { MINIO_URL } from '../services/files.service';
-import { AsyncPipe } from '@angular/common';
-
-@Component({
-  selector: 'image-file',
-  imports: [ReactiveFormsModule, FormlyModule, NzInputModule, NzButtonModule, NzUploadModule, NzModalModule, NzIconModule, AsyncPipe],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <nz-upload [nzAccept]="'image/png, image/jpeg'" [nzListType]="'picture'" [nzFileList]="(fileList$ | async)!" (nzFileListChange)="onFileListChange($event)" [nzLimit]="1" [nzBeforeUpload]="beforeUpload">
-      <button nz-button type="button">
-        <span nz-icon [nzType]="(icon$ | async)!"></span>
-        {{ title$ | async }}
-      </button>
-    </nz-upload>
-  `,
-})
-export class ImageFileComponent extends FieldType<FieldTypeConfig> implements OnInit {
-  fileList$ = new BehaviorSubject<NzUploadFile[]>([]);
-  title$ = new BehaviorSubject<string>('');
-  icon$ = new BehaviorSubject<string>('');
-
-  constructor(
-    @Inject(MINIO_URL)
-    private readonly minioURL: string
-  ) {
-    super();
-  }
-
-  ngOnInit(): void {
-    if (this.formControl.value) {
-      this.switchToReloadMode();
-      this.fileList$.next([
-        {
-          uid: this.formControl.value,
-          name: this.formControl.value.split('/').at(-1),
-          status: 'done',
-          url: this.minioURL + this.formControl.value,
-        },
-      ]);
-    } else {
-      this.switchToUploadMode();
-    }
-  }
-
-  onFileListChange(files: NzUploadFile[]) {
-    if (files.length === 0) {
-      this.formControl.setValue(null);
-      this.fileList$.next([]);
-      this.switchToUploadMode();
-    }
-  }
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    this.formControl.setValue(file);
-    this.switchToReloadMode();
-    this.fileList$.next([file]);
-    return false;
-  };
-
-  private switchToReloadMode() {
-    this.icon$.next('reload');
-    this.title$.next('Change file');
-  }
-
-  private switchToUploadMode() {
-    this.icon$.next('upload');
-    this.title$.next('Select file...');
-  }
-}
-```
-
-Регистрируем компоненту в `FormlyModule`.
-
-Обновляем файл _apps/client/src/app/app.config.ts_
-
-```typescript
-// ..
-export const appConfig = ({
-  authorizerURL,
-  minioURL,
-}: {
-  authorizerURL: string;
-  minioURL: string;
-}): ApplicationConfig => {
-  return {
-    providers: [
-      // ..
-      importProvidersFrom(
-        // ..
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'image-file',
-              component: ImageFileComponent,
-              extends: 'input',
-            },
-          ],
-        }),
-        // ..
-      )
-      // ..
-    ]}
-```
-
-### 9. Добавляем форму и метод в сервисе для модификации профиля в Angular-модуль по авторизации
-
-Создаем форму для отображения и редактирования профиля, в рамках данной статьи я добавляю только возможность смены пароля и загрузку изображения для пользователя сервера авторизации.
-
-Создаем файл _libs/core/auth-angular/src/lib/forms/auth-profile-form/auth-profile-form.component.ts_
-
-```typescript
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
-import { ImageFileComponent } from '@nestjs-mod-fullstack/files-angular';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-
-@UntilDestroy()
-@Component({
-  standalone: true,
-  imports: [FormlyModule, NzFormModule, NzInputModule, NzButtonModule, FormsModule, ReactiveFormsModule, AsyncPipe, NgIf, RouterModule, ImageFileComponent],
-  selector: 'auth-profile-form',
-  template: `@if (formlyFields$ | async; as formlyFields) {
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-      <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
-      @if (!hideButtons) {
-      <nz-form-control>
-        <div class="flex justify-between">
-          <div></div>
-          <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Update</button>
-        </div>
-      </nz-form-control>
-      }
-    </form>
-    } `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class AuthProfileFormComponent implements OnInit {
-  @Input()
-  hideButtons?: boolean;
-
-  form = new UntypedFormGroup({});
-  formlyModel$ = new BehaviorSubject<object | null>(null);
-  formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
-
-  constructor(
-    @Optional()
-    @Inject(NZ_MODAL_DATA)
-    private readonly nzModalData: AuthProfileFormComponent,
-    private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
-  ) {}
-
-  ngOnInit(): void {
-    Object.assign(this, this.nzModalData);
-    this.fillFromProfile();
-  }
-
-  setFieldsAndModel(data: UpdateProfileInput = {}) {
-    this.formlyFields$.next([
-      {
-        key: 'picture',
-        type: 'image-file',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.profile-form.picture`,
-          placeholder: 'picture',
-        },
-      },
-      {
-        key: 'old_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.profile-form.old_password`,
-          placeholder: 'old_password',
-          type: 'password',
-        },
-      },
-      {
-        key: 'new_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.profile-form.new_password`,
-          placeholder: 'new_password',
-          type: 'password',
-        },
-      },
-      {
-        key: 'confirm_new_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `auth.profile-form.confirm_new_password`,
-          placeholder: 'confirm_new_password',
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
-  }
-
-  submitForm(): void {
-    if (this.form.valid) {
-      const value = this.toJson(this.form.value);
-      this.authService
-        .updateProfile(value)
-        .pipe(
-          tap(() => {
-            this.fillFromProfile();
-            this.nzMessageService.success('Updated');
-          }),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          catchError((err: any) => {
-            console.error(err);
-            this.nzMessageService.error(err.message);
-            return of(null);
-          }),
-          untilDestroyed(this)
-        )
-        .subscribe();
-    } else {
-      console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
-    }
-  }
-
-  private fillFromProfile() {
-    this.setFieldsAndModel({
-      picture: this.authService.profile$.value?.picture || '',
-    });
-  }
-
-  private toModel(data: UpdateProfileInput): object | null {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-    };
-  }
-
-  private toJson(data: UpdateProfileInput) {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-    };
-  }
-}
-```
-
-Хотя мы и видем файловое поле в форме профиля, физически модуль авторизации и файловый модуль не связаны, но при сохранении данных по профилю нам нужно предварительно загрузить файл на внешний файловый сервер и ссылку на этот файл записать в поле изображения профиля.
-
-Связь файлового модуля и формы редактирования профиля будем докидывать с помощью дополнительных обработчиков с верхнего уровня приложения используя `DI` от `Angular`.
-
-Создаем файл _libs/core/auth-angular/src/lib/services/auth.configuration.ts_
-
-```typescript
-import { InjectionToken } from '@angular/core';
-import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
-import { Observable } from 'rxjs';
-
-export type AfterUpdateProfileEvent = {
-  old?: User;
-  new?: User;
-};
-
-export class AuthConfiguration {
-  constructor(options?: AuthConfiguration) {
-    Object.assign(this, options);
-  }
-
-  beforeUpdateProfile?(data: UpdateProfileInput): Observable<UpdateProfileInput>;
-
-  afterUpdateProfile?(data: AfterUpdateProfileEvent): Observable<User | undefined>;
-}
-
-export const AUTH_CONFIGURATION_TOKEN = new InjectionToken<string>('AUTH_CONFIGURATION_TOKEN');
-```
-
-Добавляем новый метод для обновления профиля в `AuthService`, который будет проверять наличие дополнительных обработчиков в конфиге.
-
-Создаем файл _libs/core/auth-angular/src/lib/services/auth.configuration.ts_
-
-```typescript
-import { Inject, Injectable, Optional } from '@angular/core';
-import { AuthToken, LoginInput, SignupInput, UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
-import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
-import { BehaviorSubject, catchError, from, map, mergeMap, of, tap } from 'rxjs';
-import { AUTH_CONFIGURATION_TOKEN, AuthConfiguration } from './auth.configuration';
-import { AuthorizerService } from './authorizer.service';
-
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  profile$ = new BehaviorSubject<User | undefined>(undefined);
-  tokens$ = new BehaviorSubject<AuthToken | undefined>(undefined);
-
-  constructor(
-    private readonly authorizerService: AuthorizerService,
-    @Optional()
-    @Inject(AUTH_CONFIGURATION_TOKEN)
-    private readonly authConfiguration?: AuthConfiguration
-  ) {}
-
-  // ..
-
-  updateProfile(data: UpdateProfileInput) {
-    const oldProfile = this.profile$.value;
-    return (this.authConfiguration?.beforeUpdateProfile ? this.authConfiguration.beforeUpdateProfile(data) : of(data)).pipe(
-      mergeMap((data) =>
-        from(
-          this.authorizerService.updateProfile({
-            ...data,
-          })
-        )
-      ),
-      mapGraphqlErrors(),
-      mergeMap(() => this.authorizerService.getProfile()),
-      mapGraphqlErrors(),
-      tap((result) => this.setProfile(result)),
-      mergeMap((updatedProfile) =>
-        this.authConfiguration?.afterUpdateProfile
-          ? this.authConfiguration.afterUpdateProfile({
-              new: updatedProfile,
-              old: oldProfile,
-            })
-          : of({
-              new: updatedProfile,
-            })
-      )
-    );
-  }
-  // ..
-}
-```
-
-### 10. Описываем и подключаем интеграцию модуля авторизации и файлового модуля
-
-Создаем файл _apps/client/src/app/integrations/auth.configuration.ts_
-
-```typescript
-import { Provider } from '@angular/core';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
-import { AfterUpdateProfileEvent, AUTH_CONFIGURATION_TOKEN, AuthConfiguration } from '@nestjs-mod-fullstack/auth-angular';
-import { FilesService } from '@nestjs-mod-fullstack/files-angular';
-import { map, Observable, of } from 'rxjs';
-
-export class AppAuthConfiguration implements AuthConfiguration {
-  constructor(private readonly filesService: FilesService) {}
-
-  beforeUpdateProfile(data: UpdateProfileInput): Observable<UpdateProfileInput> {
-    if (data.picture) {
-      return this.filesService.getPresignedUrlAndUploadFile(data.picture).pipe(
-        map((picture) => {
-          return {
-            ...data,
-            picture,
-          };
-        })
-      );
-    }
-    return of({ ...data, picture: '' });
-  }
-
-  afterUpdateProfile(event: AfterUpdateProfileEvent) {
-    if (event.old?.picture && event.new?.picture !== event.old.picture) {
-      return this.filesService.deleteFile(event.old.picture).pipe(map(() => event.new));
-    }
-    return of(event.new);
-  }
-}
-
-export function provideAppAuthConfiguration(): Provider {
-  return {
-    provide: AUTH_CONFIGURATION_TOKEN,
-    useClass: AppAuthConfiguration,
-    deps: [FilesService],
-  };
-}
-```
-
-Подключаем интеграцию в конфиг `Angular`-приложения.
-
-Обновляем файл _apps/client/src/app/app.config.ts_
-
-```typescript
-
-export const appConfig = ({
-  authorizerURL,
-  minioURL,
-}: {
-  authorizerURL: string;
-  minioURL: string;
-}): ApplicationConfig => {
-  return {
-    providers: [
-      // ..
-      provideAppAuthConfiguration(),
-      // ..
-    ]
-  }
-```
-
-### 11. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
+### 6. Обновляем файлы и добавляем новые для запуска docker-compose и kubernetes
 
 Полностью описывать изменения во всех файлах я не буду, их можно посмотреть по коммиту с изменениями для текущего поста, ниже просто добавлю обновленный `docker-compose-full.yml` и его файл с переменными окружения.
 
@@ -940,6 +482,30 @@ services:
       retries: 5
     tty: true
     restart: 'always'
+  nestjs-mod-fullstack-redis:
+    image: 'bitnami/redis:7.4.1'
+    container_name: 'nestjs-mod-fullstack-redis'
+    volumes:
+      - 'nestjs-mod-fullstack-redis-volume:/bitnami/redis/data'
+    ports:
+      - '6379:6379'
+    networks:
+      - 'nestjs-mod-fullstack-network'
+    environment:
+      REDIS_DATABASE: '${SERVER_REDIS_REDIS_DATABASE}'
+      REDIS_PASSWORD: '${SERVER_REDIS_REDIS_PASSWORD}'
+      REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
+      REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
+      REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
+    tty: true
+    restart: 'always'
   nestjs-mod-fullstack-postgre-sql-migrations:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
@@ -988,8 +554,15 @@ services:
       SERVER_MINIO_SERVER_HOST: '${SERVER_MINIO_SERVER_HOST}'
       SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
       SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
+      SERVER_REDIS_URL: '${SERVER_REDIS_URL}'
     restart: 'always'
     depends_on:
+      nestjs-mod-fullstack-authorizer:
+        condition: 'service_started'
+      nestjs-mod-fullstack-minio:
+        condition: 'service_started'
+      nestjs-mod-fullstack-redis:
+        condition: 'service_healthy'
       nestjs-mod-fullstack-postgre-sql:
         condition: service_healthy
       nestjs-mod-fullstack-postgre-sql-migrations:
@@ -1025,6 +598,7 @@ services:
       IS_DOCKER_COMPOSE: 'true'
       BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
       SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
+      SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
       SERVER_URL: 'http://nestjs-mod-fullstack-server:8080'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
@@ -1063,6 +637,8 @@ volumes:
     name: 'nestjs-mod-fullstack-https-portal-volume'
   nestjs-mod-fullstack-minio-volume:
     name: 'nestjs-mod-fullstack-minio-volume'
+  nestjs-mod-fullstack-redis-volume:
+    name: 'nestjs-mod-fullstack-redis-volume'
 ```
 
 Обновляем файл _.docker/docker-compose-full.env_
@@ -1087,6 +663,7 @@ SERVER_AUTH_ADMIN_USERNAME=admin
 SERVER_AUTH_ADMIN_PASSWORD=SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA
 SERVER_URL=http://localhost:9090/api
 SERVER_AUTHORIZER_URL=http://localhost:8000
+SERVER_MINIO_URL=http://localhost:9000
 SERVER_AUTHORIZER_ADMIN_SECRET=VfKSfPPljhHBXCEohnitursmgDxfAyiD
 SERVER_AUTHORIZER_DATABASE_TYPE=postgres
 SERVER_AUTHORIZER_DATABASE_URL=postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@nestjs-mod-fullstack-postgre-sql:5432/authorizer
@@ -1113,212 +690,23 @@ SERVER_MINIO_ROOT_USER=FWGmrAGaeMKM
 SERVER_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
 SERVER_MINIO_MINIO_ROOT_USER=FWGmrAGaeMKM
 SERVER_MINIO_MINIO_ROOT_PASSWORD=QatVJuLoZRARlJguoZMpoKvZMJHzvuOR
-```
 
-### 12. Создаем E2E-тест для проверки обновления профиля и загрузки файла на сервер
+SERVER_REDIS_REDIS_DATABASE=0
+SERVER_REDIS_REDIS_PASSWORD=CHmeOQrZWUHwgahrfzsrzuREOxgAENsC
+SERVER_REDIS_REDIS_DISABLE_COMMANDS=
+SERVER_REDIS_REDIS_IO_THREADS=
+SERVER_REDIS_REDIS_IO_THREADS_DO_READS=
 
-Создаем файл _apps/client-e2e/src/profile-as-user.spec.ts_
-
-```typescript
-import { faker } from '@faker-js/faker';
-import { expect, Page, test } from '@playwright/test';
-import { get } from 'env-var';
-import { join } from 'path';
-import { setTimeout } from 'timers/promises';
-
-test.describe('Work with profile as "User" role', () => {
-  test.describe.configure({ mode: 'serial' });
-
-  const user = {
-    email: faker.internet.email({
-      provider: 'example.fakerjs.dev',
-    }),
-    password: faker.internet.password({ length: 8 }),
-    site: `http://${faker.internet.domainName()}`,
-  };
-  let page: Page;
-
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage({
-      viewport: { width: 1920, height: 1080 },
-      recordVideo: {
-        dir: join(__dirname, 'video'),
-        size: { width: 1920, height: 1080 },
-      },
-    });
-    await page.goto('/', {
-      timeout: 7000,
-    });
-    await page.evaluate((authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL), get('SERVER_AUTHORIZER_URL').required().asString());
-  });
-
-  test.afterAll(async () => {
-    await setTimeout(1000);
-    await page.close();
-  });
-
-  test('sign up as user', async () => {
-    await page.goto('/sign-up', {
-      timeout: 7000,
-    });
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=email]').click();
-    await page.keyboard.type(user.email.toLowerCase(), {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=password]')).toHaveValue(user.password);
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]')).toHaveValue(user.password);
-
-    await expect(page.locator('auth-sign-up-form').locator('button[type=submit]')).toHaveText('Sign-up');
-
-    await page.locator('auth-sign-up-form').locator('button[type=submit]').click();
-
-    await setTimeout(1500);
-
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-  });
-
-  test('sign out after sign-up', async () => {
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-    await page.locator('nz-header').locator('[nz-submenu]').first().click();
-
-    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Sign-out`);
-
-    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
-
-    await setTimeout(4000);
-
-    await expect(page.locator('nz-header').locator('[nz-menu-item]').last()).toContainText(`Sign-in`);
-  });
-
-  test('sign in as user', async () => {
-    await page.goto('/sign-in', {
-      timeout: 7000,
-    });
-
-    await page.locator('auth-sign-in-form').locator('[placeholder=email]').click();
-    await page.keyboard.type(user.email.toLowerCase(), {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-in-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
-
-    await page.locator('auth-sign-in-form').locator('[placeholder=password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-in-form').locator('[placeholder=password]')).toHaveValue(user.password);
-
-    await expect(page.locator('auth-sign-in-form').locator('button[type=submit]')).toHaveText('Sign-in');
-
-    await page.locator('auth-sign-in-form').locator('button[type=submit]').click();
-
-    await setTimeout(1500);
-
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-  });
-
-  test('should change password in profile', async () => {
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-    await page.locator('nz-header').locator('[nz-submenu]').first().click();
-
-    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first()).toContainText(`Profile`);
-
-    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first().click();
-
-    await setTimeout(4000);
-    //
-    await page.locator('auth-profile-form').locator('[placeholder=old_password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-profile-form').locator('[placeholder=old_password]')).toHaveValue(user.password);
-
-    await page.locator('auth-profile-form').locator('[placeholder=new_password]').click();
-    await page.keyboard.type(user.password + user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-profile-form').locator('[placeholder=new_password]')).toHaveValue(user.password + user.password);
-
-    await page.locator('auth-profile-form').locator('[placeholder=confirm_new_password]').click();
-    await page.keyboard.type(user.password + user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-profile-form').locator('[placeholder=confirm_new_password]')).toHaveValue(user.password + user.password);
-
-    const fileChooserPromise = page.waitForEvent('filechooser');
-    page.locator('nz-upload').locator('button').click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(join(__dirname, 'dep.jpg'));
-    await setTimeout(1000);
-
-    await expect(page.locator('auth-profile-form').locator('button[type=submit]')).toHaveText('Update');
-
-    await page.locator('auth-profile-form').locator('button[type=submit]').click();
-
-    await setTimeout(1500);
-  });
-
-  test('sign out', async () => {
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-    await page.locator('nz-header').locator('[nz-submenu]').first().click();
-
-    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Sign-out`);
-
-    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
-
-    await setTimeout(4000);
-
-    await expect(page.locator('nz-header').locator('[nz-menu-item]').last()).toContainText(`Sign-in`);
-  });
-
-  test('sign in as user with new password', async () => {
-    await page.goto('/sign-in', {
-      timeout: 7000,
-    });
-
-    await page.locator('auth-sign-in-form').locator('[placeholder=email]').click();
-    await page.keyboard.type(user.email.toLowerCase(), {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-in-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
-
-    await page.locator('auth-sign-in-form').locator('[placeholder=password]').click();
-    await page.keyboard.type(user.password + user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-in-form').locator('[placeholder=password]')).toHaveValue(user.password + user.password);
-
-    await expect(page.locator('auth-sign-in-form').locator('button[type=submit]')).toHaveText('Sign-in');
-
-    await page.locator('auth-sign-in-form').locator('button[type=submit]').click();
-
-    await setTimeout(1500);
-
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-  });
-});
+SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@nestjs-mod-fullstack-redis:6379
 ```
 
 ### Заключение
 
-В данном посте и проекте конфигурация для файлового сервера `Minio` написана без учета больших нагрузок и без репликаций, все описывается в качестве примера, при деплое в реальный продакшен нужно будет почитать дополнительный материал.
-
-Текущий проект использует одного админа файлового сервера `Minio` для всех пользователей приложения, если вам не потходит такой вариант, то вы можете взять в качестве сервера авторизации `Keycloak`, и настроить его связку с `Minio` для использования общих пользователей.
+В данном посте показан простой способ кэширования и инвалидации кэша, если сущностей и данных для кэширования больше, то нужно продумывать иной способ кэширования и инвалидации, для того чтобы писать меньше кода.
 
 ### Планы
 
-В следующем посте я подключу к проекту `Redis` и настрою кэширование информации о профиле пользователя...
+В следующем посте я добавлю получение сереверного времени через `WebSockets` и отображение его в `Angular`-приложении...
 
 ### Ссылки
 
@@ -1328,4 +716,4 @@ test.describe('Work with profile as "User" role', () => {
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
 
-#angular #minio #nestjsmod #fullstack
+#nestjs #redis #nestjsmod #fullstack
