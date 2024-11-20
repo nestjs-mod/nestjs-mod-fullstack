@@ -29,9 +29,9 @@ spec:
           resources:
             requests:
               memory: 128Mi
-              cpu: 100m
+              cpu: 70m
             limits:
               memory: 512Mi
-              cpu: 300m
+              cpu: 200m
       imagePullSecrets:
         - name: docker-regcred
