@@ -714,6 +714,6 @@ SERVER_REDIS_URL=redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@nestjs-mod-fullstack-
 - https://nestjs-mod.com - официальный сайт дополнительных утилит
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/414980df21e585cb798e1ff756300c4547e68a42..2e4639867c55e350f0c52dee4cb581fc624b5f9d - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/06f453a5d6350a562766216a4f87d70547af8292..82e050c24a0d1a2111f499460896c6d00e0f5af4 - изменения
 
 #nestjs #redis #nestjsmod #fullstack
