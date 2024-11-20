@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.5.1...server-v1.6.0) (2024-11-20)
+
+### Features
+
+- Caching information in Redis on NestJS (2024-11-20) ([82e050c](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/82e050c24a0d1a2111f499460896c6d00e0f5af4))
+- Getting server time via WebSockets and displaying It in Angular application (2024-11-21) ([fbe6e17](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/fbe6e17ceedaab6721c5ccc9a2178cc414f0dddb))
+
 ## [1.5.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.5.0...server-v1.5.1) (2024-11-15)
 
 ### Bug Fixes
