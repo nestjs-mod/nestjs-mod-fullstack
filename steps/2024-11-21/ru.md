@@ -1,4 +1,4 @@
-## [2024-11-21] Получение серверного времени через `WebSockets` и отображение его в `Angular`-приложении
+## [2024-11-21] Получение серверного времени через WebSockets и отображение его в Angular-приложении
 
 Предыдущая статья: [Кэширование информации в Redis на NestJS](https://nestjs-mod.com/docs/ru-posts/fullstack/2024-11-20)
 
@@ -184,7 +184,7 @@ export function webSocket<T>({
 }
 ```
 
-### 6. Добавляем получение и отображение текущего серверного времени в футоре страницы
+### 6. Добавляем получение и отображение текущего серверного времени в футере страницы
 
 Обновляем файл _apps/client/src/app/app.component.ts_
 
@@ -351,7 +351,7 @@ npm run pm2-full:dev:test:e2e
 
 ### Планы
 
-В следующем посте я добавлю обработку серверный валидационных ошибок на фронтенде
+В следующем посте я добавлю обработку серверный валидационных ошибок на фронтенде...
 
 ### Ссылки
 
@@ -359,6 +359,6 @@ npm run pm2-full:dev:test:e2e
 - https://nestjs-mod.com - официальный сайт дополнительных утилит
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/06f453a5d6350a562766216a4f87d70547af8292..82e050c24a0d1a2111f499460896c6d00e0f5af4 - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/82e050c24a0d1a2111f499460896c6d00e0f5af4..fbe6e17ceedaab6721c5ccc9a2178cc414f0dddb - изменения
 
 #angular #websockets #nestjsmod #fullstack

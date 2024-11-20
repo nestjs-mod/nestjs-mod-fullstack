@@ -1,20 +1,18 @@
-## [2024-11-21] Получение серверного времени через `WebSockets` и отображение его в `Angular`-приложении
+## [2024-11-21] Getting server time via WebSockets and displaying It in Angular application
 
-Предыдущая статья: [Кэширование информации в Redis на NestJS](https://nestjs-mod.com/docs/ru-posts/fullstack/2024-11-20)
+In this post I will describe how to create a web socket stream in the backend on `NestJS` and subscribe to it from the frontend application on `Angular`.
 
-В этом посте я опишу как создать веб-сокетный стрим в бэкенде на `NestJS` и подписаться на него из фронтенд приложения на `Angular`.
+### 1. Install additional libraries
 
-### 1. Устанавливаем дополнительные библиотеки
+Install `NestJS` modules to work with `websockets`.
 
-Устанавливаем `NestJS`-модули для работы с `websockets`.
-
-_Команды_
+_Commands_
 
 ```bash
 npm install --save @nestjs/websockets @nestjs/platform-socket.io @nestjs/platform-ws
 ```
 
-<spoiler title="Вывод консоли">
+{% spoiler Console output %}
 
 ```bash
 $ npm install --save @nestjs/websockets @nestjs/platform-socket.io @nestjs/platform-ws
@@ -38,13 +36,13 @@ a different dependency.
 Run `npm audit` for details.
 ```
 
-</spoiler>
+{% endspoiler %}
 
-### 2. Создаем контроллер который отдает серверное время
+### 2. Create a controller that returns server time
 
-Контроллер имеет метод выдачи текущего времени и веб-сокет который каждую секунду возвращает текущее время бэкенда.
+The controller has a method for issuing the current time and a web socket that returns the current backend time every second.
 
-Создаем файл _apps/server/src/app/time.controller.ts_
+Create a file _apps/server/src/app/time.controller.ts_
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
@@ -89,11 +87,11 @@ export class TimeController implements OnGatewayConnection {
 }
 ```
 
-### 3. Добавляем контроллер в AppModule
+### 3. Adding a controller to AppModule
 
-Так как контроллер также включает в себя логику гейтвея, то провайдим контроллер в секции `controllers` и `providers`.
+Since the controller also includes the gateway logic, we provide the controller in the `controllers` and `providers` sections.
 
-Обновляем файл _apps/server/src/app/app.module.ts_
+Updating the file _apps/server/src/app/app.module.ts_
 
 ```typescript
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
@@ -130,17 +128,17 @@ export const { AppModule } = createNestModule({
 });
 ```
 
-### 4. Пересоздаем SDK для фронтенда и тестов
+### 4. Rebuilding SDK for frontend and tests
 
-_Команды_
+_Commands_
 
 ```bash
 npm run generate
 ```
 
-### 5. Добавляем утилиту для удобной работы с веб-сокетам из Angular-приложения
+### 5. Adding a utility for convenient work with web sockets from an Angular application
 
-Создаем файл _libs/common-angular/src/lib/utils/web-socket.ts_
+Create a file _libs/common-angular/src/lib/utils/web-socket.ts_
 
 ```typescript
 import { Observable, finalize } from 'rxjs';
@@ -184,9 +182,9 @@ export function webSocket<T>({
 }
 ```
 
-### 6. Добавляем получение и отображение текущего серверного времени в футоре страницы
+### 6. Adding retrieval and display of the current server time in the page footer
 
-Обновляем файл _apps/client/src/app/app.component.ts_
+Updating the file _apps/client/src/app/app.component.ts_
 
 ```typescript
 import { AsyncPipe } from '@angular/common';
@@ -256,7 +254,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-Обновляем файл _apps/client/src/app/app.component.html_
+Updating the file _apps/client/src/app/app.component.html_
 
 ```html
 <nz-layout class="layout">
@@ -289,9 +287,9 @@ export class AppComponent implements OnInit {
 </nz-layout>
 ```
 
-### 7. Создаем E2E-тест для проверки работы логик связанных с временем
+### 7. Create an E2E test to check the operation of time-related logics
 
-Создаем файл _apps/server-e2e/src/server/time.spec.ts_
+Create a file _apps/server-e2e/src/server/time.spec.ts_
 
 ```typescript
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
@@ -334,31 +332,31 @@ describe('Get server time from rest api and ws', () => {
 });
 ```
 
-### 8. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем работу через E2E-тесты
+### 8. We launch the infrastructure with applications in development mode and check the operation through E2E tests
 
-_Команды_
+_Commands_
 
 ```bash
 npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### Заключение
+### Conclusion
 
-В текущем посте и проекте при отправке времени через веб-сокет не происходит проверки авторизации пользователя и веб-сокетный стрим доступен любым пользователям, в реальном приложении обычно много веб-сокет стримов которые проверяют токен авторизации.
+In the current post and project, when sending time via a web socket, there is no user authorization check and the web socket stream is available to any user, in a real application there are usually many web socket streams that check the authorization token.
 
-Возможно в следующих постах появится пример с авторизаций, но подготовительный код есть и в текущей версии (ищите: `handleConnection`).
+Perhaps in the next posts there will be an example with authorizations, but the preparatory code is also in the current version (search for: `handleConnection`).
 
-### Планы
+### Plans
 
-В следующем посте я добавлю обработку серверный валидационных ошибок на фронтенде
+In the next post I will add handling of server validation errors on the frontend...
 
-### Ссылки
+### Links
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/06f453a5d6350a562766216a4f87d70547af8292..82e050c24a0d1a2111f499460896c6d00e0f5af4 - изменения
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/82e050c24a0d1a2111f499460896c6d00e0f5af4..fbe6e17ceedaab6721c5ccc9a2178cc414f0dddb - current changes
 
 #angular #websockets #nestjsmod #fullstack
