@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: '%NAMESPACE%'
+  name: %NAMESPACE%-server-ws-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/rewrite-target: /ws
+    nginx.ingress.kubernetes.io/enable-rewrite-log: 'true'
+spec:
+  rules:
+    - host: %SERVER_DOMAIN%
+      http:
+        paths:
+          - path: /ws
+            pathType: Prefix
+            backend:
+              service:
+                name: %NAMESPACE%-server
+                port:
+                  number: %SERVER_PORT%
+  tls:
+    - hosts:
+        - %SERVER_DOMAIN%
+      secretName: %NAMESPACE%-server-ws-tls
