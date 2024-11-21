@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.6.0...server-v1.6.1) (2024-11-21)
+
+### Bug Fixes
+
+- add clientUrl to RestClientHelper in webSocket ([a5efa43](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a5efa43f571a7b48402275e1ee6a9b1e325d0eb0))
+
 # [1.6.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.5.1...server-v1.6.0) (2024-11-20)
 
 ### Features
