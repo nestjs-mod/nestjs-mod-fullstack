@@ -1,3 +1,9 @@
+# [1.6.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.5.1...client-v1.6.0) (2024-11-21)
+
+### Features
+
+- add metrika.yandex.ru ([478be03](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/478be03ea87305d715fb18b0b3054c051be855d4))
+
 ## [1.5.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.5.0...client-v1.5.1) (2024-11-21)
 
 ### Bug Fixes
