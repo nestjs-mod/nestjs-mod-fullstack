@@ -42,6 +42,7 @@ export class RestClientHelper {
   constructor(
     private readonly options?: {
       isAdmin?: boolean;
+      clientUrl?: string;
       serverUrl?: string;
       authorizerURL?: string;
       randomUser?: GenerateRandomUserResult;
@@ -68,7 +69,7 @@ export class RestClientHelper {
     options?: WebSocket.ClientOptions;
   }) {
     const wss = new WebSocket(
-      this.getServerUrl().replace('/api', '').replace('http', 'ws') + path,
+      this.getClientUrl().replace('/api', '').replace('http', 'ws') + path,
       options
     );
     return new Observable<{ data: T; event: string }>((observer) => {
@@ -339,5 +340,9 @@ export class RestClientHelper {
 
   private getServerUrl(): string {
     return this.options?.serverUrl || getUrls().serverUrl;
+  }
+
+  private getClientUrl(): string {
+    return this.options?.clientUrl || getUrls().clientUrl;
   }
 }

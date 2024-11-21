@@ -1,5 +1,5 @@
 # server
-> Version: 1.5.1
+> Version: 1.6.0
 
 ## Running the app in watch mode
 ```bash
