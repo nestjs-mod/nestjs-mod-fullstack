@@ -42,22 +42,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BASE_SERVER_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BASE_SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -69,22 +66,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BUILDER_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BUILDER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -96,22 +90,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.MIGRATIONS_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.MIGRATIONS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -123,22 +114,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: version
         run: |
           echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.SERVER_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -150,22 +138,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: version
         run: |
           echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.NGINX_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.NGINX_IMAGE_NAME}}/manifests/${{ steps.version.outputs.client_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
@@ -177,22 +162,19 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout repository
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         uses: actions/checkout@v4
       - name: Set ENV vars
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: version
         run: |
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Check exists docker image
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: check-exists
         run: |
           export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.E2E_TESTS_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.E2E_TESTS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
-        if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e cache]') && !contains(needs.check-exists.outputs.result, 'HTTP/2 404') }}
         run: |
           echo "conclusion=success" >> "$GITHUB_OUTPUT"
     outputs:
