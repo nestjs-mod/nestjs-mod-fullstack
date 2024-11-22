@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.6.0...client-v1.7.0) (2024-11-22)
+
+### Features
+
+- **webhook:** add support send custom headers to webhook endpoint ([b690caf](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/b690cafe125c7daf2d2aba0780452664a33c1728))
+
 # [1.6.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.5.1...client-v1.6.0) (2024-11-21)
 
 ### Features
