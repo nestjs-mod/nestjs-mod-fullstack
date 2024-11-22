@@ -42,7 +42,6 @@ export class RestClientHelper {
   constructor(
     private readonly options?: {
       isAdmin?: boolean;
-      clientUrl?: string;
       serverUrl?: string;
       authorizerURL?: string;
       randomUser?: GenerateRandomUserResult;
@@ -69,7 +68,7 @@ export class RestClientHelper {
     options?: WebSocket.ClientOptions;
   }) {
     const wss = new WebSocket(
-      this.getClientUrl().replace('/api', '').replace('http', 'ws') + path,
+      this.getServerUrl().replace('/api', '').replace('http', 'ws') + path,
       options
     );
     return new Observable<{ data: T; event: string }>((observer) => {
@@ -212,9 +211,8 @@ export class RestClientHelper {
     if (!this.randomUser) {
       this.randomUser = await generateRandomUser();
     }
-    await (
-      await this.getAuthorizerClient()
-    ).signup({
+    const authorizerClient = await this.getAuthorizerClient();
+    await authorizerClient.signup({
       email: this.randomUser.email,
       confirm_password: this.randomUser.password,
       password: this.randomUser.password,
@@ -290,7 +288,7 @@ export class RestClientHelper {
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.webhookApiAxios
+      this.authorizerApiAxios
     );
     //
 
@@ -340,9 +338,5 @@ export class RestClientHelper {
 
   private getServerUrl(): string {
     return this.options?.serverUrl || getUrls().serverUrl;
-  }
-
-  private getClientUrl(): string {
-    return this.options?.clientUrl || getUrls().clientUrl;
   }
 }

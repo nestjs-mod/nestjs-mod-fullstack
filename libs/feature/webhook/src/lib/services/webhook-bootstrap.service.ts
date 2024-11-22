@@ -54,20 +54,34 @@ export class WebhookServiceBootstrap
   }
 
   private subscribeToEvents() {
+    if (this.eventsRef) {
+      this.eventsRef.unsubscribe();
+      this.eventsRef = undefined;
+    }
     this.eventsRef = this.webhookService.events$
+      .asObservable()
       .pipe(
-        concatMap(async ({ eventName, eventBody }) => {
-          this.logger.debug({ eventName, eventBody });
+        concatMap(async ({ eventName, eventBody, eventHeaders }) => {
+          this.logger.debug({ eventName, eventBody, eventHeaders });
 
           const webhooks = await this.prismaClient.webhook.findMany({
             where: { eventName: { contains: eventName }, enabled: true },
           });
 
           for (const webhook of webhooks) {
+            const headers = {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ...((webhook.headers as any) || {}),
+              ...(eventHeaders || {}),
+            };
             const webhookLog = await this.prismaClient.webhookLog.create({
               data: {
                 externalTenantId: webhook.externalTenantId,
-                request: eventBody as object,
+                request: {
+                  url: webhook.endpoint,
+                  body: eventBody,
+                  headers,
+                } as object,
                 responseStatus: '',
                 webhookStatus: 'Pending',
                 response: {},
@@ -82,9 +96,8 @@ export class WebhookServiceBootstrap
               const request = await firstValueFrom(
                 this.httpService
                   .post(webhook.endpoint, eventBody, {
-                    ...(webhook.headers
-                      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        { headers: new AxiosHeaders(webhook.headers as any) }
+                    ...(Object.keys(headers)
+                      ? { headers: new AxiosHeaders({ ...headers }) }
                       : {}),
                   })
                   .pipe(timeout(webhook.requestTimeout || 5000))
@@ -101,7 +114,11 @@ export class WebhookServiceBootstrap
               }
               await this.prismaClient.webhookLog.update({
                 where: { id: webhookLog.id },
-                data: { responseStatus, response, webhookStatus: 'Success' },
+                data: {
+                  responseStatus,
+                  response,
+                  webhookStatus: 'Success',
+                },
               });
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err: any) {

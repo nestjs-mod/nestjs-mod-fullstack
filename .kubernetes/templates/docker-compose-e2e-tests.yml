@@ -10,6 +10,7 @@ services:
       - 'nestjs-mod-fullstack-network'
     environment:
       BASE_URL: 'https://%SERVER_DOMAIN%'
+      CLIENT_URL: 'https://%SERVER_DOMAIN%'
       SERVER_AUTHORIZER_URL: 'https://sso.%SERVER_DOMAIN%'
       SERVER_MINIO_URL: 'https://files.%SERVER_DOMAIN%'
       SERVER_URL: 'https://%SERVER_DOMAIN%'

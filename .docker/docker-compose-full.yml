@@ -213,6 +213,7 @@ services:
       BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
       SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
       SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
+      CLIENT_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
       SERVER_URL: 'http://nestjs-mod-fullstack-server:8080'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'

@@ -13,7 +13,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
 
   const appHandler = '/api/callback-user';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const appHandlerLogs: any[] = [];
+  const appHandlerLogs: { body: any; headers: any }[] = [];
 
   let app: Express;
   let server: Server;
@@ -33,7 +33,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     app.use(express.json());
     app.post(appHandler, async (req, res) => {
       if (req.headers['app-id'] === appId) {
-        appHandlerLogs.push(req.body);
+        appHandlerLogs.push({ body: req.body, headers: req.headers });
       }
       res.send(req.body);
     });
@@ -89,7 +89,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         enabled: true,
         endpoint,
         eventName: createEventName,
-        headers: { 'app-id': appId },
+        headers: { 'app-id': appId, 'event-name': createEventName },
       });
     expect(newWebhook1).toMatchObject({
       enabled: true,
@@ -105,7 +105,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         enabled: true,
         endpoint,
         eventName: deleteEventName,
-        headers: { 'app-id': appId },
+        headers: { 'app-id': appId, 'event-name': deleteEventName },
       });
     expect(newWebhook2).toMatchObject({
       enabled: true,
@@ -120,7 +120,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         enabled: true,
         endpoint: wrongEndpoint,
         eventName: updateEventName,
-        headers: { 'app-id': appId },
+        headers: { 'app-id': appId, 'event-name': updateEventName },
       });
     expect(newWebhook3).toMatchObject({
       enabled: true,
@@ -135,54 +135,57 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     // wait event processing
     await setTimeout(1000);
 
-    expect(data).toEqual(appHandlerLogs[0]);
-    expect(appHandlerLogs).toHaveLength(1);
+    const my = appHandlerLogs.filter(
+      (l) =>
+        l.headers['event-name'] === createEventName &&
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
+    );
+    expect(data).toEqual(my[0].body);
+    expect(my).toHaveLength(1);
 
     const { data: findMany } = await user1
       .getAppApi()
       .appControllerDemoFindMany();
-    expect(findMany.filter((d) => d.id === appHandlerLogs[0].id)).toHaveLength(
-      1
-    );
+    expect(findMany.filter((d) => d.id === my[0].body.id)).toHaveLength(1);
   });
 
   it('should create webhook log info after update app-demo', async () => {
-    await user1.getAppApi().appControllerDemoUpdateOne(appHandlerLogs[0].id);
-
-    // wait event processing
-    await setTimeout(1000);
-
-    expect(appHandlerLogs).toHaveLength(1);
-
-    const { data: findMany } = await user1
+    await user1
       .getAppApi()
-      .appControllerDemoFindMany();
+      .appControllerDemoUpdateOne(appHandlerLogs[0].body.id);
 
     // wait event processing
     await setTimeout(1000);
 
-    expect(findMany.filter((d) => d.id === appHandlerLogs[0].id)).toHaveLength(
-      1
+    const my = appHandlerLogs.filter(
+      (l) =>
+        l.headers['event-name'] === updateEventName &&
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
     );
+
+    expect(my).toHaveLength(0);
   });
 
   it('should create webhook log info after delete app-demo', async () => {
-    const { data } = await user1
+    await user1
       .getAppApi()
-      .appControllerDemoDeleteOne(appHandlerLogs[0].id);
+      .appControllerDemoDeleteOne(appHandlerLogs[0].body.id);
 
     // wait event processing
     await setTimeout(1000);
 
-    expect(data).not.toEqual(appHandlerLogs[0]);
-    expect(appHandlerLogs).toHaveLength(2);
+    const my = appHandlerLogs.filter(
+      (l) =>
+        l.headers['event-name'] === deleteEventName &&
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
+    );
+
+    expect(my).toHaveLength(1);
 
     const { data: findMany } = await user1
       .getAppApi()
       .appControllerDemoFindMany();
-    expect(findMany.filter((d) => d.id === appHandlerLogs[0].id)).toHaveLength(
-      0
-    );
+    expect(findMany.filter((d) => d.id === my[0].body.id)).toHaveLength(0);
   });
 
   it('should read all created webhook logs for "create" event', async () => {
@@ -196,7 +199,14 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id
       );
 
-    expect(manyWebhookLogs).toMatchObject({
+    expect({
+      ...manyWebhookLogs,
+      webhookLogs: manyWebhookLogs.webhookLogs.filter(
+        (l) =>
+          l.request?.['headers']?.['external-user-id'] ===
+          user1.authorizationTokens?.user?.id
+      ),
+    }).toMatchObject({
       webhookLogs: [
         {
           responseStatus: 'OK',
@@ -206,7 +216,6 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           )?.id,
         },
       ],
-      meta: { totalResults: 1, curPage: 1, perPage: 5 },
     });
   });
 
@@ -221,7 +230,14 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         manyWebhooks.webhooks.find((w) => w.eventName === deleteEventName)!.id
       );
 
-    expect(manyWebhookLogs).toMatchObject({
+    expect({
+      ...manyWebhookLogs,
+      webhookLogs: manyWebhookLogs.webhookLogs.filter(
+        (l) =>
+          l.request?.['headers']?.['external-user-id'] ===
+          user1.authorizationTokens?.user?.id
+      ),
+    }).toMatchObject({
       webhookLogs: [
         {
           responseStatus: 'OK',
@@ -231,7 +247,6 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           )?.id,
         },
       ],
-      meta: { totalResults: 1, curPage: 1, perPage: 5 },
     });
   });
   it('should read all created webhook logs for "update" event', async () => {
@@ -245,7 +260,14 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         manyWebhooks.webhooks.find((w) => w.eventName === updateEventName)!.id
       );
 
-    expect(manyWebhookLogs).toMatchObject({
+    expect({
+      ...manyWebhookLogs,
+      webhookLogs: manyWebhookLogs.webhookLogs.filter(
+        (l) =>
+          l.request?.['headers']?.['external-user-id'] ===
+          user1.authorizationTokens?.user?.id
+      ),
+    }).toMatchObject({
       webhookLogs: [
         {
           responseStatus: 'Not Found',
@@ -266,7 +288,6 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           )?.id,
         },
       ],
-      meta: { totalResults: 1, curPage: 1, perPage: 5 },
     });
   });
 });

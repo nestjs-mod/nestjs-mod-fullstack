@@ -41,21 +41,23 @@ export async function generateRandomUser(
   const lastName =
     options?.lastName || `${prefix}${uniqId}${faker.person.lastName()}`;
 
-  const email =
+  const email = (
     options?.email ||
     faker.internet.email({
       firstName,
       lastName,
       provider: 'example.fakerjs.dev',
-    });
+    })
+  ).toLowerCase();
 
-  const newEmail =
+  const newEmail = (
     options?.newEmail ||
     faker.internet.email({
       firstName,
       lastName,
       provider: 'example.fakerjs.dev',
-    });
+    })
+  ).toLowerCase();
 
   const password =
     options?.password ||
