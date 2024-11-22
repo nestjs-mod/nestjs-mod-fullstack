@@ -47,6 +47,10 @@ jobs:
         id: client_version
         run: |
           echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+    outputs:
+      root_version: ${{ steps.root_version.outputs.root_version }}
+      server_version: ${{ steps.server_version.outputs.server_version }}
+      client_version: ${{ steps.root_version.outputs.client_version }}
 
   check-base-server-image:
     runs-on: ubuntu-latest
