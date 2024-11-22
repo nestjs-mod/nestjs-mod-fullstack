@@ -1,12 +1,15 @@
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 import { isDateString } from 'class-validator';
+import { get } from 'env-var';
 import { lastValueFrom, take, toArray } from 'rxjs';
 
 describe('Get server time from rest api and ws', () => {
   jest.setTimeout(60000);
 
   const correctStringDateLength = '2024-11-20T11:58:03.338Z'.length;
-  const restClientHelper = new RestClientHelper();
+  const restClientHelper = new RestClientHelper({
+    serverUrl: get('CLIENT_URL').asString(),
+  });
   const timeApi = restClientHelper.getTimeApi();
 
   it('should return time from rest api', async () => {
