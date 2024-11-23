@@ -31,8 +31,12 @@ services:
     networks:
       - "server-network"
     environment:
+      ADMIN_SECRET: ""
+      DATABASE_TYPE: ""
+      DATABASE_URL: ""
       DATABASE_NAME: ""
       PORT: ""
+      AUTHORIZER_URL: ""
       COOKIE_NAME: ""
       DISABLE_PLAYGROUND: ""
       ACCESS_TOKEN_EXPIRY_TIME: ""
@@ -69,13 +73,15 @@ services:
     networks:
       - "server-network"
     environment:
+      REDIS_DATABASE: ""
+      REDIS_PASSWORD: ""
       REDIS_DISABLE_COMMANDS: ""
       REDIS_IO_THREADS: ""
       REDIS_IO_THREADS_DO_READS: ""
     healthcheck:
       test:
         - "CMD-SHELL"
-        - "redis-cli ping | grep PONG"
+        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
       interval: "5s"
       timeout: "5s"
       retries: 5
@@ -91,7 +97,9 @@ services:
       - "9001:9001"
     networks:
       - "server-network"
-    environment: {}
+    environment:
+      MINIO_ROOT_USER: ""
+      MINIO_ROOT_PASSWORD: ""
     healthcheck:
       test:
         - "CMD-SHELL"

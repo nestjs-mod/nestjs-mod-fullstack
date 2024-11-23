@@ -1,5 +1,5 @@
 import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
-import { WebhookEvent } from './types/webhook-event-object';
+import { WebhookEvent } from './types/webhook-event';
 
 @ConfigModel()
 export class WebhookConfiguration {

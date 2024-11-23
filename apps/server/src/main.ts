@@ -52,6 +52,7 @@ import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 import { WsAdapter } from '@nestjs/platform-ws';
+import { ValidationModule } from '@nestjs-mod-fullstack/validation';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -227,6 +228,7 @@ bootstrapNestApplication({
       }),
       MinioModule.forRoot(),
       FilesModule.forRoot(),
+      ValidationModule.forRoot(),
     ],
     feature: [
       AppModule.forRoot(),

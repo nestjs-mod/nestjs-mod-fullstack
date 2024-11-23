@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { WebhookObjectInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { WebhookInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import isEqual from 'lodash/fp/isEqual';
 import omit from 'lodash/fp/omit';
@@ -55,7 +55,7 @@ import { WebhookService } from '../../services/webhook.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WebhookGridComponent implements OnInit {
-  items$ = new BehaviorSubject<WebhookObjectInterface[]>([]);
+  items$ = new BehaviorSubject<WebhookInterface[]>([]);
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);

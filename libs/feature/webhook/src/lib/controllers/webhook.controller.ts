@@ -23,18 +23,12 @@ import {
 } from '@nestjs/swagger';
 import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
-import { WebhookUser } from '../generated/rest/dto/webhook_user';
+import { CreateWebhookDto } from '../generated/rest/dto/create-webhook.dto';
+import { UpdateWebhookDto } from '../generated/rest/dto/update-webhook.dto';
+import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
+import { Webhook } from '../generated/rest/dto/webhook.entity';
 import { WebhookToolsService } from '../services/webhook-tools.service';
 import { WebhookEntities } from '../types/webhook-entities';
-import { WebhookEvent } from '../types/webhook-event-object';
-import { FindManyWebhookLogResponse } from '../types/webhook-log-object';
-import {
-  CreateWebhookArgs,
-  FindManyWebhookResponse,
-  UpdateWebhookArgs,
-  WebhookObject,
-} from '../types/webhook-object';
-import { WebhookUserObject } from '../types/webhook-user-object';
 import { WebhookConfiguration } from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
@@ -43,6 +37,9 @@ import {
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
+import { WebhookEvent } from '../types/webhook-event';
+import { FindManyWebhookResponse } from '../types/find-many-webhook-response';
+import { FindManyWebhookLogResponse } from '../types/find-many-webhook-log-response';
 
 @ApiExtraModels(WebhookError, WebhookEntities)
 @ApiBadRequestResponse({
@@ -61,7 +58,7 @@ export class WebhookController {
   ) {}
 
   @Get('profile')
-  @ApiOkResponse({ type: WebhookUserObject })
+  @ApiOkResponse({ type: WebhookUser })
   async profile(@CurrentWebhookUser() webhookUser: WebhookUser) {
     return webhookUser;
   }
@@ -166,11 +163,11 @@ export class WebhookController {
   }
 
   @Post()
-  @ApiCreatedResponse({ type: WebhookObject })
+  @ApiCreatedResponse({ type: Webhook })
   async createOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
-    @Body() args: CreateWebhookArgs
+    @Body() args: CreateWebhookDto
   ) {
     return await this.prismaClient.webhook.create({
       data: {
@@ -190,12 +187,12 @@ export class WebhookController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: WebhookObject })
+  @ApiOkResponse({ type: Webhook })
   async updateOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() args: UpdateWebhookArgs
+    @Body() args: UpdateWebhookDto
   ) {
     return await this.prismaClient.webhook.update({
       data: { ...args },
@@ -229,7 +226,7 @@ export class WebhookController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: WebhookObject })
+  @ApiOkResponse({ type: Webhook })
   async findOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,

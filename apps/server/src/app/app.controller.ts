@@ -19,8 +19,8 @@ import {
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { AppService } from './app.service';
-import { AppDemo } from './generated/rest/dto/app_demo';
 import { User } from '@authorizerdev/authorizer-js';
+import { AppDemo } from './generated/rest/dto/app-demo.entity';
 
 export class AppData {
   @ApiProperty({ type: String })

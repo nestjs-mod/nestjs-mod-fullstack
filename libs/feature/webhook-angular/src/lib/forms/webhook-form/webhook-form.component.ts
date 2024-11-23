@@ -10,13 +10,15 @@ import {
   Output,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
 import {
+  UpdateWebhookDtoInterface,
   WebhookEventInterface,
-  WebhookObjectInterface,
+  WebhookInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { safeParseJson } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -26,7 +28,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { WebhookEventsService } from '../../services/webhook-events.service';
 import { WebhookService } from '../../services/webhook.service';
 
@@ -55,13 +57,13 @@ export class WebhookFormComponent implements OnInit {
   hideButtons?: boolean;
 
   @Output()
-  afterFind = new EventEmitter<WebhookObjectInterface>();
+  afterFind = new EventEmitter<WebhookInterface>();
 
   @Output()
-  afterCreate = new EventEmitter<WebhookObjectInterface>();
+  afterCreate = new EventEmitter<WebhookInterface>();
 
   @Output()
-  afterUpdate = new EventEmitter<WebhookObjectInterface>();
+  afterUpdate = new EventEmitter<WebhookInterface>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -102,7 +104,7 @@ export class WebhookFormComponent implements OnInit {
       .subscribe();
   }
 
-  setFieldsAndModel(data: Partial<WebhookObjectInterface> = {}) {
+  setFieldsAndModel(data: Partial<UpdateWebhookDtoInterface> = {}) {
     this.formlyFields$.next([
       {
         key: 'enabled',
@@ -162,6 +164,12 @@ export class WebhookFormComponent implements OnInit {
         validation: {
           show: true,
         },
+        validators: {
+          ip: {
+            expression: (c: AbstractControl) => false,
+            message: (error: any, field: FormlyFieldConfig) => `is not a valid`,
+          },
+        },
         props: {
           label: `webhook.form.requestTimeout`,
           placeholder: 'requestTimeout',
@@ -210,7 +218,14 @@ export class WebhookFormComponent implements OnInit {
     if (!this.id) {
       throw new Error('id not set');
     }
-    return this.webhookService.updateOne(this.id, this.toJson(this.form.value));
+    return this.webhookService
+      .updateOne(this.id, this.toJson(this.form.value))
+      .pipe(
+        catchError((err) => {
+          console.log(this, err);
+          return throwError(() => err);
+        })
+      );
   }
 
   findOne() {
@@ -224,7 +239,7 @@ export class WebhookFormComponent implements OnInit {
     );
   }
 
-  private toModel(data: Partial<WebhookObjectInterface>): object | null {
+  private toModel(data: Partial<UpdateWebhookDtoInterface>): object | null {
     return {
       enabled:
         (data['enabled'] as unknown as string) === 'true' ||
@@ -232,23 +247,17 @@ export class WebhookFormComponent implements OnInit {
       endpoint: data['endpoint'],
       eventName: data['eventName'],
       headers: data['headers'] ? JSON.stringify(data['headers']) : '',
-      requestTimeout:
-        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
-          ? data['requestTimeout']
-          : '',
+      requestTimeout: data['requestTimeout'] ? +data['requestTimeout'] : '',
     };
   }
 
-  private toJson(data: Partial<WebhookObjectInterface>) {
+  private toJson(data: Partial<UpdateWebhookDtoInterface>) {
     return {
       enabled: data['enabled'] === true,
       endpoint: data['endpoint'] || '',
       eventName: data['eventName'] || '',
       headers: data['headers'] ? safeParseJson(data['headers']) : null,
-      requestTimeout:
-        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
-          ? +data['requestTimeout']
-          : undefined,
+      requestTimeout: data['requestTimeout'] || undefined,
     };
   }
 }

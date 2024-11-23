@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { WebhookLogObjectInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { WebhookLogInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import isEqual from 'lodash/fp/isEqual';
 import omit from 'lodash/fp/omit';
@@ -59,7 +59,7 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   @Input({ required: true })
   webhookId!: string | undefined;
 
-  items$ = new BehaviorSubject<WebhookLogObjectInterface[]>([]);
+  items$ = new BehaviorSubject<WebhookLogInterface[]>([]);
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);

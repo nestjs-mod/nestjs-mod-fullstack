@@ -15,19 +15,16 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiExtraModels,
   ApiOkResponse,
   ApiTags,
   refs,
 } from '@nestjs/swagger';
 import { isUUID } from 'class-validator';
-import { WebhookUser } from '../generated/rest/dto/webhook_user';
+import { UpdateWebhookUserDto } from '../generated/rest/dto/update-webhook-user.dto';
+import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
+import { WebhookCacheService } from '../services/webhook-cache.service';
 import { WebhookToolsService } from '../services/webhook-tools.service';
-import {
-  FindManyWebhookUserResponse,
-  UpdateWebhookUserArgs,
-  WebhookUserObject,
-} from '../types/webhook-user-object';
+import { FindManyWebhookUserResponse } from '../types/find-many-webhook-user-response';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
   CheckWebhookRole,
@@ -35,9 +32,6 @@ import {
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
-import { WebhookCacheService } from '../services/webhook-cache.service';
-
-@ApiExtraModels(WebhookError)
 @ApiBadRequestResponse({
   schema: { allOf: refs(WebhookError) },
 })
@@ -134,12 +128,12 @@ export class WebhookUsersController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: WebhookUserObject })
+  @ApiOkResponse({ type: WebhookUser })
   async updateOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() args: UpdateWebhookUserArgs
+    @Body() args: UpdateWebhookUserDto
   ) {
     const result = await this.prismaClient.webhookUser.update({
       data: { ...args },
@@ -178,7 +172,7 @@ export class WebhookUsersController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: WebhookUserObject })
+  @ApiOkResponse({ type: WebhookUser })
   async findOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,

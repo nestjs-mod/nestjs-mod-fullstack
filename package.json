@@ -86,6 +86,7 @@
     "@angular/cli": "~18.2.11",
     "@angular/compiler-cli": "18.2.11",
     "@angular/language-service": "18.2.11",
+    "@brakebein/prisma-generator-nestjs-dto": "^1.24.0-beta5",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@nestjs-mod/schematics": "^2.11.2",
@@ -136,7 +137,6 @@
     "postcss-url": "~10.1.3",
     "prettier": "^2.6.2",
     "prisma": "^5.22.0",
-    "prisma-class-generator": "^0.2.11",
     "rucken": "^4.10.4",
     "tailwindcss": "^3.4.15",
     "ts-jest": "^29.1.0",
@@ -241,9 +241,7 @@
     "lint:fix": [
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
-    "tsc:lint": [
-      "Checking typescript code in libraries"
-    ],
+    "tsc:lint": [],
     "kubernetes:generate": [],
     "db:create": [
       "Creation all databases of applications and modules"

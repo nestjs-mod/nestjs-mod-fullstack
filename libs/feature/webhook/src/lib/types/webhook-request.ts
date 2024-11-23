@@ -1,4 +1,4 @@
-import { WebhookUser } from '../generated/rest/dto/webhook_user';
+import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 
 export type WebhookRequest = {
   webhookUser?: Omit<
