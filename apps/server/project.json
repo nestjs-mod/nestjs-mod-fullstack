@@ -193,8 +193,7 @@
           },
           {
             "name": "alpha",
-            "prerelease": true,
-            "baseBranch": "beta"
+            "prerelease": true
           }
         ]
       }
