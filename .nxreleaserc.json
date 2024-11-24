@@ -6,8 +6,13 @@
     "branches": [
         "master",
         {
-            "name": "alpha",
+            "name": "beta",
             "prerelease": true
+        },
+        {
+            "name": "alpha",
+            "prerelease": true,
+            "baseBranch": "beta"
         }
     ]
 }
