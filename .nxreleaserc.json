@@ -5,6 +5,9 @@
     "repositoryUrl": "https://github.com/nestjs-mod/nestjs-mod-fullstack",
     "branches": [
         "master",
-        "next"
+        {
+          "name": "next",
+          "prerelease": "alpha"
+        }
     ]
 }
