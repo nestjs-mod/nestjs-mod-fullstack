@@ -5,17 +5,29 @@ generator client {
   
 }
 datasource db {
-  provider          = "postgresql"
+  provider          = "postgres"
   url               = env("SERVER_WEBHOOK_DATABASE_URL")
 }
+
+
 generator prismaClassGenerator {
-  provider                 = "prisma-class-generator"
-  output                   = "../lib/generated/rest/dto"
-  dryRun                   = "false"
-  separateRelationFields   = "false"
-  useNonNullableAssertions = "true"
-  makeIndexFile            = "false"
-  clientImportPath         = "@prisma/webhook-client"
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../lib/generated/rest/dto"
+  outputToNestJsResourceStructure = false
+  flatResourceStructure           = false
+  exportRelationModifierClasses   = true
+  reExport                        = false
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  classValidation                 = true
+  fileNamingStyle                 = "kebab"
+  noDependencies                  = false
+  annotateAllDtoProperties        = true
+  definiteAssignmentAssertion     = true
+  prettier                        = true
 }
 
 model Webhook {
@@ -25,10 +37,20 @@ model Webhook {
   enabled                                    Boolean
   headers                                    Json?
   requestTimeout                             Int?
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   externalTenantId                           String       @db.Uuid
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   createdBy                                  String       @db.Uuid
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   updatedBy                                  String       @db.Uuid
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   createdAt                                  DateTime     @default(now()) @db.Timestamp(6)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   updatedAt                                  DateTime     @default(now()) @db.Timestamp(6)
   WebhookUser_Webhook_createdByToWebhookUser WebhookUser  @relation("Webhook_createdByToWebhookUser", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WEBHOOK__CREATED_BY")
   WebhookUser_Webhook_updatedByToWebhookUser WebhookUser  @relation("Webhook_updatedByToWebhookUser", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WEBHOOK__UPDATED_BY")
@@ -46,8 +68,14 @@ model WebhookLog {
   response         Json?
   webhookStatus    WebhookStatus
   webhookId        String        @db.Uuid
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   externalTenantId String        @db.Uuid
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   createdAt        DateTime      @default(now()) @db.Timestamp(6)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   updatedAt        DateTime      @default(now()) @db.Timestamp(6)
   Webhook          Webhook       @relation(fields: [webhookId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WEBHOOK__WEBHOOK_ID")
 
@@ -61,7 +89,11 @@ model WebhookUser {
   externalTenantId                       String      @db.Uuid
   externalUserId                         String      @db.Uuid
   userRole                               WebhookRole
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   createdAt                              DateTime    @default(now()) @db.Timestamp(6)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   updatedAt                              DateTime    @default(now()) @db.Timestamp(6)
   Webhook_Webhook_createdByToWebhookUser Webhook[]   @relation("Webhook_createdByToWebhookUser")
   Webhook_Webhook_updatedByToWebhookUser Webhook[]   @relation("Webhook_updatedByToWebhookUser")

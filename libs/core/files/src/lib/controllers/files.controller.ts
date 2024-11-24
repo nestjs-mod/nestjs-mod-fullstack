@@ -14,9 +14,11 @@ import { FilesRequest } from '../types/files-request';
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
 import { map } from 'rxjs';
 import { FilesRole } from '../types/files-role';
+import { IsDefined } from 'class-validator';
 
 export class GetPresignedUrlArgs implements PresignedUrlsRequest {
   @ApiProperty({ type: String })
+  @IsDefined()
   ext!: string;
 }
 
@@ -30,6 +32,7 @@ export class PresignedUrls implements PresignedUrlsResponse {
 
 export class DeleteFileArgs {
   @ApiProperty({ type: String })
+  @IsDefined()
   downloadUrl!: string;
 }
 

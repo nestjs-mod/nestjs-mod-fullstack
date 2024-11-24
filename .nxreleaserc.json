@@ -4,6 +4,15 @@
     "github": true,
     "repositoryUrl": "https://github.com/nestjs-mod/nestjs-mod-fullstack",
     "branches": [
-        "master"
+        "master",
+        {
+            "name": "beta",
+            "prerelease": true
+        },
+        {
+            "name": "alpha",
+            "prerelease": true,
+            "baseBranch": "beta"
+        }
     ]
 }

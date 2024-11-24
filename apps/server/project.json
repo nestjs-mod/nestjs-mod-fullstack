@@ -181,10 +181,21 @@
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
-        "github": true,
         "changelog": true,
         "npm": true,
-        "tagFormat": "server-v${VERSION}"
+        "github": true,
+        "tagFormat": "server-v${VERSION}",
+        "branches": [
+          "master",
+          {
+            "name": "beta",
+            "prerelease": true
+          },
+          {
+            "name": "alpha",
+            "prerelease": true
+          }
+        ]
       }
     }
   }

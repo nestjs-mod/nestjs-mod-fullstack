@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WebhookUser } from '../generated/rest/dto/webhook_user';
+import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 
 @Injectable()
 export class WebhookToolsService {

@@ -13,9 +13,9 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install deps
 RUN npm install --prefer-offline --no-audit --progress=false
 # Installing utilities to generate additional files
-RUN npm install --prefer-offline --no-audit --progress=false --save-dev nx@19.5.3
-RUN npm install --prefer-offline --no-audit --progress=false --save-dev prisma@5.18.0
-RUN npm install --prefer-offline --no-audit --progress=false --save-dev prisma-class-generator@0.2.11
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev nx@20.1.2
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev prisma@5.22.0
+RUN npm install --prefer-offline --no-audit --progress=false --save-dev @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

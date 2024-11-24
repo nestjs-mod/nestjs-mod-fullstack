@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   WebhookErrorInterface,
   WebhookRestService,
-  WebhookUserObjectInterface,
+  WebhookUserInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
@@ -18,9 +18,7 @@ export class WebhookAuthService {
   private webhookAuthCredentials$ = new BehaviorSubject<WebhookAuthCredentials>(
     {}
   );
-  private webhookUser$ = new BehaviorSubject<WebhookUserObjectInterface | null>(
-    null
-  );
+  private webhookUser$ = new BehaviorSubject<WebhookUserInterface | null>(null);
 
   constructor(private readonly webhookRestService: WebhookRestService) {}
 

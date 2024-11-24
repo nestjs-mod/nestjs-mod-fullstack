@@ -1,3 +1,17 @@
+## [1.8.1-beta.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.8.0...server-v1.8.1-beta.1) (2024-11-24)
+
+### Bug Fixes
+
+- tray change project files [skip cache] ([09443ab](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/09443abfc88facfa113a7b84d71b3b57e4d797e7))
+- tray change project files [skip cache] ([e011309](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/e011309c3c8521f7287e5e0735897a8e29916d60))
+
+# [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.7.0...server-v1.8.0) (2024-11-24)
+
+### Features
+
+- add part of validations ([0361bdb](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0361bdb4c0d88c41778b143743d3e5634eba78f9))
+- try add validations ([7590ea7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/7590ea7648f3fdc86d1a342285bd5c8fd191d8b1))
+
 # [1.7.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.6.1...server-v1.7.0) (2024-11-22)
 
 ### Features

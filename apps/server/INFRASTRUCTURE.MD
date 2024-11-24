@@ -1,5 +1,5 @@
 # server
-> Version: 1.6.1
+> Version: 1.7.0
 
 ## Running the app in watch mode
 ```bash
@@ -67,7 +67,7 @@ npm run test:server
 |**lint**|
 |`npm run lint`|Checking the typescript code for the entire project|
 |`npm run lint:fix`|Checking the typescript code throughout the project and trying to fix everything possible|
-|`npm run tsc:lint`|Checking typescript code in libraries|
+|`npm run tsc:lint`||
 |**kubernetes**|
 |`npm run kubernetes:generate`||
 |**db**|
@@ -109,10 +109,10 @@ Static variables of primitive and complex types that are used in the module and 
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`applicationPackageJsonFile`|Application package.json-file|**optional**|-|```/usr/src/app/apps/server/package.json```|
-|`packageJsonFile`|Root package.json-file|**optional**|-|```/usr/src/app/package.json```|
-|`nxProjectJsonFile`|Application project.json-file (nx)|**optional**|-|```/usr/src/app/apps/server/project.json```|
-|`envFile`|Dot-env file with environment variables|**optional**|-|```/usr/src/app/.env```|
+|`applicationPackageJsonFile`|Application package.json-file|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/package.json```|
+|`packageJsonFile`|Root package.json-file|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/package.json```|
+|`nxProjectJsonFile`|Application project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/project.json```|
+|`envFile`|Dot-env file with environment variables|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.env```|
 
 ### DefaultNestApplicationInitializer
 Default NestJS application initializer.
@@ -158,9 +158,9 @@ Variables with primitive types used in the module, the values of which can be ob
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
 |`clientId`|Client ID|`obj['clientId']`, `process.env['SERVER_AUTHORIZER_CLIENT_ID']`|**optional**|-|-|
-|`authorizerURL`|Authorizer URL|`obj['authorizerURL']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**isNotEmpty** (authorizerURL should not be empty)|-|-|
-|`redirectURL`|Redirect URL|`obj['redirectURL']`, `process.env['SERVER_AUTHORIZER_REDIRECT_URL']`|**isNotEmpty** (redirectURL should not be empty)|-|-|
-|`adminSecret`|Admin secret|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**optional**|-|-|
+|`authorizerURL`|Authorizer URL|`obj['authorizerURL']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**isNotEmpty** (authorizerURL should not be empty)|-|```http://localhost:8080```|
+|`redirectURL`|Redirect URL|`obj['redirectURL']`, `process.env['SERVER_AUTHORIZER_REDIRECT_URL']`|**isNotEmpty** (redirectURL should not be empty)|-|```http://localhost:4200```|
+|`adminSecret`|Admin secret|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**optional**|-|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
 |`allowedExternalAppIds`|Allowed identifiers of external applications, if you have logged in previously and do not need to log in again in the authorization service, these identifiers must be private and can be used for testing.|`obj['allowedExternalAppIds']`, `process.env['SERVER_AUTHORIZER_ALLOWED_EXTERNAL_APP_IDS']`|**optional**|-|-|
 
 #### Configuration
@@ -168,7 +168,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`extraHeaders`|Extra headers|**optional**|-|```{"x-authorizer-url":"http://localhost:undefined"}```|
+|`extraHeaders`|Extra headers|**optional**|-|```{"x-authorizer-url":"http://localhost:8080"}```|
 |`checkAccessValidator`|External function for validate permissions|**optional**|```defaultAuthorizerCheckAccessValidator```|```checkAccessValidator```|
 
 ### PrismaToolsModule
@@ -196,7 +196,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Static configuration(webhook)
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -205,16 +205,16 @@ Static variables of primitive and complex types that are used in the module and 
 | ------ | ----------- | ----------- | ------- | ----- |
 |`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
-|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/feature/webhook/src/prisma/schema.prisma```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
-|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
 Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration(app)
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -223,7 +223,7 @@ Static variables of primitive and complex types that are used in the module and 
 | ------ | ----------- | ----------- | ------- | ----- |
 |`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
-|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
 
 ### PrismaModule
@@ -237,7 +237,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Static configuration(webhook)
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -246,16 +246,16 @@ Static variables of primitive and complex types that are used in the module and 
 | ------ | ----------- | ----------- | ------- | ----- |
 |`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
-|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/feature/webhook/src/prisma/schema.prisma```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
-|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
 Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration(app)
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -264,7 +264,7 @@ Static variables of primitive and complex types that are used in the module and 
 | ------ | ----------- | ----------- | ------- | ----- |
 |`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
-|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
 
 ### CacheManagerModule
@@ -278,7 +278,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`redisUrl`|Connection string for Redis, if it empty memoryStore use for store data (example: redis://:redis_password@localhost:6379)|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**optional**|-|-|
+|`redisUrl`|Connection string for Redis, if it empty memoryStore use for store data (example: redis://:redis_password@localhost:6379)|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**optional**|-|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
 
 ### MinioModule
 Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-minio)
@@ -291,10 +291,10 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`minioServerHost`|Server host|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|-|-|
+|`minioServerHost`|Server host|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|-|```localhost```|
 |`minioServerPort`|Server port|`obj['minioServerPort']`, `process.env['SERVER_MINIO_SERVER_PORT']`|**optional**|```9000```|```9000```|
-|`minioAccessKey`|Access key|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|-|-|
-|`minioSecretKey`|Secret key|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|-|-|
+|`minioAccessKey`|Access key|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|-|```FWGmrAGaeMKM```|
+|`minioSecretKey`|Secret key|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|-|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
 |`minioUseSSL`|Use SSL|`obj['minioUseSSL']`, `process.env['SERVER_MINIO_USE_SSL']`|**optional**|```false```|```false```|
 |`minioDefaultUserId`|Default user id|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|```default```|
 
@@ -309,9 +309,9 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`adminEmail`|Global admin username|`obj['adminEmail']`, `process.env['SERVER_AUTH_ADMIN_EMAIL']`|**optional**|```admin@example.com```|```admin@example.com```|
+|`adminEmail`|Global admin username|`obj['adminEmail']`, `process.env['SERVER_AUTH_ADMIN_EMAIL']`|**optional**|```admin@example.com```|```nestjs-mod-fullstack@site15.ru```|
 |`adminUsername`|Global admin username|`obj['adminUsername']`, `process.env['SERVER_AUTH_ADMIN_USERNAME']`|**isNotEmpty** (adminUsername should not be empty)|```admin```|```admin```|
-|`adminPassword`|Global admin password|`obj['adminPassword']`, `process.env['SERVER_AUTH_ADMIN_PASSWORD']`|**optional**|-|-|
+|`adminPassword`|Global admin password|`obj['adminPassword']`, `process.env['SERVER_AUTH_ADMIN_PASSWORD']`|**optional**|-|```SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA```|
 
 ### WebhookModule
 #### Shared providers
@@ -337,7 +337,7 @@ Static variables with primitive types used in the module and can be used at the 
 |`autoCreateUser`|Auto create user from guard.|`obj['autoCreateUser']`, `process.env['SERVER_WEBHOOK_AUTO_CREATE_USER']`|**optional**|```true```|```true```|
 |`checkHeaders`|Search tenantId and userId in headers.|`obj['checkHeaders']`, `process.env['SERVER_WEBHOOK_CHECK_HEADERS']`|**optional**|```true```|```false```|
 |`skipGuardErrors`|Skip any guard errors.|`obj['skipGuardErrors']`, `process.env['SERVER_WEBHOOK_SKIP_GUARD_ERRORS']`|**optional**|```false```|```false```|
-|`superAdminExternalUserId`|User ID with super admin role.|`obj['superAdminExternalUserId']`, `process.env['SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID']`|**optional**|-|-|
+|`superAdminExternalUserId`|User ID with super admin role.|`obj['superAdminExternalUserId']`, `process.env['SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID']`|**optional**|-|```248ec37f-628d-43f0-8de2-f58da037dd0f```|
 
 ## Integration modules
 Integration modules are necessary to organize communication between feature or core modules (example: after creating a user in the UsersModule feature module, you need to send him a letter from the NotificationsModule core module). NestJS and NestJS-mod compatible modules.
@@ -372,7 +372,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`ecosystemConfigFile`|Configuration file for PM2|**isNotEmpty** (ecosystemConfigFile should not be empty)|-|```/usr/src/app/ecosystem.config.json```|
+|`ecosystemConfigFile`|Configuration file for PM2|**isNotEmpty** (ecosystemConfigFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/ecosystem.config.json```|
 |`applicationScriptFile`|Application script file name for run|**isNotEmpty** (applicationScriptFile should not be empty)|-|```dist/apps/server/main.js```|
 
 ### DockerCompose
@@ -386,7 +386,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`dockerComposeFile`|Main file for docker-compose, the Compose specification establishes a standard for the definition of multi-container platform-agnostic applications.|**isNotEmpty** (dockerComposeFile should not be empty)|-|```/usr/src/app/apps/server/docker-compose.yml```|
+|`dockerComposeFile`|Main file for docker-compose, the Compose specification establishes a standard for the definition of multi-container platform-agnostic applications.|**isNotEmpty** (dockerComposeFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/docker-compose.yml```|
 
 #### Modules that use feature configuration
 ##### Feature module name: SERVER_POSTGRE_SQL
@@ -404,7 +404,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"DATABASE_NAME":"authorizer","PORT":8080,"COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"NestJSModFullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
+|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"NestJSModFullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
 |`networks`|Networks are the layer that allow services to communicate with each other. @see https://github.com/compose-spec/compose-spec/blob/master/06-networks.md|**optional**|-|```{"server-network":{"driver":"bridge"}}```|
 
 #### Modules that use feature configuration
@@ -413,7 +413,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-redis":{"image":"bitnami/redis:7.4.1","container_name":"server-redis","volumes":["server-redis-volume:/bitnami/redis/data"],"ports":["6379:6379"],"networks":["server-network"],"environment":{"REDIS_DISABLE_COMMANDS":"FLUSHDB,FLUSHALL","REDIS_IO_THREADS":2,"REDIS_IO_THREADS_DO_READS":"yes"},"keysOfEnvironmentsWithStaticValue":["disableCommands","featureName","image","ioThreads","ioThreadsDoReads","networks"],"healthcheck":{"test":["CMD-SHELL","redis-cli ping | grep PONG"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-redis":{"image":"bitnami/redis:7.4.1","container_name":"server-redis","volumes":["server-redis-volume:/bitnami/redis/data"],"ports":["6379:6379"],"networks":["server-network"],"environment":{"REDIS_DATABASE":"0","REDIS_PASSWORD":"CHmeOQrZWUHwgahrfzsrzuREOxgAENsC","REDIS_DISABLE_COMMANDS":"FLUSHDB,FLUSHALL","REDIS_IO_THREADS":2,"REDIS_IO_THREADS_DO_READS":"yes"},"keysOfEnvironmentsWithStaticValue":["disableCommands","featureName","image","ioThreads","ioThreadsDoReads","networks"],"healthcheck":{"test":["CMD-SHELL","redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|Networks are the layer that allow services to communicate with each other. @see https://github.com/compose-spec/compose-spec/blob/master/06-networks.md|**optional**|-|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|Volumes are persistent data stores implemented by the container engine. @see https://github.com/compose-spec/compose-spec/blob/master/07-volumes.md|**optional**|-|```{"server-redis-volume":{"name":"server-redis-volume"}}```|
 
@@ -423,7 +423,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`services`|A service is an abstract definition of a computing resource within an application which can be scaled or replaced independently from other components. @see https://github.com/compose-spec/compose-spec/blob/master/05-services.md|**optional**|-|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{"MINIO_ROOT_USER":"FWGmrAGaeMKM","MINIO_ROOT_PASSWORD":"QatVJuLoZRARlJguoZMpoKvZMJHzvuOR"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|Networks are the layer that allow services to communicate with each other. @see https://github.com/compose-spec/compose-spec/blob/master/06-networks.md|**optional**|-|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|Volumes are persistent data stores implemented by the container engine. @see https://github.com/compose-spec/compose-spec/blob/master/07-volumes.md|**optional**|-|```{"server-minio-volume":{"name":"server-minio-volume"}}```|
 
@@ -435,7 +435,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -443,8 +443,8 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`featureName`|Flyway feature name for generate prefix to environments keys|**optional**|-|```app```|
-|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/usr/src/app/apps/server/src/migrations```|
-|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/usr/src/app/.flyway.js```|
+|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.flyway.js```|
 
 ### Flyway
 Flyway - utility for working with database migrations (official site: https://flywaydb.org, preview version only for Postgres)
@@ -454,7 +454,7 @@ Variables with primitive types used in the module, the values of which can be ob
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -462,8 +462,8 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`featureName`|Flyway feature name for generate prefix to environments keys|**optional**|-|```app```|
-|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/usr/src/app/apps/server/src/migrations```|
-|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/usr/src/app/.flyway.js```|
+|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.flyway.js```|
 
 ### InfrastructureMarkdownReportGenerator
 Infrastructure markdown report generator.
@@ -476,7 +476,7 @@ Static variables of primitive and complex types that are used in the module and 
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`markdownFile`|Name of the markdown-file in which to save the infrastructure report|**optional**|-|```/usr/src/app/apps/server/INFRASTRUCTURE.MD```|
+|`markdownFile`|Name of the markdown-file in which to save the infrastructure report|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/INFRASTRUCTURE.MD```|
 |`skipEmptySettings`|Skip empty values of env and config models|**optional**|-|```true```|
 
 ### DockerComposePostgreSQL
@@ -487,7 +487,7 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`rootDatabaseUrl`|Connection string for PostgreSQL with root credentials (example: postgres://postgres:postgres_password@localhost:5432/postgres?schema=public, username must be "postgres")|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|-|-|
+|`rootDatabaseUrl`|Connection string for PostgreSQL with root credentials (example: postgres://postgres:postgres_password@localhost:5432/postgres?schema=public, username must be "postgres")|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|-|```postgres://postgres:postgres_password@localhost:5432/postgres?schema=public```|
 
 #### Feature environments
 Feature variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
@@ -502,7 +502,7 @@ Feature variables with primitive types used in the module, the values of which c
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Modules that use feature environments
 ##### Feature module name: app
@@ -510,7 +510,7 @@ Feature variables with primitive types used in the module, the values of which c
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Modules that use feature environments
 ##### Feature module name: authorizer
@@ -518,7 +518,7 @@ Feature variables with primitive types used in the module, the values of which c
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
 
 #### Modules that use feature environments
 ##### Feature module name: webhook
@@ -526,7 +526,7 @@ Feature variables with primitive types used in the module, the values of which c
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 ### DockerComposeAuthorizer
 Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
@@ -536,9 +536,9 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`adminSecret`|Super admin secret used to access the master data.|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|-|-|
-|`databaseType`|Which database you are using. Supported database types are postgres, mysql, planetscale, sqlite, sqlserver, mongodb, arangodb, yugabyte, mariadb, cassandradb, scylladb, couchbase, dynamodb.|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|-|-|
-|`databaseUrl`|Database connection string. In case of cluster url eg. for cassandra db, you can use comma separated IPs.|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|-|
+|`adminSecret`|Super admin secret used to access the master data.|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|-|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
+|`databaseType`|Which database you are using. Supported database types are postgres, mysql, planetscale, sqlite, sqlserver, mongodb, arangodb, yugabyte, mariadb, cassandradb, scylladb, couchbase, dynamodb.|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|-|```postgres```|
+|`databaseUrl`|Database connection string. In case of cluster url eg. for cassandra db, you can use comma separated IPs.|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
 |`databaseName`|Name of database to connect to. This is useful in case of arangodb and mongodb. If not set, default value will be used.|`obj['databaseName']`, `process.env['SERVER_AUTHORIZER_DATABASE_NAME']`|**optional**|```authorizer```|```authorizer```|
 |`redisUrl`|Redis URL where sessions can be persisted	false	sessions will be stored in memory.|`obj['redisUrl']`, `process.env['SERVER_AUTHORIZER_REDIS_URL']`|**optional**|-|-|
 |`databasePort`|Port on which database connection should be made. This is used when DATABASE_URL is not mentioned. At the moment supported by cassandradb.|`obj['databasePort']`, `process.env['SERVER_AUTHORIZER_DATABASE_PORT']`|**optional**|-|-|
@@ -549,7 +549,7 @@ Static variables with primitive types used in the module and can be used at the 
 |`databaseCertKey`|Base64 encoded key string used to make SSL connection. At the moment supported by cassandradb,scylladb type|`obj['databaseCertKey']`, `process.env['SERVER_AUTHORIZER_DATABASE_CERT_KEY']`|**optional**|-|-|
 |`databaseCaCert`|Base64 encoded CA certificate string used to make SSL connection. At the moment supported by cassandradb, scylladb type.|`obj['databaseCaCert']`, `process.env['SERVER_AUTHORIZER_DATABASE_CA_CERT']`|**optional**|-|-|
 |`port`|Port on which server should be running.|`obj['port']`, `process.env['SERVER_AUTHORIZER_PORT']`|**optional**|```8080```|```8080```|
-|`authorizerUrl`|Domain name of the server, eg https://authorizer.herokuapp.com.|`obj['authorizerUrl']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**optional**|-|-|
+|`authorizerUrl`|Domain name of the server, eg https://authorizer.herokuapp.com.|`obj['authorizerUrl']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**optional**|-|```http://localhost:8080```|
 |`cookieName`|Name of cookie to be set by server.|`obj['cookieName']`, `process.env['SERVER_AUTHORIZER_COOKIE_NAME']`|**optional**|```authorizer```|```authorizer```|
 |`smtpHost`|SMTP host is used to send email verification emails and forgot password emails	false	If not set email sending can fail.|`obj['smtpHost']`, `process.env['SERVER_AUTHORIZER_SMTP_HOST']`|**optional**|-|-|
 |`smtpPort`|SMTP Port is used along with SMTP host.|`obj['smtpPort']`, `process.env['SERVER_AUTHORIZER_SMTP_PORT']`|**optional**|-|-|
@@ -618,7 +618,7 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`redisUrl`|Connection string for Redis (example: redis://:redis_password@localhost:6379)|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|-|-|
+|`redisUrl`|Connection string for Redis (example: redis://:redis_password@localhost:6379)|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|-|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
@@ -635,8 +635,8 @@ Static variables with primitive types used in the module and can be used at the 
 
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
-|`minioRootUser`|Minio root user.|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|-|-|
-|`minioRootPassword`|Minio root password.|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|-|-|
+|`minioRootUser`|Minio root user.|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|-|```FWGmrAGaeMKM```|
+|`minioRootPassword`|Minio root password.|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|-|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
 
 #### Static configuration
 Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.

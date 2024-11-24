@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,8 +15,12 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import {
+  UpdateWebhookDtoInterface,
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
   WebhookEventInterface,
-  WebhookObjectInterface,
+  WebhookInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { safeParseJson } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -26,7 +30,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
 import { WebhookEventsService } from '../../services/webhook-events.service';
 import { WebhookService } from '../../services/webhook.service';
 
@@ -41,7 +45,6 @@ import { WebhookService } from '../../services/webhook.service';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
   ],
   selector: 'webhook-form',
   templateUrl: './webhook-form.component.html',
@@ -55,13 +58,13 @@ export class WebhookFormComponent implements OnInit {
   hideButtons?: boolean;
 
   @Output()
-  afterFind = new EventEmitter<WebhookObjectInterface>();
+  afterFind = new EventEmitter<WebhookInterface>();
 
   @Output()
-  afterCreate = new EventEmitter<WebhookObjectInterface>();
+  afterCreate = new EventEmitter<WebhookInterface>();
 
   @Output()
-  afterUpdate = new EventEmitter<WebhookObjectInterface>();
+  afterUpdate = new EventEmitter<WebhookInterface>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -102,115 +105,53 @@ export class WebhookFormComponent implements OnInit {
       .subscribe();
   }
 
-  setFieldsAndModel(data: Partial<WebhookObjectInterface> = {}) {
-    this.formlyFields$.next([
-      {
-        key: 'enabled',
-        type: 'checkbox',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `webhook.form.enabled`,
-          placeholder: 'enabled',
-          required: true,
-        },
-      },
-      {
-        key: 'endpoint',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `webhook.form.endpoint`,
-          placeholder: 'endpoint',
-          required: true,
-        },
-      },
-      {
-        key: 'eventName',
-        type: 'select',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `webhook.form.eventName`,
-          placeholder: 'eventName',
-          required: true,
-          options: this.events.map((e) => ({
-            value: e.eventName,
-            label: e.description,
-          })),
-        },
-      },
-      {
-        key: 'headers',
-        type: 'textarea',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `webhook.form.headers`,
-          placeholder: 'headers',
-          required: true,
-        },
-      },
-      {
-        key: 'requestTimeout',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: `webhook.form.requestTimeout`,
-          placeholder: 'requestTimeout',
-          required: false,
-        },
-      },
-    ]);
+  setFieldsAndModel(data: Partial<UpdateWebhookDtoInterface> = {}) {
+    this.setFormlyFields();
     this.formlyModel$.next(this.toModel(data));
   }
 
   submitForm(): void {
-    if (this.form.valid) {
-      if (this.id) {
-        this.updateOne()
-          .pipe(
-            tap((result) => {
+    if (this.id) {
+      this.updateOne()
+        .pipe(
+          tap((result) => {
+            if (result) {
               this.nzMessageService.success('Success');
               this.afterUpdate.next(result);
-            }),
-            untilDestroyed(this)
-          )
-          .subscribe();
-      } else {
-        this.createOne()
-          .pipe(
-            tap((result) => {
+            }
+          }),
+          untilDestroyed(this)
+        )
+        .subscribe();
+    } else {
+      this.createOne()
+        .pipe(
+          tap((result) => {
+            if (result) {
               this.nzMessageService.success('Success');
               this.afterCreate.next(result);
-            }),
+            }
+          }),
 
-            untilDestroyed(this)
-          )
-          .subscribe();
-      }
-    } else {
-      console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
+          untilDestroyed(this)
+        )
+        .subscribe();
     }
   }
 
   createOne() {
-    return this.webhookService.createOne(this.toJson(this.form.value));
+    return this.webhookService
+      .createOne(this.toJson(this.form.value))
+      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
   }
 
   updateOne() {
     if (!this.id) {
       throw new Error('id not set');
     }
-    return this.webhookService.updateOne(this.id, this.toJson(this.form.value));
+    return this.webhookService
+      .updateOne(this.id, this.toJson(this.form.value))
+      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
   }
 
   findOne() {
@@ -224,7 +165,114 @@ export class WebhookFormComponent implements OnInit {
     );
   }
 
-  private toModel(data: Partial<WebhookObjectInterface>): object | null {
+  private setFormlyFields(errors?: ValidationErrorMetadataInterface[]) {
+    this.formlyFields$.next(
+      this.appendServerErrorsAsValidatorsToFields(
+        [
+          {
+            key: 'enabled',
+            type: 'checkbox',
+            validation: {
+              show: true,
+            },
+            props: {
+              label: `webhook.form.enabled`,
+              placeholder: 'enabled',
+              required: true,
+            },
+          },
+          {
+            key: 'endpoint',
+            type: 'input',
+            validation: {
+              show: true,
+            },
+            props: {
+              label: `webhook.form.endpoint`,
+              placeholder: 'endpoint',
+              required: true,
+            },
+          },
+          {
+            key: 'eventName',
+            type: 'select',
+            validation: {
+              show: true,
+            },
+            props: {
+              label: `webhook.form.eventName`,
+              placeholder: 'eventName',
+              required: true,
+              options: this.events.map((e) => ({
+                value: e.eventName,
+                label: e.description,
+              })),
+            },
+          },
+          {
+            key: 'headers',
+            type: 'textarea',
+            validation: {
+              show: true,
+            },
+            props: {
+              label: `webhook.form.headers`,
+              placeholder: 'headers',
+            },
+          },
+          {
+            key: 'requestTimeout',
+            type: 'input',
+            validation: {
+              show: true,
+            },
+            props: {
+              type: 'number',
+              label: `webhook.form.requestTimeout`,
+              placeholder: 'requestTimeout',
+              required: false,
+            },
+          },
+        ],
+        errors
+      )
+    );
+  }
+
+  private appendServerErrorsAsValidatorsToFields(
+    fields: FormlyFieldConfig[],
+    errors?: ValidationErrorMetadataInterface[]
+  ) {
+    return (fields || []).map((f: FormlyFieldConfig) => {
+      const error = errors?.find((e) => e.property === f.key);
+      if (error) {
+        f.validators = Object.fromEntries(
+          error.constraints.map((c) => {
+            return [
+              c.name === 'isNotEmpty' ? 'required' : c.name,
+              {
+                expression: () => false,
+                message: () => c.description,
+              },
+            ];
+          })
+        );
+      }
+      return f;
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private catchAndProcessServerError(err: any) {
+    const error = err.error as ValidationErrorInterface;
+    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+      this.setFormlyFields(error.metadata);
+      return of(null);
+    }
+    return throwError(() => err);
+  }
+
+  private toModel(data: Partial<UpdateWebhookDtoInterface>): object | null {
     return {
       enabled:
         (data['enabled'] as unknown as string) === 'true' ||
@@ -232,23 +280,17 @@ export class WebhookFormComponent implements OnInit {
       endpoint: data['endpoint'],
       eventName: data['eventName'],
       headers: data['headers'] ? JSON.stringify(data['headers']) : '',
-      requestTimeout:
-        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
-          ? data['requestTimeout']
-          : '',
+      requestTimeout: data['requestTimeout'] ? +data['requestTimeout'] : '',
     };
   }
 
-  private toJson(data: Partial<WebhookObjectInterface>) {
+  private toJson(data: Partial<UpdateWebhookDtoInterface>) {
     return {
       enabled: data['enabled'] === true,
       endpoint: data['endpoint'] || '',
       eventName: data['eventName'] || '',
       headers: data['headers'] ? safeParseJson(data['headers']) : null,
-      requestTimeout:
-        data['requestTimeout'] && !isNaN(+data['requestTimeout'])
-          ? +data['requestTimeout']
-          : undefined,
+      requestTimeout: data['requestTimeout'] || undefined,
     };
   }
 }

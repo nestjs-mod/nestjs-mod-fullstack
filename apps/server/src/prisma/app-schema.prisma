@@ -5,22 +5,39 @@ generator client {
   
 }
 datasource db {
-  provider          = "postgresql"
+  provider          = "postgres"
   url               = env("SERVER_APP_DATABASE_URL")
 }
+
+
 generator prismaClassGenerator {
-  provider                 = "prisma-class-generator"
-  output                   = "../app/generated/rest/dto"
-  makeIndexFile            = "false"
-  useNonNullableAssertions = "true"
-  separateRelationFields   = "false"
-  dryRun                   = "false"
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../app/generated/rest/dto"
+  outputToNestJsResourceStructure = false
+  flatResourceStructure           = false
+  exportRelationModifierClasses   = true
+  reExport                        = false
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  classValidation                 = true
+  fileNamingStyle                 = "kebab"
+  noDependencies                  = false
+  annotateAllDtoProperties        = true
+  definiteAssignmentAssertion     = true
+  prettier                        = true
 }
 
 model AppDemo {
   id        String   @id(map: "PK_APP_DEMO") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name      String   @unique(map: "UQ_APP_DEMO") @db.VarChar(128)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   createdAt DateTime @default(now()) @db.Timestamp(6)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
   updatedAt DateTime @default(now()) @db.Timestamp(6)
 }
 

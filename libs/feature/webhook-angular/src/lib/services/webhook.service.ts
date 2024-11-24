@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  CreateWebhookArgsInterface,
-  UpdateWebhookArgsInterface,
+  CreateWebhookDtoInterface,
+  UpdateWebhookDtoInterface,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { RequestMeta } from '@nestjs-mod-fullstack/common-angular';
@@ -43,7 +43,7 @@ export class WebhookService {
     );
   }
 
-  updateOne(id: string, data: UpdateWebhookArgsInterface) {
+  updateOne(id: string, data: UpdateWebhookDtoInterface) {
     return this.webhookRestService.webhookControllerUpdateOne(
       id,
       data,
@@ -60,7 +60,7 @@ export class WebhookService {
     );
   }
 
-  createOne(data: CreateWebhookArgsInterface) {
+  createOne(data: CreateWebhookDtoInterface) {
     return this.webhookRestService.webhookControllerCreateOne(
       data,
       this.webhookAuthService.getWebhookAuthCredentials().xExternalUserId,
