@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.7.0...server-v1.8.0) (2024-11-24)
+
+### Features
+
+- add part of validations ([0361bdb](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/0361bdb4c0d88c41778b143743d3e5634eba78f9))
+- try add validations ([7590ea7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/7590ea7648f3fdc86d1a342285bd5c8fd191d8b1))
+
 # [1.7.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.6.1...server-v1.7.0) (2024-11-22)
 
 ### Features
