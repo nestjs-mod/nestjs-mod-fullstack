@@ -6,8 +6,8 @@
     "branches": [
         "master",
         {
-          "name": "next",
-          "prerelease": "alpha"
+            "name": "alpha",
+            "prerelease": true
         }
     ]
 }
