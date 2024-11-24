@@ -1,3 +1,9 @@
+# [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.7.0...client-v1.8.0) (2024-11-24)
+
+### Features
+
+- Validating REST requests in a NestJS application and displaying errors in Angular application forms (2024-11-24) ([#12](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/12)) ([2c14d02](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/2c14d02af439c0884a4052a3b0197a9ee94c571d))
+
 ## [1.8.1-beta.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.8.0...client-v1.8.1-beta.1) (2024-11-24)
 
 ### Bug Fixes
