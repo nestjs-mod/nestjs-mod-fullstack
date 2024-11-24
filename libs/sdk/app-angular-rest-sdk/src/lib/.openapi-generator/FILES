@@ -33,6 +33,10 @@ model/terminus-health-check-controller-check200-response.interface.ts
 model/terminus-health-check-controller-check503-response.interface.ts
 model/update-webhook-dto.interface.ts
 model/update-webhook-user-dto.interface.ts
+model/validation-error-enum.interface.ts
+model/validation-error-metadata-constraint.interface.ts
+model/validation-error-metadata.interface.ts
+model/validation-error.interface.ts
 model/webhook-entities.interface.ts
 model/webhook-error-enum.interface.ts
 model/webhook-error.interface.ts
@@ -44,6 +48,7 @@ model/webhook-scalar-field-enum.interface.ts
 model/webhook-status.interface.ts
 model/webhook-user-scalar-field-enum.interface.ts
 model/webhook-user.interface.ts
+model/webhook-users-controller-find-many400-response.interface.ts
 model/webhook.interface.ts
 param.ts
 variables.ts

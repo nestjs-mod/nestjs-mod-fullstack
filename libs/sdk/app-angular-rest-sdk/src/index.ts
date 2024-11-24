@@ -7,7 +7,6 @@ export * from './lib/variables';
 export * from './lib/api/api';
 export * from './lib/api/app-rest.service';
 export * from './lib/api/authorizer-rest.service';
-
 export * from './lib/api/files-rest.service';
 export * from './lib/api/terminus-health-check-rest.service';
 export * from './lib/api/time-rest.service';
@@ -32,6 +31,10 @@ export * from './lib/model/terminus-health-check-controller-check200-response.in
 export * from './lib/model/terminus-health-check-controller-check503-response.interface';
 export * from './lib/model/update-webhook-dto.interface';
 export * from './lib/model/update-webhook-user-dto.interface';
+export * from './lib/model/validation-error-enum.interface';
+export * from './lib/model/validation-error-metadata-constraint.interface';
+export * from './lib/model/validation-error-metadata.interface';
+export * from './lib/model/validation-error.interface';
 export * from './lib/model/webhook-entities.interface';
 export * from './lib/model/webhook-error-enum.interface';
 export * from './lib/model/webhook-error.interface';
@@ -43,4 +46,5 @@ export * from './lib/model/webhook-scalar-field-enum.interface';
 export * from './lib/model/webhook-status.interface';
 export * from './lib/model/webhook-user-scalar-field-enum.interface';
 export * from './lib/model/webhook-user.interface';
+export * from './lib/model/webhook-users-controller-find-many400-response.interface';
 export * from './lib/model/webhook.interface';

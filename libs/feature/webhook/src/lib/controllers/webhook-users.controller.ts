@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiExtraModels,
   ApiOkResponse,
   ApiTags,
   refs,
@@ -32,8 +33,11 @@ import {
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
+import { ValidationError } from '@nestjs-mod-fullstack/validation';
+
+@ApiExtraModels(WebhookError, ValidationError)
 @ApiBadRequestResponse({
-  schema: { allOf: refs(WebhookError) },
+  schema: { allOf: refs(WebhookError, ValidationError) },
 })
 @ApiTags('Webhook')
 @CheckWebhookRole([WebhookRole.Admin])

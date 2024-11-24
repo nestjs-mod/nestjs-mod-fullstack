@@ -38,13 +38,13 @@ import { UpdateWebhookDtoInterface } from '../model/update-webhook-dto.interface
 // @ts-ignore
 import { UpdateWebhookUserDtoInterface } from '../model/update-webhook-user-dto.interface';
 // @ts-ignore
-import { WebhookErrorInterface } from '../model/webhook-error.interface';
-// @ts-ignore
 import { WebhookEventInterface } from '../model/webhook-event.interface';
 // @ts-ignore
 import { WebhookInterface } from '../model/webhook.interface';
 // @ts-ignore
 import { WebhookUserInterface } from '../model/webhook-user.interface';
+// @ts-ignore
+import { WebhookUsersControllerFindMany400ResponseInterface } from '../model/webhook-users-controller-find-many400-response.interface';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';

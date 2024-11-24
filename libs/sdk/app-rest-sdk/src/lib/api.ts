@@ -482,6 +482,89 @@ export interface UpdateWebhookUserDto {
 /**
  *
  * @export
+ * @interface ValidationError
+ */
+export interface ValidationError {
+  /**
+   * Validation error (VALIDATION-000)
+   * @type {string}
+   * @memberof ValidationError
+   */
+  message: string;
+  /**
+   *
+   * @type {ValidationErrorEnum}
+   * @memberof ValidationError
+   */
+  code: ValidationErrorEnum;
+  /**
+   *
+   * @type {Array<ValidationErrorMetadata>}
+   * @memberof ValidationError
+   */
+  metadata?: Array<ValidationErrorMetadata>;
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ValidationErrorEnum = {
+  Validation000: 'VALIDATION-000',
+} as const;
+
+export type ValidationErrorEnum =
+  (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
+
+/**
+ *
+ * @export
+ * @interface ValidationErrorMetadata
+ */
+export interface ValidationErrorMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof ValidationErrorMetadata
+   */
+  property: string;
+  /**
+   *
+   * @type {Array<ValidationErrorMetadataConstraint>}
+   * @memberof ValidationErrorMetadata
+   */
+  constraints: Array<ValidationErrorMetadataConstraint>;
+  /**
+   *
+   * @type {Array<ValidationErrorMetadata>}
+   * @memberof ValidationErrorMetadata
+   */
+  children?: Array<ValidationErrorMetadata>;
+}
+/**
+ *
+ * @export
+ * @interface ValidationErrorMetadataConstraint
+ */
+export interface ValidationErrorMetadataConstraint {
+  /**
+   *
+   * @type {string}
+   * @memberof ValidationErrorMetadataConstraint
+   */
+  name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ValidationErrorMetadataConstraint
+   */
+  description: string;
+}
+/**
+ *
+ * @export
  * @interface Webhook
  */
 export interface Webhook {
@@ -879,6 +962,32 @@ export const WebhookUserScalarFieldEnum = {
 
 export type WebhookUserScalarFieldEnum =
   (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
+
+/**
+ *
+ * @export
+ * @interface WebhookUsersControllerFindMany400Response
+ */
+export interface WebhookUsersControllerFindMany400Response {
+  /**
+   * Validation error (VALIDATION-000)
+   * @type {string}
+   * @memberof WebhookUsersControllerFindMany400Response
+   */
+  message: string;
+  /**
+   *
+   * @type {ValidationErrorEnum}
+   * @memberof WebhookUsersControllerFindMany400Response
+   */
+  code: ValidationErrorEnum;
+  /**
+   *
+   * @type {Array<ValidationErrorMetadata>}
+   * @memberof WebhookUsersControllerFindMany400Response
+   */
+  metadata?: Array<ValidationErrorMetadata>;
+}
 
 /**
  * AppApi - axios parameter creator

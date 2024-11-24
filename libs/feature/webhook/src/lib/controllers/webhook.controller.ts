@@ -1,6 +1,7 @@
 import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
+import { ValidationError } from '@nestjs-mod-fullstack/validation';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
@@ -28,7 +29,10 @@ import { UpdateWebhookDto } from '../generated/rest/dto/update-webhook.dto';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 import { Webhook } from '../generated/rest/dto/webhook.entity';
 import { WebhookToolsService } from '../services/webhook-tools.service';
+import { FindManyWebhookLogResponse } from '../types/find-many-webhook-log-response';
+import { FindManyWebhookResponse } from '../types/find-many-webhook-response';
 import { WebhookEntities } from '../types/webhook-entities';
+import { WebhookEvent } from '../types/webhook-event';
 import { WebhookConfiguration } from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
@@ -37,13 +41,10 @@ import {
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
-import { WebhookEvent } from '../types/webhook-event';
-import { FindManyWebhookResponse } from '../types/find-many-webhook-response';
-import { FindManyWebhookLogResponse } from '../types/find-many-webhook-log-response';
 
-@ApiExtraModels(WebhookError, WebhookEntities)
+@ApiExtraModels(WebhookError, WebhookEntities, ValidationError)
 @ApiBadRequestResponse({
-  schema: { allOf: refs(WebhookError) },
+  schema: { allOf: refs(WebhookError, ValidationError) },
 })
 @ApiTags('Webhook')
 @CheckWebhookRole([WebhookRole.User, WebhookRole.Admin])
