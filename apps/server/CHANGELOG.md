@@ -1,3 +1,13 @@
+# [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.7.0...server-v1.8.0) (2024-11-26)
+
+### Bug Fixes
+
+- update tests ([f14eb6f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/f14eb6f020dfcc9dd659447898f0998c01fc112c))
+
+### Features
+
+- Validating REST requests in a NestJS application and displaying errors in Angular application forms (2024-11-24) ([#12](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/12)) ([2c14d02](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/2c14d02af439c0884a4052a3b0197a9ee94c571d))
+
 # [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.7.0...server-v1.8.0) (2024-11-24)
 
 ### Features
