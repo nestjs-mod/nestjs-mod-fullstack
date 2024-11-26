@@ -133,7 +133,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     const { data } = await user1.getAppApi().appControllerDemoCreateOne();
 
     // wait event processing
-    await setTimeout(1000);
+    await setTimeout(4000);
 
     const my = appHandlerLogs.filter(
       (l) =>
@@ -155,7 +155,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .appControllerDemoUpdateOne(appHandlerLogs[0].body.id);
 
     // wait event processing
-    await setTimeout(1000);
+    await setTimeout(4000);
 
     const my = appHandlerLogs.filter(
       (l) =>
@@ -172,7 +172,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .appControllerDemoDeleteOne(appHandlerLogs[0].body.id);
 
     // wait event processing
-    await setTimeout(1000);
+    await setTimeout(4000);
 
     const my = appHandlerLogs.filter(
       (l) =>
@@ -249,6 +249,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       ],
     });
   });
+
   it('should read all created webhook logs for "update" event', async () => {
     const { data: manyWebhooks } = await user1
       .getWebhookApi()

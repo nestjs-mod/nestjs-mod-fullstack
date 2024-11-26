@@ -6,6 +6,7 @@ import {
   FilesApi,
   TimeApi,
   WebhookApi,
+  WebhookUser,
 } from '@nestjs-mod-fullstack/app-rest-sdk';
 import axios, { AxiosInstance } from 'axios';
 import { get } from 'env-var';
@@ -22,6 +23,7 @@ export class RestClientHelper {
   private authorizerClientID!: string;
 
   authorizationTokens?: AuthToken;
+  private webhookProfile?: WebhookUser;
 
   private authorizer?: Authorizer;
 
@@ -49,6 +51,10 @@ export class RestClientHelper {
   ) {
     this.randomUser = options?.randomUser;
     this.createApiClients();
+  }
+
+  getWebhookProfile() {
+    return this.webhookProfile;
   }
 
   getGeneratedRandomUser(): Required<GenerateRandomUserResult> {
@@ -212,11 +218,16 @@ export class RestClientHelper {
       this.randomUser = await generateRandomUser();
     }
     const authorizerClient = await this.getAuthorizerClient();
-    await authorizerClient.signup({
-      email: this.randomUser.email,
-      confirm_password: this.randomUser.password,
-      password: this.randomUser.password,
-    });
+    this.authorizationTokens = (
+      await authorizerClient.signup({
+        email: this.randomUser.email,
+        confirm_password: this.randomUser.password,
+        password: this.randomUser.password,
+      })
+    ).data;
+
+    await this.setAuthorizationHeadersFromAuthorizationTokens();
+
     return this;
   }
 
@@ -240,6 +251,12 @@ export class RestClientHelper {
 
     this.authorizationTokens = loginResult.data;
 
+    await this.setAuthorizationHeadersFromAuthorizationTokens();
+
+    return this;
+  }
+
+  private async setAuthorizationHeadersFromAuthorizationTokens() {
     if (this.webhookApiAxios) {
       Object.assign(
         this.webhookApiAxios.defaults.headers.common,
@@ -265,7 +282,11 @@ export class RestClientHelper {
       );
     }
 
-    return this;
+    if (this.webhookApi) {
+      this.webhookProfile = (
+        await this.getWebhookApi().webhookControllerProfile()
+      ).data;
+    }
   }
 
   async logout() {

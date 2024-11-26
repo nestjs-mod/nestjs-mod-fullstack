@@ -5,6 +5,7 @@ import {
   FilesRole,
 } from '@nestjs-mod-fullstack/files';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
+import { ValidationModule } from '@nestjs-mod-fullstack/validation';
 import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,
@@ -46,13 +47,12 @@ import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { ExecutionContext } from '@nestjs/common';
+import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { WsAdapter } from '@nestjs/platform-ws';
-import { ValidationModule } from '@nestjs-mod-fullstack/validation';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');

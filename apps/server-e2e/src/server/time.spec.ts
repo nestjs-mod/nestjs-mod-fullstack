@@ -8,7 +8,9 @@ describe('Get server time from rest api and ws', () => {
 
   const correctStringDateLength = '2024-11-20T11:58:03.338Z'.length;
   const restClientHelper = new RestClientHelper({
-    serverUrl: get('CLIENT_URL').asString(),
+    serverUrl: process.env.IS_DOCKER_COMPOSE
+      ? get('CLIENT_URL').asString()
+      : undefined,
   });
   const timeApi = restClientHelper.getTimeApi();
 
