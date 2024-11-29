@@ -9,18 +9,13 @@ import {
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { provideTransloco } from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
-  AppRestService,
-  AuthorizerRestService,
-  FilesRestService,
   RestClientApiModule,
   RestClientConfiguration,
-  WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import {
-  AUTHORIZER_URL,
-  AuthService,
-} from '@nestjs-mod-fullstack/auth-angular';
+import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
 import {
   ImageFileComponent,
   MINIO_URL,
@@ -40,6 +35,7 @@ import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import { provideAppAuthConfiguration } from './integrations/auth.configuration';
+import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
 export const appConfig = ({
   authorizerURL,
@@ -88,6 +84,31 @@ export const appConfig = ({
         useValue: minioURL,
       },
       provideAppAuthConfiguration(),
+      // Transloco Config
+      provideTransloco({
+        config: {
+          availableLangs: [
+            {
+              id: 'en',
+              label: marker('English'),
+            },
+            {
+              id: 'ru',
+              label: marker('Russian'),
+            },
+          ],
+          defaultLang: 'en',
+          fallbackLang: 'en',
+          reRenderOnLangChange: true,
+          prodMode: true,
+          missingHandler: {
+            logMissingKey: true,
+            useFallbackTranslation: true,
+            allowEmpty: true,
+          },
+        },
+        loader: TranslocoHttpLoader,
+      }),
       {
         provide: APP_INITIALIZER,
         useFactory: (appInitializer: AppInitializer) => () =>

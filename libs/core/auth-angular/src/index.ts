@@ -5,3 +5,4 @@ export * from './lib/services/auth-guard.service';
 export * from './lib/services/auth.configuration';
 export * from './lib/services/auth.service';
 export * from './lib/services/authorizer.service';
+export * from './lib/services/tokens.service';

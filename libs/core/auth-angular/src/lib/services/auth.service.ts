@@ -21,14 +21,15 @@ import {
   AuthConfiguration,
 } from './auth.configuration';
 import { AuthorizerService } from './authorizer.service';
+import { TokensService } from './tokens.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   profile$ = new BehaviorSubject<User | undefined>(undefined);
-  tokens$ = new BehaviorSubject<AuthToken | undefined>(undefined);
 
   constructor(
     private readonly authorizerService: AuthorizerService,
+    private readonly tokensService: TokensService,
     @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
     private readonly authConfiguration?: AuthConfiguration
@@ -54,7 +55,7 @@ export class AuthService {
         this.setProfileAndTokens(result);
         return {
           profile: result?.user,
-          tokens: this.tokens$.value,
+          tokens: this.tokensService.tokens$.value,
         };
       })
     );
@@ -108,7 +109,7 @@ export class AuthService {
         this.setProfileAndTokens(result);
         return {
           profile: result?.user,
-          tokens: this.tokens$.value,
+          tokens: this.tokensService.tokens$.value,
         };
       })
     );
@@ -144,16 +145,19 @@ export class AuthService {
   }
 
   setProfileAndTokens(result: AuthToken | undefined) {
-    this.tokens$.next(result as AuthToken);
+    this.tokensService.tokens$.next(result as AuthToken);
     this.setProfile(result?.user);
   }
 
-  getAuthorizationHeaders() {
-    if (!this.tokens$.value?.access_token) {
-      return undefined;
+  getAuthorizationHeaders(): Record<string, string> {
+    if (this.authConfiguration?.getAuthorizationHeaders) {
+      return this.authConfiguration.getAuthorizationHeaders();
+    }
+    if (!this.tokensService.tokens$.value?.access_token) {
+      return {};
     }
     return {
-      Authorization: `Bearer ${this.tokens$.value.access_token}`,
+      Authorization: `Bearer ${this.tokensService.tokens$.value.access_token}`,
     };
   }
 

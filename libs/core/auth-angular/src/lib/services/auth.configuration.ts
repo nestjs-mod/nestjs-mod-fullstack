@@ -19,6 +19,8 @@ export class AuthConfiguration {
   afterUpdateProfile?(
     data: AfterUpdateProfileEvent
   ): Observable<User | undefined>;
+
+  getAuthorizationHeaders?(): Record<string, string>;
 }
 
 export const AUTH_CONFIGURATION_TOKEN = new InjectionToken<string>(

@@ -67,7 +67,10 @@ export class WebhookController {
   @Get('events')
   @ApiOkResponse({ type: WebhookEvent, isArray: true })
   async events() {
-    return this.webhookConfiguration.events;
+    return this.webhookConfiguration.events.map((e) => ({
+      ...e,
+      descriptionLocale: { en: e.description },
+    }));
   }
 
   @Get()

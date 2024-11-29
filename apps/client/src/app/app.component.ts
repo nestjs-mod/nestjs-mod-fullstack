@@ -1,7 +1,12 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '@authorizerdev/authorizer-js';
+import {
+  LangDefinition,
+  TranslocoPipe,
+  TranslocoService,
+} from '@jsverse/transloco';
 import {
   AppRestService,
   TimeRestService,
@@ -24,6 +29,9 @@ import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
     NzLayoutModule,
     NzTypographyModule,
     AsyncPipe,
+    NgForOf,
+    NgFor,
+    TranslocoPipe,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -34,14 +42,26 @@ export class AppComponent implements OnInit {
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject('');
   authUser$: Observable<User | undefined>;
+  lang$ = new BehaviorSubject<string>('');
+  availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
 
   constructor(
     private readonly timeRestService: TimeRestService,
     private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService
   ) {
     this.authUser$ = this.authService.profile$.asObservable();
+    this.availableLangs$.next(
+      this.translocoService.getAvailableLangs() as LangDefinition[]
+    );
+    this.translocoService.langChanges$
+      .pipe(
+        tap((lang) => this.lang$.next(lang)),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   ngOnInit() {
@@ -65,6 +85,10 @@ export class AppComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  setActiveLang(lang: string) {
+    this.translocoService.setActiveLang(lang);
   }
 
   signOut() {

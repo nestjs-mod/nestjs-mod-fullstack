@@ -18,7 +18,12 @@
         "main": "apps/server/src/main.ts",
         "tsConfig": "apps/server/tsconfig.app.json",
         "assets": [
-          "apps/server/src/assets"
+          "apps/server/src/assets",
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/class-validator-multi-lang/i18n/",
+            "output": "./assets/i18n/class-validator-multi-lang-messages/"
+          }
         ],
         "webpackConfig": "apps/server/webpack.config.js"
       },

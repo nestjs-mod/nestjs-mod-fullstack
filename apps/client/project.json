@@ -34,6 +34,11 @@
             "glob": "**/*",
             "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
             "output": "/assets/"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/class-validator-multi-lang/i18n/",
+            "output": "./assets/i18n/class-validator-multi-lang-messages/"
           }
         ],
         "styles": [

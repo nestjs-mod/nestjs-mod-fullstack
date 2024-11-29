@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
   AuthorizerRestService,
@@ -7,10 +8,11 @@ import {
   TimeRestService,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
+import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
 import {
   catchError,
   map,
+  merge,
   mergeMap,
   of,
   Subscription,
@@ -28,7 +30,9 @@ export class AppInitializer {
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
-    private readonly filesRestService: FilesRestService
+    private readonly filesRestService: FilesRestService,
+    private readonly translocoService: TranslocoService,
+    private readonly tokensService: TokensService
   ) {}
 
   resolve() {
@@ -46,6 +50,11 @@ export class AppInitializer {
             )
     ).pipe(
       mergeMap(() => this.authService.refreshToken()),
+      mergeMap(() => {
+        const defaultLang = this.translocoService.getDefaultLang();
+        this.translocoService.setActiveLang(defaultLang);
+        return this.translocoService.load(defaultLang);
+      }),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);
@@ -58,7 +67,10 @@ export class AppInitializer {
       this.subscribeToTokenUpdatesSubscription.unsubscribe();
       this.subscribeToTokenUpdatesSubscription = undefined;
     }
-    this.subscribeToTokenUpdatesSubscription = this.authService.tokens$
+    this.subscribeToTokenUpdatesSubscription = merge(
+      this.tokensService.tokens$,
+      this.translocoService.langChanges$
+    )
       .pipe(
         tap(() => {
           const authorizationHeaders =

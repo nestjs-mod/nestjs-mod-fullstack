@@ -205,7 +205,7 @@ export class WebhookFormComponent implements OnInit {
               required: true,
               options: this.events.map((e) => ({
                 value: e.eventName,
-                label: e.description,
+                label: `${e.eventName} - ${e.description}`,
               })),
             },
           },

@@ -1,0 +1,18 @@
+{
+  "app-angular-rest-sdk": {},
+  "app-rest-sdk": {},
+  "auth": {},
+  "auth-angular": {},
+  "common": {},
+  "common-angular": {},
+  "files": {},
+  "files-angular": {},
+  "prisma-tools": {},
+  "testing": {},
+  "validation": {},
+  "webhook": {},
+  "webhook-angular": {},
+  "runtime-tools": {},
+  "data-prefetch": {},
+  "bridge-react-webpack-plugin": {}
+}

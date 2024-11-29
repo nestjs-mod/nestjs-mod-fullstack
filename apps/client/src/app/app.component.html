@@ -24,6 +24,17 @@
         Sign-in
       </li>
       }
+      <li nz-submenu [nzTitle]="lang$ | async" [style]="{ float: 'right' }">
+        <ul>
+          <li
+            *ngFor="let availableLang of availableLangs$ | async"
+            nz-menu-item
+            (click)="setActiveLang(availableLang.id)"
+          >
+            {{ availableLang.label | transloco }}
+          </li>
+        </ul>
+      </li>
     </ul>
   </nz-header>
   <nz-content>
