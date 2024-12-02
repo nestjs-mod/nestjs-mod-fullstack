@@ -14,7 +14,7 @@
         "@angular/router": "18.2.11",
         "lodash": "^4.17.21",
         "@jsverse/transloco": "^7.5.0",
-    "@jsverse/transloco-keys-manager": "^6.0.0"
+        "@jsverse/transloco-keys-manager": "^6.0.0"
     },
     "sideEffects": false,
     "i18n": [

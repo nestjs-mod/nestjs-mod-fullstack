@@ -16,10 +16,10 @@ msgid "Create"
 msgstr "Create"
 
 msgid "app.locale.name.english"
-msgstr "app.locale.name.english"
+msgstr "English"
 
 msgid "app.locale.name.russian"
-msgstr "app.locale.name.russian"
+msgstr "Russian"
 
 msgid "demo.form.fields.name"
 msgstr "demo.form.fields.name"
@@ -38,9 +38,3 @@ msgstr "id not set"
 
 msgid "demo.form.name"
 msgstr "demo.form.name"
-
-msgid "English"
-msgstr "English"
-
-msgid "Russian"
-msgstr "Russian"

@@ -1,5 +1,6 @@
 {
     "Event that will be triggered after creation": "Event that will be triggered after creation",
     "Event that will fire after deletion": "Event that will fire after deletion",
-    "Event that will trigger after the update": "Event that will trigger after the update"
+    "Event that will trigger after the update": "Event that will trigger after the update",
+    "Hello API": "Hello API"
 }

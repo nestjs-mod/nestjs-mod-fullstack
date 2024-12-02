@@ -88,7 +88,6 @@
     "@angular/compiler-cli": "18.2.11",
     "@angular/language-service": "18.2.11",
     "@brakebein/prisma-generator-nestjs-dto": "^1.24.0-beta5",
-    "string-replace-loader": "3.1.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@nestjs-mod/schematics": "^2.11.2",
@@ -140,6 +139,7 @@
     "prettier": "^2.6.2",
     "prisma": "^5.22.0",
     "rucken": "^4.11.5",
+    "string-replace-loader": "3.1.0",
     "tailwindcss": "^3.4.15",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
@@ -361,6 +361,7 @@
     "cache-manager-redis-yet": "^5.1.5",
     "case-anything": "^2.1.13",
     "class-transformer": "^0.5.1",
+    "class-transformer-global-storage": "0.4.1-1",
     "class-validator": "^0.14.1",
     "class-validator-multi-lang": "^0.140.1",
     "dotenv": "^16.4.5",
@@ -380,8 +381,7 @@
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "wait-on": "^8.0.1",
-    "zone.js": "~0.14.3",
-    "class-transformer-global-storage": "0.4.1-1"
+    "zone.js": "~0.14.3"
   },
   "nx": {
     "includedScripts": []

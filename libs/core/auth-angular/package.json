@@ -12,7 +12,7 @@
         "@ngx-formly/core": "^6.3.10",
         "ng-zorro-antd": "^18.2.0",
         "rxjs": "^7.8.0",
-    "@jsverse/transloco": "^7.5.0"
+        "@jsverse/transloco": "^7.5.0"
     },
     "sideEffects": false,
     "i18n": [

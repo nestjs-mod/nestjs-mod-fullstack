@@ -14,3 +14,6 @@ msgstr "Event that will fire after deletion"
 
 msgid "Event that will trigger after the update"
 msgstr "Event that will trigger after the update"
+
+msgid "Hello API"
+msgstr "Hello API"

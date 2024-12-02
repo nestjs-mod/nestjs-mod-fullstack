@@ -554,7 +554,178 @@ export const AUTH_ERROR_ENUM_TITLES: Record<AuthErrorEnum, string> = {
 
 ### 6. Автоматическое формирование словарей для переводов
 
+Разметка предложений и слов для перевода бэкенда и фронтенда отличаются, давным давно я сделал для себя утилиту которая собирает словари для таких проектов, ее и буду использовать в этом проекте.
+
+Если утлита ранее не была установлена или версия стояла старая, то необходимо ее переустановить.
+
+_Команды_
+
+```bash
+npm install --save-dev rucken@latest
+```
+
+Запускаем утилиту
+
+_Команды_
+
+```bash
+./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
+```
+
+После запуска этой команды в проекте появятся множество файлов с расширнениями: po, pot, json
+
+**Примеры файлов**
+
+Файл с расширением `XXX.pot` содержит ключи предложений для перевода.
+
+Пример файла _apps/client/src/assets/i18n/template.pot_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "app.locale.name.english"
+msgstr "app.locale.name.english"
+
+msgid "app.locale.name.russian"
+msgstr "app.locale.name.russian"
+
+```
+
+Файлы с расширением `<lang>.po` содержат переводы на необходимый язык.
+
+Пример файла _apps/client/src/assets/i18n/en.po_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "app.locale.name.english"
+msgstr "app.locale.name.english"
+
+msgid "app.locale.name.russian"
+msgstr "app.locale.name.russian"
+
+```
+
+Пример файла _apps/client/src/assets/i18n/ru.po_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "app.locale.name.english"
+msgstr "app.locale.name.english"
+
+msgid "app.locale.name.russian"
+msgstr "app.locale.name.russian"
+
+```
+
+Файлы с расширением `<lang>.json` содержат переводы на необходимый язык в формате `json`.
+
+Пример файла _apps/client/src/assets/i18n/ru.json_
+
+```json
+{
+  "Create new": "",
+  "app.locale.name.english": "",
+  "app.locale.name.russian": ""
+}
+```
+
+Пример файла _apps/client/src/assets/i18n/en.json_
+
+```json
+{
+  "Create new": "Create new",
+  "app.locale.name.english": "app.locale.name.english",
+  "app.locale.name.russian": "app.locale.name.russian"
+}
+```
+
 ### 7. Добавляем переводы для всех словарей
+
+Для массового перевода словарей я обычно использую кросплатформенную программу [poedit.net](https://poedit.net/).
+
+Я уже писал пост с примером использования этой программы, сейчас не буду сюда дублировать, дабы не раздувать текст, пост лежит тут - https://dev.to/endykaufman/add-new-dictionaries-with-translations-to-nestjs-application-using-poeditnet-3ei2.
+
+Сейчас просто приведу пример ручного перевода словарей.
+
+Пример файла _apps/client/src/assets/i18n/ru.po_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Create new"
+msgstr "Создать"
+
+msgid "app.locale.name.english"
+msgstr "Английский"
+
+msgid "app.locale.name.russian"
+msgstr "Русский"
+
+```
+
+Пример файла _apps/client/src/assets/i18n/en.po_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "app.locale.name.english"
+msgstr "English"
+
+msgid "app.locale.name.russian"
+msgstr "Russian"
+
+```
+
+Переводы можно добалять как для `po` файлов, так и для `json`.
+
+После добавления всех необходимых переводов нужно запустить команду, которая обьединит все переводы и создаст словари на уровне приложения.
+
+_Команды_
+
+```bash
+./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
+```
 
 ### 8. Добавляем тест для проверки переведенных ответов с бэкенда
 

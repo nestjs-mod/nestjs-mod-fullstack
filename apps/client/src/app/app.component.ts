@@ -58,7 +58,16 @@ export class AppComponent implements OnInit {
     );
     this.translocoService.langChanges$
       .pipe(
-        tap((lang) => this.lang$.next(lang)),
+        tap((lang) => {
+          this.lang$.next(lang);
+          this.availableLangs$.next(
+            this.translocoService.getAvailableLangs() as LangDefinition[]
+          );
+          console.log(
+            this.translocoService.getAvailableLangs() as LangDefinition[]
+          );
+          console.log(this.translocoService.getTranslation());
+        }),
         untilDestroyed(this)
       )
       .subscribe();

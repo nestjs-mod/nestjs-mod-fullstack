@@ -1,15 +1,13 @@
 {
-    "Create new": "",
+    "Create new": "Создать",
     "Save": "",
     "Create": "",
-    "app.locale.name.english": "",
-    "app.locale.name.russian": "",
     "demo.form.fields.name": "",
     "read-only field, set and updated on the backend": "",
     "Success": "",
     "Validation errors": "",
     "id not set": "",
     "demo.form.name": "",
-    "English": "",
-    "Russian": ""
+    "app.locale.name.english": "Английский",
+    "app.locale.name.russian": "Русский"
 }
