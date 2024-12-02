@@ -1,4 +1,15 @@
 {
+    "Create new": "Create new",
+    "Save": "Save",
+    "Create": "Create",
+    "app.locale.name.english": "app.locale.name.english",
+    "app.locale.name.russian": "app.locale.name.russian",
+    "demo.form.fields.name": "demo.form.fields.name",
+    "read-only field, set and updated on the backend": "read-only field, set and updated on the backend",
+    "Success": "Success",
+    "Validation errors": "Validation errors",
+    "id not set": "id not set",
+    "demo.form.name": "demo.form.name",
     "English": "English",
     "Russian": "Russian"
 }

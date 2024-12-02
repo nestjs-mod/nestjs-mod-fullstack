@@ -1,8 +1,11 @@
 <div class="table-operations" nz-row nzJustify="space-between">
   <div nz-col nzSpan="4">
-    <button nz-button nzType="primary" (click)="showCreateOrUpdateModal()">
-      Create new
-    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="showCreateOrUpdateModal()"
+      transloco="Create new"
+    ></button>
   </div>
   <div nz-col>
     <button (click)="loadMany()" nz-button nzType="primary" nzSearch>

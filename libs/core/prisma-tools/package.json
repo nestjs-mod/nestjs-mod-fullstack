@@ -13,6 +13,11 @@
             "scope": "prisma-tools",
             "path": "src/i18n",
             "strategy": "join"
+        },
+        {
+            "scope": "prisma-tools-getText",
+            "path": "src/i18n/getText",
+            "strategy": "join"
         }
     ]
 }

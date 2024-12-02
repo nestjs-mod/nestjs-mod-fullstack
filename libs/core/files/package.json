@@ -13,6 +13,11 @@
             "scope": "files",
             "path": "src/i18n",
             "strategy": "join"
+        },
+        {
+            "scope": "files-getText",
+            "path": "src/i18n/getText",
+            "strategy": "join"
         }
     ]
 }

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { getText } from 'nestjs-translates';
 
 export enum FilesErrorEnum {
   COMMON = 'FILES-000',
@@ -6,8 +7,8 @@ export enum FilesErrorEnum {
 }
 
 export const FILES_ERROR_ENUM_TITLES: Record<FilesErrorEnum, string> = {
-  [FilesErrorEnum.COMMON]: 'Files error',
-  [FilesErrorEnum.FORBIDDEN]: 'Forbidden',
+  [FilesErrorEnum.COMMON]: getText('Files error'),
+  [FilesErrorEnum.FORBIDDEN]: getText('Forbidden'),
 };
 
 export class FilesError<T = unknown> extends Error {

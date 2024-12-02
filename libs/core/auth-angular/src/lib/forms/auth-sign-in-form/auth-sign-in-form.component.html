@@ -15,13 +15,16 @@
           nzType="default"
           type="button"
           [routerLink]="'/sign-up'"
-        >
-          Sign-up
-        </button>
+          transloco="Sign-up"
+        ></button>
       </div>
-      <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">
-        Sign-in
-      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="!form.valid"
+        transloco="Sign-in"
+      ></button>
     </div>
   </nz-form-control>
   }

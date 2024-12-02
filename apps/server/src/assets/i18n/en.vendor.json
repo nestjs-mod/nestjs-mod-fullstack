@@ -1,18 +1,138 @@
 {
   "app-angular-rest-sdk": {},
   "app-rest-sdk": {},
-  "auth": {},
-  "auth-angular": {},
+  "auth": {
+    "Auth error": "Auth error",
+    "Forbidden": "Forbidden",
+    "User not found": "User not found"
+  },
+  "auth-angular": {
+    "Sign-in": "Sign-in",
+    "Sign-up": "Sign-up",
+    "auth.sign-up-form.fields.email": "auth.sign-up-form.fields.email",
+    "auth.sign-up-form.fields.password": "auth.sign-up-form.fields.password",
+    "auth.sign-up-form.fields.confirm-password": "auth.sign-up-form.fields.confirm-password",
+    "Success": "Success",
+    "Validation errors": "Validation errors",
+    "auth.sign-in-form.fields.email": "auth.sign-in-form.fields.email",
+    "auth.sign-in-form.fields.password": "auth.sign-in-form.fields.password",
+    "auth.profile-form.fields.picture": "auth.profile-form.fields.picture",
+    "auth.profile-form.fields.old-password": "auth.profile-form.fields.old-password",
+    "auth.profile-form.fields.new-password": "auth.profile-form.fields.new-password",
+    "auth.profile-form.fields.confirm-new-password": "auth.profile-form.fields.confirm-new-password",
+    "Updated": "Updated",
+    "Update": "Update"
+  },
   "common": {},
-  "common-angular": {},
-  "files": {},
-  "files-angular": {},
-  "prisma-tools": {},
+  "common-angular": {
+    "Unauthorized": "Unauthorized"
+  },
+  "files": {
+    "Files error": "Files error",
+    "Forbidden": "Forbidden",
+    "ok": "ok",
+    "Only those who uploaded files can delete them": "Only those who uploaded files can delete them",
+    "Uploading files with extension \"{{ext}}\" is not supported": "Uploading files with extension \"{{ext}}\" is not supported"
+  },
+  "files-angular": {
+    "files.image-file.change-file": "files.image-file.change-file",
+    "files.image-file.select-file": "files.image-file.select-file"
+  },
+  "prisma-tools": {
+    "Common db error": "Common db error",
+    "Database query error": "Database query error",
+    "Invalid identifier": "Invalid identifier",
+    "Invalid linked table identifier": "Invalid linked table identifier",
+    "Not found error": "Not found error",
+    "Unhandled error": "Unhandled error",
+    "Unique error": "Unique error"
+  },
   "testing": {},
-  "validation": {},
-  "webhook-angular": {},
+  "validation": {
+    "Validation error": "Validation error"
+  },
+  "webhook-angular": {
+    "Logs for webhook #": "Logs for webhook #",
+    "input search text": "input search text",
+    "Create new": "Create new",
+    "Action": "Action",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Save": "Save",
+    "Create": "Create",
+    "Fill user credentials": "Fill user credentials",
+    "Fill admin credentials": "Fill admin credentials",
+    "Sign-in": "Sign-in",
+    "webhook-log.grid.columns.id": "webhook-log.grid.columns.id",
+    "webhook-log.grid.columns.request": "webhook-log.grid.columns.request",
+    "webhook-log.grid.columns.response": "webhook-log.grid.columns.response",
+    "webhook-log.grid.columns.response-status": "webhook-log.grid.columns.response-status",
+    "webhook-log.grid.columns.webhook-status": "webhook-log.grid.columns.webhook-status",
+    "webhook.update-modal.title": "webhook.update-modal.title",
+    "webhook.create-modal.title": "webhook.create-modal.title",
+    "Cancel": "Cancel",
+    "webhook.delete-modal.title": "webhook.delete-modal.title",
+    "Yes": "Yes",
+    "No": "No",
+    "webhook.grid.columns.id": "webhook.grid.columns.id",
+    "webhook.grid.columns.enabled": "webhook.grid.columns.enabled",
+    "webhook.grid.columns.endpoint": "webhook.grid.columns.endpoint",
+    "webhook.grid.columns.event-name": "webhook.grid.columns.event-name",
+    "webhook.grid.columns.headers": "webhook.grid.columns.headers",
+    "webhook.grid.columns.request-timeout": "webhook.grid.columns.request-timeout",
+    "webhook.form.fields.enabled": "webhook.form.fields.enabled",
+    "webhook.form.fields.endpoint": "webhook.form.fields.endpoint",
+    "webhook.form.fields.event-name": "webhook.form.fields.event-name",
+    "webhook.form.fields.headers": "webhook.form.fields.headers",
+    "webhook.form.fields.request-timeout": "webhook.form.fields.request-timeout",
+    "webhook.form.fields.x-external-userId": "webhook.form.fields.x-external-userId",
+    "webhook.form.fields.x-external-tenantId": "webhook.form.fields.x-external-tenantId",
+    "Success": "Success",
+    "Validation errors": "Validation errors"
+  },
   "runtime-tools": {},
-  "webhook": {},
+  "webhook": {
+    "Event not found": "Event not found",
+    "Forbidden": "Forbidden",
+    "ok": "ok",
+    "Tenant ID not set": "Tenant ID not set",
+    "User ID not set": "User ID not set",
+    "User not found": "User not found",
+    "Webhook error": "Webhook error"
+  },
   "data-prefetch": {},
-  "bridge-react-webpack-plugin": {}
+  "bridge-react-webpack-plugin": {},
+  "auth-getText": {
+    "Auth error": "Auth error",
+    "Forbidden": "Forbidden",
+    "User not found": "User not found"
+  },
+  "files-getText": {
+    "Files error": "Files error",
+    "Forbidden": "Forbidden",
+    "ok": "ok",
+    "Only those who uploaded files can delete them": "Only those who uploaded files can delete them",
+    "Uploading files with extension \"{{ext}}\" is not supported": "Uploading files with extension \"{{ext}}\" is not supported"
+  },
+  "prisma-tools-getText": {
+    "Common db error": "Common db error",
+    "Database query error": "Database query error",
+    "Invalid identifier": "Invalid identifier",
+    "Invalid linked table identifier": "Invalid linked table identifier",
+    "Not found error": "Not found error",
+    "Unhandled error": "Unhandled error",
+    "Unique error": "Unique error"
+  },
+  "validation-getText": {
+    "Validation error": "Validation error"
+  },
+  "webhook-getText": {
+    "Event not found": "Event not found",
+    "Forbidden": "Forbidden",
+    "ok": "ok",
+    "Tenant ID not set": "Tenant ID not set",
+    "User ID not set": "User ID not set",
+    "User not found": "User not found",
+    "Webhook error": "Webhook error"
+  }
 }

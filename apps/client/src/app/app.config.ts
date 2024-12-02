@@ -90,11 +90,11 @@ export const appConfig = ({
           availableLangs: [
             {
               id: 'en',
-              label: marker('English'),
+              label: marker('app.locale.name.english'),
             },
             {
               id: 'ru',
-              label: marker('Russian'),
+              label: marker('app.locale.name.russian'),
             },
           ],
           defaultLang: 'en',

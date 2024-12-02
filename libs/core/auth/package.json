@@ -13,6 +13,11 @@
             "scope": "auth",
             "path": "src/i18n",
             "strategy": "join"
+        },
+        {
+            "scope": "auth-getText",
+            "path": "src/i18n/getText",
+            "strategy": "join"
         }
     ]
 }

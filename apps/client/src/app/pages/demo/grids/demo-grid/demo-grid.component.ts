@@ -17,11 +17,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTableModule, NzTrDirective } from 'ng-zorro-antd/table';
 import { BehaviorSubject, tap } from 'rxjs';
 
 import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
 import { DemoService } from '../../services/demo.service';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @UntilDestroy()
 @Component({
@@ -40,6 +41,7 @@ import { DemoService } from '../../services/demo.service';
     NzIconModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslocoDirective,
   ],
   selector: 'app-demo-grid',
   templateUrl: './demo-grid.component.html',

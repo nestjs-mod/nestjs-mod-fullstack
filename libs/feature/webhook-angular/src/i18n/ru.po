@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+msgid "Logs for webhook #"
+msgstr ""
+
+msgid "input search text"
+msgstr ""
+
+msgid "Create new"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Fill user credentials"
+msgstr ""
+
+msgid "Fill admin credentials"
+msgstr ""
+
+msgid "Sign-in"
+msgstr ""
+
+msgid "webhook-log.grid.columns.id"
+msgstr ""
+
+msgid "webhook-log.grid.columns.request"
+msgstr ""
+
+msgid "webhook-log.grid.columns.response"
+msgstr ""
+
+msgid "webhook-log.grid.columns.response-status"
+msgstr ""
+
+msgid "webhook-log.grid.columns.webhook-status"
+msgstr ""
+
+msgid "webhook.update-modal.title"
+msgstr ""
+
+msgid "webhook.create-modal.title"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "webhook.delete-modal.title"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "webhook.grid.columns.id"
+msgstr ""
+
+msgid "webhook.grid.columns.enabled"
+msgstr ""
+
+msgid "webhook.grid.columns.endpoint"
+msgstr ""
+
+msgid "webhook.grid.columns.event-name"
+msgstr ""
+
+msgid "webhook.grid.columns.headers"
+msgstr ""
+
+msgid "webhook.grid.columns.request-timeout"
+msgstr ""
+
+msgid "webhook.form.fields.enabled"
+msgstr ""
+
+msgid "webhook.form.fields.endpoint"
+msgstr ""
+
+msgid "webhook.form.fields.event-name"
+msgstr ""
+
+msgid "webhook.form.fields.headers"
+msgstr ""
+
+msgid "webhook.form.fields.request-timeout"
+msgstr ""
+
+msgid "webhook.form.fields.x-external-userId"
+msgstr ""
+
+msgid "webhook.form.fields.x-external-tenantId"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Validation errors"
+msgstr ""

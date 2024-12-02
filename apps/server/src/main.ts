@@ -1,5 +1,4 @@
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
-import { getText } from '@nestjs-mod-fullstack/common';
 import {
   FilesModule,
   FilesRequest,
@@ -52,6 +51,7 @@ import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
+import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
@@ -168,7 +168,9 @@ bootstrapNestApplication({
                       : 'User',
                   });
 
-                req.externalTenantId = req.webhookUser.externalTenantId;
+                if (req.webhookUser) {
+                  req.externalTenantId = req.webhookUser.externalTenantId;
+                }
 
                 // files
                 req.filesUser = {

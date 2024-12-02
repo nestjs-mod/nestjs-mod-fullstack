@@ -24,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { CreateWebhookDto } from '../generated/rest/dto/create-webhook.dto';
 import { UpdateWebhookDto } from '../generated/rest/dto/update-webhook.dto';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
@@ -215,7 +216,8 @@ export class WebhookController {
   async deleteOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
-    @Param('id', new ParseUUIDPipe()) id: string
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @InjectTranslateFunction() getText: TranslateFunction
   ) {
     await this.prismaClient.webhook.delete({
       where: {
@@ -226,7 +228,7 @@ export class WebhookController {
         ),
       },
     });
-    return { message: 'ok' };
+    return { message: getText('ok') };
   }
 
   @Get(':id')

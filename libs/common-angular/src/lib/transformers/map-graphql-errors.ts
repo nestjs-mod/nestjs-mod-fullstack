@@ -1,3 +1,4 @@
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { map } from 'rxjs';
 
 export function mapGraphqlErrors<T>() {
@@ -5,7 +6,7 @@ export function mapGraphqlErrors<T>() {
     const message = result.errors?.[0]?.message;
     if (message) {
       if (message === 'unauthorized') {
-        throw new Error('Unauthorized');
+        throw new Error(marker('Unauthorized'));
       } else {
         throw new Error(message);
       }

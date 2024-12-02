@@ -1,0 +1,17 @@
+{
+    "Sign-in": "Sign-in",
+    "Sign-up": "Sign-up",
+    "auth.sign-up-form.fields.email": "auth.sign-up-form.fields.email",
+    "auth.sign-up-form.fields.password": "auth.sign-up-form.fields.password",
+    "auth.sign-up-form.fields.confirm-password": "auth.sign-up-form.fields.confirm-password",
+    "Success": "Success",
+    "Validation errors": "Validation errors",
+    "auth.sign-in-form.fields.email": "auth.sign-in-form.fields.email",
+    "auth.sign-in-form.fields.password": "auth.sign-in-form.fields.password",
+    "auth.profile-form.fields.picture": "auth.profile-form.fields.picture",
+    "auth.profile-form.fields.old-password": "auth.profile-form.fields.old-password",
+    "auth.profile-form.fields.new-password": "auth.profile-form.fields.new-password",
+    "auth.profile-form.fields.confirm-new-password": "auth.profile-form.fields.confirm-new-password",
+    "Updated": "Updated",
+    "Update": "Update"
+}

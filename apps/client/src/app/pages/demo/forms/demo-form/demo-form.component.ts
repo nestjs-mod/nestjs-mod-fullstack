@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AppDemoInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -36,7 +37,7 @@ import { DemoService } from '../../services/demo.service';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
+    TranslocoPipe,
   ],
   selector: 'app-demo-form',
   templateUrl: './demo-form.component.html',
@@ -72,7 +73,8 @@ export class DemoFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: DemoFormComponent,
     private readonly demoService: DemoService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -98,10 +100,12 @@ export class DemoFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `demo.form.name`,
+          label: this.translocoService.translate(`demo.form.fields.name`),
           placeholder: 'name',
           readonly: true,
-          description: 'read-only field, set and updated on the backend',
+          description: this.translocoService.translate(
+            'read-only field, set and updated on the backend'
+          ),
           required: false,
         },
       },
@@ -115,7 +119,9 @@ export class DemoFormComponent implements OnInit {
         this.updateOne()
           .pipe(
             tap((result) => {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterUpdate.next(result);
             }),
             untilDestroyed(this)
@@ -125,7 +131,9 @@ export class DemoFormComponent implements OnInit {
         this.createOne()
           .pipe(
             tap((result) => {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterCreate.next(result);
             }),
 
@@ -135,7 +143,9 @@ export class DemoFormComponent implements OnInit {
       }
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
+      this.nzMessageService.warning(
+        this.translocoService.translate('Validation errors')
+      );
     }
   }
 
@@ -145,14 +155,14 @@ export class DemoFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.demoService.updateOne(this.id);
   }
 
   findOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.demoService.findOne(this.id).pipe(
       tap((result) => {

@@ -7,6 +7,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
+msgid "Create new"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "app.locale.name.english"
+msgstr ""
+
+msgid "app.locale.name.russian"
+msgstr ""
+
+msgid "demo.form.fields.name"
+msgstr ""
+
+msgid "read-only field, set and updated on the backend"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Validation errors"
+msgstr ""
+
+msgid "id not set"
+msgstr ""
+
+msgid "demo.form.name"
+msgstr ""
+
 msgid "English"
 msgstr ""
 

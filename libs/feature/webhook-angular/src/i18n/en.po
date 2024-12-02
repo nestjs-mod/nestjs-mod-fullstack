@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Logs for webhook #"
+msgstr "Logs for webhook #"
+
+msgid "input search text"
+msgstr "input search text"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Fill user credentials"
+msgstr "Fill user credentials"
+
+msgid "Fill admin credentials"
+msgstr "Fill admin credentials"
+
+msgid "Sign-in"
+msgstr "Sign-in"
+
+msgid "webhook-log.grid.columns.id"
+msgstr "webhook-log.grid.columns.id"
+
+msgid "webhook-log.grid.columns.request"
+msgstr "webhook-log.grid.columns.request"
+
+msgid "webhook-log.grid.columns.response"
+msgstr "webhook-log.grid.columns.response"
+
+msgid "webhook-log.grid.columns.response-status"
+msgstr "webhook-log.grid.columns.response-status"
+
+msgid "webhook-log.grid.columns.webhook-status"
+msgstr "webhook-log.grid.columns.webhook-status"
+
+msgid "webhook.update-modal.title"
+msgstr "webhook.update-modal.title"
+
+msgid "webhook.create-modal.title"
+msgstr "webhook.create-modal.title"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "webhook.delete-modal.title"
+msgstr "webhook.delete-modal.title"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "webhook.grid.columns.id"
+msgstr "webhook.grid.columns.id"
+
+msgid "webhook.grid.columns.enabled"
+msgstr "webhook.grid.columns.enabled"
+
+msgid "webhook.grid.columns.endpoint"
+msgstr "webhook.grid.columns.endpoint"
+
+msgid "webhook.grid.columns.event-name"
+msgstr "webhook.grid.columns.event-name"
+
+msgid "webhook.grid.columns.headers"
+msgstr "webhook.grid.columns.headers"
+
+msgid "webhook.grid.columns.request-timeout"
+msgstr "webhook.grid.columns.request-timeout"
+
+msgid "webhook.form.fields.enabled"
+msgstr "webhook.form.fields.enabled"
+
+msgid "webhook.form.fields.endpoint"
+msgstr "webhook.form.fields.endpoint"
+
+msgid "webhook.form.fields.event-name"
+msgstr "webhook.form.fields.event-name"
+
+msgid "webhook.form.fields.headers"
+msgstr "webhook.form.fields.headers"
+
+msgid "webhook.form.fields.request-timeout"
+msgstr "webhook.form.fields.request-timeout"
+
+msgid "webhook.form.fields.x-external-userId"
+msgstr "webhook.form.fields.x-external-userId"
+
+msgid "webhook.form.fields.x-external-tenantId"
+msgstr "webhook.form.fields.x-external-tenantId"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Validation errors"
+msgstr "Validation errors"

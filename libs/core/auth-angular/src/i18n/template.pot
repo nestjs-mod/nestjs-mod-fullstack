@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Sign-in"
+msgstr "Sign-in"
+
+msgid "Sign-up"
+msgstr "Sign-up"
+
+msgid "auth.sign-up-form.fields.email"
+msgstr "auth.sign-up-form.fields.email"
+
+msgid "auth.sign-up-form.fields.password"
+msgstr "auth.sign-up-form.fields.password"
+
+msgid "auth.sign-up-form.fields.confirm-password"
+msgstr "auth.sign-up-form.fields.confirm-password"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Validation errors"
+msgstr "Validation errors"
+
+msgid "auth.sign-in-form.fields.email"
+msgstr "auth.sign-in-form.fields.email"
+
+msgid "auth.sign-in-form.fields.password"
+msgstr "auth.sign-in-form.fields.password"
+
+msgid "auth.profile-form.fields.picture"
+msgstr "auth.profile-form.fields.picture"
+
+msgid "auth.profile-form.fields.old-password"
+msgstr "auth.profile-form.fields.old-password"
+
+msgid "auth.profile-form.fields.new-password"
+msgstr "auth.profile-form.fields.new-password"
+
+msgid "auth.profile-form.fields.confirm-new-password"
+msgstr "auth.profile-form.fields.confirm-new-password"
+
+msgid "Updated"
+msgstr "Updated"
+
+msgid "Update"
+msgstr "Update"

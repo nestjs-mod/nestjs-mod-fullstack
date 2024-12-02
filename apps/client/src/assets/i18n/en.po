@@ -6,6 +6,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "Create new"
+msgstr "Create new"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "app.locale.name.english"
+msgstr "app.locale.name.english"
+
+msgid "app.locale.name.russian"
+msgstr "app.locale.name.russian"
+
+msgid "demo.form.fields.name"
+msgstr "demo.form.fields.name"
+
+msgid "read-only field, set and updated on the backend"
+msgstr "read-only field, set and updated on the backend"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Validation errors"
+msgstr "Validation errors"
+
+msgid "id not set"
+msgstr "id not set"
+
+msgid "demo.form.name"
+msgstr "demo.form.name"
+
 msgid "English"
 msgstr "English"
 

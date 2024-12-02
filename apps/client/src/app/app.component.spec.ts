@@ -8,10 +8,36 @@ import {
 import { AppComponent } from './app.component';
 import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
 import { authorizerURL } from '../environments/environment';
+import { provideTransloco } from '@jsverse/transloco';
+
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
+        // Transloco Config
+        provideTransloco({
+          config: {
+            availableLangs: [
+              {
+                id: 'en',
+                label: 'app.locale.name.english',
+              },
+              {
+                id: 'ru',
+                label: 'app.locale.name.russian',
+              },
+            ],
+            defaultLang: 'en',
+            fallbackLang: 'en',
+            reRenderOnLangChange: true,
+            prodMode: true,
+            missingHandler: {
+              logMissingKey: true,
+              useFallbackTranslation: true,
+              allowEmpty: true,
+            },
+          },
+        }),
         {
           provide: AUTHORIZER_URL,
           useValue: authorizerURL,

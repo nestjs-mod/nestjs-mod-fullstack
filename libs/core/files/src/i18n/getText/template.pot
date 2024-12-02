@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Files error"
+msgstr "Files error"
+
+msgid "Forbidden"
+msgstr "Forbidden"
+
+msgid "ok"
+msgstr "ok"
+
+msgid "Only those who uploaded files can delete them"
+msgstr "Only those who uploaded files can delete them"
+
+msgid "Uploading files with extension \"{{ext}}\" is not supported"
+msgstr "Uploading files with extension \"{{ext}}\" is not supported"

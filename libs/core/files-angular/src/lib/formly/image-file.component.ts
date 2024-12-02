@@ -9,6 +9,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { BehaviorSubject } from 'rxjs';
 import { FilesService } from '../services/files.service';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'image-file',
@@ -21,6 +23,7 @@ import { FilesService } from '../services/files.service';
     NzModalModule,
     NzIconModule,
     AsyncPipe,
+    TranslocoPipe,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,7 +38,7 @@ import { FilesService } from '../services/files.service';
     >
       <button nz-button type="button">
         <span nz-icon [nzType]="(icon$ | async)!"></span>
-        {{ title$ | async }}
+        {{ title$ | async | transloco }}
       </button>
     </nz-upload>
   `,
@@ -85,11 +88,11 @@ export class ImageFileComponent
 
   private switchToReloadMode() {
     this.icon$.next('reload');
-    this.title$.next('Change file');
+    this.title$.next(marker('files.image-file.change-file'));
   }
 
   private switchToUploadMode() {
     this.icon$.next('upload');
-    this.title$.next('Select file...');
+    this.title$.next(marker('files.image-file.select-file'));
   }
 }

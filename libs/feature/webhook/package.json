@@ -13,6 +13,11 @@
             "scope": "webhook",
             "path": "src/i18n",
             "strategy": "join"
+        },
+        {
+            "scope": "webhook-getText",
+            "path": "src/i18n/getText",
+            "strategy": "join"
         }
     ]
 }
