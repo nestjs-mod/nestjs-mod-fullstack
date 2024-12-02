@@ -14,646 +14,552 @@ _Команды_
 npm install --save @jsverse/transloco nestjs-translates class-validator-multi-lang class-transformer-global-storage @jsverse/transloco-keys-manager
 ```
 
+Так как мы используем внешние генераторы, то мы не имеем доступа к сгенерированному коду, но для возможности перевода ошибок валидации нам нужно использовать библиотеку `class-validator-multi-lang` вместо `class-validator`, которую добаляет генератор.
+
+Для подмены импортов в тайпскрипт файлах установим и подключим веб-пак плагин для замены строк.
+
 _Команды_
 
 ```bash
 npm install --save string-replace-loader
 ```
 
-Удаляем старый сгенерированный код и создаем новый.
+Прописываем правила замены в нашем веб-пак конфиге.
 
-_Команды_
+```javascript
+const { composePlugins, withNx } = require('@nx/webpack');
 
-```bash
-rm -rf libs/feature/webhook/src/lib/generated
-rm -rf apps/server/src/app/generated
-npm run prisma:generate
+// Nx plugins for webpack.
+module.exports = composePlugins(
+  withNx({
+    sourceMap: true,
+    target: 'node',
+  }),
+  (config) => {
+    // Update the webpack config as needed here.
+    // e.g. `config.plugins.push(new MyPlugin())`
+
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        test: /\.(ts)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: `class-validator`,
+          replace: `class-validator-multi-lang`,
+          flags: 'g',
+        },
+      },
+      {
+        test: /\.(ts)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: 'class-transformer',
+          replace: 'class-transformer-global-storage',
+          flags: 'g',
+        },
+      },
+    ];
+    return config;
+  }
+);
 ```
 
-### 2. Создаем NestJS-модуль для хранения кода необходимого при валидации
+### 2. Добавляем поддержку переводов в Angular-приложении
 
-_Команды_
+Добавляем новый модуль в конфиг фронтенда.
 
-```bash
-./node_modules/.bin/nx g @nestjs-mod/schematics:library validation --buildable --publishable --directory=libs/core/validation --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
-```
-
-<spoiler title="Вывод консоли">
-
-```bash
-$ ./node_modules/.bin/nx g @nestjs-mod/schematics:library validation --buildable --publishable --directory=libs/core/validation --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
-
- NX  Generating @nestjs-mod/schematics:library
-
-CREATE libs/core/validation/tsconfig.json
-CREATE libs/core/validation/src/index.ts
-CREATE libs/core/validation/tsconfig.lib.json
-CREATE libs/core/validation/README.md
-CREATE libs/core/validation/package.json
-CREATE libs/core/validation/project.json
-CREATE libs/core/validation/.eslintrc.json
-CREATE libs/core/validation/jest.config.ts
-CREATE libs/core/validation/tsconfig.spec.json
-UPDATE tsconfig.base.json
-CREATE libs/core/validation/src/lib/validation.configuration.ts
-CREATE libs/core/validation/src/lib/validation.constants.ts
-CREATE libs/core/validation/src/lib/validation.environments.ts
-CREATE libs/core/validation/src/lib/validation.module.ts
-```
-
-</spoiler>
-
-**Переменные окружения модуля**
-
-Добавляем переменную окружения для включения и выключения глобальной проверки входных данных.
-
-Так как поля в базе данных имеют собственную валидацию и если мы хотим проверить корректность валидации на уровне базы данных, то проверка входных в бэкенд данных не даст нам это сделать, для такой проверки при разработке и тестировании функционала нужно уметь временно отключать валидацию на входе в бэкенд.
-
-Модуль идет вместе с втроенным фильтром для корректного отображения ошибок, если вам нужно кастомизировать его, вы можете создать свой вариант и при этом отключить встроенный в модуль фильтр.
-
-Обновляем файл _libs/core/validation/src/lib/validation.environments.ts_
+Обновляем файл _apps/client/src/app/app.config.ts_
 
 ```typescript
-import { BooleanTransformer, EnvModel, EnvModelProperty } from '@nestjs-mod/common';
+import { provideTransloco } from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
+import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
-@EnvModel()
-export class ValidationEnvironments {
-  @EnvModelProperty({
-    description: 'Use pipes.',
-    transform: new BooleanTransformer(),
-    default: true,
-    hidden: true,
-  })
-  usePipes?: boolean;
-
-  @EnvModelProperty({
-    description: 'Use filters.',
-    transform: new BooleanTransformer(),
-    default: true,
-    hidden: true,
-  })
-  useFilters?: boolean;
-}
-```
-
-Пример переменных окружения:
-
-| Key          | Description  | Sources                                                             | Constraints  | Default | Value  |
-| ------------ | ------------ | ------------------------------------------------------------------- | ------------ | ------- | ------ |
-| `usePipes`   | Use pipes.   | `obj['usePipes']`, `process.env['SERVER_VALIDATION_USE_PIPES']`     | **optional** | `true`  | `true` |
-| `useFilters` | Use filters. | `obj['useFilters']`, `process.env['SERVER_VALIDATION_USE_FILTERS']` | **optional** | `true`  | `true` |
-
-**Конфигурация модуля**
-
-В данный момент тут только один параметр, это конфигурация для создания `ValidationPipe`.
-
-Обновляем файл _libs/core/validation/src/lib/validation.configuration.ts_
-
-```typescript
-import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
-import { ValidationPipeOptions } from '@nestjs/common';
-
-@ConfigModel()
-export class ValidationConfiguration {
-  @ConfigModelProperty({
-    description: 'Validation pipe options',
-  })
-  pipeOptions?: ValidationPipeOptions;
-}
-```
-
-**Класс с ошибками модуля**
-
-Так как на данном этапе проект разрабатывается в виде`REST`-бэкенда, который доступен на фронтенде в виде `OpenApi`-библиотеки, то класс с ошибками также публикуется в `Swagger`-схему.
-
-Для того чтобы описание ошибки было более подробным в нем используется декораторы добавляющие мета информацию которая будет выведенна в `Swagger`-схему.
-
-Создаем файл _libs/core/validation/src/lib/validation.errors.ts_
-
-```typescript
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ValidationError as CvValidationError } from 'class-validator';
-
-export enum ValidationErrorEnum {
-  COMMON = 'VALIDATION-000',
-}
-
-export const VALIDATION_ERROR_ENUM_TITLES: Record<ValidationErrorEnum, string> = {
-  [ValidationErrorEnum.COMMON]: 'Validation error',
+export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; minioURL: string }): ApplicationConfig => {
+  return {
+    providers: [
+      // ...
+      provideTransloco({
+        config: {
+          availableLangs: [
+            {
+              id: 'en',
+              label: marker('app.locale.name.english'),
+            },
+            {
+              id: 'ru',
+              label: marker('app.locale.name.russian'),
+            },
+          ],
+          defaultLang: 'en',
+          fallbackLang: 'en',
+          reRenderOnLangChange: true,
+          prodMode: true,
+          missingHandler: {
+            logMissingKey: true,
+            useFallbackTranslation: true,
+            allowEmpty: true,
+          },
+        },
+        loader: TranslocoHttpLoader,
+      }),
+    ],
+  };
 };
+```
 
-export class ValidationErrorMetadataConstraint {
-  @ApiProperty({
-    type: String,
-  })
-  name!: string;
+Для загрузки переводов из интернета необходимо создать загрузчик.
 
-  @ApiProperty({
-    type: String,
-  })
-  description!: string;
+Создаем файл _apps/client/src/app/integrations/transloco-http.loader.ts_
 
-  constructor(options?: ValidationErrorMetadataConstraint) {
-    Object.assign(this, options);
-  }
-}
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Translation, TranslocoLoader } from '@jsverse/transloco';
+import { catchError, forkJoin, map, of } from 'rxjs';
 
-export class ValidationErrorMetadata {
-  @ApiProperty({
-    type: String,
-  })
-  property!: string;
+@Injectable({ providedIn: 'root' })
+export class TranslocoHttpLoader implements TranslocoLoader {
+  constructor(private readonly httpClient: HttpClient) {}
 
-  @ApiProperty({
-    type: () => ValidationErrorMetadataConstraint,
-    isArray: true,
-  })
-  constraints!: ValidationErrorMetadataConstraint[];
-
-  @ApiPropertyOptional({
-    type: () => ValidationErrorMetadata,
-    isArray: true,
-  })
-  children?: ValidationErrorMetadata[];
-
-  constructor(options?: ValidationErrorMetadata) {
-    Object.assign(this, options);
-  }
-
-  static fromClassValidatorValidationErrors(errors?: CvValidationError[]): ValidationErrorMetadata[] | undefined {
-    return errors?.map(
-      (error) =>
-        new ValidationErrorMetadata({
-          property: error.property,
-          constraints: Object.entries(error.constraints || {}).map(
-            ([key, value]) =>
-              new ValidationErrorMetadataConstraint({
-                name: key,
-                description: value,
-              })
-          ),
-          ...(error.children?.length
-            ? {
-                children: this.fromClassValidatorValidationErrors(error.children),
-              }
-            : {}),
+  getTranslation(lang: string) {
+    return forkJoin({
+      translation: this.httpClient.get<Translation>(`./assets/i18n/${lang}.json`).pipe(
+        catchError(() => {
+          return of({});
         })
+      ),
+      vendor: this.httpClient.get(`./assets/i18n/${lang}.vendor.json`).pipe(
+        catchError(() => {
+          return of({});
+        })
+      ),
+    }).pipe(
+      map(({ translation, vendor }) => {
+        const dictionaries = {
+          ...translation,
+          ...Object.keys(vendor).reduce((all, key) => ({ ...all, ...vendor[key] }), {}),
+        };
+
+        for (const key in dictionaries) {
+          if (Object.prototype.hasOwnProperty.call(dictionaries, key)) {
+            const value = dictionaries[key];
+            if (!value && value !== 'empty') {
+              delete dictionaries[key];
+            }
+          }
+        }
+        return dictionaries;
+      })
     );
   }
 }
+```
 
-export class ValidationError extends Error {
-  @ApiProperty({
-    type: String,
-    description: Object.entries(VALIDATION_ERROR_ENUM_TITLES)
-      .map(([key, value]) => `${value} (${key})`)
-      .join(', '),
-    example: VALIDATION_ERROR_ENUM_TITLES[ValidationErrorEnum.COMMON],
-  })
-  override message: string;
+Загрузка переводов будет происходить при запуске приложения
 
-  @ApiProperty({
-    enum: ValidationErrorEnum,
-    enumName: 'ValidationErrorEnum',
-    example: ValidationErrorEnum.COMMON,
-  })
-  code = ValidationErrorEnum.COMMON;
+Обновляем файл _apps/client/src/app/app-initializer.ts_
 
-  @ApiPropertyOptional({ type: ValidationErrorMetadata, isArray: true })
-  metadata?: ValidationErrorMetadata[];
+```typescript
+import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import { AppRestService, AuthorizerRestService, FilesRestService, TimeRestService, WebhookRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
+import { catchError, map, merge, mergeMap, of, Subscription, tap, throwError } from 'rxjs';
 
-  constructor(message?: string | ValidationErrorEnum, code?: ValidationErrorEnum, metadata?: CvValidationError[]) {
-    const messageAsCode = Boolean(message && Object.values(ValidationErrorEnum).includes(message as ValidationErrorEnum));
-    const preparedCode = messageAsCode ? (message as ValidationErrorEnum) : code;
-    const preparedMessage = preparedCode ? VALIDATION_ERROR_ENUM_TITLES[preparedCode] : message;
+@Injectable({ providedIn: 'root' })
+export class AppInitializer {
+  private subscribeToTokenUpdatesSubscription?: Subscription;
 
-    code = preparedCode || ValidationErrorEnum.COMMON;
-    message = preparedMessage || VALIDATION_ERROR_ENUM_TITLES[code];
+  constructor(
+    // ..
+    private readonly translocoService: TranslocoService,
+    private readonly tokensService: TokensService
+  ) {}
 
-    super(message);
+  resolve() {
+    this.subscribeToTokenUpdates();
+    return (
+      this.authService.getAuthorizerClientID()
+        ? of(null)
+        : this.authorizerRestService.authorizerControllerGetAuthorizerClientID().pipe(
+            map(({ clientID }) => {
+              this.authService.setAuthorizerClientID(clientID);
+              return null;
+            })
+          )
+    ).pipe(
+      // ..
+      mergeMap(() => {
+        const defaultLang = this.translocoService.getDefaultLang();
+        this.translocoService.setActiveLang(defaultLang);
+        return this.translocoService.load(defaultLang);
+      })
+      // ..
+    );
+  }
 
-    this.code = code;
-    this.message = message;
-    this.metadata = ValidationErrorMetadata.fromClassValidatorValidationErrors(metadata);
+  private subscribeToTokenUpdates() {
+    if (this.subscribeToTokenUpdatesSubscription) {
+      this.subscribeToTokenUpdatesSubscription.unsubscribe();
+      this.subscribeToTokenUpdatesSubscription = undefined;
+    }
+    this.subscribeToTokenUpdatesSubscription = merge(this.tokensService.tokens$, this.translocoService.langChanges$)
+      .pipe(
+        tap(() => {
+          // ..
+        })
+      )
+      .subscribe();
   }
 }
 ```
 
-**Фильтр для ошибок модуля**
+Язык по умолчанию будет стоять `Английский`. Для переключения языка в навигационном меню добавим выподающий список с доступных для переключения языков.
 
-Для преобразования ошибок модуля в `Http`-ошибку создаем `ValidationExceptionsFilter`.
-
-Создаем файл _libs/core/validation/src/lib/validation.filter.ts_
+Обновление файла _apps/client/src/app/app.component.ts_
 
 ```typescript
-import { ArgumentsHost, Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { BaseExceptionFilter } from '@nestjs/core';
-import { ValidationError } from './validation.errors';
+import { LangDefinition, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+// ...
 
-@Catch(ValidationError)
-export class ValidationExceptionsFilter extends BaseExceptionFilter {
-  private logger = new Logger(ValidationExceptionsFilter.name);
-
-  override catch(exception: ValidationError, host: ArgumentsHost) {
-    if (exception instanceof ValidationError) {
-      this.logger.error(exception, exception.stack);
-      super.catch(
-        new HttpException(
-          {
-            code: exception.code,
-            message: exception.message,
-            metadata: exception.metadata,
-          },
-          HttpStatus.BAD_REQUEST
-        ),
-        host
-      );
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.logger.error(exception, (exception as any)?.stack);
-      super.catch(exception, host);
-    }
-  }
-}
-```
-
-**NestJS-mod модуль**
-
-Создаем файл _libs/core/validation/src/lib/validation.module.ts_
-
-```typescript
-import { createNestModule, getFeatureDotEnvPropertyNameFormatter, NestModuleCategory } from '@nestjs-mod/common';
-import { Provider, ValidationPipe } from '@nestjs/common';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
-import { ValidationConfiguration } from './validation.configuration';
-import { VALIDATION_FEATURE, VALIDATION_MODULE } from './validation.constants';
-import { ValidationEnvironments } from './validation.environments';
-import { ValidationExceptionsFilter } from './validation.filter';
-import { ValidationError, ValidationErrorEnum } from './validation.errors';
-
-export const { ValidationModule } = createNestModule({
-  moduleName: VALIDATION_MODULE,
-  moduleCategory: NestModuleCategory.feature,
-  configurationModel: ValidationConfiguration,
-  staticEnvironmentsModel: ValidationEnvironments,
-  providers: ({ staticEnvironments }) => {
-    const providers: Provider[] = [];
-    if (staticEnvironments.usePipes) {
-      providers.push({
-        provide: APP_PIPE,
-        useValue: new ValidationPipe({
-          transform: true,
-          whitelist: true,
-          validationError: {
-            target: false,
-            value: false,
-          },
-          exceptionFactory: (errors) => new ValidationError(ValidationErrorEnum.COMMON, undefined, errors),
-        }),
-      });
-    }
-    if (staticEnvironments.useFilters) {
-      providers.push({
-        provide: APP_FILTER,
-        useClass: ValidationExceptionsFilter,
-      });
-    }
-    return providers;
-  },
-  wrapForRootAsync: (asyncModuleOptions) => {
-    if (!asyncModuleOptions) {
-      asyncModuleOptions = {};
-    }
-    const FomatterClass = getFeatureDotEnvPropertyNameFormatter(VALIDATION_FEATURE);
-    Object.assign(asyncModuleOptions, {
-      environmentsOptions: {
-        propertyNameFormatters: [new FomatterClass()],
-        name: VALIDATION_FEATURE,
-      },
-    });
-
-    return { asyncModuleOptions };
-  },
-});
-```
-
-### 3. По всему проекту исправляем типы, так как новый генератор создает типы с другими названиями и содержимым
-
-Запускаем перегенерацию всех сдк и другого дополнительного кода, при генерации будут отображаться ошибки типов, необходимо все исправить и повторно запустить перегерацию и так до тех пор пока все ошибки не будут исправлены.
-
-_Команды_
-
-```bash
-npm run manual:prepare
-```
-
-### 4. В форме создания и редактирования веб-хуков отображаем серверные ошибки
-
-Для отображения ошибок в `Formly`-форме используем динамическое создание валидаторов которые всегда возвращают ошибку и в текст ошибки ложим то что мы получили с бэкенда.
-
-Пример серверного ответа с ошибками:
-
-```json
-{
-  "code": "VALIDATION-000",
-  "message": "Validation error",
-  "metadata": [
-    {
-      "property": "eventName",
-      "constraints": [
-        {
-          "name": "isNotEmpty",
-          "description": "eventName should not be empty"
-        }
-      ]
-    },
-    {
-      "property": "endpoint",
-      "constraints": [
-        {
-          "name": "isNotEmpty",
-          "description": "endpoint should not be empty"
-        }
-      ]
-    }
-  ]
-}
-```
-
-Обновляем файл _libs/feature/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
-
-```typescript
-import {
-  //...
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-
-//...
-
-@UntilDestroy()
 @Component({
   standalone: true,
-  imports: [FormlyModule, NzFormModule, NzInputModule, NzButtonModule, FormsModule, ReactiveFormsModule, AsyncPipe],
-  selector: 'webhook-form',
-  templateUrl: './webhook-form.component.html',
+  imports: [
+    // ...
+    TranslocoPipe,
+  ],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WebhookFormComponent implements OnInit {
-  //...
+export class AppComponent implements OnInit {
+  // ...
+  lang$ = new BehaviorSubject<string>('');
+  availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
+
+  constructor(
+    // ...
+    private readonly translocoService: TranslocoService
+  ) {
+    // ...
+    this.availableLangs$.next(this.translocoService.getAvailableLangs() as LangDefinition[]);
+    this.translocoService.langChanges$
+      .pipe(
+        tap((lang) => this.lang$.next(lang)),
+        untilDestroyed(this)
+      )
+      .subscribe();
+  }
+
+  // ...
+
+  setActiveLang(lang: string) {
+    this.translocoService.setActiveLang(lang);
+  }
+}
+```
+
+### 3. Обновляем существующий код и шаблоны, для последующего запуска парсинга слов и предложений для перевода Angular-приложения
+
+Изменений в файлах очень много, тут перечислю основные принципы внедрения поддержки переводов в файлах `Angular`-приложения.
+
+**Использование директивы перевода (transloco=)**
+
+Пример файла _libs/core/auth-angular/src/lib/forms/auth-profile-form/auth-profile-form.component.ts_
+
+```typescript
+import { TranslocoDirective } from '@jsverse/transloco';
+
+@Component({
+  standalone: true,
+  imports: [
+    // ...
+    TranslocoDirective,
+  ],
+  selector: 'auth-profile-form',
+  template: `@if (formlyFields$ | async; as formlyFields) {
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
+      @if (!hideButtons) {
+      <nz-form-control>
+        <div class="flex justify-between">
+          <div></div>
+          <button nz-button nzType="primary" type="submit" [disabled]="!form.valid" transloco="Update"></button>
+        </div>
+      </nz-form-control>
+      }
+    </form>
+    } `,
+})
+export class AuthProfileFormComponent implements OnInit {}
+```
+
+**Использование пайпа перевода (| transloco)**
+
+Пример файла _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
+
+```html
+@if (formlyFields$ | async; as formlyFields) {
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
+  @if (!hideButtons) {
+  <nz-form-control>
+    <button nzBlock nz-button nzType="primary" type="submit" [disabled]="!form.valid">{{ id ? ('Save' | transloco) : ('Create' | transloco) }}</button>
+  </nz-form-control>
+  }
+</form>
+}
+```
+
+**Использование сервиса перевода (translocoService: TranslocoService)**
+
+Пример файла _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
+
+```typescript
+// ...
+import { TranslocoService } from '@jsverse/transloco';
+
+@Component({
+  // ...
+})
+export class AuthSignInFormComponent implements OnInit {
+  // ...
 
   constructor(
     @Optional()
     @Inject(NZ_MODAL_DATA)
-    private readonly nzModalData: WebhookFormComponent,
-    private readonly webhookService: WebhookService,
-    private readonly webhookEventsService: WebhookEventsService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzModalData: AuthSignInFormComponent,
+    private readonly authService: AuthService,
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
-  //...
-
-  createOne() {
-    return this.webhookService.createOne(this.toJson(this.form.value)).pipe(catchError((err) => this.catchAndProcessServerError(err)));
+  ngOnInit(): void {
+    Object.assign(this, this.nzModalData);
+    this.setFieldsAndModel({ password: '' });
   }
 
-  updateOne() {
-    if (!this.id) {
-      throw new Error('id not set');
-    }
-    return this.webhookService.updateOne(this.id, this.toJson(this.form.value)).pipe(catchError((err) => this.catchAndProcessServerError(err)));
+  setFieldsAndModel(data: LoginInput = { password: '' }) {
+    this.formlyFields$.next([
+      {
+        key: 'email',
+        type: 'input',
+        validation: {
+          show: true,
+        },
+        props: {
+          label: this.translocoService.translate(`auth.sign-in-form.fields.email`),
+          placeholder: 'email',
+          required: true,
+        },
+      },
+      // ...
+    ]);
+    // ...
   }
-
-  private setFormlyFields(errors?: ValidationErrorMetadataInterface[]) {
-    this.formlyFields$.next(
-      this.appendServerErrorsAsValidatorsToFields(
-        [
-          //...
-          {
-            key: 'requestTimeout',
-            type: 'input',
-            validation: {
-              show: true,
-            },
-            props: {
-              type: 'number',
-              label: `webhook.form.requestTimeout`,
-              placeholder: 'requestTimeout',
-              required: false,
-            },
-          },
-        ],
-        errors
-      )
-    );
-  }
-
-  private appendServerErrorsAsValidatorsToFields(fields: FormlyFieldConfig[], errors?: ValidationErrorMetadataInterface[]) {
-    return (fields || []).map((f: FormlyFieldConfig) => {
-      const error = errors?.find((e) => e.property === f.key);
-      if (error) {
-        f.validators = Object.fromEntries(
-          error.constraints.map((c) => {
-            return [
-              c.name === 'isNotEmpty' ? 'required' : c.name,
-              {
-                expression: () => false,
-                message: () => c.description,
-              },
-            ];
-          })
-        );
-      }
-      return f;
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private catchAndProcessServerError(err: any) {
-    const error = err.error as ValidationErrorInterface;
-    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
-      this.setFormlyFields(error.metadata);
-      return of(null);
-    }
-    return throwError(() => err);
-  }
-
-  //...
+  // ...
 }
 ```
 
-### 5. Создаем серверный E2E-тест для проверки работы валидации
+**Использование маркера (marker)**
 
-Создаем файл _apps/server-e2e/src/server/validation.spec.ts_
+Вывод перевода через директиву, пайп и сервис используется не только для перевода, но и как маркер для составления словарей с предложениями для перевода. В проекте есть файлы без директив, пайпов и сервиса в которых содержаться предложения для перевода, такие предложнения необходимо оборачивать в функцию `marker`.
 
-```typescript
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
-import { AxiosError } from 'axios';
-
-describe('Validation', () => {
-  jest.setTimeout(60000);
-
-  const user1 = new RestClientHelper();
-
-  beforeAll(async () => {
-    await user1.createAndLoginAsUser();
-  });
-
-  it('should catch error on create new webhook as user1', async () => {
-    try {
-      await user1.getWebhookApi().webhookControllerCreateOne({
-        enabled: false,
-        endpoint: '',
-        eventName: '',
-      });
-    } catch (err) {
-      expect((err as AxiosError).response?.data).toEqual({
-        code: 'VALIDATION-000',
-        message: 'Validation error',
-        metadata: [
-          {
-            property: 'eventName',
-            constraints: [
-              {
-                name: 'isNotEmpty',
-                description: 'eventName should not be empty',
-              },
-            ],
-          },
-          {
-            property: 'endpoint',
-            constraints: [
-              {
-                name: 'isNotEmpty',
-                description: 'endpoint should not be empty',
-              },
-            ],
-          },
-        ],
-      });
-    }
-  });
-});
-```
-
-### 6. Создаем клиентский E2E-тест для проверки работы валидации
-
-Создаем файл _apps/client-e2e/src/validation.spec.ts_
+Пример файла _apps/client/src/app/app.config.ts_
 
 ```typescript
-import { faker } from '@faker-js/faker';
-import { expect, Page, test } from '@playwright/test';
-import { get } from 'env-var';
-import { join } from 'path';
-import { setTimeout } from 'timers/promises';
+// ...
+import { marker } from '@jsverse/transloco-keys-manager/marker';
+// ...
 
-test.describe('Validation', () => {
-  test.describe.configure({ mode: 'serial' });
-
-  const user = {
-    email: faker.internet.email({
-      provider: 'example.fakerjs.dev',
-    }),
-    password: faker.internet.password({ length: 8 }),
-    site: `http://${faker.internet.domainName()}`,
+export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; minioURL: string }): ApplicationConfig => {
+  return {
+    providers: [
+      // ...
+      provideTransloco({
+        config: {
+          availableLangs: [
+            {
+              id: 'en',
+              label: marker('app.locale.name.english'),
+            },
+            {
+              id: 'ru',
+              label: marker('app.locale.name.russian'),
+            },
+          ],
+          defaultLang: 'en',
+          fallbackLang: 'en',
+          reRenderOnLangChange: true,
+          prodMode: true,
+          missingHandler: {
+            logMissingKey: true,
+            useFallbackTranslation: true,
+            allowEmpty: true,
+          },
+        },
+        loader: TranslocoHttpLoader,
+      }),
+    ],
   };
-  let page: Page;
+};
+```
 
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage({
-      viewport: { width: 1920, height: 1080 },
-      recordVideo: {
-        dir: join(__dirname, 'video'),
-        size: { width: 1920, height: 1080 },
+### 4. Добавляем поддержку переводов в NestJS-приложении
+
+Добавляем новый модуль в `AppModule`.
+
+Обновляем файл _apps/server/src/app/app.module.ts_
+
+```typescript
+import { TranslatesModule } from 'nestjs-translates';
+// ...
+
+export const { AppModule } = createNestModule({
+  moduleName: 'AppModule',
+  moduleCategory: NestModuleCategory.feature,
+  imports: [
+    // ...
+    TranslatesModule.forRootDefault({
+      localePaths: [join(__dirname, 'assets', 'i18n'), join(__dirname, 'assets', 'i18n', 'getText'), join(__dirname, 'assets', 'i18n', 'class-validator-messages')],
+      vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
+      locales: ['en', 'ru'],
+      validationPipeOptions: {
+        validatorPackage: require('class-validator'),
+        transformerPackage: require('class-transformer'),
+        transform: true,
+        whitelist: true,
+        validationError: {
+          target: false,
+          value: false,
+        },
+        exceptionFactory: (errors) => new ValidationError(ValidationErrorEnum.COMMON, undefined, errors),
       },
-    });
-    await page.goto('/', {
-      timeout: 7000,
-    });
-    await page.evaluate((authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL), get('SERVER_AUTHORIZER_URL').required().asString());
-    await page.evaluate((minioURL) => localStorage.setItem('minioURL', minioURL), get('SERVER_MINIO_URL').required().asString());
-  });
-
-  test.afterAll(async () => {
-    await setTimeout(1000);
-    await page.close();
-  });
-
-  test('sign up as user', async () => {
-    await page.goto('/sign-up', {
-      timeout: 7000,
-    });
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=email]').click();
-    await page.keyboard.type(user.email.toLowerCase(), {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=password]')).toHaveValue(user.password);
-
-    await page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]').click();
-    await page.keyboard.type(user.password, {
-      delay: 50,
-    });
-    await expect(page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]')).toHaveValue(user.password);
-
-    await expect(page.locator('auth-sign-up-form').locator('button[type=submit]')).toHaveText('Sign-up');
-
-    await page.locator('auth-sign-up-form').locator('button[type=submit]').click();
-
-    await setTimeout(5000);
-
-    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
-  });
-
-  test('should catch error on create new webhook', async () => {
-    await page.locator('webhook-grid').locator('button').first().click();
-
-    await setTimeout(7000);
-
-    await page.locator('[nz-modal-footer]').locator('button').last().click();
-
-    await setTimeout(4000);
-
-    await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('endpoint should not be empty');
-    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('eventName should not be empty');
-  });
+      usePipes: true,
+      useInterceptors: true,
+    }),
+    // ...
+  ],
+  // ...
 });
 ```
 
-### 7. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем работу через E2E-тесты
+Для того чтобы валидационные ошибки отправлялись на фронтенд в языке которые был указан в запросе к бэкенду, необходимо подключить соответствующие словари с переводами в `NX`-проект.
 
-_Команды_
+Обновляем файл _apps/server/project.json_
 
-```bash
-npm run pm2-full:dev:start
-npm run pm2-full:dev:test:e2e
+```json
+{
+  "name": "server",
+  // ...
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      // ...
+      "options": {
+        // ...
+        "assets": [
+          "apps/server/src/assets",
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/class-validator-multi-lang/i18n/",
+            "output": "./assets/i18n/class-validator-multi-lang-messages/"
+          }
+        ],
+        "webpackConfig": "apps/server/webpack.config.js"
+      }
+    }
+    // ...
+  }
+}
 ```
+
+### 5. Обновляем существующий код, для последующего запуска парсинга слов и предложений для перевода NestJS-приложения
+
+Изменений в файлах очень много, тут перечислю основные принципы внедрения поддержки переводов в файлах `NestJS`-приложения.
+
+**Использование декоратора с функцией перевода (@InjectTranslateFunction() getText: TranslateFunction)**
+
+Пример файла _apps/server/src/app/app.controller.ts_
+
+```typescript
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+// ...
+@AllowEmptyUser()
+@Controller()
+export class AppController {
+  @Get('/get-data')
+  @ApiOkResponse({ type: AppData })
+  getData(@InjectTranslateFunction() getText: TranslateFunction) {
+    return this.appService.getData(getText);
+  }
+}
+```
+
+**Использование сервиса перевода (translatesService: TranslatesService)**
+
+Пример файла _libs/feature/webhook/src/lib/controllers/webhook.controller.ts_
+
+```typescript
+// ...
+import { CurrentLocale, TranslatesService } from 'nestjs-translates';
+
+// ...
+@Controller('/webhook')
+export class WebhookController {
+  constructor(
+    // ...
+    private readonly translatesService: TranslatesService
+  ) {}
+
+  // ...
+
+  @Delete(':id')
+  @ApiOkResponse({ type: StatusResponse })
+  async deleteOne(
+    // ...
+    @CurrentLocale() locale: string
+  ) {
+    // ...
+    return { message: this.translatesService.translate('ok', locale) };
+  }
+}
+```
+
+**Использование маркера (getText)**
+
+Вывод перевода через декоратор с функцией и сервис используется не только для перевода, но и как маркер для составления словарей с предложениями для перевода.
+
+Если вы хотите пометить предложение так, чтобы оно попало в словарь с переводами, то нужно обернуть предложение в функцию `getText`.
+
+Пример файла _libs/core/auth/src/lib/auth.errors.ts_
+
+```typescript
+// ...
+import { getText } from 'nestjs-translates';
+
+// ...
+
+export const AUTH_ERROR_ENUM_TITLES: Record<AuthErrorEnum, string> = {
+  [AuthErrorEnum.COMMON]: getText('Auth error'),
+  // ...
+};
+
+// ...
+```
+
+### 6. Автоматическое формирование словарей для переводов
+
+### 7. Добавляем переводы для всех словарей
+
+### 8. Добавляем тест для проверки переведенных ответов с бэкенда
+
+### 9. Добавляем тест для проверки корректного переключения переводов в фронтенд приложении
 
 ### Заключение
 
-В текущем посте я добавил модуль в бэкенд для включения сериализации и валидации входных `REST`-данных.
-
-Код на фронте не унифицирован и внедрен конретно в одной форме, при большом колличестве форм с такими обработками, необходимо будет вынести общий код в отдельный файл.
-
-Выбранный мною способ создания динамических ошибок для `Formly`-форм на основе ответов с бэкенда, может показаться не очень красивым решением, но я не смог придумать более простого и рабочего решения, возможно по мере развития проекта появится иной способ.
-
 ### Планы
-
-В следующем посте я добавлю поддержку нескольких языков для бэкенд и фронтенд приложений...
-
-### Ссылки
-
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/a5efa43f571a7b48402275e1ee6a9b1e325d0eb0..2c14d02af439c0884a4052a3b0197a9ee94c571d - изменения
-
-#angular #validation #nestjsmod #fullstack

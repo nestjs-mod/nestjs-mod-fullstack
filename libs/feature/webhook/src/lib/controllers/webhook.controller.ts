@@ -24,7 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
-import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+import { CurrentLocale, TranslatesService } from 'nestjs-translates';
 import { CreateWebhookDto } from '../generated/rest/dto/create-webhook.dto';
 import { UpdateWebhookDto } from '../generated/rest/dto/update-webhook.dto';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
@@ -56,7 +56,8 @@ export class WebhookController {
     private readonly prismaClient: PrismaClient,
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly prismaToolsService: PrismaToolsService,
-    private readonly webhookToolsService: WebhookToolsService
+    private readonly webhookToolsService: WebhookToolsService,
+    private readonly translatesService: TranslatesService
   ) {}
 
   @Get('profile')
@@ -217,7 +218,8 @@ export class WebhookController {
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Param('id', new ParseUUIDPipe()) id: string,
-    @InjectTranslateFunction() getText: TranslateFunction
+    // todo: change to InjectTranslateFunction, after write all posts
+    @CurrentLocale() locale: string
   ) {
     await this.prismaClient.webhook.delete({
       where: {
@@ -228,7 +230,7 @@ export class WebhookController {
         ),
       },
     });
-    return { message: getText('ok') };
+    return { message: this.translatesService.translate('ok', locale) };
   }
 
   @Get(':id')
