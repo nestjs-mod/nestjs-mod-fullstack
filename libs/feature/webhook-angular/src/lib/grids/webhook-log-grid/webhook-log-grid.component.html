@@ -1,12 +1,14 @@
 <div class="table-operations" nz-row nzJustify="space-between">
-  <div nz-col nzSpan="6">Logs for webhook #{{ webhookId }}</div>
+  <div nz-col nzSpan="6">
+    {{ 'Logs for webhook #{{webhookId}}' | transloco:{webhookId} }}
+  </div>
   <div nz-col nzSpan="4">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
       <input
         type="text"
         [formControl]="searchField"
         nz-input
-        placeholder="input search text"
+        [placeholder]="'input search text' | transloco"
       />
     </nz-input-group>
     <ng-template #suffixIconButton>
@@ -42,14 +44,13 @@
 >
   <thead>
     <tr>
-      @for (key of columns; track $index) {
+      @for (key of keys; track $index) {
       <th
         [nzColumnKey]="key"
         [nzSortFn]="true"
         [nzSortOrder]="meta.sort[key] | nzTableSortOrderDetector"
-      >
-        webhookLog.grid.{{ key }}
-      </th>
+        [transloco]="columns[key]"
+      ></th>
       }
     </tr>
   </thead>
@@ -60,7 +61,7 @@
       (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
       [class.selected]="selectedIds[0] === data.id"
     >
-      @for (key of columns; track $index) {
+      @for (key of keys; track $index) {
       <td>{{ data[key] }}</td>
       }
     </tr>

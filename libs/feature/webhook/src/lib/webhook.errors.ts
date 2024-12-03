@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { getText } from 'nestjs-translates';
 
 export enum WebhookErrorEnum {
   COMMON = 'WEBHOOK-000',
@@ -10,12 +11,12 @@ export enum WebhookErrorEnum {
 }
 
 export const WEBHOOK_ERROR_ENUM_TITLES: Record<WebhookErrorEnum, string> = {
-  [WebhookErrorEnum.COMMON]: 'Webhook error',
-  [WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET]: 'Tenant ID not set',
-  [WebhookErrorEnum.EXTERNAL_USER_ID_NOT_SET]: 'User ID not set',
-  [WebhookErrorEnum.FORBIDDEN]: 'Forbidden',
-  [WebhookErrorEnum.USER_NOT_FOUND]: 'User not found',
-  [WebhookErrorEnum.EVENT_NOT_FOUND]: 'Event not found',
+  [WebhookErrorEnum.COMMON]: getText('Webhook error'),
+  [WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET]: getText('Tenant ID not set'),
+  [WebhookErrorEnum.EXTERNAL_USER_ID_NOT_SET]: getText('User ID not set'),
+  [WebhookErrorEnum.FORBIDDEN]: getText('Forbidden'),
+  [WebhookErrorEnum.USER_NOT_FOUND]: getText('User not found'),
+  [WebhookErrorEnum.EVENT_NOT_FOUND]: getText('Event not found'),
 };
 
 export class WebhookError<T = unknown> extends Error {

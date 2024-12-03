@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { getText } from 'nestjs-translates';
 
 export enum AuthErrorEnum {
   COMMON = 'AUTH-000',
@@ -7,9 +8,9 @@ export enum AuthErrorEnum {
 }
 
 export const AUTH_ERROR_ENUM_TITLES: Record<AuthErrorEnum, string> = {
-  [AuthErrorEnum.COMMON]: 'Auth error',
-  [AuthErrorEnum.FORBIDDEN]: 'Forbidden',
-  [AuthErrorEnum.USER_NOT_FOUND]: 'User not found',
+  [AuthErrorEnum.COMMON]: getText('Auth error'),
+  [AuthErrorEnum.FORBIDDEN]: getText('Forbidden'),
+  [AuthErrorEnum.USER_NOT_FOUND]: getText('User not found'),
 };
 
 export class AuthError<T = unknown> extends Error {

@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Common db error"
+msgstr "Common db error"
+
+msgid "Database query error"
+msgstr "Database query error"
+
+msgid "Invalid identifier"
+msgstr "Invalid identifier"
+
+msgid "Invalid linked table identifier"
+msgstr "Invalid linked table identifier"
+
+msgid "Not found error"
+msgstr "Not found error"
+
+msgid "Unhandled error"
+msgstr "Unhandled error"
+
+msgid "Unique error"
+msgstr "Unique error"

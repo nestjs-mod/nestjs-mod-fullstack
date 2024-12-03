@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ValidationError as CvValidationError } from 'class-validator';
+import { getText } from 'nestjs-translates';
 
 export enum ValidationErrorEnum {
   COMMON = 'VALIDATION-000',
@@ -7,7 +8,7 @@ export enum ValidationErrorEnum {
 
 export const VALIDATION_ERROR_ENUM_TITLES: Record<ValidationErrorEnum, string> =
   {
-    [ValidationErrorEnum.COMMON]: 'Validation error',
+    [ValidationErrorEnum.COMMON]: getText('Validation error'),
   };
 
 export class ValidationErrorMetadataConstraint {

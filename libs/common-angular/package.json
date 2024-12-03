@@ -1,6 +1,18 @@
 {
-  "name": "@nestjs-mod-fullstack/common-angular",
-  "version": "0.0.1",
-  "peerDependencies": {},
-  "sideEffects": false
+    "name": "@nestjs-mod-fullstack/common-angular",
+    "version": "0.0.1",
+    "peerDependencies": {
+        "ng-zorro-antd": "^18.2.0",
+        "@angular/core": "18.2.11",
+        "rxjs": "^7.8.0",
+        "@jsverse/transloco-keys-manager": "^6.0.0"
+    },
+    "sideEffects": false,
+    "i18n": [
+        {
+            "scope": "common-angular",
+            "path": "src/i18n",
+            "strategy": "join"
+        }
+    ]
 }

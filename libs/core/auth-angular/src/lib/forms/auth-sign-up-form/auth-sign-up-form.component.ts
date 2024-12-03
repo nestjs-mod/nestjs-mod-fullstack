@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthToken, SignupInput } from '@authorizerdev/authorizer-js';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -37,8 +38,8 @@ import { AuthService } from '../../services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
     RouterModule,
+    TranslocoDirective,
   ],
   selector: 'auth-sign-up-form',
   templateUrl: './auth-sign-up-form.component.html',
@@ -60,7 +61,8 @@ export class AuthSignUpFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: AuthSignUpFormComponent,
     private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +81,9 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.sign-up-form.email`,
+          label: this.translocoService.translate(
+            `auth.sign-up-form.fields.email`
+          ),
           placeholder: 'email',
           required: true,
         },
@@ -91,7 +95,9 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.sign-up-form.password`,
+          label: this.translocoService.translate(
+            `auth.sign-up-form.fields.password`
+          ),
           placeholder: 'password',
           required: true,
           type: 'password',
@@ -104,7 +110,9 @@ export class AuthSignUpFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.sign-up-form.confirm_password`,
+          label: this.translocoService.translate(
+            `auth.sign-up-form.fields.confirm-password`
+          ),
           placeholder: 'confirm_password',
           required: true,
           type: 'password',
@@ -123,7 +131,9 @@ export class AuthSignUpFormComponent implements OnInit {
           tap((result) => {
             if (result.tokens) {
               this.afterSignUp.next(result.tokens);
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
             }
           }),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -137,7 +147,9 @@ export class AuthSignUpFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
+      this.nzMessageService.warning(
+        this.translocoService.translate('Validation errors')
+      );
     }
   }
 

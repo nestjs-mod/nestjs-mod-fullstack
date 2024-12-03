@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "nrwl.angular-console",
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
     "ms-playwright.playwright",
@@ -35,7 +34,6 @@
     "wakatime.vscode-wakatime",
     "stuart.unique-window-colors",
     "dotjoshjohnson.xml",
-    "redhat.vscode-yaml",
-    "airstep.yandex-translate"
+    "redhat.vscode-yaml"
   ]
 }

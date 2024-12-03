@@ -1,11 +1,23 @@
 {
-  "name": "@nestjs-mod-fullstack/files",
-  "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts"
+    "name": "@nestjs-mod-fullstack/files",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "type": "commonjs",
+    "main": "./src/index.js",
+    "typings": "./src/index.d.ts",
+    "i18n": [
+        {
+            "scope": "files",
+            "path": "src/i18n",
+            "strategy": "join"
+        },
+        {
+            "scope": "files-getText",
+            "path": "src/i18n/getText",
+            "strategy": "join"
+        }
+    ]
 }

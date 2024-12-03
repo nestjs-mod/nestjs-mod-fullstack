@@ -51,6 +51,7 @@ import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
+import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
@@ -167,7 +168,9 @@ bootstrapNestApplication({
                       : 'User',
                   });
 
-                req.externalTenantId = req.webhookUser.externalTenantId;
+                if (req.webhookUser) {
+                  req.externalTenantId = req.webhookUser.externalTenantId;
+                }
 
                 // files
                 req.filesUser = {
@@ -228,7 +231,7 @@ bootstrapNestApplication({
       }),
       MinioModule.forRoot(),
       FilesModule.forRoot(),
-      ValidationModule.forRoot(),
+      ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
       AppModule.forRoot(),
@@ -236,16 +239,40 @@ bootstrapNestApplication({
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {
-          events: ['create', 'update', 'delete'].map((key) => ({
-            eventName: `app-demo.${key}`,
-            description: `${key}`,
-            example: {
-              id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-              name: 'demo name',
-              createdAt: '2024-10-02T18:49:07.992Z',
-              updatedAt: '2024-10-02T18:49:07.992Z',
+          events: [
+            {
+              eventName: 'app-demo.create',
+              description: getText(
+                'Event that will be triggered after creation'
+              ),
+              example: {
+                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+                name: 'demo name',
+                createdAt: '2024-10-02T18:49:07.992Z',
+                updatedAt: '2024-10-02T18:49:07.992Z',
+              },
             },
-          })),
+            {
+              eventName: 'app-demo.update',
+              description: getText('Event that will trigger after the update'),
+              example: {
+                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+                name: 'demo name',
+                createdAt: '2024-10-02T18:49:07.992Z',
+                updatedAt: '2024-10-02T18:49:07.992Z',
+              },
+            },
+            {
+              eventName: 'app-demo.delete',
+              description: getText('Event that will fire after deletion'),
+              example: {
+                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+                name: 'demo name',
+                createdAt: '2024-10-02T18:49:07.992Z',
+                updatedAt: '2024-10-02T18:49:07.992Z',
+              },
+            },
+          ],
         },
       }),
     ],

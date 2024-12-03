@@ -1,0 +1,9 @@
+{
+    "Common db error": "Ошибка базы данных",
+    "Database query error": "Ошибка запроса к базе данных",
+    "Invalid identifier": "Неверный идентификатор",
+    "Invalid linked table identifier": "Неверный идентификатор связанной таблицы",
+    "Not found error": "Не найдено",
+    "Unhandled error": "Необработанная ошибка",
+    "Unique error": "Ошибка уникальности"
+}

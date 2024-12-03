@@ -33,6 +33,7 @@ import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
 import { WebhookEventsService } from '../../services/webhook-events.service';
 import { WebhookService } from '../../services/webhook.service';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @UntilDestroy()
 @Component({
@@ -45,6 +46,7 @@ import { WebhookService } from '../../services/webhook.service';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
+    TranslocoPipe,
   ],
   selector: 'webhook-form',
   templateUrl: './webhook-form.component.html',
@@ -78,7 +80,8 @@ export class WebhookFormComponent implements OnInit {
     private readonly nzModalData: WebhookFormComponent,
     private readonly webhookService: WebhookService,
     private readonly webhookEventsService: WebhookEventsService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +119,9 @@ export class WebhookFormComponent implements OnInit {
         .pipe(
           tap((result) => {
             if (result) {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterUpdate.next(result);
             }
           }),
@@ -128,7 +133,9 @@ export class WebhookFormComponent implements OnInit {
         .pipe(
           tap((result) => {
             if (result) {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterCreate.next(result);
             }
           }),
@@ -147,7 +154,7 @@ export class WebhookFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService
       .updateOne(this.id, this.toJson(this.form.value))
@@ -156,7 +163,7 @@ export class WebhookFormComponent implements OnInit {
 
   findOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {
@@ -176,7 +183,9 @@ export class WebhookFormComponent implements OnInit {
               show: true,
             },
             props: {
-              label: `webhook.form.enabled`,
+              label: this.translocoService.translate(
+                `webhook.form.fields.enabled`
+              ),
               placeholder: 'enabled',
               required: true,
             },
@@ -188,7 +197,9 @@ export class WebhookFormComponent implements OnInit {
               show: true,
             },
             props: {
-              label: `webhook.form.endpoint`,
+              label: this.translocoService.translate(
+                `webhook.form.fields.endpoint`
+              ),
               placeholder: 'endpoint',
               required: true,
             },
@@ -200,12 +211,14 @@ export class WebhookFormComponent implements OnInit {
               show: true,
             },
             props: {
-              label: `webhook.form.eventName`,
+              label: this.translocoService.translate(
+                `webhook.form.fields.event-name`
+              ),
               placeholder: 'eventName',
               required: true,
               options: this.events.map((e) => ({
                 value: e.eventName,
-                label: e.description,
+                label: `${e.eventName} - ${e.description}`,
               })),
             },
           },
@@ -216,7 +229,9 @@ export class WebhookFormComponent implements OnInit {
               show: true,
             },
             props: {
-              label: `webhook.form.headers`,
+              label: this.translocoService.translate(
+                `webhook.form.fields.headers`
+              ),
               placeholder: 'headers',
             },
           },
@@ -228,7 +243,9 @@ export class WebhookFormComponent implements OnInit {
             },
             props: {
               type: 'number',
-              label: `webhook.form.requestTimeout`,
+              label: this.translocoService.translate(
+                `webhook.form.fields.request-timeout`
+              ),
               placeholder: 'requestTimeout',
               required: false,
             },
@@ -248,6 +265,14 @@ export class WebhookFormComponent implements OnInit {
       if (error) {
         f.validators = Object.fromEntries(
           error.constraints.map((c) => {
+            if (typeof f.key === 'string') {
+              c.description = c.description.replace(
+                f.key,
+                this.translocoService.translate('field "{{label}}"', {
+                  label: f.props?.label?.toLowerCase(),
+                })
+              );
+            }
             return [
               c.name === 'isNotEmpty' ? 'required' : c.name,
               {

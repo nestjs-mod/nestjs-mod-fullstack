@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthSignUpFormComponent } from '@nestjs-mod-fullstack/auth-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
@@ -7,12 +8,12 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
   standalone: true,
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  imports: [NzBreadCrumbModule, AuthSignUpFormComponent],
+  imports: [NzBreadCrumbModule, TranslocoDirective, AuthSignUpFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent {
   constructor(private readonly router: Router) {}
   onAfterSignUp() {
-    this.router.navigate(['/webhook']);
+    this.router.navigate(['/webhooks']);
   }
 }

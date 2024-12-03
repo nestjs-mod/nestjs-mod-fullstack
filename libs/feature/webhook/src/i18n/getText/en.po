@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Event not found"
+msgstr "Event not found"
+
+msgid "Forbidden"
+msgstr "Forbidden"
+
+msgid "ok"
+msgstr "ok"
+
+msgid "Tenant ID not set"
+msgstr "Tenant ID not set"
+
+msgid "User ID not set"
+msgstr "User ID not set"
+
+msgid "User not found"
+msgstr "User not found"
+
+msgid "Webhook error"
+msgstr "Webhook error"

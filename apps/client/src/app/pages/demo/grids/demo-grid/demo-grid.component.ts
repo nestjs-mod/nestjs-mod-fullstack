@@ -20,6 +20,12 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { BehaviorSubject, tap } from 'rxjs';
 
+import {
+  TranslocoDirective,
+  TranslocoPipe,
+  TranslocoService,
+} from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
 import { DemoService } from '../../services/demo.service';
 
@@ -40,6 +46,8 @@ import { DemoService } from '../../services/demo.service';
     NzIconModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslocoDirective,
+    TranslocoPipe,
   ],
   selector: 'app-demo-grid',
   templateUrl: './demo-grid.component.html',
@@ -48,12 +56,17 @@ import { DemoService } from '../../services/demo.service';
 export class DemoGridComponent implements OnInit {
   items$ = new BehaviorSubject<AppDemoInterface[]>([]);
   selectedIds$ = new BehaviorSubject<string[]>([]);
-  columns = ['id', 'name'];
+  keys = ['id', 'name'];
+  columns = {
+    id: marker('app-demo.grid.columns.id'),
+    name: marker('app-demo.grid.columns.name'),
+  };
 
   constructor(
     private readonly demoService: DemoService,
     private readonly nzModalService: NzModalService,
-    private readonly viewContainerRef: ViewContainerRef
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +91,9 @@ export class DemoGridComponent implements OnInit {
       DemoFormComponent,
       DemoFormComponent
     >({
-      nzTitle: id ? 'Update demo' : 'Create demo',
+      nzTitle: id
+        ? this.translocoService.translate('Update demo', { id })
+        : this.translocoService.translate('Create demo'),
       nzContent: DemoFormComponent,
       nzViewContainerRef: this.viewContainerRef,
       nzData: {
@@ -87,13 +102,15 @@ export class DemoGridComponent implements OnInit {
       } as DemoFormComponent,
       nzFooter: [
         {
-          label: 'Cancel',
+          label: this.translocoService.translate('Cancel'),
           onClick: () => {
             modal.close();
           },
         },
         {
-          label: id ? 'Save' : 'Create',
+          label: id
+            ? this.translocoService.translate('Save')
+            : this.translocoService.translate('Create'),
           onClick: () => {
             modal.componentInstance?.afterUpdate
               .pipe(
@@ -125,9 +142,9 @@ export class DemoGridComponent implements OnInit {
 
   showDeleteModal(id: string) {
     this.nzModalService.confirm({
-      nzTitle: `Delete demo #${id}`,
-      nzOkText: 'Yes',
-      nzCancelText: 'No',
+      nzTitle: this.translocoService.translate(`Delete demo #{{id}}`, { id }),
+      nzOkText: this.translocoService.translate('Yes'),
+      nzCancelText: this.translocoService.translate('No'),
       nzOnOk: () => {
         this.demoService
           .deleteOne(id)

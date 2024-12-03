@@ -265,7 +265,7 @@ Updating the file _apps/client/src/app/app.component.html_
       <li nz-menu-item routerLink="/demo">Demo</li>
       @if (authUser$|async; as authUser) {
       <li nz-menu-item routerLink="/webhook">Webhook</li>
-      <li nz-submenu [nzTitle]="'You are logged in as ' + authUser.email" [style]="{ float: 'right' }">
+      <li nz-submenu [nzTitle]="'You are logged in as' + authUser.email" [style]="{ float: 'right' }">
         <ul>
           <li nz-menu-item routerLink="/profile">Profile</li>
           <li nz-menu-item (click)="signOut()">Sign-out</li>

@@ -23,6 +23,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import {
   getQueryMeta,
   getQueryMetaByParams,
@@ -31,6 +32,7 @@ import {
   RequestMeta,
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookLogService } from '../../services/webhook-log.service';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 
 @UntilDestroy()
 @Component({
@@ -50,6 +52,8 @@ import { WebhookLogService } from '../../services/webhook-log.service';
     FormsModule,
     ReactiveFormsModule,
     NzTableSortOrderDetectorPipe,
+    TranslocoDirective,
+    TranslocoPipe,
   ],
   selector: 'webhook-log-grid',
   templateUrl: './webhook-log-grid.component.html',
@@ -63,7 +67,14 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
-  columns = ['id', 'request', 'response', 'responseStatus', 'webhookStatus'];
+  keys = ['id', 'request', 'response', 'responseStatus', 'webhookStatus'];
+  columns = {
+    id: marker('webhook-log.grid.columns.id'),
+    request: marker('webhook-log.grid.columns.request'),
+    response: marker('webhook-log.grid.columns.response'),
+    responseStatus: marker('webhook-log.grid.columns.response-status'),
+    webhookStatus: marker('webhook-log.grid.columns.webhook-status'),
+  };
 
   private filters?: Record<string, string>;
 

@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 
+import { User } from '@authorizerdev/authorizer-js';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { AllowEmptyUser, CurrentAuthorizerUser } from '@nestjs-mod/authorizer';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
@@ -18,8 +19,8 @@ import {
 } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { AppService } from './app.service';
-import { User } from '@authorizerdev/authorizer-js';
 import { AppDemo } from './generated/rest/dto/app-demo.entity';
 
 export class AppData {
@@ -45,8 +46,8 @@ export class AppController {
 
   @Get('/get-data')
   @ApiOkResponse({ type: AppData })
-  getData() {
-    return this.appService.getData();
+  getData(@InjectTranslateFunction() getText: TranslateFunction) {
+    return this.appService.getData(getText);
   }
 
   @Post('/demo')

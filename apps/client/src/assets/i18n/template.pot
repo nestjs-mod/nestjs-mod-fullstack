@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "You are logged in as {{email}}"
+msgstr "You are logged in as {{email}}"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Demo"
+msgstr "Demo"
+
+msgid "Webhooks"
+msgstr "Webhooks"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Sign-out"
+msgstr "Sign-out"
+
+msgid "Sign-up"
+msgstr "Sign-up"
+
+msgid "Sign-in"
+msgstr "Sign-in"
+
+msgid ""
+"Dev/Watch mode: the infrastructure is running using docker-compose, "
+"applications are launched in watch pm2 mode"
+msgstr ""
+"Dev/Watch mode: the infrastructure is running using docker-compose, "
+"applications are launched in watch pm2 mode"
+
+msgid "Init"
+msgstr "Init"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Open in browser"
+msgstr "Open in browser"
+
+msgid "Testing"
+msgstr "Testing"
+
+msgid "Stop"
+msgstr "Stop"
+
+msgid ""
+"Prod mode: the infrastructure is running using docker-compose, built "
+"applications are launched using pm2"
+msgstr ""
+"Prod mode: the infrastructure is running using docker-compose, built "
+"applications are launched using pm2"
+
+msgid ""
+"Docker-compose prod mode: the infrastructure and applications built into "
+"Docker images are run using docker-compose"
+msgstr ""
+"Docker-compose prod mode: the infrastructure and applications built into "
+"Docker images are run using docker-compose"
+
+msgid "Hello Static"
+msgstr "Hello Static"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "en"
+msgstr "EN"
+
+msgid "app.locale.name.english"
+msgstr "English"
+
+msgid "ru"
+msgstr "RU"
+
+msgid "app.locale.name.russian"
+msgstr "Russian"
+
+msgid "client"
+msgstr "client"
+
+msgid "Update demo"
+msgstr "Update demo"
+
+msgid "Create demo"
+msgstr "Create demo"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Delete demo #{{id}}"
+msgstr "Delete demo #{{id}}"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "app-demo.grid.columns.id"
+msgstr "app-demo.grid.columns.id"
+
+msgid "app-demo.grid.columns.name"
+msgstr "app-demo.grid.columns.name"
+
+msgid "demo.form.fields.name"
+msgstr "Name"
+
+msgid "read-only field, set and updated on the backend"
+msgstr "read-only field, set and updated on the backend"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Validation errors"
+msgstr "Validation errors"
+
+msgid "id not set"
+msgstr "id not set"

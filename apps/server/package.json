@@ -1,21 +1,21 @@
 {
-  "name": "server",
-  "version": "1.8.0",
-  "private": true,
-  "scripts": {},
-  "dependencies": {
-    "pm2": ">=5.3.0",
-    "dotenv": ">=16.3.1"
-  },
-  "devScripts": [
-    "manual:prepare",
-    "serve:dev:server"
-  ],
-  "prodScripts": [
-    "manual:prepare",
-    "start:prod:server"
-  ],
-  "testsScripts": [
-    "test:server"
-  ]
+    "name": "server",
+    "version": "1.8.0",
+    "private": true,
+    "scripts": {},
+    "dependencies": {
+        "pm2": "^5.4.3",
+        "dotenv": "^16.4.5"
+    },
+    "devScripts": [
+        "manual:prepare",
+        "serve:dev:server"
+    ],
+    "prodScripts": [
+        "manual:prepare",
+        "start:prod:server"
+    ],
+    "testsScripts": [
+        "test:server"
+    ]
 }

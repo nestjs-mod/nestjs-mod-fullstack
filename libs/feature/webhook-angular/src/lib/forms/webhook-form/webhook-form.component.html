@@ -15,7 +15,7 @@
       type="submit"
       [disabled]="!form.valid"
     >
-      {{ id ? 'Save' : 'Create' }}
+      {{ id ? ('Save' | transloco) : ('Create' | transloco) }}
     </button>
   </nz-form-control>
   }

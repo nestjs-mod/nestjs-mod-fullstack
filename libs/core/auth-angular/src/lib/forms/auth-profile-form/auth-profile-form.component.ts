@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -35,8 +36,8 @@ import { AuthService } from '../../services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
     RouterModule,
+    TranslocoDirective,
   ],
   selector: 'auth-profile-form',
   template: `@if (formlyFields$ | async; as formlyFields) {
@@ -56,9 +57,8 @@ import { AuthService } from '../../services/auth.service';
             nzType="primary"
             type="submit"
             [disabled]="!form.valid"
-          >
-            Update
-          </button>
+            transloco="Update"
+          ></button>
         </div>
       </nz-form-control>
       }
@@ -79,7 +79,8 @@ export class AuthProfileFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: AuthProfileFormComponent,
     private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +97,9 @@ export class AuthProfileFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.profile-form.picture`,
+          label: this.translocoService.translate(
+            `auth.profile-form.fields.picture`
+          ),
           placeholder: 'picture',
         },
       },
@@ -107,7 +110,9 @@ export class AuthProfileFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.profile-form.old_password`,
+          label: this.translocoService.translate(
+            `auth.profile-form.fields.old-password`
+          ),
           placeholder: 'old_password',
           type: 'password',
         },
@@ -119,7 +124,9 @@ export class AuthProfileFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.profile-form.new_password`,
+          label: this.translocoService.translate(
+            `auth.profile-form.fields.new-password`
+          ),
           placeholder: 'new_password',
           type: 'password',
         },
@@ -131,7 +138,9 @@ export class AuthProfileFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `auth.profile-form.confirm_new_password`,
+          label: this.translocoService.translate(
+            `auth.profile-form.fields.confirm-new-password`
+          ),
           placeholder: 'confirm_new_password',
           type: 'password',
         },
@@ -148,7 +157,9 @@ export class AuthProfileFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.fillFromProfile();
-            this.nzMessageService.success('Updated');
+            this.nzMessageService.success(
+              this.translocoService.translate('Updated')
+            );
           }),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
@@ -161,7 +172,9 @@ export class AuthProfileFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
+      this.nzMessageService.warning(
+        this.translocoService.translate('Validation errors')
+      );
     }
   }
 

@@ -34,6 +34,7 @@ import {
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
 import { ValidationError } from '@nestjs-mod-fullstack/validation';
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 
 @ApiExtraModels(WebhookError, ValidationError)
 @ApiBadRequestResponse({
@@ -160,7 +161,8 @@ export class WebhookUsersController {
   async deleteOne(
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
-    @Param('id', new ParseUUIDPipe()) id: string
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @InjectTranslateFunction() getText: TranslateFunction
   ) {
     await this.prismaClient.webhookUser.delete({
       where: {
@@ -172,7 +174,7 @@ export class WebhookUsersController {
       },
     });
     await this.webhookCacheService.clearCacheByExternalUserId(id);
-    return { message: 'ok' };
+    return { message: getText('ok') };
   }
 
   @Get(':id')

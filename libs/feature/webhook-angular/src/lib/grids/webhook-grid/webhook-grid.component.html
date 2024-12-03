@@ -1,8 +1,11 @@
 <div class="table-operations" nz-row nzJustify="space-between">
   <div nz-col nzSpan="4">
-    <button nz-button nzType="primary" (click)="showCreateOrUpdateModal()">
-      Create new
-    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="showCreateOrUpdateModal()"
+      transloco="Create new"
+    ></button>
   </div>
   <div nz-col nzSpan="4">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -10,7 +13,7 @@
         type="text"
         [formControl]="searchField"
         nz-input
-        placeholder="input search text"
+        [placeholder]="'input search text' | transloco"
       />
     </nz-input-group>
     <ng-template #suffixIconButton>
@@ -46,16 +49,15 @@
 >
   <thead>
     <tr>
-      @for (key of columns; track $index) {
+      @for (key of keys; track $index) {
       <th
         [nzColumnKey]="key"
         [nzSortFn]="true"
         [nzSortOrder]="meta.sort[key] | nzTableSortOrderDetector"
-      >
-        webhook.grid.{{ key }}
-      </th>
+        [transloco]="columns[key]"
+      ></th>
       }
-      <th>Action</th>
+      <th transloco="Action"></th>
     </tr>
   </thead>
   @if (selectedIds$ | async; as selectedIds) {
@@ -65,13 +67,19 @@
       (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
       [class.selected]="selectedIds[0] === data.id"
     >
-      @for (key of columns; track $index) {
+      @for (key of keys; track $index) {
       <td>{{ data[key] }}</td>
       }
       <td>
-        <a (click)="showCreateOrUpdateModal(data.id)">Edit</a>
+        <a
+          (click)="showCreateOrUpdateModal(data.id)"
+          transloco="Edit"
+        ></a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a (click)="showDeleteModal(data.id)">Delete</a>
+        <a
+          (click)="showDeleteModal(data.id)"
+          transloco="Delete"
+        ></a>
       </td>
     </tr>
     }

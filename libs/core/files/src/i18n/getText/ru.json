@@ -1,0 +1,7 @@
+{
+    "Files error": "Ошибка файлов",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Only those who uploaded files can delete them": "Удалить файлы могут только те, кто их загрузил.",
+    "Uploading files with extension \"{{ext}}\" is not supported": "Загрузка файлов с расширением \"{{ext}}\" не поддерживается."
+}

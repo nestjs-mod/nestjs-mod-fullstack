@@ -1,7 +1,14 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '@authorizerdev/authorizer-js';
+import {
+  LangDefinition,
+  TranslocoDirective,
+  TranslocoPipe,
+  TranslocoService,
+} from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
   AppRestService,
   TimeRestService,
@@ -13,7 +20,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, merge, mergeMap, Observable, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -24,47 +31,43 @@ import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
     NzLayoutModule,
     NzTypographyModule,
     AsyncPipe,
+    NgForOf,
+    NgFor,
+    TranslocoPipe,
+    TranslocoDirective,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  title = 'client';
+  title = marker('client');
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject('');
-  authUser$: Observable<User | undefined>;
+  authUser$?: Observable<User | undefined>;
+  lang$ = new BehaviorSubject<string>('');
+  availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
 
   constructor(
     private readonly timeRestService: TimeRestService,
     private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
-    private readonly router: Router
-  ) {
-    this.authUser$ = this.authService.profile$.asObservable();
-  }
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit() {
-    this.appRestService
-      .appControllerGetData()
-      .pipe(
-        tap((result) => this.serverMessage$.next(result.message)),
-        untilDestroyed(this)
-      )
-      .subscribe();
+    this.subscribeToProfile();
+    this.loadAvailableLangs();
+    this.subscribeToLangChanges();
 
-    merge(
-      this.timeRestService.timeControllerTime(),
-      webSocket<string>({
-        address: this.timeRestService.configuration.basePath + '/ws/time',
-        eventName: 'ChangeTimeStream',
-      }).pipe(map((result) => result.data))
-    )
-      .pipe(
-        tap((result) => this.serverTime$.next(result as string)),
-        untilDestroyed(this)
-      )
-      .subscribe();
+    this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
+    this.fillServerTime().pipe(untilDestroyed(this)).subscribe();
+  }
+
+  setActiveLang(lang: string) {
+    this.translocoService.setActiveLang(lang);
+    localStorage.setItem('activeLang', lang);
   }
 
   signOut() {
@@ -75,5 +78,41 @@ export class AppComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  private loadAvailableLangs() {
+    this.availableLangs$.next(
+      this.translocoService.getAvailableLangs() as LangDefinition[]
+    );
+  }
+
+  private subscribeToLangChanges() {
+    this.translocoService.langChanges$
+      .pipe(
+        tap((lang) => this.lang$.next(lang)),
+        mergeMap(() => this.fillServerMessage()),
+        untilDestroyed(this)
+      )
+      .subscribe();
+  }
+
+  private subscribeToProfile() {
+    this.authUser$ = this.authService.profile$.asObservable();
+  }
+
+  private fillServerTime() {
+    return merge(
+      this.timeRestService.timeControllerTime(),
+      webSocket<string>({
+        address: this.timeRestService.configuration.basePath + '/ws/time',
+        eventName: 'ChangeTimeStream',
+      }).pipe(map((result) => result.data))
+    ).pipe(tap((result) => this.serverTime$.next(result as string)));
+  }
+
+  private fillServerMessage() {
+    return this.appRestService
+      .appControllerGetData()
+      .pipe(tap((result) => this.serverMessage$.next(result.message)));
   }
 }

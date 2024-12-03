@@ -1,29 +1,52 @@
 <nz-layout class="layout">
   <nz-header>
-    <div class="logo flex items-center justify-center">{{ title }}</div>
+    <div class="logo flex items-center justify-center">
+      {{ title | transloco }}
+    </div>
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item routerLink="/home">Home</li>
-      <li nz-menu-item routerLink="/demo">Demo</li>
+      <li nz-menu-item routerLink="/home" transloco="Home"></li>
+      <li nz-menu-item routerLink="/demo" transloco="Demo"></li>
       @if (authUser$|async; as authUser) {
-      <li nz-menu-item routerLink="/webhook">Webhook</li>
+      <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
       <li
         nz-submenu
-        [nzTitle]="'You are logged in as ' + authUser.email"
+        [nzTitle]="'You are logged in as {{email}}' | transloco : authUser"
         [style]="{ float: 'right' }"
       >
         <ul>
-          <li nz-menu-item routerLink="/profile">Profile</li>
-          <li nz-menu-item (click)="signOut()">Sign-out</li>
+          <li nz-menu-item routerLink="/profile" transloco="Profile"></li>
+          <li nz-menu-item (click)="signOut()" transloco="Sign-out"></li>
         </ul>
       </li>
       } @else {
-      <li nz-menu-item routerLink="/sign-up" [style]="{ float: 'right' }">
-        Sign-up
-      </li>
-      <li nz-menu-item routerLink="/sign-in" [style]="{ float: 'right' }">
-        Sign-in
-      </li>
+      <li
+        nz-menu-item
+        routerLink="/sign-up"
+        [style]="{ float: 'right' }"
+        transloco="Sign-up"
+      ></li>
+      <li
+        nz-menu-item
+        routerLink="/sign-in"
+        [style]="{ float: 'right' }"
+        transloco="Sign-in"
+      ></li>
       }
+      <li
+        nz-submenu
+        [nzTitle]="lang$ | async | transloco"
+        [style]="{ float: 'right' }"
+      >
+        <ul>
+          <li
+            *ngFor="let availableLang of availableLangs$ | async"
+            nz-menu-item
+            (click)="setActiveLang(availableLang.id)"
+          >
+            {{ availableLang.label | transloco }}
+          </li>
+        </ul>
+      </li>
     </ul>
   </nz-header>
   <nz-content>

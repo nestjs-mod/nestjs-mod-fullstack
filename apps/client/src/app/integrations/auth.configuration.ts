@@ -1,15 +1,35 @@
 import { Provider } from '@angular/core';
 import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   AfterUpdateProfileEvent,
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
+  TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
 import { map, Observable, of } from 'rxjs';
 
 export class AppAuthConfiguration implements AuthConfiguration {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly filesService: FilesService,
+    private readonly translocoService: TranslocoService,
+    private readonly tokensService: TokensService
+  ) {}
+
+  getAuthorizationHeaders(): Record<string, string> {
+    const lang = this.translocoService.getActiveLang();
+
+    if (!this.tokensService.tokens$.value?.access_token) {
+      return {
+        'Accept-language': lang,
+      };
+    }
+    return {
+      Authorization: `Bearer ${this.tokensService.tokens$.value.access_token}`,
+      'Accept-language': lang,
+    };
+  }
 
   beforeUpdateProfile(
     data: UpdateProfileInput
@@ -41,6 +61,6 @@ export function provideAppAuthConfiguration(): Provider {
   return {
     provide: AUTH_CONFIGURATION_TOKEN,
     useClass: AppAuthConfiguration,
-    deps: [FilesService],
+    deps: [FilesService, TranslocoService, TokensService],
   };
 }

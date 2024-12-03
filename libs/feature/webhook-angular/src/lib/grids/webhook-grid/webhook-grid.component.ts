@@ -23,6 +23,11 @@ import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
 import {
+  TranslocoDirective,
+  TranslocoPipe,
+  TranslocoService,
+} from '@jsverse/transloco';
+import {
   getQueryMeta,
   getQueryMetaByParams,
   NzTableSortOrderDetectorPipe,
@@ -30,6 +35,7 @@ import {
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookFormComponent } from '../../forms/webhook-form/webhook-form.component';
 import { WebhookService } from '../../services/webhook.service';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 
 @UntilDestroy()
 @Component({
@@ -49,6 +55,8 @@ import { WebhookService } from '../../services/webhook.service';
     FormsModule,
     ReactiveFormsModule,
     NzTableSortOrderDetectorPipe,
+    TranslocoDirective,
+    TranslocoPipe,
   ],
   selector: 'webhook-grid',
   templateUrl: './webhook-grid.component.html',
@@ -59,7 +67,7 @@ export class WebhookGridComponent implements OnInit {
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
-  columns = [
+  keys = [
     'id',
     'enabled',
     'endpoint',
@@ -67,13 +75,22 @@ export class WebhookGridComponent implements OnInit {
     'headers',
     'requestTimeout',
   ];
+  columns = {
+    id: marker('webhook.grid.columns.id'),
+    enabled: marker('webhook.grid.columns.enabled'),
+    endpoint: marker('webhook.grid.columns.endpoint'),
+    eventName: marker('webhook.grid.columns.event-name'),
+    headers: marker('webhook.grid.columns.headers'),
+    requestTimeout: marker('webhook.grid.columns.request-timeout'),
+  };
 
   private filters?: Record<string, string>;
 
   constructor(
     private readonly webhookService: WebhookService,
     private readonly nzModalService: NzModalService,
-    private readonly viewContainerRef: ViewContainerRef
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly translocoService: TranslocoService
   ) {
     this.searchField.valueChanges
       .pipe(
@@ -146,7 +163,9 @@ export class WebhookGridComponent implements OnInit {
       WebhookFormComponent,
       WebhookFormComponent
     >({
-      nzTitle: id ? 'Update webhook' : 'Create webhook',
+      nzTitle: id
+        ? this.translocoService.translate('webhook.update-modal.title', { id })
+        : this.translocoService.translate('webhook.create-modal.title'),
       nzContent: WebhookFormComponent,
       nzViewContainerRef: this.viewContainerRef,
       nzData: {
@@ -155,13 +174,15 @@ export class WebhookGridComponent implements OnInit {
       } as WebhookFormComponent,
       nzFooter: [
         {
-          label: 'Cancel',
+          label: this.translocoService.translate('Cancel'),
           onClick: () => {
             modal.close();
           },
         },
         {
-          label: id ? 'Save' : 'Create',
+          label: id
+            ? this.translocoService.translate('Save')
+            : this.translocoService.translate('Create'),
           onClick: () => {
             modal.componentInstance?.afterUpdate
               .pipe(
@@ -193,9 +214,11 @@ export class WebhookGridComponent implements OnInit {
 
   showDeleteModal(id: string) {
     this.nzModalService.confirm({
-      nzTitle: `Delete webhook #${id}`,
-      nzOkText: 'Yes',
-      nzCancelText: 'No',
+      nzTitle: this.translocoService.translate(`webhook.delete-modal.title`, {
+        id,
+      }),
+      nzOkText: this.translocoService.translate('Yes'),
+      nzCancelText: this.translocoService.translate('No'),
       nzOnOk: () => {
         this.webhookService
           .deleteOne(id)

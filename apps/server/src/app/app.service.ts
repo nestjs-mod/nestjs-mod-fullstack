@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { TranslateFunction } from 'nestjs-translates';
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    return { message: 'Hello API' };
+  getData(getText: TranslateFunction): { message: string } {
+    return { message: getText('Hello API') };
   }
 }

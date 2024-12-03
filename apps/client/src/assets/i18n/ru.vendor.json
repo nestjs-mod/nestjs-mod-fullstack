@@ -1,0 +1,140 @@
+{
+  "app-angular-rest-sdk": {},
+  "app-rest-sdk": {},
+  "auth-getText": {
+    "Auth error": "Ошибка авторизации",
+    "Forbidden": "Нет доступа",
+    "User not found": "Пользователь не найден"
+  },
+  "auth-angular": {
+    "Sign-in": "Войти",
+    "Sign-up": "Зарегистрироваться",
+    "auth.sign-up-form.fields.email": "Email",
+    "auth.sign-up-form.fields.password": "Пароль",
+    "auth.sign-up-form.fields.confirm-password": "Пароль (еще раз)",
+    "Success": "Успешно",
+    "Validation errors": "Ошибка при проверке данных",
+    "auth.sign-in-form.fields.email": "Email",
+    "auth.sign-in-form.fields.password": "Пароль",
+    "auth.profile-form.fields.picture": "Изображение",
+    "auth.profile-form.fields.old-password": "Старый пароль",
+    "auth.profile-form.fields.new-password": "Новый пароль",
+    "auth.profile-form.fields.confirm-new-password": "Новый пароль (еще раз)",
+    "Updated": "Обновлен",
+    "Update": "Обновить"
+  },
+  "common": {},
+  "common-angular": {
+    "Unauthorized": "Вы не авторизованы"
+  },
+  "files-getText": {
+    "Files error": "Ошибка файлов",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Only those who uploaded files can delete them": "Удалить файлы могут только те, кто их загрузил.",
+    "Uploading files with extension \"{{ext}}\" is not supported": "Загрузка файлов с расширением \"{{ext}}\" не поддерживается."
+  },
+  "files-angular": {
+    "files.image-file.change-file": "Изменить",
+    "files.image-file.select-file": "Выбрать"
+  },
+  "prisma-tools-getText": {
+    "Common db error": "Ошибка базы данных",
+    "Database query error": "Ошибка запроса к базе данных",
+    "Invalid identifier": "Неверный идентификатор",
+    "Invalid linked table identifier": "Неверный идентификатор связанной таблицы",
+    "Not found error": "Не найдено",
+    "Unhandled error": "Необработанная ошибка",
+    "Unique error": "Ошибка уникальности"
+  },
+  "testing": {},
+  "validation-getText": {
+    "Validation error": "Ошибка проверки"
+  },
+  "webhook-getText": {
+    "Event not found": "Событие не найдено",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Tenant ID not set": "Идентификатор клиента не установлен",
+    "User ID not set": "Идентификатор пользователя не установлен",
+    "User not found": "Пользователь не найден",
+    "Webhook error": "Ошибка вебхука"
+  },
+  "webhook-angular": {
+    "Logs for webhook #{{webhookId}}": "Журналы для вебхука #{{webhookId}}",
+    "input search text": "введите текст поиска",
+    "Create new": "Создать",
+    "Action": "Действия",
+    "Edit": "Изменить",
+    "Delete": "Удалить",
+    "Save": "Сохранить",
+    "Create": "Создать",
+    "Fill user credentials": "Заполните учетные данные пользователя",
+    "Fill admin credentials": "Заполните учетные данные администратора",
+    "Sign-in": "Войти",
+    "webhook-log.grid.columns.id": "ИД.",
+    "webhook-log.grid.columns.request": "Запрос",
+    "webhook-log.grid.columns.response": "Ответ",
+    "webhook-log.grid.columns.response-status": "Статус ответа",
+    "webhook-log.grid.columns.webhook-status": "Статус",
+    "webhook.update-modal.title": "Изменить вебхук #{{ id }}",
+    "webhook.create-modal.title": "Создать новый вебхук",
+    "Cancel": "Отмена",
+    "webhook.delete-modal.title": "Удалить вебхук #{{ id }}",
+    "Yes": "Да",
+    "No": "Нет",
+    "webhook.grid.columns.id": "ИД.",
+    "webhook.grid.columns.enabled": "Активен",
+    "webhook.grid.columns.endpoint": "Адрес",
+    "webhook.grid.columns.event-name": "Событие",
+    "webhook.grid.columns.headers": "Заголовки",
+    "webhook.grid.columns.request-timeout": "Время запроса",
+    "Success": "Успешно",
+    "id not set": "идентификатор не установлен",
+    "webhook.form.fields.enabled": "Активен",
+    "webhook.form.fields.endpoint": "Адрес",
+    "webhook.form.fields.event-name": "Событие",
+    "webhook.form.fields.headers": "Заголовки",
+    "webhook.form.fields.request-timeout": "Время запроса",
+    "field \"{{label}}\"": "поле \"{{label}}\"",
+    "webhook.form.fields.x-external-userId": "x-external-userId",
+    "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
+    "Validation errors": "Ошибка при проверке данных"
+  },
+  "runtime-tools": {},
+  "data-prefetch": {},
+  "bridge-react-webpack-plugin": {},
+  "auth": {
+    "Auth error": "Ошибка авторизации",
+    "Forbidden": "Нет доступа",
+    "User not found": "Пользователь не найден"
+  },
+  "files": {
+    "Files error": "Ошибка файлов",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Only those who uploaded files can delete them": "Удалить файлы могут только те, кто их загрузил.",
+    "Uploading files with extension \"{{ext}}\" is not supported": "Загрузка файлов с расширением \"{{ext}}\" не поддерживается."
+  },
+  "prisma-tools": {
+    "Common db error": "Ошибка базы данных",
+    "Database query error": "Ошибка запроса к базе данных",
+    "Invalid identifier": "Неверный идентификатор",
+    "Invalid linked table identifier": "Неверный идентификатор связанной таблицы",
+    "Not found error": "Не найдено",
+    "Unhandled error": "Необработанная ошибка",
+    "Unique error": "Ошибка уникальности"
+  },
+  "validation": {
+    "Validation error": "Ошибка проверки"
+  },
+  "webhook": {
+    "Event not found": "Событие не найдено",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Tenant ID not set": "Идентификатор клиента не установлен",
+    "User ID not set": "Идентификатор пользователя не установлен",
+    "User not found": "Пользователь не найден",
+    "Webhook error": "Ошибка вебхука"
+  }
+}

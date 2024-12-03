@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -40,7 +41,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
+    TranslocoDirective,
   ],
   selector: 'webhook-auth-form',
   templateUrl: './webhook-auth-form.component.html',
@@ -64,7 +65,8 @@ export class WebhookAuthFormComponent implements OnInit {
     @Inject(WEBHOOK_CONFIGURATION_TOKEN)
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly webhookAuthService: WebhookAuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +88,9 @@ export class WebhookAuthFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `webhook.form.xExternalUserId`,
+          label: this.translocoService.translate(
+            `webhook.form.fields.x-external-userId`
+          ),
           placeholder: 'xExternalUserId',
           required: true,
         },
@@ -98,7 +102,9 @@ export class WebhookAuthFormComponent implements OnInit {
           show: true,
         },
         props: {
-          label: `webhook.form.xExternalTenantId`,
+          label: this.translocoService.translate(
+            `webhook.form.fields.x-external-tenantId`
+          ),
           placeholder: 'xExternalTenantId',
           required: options.xExternalTenantIdIsRequired,
         },
@@ -112,10 +118,12 @@ export class WebhookAuthFormComponent implements OnInit {
       const value = this.toJson(this.form.value);
       this.afterSignIn.next(value);
       this.webhookAuthService.setWebhookAuthCredentials(value);
-      this.nzMessageService.success('Success');
+      this.nzMessageService.success(this.translocoService.translate('Success'));
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning('Validation errors');
+      this.nzMessageService.warning(
+        this.translocoService.translate('Validation errors')
+      );
     }
   }
 

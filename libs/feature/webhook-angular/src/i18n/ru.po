@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+msgid "Logs for webhook #{{webhookId}}"
+msgstr "Журналы для вебхука #{{webhookId}}"
+
+msgid "input search text"
+msgstr "введите текст поиска"
+
+msgid "Create new"
+msgstr "Создать"
+
+msgid "Action"
+msgstr "Действия"
+
+msgid "Edit"
+msgstr "Изменить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Fill user credentials"
+msgstr "Заполните учетные данные пользователя"
+
+msgid "Fill admin credentials"
+msgstr "Заполните учетные данные администратора"
+
+msgid "Sign-in"
+msgstr "Войти"
+
+msgid "webhook-log.grid.columns.id"
+msgstr "ИД."
+
+msgid "webhook-log.grid.columns.request"
+msgstr "Запрос"
+
+msgid "webhook-log.grid.columns.response"
+msgstr "Ответ"
+
+msgid "webhook-log.grid.columns.response-status"
+msgstr "Статус ответа"
+
+msgid "webhook-log.grid.columns.webhook-status"
+msgstr "Статус"
+
+msgid "webhook.update-modal.title"
+msgstr "Изменить вебхук #{{ id }}"
+
+msgid "webhook.create-modal.title"
+msgstr "Создать новый вебхук"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "webhook.delete-modal.title"
+msgstr "Удалить вебхук #{{ id }}"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "webhook.grid.columns.id"
+msgstr "ИД."
+
+msgid "webhook.grid.columns.enabled"
+msgstr "Активен"
+
+msgid "webhook.grid.columns.endpoint"
+msgstr "Адрес"
+
+msgid "webhook.grid.columns.event-name"
+msgstr "Событие"
+
+msgid "webhook.grid.columns.headers"
+msgstr "Заголовки"
+
+msgid "webhook.grid.columns.request-timeout"
+msgstr "Время запроса"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "id not set"
+msgstr "идентификатор не установлен"
+
+msgid "webhook.form.fields.enabled"
+msgstr "Активен"
+
+msgid "webhook.form.fields.endpoint"
+msgstr "Адрес"
+
+msgid "webhook.form.fields.event-name"
+msgstr "Событие"
+
+msgid "webhook.form.fields.headers"
+msgstr "Заголовки"
+
+msgid "webhook.form.fields.request-timeout"
+msgstr "Время запроса"
+
+msgid "field \"{{label}}\""
+msgstr "поле \"{{label}}\""
+
+msgid "webhook.form.fields.x-external-userId"
+msgstr "x-external-userId"
+
+msgid "webhook.form.fields.x-external-tenantId"
+msgstr "x-external-tenantId"
+
+msgid "Validation errors"
+msgstr "Ошибка при проверке данных"

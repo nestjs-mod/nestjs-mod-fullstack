@@ -1,0 +1,17 @@
+{
+    "Sign-in": "Sign-in",
+    "Sign-up": "Sign-up",
+    "auth.sign-up-form.fields.email": "Email",
+    "auth.sign-up-form.fields.password": "Password",
+    "auth.sign-up-form.fields.confirm-password": "Confirm password",
+    "Success": "Success",
+    "Validation errors": "Validation errors",
+    "auth.sign-in-form.fields.email": "Email",
+    "auth.sign-in-form.fields.password": "Password",
+    "auth.profile-form.fields.picture": "Picture",
+    "auth.profile-form.fields.old-password": "Old password",
+    "auth.profile-form.fields.new-password": "New password",
+    "auth.profile-form.fields.confirm-new-password": "Confirm new password",
+    "Updated": "Updated",
+    "Update": "Update"
+}

@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
+import { StatusResponse } from '@nestjs-mod-fullstack/common';
 import {
   MinioConfiguration,
   MinioFilesService,
@@ -7,14 +8,13 @@ import {
   PresignedUrls as PresignedUrlsResponse,
 } from '@nestjs-mod/minio';
 import { ApiExtraModels, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
-import { FilesError, FilesErrorEnum } from '../files.errors';
-
-import { CurrentFilesRequest } from '../files.decorators';
-import { FilesRequest } from '../types/files-request';
-import { StatusResponse } from '@nestjs-mod-fullstack/common';
-import { map } from 'rxjs';
-import { FilesRole } from '../types/files-role';
 import { IsDefined } from 'class-validator';
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+import { map } from 'rxjs';
+import { CurrentFilesRequest } from '../files.decorators';
+import { FilesError, FilesErrorEnum } from '../files.errors';
+import { FilesRequest } from '../types/files-request';
+import { FilesRole } from '../types/files-role';
 
 export class GetPresignedUrlArgs implements PresignedUrlsRequest {
   @ApiProperty({ type: String })
@@ -48,14 +48,15 @@ export class FilesController {
   @ApiOkResponse({ type: PresignedUrls })
   getPresignedUrl(
     @Query() getPresignedUrlArgs: GetPresignedUrlArgs,
-    @CurrentFilesRequest() filesRequest: FilesRequest
+    @CurrentFilesRequest() filesRequest: FilesRequest,
+    @InjectTranslateFunction() getText: TranslateFunction
   ) {
     const bucketName = Object.entries(this.minioConfiguration.buckets || {})
       .filter(([, options]) => options.ext.includes(getPresignedUrlArgs.ext))
       .map(([name]) => name)?.[0];
     if (!bucketName) {
       throw new FilesError(
-        `Uploading files with extension "{{ext}}" is not supported`,
+        getText('Uploading files with extension "{{ext}}" is not supported'),
         FilesErrorEnum.FORBIDDEN,
         { ext: getPresignedUrlArgs.ext }
       );
@@ -72,7 +73,8 @@ export class FilesController {
   @ApiOkResponse({ type: StatusResponse })
   deleteFile(
     @Query() deleteFileArgs: DeleteFileArgs,
-    @CurrentFilesRequest() filesRequest: FilesRequest
+    @CurrentFilesRequest() filesRequest: FilesRequest,
+    @InjectTranslateFunction() getText: TranslateFunction
   ) {
     if (
       filesRequest.filesUser?.userRole === FilesRole.Admin ||
@@ -80,10 +82,10 @@ export class FilesController {
     ) {
       return this.minioFilesService
         .deleteFile(deleteFileArgs.downloadUrl)
-        .pipe(map(() => ({ message: 'ok' })));
+        .pipe(map(() => ({ message: getText('ok') })));
     }
     throw new FilesError(
-      `Only those who uploaded files can delete them`,
+      getText('Only those who uploaded files can delete them'),
       FilesErrorEnum.FORBIDDEN
     );
   }
