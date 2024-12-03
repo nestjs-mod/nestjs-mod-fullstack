@@ -1,3 +1,9 @@
+# [1.9.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.8.0...client-v1.9.0) (2024-12-03)
+
+### Features
+
+- Adding multi-language support to NestJS and Angular applications (2024-12-03) ([#13](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/13)) ([4397933](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/43979334656d63c8d4250b17f81fbd26793b5d78))
+
 # [1.8.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.7.0...client-v1.8.0) (2024-11-26)
 
 ### Bug Fixes
