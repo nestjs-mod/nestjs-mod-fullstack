@@ -37,6 +37,21 @@ msgstr ""
 "Dev/Watch mode: the infrastructure is running using docker-compose, "
 "applications are launched in watch pm2 mode"
 
+msgid "Init"
+msgstr "Init"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Open in browser"
+msgstr "Open in browser"
+
+msgid "Testing"
+msgstr "Testing"
+
+msgid "Stop"
+msgstr "Stop"
+
 msgid ""
 "Prod mode: the infrastructure is running using docker-compose, built "
 "applications are launched using pm2"
@@ -53,21 +68,6 @@ msgstr ""
 
 msgid "Hello Static"
 msgstr "Hello Static"
-
-msgid "Init"
-msgstr "Init"
-
-msgid "Start"
-msgstr "Start"
-
-msgid "Open in browser"
-msgstr "Open in browser"
-
-msgid "Testing"
-msgstr "Testing"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Create new"
 msgstr "Create new"

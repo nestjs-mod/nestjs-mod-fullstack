@@ -111,6 +111,9 @@ msgstr "Headers"
 msgid "webhook.form.fields.request-timeout"
 msgstr "Request timeout"
 
+msgid "field \"{{label}}\""
+msgstr "field \"{{label}}\""
+
 msgid "webhook.form.fields.x-external-userId"
 msgstr "x-external-userId"
 

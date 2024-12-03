@@ -265,6 +265,14 @@ export class WebhookFormComponent implements OnInit {
       if (error) {
         f.validators = Object.fromEntries(
           error.constraints.map((c) => {
+            if (typeof f.key === 'string') {
+              c.description = c.description.replace(
+                f.key,
+                this.translocoService.translate('field "{{label}}"', {
+                  label: f.props?.label?.toLowerCase(),
+                })
+              );
+            }
             return [
               c.name === 'isNotEmpty' ? 'required' : c.name,
               {

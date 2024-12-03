@@ -112,6 +112,9 @@ msgstr "Заголовки"
 msgid "webhook.form.fields.request-timeout"
 msgstr "Время запроса"
 
+msgid "field \"{{label}}\""
+msgstr "поле \"{{label}}\""
+
 msgid "webhook.form.fields.x-external-userId"
 msgstr "x-external-userId"
 

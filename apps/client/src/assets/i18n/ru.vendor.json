@@ -96,6 +96,7 @@
     "webhook.form.fields.event-name": "Событие",
     "webhook.form.fields.headers": "Заголовки",
     "webhook.form.fields.request-timeout": "Время запроса",
+    "field \"{{label}}\"": "поле \"{{label}}\"",
     "webhook.form.fields.x-external-userId": "x-external-userId",
     "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "Validation errors": "Ошибка при проверке данных"

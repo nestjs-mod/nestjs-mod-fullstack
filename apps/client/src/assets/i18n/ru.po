@@ -38,6 +38,21 @@ msgstr ""
 "Режим Dev/Watch: инфраструктура работает с использованием docker-compose, "
 "приложения запускаются в режиме watch pm2"
 
+msgid "Init"
+msgstr "Инициализация"
+
+msgid "Start"
+msgstr "Запуск"
+
+msgid "Open in browser"
+msgstr "Откройте браузер"
+
+msgid "Testing"
+msgstr "Тестирование"
+
+msgid "Stop"
+msgstr "Остановка"
+
 msgid ""
 "Prod mode: the infrastructure is running using docker-compose, built "
 "applications are launched using pm2"
@@ -54,21 +69,6 @@ msgstr ""
 
 msgid "Hello Static"
 msgstr "Привет Статика"
-
-msgid "Init"
-msgstr "Инициализация"
-
-msgid "Start"
-msgstr "Запуск"
-
-msgid "Open in browser"
-msgstr "Откройте браузер"
-
-msgid "Testing"
-msgstr "Тестирование"
-
-msgid "Stop"
-msgstr "Остановка"
 
 msgid "Create new"
 msgstr "Создать"

@@ -34,6 +34,7 @@
     "webhook.form.fields.event-name": "Event name",
     "webhook.form.fields.headers": "Headers",
     "webhook.form.fields.request-timeout": "Request timeout",
+    "field \"{{label}}\"": "field \"{{label}}\"",
     "webhook.form.fields.x-external-userId": "x-external-userId",
     "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "Validation errors": "Validation errors"
