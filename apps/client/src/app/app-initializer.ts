@@ -49,12 +49,14 @@ export class AppInitializer {
               })
             )
     ).pipe(
-      mergeMap(() => this.authService.refreshToken()),
       mergeMap(() => {
-        const defaultLang = this.translocoService.getDefaultLang();
+        const defaultLang =
+          localStorage.getItem('activeLang') ||
+          this.translocoService.getDefaultLang();
         this.translocoService.setActiveLang(defaultLang);
         return this.translocoService.load(defaultLang);
       }),
+      mergeMap(() => this.authService.refreshToken()),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);

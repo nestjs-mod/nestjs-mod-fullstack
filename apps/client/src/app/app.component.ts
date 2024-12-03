@@ -66,10 +66,6 @@ export class AppComponent implements OnInit {
           this.availableLangs$.next(
             this.translocoService.getAvailableLangs() as LangDefinition[]
           );
-          console.log(
-            this.translocoService.getAvailableLangs() as LangDefinition[]
-          );
-          console.log(this.translocoService.getTranslation());
         }),
         mergeMap(() => this.fillServerMessage()),
         untilDestroyed(this)
@@ -100,6 +96,7 @@ export class AppComponent implements OnInit {
 
   setActiveLang(lang: string) {
     this.translocoService.setActiveLang(lang);
+    localStorage.setItem('activeLang', lang);
   }
 
   signOut() {
