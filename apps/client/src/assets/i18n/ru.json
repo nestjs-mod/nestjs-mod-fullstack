@@ -1,5 +1,5 @@
 {
-    "You are logged in as {{email}}": "Вы вошли в систему как",
+    "You are logged in as {{email}}": "Вы вошли в систему как {{email}}",
     "Home": "Домашняя страница",
     "Demo": "Демо",
     "Webhooks": "Вебхуки",

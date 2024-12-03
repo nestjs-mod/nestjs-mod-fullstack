@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   title = marker('client');
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject('');
-  authUser$: Observable<User | undefined>;
+  authUser$?: Observable<User | undefined>;
   lang$ = new BehaviorSubject<string>('');
   availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
 
@@ -54,28 +54,50 @@ export class AppComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly translocoService: TranslocoService
-  ) {
-    this.authUser$ = this.authService.profile$.asObservable();
+  ) {}
+
+  ngOnInit() {
+    this.subscribeToProfile();
+    this.loadAvailableLangs();
+    this.subscribeToLangChanges();
+
+    this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
+    this.fillServerTime().pipe(untilDestroyed(this)).subscribe();
+  }
+
+  setActiveLang(lang: string) {
+    this.translocoService.setActiveLang(lang);
+    localStorage.setItem('activeLang', lang);
+  }
+
+  signOut() {
+    this.authService
+      .signOut()
+      .pipe(
+        tap(() => this.router.navigate(['/home'])),
+        untilDestroyed(this)
+      )
+      .subscribe();
+  }
+
+  private loadAvailableLangs() {
     this.availableLangs$.next(
       this.translocoService.getAvailableLangs() as LangDefinition[]
     );
+  }
+
+  private subscribeToLangChanges() {
     this.translocoService.langChanges$
       .pipe(
-        tap((lang) => {
-          this.lang$.next(lang);
-          this.availableLangs$.next(
-            this.translocoService.getAvailableLangs() as LangDefinition[]
-          );
-        }),
+        tap((lang) => this.lang$.next(lang)),
         mergeMap(() => this.fillServerMessage()),
         untilDestroyed(this)
       )
       .subscribe();
   }
 
-  ngOnInit() {
-    this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
-    this.fillServerTime().pipe(untilDestroyed(this)).subscribe();
+  private subscribeToProfile() {
+    this.authUser$ = this.authService.profile$.asObservable();
   }
 
   private fillServerTime() {
@@ -92,20 +114,5 @@ export class AppComponent implements OnInit {
     return this.appRestService
       .appControllerGetData()
       .pipe(tap((result) => this.serverMessage$.next(result.message)));
-  }
-
-  setActiveLang(lang: string) {
-    this.translocoService.setActiveLang(lang);
-    localStorage.setItem('activeLang', lang);
-  }
-
-  signOut() {
-    this.authService
-      .signOut()
-      .pipe(
-        tap(() => this.router.navigate(['/home'])),
-        untilDestroyed(this)
-      )
-      .subscribe();
   }
 }

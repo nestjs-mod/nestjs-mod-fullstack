@@ -1,12 +1,10 @@
-## [2024-11-28] Добавление поддержки нескольких языков в NestJS и Angular приложениях
+## [2024-12-03] Добавление поддержки нескольких языков в NestJS и Angular приложениях
 
-Предыдущая статья: [Получение серверного времени через WebSockets и отображение его в Angular-приложении](https://nestjs-mod.com/docs/ru-posts/fullstack/2024-11-21)
+Предыдущая статья: [Валидация REST-запросов в NestJS-приложении и отображение ошибок в формах Angular-приложения](https://habr.com/ru/articles/863396/)
 
-В этой статье добавим поддержку нескольких языков в `NestJS` и `Angular`приложениях, для сообщений в ошибках и уведомлениях, а также добавим сохранение и смену языка пользователя в базе данных.
+В этой статье я добавлю поддержку нескольких языков в `NestJS` и `Angular` приложениях, для сообщений в ошибках, уведомлениях и данных полученных из базы данных.
 
 ### 1. Устанавливаем все необходимые библиотеки
-
-Устанавливаем новый генератор `DTO` из `Prisma`-схемы и удаляем старый, так как в старом нет добавления декораторов валидации с помощью `class-validator`.
 
 _Команды_
 
@@ -85,11 +83,11 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
         config: {
           availableLangs: [
             {
-              id: 'en',
+              id: marker('en'),
               label: marker('app.locale.name.english'),
             },
             {
-              id: 'ru',
+              id: marker('ru'),
               label: marker('app.locale.name.russian'),
             },
           ],
@@ -110,7 +108,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-Для загрузки переводов из интернета необходимо создать загрузчик.
+Для загрузки переводов из интернета необходимо создать специальный загрузчик.
 
 Создаем файл _apps/client/src/app/integrations/transloco-http.loader.ts_
 
@@ -194,9 +192,12 @@ export class AppInitializer {
     ).pipe(
       // ..
       mergeMap(() => {
-        const defaultLang = this.translocoService.getDefaultLang();
-        this.translocoService.setActiveLang(defaultLang);
-        return this.translocoService.load(defaultLang);
+        const lang = localStorage.getItem('activeLang') || this.translocoService.getDefaultLang();
+
+        this.translocoService.setActiveLang(lang);
+        localStorage.setItem('activeLang', lang);
+
+        return this.translocoService.load(lang);
       })
       // ..
     );
@@ -218,38 +219,60 @@ export class AppInitializer {
 }
 ```
 
-Язык по умолчанию будет стоять `Английский`. Для переключения языка в навигационном меню добавим выподающий список с доступных для переключения языков.
+Язык по умолчанию будет стоять `Английский`. Для переключения языка в навигационном меню добавим выпадающий список с доступными для переключения языками.
 
 Обновление файла _apps/client/src/app/app.component.ts_
 
 ```typescript
-import { LangDefinition, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { LangDefinition, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { AppRestService, TimeRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 // ...
 
+@UntilDestroy()
 @Component({
   standalone: true,
-  imports: [
-    // ...
-    TranslocoPipe,
-  ],
+  imports: [RouterModule, NzMenuModule, NzLayoutModule, NzTypographyModule, AsyncPipe, NgForOf, NgFor, TranslocoPipe, TranslocoDirective],
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  // ...
+  title = marker('client');
+  serverMessage$ = new BehaviorSubject('');
+  serverTime$ = new BehaviorSubject('');
+  authUser$?: Observable<User | undefined>;
   lang$ = new BehaviorSubject<string>('');
   availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
 
   constructor(
     // ...
+    private readonly appRestService: AppRestService,
     private readonly translocoService: TranslocoService
-  ) {
+  ) {}
+
+  ngOnInit() {
+    this.loadAvailableLangs();
+    this.subscribeToLangChanges();
+
+    this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
     // ...
+  }
+
+  setActiveLang(lang: string) {
+    this.translocoService.setActiveLang(lang);
+    localStorage.setItem('activeLang', lang);
+  }
+
+  private loadAvailableLangs() {
     this.availableLangs$.next(this.translocoService.getAvailableLangs() as LangDefinition[]);
+  }
+
+  private subscribeToLangChanges() {
     this.translocoService.langChanges$
       .pipe(
         tap((lang) => this.lang$.next(lang)),
+        mergeMap(() => this.fillServerMessage()),
         untilDestroyed(this)
       )
       .subscribe();
@@ -257,8 +280,8 @@ export class AppComponent implements OnInit {
 
   // ...
 
-  setActiveLang(lang: string) {
-    this.translocoService.setActiveLang(lang);
+  private fillServerMessage() {
+    return this.appRestService.appControllerGetData().pipe(tap((result) => this.serverMessage$.next(result.message)));
   }
 }
 ```
@@ -384,11 +407,11 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
         config: {
           availableLangs: [
             {
-              id: 'en',
+              id: marker('en'),
               label: marker('app.locale.name.english'),
             },
             {
-              id: 'ru',
+              id: marker('ru'),
               label: marker('app.locale.name.russian'),
             },
           ],
@@ -572,7 +595,7 @@ _Команды_
 ./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
 ```
 
-После запуска этой команды в проекте появятся множество файлов с расширнениями: po, pot, json
+После запуска этой команды в проекте появятся множество файлов с расширениями: po, pot, json.
 
 **Примеры файлов**
 
@@ -636,13 +659,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgid "Create new"
-msgstr "Create new"
+msgstr ""
 
 msgid "app.locale.name.english"
-msgstr "app.locale.name.english"
+msgstr ""
 
 msgid "app.locale.name.russian"
-msgstr "app.locale.name.russian"
+msgstr ""
 
 ```
 
@@ -727,10 +750,198 @@ _Команды_
 ./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
 ```
 
+Алгоритм работы с переводами:
+
+1. Собираем словари для переводов `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
+2. Добавляем переводы во все `*.po` файлы;
+3. Генерируем `json` версию переводов `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
+4. Запускаем приложения и они подгружают в себя `json` файлы с переводами.
+
 ### 8. Добавляем тест для проверки переведенных ответов с бэкенда
+
+Создаем файл _apps/server-e2e/src/server/ru-validation.spec.ts_
+
+```typescript
+import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { AxiosError } from 'axios';
+
+describe('Validation (ru)', () => {
+  jest.setTimeout(60000);
+
+  const user1 = new RestClientHelper({ activeLang: 'ru' });
+
+  beforeAll(async () => {
+    await user1.createAndLoginAsUser();
+  });
+
+  it('should catch error on create new webhook as user1', async () => {
+    try {
+      await user1.getWebhookApi().webhookControllerCreateOne({
+        enabled: false,
+        endpoint: '',
+        eventName: '',
+      });
+    } catch (err) {
+      expect((err as AxiosError).response?.data).toEqual({
+        code: 'VALIDATION-000',
+        message: 'Validation error',
+        metadata: [
+          {
+            property: 'eventName',
+            constraints: [
+              {
+                name: 'isNotEmpty',
+                description: 'eventName не может быть пустым',
+              },
+            ],
+          },
+          {
+            property: 'endpoint',
+            constraints: [
+              {
+                name: 'isNotEmpty',
+                description: 'endpoint не может быть пустым',
+              },
+            ],
+          },
+        ],
+      });
+    }
+  });
+});
+```
 
 ### 9. Добавляем тест для проверки корректного переключения переводов в фронтенд приложении
 
+Создаем файл _apps/client-e2e/src/ru-validation.spec.ts_
+
+```typescript
+import { faker } from '@faker-js/faker';
+import { expect, Page, test } from '@playwright/test';
+import { get } from 'env-var';
+import { join } from 'path';
+import { setTimeout } from 'timers/promises';
+
+test.describe('Validation (ru)', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  const user = {
+    email: faker.internet.email({
+      provider: 'example.fakerjs.dev',
+    }),
+    password: faker.internet.password({ length: 8 }),
+    site: `http://${faker.internet.domainName()}`,
+  };
+  let page: Page;
+
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage({
+      viewport: { width: 1920, height: 1080 },
+      recordVideo: {
+        dir: join(__dirname, 'video'),
+        size: { width: 1920, height: 1080 },
+      },
+    });
+    await page.goto('/', {
+      timeout: 7000,
+    });
+    await page.evaluate((authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL), get('SERVER_AUTHORIZER_URL').required().asString());
+    await page.evaluate((minioURL) => localStorage.setItem('minioURL', minioURL), get('SERVER_MINIO_URL').required().asString());
+  });
+
+  test.afterAll(async () => {
+    await setTimeout(1000);
+    await page.close();
+  });
+
+  test('should change language to RU', async () => {
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`EN`);
+    await page.locator('nz-header').locator('[nz-submenu]').last().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Russian`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
+
+    await setTimeout(4000);
+    //
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]')).toContainText(`RU`);
+  });
+
+  test('sign up as user', async () => {
+    await page.goto('/sign-up', {
+      timeout: 7000,
+    });
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=password]')).toHaveValue(user.password);
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]')).toHaveValue(user.password);
+
+    await expect(page.locator('auth-sign-up-form').locator('button[type=submit]')).toHaveText('Зарегистрироваться');
+
+    await page.locator('auth-sign-up-form').locator('button[type=submit]').click();
+
+    await setTimeout(5000);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]').first()).toContainText(`Вы вошли в систему как ${user.email.toLowerCase()}`);
+  });
+
+  test('should catch error on create new webhook', async () => {
+    await page.locator('webhook-grid').locator('button').first().click();
+
+    await setTimeout(7000);
+
+    await page.locator('[nz-modal-footer]').locator('button').last().click();
+
+    await setTimeout(4000);
+
+    await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('endpoint не может быть пустым');
+    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('eventName не может быть пустым');
+  });
+});
+```
+
+### 10. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем работу через E2E-тесты
+
+_Команды_
+
+```bash
+npm run pm2-full:dev:start
+npm run pm2-full:dev:test:e2e
+```
+
 ### Заключение
 
+В этом посте я добавил поддержку работы с несколькими языками в `NestJS` и `Angular` приложениях, а также их переключение в реальном времени.
+
+Создал словари для всех предложений которые необходимо перевести и добавил переводы на английский и русский языки.
+
+Выбранный язык пользователя сохраняется в `localstorage` и используется в качестве активного при полной перезагрузке страницы, в дальнейших постах он будет сохраняться в базу данных.
+
 ### Планы
+
+В следующем посте я добавлю поддержку работы с тайм зонами, а также сохранение выбранной пользователем тайм зоны в базу данных...
+
+### Ссылки
+
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/a5efa43f571a7b48402275e1ee6a9b1e325d0eb0..2c14d02af439c0884a4052a3b0197a9ee94c571d - изменения
+
+#angular #translates #nestjsmod #fullstack

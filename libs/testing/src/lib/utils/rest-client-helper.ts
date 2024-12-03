@@ -47,10 +47,12 @@ export class RestClientHelper {
       serverUrl?: string;
       authorizerURL?: string;
       randomUser?: GenerateRandomUserResult;
+      activeLang?: string;
     }
   ) {
     this.randomUser = options?.randomUser;
     this.createApiClients();
+    this.setAuthorizationHeadersFromAuthorizationTokens();
   }
 
   getWebhookProfile() {
@@ -226,7 +228,13 @@ export class RestClientHelper {
       })
     ).data;
 
-    await this.setAuthorizationHeadersFromAuthorizationTokens();
+    this.setAuthorizationHeadersFromAuthorizationTokens();
+
+    if (this.webhookApi) {
+      this.webhookProfile = (
+        await this.getWebhookApi().webhookControllerProfile()
+      ).data;
+    }
 
     return this;
   }
@@ -251,12 +259,18 @@ export class RestClientHelper {
 
     this.authorizationTokens = loginResult.data;
 
-    await this.setAuthorizationHeadersFromAuthorizationTokens();
+    this.setAuthorizationHeadersFromAuthorizationTokens();
+
+    if (this.webhookApi) {
+      this.webhookProfile = (
+        await this.getWebhookApi().webhookControllerProfile()
+      ).data;
+    }
 
     return this;
   }
 
-  private async setAuthorizationHeadersFromAuthorizationTokens() {
+  private setAuthorizationHeadersFromAuthorizationTokens() {
     if (this.webhookApiAxios) {
       Object.assign(
         this.webhookApiAxios.defaults.headers.common,
@@ -281,24 +295,21 @@ export class RestClientHelper {
         this.getAuthorizationHeaders()
       );
     }
-
-    if (this.webhookApi) {
-      this.webhookProfile = (
-        await this.getWebhookApi().webhookControllerProfile()
-      ).data;
-    }
   }
 
   async logout() {
     await (
       await this.getAuthorizerClient()
-    ).logout(this.getAuthorizationHeaders());
+    ).logout({ Authorization: this.getAuthorizationHeaders().Authorization });
     return this;
   }
 
   getAuthorizationHeaders() {
     return {
       Authorization: `Bearer ${this.authorizationTokens?.access_token}`,
+      ...(this.options?.activeLang
+        ? { ['Accept-Language']: this.options?.activeLang }
+        : {}),
     };
   }
 

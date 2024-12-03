@@ -14,6 +14,6 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 export class SignInComponent {
   constructor(private readonly router: Router) {}
   onAfterSignIn() {
-    this.router.navigate(['/webhook']);
+    this.router.navigate(['/webhooks']);
   }
 }
