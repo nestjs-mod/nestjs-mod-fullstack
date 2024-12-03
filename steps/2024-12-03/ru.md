@@ -221,7 +221,7 @@ export class AppInitializer {
 
 Язык по умолчанию будет стоять `Английский`. Для переключения языка в навигационном меню добавим выпадающий список с доступными для переключения языками.
 
-Обновление файла _apps/client/src/app/app.component.ts_
+Обновляем файл _apps/client/src/app/app.component.ts_
 
 ```typescript
 import { LangDefinition, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
