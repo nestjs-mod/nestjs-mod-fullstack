@@ -942,6 +942,6 @@ npm run pm2-full:dev:test:e2e
 - https://nestjs-mod.com - официальный сайт дополнительных утилит
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/a5efa43f571a7b48402275e1ee6a9b1e325d0eb0..2c14d02af439c0884a4052a3b0197a9ee94c571d - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - изменения
 
 #angular #translates #nestjsmod #fullstack

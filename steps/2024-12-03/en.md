@@ -940,6 +940,6 @@ In the next post I will add support for working with time zones, as well as savi
 - https://nestjs-mod.com - the official website of additional utilities
 - https://fullstack.nestjs-mod.com - website from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/a5efa43f571a7b48402275e1ee6a9b1e325d0eb0..2c14d02af439c0884a4052a3b0197a9ee94c571d - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - current changes
 
 #angular #translates #nestjsmod #fullstack
