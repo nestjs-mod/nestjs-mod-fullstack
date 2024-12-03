@@ -4,6 +4,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { DemoGridComponent } from './grids/demo-grid/demo-grid.component';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   standalone: true,
@@ -16,6 +17,7 @@ import { DemoGridComponent } from './grids/demo-grid/demo-grid.component';
     NzLayoutModule,
     AsyncPipe,
     NgIf,
+    TranslocoDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

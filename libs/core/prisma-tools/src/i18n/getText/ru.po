@@ -8,22 +8,22 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 msgid "Common db error"
-msgstr ""
+msgstr "Ошибка базы данных"
 
 msgid "Database query error"
-msgstr ""
+msgstr "Ошибка запроса к базе данных"
 
 msgid "Invalid identifier"
-msgstr ""
+msgstr "Неверный идентификатор"
 
 msgid "Invalid linked table identifier"
-msgstr ""
+msgstr "Неверный идентификатор связанной таблицы"
 
 msgid "Not found error"
-msgstr ""
+msgstr "Не найдено"
 
 msgid "Unhandled error"
-msgstr ""
+msgstr "Необработанная ошибка"
 
 msgid "Unique error"
-msgstr ""
+msgstr "Ошибка уникальности"

@@ -164,7 +164,7 @@ export class WebhookGridComponent implements OnInit {
       WebhookFormComponent
     >({
       nzTitle: id
-        ? this.translocoService.translate('webhook.update-modal.title')
+        ? this.translocoService.translate('webhook.update-modal.title', { id })
         : this.translocoService.translate('webhook.create-modal.title'),
       nzContent: WebhookFormComponent,
       nzViewContainerRef: this.viewContainerRef,
@@ -214,9 +214,9 @@ export class WebhookGridComponent implements OnInit {
 
   showDeleteModal(id: string) {
     this.nzModalService.confirm({
-      nzTitle: this.translocoService
-        .translate(`webhook.delete-modal.title`)
-        .replace('{{ id }}', id),
+      nzTitle: this.translocoService.translate(`webhook.delete-modal.title`, {
+        id,
+      }),
       nzOkText: this.translocoService.translate('Yes'),
       nzCancelText: this.translocoService.translate('No'),
       nzOnOk: () => {

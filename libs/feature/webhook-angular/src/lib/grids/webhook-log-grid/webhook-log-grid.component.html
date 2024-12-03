@@ -1,6 +1,6 @@
 <div class="table-operations" nz-row nzJustify="space-between">
   <div nz-col nzSpan="6">
-    {{ 'Logs for webhook #' | transloco }}{{ webhookId }}
+    {{ 'Logs for webhook #{{webhookId}}' | transloco:{webhookId} }}
   </div>
   <div nz-col nzSpan="4">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">

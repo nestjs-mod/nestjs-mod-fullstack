@@ -8,10 +8,10 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 msgid "Auth error"
-msgstr ""
+msgstr "Ошибка авторизации"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Нет доступа"
 
 msgid "User not found"
-msgstr ""
+msgstr "Пользователь не найден"

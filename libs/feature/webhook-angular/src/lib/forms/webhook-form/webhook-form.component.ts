@@ -119,7 +119,9 @@ export class WebhookFormComponent implements OnInit {
         .pipe(
           tap((result) => {
             if (result) {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterUpdate.next(result);
             }
           }),
@@ -131,7 +133,9 @@ export class WebhookFormComponent implements OnInit {
         .pipe(
           tap((result) => {
             if (result) {
-              this.nzMessageService.success('Success');
+              this.nzMessageService.success(
+                this.translocoService.translate('Success')
+              );
               this.afterCreate.next(result);
             }
           }),
@@ -150,7 +154,7 @@ export class WebhookFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService
       .updateOne(this.id, this.toJson(this.form.value))
@@ -159,7 +163,7 @@ export class WebhookFormComponent implements OnInit {
 
   findOne() {
     if (!this.id) {
-      throw new Error('id not set');
+      throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {

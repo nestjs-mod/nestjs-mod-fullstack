@@ -14,7 +14,7 @@ msgid "Event that will fire after deletion"
 msgstr "Событие, которое сработает после удаления"
 
 msgid "Event that will trigger after the update"
-msgstr "Событие, которое будет вызвано после обновления"
+msgstr "Событие, которое произойдет после обновления"
 
 msgid "Hello API"
-msgstr ""
+msgstr "Привет АПИ"

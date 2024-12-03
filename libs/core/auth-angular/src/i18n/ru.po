@@ -8,46 +8,46 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 msgid "Sign-in"
-msgstr ""
+msgstr "Войти"
 
 msgid "Sign-up"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 msgid "auth.sign-up-form.fields.email"
-msgstr ""
+msgstr "Email"
 
 msgid "auth.sign-up-form.fields.password"
-msgstr ""
+msgstr "Пароль"
 
 msgid "auth.sign-up-form.fields.confirm-password"
-msgstr ""
+msgstr "Пароль (еще раз)"
 
 msgid "Success"
-msgstr ""
+msgstr "Успешно"
 
 msgid "Validation errors"
-msgstr ""
+msgstr "Ошибка при проверке данных"
 
 msgid "auth.sign-in-form.fields.email"
-msgstr ""
+msgstr "Email"
 
 msgid "auth.sign-in-form.fields.password"
-msgstr ""
+msgstr "Пароль"
 
 msgid "auth.profile-form.fields.picture"
-msgstr ""
+msgstr "Изображение"
 
 msgid "auth.profile-form.fields.old-password"
-msgstr ""
+msgstr "Старый пароль"
 
 msgid "auth.profile-form.fields.new-password"
-msgstr ""
+msgstr "Новый пароль"
 
 msgid "auth.profile-form.fields.confirm-new-password"
-msgstr ""
+msgstr "Новый пароль (еще раз)"
 
 msgid "Updated"
-msgstr ""
+msgstr "Обновлен"
 
 msgid "Update"
-msgstr ""
+msgstr "Обновить"

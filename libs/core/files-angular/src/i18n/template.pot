@@ -7,7 +7,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgid "files.image-file.change-file"
-msgstr "files.image-file.change-file"
+msgstr "Change"
 
 msgid "files.image-file.select-file"
-msgstr "files.image-file.select-file"
+msgstr "Select"

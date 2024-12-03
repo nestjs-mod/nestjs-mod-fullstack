@@ -1,9 +1,9 @@
 {
-    "Event not found": "",
-    "Forbidden": "",
-    "ok": "",
-    "Tenant ID not set": "",
-    "User ID not set": "",
-    "User not found": "",
-    "Webhook error": ""
+    "Event not found": "Событие не найдено",
+    "Forbidden": "Нет доступа",
+    "ok": "ок",
+    "Tenant ID not set": "Идентификатор клиента не установлен",
+    "User ID not set": "Идентификатор пользователя не установлен",
+    "User not found": "Пользователь не найден",
+    "Webhook error": "Ошибка вебхука"
 }

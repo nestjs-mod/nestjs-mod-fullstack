@@ -13,13 +13,13 @@ msgid "Sign-up"
 msgstr "Sign-up"
 
 msgid "auth.sign-up-form.fields.email"
-msgstr "auth.sign-up-form.fields.email"
+msgstr "Email"
 
 msgid "auth.sign-up-form.fields.password"
-msgstr "auth.sign-up-form.fields.password"
+msgstr "Password"
 
 msgid "auth.sign-up-form.fields.confirm-password"
-msgstr "auth.sign-up-form.fields.confirm-password"
+msgstr "Confirm password"
 
 msgid "Success"
 msgstr "Success"
@@ -28,22 +28,22 @@ msgid "Validation errors"
 msgstr "Validation errors"
 
 msgid "auth.sign-in-form.fields.email"
-msgstr "auth.sign-in-form.fields.email"
+msgstr "Email"
 
 msgid "auth.sign-in-form.fields.password"
-msgstr "auth.sign-in-form.fields.password"
+msgstr "Password"
 
 msgid "auth.profile-form.fields.picture"
-msgstr "auth.profile-form.fields.picture"
+msgstr "Picture"
 
 msgid "auth.profile-form.fields.old-password"
-msgstr "auth.profile-form.fields.old-password"
+msgstr "Old password"
 
 msgid "auth.profile-form.fields.new-password"
-msgstr "auth.profile-form.fields.new-password"
+msgstr "New password"
 
 msgid "auth.profile-form.fields.confirm-new-password"
-msgstr "auth.profile-form.fields.confirm-new-password"
+msgstr "Confirm new password"
 
 msgid "Updated"
 msgstr "Updated"

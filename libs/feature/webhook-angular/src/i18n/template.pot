@@ -6,8 +6,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-msgid "Logs for webhook #"
-msgstr "Logs for webhook #"
+msgid "Logs for webhook #{{webhookId}}"
+msgstr "Logs for webhook #{{webhookId}}"
 
 msgid "input search text"
 msgstr "input search text"
@@ -40,31 +40,31 @@ msgid "Sign-in"
 msgstr "Sign-in"
 
 msgid "webhook-log.grid.columns.id"
-msgstr "webhook-log.grid.columns.id"
+msgstr "Id"
 
 msgid "webhook-log.grid.columns.request"
-msgstr "webhook-log.grid.columns.request"
+msgstr "Request"
 
 msgid "webhook-log.grid.columns.response"
-msgstr "webhook-log.grid.columns.response"
+msgstr "Response"
 
 msgid "webhook-log.grid.columns.response-status"
-msgstr "webhook-log.grid.columns.response-status"
+msgstr "Response status"
 
 msgid "webhook-log.grid.columns.webhook-status"
-msgstr "webhook-log.grid.columns.webhook-status"
+msgstr "Webhook status"
 
 msgid "webhook.update-modal.title"
-msgstr "webhook.update-modal.title"
+msgstr "Update webhook #{{ id }}"
 
 msgid "webhook.create-modal.title"
-msgstr "webhook.create-modal.title"
+msgstr "Create new webhook"
 
 msgid "Cancel"
 msgstr "Cancel"
 
 msgid "webhook.delete-modal.title"
-msgstr "webhook.delete-modal.title"
+msgstr "Delete webhook #{{ id }}"
 
 msgid "Yes"
 msgstr "Yes"
@@ -73,46 +73,49 @@ msgid "No"
 msgstr "No"
 
 msgid "webhook.grid.columns.id"
-msgstr "webhook.grid.columns.id"
+msgstr "Id"
 
 msgid "webhook.grid.columns.enabled"
-msgstr "webhook.grid.columns.enabled"
+msgstr "Enabled"
 
 msgid "webhook.grid.columns.endpoint"
-msgstr "webhook.grid.columns.endpoint"
+msgstr "Endpoint"
 
 msgid "webhook.grid.columns.event-name"
-msgstr "webhook.grid.columns.event-name"
+msgstr "Event name"
 
 msgid "webhook.grid.columns.headers"
-msgstr "webhook.grid.columns.headers"
+msgstr "Headers"
 
 msgid "webhook.grid.columns.request-timeout"
-msgstr "webhook.grid.columns.request-timeout"
-
-msgid "webhook.form.fields.enabled"
-msgstr "webhook.form.fields.enabled"
-
-msgid "webhook.form.fields.endpoint"
-msgstr "webhook.form.fields.endpoint"
-
-msgid "webhook.form.fields.event-name"
-msgstr "webhook.form.fields.event-name"
-
-msgid "webhook.form.fields.headers"
-msgstr "webhook.form.fields.headers"
-
-msgid "webhook.form.fields.request-timeout"
-msgstr "webhook.form.fields.request-timeout"
-
-msgid "webhook.form.fields.x-external-userId"
-msgstr "webhook.form.fields.x-external-userId"
-
-msgid "webhook.form.fields.x-external-tenantId"
-msgstr "webhook.form.fields.x-external-tenantId"
+msgstr "Request timeout"
 
 msgid "Success"
 msgstr "Success"
+
+msgid "id not set"
+msgstr "id not set"
+
+msgid "webhook.form.fields.enabled"
+msgstr "Enabled"
+
+msgid "webhook.form.fields.endpoint"
+msgstr "Endpoint"
+
+msgid "webhook.form.fields.event-name"
+msgstr "Event name"
+
+msgid "webhook.form.fields.headers"
+msgstr "Headers"
+
+msgid "webhook.form.fields.request-timeout"
+msgstr "Request timeout"
+
+msgid "webhook.form.fields.x-external-userId"
+msgstr "x-external-userId"
+
+msgid "webhook.form.fields.x-external-tenantId"
+msgstr "x-external-tenantId"
 
 msgid "Validation errors"
 msgstr "Validation errors"

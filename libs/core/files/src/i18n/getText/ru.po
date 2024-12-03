@@ -8,16 +8,16 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 msgid "Files error"
-msgstr ""
+msgstr "Ошибка файлов"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Нет доступа"
 
 msgid "ok"
-msgstr ""
+msgstr "ок"
 
 msgid "Only those who uploaded files can delete them"
-msgstr ""
+msgstr "Удалить файлы могут только те, кто их загрузил."
 
 msgid "Uploading files with extension \"{{ext}}\" is not supported"
-msgstr ""
+msgstr "Загрузка файлов с расширением \"{{ext}}\" не поддерживается."

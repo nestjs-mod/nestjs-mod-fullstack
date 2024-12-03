@@ -4,9 +4,11 @@ import { Router, RouterModule } from '@angular/router';
 import { User } from '@authorizerdev/authorizer-js';
 import {
   LangDefinition,
+  TranslocoDirective,
   TranslocoPipe,
   TranslocoService,
 } from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
   AppRestService,
   TimeRestService,
@@ -18,7 +20,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, merge, mergeMap, Observable, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -32,13 +34,14 @@ import { BehaviorSubject, map, merge, Observable, tap } from 'rxjs';
     NgForOf,
     NgFor,
     TranslocoPipe,
+    TranslocoDirective,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  title = 'client';
+  title = marker('client');
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject('');
   authUser$: Observable<User | undefined>;
@@ -68,32 +71,31 @@ export class AppComponent implements OnInit {
           );
           console.log(this.translocoService.getTranslation());
         }),
+        mergeMap(() => this.fillServerMessage()),
         untilDestroyed(this)
       )
       .subscribe();
   }
 
   ngOnInit() {
-    this.appRestService
-      .appControllerGetData()
-      .pipe(
-        tap((result) => this.serverMessage$.next(result.message)),
-        untilDestroyed(this)
-      )
-      .subscribe();
+    this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
+    this.fillServerTime().pipe(untilDestroyed(this)).subscribe();
+  }
 
-    merge(
+  private fillServerTime() {
+    return merge(
       this.timeRestService.timeControllerTime(),
       webSocket<string>({
         address: this.timeRestService.configuration.basePath + '/ws/time',
         eventName: 'ChangeTimeStream',
       }).pipe(map((result) => result.data))
-    )
-      .pipe(
-        tap((result) => this.serverTime$.next(result as string)),
-        untilDestroyed(this)
-      )
-      .subscribe();
+    ).pipe(tap((result) => this.serverTime$.next(result as string)));
+  }
+
+  private fillServerMessage() {
+    return this.appRestService
+      .appControllerGetData()
+      .pipe(tap((result) => this.serverMessage$.next(result.message)));
   }
 
   setActiveLang(lang: string) {

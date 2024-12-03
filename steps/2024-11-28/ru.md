@@ -672,7 +672,7 @@ msgstr "app.locale.name.russian"
 
 Для массового перевода словарей я обычно использую кросплатформенную программу [poedit.net](https://poedit.net/).
 
-Я уже писал пост с примером использования этой программы, сейчас не буду сюда дублировать, дабы не раздувать текст, пост лежит тут - https://dev.to/endykaufman/add-new-dictionaries-with-translations-to-nestjs-application-using-poeditnet-3ei2.
+Я уже писал пост с примером использования этой программы - https://dev.to/endykaufman/add-new-dictionaries-with-translations-to-nestjs-application-using-poeditnet-3ei2.
 
 Сейчас просто приведу пример ручного перевода словарей.
 

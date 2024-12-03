@@ -8,22 +8,22 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 msgid "Event not found"
-msgstr ""
+msgstr "Событие не найдено"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Нет доступа"
 
 msgid "ok"
-msgstr ""
+msgstr "ок"
 
 msgid "Tenant ID not set"
-msgstr ""
+msgstr "Идентификатор клиента не установлен"
 
 msgid "User ID not set"
-msgstr ""
+msgstr "Идентификатор пользователя не установлен"
 
 msgid "User not found"
-msgstr ""
+msgstr "Пользователь не найден"
 
 msgid "Webhook error"
-msgstr ""
+msgstr "Ошибка вебхука"

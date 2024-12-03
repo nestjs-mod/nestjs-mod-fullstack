@@ -1,14 +1,16 @@
 <nz-breadcrumb>
-  <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+  <nz-breadcrumb-item transloco="Home"></nz-breadcrumb-item>
 </nz-breadcrumb>
 <div class="inner-content">
-  Hello Static
+  <span transloco="Hello Static"></span>
 
   <nz-collapse>
     <nz-collapse-panel
       nzActive="true"
-      nzHeader="Dev/Watch mode: the infrastructure is running using docker-compose,
- applications are launched in watch pm2 mode"
+      [nzHeader]="
+        'Dev/Watch mode: the infrastructure is running using docker-compose, applications are launched in watch pm2 mode'
+          | transloco
+      "
     >
       <h6
         nz-typography
@@ -17,7 +19,7 @@
 cd nestjs-mod-fullstack
 npm i"
       >
-        Init
+        {{ 'Init' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -29,7 +31,7 @@ cd nestjs-mod-fullstack
 npm i</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:start">
-        Start
+        {{ 'Start' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -39,7 +41,7 @@ npm i</textarea
 npm run pm2-full:dev:start</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="http://localhost:4200">
-        Open in browser
+        {{ 'Open in browser' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -49,7 +51,7 @@ npm run pm2-full:dev:start</textarea
 http://localhost:4200</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:test:e2e">
-        Testing
+        {{ 'Testing' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -59,7 +61,7 @@ http://localhost:4200</textarea
 npm run pm2-full:dev:test:e2e</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:stop">
-        Stop
+        {{ 'Stop' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -70,8 +72,10 @@ npm run pm2-full:dev:stop</textarea
       >
     </nz-collapse-panel>
     <nz-collapse-panel
-      nzHeader="Prod mode: the infrastructure is running using docker-compose,
- built applications are launched using pm2"
+      [nzHeader]="
+        'Prod mode: the infrastructure is running using docker-compose, built applications are launched using pm2'
+          | transloco
+      "
     >
       <h6
         nz-typography
@@ -80,7 +84,7 @@ npm run pm2-full:dev:stop</textarea
 cd nestjs-mod-fullstack
 npm i"
       >
-        Init
+        {{ 'Init' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -92,7 +96,7 @@ cd nestjs-mod-fullstack
 npm i</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
-        Start
+        {{ 'Start' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -102,7 +106,7 @@ npm i</textarea
 npm run pm2-full:prod:start</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="http://localhost:3000">
-        Open in browser
+        {{ 'Open in browser' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -112,7 +116,7 @@ npm run pm2-full:prod:start</textarea
 http://localhost:3000</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:test:e2e">
-        Testing
+        {{ 'Testing' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -122,7 +126,7 @@ http://localhost:3000</textarea
 npm run pm2-full:prod:test:e2e</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:stop">
-        Stop
+        {{ 'Stop' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -133,7 +137,10 @@ npm run pm2-full:prod:stop</textarea
       >
     </nz-collapse-panel>
     <nz-collapse-panel
-      nzHeader="Docker-compose prod mode: the infrastructure and applications built into Docker images are run using docker-compose"
+      [nzHeader]="
+        'Docker-compose prod mode: the infrastructure and applications built into Docker images are run using docker-compose'
+          | transloco
+      "
     >
       <h6
         nz-typography
@@ -142,7 +149,7 @@ npm run pm2-full:prod:stop</textarea
 cd nestjs-mod-fullstack
 npm i"
       >
-        Init
+        {{ 'Init' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -154,7 +161,7 @@ cd nestjs-mod-fullstack
 npm i</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
-        Start
+        {{ 'Start' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -164,7 +171,7 @@ npm i</textarea
 npm run docker-compose-full:prod:start</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="http://localhost:8080">
-        Open in browser
+        {{ 'Open in browser' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
@@ -174,7 +181,7 @@ npm run docker-compose-full:prod:start</textarea
 http://localhost:8080</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:stop">
-        Stop
+        {{ 'Stop' | transloco }}
       </h6>
       <textarea
         class="border-1 p-2 bg-slate-100 w-full h-auto"
