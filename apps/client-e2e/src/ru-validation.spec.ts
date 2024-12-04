@@ -136,9 +136,9 @@ test.describe('Validation (ru)', () => {
 
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').first()
-    ).toContainText('endpoint не может быть пустым');
+    ).toContainText('поле "адрес" не может быть пустым');
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').last()
-    ).toContainText('eventName не может быть пустым');
+    ).toContainText('поле "событие" не может быть пустым');
   });
 });

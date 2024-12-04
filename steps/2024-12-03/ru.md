@@ -24,6 +24,8 @@ npm install --save string-replace-loader
 
 Прописываем правила замены в нашем веб-пак конфиге.
 
+Обновляем файл _apps/server/webpack.config.js_
+
 ```javascript
 const { composePlugins, withNx } = require('@nx/webpack');
 
@@ -909,8 +911,8 @@ test.describe('Validation (ru)', () => {
 
     await setTimeout(4000);
 
-    await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('endpoint не может быть пустым');
-    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('eventName не может быть пустым');
+    await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('поле "адрес" не может быть пустым');
+    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('поле "событие" не может быть пустым');
   });
 });
 ```

@@ -94,13 +94,13 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(3000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -163,13 +163,13 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(3000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('should change password in profile', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -242,7 +242,7 @@ test.describe('Work with profile as "User" role', () => {
 
   test('sign out', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -305,7 +305,7 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(3000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 });

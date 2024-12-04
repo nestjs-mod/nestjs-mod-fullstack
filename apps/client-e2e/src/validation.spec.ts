@@ -94,7 +94,7 @@ test.describe('Validation', () => {
     await setTimeout(5000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]').first()
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
@@ -109,9 +109,9 @@ test.describe('Validation', () => {
 
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').first()
-    ).toContainText('endpoint should not be empty');
+    ).toContainText('field "endpoint" should not be empty');
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').last()
-    ).toContainText('eventName should not be empty');
+    ).toContainText('field "event name" should not be empty');
   });
 });
