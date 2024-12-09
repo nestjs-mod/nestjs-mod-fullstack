@@ -58,11 +58,14 @@
     "flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate",
     "flyway:create:webhook": "./node_modules/.bin/nx run webhook:flyway-create-migration",
     "flyway:migrate:webhook": "./node_modules/.bin/nx run webhook:flyway-migrate",
+    "flyway:create:auth": "./node_modules/.bin/nx run auth:flyway-create-migration",
+    "flyway:migrate:auth": "./node_modules/.bin/nx run auth:flyway-migrate",
     "_____prisma_____": "_____prisma_____",
     "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
     "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull",
     "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate --parallel=1",
     "prisma:pull:webhook": "./node_modules/.bin/nx run webhook:prisma-pull",
+    "prisma:pull:auth": "./node_modules/.bin/nx run auth:prisma-pull",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many --exclude=@nestjs-mod-fullstack/source --verbose --all -t=generate --parallel=1 && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
@@ -91,9 +94,9 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@nestjs-mod/schematics": "^2.11.2",
-    "@nestjs-mod/testing": "2.16.3",
+    "@nestjs-mod/testing": "2.16.4",
     "@nestjs/schematics": "^10.2.3",
-    "@nestjs/testing": "^10.4.8",
+    "@nestjs/testing": "^10.4.13",
     "@nx/angular": "20.1.2",
     "@nx/devkit": "20.1.2",
     "@nx/eslint": "20.1.2",
@@ -252,7 +255,7 @@
       "Create and fill databases"
     ],
     "flyway:create:server": [
-      "Command to create new empty migration for server"
+      "Command to create new empty migration for server, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
     ],
     "flyway:migrate:server": [
       "Applying migrations for server"
@@ -261,10 +264,16 @@
       "Applying migrations of all applications and modules"
     ],
     "flyway:create:webhook": [
-      "Command to create new empty migration for webhook"
+      "Command to create new empty migration for webhook, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
     ],
     "flyway:migrate:webhook": [
       "Applying migrations for webhook"
+    ],
+    "flyway:create:auth": [
+      "Command to create new empty migration for auth, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
+    ],
+    "flyway:migrate:auth": [
+      "Applying migrations for auth"
     ],
     "prisma:pull:server": [
       "Generating a prisma schema based on a database for server"
@@ -277,6 +286,9 @@
     ],
     "prisma:pull:webhook": [
       "Generating a prisma schema based on a database for webhook"
+    ],
+    "prisma:pull:auth": [
+      "Generating a prisma schema based on a database for auth"
     ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
@@ -332,25 +344,25 @@
     "@jsverse/transloco-keys-manager": "^6.0.0",
     "@nestjs-mod/authorizer": "^1.4.1",
     "@nestjs-mod/cache-manager": "^1.5.3",
-    "@nestjs-mod/common": "2.16.3",
+    "@nestjs-mod/common": "2.16.4",
     "@nestjs-mod/docker-compose": "^1.16.1",
-    "@nestjs-mod/flyway": "^1.7.1",
+    "@nestjs-mod/flyway": "^1.7.2",
     "@nestjs-mod/minio": "^1.3.3",
     "@nestjs-mod/pino": "1.14.3",
     "@nestjs-mod/pm2": "1.12.3",
     "@nestjs-mod/prisma": "^1.10.2",
-    "@nestjs-mod/reports": "2.16.3",
+    "@nestjs-mod/reports": "2.16.4",
     "@nestjs-mod/terminus": "1.13.3",
-    "@nestjs/axios": "^3.1.2",
-    "@nestjs/common": "^10.4.8",
-    "@nestjs/core": "^10.4.8",
-    "@nestjs/platform-express": "^10.4.8",
-    "@nestjs/platform-socket.io": "^10.4.8",
-    "@nestjs/platform-ws": "^10.4.8",
+    "@nestjs/axios": "^3.1.3",
+    "@nestjs/common": "^10.4.13",
+    "@nestjs/core": "^10.4.13",
+    "@nestjs/platform-express": "^10.4.13",
+    "@nestjs/platform-socket.io": "^10.4.13",
+    "@nestjs/platform-ws": "^10.4.13",
     "@nestjs/serve-static": "^4.0.2",
-    "@nestjs/swagger": "^8.0.7",
+    "@nestjs/swagger": "^8.1.0",
     "@nestjs/terminus": "^10.2.3",
-    "@nestjs/websockets": "^10.4.8",
+    "@nestjs/websockets": "^10.4.13",
     "@ngneat/until-destroy": "^10.0.0",
     "@ngx-formly/core": "^6.3.10",
     "@ngx-formly/ng-zorro-antd": "^6.3.10",
@@ -364,6 +376,7 @@
     "class-transformer-global-storage": "0.4.1-1",
     "class-validator": "^0.14.1",
     "class-validator-multi-lang": "^0.140.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "env-var": "^7.5.0",
     "express": "~4.21.1",
@@ -371,7 +384,7 @@
     "minio": "^8.0.2",
     "nestjs-minio": "^2.6.2",
     "nestjs-pino": "^4.1.0",
-    "nestjs-translates": "^1.3.1",
+    "nestjs-translates": "^1.3.2",
     "ng-zorro-antd": "^18.2.0",
     "pino-http": "^10.3.0",
     "pino-pretty": "^13.0.0",

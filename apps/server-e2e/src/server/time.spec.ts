@@ -6,7 +6,7 @@ import { lastValueFrom, take, toArray } from 'rxjs';
 describe('Get server time from rest api and ws', () => {
   jest.setTimeout(60000);
 
-  const correctStringDateLength = '2024-11-20T11:58:03.338Z'.length;
+  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
   const restClientHelper = new RestClientHelper({
     serverUrl: process.env.IS_DOCKER_COMPOSE
       ? get('CLIENT_URL').asString()

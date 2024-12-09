@@ -1,30 +1,28 @@
-## [2024-12-03] Добавление поддержки нескольких языков в NestJS и Angular приложениях
+## [2024-12-03] Adding multi-language support to NestJS and Angular applications
 
-Предыдущая статья: [Валидация REST-запросов в NestJS-приложении и отображение ошибок в формах Angular-приложения](https://habr.com/ru/articles/863396/)
+In this article I will add support for multiple languages ​​in `NestJS` and `Angular` applications, for error messages, notifications and data retrieved from the database.
 
-В этой статье я добавлю поддержку нескольких языков в `NestJS` и `Angular` приложениях, для сообщений в ошибках, уведомлениях и данных полученных из базы данных.
+### 1. We install all the necessary libraries
 
-### 1. Устанавливаем все необходимые библиотеки
-
-_Команды_
+_Commands_
 
 ```bash
 npm install --save @jsverse/transloco nestjs-translates class-validator-multi-lang class-transformer-global-storage @jsverse/transloco-keys-manager
 ```
 
-Так как мы используем внешние генераторы, то мы не имеем доступа к сгенерированному коду, но для возможности перевода ошибок валидации нам нужно использовать библиотеку `class-validator-multi-lang` вместо `class-validator`, которую добавляет генератор.
+Since we use external generators, we do not have access to the generated code, but to be able to translate validation errors, we need to use the `class-validator-multi-lang` library instead of `class-validator`, which the generator adds.
 
-Для подмены импортов в тайпскрипт файлах установим и подключим веб-пак плагин для замены строк.
+To replace imports in typescript files, we will install and connect the webpack plugin for replacing strings.
 
-_Команды_
+_Commands_
 
 ```bash
 npm install --save string-replace-loader
 ```
 
-Прописываем правила замены в нашем веб-пак конфиге.
+We register replacement rules in our webpack config.
 
-Обновляем файл _apps/server/webpack.config.js_
+Updating the file _apps/server/webpack.config.js_
 
 ```javascript
 const { composePlugins, withNx } = require('@nx/webpack');
@@ -65,11 +63,11 @@ module.exports = composePlugins(
 );
 ```
 
-### 2. Добавляем поддержку переводов в Angular-приложении
+### 2. Adding translation support to an Angular application
 
-Добавляем новый модуль в конфиг фронтенда.
+Adding a new module to the frontend config.
 
-Обновляем файл _apps/client/src/app/app.config.ts_
+Updating the file _apps/client/src/app/app.config.ts_
 
 ```typescript
 import { provideTransloco } from '@jsverse/transloco';
@@ -110,9 +108,9 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-Для загрузки переводов из интернета необходимо создать специальный загрузчик.
+To download translations from the Internet, you need to create a special downloader.
 
-Создаем файл _apps/client/src/app/integrations/transloco-http.loader.ts_
+Create a file _apps/client/src/app/integrations/transloco-http.loader.ts_
 
 ```typescript
 import { HttpClient } from '@angular/common/http';
@@ -158,9 +156,9 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 }
 ```
 
-Загрузка переводов будет происходить при запуске приложения
+Translations will be loaded when the application is launched.
 
-Обновляем файл _apps/client/src/app/app-initializer.ts_
+Updating the file _apps/client/src/app/app-initializer.ts_
 
 ```typescript
 import { HttpHeaders } from '@angular/common/http';
@@ -221,9 +219,9 @@ export class AppInitializer {
 }
 ```
 
-Язык по умолчанию будет стоять `Английский`. Для переключения языка в навигационном меню добавим выпадающий список с доступными для переключения языками.
+The default language will be `English`. To switch the language in the navigation menu, we will add a drop-down list with the languages ​​available for switching.
 
-Обновляем файл _apps/client/src/app/app.component.ts_
+Updating the file _apps/client/src/app/app.component.ts_
 
 ```typescript
 import { LangDefinition, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -288,13 +286,13 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 3. Обновляем существующий код и шаблоны, для последующего запуска парсинга слов и предложений для перевода Angular-приложения
+### 3. We update the existing code and templates for the subsequent launch of parsing words and sentences for translating the Angular application
 
-Изменений в файлах очень много, тут перечислю основные принципы внедрения поддержки переводов в файлах `Angular`-приложения.
+There are a lot of changes in the files, here I will list the main principles of implementing translation support in the `Angular` application files.
 
-**Использование директивы перевода (transloco=)**
+**Using the translation directive (transloco=)**
 
-Пример файла _libs/core/auth-angular/src/lib/forms/auth-profile-form/auth-profile-form.component.ts_
+Sample file _libs/core/auth-angular/src/lib/forms/auth-profile-form/auth-profile-form.component.ts_
 
 ```typescript
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -323,9 +321,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 export class AuthProfileFormComponent implements OnInit {}
 ```
 
-**Использование пайпа перевода (| transloco)**
+**Using the translation pipe (| transloco)**
 
-Пример файла _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
+Sample file _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
 
 ```html
 @if (formlyFields$ | async; as formlyFields) {
@@ -340,9 +338,9 @@ export class AuthProfileFormComponent implements OnInit {}
 }
 ```
 
-**Использование сервиса перевода (translocoService: TranslocoService)**
+**Using the translation service (translocoService: TranslocoService)**
 
-Пример файла _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
+Sample file _apps/client/src/app/pages/demo/forms/demo-form/demo-form.component.html_
 
 ```typescript
 // ...
@@ -390,11 +388,11 @@ export class AuthSignInFormComponent implements OnInit {
 }
 ```
 
-**Использование маркера (marker)**
+**Using a marker**
 
-Вывод перевода через директиву, пайп и сервис используется не только для перевода, но и как маркер для составления словарей с предложениями для перевода. В проекте есть файлы без директив, пайпов и сервиса в которых содержаться предложения для перевода, такие предложения необходимо оборачивать в функцию `marker`.
+The output of the translation via a directive, pipe and service is used not only for translation, but also as a marker for compiling dictionaries with sentences for translation. The project contains files without directives, pipes and services that contain sentences for translation, such sentences must be wrapped in the `marker` function.
 
-Пример файла _apps/client/src/app/app.config.ts_
+Sample file _apps/client/src/app/app.config.ts_
 
 ```typescript
 // ...
@@ -434,11 +432,11 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-### 4. Добавляем поддержку переводов в NestJS-приложении
+### 4. Adding translation support to the NestJS application
 
-Добавляем новый модуль в `AppModule`.
+Adding a new module to `AppModule`.
 
-Обновляем файл _apps/server/src/app/app.module.ts_
+Updating the file _apps/server/src/app/app.module.ts_
 
 ```typescript
 import { TranslatesModule } from 'nestjs-translates';
@@ -473,9 +471,9 @@ export const { AppModule } = createNestModule({
 });
 ```
 
-Для того чтобы валидационные ошибки отправлялись на фронтенд в языке которые был указан в запросе к бэкенду, необходимо подключить соответствующие словари с переводами в `NX`-проект.
+In order for validation errors to be sent to the frontend in the language that was specified in the request to the backend, it is necessary to connect the corresponding dictionaries with translations to the `NX` project.
 
-Обновляем файл _apps/server/project.json_
+Updating the file _apps/server/project.json_
 
 ```json
 {
@@ -503,13 +501,13 @@ export const { AppModule } = createNestModule({
 }
 ```
 
-### 5. Обновляем существующий код, для последующего запуска парсинга слов и предложений для перевода NestJS-приложения
+### 5. Updating the existing code for subsequent launch of parsing of words and sentences for translation of the NestJS application
 
-Изменений в файлах очень много, тут перечислю основные принципы внедрения поддержки переводов в файлах `NestJS`-приложения.
+There are a lot of changes in the files, here I will list the main principles of implementing support for translations in the files of the `NestJS` application.
 
-**Использование декоратора с функцией перевода (@InjectTranslateFunction() getText: TranslateFunction)**
+**Using a decorator with a translation function (@InjectTranslateFunction() getText: TranslateFunction)**
 
-Пример файла _apps/server/src/app/app.controller.ts_
+Sample file _apps/server/src/app/app.controller.ts_
 
 ```typescript
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
@@ -525,9 +523,9 @@ export class AppController {
 }
 ```
 
-**Использование сервиса перевода (translatesService: TranslatesService)**
+**Using the translation service (translatesService: TranslatesService)**
 
-Пример файла _libs/feature/webhook/src/lib/controllers/webhook.controller.ts_
+Sample file _libs/feature/webhook/src/lib/controllers/webhook.controller.ts_
 
 ```typescript
 // ...
@@ -555,13 +553,13 @@ export class WebhookController {
 }
 ```
 
-**Использование маркера (getText)**
+**Using a marker (getText)**
 
-Вывод перевода через декоратор с функцией и сервис используется не только для перевода, но и как маркер для составления словарей с предложениями для перевода.
+The output of the translation via a decorator with a function and a service is used not only for translation, but also as a marker for compiling dictionaries with sentences for translation.
 
-Если вы хотите пометить предложение так, чтобы оно попало в словарь с переводами, то нужно обернуть предложение в функцию `getText`.
+If you want to mark a sentence so that it gets into a dictionary with translations, then you need to wrap the sentence in the `getText` function.
 
-Пример файла _libs/core/auth/src/lib/auth.errors.ts_
+Sample file _libs/core/auth/src/lib/auth.errors.ts_
 
 ```typescript
 // ...
@@ -577,57 +575,33 @@ export const AUTH_ERROR_ENUM_TITLES: Record<AuthErrorEnum, string> = {
 // ...
 ```
 
-### 6. Автоматическое формирование словарей для переводов
+### 6. Automatic generation of dictionaries for translations
 
-Разметка предложений и слов для перевода бэкенда и фронтенда отличаются, очень давно я сделал для себя утилиту которая собирает словари для таких проектов, ее и буду использовать в этом проекте.
+The markup of sentences and words for backend and frontend translations differs. A long time ago I made a utility for myself that collects dictionaries for such projects, and I will use it in this project.
 
-Если утилита ранее не была установлена или версия стояла старая, то необходимо ее переустановить.
+If the utility was not previously installed or the version was old, then you need to reinstall it.
 
-_Команды_
+_Commands_
 
 ```bash
 npm install --save-dev rucken@latest
 ```
 
-Запускаем утилиту
+Launch the utility
 
-_Команды_
+_Commands_
 
 ```bash
 ./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
 ```
 
-После запуска этой команды в проекте появятся множество файлов с расширениями: po, pot, json.
+After running this command, the project will have many files with extensions: po, pot, json.
 
-**Примеры файлов**
+**Example files**
 
-Файл с расширением `XXX.pot` содержит ключи предложений для перевода.
+The file with the extension `XXX.pot` contains the keys of the sentences for translation.
 
-Пример файла _apps/client/src/assets/i18n/template.pot_
-
-```sh
-msgid ""
-msgstr ""
-"Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-msgid "Create new"
-msgstr "Create new"
-
-msgid "app.locale.name.english"
-msgstr "app.locale.name.english"
-
-msgid "app.locale.name.russian"
-msgstr "app.locale.name.russian"
-
-```
-
-Файлы с расширением `<lang>.po` содержат переводы на необходимый язык.
-
-Пример файла _apps/client/src/assets/i18n/en.po_
+Sample file _apps/client/src/assets/i18n/template.pot_
 
 ```sh
 msgid ""
@@ -649,7 +623,31 @@ msgstr "app.locale.name.russian"
 
 ```
 
-Пример файла _apps/client/src/assets/i18n/ru.po_
+Files with the extension `<lang>.po` contain translations into the required language.
+
+Sample file _apps/client/src/assets/i18n/en.po_
+
+```sh
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "app.locale.name.english"
+msgstr "app.locale.name.english"
+
+msgid "app.locale.name.russian"
+msgstr "app.locale.name.russian"
+
+```
+
+Sample file _apps/client/src/assets/i18n/ru.po_
 
 ```sh
 msgid ""
@@ -671,9 +669,9 @@ msgstr ""
 
 ```
 
-Файлы с расширением `<lang>.json` содержат переводы на необходимый язык в формате `json`.
+Files with the extension `<lang>.json` contain translations into the required language in `json` format.
 
-Пример файла _apps/client/src/assets/i18n/ru.json_
+Sample file _apps/client/src/assets/i18n/ru.json_
 
 ```json
 {
@@ -683,7 +681,7 @@ msgstr ""
 }
 ```
 
-Пример файла _apps/client/src/assets/i18n/en.json_
+Sample file _apps/client/src/assets/i18n/en.json_
 
 ```json
 {
@@ -693,15 +691,15 @@ msgstr ""
 }
 ```
 
-### 7. Добавляем переводы для всех словарей
+### 7. Adding translations for all dictionaries
 
-Для массового перевода словарей я обычно использую кроссплатформенную программу [poedit.net](https://poedit.net/).
+For bulk translation of dictionaries, I usually use the cross-platform program [poedit.net](https://poedit.net/).
 
-Я уже писал пост с примером использования этой программы - https://dev.to/endykaufman/add-new-dictionaries-with-translations-to-nestjs-application-using-poeditnet-3ei2.
+I already wrote a post with an example of using this program - https://dev.to/endykaufman/add-new-dictionaries-with-translations-to-nestjs-application-using-poeditnet-3ei2.
 
-Сейчас просто приведу пример ручного перевода словарей.
+Now I will simply give an example of manual translation of dictionaries.
 
-Пример файла _apps/client/src/assets/i18n/ru.po_
+Sample file _apps/client/src/assets/i18n/ru.po_
 
 ```sh
 msgid ""
@@ -723,7 +721,7 @@ msgstr "Русский"
 
 ```
 
-Пример файла _apps/client/src/assets/i18n/en.po_
+Sample file _apps/client/src/assets/i18n/en.po_
 
 ```sh
 msgid ""
@@ -742,26 +740,26 @@ msgstr "Russian"
 
 ```
 
-Переводы можно добавлять как для `po` файлов, так и для `json`.
+Translations can be added for both `po` files and `json`.
 
-После добавления всех необходимых переводов нужно запустить команду, которая объединит все переводы и создаст словари на уровне приложения.
+After adding all the necessary translations, you need to run a command that will combine all the translations and create dictionaries at the application level.
 
-_Команды_
+_Commands_
 
 ```bash
 ./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false
 ```
 
-Алгоритм работы с переводами:
+Translation workflow:
 
-1. Собираем словари для переводов `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
-2. Добавляем переводы во все `*.po` файлы;
-3. Генерируем `json` версию переводов `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
-4. Запускаем приложения и они подгружают в себя `json` файлы с переводами.
+1. Collect translation dictionaries `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
+2. Add translations to all `*.po` files;
+3. Generate `json` version of translations `./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false`;
+4. Launch applications and they load `json` files with translations.
 
-### 8. Добавляем тест для проверки переведенных ответов с бэкенда
+### 8. Add a test to check translated responses from the backend
 
-Создаем файл _apps/server-e2e/src/server/ru-validation.spec.ts_
+Create a file _apps/server-e2e/src/server/ru-validation.spec.ts_
 
 ```typescript
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
@@ -813,9 +811,9 @@ describe('Validation (ru)', () => {
 });
 ```
 
-### 9. Добавляем тест для проверки корректного переключения переводов в фронтенд приложении
+### 9. Add a test to check the correct switching of translations in the frontend application
 
-Создаем файл _apps/client-e2e/src/ru-validation.spec.ts_
+Create a file _apps/client-e2e/src/ru-validation.spec.ts_
 
 ```typescript
 import { faker } from '@faker-js/faker';
@@ -912,38 +910,38 @@ test.describe('Validation (ru)', () => {
     await setTimeout(4000);
 
     await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('поле "адрес" не может быть пустым');
-    await expect(page.locator(';-form').locator('formly-validation-message').last()).toContainText('поле "событие" не может быть пустым');
+    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('поле "событие" не может быть пустым');
   });
 });
 ```
 
-### 10. Запускаем инфраструктуру с приложениями в режиме разработки и проверяем работу через E2E-тесты
+### 10. We launch the infrastructure with applications in development mode and check the operation through E2E tests
 
-_Команды_
+_Commands_
 
 ```bash
 npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### Заключение
+### Conclusion
 
-В этом посте я добавил поддержку работы с несколькими языками в `NestJS` и `Angular` приложениях, а также их переключение в реальном времени.
+In this post I added support for working with multiple languages ​​in `NestJS` and `Angular` applications, as well as switching them in real time.
 
-Создал словари для всех предложений которые необходимо перевести и добавил переводы на английский и русский языки.
+I created dictionaries for all sentences that need to be translated and added translations into English and Russian.
 
-Выбранный язык пользователя сохраняется в `localstorage` и используется в качестве активного при полной перезагрузке страницы, в дальнейших постах он будет сохраняться в базу данных.
+The user's selected language is saved in `localstorage` and is used as the active one when the page is fully reloaded, in future posts it will be saved to the database.
 
-### Планы
+### Plans
 
-В следующем посте я добавлю поддержку работы с тайм зонами, а также сохранение выбранной пользователем тайм зоны в базу данных...
+In the next post I will add support for working with time zones, as well as saving the user-selected time zone to the database...
 
-### Ссылки
+### Links
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - изменения
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - current changes
 
 #angular #translates #nestjsmod #fullstack

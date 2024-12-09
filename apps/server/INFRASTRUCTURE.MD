@@ -74,16 +74,19 @@ npm run test:server
 |`npm run db:create`|Creation all databases of applications and modules|
 |`npm run db:create-and-fill`|Create and fill databases|
 |**flyway**|
-|`npm run flyway:create:server`|Command to create new empty migration for server|
+|`npm run flyway:create:server`|Command to create new empty migration for server, for set name pass name to --args, example: npm run flyway:create:appname --args=Init|
 |`npm run flyway:migrate:server`|Applying migrations for server|
 |`npm run flyway:migrate`|Applying migrations of all applications and modules|
-|`npm run flyway:create:webhook`|Command to create new empty migration for webhook|
+|`npm run flyway:create:webhook`|Command to create new empty migration for webhook, for set name pass name to --args, example: npm run flyway:create:appname --args=Init|
 |`npm run flyway:migrate:webhook`|Applying migrations for webhook|
+|`npm run flyway:create:auth`|Command to create new empty migration for auth, for set name pass name to --args, example: npm run flyway:create:appname --args=Init|
+|`npm run flyway:migrate:auth`|Applying migrations for auth|
 |**prisma**|
 |`npm run prisma:pull:server`|Generating a prisma schema based on a database for server|
 |`npm run prisma:pull`|Generating a prisma schema based on a database|
 |`npm run prisma:generate`|Generation of client prisma schema of all applications and modules|
 |`npm run prisma:pull:webhook`|Generating a prisma schema based on a database for webhook|
+|`npm run prisma:pull:auth`|Generating a prisma schema based on a database for auth|
 |**utils**|
 |`npm run generate`|Running the "generate" nx command in applications and libraries which can be customized at your discretion automatically generating an index.ts file for each library checking the code and trying to fix it|
 |`npm run tsc`|Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`), in order not to install tsc globally in the operating system|
@@ -124,9 +127,6 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`bufferLogs`|If enabled, logs will be buffered until the "Logger#flush" method is called. @default false|**optional**|-|```true```|
-
-### NestjsPinoLoggerModule
-Pino logger for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-pino)
 
 ### TerminusHealthCheckModule
 Terminus integration provides readiness/liveness health checks for NestJS-mod (Wrapper for https://www.npmjs.com/package/@nestjs/terminus)
@@ -192,6 +192,24 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 #### Shared providers
 `PrismaClientFactoryService`, `PrismaClient`
 
+#### Environments(auth)
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+#### Static configuration(auth)
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
+|`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+
 #### Environments(webhook)
 Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
 
@@ -232,6 +250,83 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 #### Shared providers
 `PrismaClientFactoryService`, `PrismaClient`
+
+#### Environments(auth)
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+#### Static configuration(auth)
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
+|`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+
+#### Environments(webhook)
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+
+#### Static configuration(webhook)
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
+|`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
+|`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
+
+#### Environments(app)
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
+
+#### Static configuration(app)
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
+|`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
+|`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+
+### PrismaModule
+Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
+
+#### Shared providers
+`PrismaClientFactoryService`, `PrismaClient`
+
+#### Environments(auth)
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+#### Static configuration(auth)
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`prismaModule`|NodeJS module with Prisma modules|**isNotEmpty** (prismaModule should not be empty)|-|**hidden**|
+|`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
+|`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
 Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
@@ -475,6 +570,25 @@ Static variables of primitive and complex types that are used in the module and 
 |`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
 |`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.flyway.js```|
 
+### Flyway
+Flyway - utility for working with database migrations (official site: https://flywaydb.org, preview version only for Postgres)
+
+#### Environments
+Variables with primitive types used in the module, the values of which can be obtained from various sources, such as: process.env or consul key value.
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for database with credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://app:app_password@localhost:5432/app?schema=public```|
+
+#### Static configuration
+Static variables of primitive and complex types that are used in the module and can be used at the time of generating module metadata (import, controllers); values for them must be passed when connecting the module to the application.
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`featureName`|Flyway feature name for generate prefix to environments keys|**optional**|-|```app```|
+|`migrationsFolder`|Folder with migrations|**isNotEmpty** (migrationsFolder should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`configFile`|Javascript config file for flyway (.flyway.js)|**isNotEmpty** (configFile should not be empty)|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.flyway.js```|
+
 ### InfrastructureMarkdownReportGenerator
 Infrastructure markdown report generator.
 
@@ -514,6 +628,14 @@ Feature variables with primitive types used in the module, the values of which c
 | ------ | ----------- | ----------- | ------- | ----- |
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
+#### Modules that use feature configuration
+##### Feature module name: auth
+
+
+| Key    | Description | Constraints | Default | Value |
+| ------ | ----------- | ----------- | ------- | ----- |
+|`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+
 #### Modules that use feature environments
 ##### Feature module name: app
 
@@ -537,6 +659,14 @@ Feature variables with primitive types used in the module, the values of which c
 | Key    | Description | Sources | Constraints | Default | Value |
 | ------ | ----------- | ------- | ----------- | ------- | ----- |
 |`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+
+#### Modules that use feature environments
+##### Feature module name: auth
+
+
+| Key    | Description | Sources | Constraints | Default | Value |
+| ------ | ----------- | ------- | ----------- | ------- | ----- |
+|`databaseUrl`|Connection string for PostgreSQL with module credentials (example: postgres://feat:feat_password@localhost:5432/feat?schema=public)|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
 
 ### DockerComposeAuthorizer
 Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)

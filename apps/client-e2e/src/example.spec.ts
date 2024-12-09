@@ -6,7 +6,7 @@ import { setTimeout } from 'timers/promises';
 test.describe('basic usage', () => {
   test.describe.configure({ mode: 'serial' });
 
-  const correctStringDateLength = '2024-11-20T11:58:03.338Z'.length;
+  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
   let page: Page;
 
   test.beforeAll(async ({ browser }) => {

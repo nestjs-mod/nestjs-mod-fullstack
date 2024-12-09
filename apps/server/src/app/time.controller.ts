@@ -1,9 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { AllowEmptyUser } from '@nestjs-mod/authorizer';
+import { UseAuthInterceptorsAndGuards } from '@nestjs-mod-fullstack/auth';
 import { ApiOkResponse } from '@nestjs/swagger';
 import {
-  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WsResponse,
@@ -12,7 +11,7 @@ import { interval, map, Observable } from 'rxjs';
 
 export const ChangeTimeStream = 'ChangeTimeStream';
 
-@AllowEmptyUser()
+@UseAuthInterceptorsAndGuards({ allowEmptyUser: true })
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -21,12 +20,7 @@ export const ChangeTimeStream = 'ChangeTimeStream';
   transports: ['websocket'],
 })
 @Controller()
-export class TimeController implements OnGatewayConnection {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleConnection(client: any, ...args: any[]) {
-    client.headers = args[0].headers;
-  }
-
+export class TimeController {
   @Get('/time')
   @ApiOkResponse({ type: Date })
   time() {

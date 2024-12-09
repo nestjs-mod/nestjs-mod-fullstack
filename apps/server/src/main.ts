@@ -1,4 +1,8 @@
-import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
+import {
+  AUTH_FEATURE,
+  AUTH_FOLDER,
+  AuthModule,
+} from '@nestjs-mod-fullstack/auth';
 import {
   FilesModule,
   FilesRequest,
@@ -224,6 +228,24 @@ bootstrapNestApplication({
           ),
         },
       }),
+      PrismaModule.forRoot({
+        contextName: AUTH_FEATURE,
+        staticConfiguration: {
+          featureName: AUTH_FEATURE,
+          schemaFile: join(
+            rootFolder,
+            AUTH_FOLDER,
+            'src',
+            'prisma',
+            PRISMA_SCHEMA_FILE
+          ),
+          prismaModule: isInfrastructureMode()
+            ? import(`@nestjs-mod/prisma`)
+            : import(`@prisma/auth-client`),
+          addMigrationScripts: false,
+          nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
+        },
+      }),
       CacheManagerModule.forRoot({
         staticConfiguration: {
           type: isInfrastructureMode() ? 'memory' : 'redis',
@@ -355,6 +377,20 @@ bootstrapNestApplication({
             WEBHOOK_FOLDER,
             PROJECT_JSON_FILE
           ),
+        },
+      }),
+      DockerComposePostgreSQL.forFeatureAsync({
+        featureModuleName: AUTH_FEATURE,
+        featureConfiguration: {
+          nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
+        },
+      }),
+      Flyway.forRoot({
+        staticConfiguration: {
+          featureName: AUTH_FEATURE,
+          migrationsFolder: join(rootFolder, AUTH_FOLDER, 'src', 'migrations'),
+          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
+          nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),
     ],
