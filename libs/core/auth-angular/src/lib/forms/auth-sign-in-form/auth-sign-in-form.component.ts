@@ -24,8 +24,14 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import {
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthSignInFormService } from '../../services/auth-sign-in-form.service';
 
 @UntilDestroy()
 @Component({
@@ -62,7 +68,8 @@ export class AuthSignInFormComponent implements OnInit {
     private readonly nzModalData: AuthSignInFormComponent,
     private readonly authService: AuthService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly authSignInFormService: AuthSignInFormService
   ) {}
 
   ngOnInit(): void {
@@ -71,43 +78,13 @@ export class AuthSignInFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: LoginInput = { password: '' }) {
-    this.formlyFields$.next([
-      {
-        key: 'email',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.sign-in-form.fields.email`
-          ),
-          placeholder: 'email',
-          required: true,
-        },
-      },
-      {
-        key: 'password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.sign-in-form.fields.password`
-          ),
-          placeholder: 'password',
-          required: true,
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
+    this.setFormlyFields({ data });
+    this.formlyModel$.next(this.authSignInFormService.toModel(data));
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.toJson(this.form.value);
+      const value = this.authSignInFormService.toJson(this.form.value);
       this.authService
         .signIn(value)
         .pipe(
@@ -119,6 +96,7 @@ export class AuthSignInFormComponent implements OnInit {
               );
             }
           }),
+          catchError((err) => this.catchAndProcessServerError(err)),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
@@ -136,17 +114,22 @@ export class AuthSignInFormComponent implements OnInit {
     }
   }
 
-  private toModel(data: LoginInput): object | null {
-    return {
-      email: data['email'],
-      password: data['password'],
-    };
+  private setFormlyFields(options?: {
+    data?: LoginInput;
+    errors?: ValidationErrorMetadataInterface[];
+  }) {
+    this.formlyFields$.next(
+      this.authSignInFormService.getFormlyFields(options)
+    );
   }
 
-  private toJson(data: LoginInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private catchAndProcessServerError(err: any) {
+    const error = err.error as ValidationErrorInterface;
+    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+      this.setFormlyFields({ errors: error.metadata });
+      return of(null);
+    }
+    return throwError(() => err);
   }
 }

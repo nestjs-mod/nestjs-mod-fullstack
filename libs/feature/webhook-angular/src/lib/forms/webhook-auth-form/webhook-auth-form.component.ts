@@ -21,7 +21,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
+import { WebhookAuthFormService } from '../../services/webhook-auth-form.service';
 import {
   WebhookAuthCredentials,
   WebhookAuthService,
@@ -30,6 +31,11 @@ import {
   WEBHOOK_CONFIGURATION_TOKEN,
   WebhookConfiguration,
 } from '../../services/webhook.configuration';
+import {
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 
 @Component({
   standalone: true,
@@ -66,7 +72,8 @@ export class WebhookAuthFormComponent implements OnInit {
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly webhookAuthService: WebhookAuthService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly webhookAuthFormService: WebhookAuthFormService
   ) {}
 
   ngOnInit(): void {
@@ -76,46 +83,17 @@ export class WebhookAuthFormComponent implements OnInit {
 
   setFieldsAndModel(
     data: Partial<WebhookAuthCredentials> = {},
-    options: { xExternalTenantIdIsRequired: boolean } = {
+    settings: { xExternalTenantIdIsRequired: boolean } = {
       xExternalTenantIdIsRequired: true,
     }
   ) {
-    this.formlyFields$.next([
-      {
-        key: 'xExternalUserId',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `webhook.form.fields.x-external-userId`
-          ),
-          placeholder: 'xExternalUserId',
-          required: true,
-        },
-      },
-      {
-        key: 'xExternalTenantId',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `webhook.form.fields.x-external-tenantId`
-          ),
-          placeholder: 'xExternalTenantId',
-          required: options.xExternalTenantIdIsRequired,
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
+    this.setFormlyFields({ data, settings });
+    this.formlyModel$.next(this.webhookAuthFormService.toModel(data));
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.toJson(this.form.value);
+      const value = this.webhookAuthFormService.toJson(this.form.value);
       this.afterSignIn.next(value);
       this.webhookAuthService.setWebhookAuthCredentials(value);
       this.nzMessageService.success(this.translocoService.translate('Success'));
@@ -145,17 +123,23 @@ export class WebhookAuthFormComponent implements OnInit {
     );
   }
 
-  private toModel(data: Partial<WebhookAuthCredentials>): object | null {
-    return {
-      xExternalUserId: data['xExternalUserId'],
-      xExternalTenantId: data['xExternalTenantId'],
-    };
+  private setFormlyFields(options?: {
+    data?: Partial<WebhookAuthCredentials>;
+    settings?: { xExternalTenantIdIsRequired: boolean };
+    errors?: ValidationErrorMetadataInterface[];
+  }) {
+    this.formlyFields$.next(
+      this.webhookAuthFormService.getFormlyFields(options)
+    );
   }
 
-  private toJson(data: Partial<WebhookAuthCredentials>) {
-    return {
-      xExternalUserId: data['xExternalUserId'],
-      xExternalTenantId: data['xExternalTenantId'],
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private catchAndProcessServerError(err: any) {
+    const error = err.error as ValidationErrorInterface;
+    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+      this.setFormlyFields({ errors: error.metadata });
+      return of(null);
+    }
+    return throwError(() => err);
   }
 }

@@ -24,8 +24,14 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
+import { AuthSignUpFormService } from '../../services/auth-sign-up-form.service';
 import { AuthService } from '../../services/auth.service';
+import {
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 
 @UntilDestroy()
 @Component({
@@ -62,7 +68,8 @@ export class AuthSignUpFormComponent implements OnInit {
     private readonly nzModalData: AuthSignUpFormComponent,
     private readonly authService: AuthService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly authSignUpFormService: AuthSignUpFormService
   ) {}
 
   ngOnInit(): void {
@@ -73,58 +80,13 @@ export class AuthSignUpFormComponent implements OnInit {
   setFieldsAndModel(
     data: SignupInput = { password: '', confirm_password: '' }
   ) {
-    this.formlyFields$.next([
-      {
-        key: 'email',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.sign-up-form.fields.email`
-          ),
-          placeholder: 'email',
-          required: true,
-        },
-      },
-      {
-        key: 'password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.sign-up-form.fields.password`
-          ),
-          placeholder: 'password',
-          required: true,
-          type: 'password',
-        },
-      },
-      {
-        key: 'confirm_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.sign-up-form.fields.confirm-password`
-          ),
-          placeholder: 'confirm_password',
-          required: true,
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
+    this.setFormlyFields({ data });
+    this.formlyModel$.next(this.authSignUpFormService.toModel(data));
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.toJson(this.form.value);
+      const value = this.authSignUpFormService.toJson(this.form.value);
       this.authService
         .signUp({ ...value })
         .pipe(
@@ -136,6 +98,7 @@ export class AuthSignUpFormComponent implements OnInit {
               );
             }
           }),
+          catchError((err) => this.catchAndProcessServerError(err)),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
@@ -153,19 +116,22 @@ export class AuthSignUpFormComponent implements OnInit {
     }
   }
 
-  private toModel(data: SignupInput): object | null {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
+  private setFormlyFields(options?: {
+    data?: SignupInput;
+    errors?: ValidationErrorMetadataInterface[];
+  }) {
+    this.formlyFields$.next(
+      this.authSignUpFormService.getFormlyFields(options)
+    );
   }
 
-  private toJson(data: SignupInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private catchAndProcessServerError(err: any) {
+    const error = err.error as ValidationErrorInterface;
+    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+      this.setFormlyFields({ errors: error.metadata });
+      return of(null);
+    }
+    return throwError(() => err);
   }
 }

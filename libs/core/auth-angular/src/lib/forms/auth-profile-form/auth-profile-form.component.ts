@@ -15,6 +15,11 @@ import {
 import { RouterModule } from '@angular/router';
 import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import {
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -22,7 +27,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
+import { AuthProfileFormService } from '../../services/auth-profile-form.service';
 import { AuthService } from '../../services/auth.service';
 
 @UntilDestroy()
@@ -80,7 +86,8 @@ export class AuthProfileFormComponent implements OnInit {
     private readonly nzModalData: AuthProfileFormComponent,
     private readonly authService: AuthService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly authProfileFormService: AuthProfileFormService
   ) {}
 
   ngOnInit(): void {
@@ -89,69 +96,22 @@ export class AuthProfileFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: UpdateProfileInput = {}) {
-    this.formlyFields$.next([
-      {
-        key: 'picture',
-        type: 'image-file',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.profile-form.fields.picture`
-          ),
-          placeholder: 'picture',
-        },
-      },
-      {
-        key: 'old_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.profile-form.fields.old-password`
-          ),
-          placeholder: 'old_password',
-          type: 'password',
-        },
-      },
-      {
-        key: 'new_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.profile-form.fields.new-password`
-          ),
-          placeholder: 'new_password',
-          type: 'password',
-        },
-      },
-      {
-        key: 'confirm_new_password',
-        type: 'input',
-        validation: {
-          show: true,
-        },
-        props: {
-          label: this.translocoService.translate(
-            `auth.profile-form.fields.confirm-new-password`
-          ),
-          placeholder: 'confirm_new_password',
-          type: 'password',
-        },
-      },
-    ]);
-    this.formlyModel$.next(this.toModel(data));
+    this.setFormlyFields({ data });
+    this.formlyModel$.next(this.authProfileFormService.toModel(data));
+  }
+
+  private setFormlyFields(options?: {
+    data?: Partial<UpdateProfileInput>;
+    errors?: ValidationErrorMetadataInterface[];
+  }) {
+    this.formlyFields$.next(
+      this.authProfileFormService.getFormlyFields(options)
+    );
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.toJson(this.form.value);
+      const value = this.authProfileFormService.toJson(this.form.value);
       this.authService
         .updateProfile(value)
         .pipe(
@@ -161,6 +121,7 @@ export class AuthProfileFormComponent implements OnInit {
               this.translocoService.translate('Updated')
             );
           }),
+          catchError((err) => this.catchAndProcessServerError(err)),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
@@ -184,21 +145,13 @@ export class AuthProfileFormComponent implements OnInit {
     });
   }
 
-  private toModel(data: UpdateProfileInput): object | null {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-    };
-  }
-
-  private toJson(data: UpdateProfileInput) {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private catchAndProcessServerError(err: any) {
+    const error = err.error as ValidationErrorInterface;
+    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+      this.setFormlyFields({ errors: error.metadata });
+      return of(null);
+    }
+    return throwError(() => err);
   }
 }
