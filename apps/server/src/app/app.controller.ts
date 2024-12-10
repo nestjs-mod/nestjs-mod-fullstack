@@ -100,7 +100,10 @@ export class AppController {
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
     return await this.appPrismaClient.appDemo
-      .update({ data: { name: 'new demo name' + randomUUID() }, where: { id } })
+      .update({
+        data: { name: 'new demo name' + randomUUID(), updatedAt: new Date() },
+        where: { id },
+      })
       .then(async (result) => {
         await this.webhookService.sendEvent(
           AppDemoEventName['app-demo.update'],

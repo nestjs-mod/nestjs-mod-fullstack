@@ -56,10 +56,12 @@ import { DemoService } from '../../services/demo.service';
 export class DemoGridComponent implements OnInit {
   items$ = new BehaviorSubject<AppDemoInterface[]>([]);
   selectedIds$ = new BehaviorSubject<string[]>([]);
-  keys = ['id', 'name'];
+  keys = ['id', 'name', 'createdAt', 'updatedAt'];
   columns = {
     id: marker('app-demo.grid.columns.id'),
     name: marker('app-demo.grid.columns.name'),
+    createdAt: marker('app-demo.grid.columns.created-at'),
+    updatedAt: marker('app-demo.grid.columns.updated-at'),
   };
 
   constructor(

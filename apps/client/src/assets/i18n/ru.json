@@ -1,5 +1,5 @@
 {
-    "You are logged in as {{email}}": "Вы вошли в систему как {{email}}",
+    "You are logged in as {{email}}": "Вы вошли в систему как",
     "Home": "Домашняя страница",
     "Demo": "Демо",
     "Webhooks": "Вебхуки",
@@ -35,6 +35,8 @@
     "No": "Нет",
     "app-demo.grid.columns.id": "ИД.",
     "app-demo.grid.columns.name": "Название",
+    "app-demo.grid.columns.created-at": "Дата создания",
+    "app-demo.grid.columns.updated-at": "Дата обновления",
     "demo.form.fields.name": "Название",
     "read-only field, set and updated on the backend": "поле только для чтения, устанавливается и обновляется на бэкэнде",
     "Success": "Успешно",

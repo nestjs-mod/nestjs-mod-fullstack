@@ -35,6 +35,8 @@
     "No": "No",
     "app-demo.grid.columns.id": "app-demo.grid.columns.id",
     "app-demo.grid.columns.name": "app-demo.grid.columns.name",
+    "app-demo.grid.columns.created-at": "app-demo.grid.columns.created-at",
+    "app-demo.grid.columns.updated-at": "app-demo.grid.columns.updated-at",
     "demo.form.fields.name": "Name",
     "read-only field, set and updated on the backend": "read-only field, set and updated on the backend",
     "Success": "Success",

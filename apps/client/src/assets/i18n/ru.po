@@ -127,6 +127,12 @@ msgstr "ИД."
 msgid "app-demo.grid.columns.name"
 msgstr "Название"
 
+msgid "app-demo.grid.columns.created-at"
+msgstr "Дата создания"
+
+msgid "app-demo.grid.columns.updated-at"
+msgstr "Дата обновления"
+
 msgid "demo.form.fields.name"
 msgstr "Название"
 

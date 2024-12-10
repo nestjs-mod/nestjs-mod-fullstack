@@ -90,7 +90,7 @@ export class WebhookServiceBootstrap
             });
             try {
               await this.prismaClient.webhookLog.update({
-                where: { id: webhookLog.id },
+                where: { id: webhookLog.id, updatedAt: new Date() },
                 data: { webhookStatus: 'Process' },
               });
               const request = await firstValueFrom(
@@ -113,7 +113,7 @@ export class WebhookServiceBootstrap
                 responseStatus = 'unhandled';
               }
               await this.prismaClient.webhookLog.update({
-                where: { id: webhookLog.id },
+                where: { id: webhookLog.id, updatedAt: new Date() },
                 data: {
                   responseStatus,
                   response,
@@ -134,7 +134,7 @@ export class WebhookServiceBootstrap
               }
               try {
                 await this.prismaClient.webhookLog.update({
-                  where: { id: webhookLog.id },
+                  where: { id: webhookLog.id, updatedAt: new Date() },
                   data: {
                     responseStatus,
                     response,

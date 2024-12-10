@@ -4,7 +4,8 @@
   "auth-getText": {
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",
-    "User not found": "User not found"
+    "User not found": "User not found",
+    "ok": "ok"
   },
   "auth-angular": {
     "Sign-in": "Sign-in",
@@ -107,7 +108,8 @@
   "auth": {
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",
-    "User not found": "User not found"
+    "User not found": "User not found",
+    "ok": "ok"
   },
   "files": {
     "Files error": "Files error",

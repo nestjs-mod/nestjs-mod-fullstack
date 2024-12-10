@@ -4,7 +4,8 @@
   "auth-getText": {
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
-    "User not found": "Пользователь не найден"
+    "User not found": "Пользователь не найден",
+    "ok": "ок"
   },
   "auth-angular": {
     "Sign-in": "Войти",
@@ -107,7 +108,8 @@
   "auth": {
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
-    "User not found": "Пользователь не найден"
+    "User not found": "Пользователь не найден",
+    "ok": "ок"
   },
   "files": {
     "Files error": "Ошибка файлов",
