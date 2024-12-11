@@ -27,7 +27,15 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  merge,
+  mergeMap,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { AuthProfileFormService } from '../../services/auth-profile-form.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -92,12 +100,24 @@ export class AuthProfileFormComponent implements OnInit {
 
   ngOnInit(): void {
     Object.assign(this, this.nzModalData);
-    this.fillFromProfile();
+    merge(
+      this.authProfileFormService.init(),
+      this.translocoService.langChanges$
+    )
+      .pipe(
+        mergeMap(() => {
+          this.fillFromProfile();
+          return of(true);
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   setFieldsAndModel(data: UpdateProfileInput = {}) {
-    this.setFormlyFields({ data });
-    this.formlyModel$.next(this.authProfileFormService.toModel(data));
+    const model = this.authProfileFormService.toModel(data);
+    this.setFormlyFields({ data: model });
+    this.formlyModel$.next(model);
   }
 
   private setFormlyFields(options?: {
@@ -140,15 +160,15 @@ export class AuthProfileFormComponent implements OnInit {
   }
 
   private fillFromProfile() {
-    this.setFieldsAndModel({
-      picture: this.authService.profile$.value?.picture || '',
-    });
+    this.setFieldsAndModel(
+      this.authService.profile$.value as UpdateProfileInput
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private catchAndProcessServerError(err: any) {
     const error = err.error as ValidationErrorInterface;
-    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+    if (error.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
       this.setFormlyFields({ errors: error.metadata });
       return of(null);
     }

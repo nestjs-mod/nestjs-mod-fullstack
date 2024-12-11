@@ -22,11 +22,8 @@ msgstr "Пароль"
 msgid "auth.sign-up-form.fields.confirm-password"
 msgstr "Пароль (еще раз)"
 
-msgid "Success"
-msgstr "Успешно"
-
-msgid "Validation errors"
-msgstr "Ошибка при проверке данных"
+msgid "field \"{{label}}\""
+msgstr "поле \"{{label}}\""
 
 msgid "auth.sign-in-form.fields.email"
 msgstr "Email"
@@ -45,6 +42,12 @@ msgstr "Новый пароль"
 
 msgid "auth.profile-form.fields.confirm-new-password"
 msgstr "Новый пароль (еще раз)"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Validation errors"
+msgstr "Ошибка при проверке данных"
 
 msgid "Updated"
 msgstr "Обновлен"

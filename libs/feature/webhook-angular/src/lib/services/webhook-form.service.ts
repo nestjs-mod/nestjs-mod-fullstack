@@ -14,11 +14,11 @@ import { WebhookEventsService } from './webhook-events.service';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class WebhookFormService {
-  private events: WebhookEventInterface[] = [];
+  protected events: WebhookEventInterface[] = [];
 
   constructor(
-    private readonly webhookEventsService: WebhookEventsService,
-    private readonly translocoService: TranslocoService
+    protected readonly webhookEventsService: WebhookEventsService,
+    protected readonly translocoService: TranslocoService
   ) {}
 
   init() {
@@ -115,7 +115,7 @@ export class WebhookFormService {
     );
   }
 
-  private appendServerErrorsAsValidatorsToFields(
+  protected appendServerErrorsAsValidatorsToFields(
     fields: FormlyFieldConfig[],
     errors: ValidationErrorMetadataInterface[]
   ) {
@@ -146,7 +146,7 @@ export class WebhookFormService {
     });
   }
 
-  toModel(data: Partial<UpdateWebhookDtoInterface>): object | null {
+  toModel(data: Partial<UpdateWebhookDtoInterface>) {
     return {
       enabled:
         (data['enabled'] as unknown as string) === 'true' ||

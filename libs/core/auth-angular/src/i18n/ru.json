@@ -4,14 +4,15 @@
     "auth.sign-up-form.fields.email": "Email",
     "auth.sign-up-form.fields.password": "Пароль",
     "auth.sign-up-form.fields.confirm-password": "Пароль (еще раз)",
-    "Success": "Успешно",
-    "Validation errors": "Ошибка при проверке данных",
+    "field \"{{label}}\"": "поле \"{{label}}\"",
     "auth.sign-in-form.fields.email": "Email",
     "auth.sign-in-form.fields.password": "Пароль",
     "auth.profile-form.fields.picture": "Изображение",
     "auth.profile-form.fields.old-password": "Старый пароль",
     "auth.profile-form.fields.new-password": "Новый пароль",
     "auth.profile-form.fields.confirm-new-password": "Новый пароль (еще раз)",
+    "Success": "Успешно",
+    "Validation errors": "Ошибка при проверке данных",
     "Updated": "Обновлен",
     "Update": "Обновить"
 }

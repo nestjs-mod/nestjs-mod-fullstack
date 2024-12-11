@@ -4,11 +4,16 @@ import { TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { of } from 'rxjs';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class AuthSignUpFormService {
-  constructor(private readonly translocoService: TranslocoService) {}
+  constructor(protected readonly translocoService: TranslocoService) {}
+
+  init() {
+    return of(true);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getFormlyFields(options?: {
@@ -66,7 +71,7 @@ export class AuthSignUpFormService {
     );
   }
 
-  private appendServerErrorsAsValidatorsToFields(
+  protected appendServerErrorsAsValidatorsToFields(
     fields: FormlyFieldConfig[],
     errors: ValidationErrorMetadataInterface[]
   ) {
@@ -97,7 +102,7 @@ export class AuthSignUpFormService {
     });
   }
 
-  toModel(data: SignupInput): object | null {
+  toModel(data: SignupInput) {
     return {
       email: data['email'],
       password: data['password'],

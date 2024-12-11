@@ -12,7 +12,8 @@
         "@ngx-formly/core": "^6.3.10",
         "ng-zorro-antd": "^18.2.0",
         "rxjs": "^7.8.0",
-        "@jsverse/transloco": "^7.5.0"
+        "@jsverse/transloco": "^7.5.0",
+        "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1"
     },
     "sideEffects": false,
     "i18n": [

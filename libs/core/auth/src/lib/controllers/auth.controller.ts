@@ -47,7 +47,7 @@ export class AuthController {
     @InjectTranslateFunction() getText: TranslateFunction
   ) {
     await this.prismaClient.authUser.update({
-      where: { id: authUser.id, updatedAt: new Date() },
+      where: { id: authUser.id },
       data: {
         timezone: args.timezone,
         updatedAt: new Date(),

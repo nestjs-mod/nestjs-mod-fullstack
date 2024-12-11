@@ -13,11 +13,11 @@ import { WebhookEventsService } from './webhook-events.service';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class WebhookAuthFormService {
-  private events: WebhookEventInterface[] = [];
+  protected events: WebhookEventInterface[] = [];
 
   constructor(
-    private readonly webhookEventsService: WebhookEventsService,
-    private readonly translocoService: TranslocoService
+    protected readonly webhookEventsService: WebhookEventsService,
+    protected readonly translocoService: TranslocoService
   ) {}
 
   init() {
@@ -69,7 +69,7 @@ export class WebhookAuthFormService {
     );
   }
 
-  private appendServerErrorsAsValidatorsToFields(
+  protected appendServerErrorsAsValidatorsToFields(
     fields: FormlyFieldConfig[],
     errors: ValidationErrorMetadataInterface[]
   ) {
@@ -100,7 +100,7 @@ export class WebhookAuthFormService {
     });
   }
 
-  toModel(data: Partial<WebhookAuthCredentials>): object | null {
+  toModel(data: Partial<WebhookAuthCredentials>) {
     return {
       xExternalUserId: data['xExternalUserId'],
       xExternalTenantId: data['xExternalTenantId'],

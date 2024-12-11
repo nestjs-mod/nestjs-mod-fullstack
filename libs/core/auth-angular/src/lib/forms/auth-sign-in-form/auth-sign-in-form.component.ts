@@ -17,6 +17,11 @@ import {
 import { RouterModule } from '@angular/router';
 import { AuthToken, LoginInput } from '@authorizerdev/authorizer-js';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import {
+  ValidationErrorEnumInterface,
+  ValidationErrorInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -25,13 +30,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import {
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthSignInFormService } from '../../services/auth-sign-in-form.service';
+import { AuthService } from '../../services/auth.service';
 
 @UntilDestroy()
 @Component({
@@ -78,8 +78,9 @@ export class AuthSignInFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: LoginInput = { password: '' }) {
-    this.setFormlyFields({ data });
-    this.formlyModel$.next(this.authSignInFormService.toModel(data));
+    const model = this.authSignInFormService.toModel(data);
+    this.setFormlyFields({ data: model });
+    this.formlyModel$.next(model);
   }
 
   submitForm(): void {
@@ -126,7 +127,7 @@ export class AuthSignInFormComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private catchAndProcessServerError(err: any) {
     const error = err.error as ValidationErrorInterface;
-    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+    if (error.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
       this.setFormlyFields({ errors: error.metadata });
       return of(null);
     }

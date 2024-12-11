@@ -4,6 +4,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
   AuthorizerRestService,
+  AuthRestService,
   FilesRestService,
   TimeRestService,
   WebhookRestService,
@@ -31,6 +32,7 @@ export class AppInitializer {
     private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
     private readonly filesRestService: FilesRestService,
+    private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService
   ) {}
@@ -94,6 +96,9 @@ export class AppInitializer {
               authorizationHeaders
             );
             this.timeRestService.defaultHeaders = new HttpHeaders(
+              authorizationHeaders
+            );
+            this.authRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
           }

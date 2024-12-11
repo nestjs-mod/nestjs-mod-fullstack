@@ -40,6 +40,30 @@ msgstr "Заполните учетные данные администрато�
 msgid "Sign-in"
 msgstr "Войти"
 
+msgid "webhook.form.fields.enabled"
+msgstr "Активен"
+
+msgid "webhook.form.fields.endpoint"
+msgstr "Адрес"
+
+msgid "webhook.form.fields.event-name"
+msgstr "Событие"
+
+msgid "webhook.form.fields.headers"
+msgstr "Заголовки"
+
+msgid "webhook.form.fields.request-timeout"
+msgstr "Время запроса"
+
+msgid "field \"{{label}}\""
+msgstr "поле \"{{label}}\""
+
+msgid "webhook.form.fields.x-external-userId"
+msgstr "x-external-userId"
+
+msgid "webhook.form.fields.x-external-tenantId"
+msgstr "x-external-tenantId"
+
 msgid "webhook-log.grid.columns.id"
 msgstr "ИД."
 
@@ -96,30 +120,6 @@ msgstr "Успешно"
 
 msgid "id not set"
 msgstr "идентификатор не установлен"
-
-msgid "webhook.form.fields.enabled"
-msgstr "Активен"
-
-msgid "webhook.form.fields.endpoint"
-msgstr "Адрес"
-
-msgid "webhook.form.fields.event-name"
-msgstr "Событие"
-
-msgid "webhook.form.fields.headers"
-msgstr "Заголовки"
-
-msgid "webhook.form.fields.request-timeout"
-msgstr "Время запроса"
-
-msgid "field \"{{label}}\""
-msgstr "поле \"{{label}}\""
-
-msgid "webhook.form.fields.x-external-userId"
-msgstr "x-external-userId"
-
-msgid "webhook.form.fields.x-external-tenantId"
-msgstr "x-external-tenantId"
 
 msgid "Validation errors"
 msgstr "Ошибка при проверке данных"

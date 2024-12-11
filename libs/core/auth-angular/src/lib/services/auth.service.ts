@@ -28,11 +28,11 @@ export class AuthService {
   profile$ = new BehaviorSubject<User | undefined>(undefined);
 
   constructor(
-    private readonly authorizerService: AuthorizerService,
-    private readonly tokensService: TokensService,
+    protected readonly authorizerService: AuthorizerService,
+    protected readonly tokensService: TokensService,
     @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    private readonly authConfiguration?: AuthConfiguration
+    protected readonly authConfiguration?: AuthConfiguration
   ) {}
 
   getAuthorizerClientID() {
@@ -51,12 +51,13 @@ export class AuthService {
       })
     ).pipe(
       mapGraphqlErrors(),
-      map((result) => {
-        this.setProfileAndTokens(result);
-        return {
-          profile: result?.user,
-          tokens: this.tokensService.tokens$.value,
-        };
+      mergeMap((result) => {
+        return this.setProfileAndTokens(result).pipe(
+          map(() => ({
+            profile: result?.user,
+            tokens: this.tokensService.tokens$.value,
+          }))
+        );
       })
     );
   }
@@ -83,7 +84,7 @@ export class AuthService {
         this.authorizerService.getProfile(this.getAuthorizationHeaders())
       ),
       mapGraphqlErrors(),
-      tap((result) => this.setProfile(result)),
+      mergeMap((result) => this.setProfile(result)),
       mergeMap((updatedProfile) =>
         this.authConfiguration?.afterUpdateProfile
           ? this.authConfiguration.afterUpdateProfile({
@@ -105,12 +106,13 @@ export class AuthService {
       })
     ).pipe(
       mapGraphqlErrors(),
-      map((result) => {
-        this.setProfileAndTokens(result);
-        return {
-          profile: result?.user,
-          tokens: this.tokensService.tokens$.value,
-        };
+      mergeMap((result) => {
+        return this.setProfileAndTokens(result).pipe(
+          map(() => ({
+            profile: result?.user,
+            tokens: this.tokensService.tokens$.value,
+          }))
+        );
       })
     );
   }
@@ -120,8 +122,8 @@ export class AuthService {
       this.authorizerService.logout(this.getAuthorizationHeaders())
     ).pipe(
       mapGraphqlErrors(),
-      tap(() => {
-        this.clearProfileAndTokens();
+      mergeMap(() => {
+        return this.clearProfileAndTokens();
       })
     );
   }
@@ -129,24 +131,23 @@ export class AuthService {
   refreshToken() {
     return from(this.authorizerService.browserLogin()).pipe(
       mapGraphqlErrors(),
-      tap((result) => {
-        this.setProfileAndTokens(result);
+      mergeMap((result) => {
+        return this.setProfileAndTokens(result);
       }),
       catchError((err) => {
         console.error(err);
-        this.clearProfileAndTokens();
-        return of(null);
+        return this.clearProfileAndTokens();
       })
     );
   }
 
   clearProfileAndTokens() {
-    this.setProfileAndTokens({} as AuthToken);
+    return this.setProfileAndTokens({} as AuthToken);
   }
 
   setProfileAndTokens(result: AuthToken | undefined) {
     this.tokensService.tokens$.next(result as AuthToken);
-    this.setProfile(result?.user);
+    return this.setProfile(result?.user);
   }
 
   getAuthorizationHeaders(): Record<string, string> {
@@ -163,5 +164,6 @@ export class AuthService {
 
   setProfile(result: User | undefined) {
     this.profile$.next(result);
+    return of(result);
   }
 }

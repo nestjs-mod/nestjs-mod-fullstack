@@ -21,11 +21,8 @@ msgstr "Password"
 msgid "auth.sign-up-form.fields.confirm-password"
 msgstr "Confirm password"
 
-msgid "Success"
-msgstr "Success"
-
-msgid "Validation errors"
-msgstr "Validation errors"
+msgid "field \"{{label}}\""
+msgstr "field \"{{label}}\""
 
 msgid "auth.sign-in-form.fields.email"
 msgstr "Email"
@@ -44,6 +41,12 @@ msgstr "New password"
 
 msgid "auth.profile-form.fields.confirm-new-password"
 msgstr "Confirm new password"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Validation errors"
+msgstr "Validation errors"
 
 msgid "Updated"
 msgstr "Updated"

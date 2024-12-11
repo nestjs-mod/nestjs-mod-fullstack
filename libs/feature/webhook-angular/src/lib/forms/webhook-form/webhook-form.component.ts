@@ -97,8 +97,9 @@ export class WebhookFormComponent implements OnInit {
             return this.findOne().pipe(
               tap((result) => this.afterFind.next(result))
             );
+          } else {
+            this.setFieldsAndModel();
           }
-          this.setFieldsAndModel();
           return of(true);
         }),
         untilDestroyed(this)
@@ -107,8 +108,9 @@ export class WebhookFormComponent implements OnInit {
   }
 
   setFieldsAndModel(data: Partial<UpdateWebhookDtoInterface> = {}) {
+    const model = this.webhookFormService.toModel(data);
     this.setFormlyFields();
-    this.formlyModel$.next(this.webhookFormService.toModel(data));
+    this.formlyModel$.next(model);
   }
 
   submitForm(): void {
@@ -179,7 +181,7 @@ export class WebhookFormComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private catchAndProcessServerError(err: any) {
     const error = err.error as ValidationErrorInterface;
-    if (error.code.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+    if (error.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
       this.setFormlyFields({ errors: error.metadata });
       return of(null);
     }
