@@ -912,7 +912,7 @@ test.describe('Validation (ru)', () => {
     await setTimeout(4000);
 
     await expect(page.locator('webhook-form').locator('formly-validation-message').first()).toContainText('поле "адрес" не может быть пустым');
-    await expect(page.locator(';-form').locator('formly-validation-message').last()).toContainText('поле "событие" не может быть пустым');
+    await expect(page.locator('webhook-form').locator('formly-validation-message').last()).toContainText('поле "событие" не может быть пустым');
   });
 });
 ```

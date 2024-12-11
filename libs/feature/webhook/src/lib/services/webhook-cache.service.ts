@@ -60,6 +60,6 @@ export class WebhookCacheService {
     externalTenantId: string | undefined;
     externalUserId: string;
   }): string {
-    return `${externalTenantId}_${externalUserId}`;
+    return `webhookUser.${externalTenantId}_${externalUserId}`;
   }
 }

@@ -40,7 +40,12 @@ function AddHandleConnection() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...args: any[]
     ) {
-      client.headers = { authorization: args[0].headers.authorization };
+      const authorizationHeader = args[0]?.headers.authorization;
+      const queryToken = args[0]?.url?.split('token=')?.[1];
+      client.headers = {
+        authorization:
+          authorizationHeader || queryToken ? `Bearer ${queryToken}` : '',
+      };
     };
   };
 }

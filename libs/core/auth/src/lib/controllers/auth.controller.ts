@@ -17,6 +17,7 @@ import { AuthError } from '../auth.errors';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { AuthEntities } from '../types/auth-entities';
 import { AuthProfileDto } from '../types/auth-profile.dto';
+import { AuthCacheService } from '../services/auth-cache.service';
 
 @ApiExtraModels(AuthError, AuthEntities, ValidationError)
 @ApiBadRequestResponse({
@@ -28,7 +29,8 @@ import { AuthProfileDto } from '../types/auth-profile.dto';
 export class AuthController {
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
-    private readonly prismaClient: PrismaClient
+    private readonly prismaClient: PrismaClient,
+    private readonly authCacheService: AuthCacheService
   ) {}
 
   @Get('profile')
@@ -53,6 +55,9 @@ export class AuthController {
         updatedAt: new Date(),
       },
     });
+    await this.authCacheService.clearCacheByExternalUserId(
+      authUser.externalUserId
+    );
     return { message: getText('ok') };
   }
 }

@@ -259,11 +259,7 @@ update-migrations.dto.ts
 Обновляем файлы _.eslintignore_
 
 ```
-node_modules
-apps/server/src/app/generated/rest/dto
-libs/feature/webhook/src/lib/generated/rest/dto
-libs/sdk/app-rest-sdk/src/lib
-libs/sdk/app-angular-rest-sdk/src/lib
+...
 libs/core/auth/src/lib/generated/rest/dto
 ```
 

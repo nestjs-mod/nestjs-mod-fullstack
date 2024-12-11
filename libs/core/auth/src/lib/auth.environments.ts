@@ -20,4 +20,11 @@ export class AuthEnvironments {
     description: 'Global admin password',
   })
   adminPassword?: string;
+
+  @EnvModelProperty({
+    description: 'TTL for cached data.',
+    default: 15_000,
+    hidden: true,
+  })
+  cacheTTL?: number;
 }
