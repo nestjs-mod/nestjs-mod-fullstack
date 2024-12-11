@@ -20,6 +20,8 @@ export * from './lib/generated/rest/dto/update-migrations.dto';
 export * from './lib/interceptors/auth-timezone.interceptor';
 export * from './lib/services/auth-authorizer-bootstrap.service';
 export * from './lib/services/auth-authorizer.service';
+export * from './lib/services/auth-cache.service';
+export * from './lib/services/auth-timezone.service';
 export * from './lib/types/auth-entities';
 export * from './lib/types/auth-profile.dto';
 export * from './lib/types/auth-request';

@@ -2,9 +2,11 @@
 
 **Предыдущая статья:** [Добавление поддержки нескольких языков в NestJS и Angular приложениях](https://habr.com/ru/articles/863590/)
 
-Приветствую всех, кто интересуется веб-разработкой! В этой статье я расскажу о своём опыте внедрения поддержки временных зон в фулстек-приложение на основе `NestJS` и `Angular`. Мы рассмотрим, как сохранить настройки таймзоны пользователя в базе данных и применять их при взаимодействии с сервером.
+В этой статье я хотел бы поделиться своим опытом по внедрению поддержки временных зон в фулстек-приложение, построенное на `NestJS` и `Angular`. Мы узнаем, как сохранить настройки таймзоны пользователя в базе данных и правильно использовать их при взаимодействии с сервером.
 
 ### Устанавливаем все необходимые библиотеки
+
+Установим библиотеку `date-fns`, которая необходима для работы с датами и временными зонами.
 
 _Команды_
 
@@ -14,7 +16,7 @@ npm install --save date-fns
 
 ### Добавляем поддержку Prisma и миграций от Flyway в модуль авторизации
 
-Добавляем в main.ts инфраструктурные модули для Prisma и Flyway
+Подключим модули `Prisma` и `Flyway` в файл `main.ts`, чтобы настроить взаимодействие с новой базой данных `Auth`.
 
 Обновляем файл _apps/server/src/main.ts_
 
@@ -59,7 +61,7 @@ bootstrapNestApplication({
 });
 ```
 
-Запускаем генерацию дополнительного кода по инфраструктуре.
+Генерируем дополнительный код по инфраструктуре.
 
 _Команды_
 
@@ -67,19 +69,19 @@ _Команды_
 npm run docs:infrastructure
 ```
 
-Добавляем новую переменную окружения с логином и паролем для новой базы данных.
+Добавляем новую переменную окружения с логином и паролем для подключения к новой базе данных.
 
-Обновляем файл _.env_ и _example.env_
+Обновляем файлы _.env_ и _example.env_
 
 ```sh
 SERVER_AUTH_DATABASE_URL=postgres://auth:auth_password@localhost:5432/auth?schema=public
 ```
 
-### Создание таблицы для хранения таймзоны пользователя
+### Создание таблицы для хранения временной зоны пользователя
 
-Для хранения данных о временных зонах пользователей я выбрал модуль авторизации `Auth`. Этот выбор обусловлен особенностями архитектуры текущего проекта. В других случаях, возможно, стоило бы создать отдельное поле в базе данных `Accounts` или даже отдельный модуль `TimezoneModule` для задач, связанных с временными зонами.
+Для хранения данных о временных зонах пользователей я предпочёл использовать модуль авторизации `Auth`, что обусловлено архитектурными особенностями нашего проекта. В иных ситуациях можно было бы рассмотреть создание отдельного поля в базе данных `Accounts` или даже специального модуля `TimezoneModule` для управления задачами, связанными с временными зонами.
 
-Создаем миграцию для создания всех необходимых таблиц в базе данных `Auth`.
+Теперь создадим миграцию для формирования всех нужных таблиц в базе данных `Auth`.
 
 _Команды_
 
@@ -91,7 +93,7 @@ mkdir -p ./libs/core/auth/src/migrations
 npm run flyway:create:auth --args=Init
 ```
 
-Наполняем файл миграции sql-скриптами
+Заполняем файл миграции SQL-скриптами для создания необходимых таблиц и индексов.
 
 Обновляем файл _libs/core/auth/src/migrations/V202412071217\_\_Init.sql_
 
@@ -123,7 +125,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS "UQ_AUTH_USER" ON "AuthUser"("externalUserId")
 CREATE INDEX IF NOT EXISTS "IDX_AUTH_USER__USER_ROLE" ON "AuthUser"("userRole");
 ```
 
-Применяем миграции и пересоздаем `Prisma`-схемы для всех баз данных.
+Теперь база данных `Auth` будет содержать таблицу `AuthUser`, в которой будет храниться информация о временной зоне каждого пользователя.
+
+Применяем созданные миграции и пересоздаем `Prisma`-схемы для всех баз данных.
 
 _Команды_
 
@@ -181,9 +185,9 @@ enum AuthRole {
 
 ```
 
-### Генерация ДТО для новой базы данных Auth
+### Генерация "DTO" для новой базы данных "Auth"
 
-Подключаем генератор ДТО в `Prisma`-схему и исключаем часть полей из генерации.
+Подключаем генератор `DTO` к `Prisma`-схеме и исключаем некоторые поля из процесса генерации.
 
 Обновляем файл _libs/core/auth/src/prisma/schema.prisma_
 
@@ -252,7 +256,7 @@ migrations.entity.ts
 update-migrations.dto.ts
 ```
 
-Так как сгенерированные файлы могут иметь ошибки форматирования по `eslint`, то исключаем эти файлы из проверки `eslint`.
+Поскольку сгенерированные файлы могут содержать ошибки форматирования, которые выявляет `eslint`, мы исключаем эти файлы из проверки `eslint`.
 
 Обновляем файлы _.eslintignore_
 
@@ -261,7 +265,9 @@ update-migrations.dto.ts
 libs/core/auth/src/lib/generated/rest/dto
 ```
 
-### Обновляем опции с которыми импортируется PrismaModule для базы данных Auth
+### Обновляем параметры импорта модуля `PrismaModule` для базы данных `Auth`
+
+Изменяем конфигурацию импорта модуля `PrismaModule` для базы данных `Auth`, чтобы учесть новые требования к взаимодействию с базой данных.
 
 Обновляем файл _apps/server/src/main.ts_
 
@@ -289,7 +295,9 @@ bootstrapNestApplication({
 });
 ```
 
-### Создаем сервис кэширования пользователей базы данных "Auth", для ускоренного доступа из "AuthGuard" и "AuthTimezoneInterceptor"
+### Создаем сервис кэширования для пользователей базы данных `Auth`
+
+Создаем сервис для кэширования пользователей базы данных `Auth`, чтобы ускорить доступ к данным из сервисов `AuthGuard` и `AuthTimezoneInterceptor`.
 
 Создаем файл _libs\core\auth\src\lib\services\auth-cache.service.ts_
 
@@ -346,9 +354,9 @@ export class AuthCacheService {
 }
 ```
 
-### Разработка контроллера для получения и записи информации о таймзоне пользователя
+### Разработка контроллера для работы с информацией о временной зоне пользователя
 
-Создадим контроллер, который позволит получать текущие настройки временной зоны пользователя и изменять их при необходимости.
+Создадим контроллер, который будет отвечать за получение текущих настроек временной зоны пользователя и обновление этих параметров при необходимости.
 
 Создаем файл _libs/core/auth/src/lib/controllers/auth.controller.ts_
 
@@ -404,7 +412,9 @@ export class AuthController {
 }
 ```
 
-### Создаем сервис с функцией рекурсивного конвертирования полей с типом "Date" по определенному значению "Timezone"
+### Создаем сервис для рекурсивного преобразования полей типа "Date" в заданную временную зону
+
+Разработаем сервис, который будет выполнять рекурсивное преобразование полей типа "Date" в указанную временную зону.
 
 Создаем файл _libs/core/auth/src/lib/services/auth-timezone.service.ts_
 
@@ -471,7 +481,7 @@ export class AuthTimezoneService {
 
 ### Добавляем интерцептор для автоматической коррекции времени в данных
 
-Создадим интерцептор, который будет автоматически конвертировать время в данных в соответствии с выбранной пользователем временной зоной. Это обеспечит корректное отображение дат и времени в интерфейсе.
+Создадим интерцептор, который будет автоматически конвертировать временные значения в данных в соответствии с выбранной пользователем временной зоной. Это гарантирует корректное отображение дат и времени в пользовательском интерфейсе.
 
 Создаем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
 
@@ -529,7 +539,9 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 }
 ```
 
-### Добавим "AuthGuard", для того чтобы пользователи автоматически создавались в базе данных "Auth"
+### Добавляем "AuthGuard" для автоматического создания пользователей в базе данных "Auth"
+
+Интегрируем "AuthGuard", чтобы пользователи могли автоматически регистрироваться в базе данных "Auth" при работе с системой.
 
 Создаем файл _libs/core/auth/src/lib/auth.module.ts_
 
@@ -623,7 +635,9 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### Добавляем все созданные классы в AuthModule
+### Регистрация созданных классов в "AuthModule"
+
+Зарегистрируем все созданные классы в модуле "AuthModule", чтобы они стали доступны для использования в нашем приложении.
 
 Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
 
@@ -690,7 +704,103 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### Создаем новый e2e-тест для проверки трансформации полей с типом "Date"
+### Настраиваем обработку запросов через "WebSocket"-гейтвей
+
+Хотя мы объявили глобальные гард и интерцептор в модуле `AuthModule`, они не будут автоматически применяться к обработке запросов через "WebSocket"-гейтвей. Поэтому для обработки запросов через гейтвей создадим специальный декоратор и применим его к контроллеру `TimeController`.
+
+Создаем файл _libs/core/auth/src/lib/auth.decorators.ts_
+
+```typescript
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { createParamDecorator, ExecutionContext, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthRole } from '@prisma/auth-client';
+import { AuthRequest } from './types/auth-request';
+
+import { AllowEmptyUser, AuthorizerGuard } from '@nestjs-mod/authorizer';
+import { applyDecorators } from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
+import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
+
+export const SkipAuthGuard = Reflector.createDecorator<true>();
+export const CheckAuthRole = Reflector.createDecorator<AuthRole[]>();
+
+export const CurrentAuthRequest = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  const req = getRequestFromExecutionContext(ctx) as AuthRequest;
+  return req;
+});
+
+export const CurrentAuthUser = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  const req = getRequestFromExecutionContext(ctx) as AuthRequest;
+  return req.authUser;
+});
+
+function AddHandleConnection() {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  return function (constructor: Function) {
+    constructor.prototype.handleConnection = function (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      client: any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...args: any[]
+    ) {
+      const authorizationHeader = args[0]?.headers.authorization;
+      const queryToken = args[0]?.url?.split('token=')?.[1];
+      client.headers = {
+        authorization: authorizationHeader || queryToken ? `Bearer ${queryToken}` : '',
+      };
+    };
+  };
+}
+
+export function UseAuthInterceptorsAndGuards(options?: { allowEmptyUser?: boolean }) {
+  return applyDecorators(UseInterceptors(AuthTimezoneInterceptor), UseGuards(AuthorizerGuard, AuthGuard), AddHandleConnection(), ...(options?.allowEmptyUser ? [AllowEmptyUser()] : []));
+}
+```
+
+Обновляем файл _apps/server/src/app/time.controller.ts_
+
+```typescript
+import { UseAuthInterceptorsAndGuards } from '@nestjs-mod-fullstack/auth';
+import { Controller, Get } from '@nestjs/common';
+
+import { ApiOkResponse } from '@nestjs/swagger';
+import { SubscribeMessage, WebSocketGateway, WsResponse } from '@nestjs/websockets';
+import { interval, map, Observable } from 'rxjs';
+
+export const ChangeTimeStream = 'ChangeTimeStream';
+
+@UseAuthInterceptorsAndGuards({ allowEmptyUser: true })
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+  path: '/ws/time',
+  transports: ['websocket'],
+})
+@Controller()
+export class TimeController {
+  @Get('/time')
+  @ApiOkResponse({ type: Date })
+  time() {
+    return new Date();
+  }
+
+  @SubscribeMessage(ChangeTimeStream)
+  onChangeTimeStream(): Observable<WsResponse<Date>> {
+    return interval(1000).pipe(
+      map(() => ({
+        data: new Date(),
+        event: ChangeTimeStream,
+      }))
+    );
+  }
+}
+```
+
+### Создаем новый "e2e"-тест для проверки корректности преобразования полей типа "Date".
+
+Создадим новый e2e-тест, который проверяет правильность преобразования полей типа "Date" в различные временные зоны.
 
 Обновляем файл _apps/server-e2e/src/server/timezone-time.spec.ts_
 
@@ -764,7 +874,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
 });
 ```
 
-### Перезапускаем инфраструктуру с перегенирацией всего дополнительного кода и проверяем что текущие e2e-тесты работают правильно
+### Перезапускаем инфраструктуру и все приложения, проверяем корректность выполнения e2e-тестов
 
 _Команды_
 
@@ -774,14 +884,381 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### Добавление поля для выбора временной зоны на фронте
+### Передача токена авторизации для веб-сокетов через "query"-строку
 
-На стороне клиента создадим интерфейс, позволяющий пользователю выбирать свою временную зону. Это поле будет синхронизироваться с сервером через созданный контроллер.
+Передаем токен авторизации для веб-сокетов через параметр запроса, чтобы обеспечить аутентификацию пользователей при использовании веб-сокетов.
 
-### Написание end-to-end тестов для проверки функционала
+Обновляем файл _apps/client/src/app/app.component.ts_
 
-Для обеспечения надёжности реализуем e2e-тесты как для бэкенда, так и для фронта. Тесты помогут убедиться, что установка и изменение настроек временной зоны работают корректно.
+```typescript
+// ...
+import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
 
-### Компонент для корректного отображения дат с учётом временной зоны
+@UntilDestroy()
+@Component({
+  standalone: true,
+  imports: [RouterModule, NzMenuModule, NzLayoutModule, NzTypographyModule, AsyncPipe, NgForOf, NgFor, TranslocoPipe, TranslocoDirective],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AppComponent implements OnInit {
+  // ...
 
-Разрабатываем компонент, который будет отвечать за правильное отображение дат с учётом выбранной временной зоны. Это поможет избежать путаницы и недоразумений при работе с датами и временем.
+  constructor(
+    // ...
+    private readonly tokensService: TokensService
+  ) {}
+
+  // ...
+
+  private fillServerTime() {
+    return merge(
+      this.timeRestService.timeControllerTime(),
+      merge(of(this.tokensService.tokens$.value), this.tokensService.tokens$.asObservable())
+        .pipe(
+          switchMap((token) =>
+            webSocket<string>({
+              address: this.timeRestService.configuration.basePath + (token?.access_token ? `/ws/time?token=${token?.access_token}` : '/ws/time'),
+              eventName: 'ChangeTimeStream',
+            })
+          )
+        )
+        .pipe(map((result) => result.data))
+    ).pipe(tap((result) => this.serverTime$.next(result as string)));
+  }
+}
+```
+
+### Замена оригинальных полей формы профиля и изменение метода обновления профиля
+
+Многие изменения на фронтенде были внесены в рамках этого поста, и хотя я не буду описывать каждую деталь, важно отметить, что работа с формами стала проще благодаря использованию механизма инъекции зависимостей (`Dependency Injection`).
+
+Теперь, чтобы добавить новое поле в форму профиля или изменить существующие поля, не нужно редактировать исходники непосредственно в модуле. Вместо этого создается новый класс с необходимой реализацией, который заменяет оригинальный класс через механизм `DI`.
+
+Новое поле `Timezone` будет представлять собой перечислимое значение (`Enum`), которое хранится в соответствующем классе.
+
+Создаем файл _apps/client/src/app/integrations/custom-auth-profile-form.service.ts_
+
+```typescript
+import { Injectable } from '@angular/core';
+import { LoginInput, UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthProfileFormService } from '@nestjs-mod-fullstack/auth-angular';
+import { marker } from '@ngneat/transloco-keys-manager/marker';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
+@UntilDestroy()
+@Injectable({ providedIn: 'root' })
+export class CustomAuthProfileFormService extends AuthProfileFormService {
+  private utcTimeZones = [
+    {
+      label: marker('UTC−12:00: Date Line (west)'),
+      value: -12,
+    },
+    // ...
+    {
+      label: marker('UTC+14:00: Date Line (east)'),
+      value: 14,
+    },
+  ];
+
+  constructor(protected override readonly translocoService: TranslocoService) {
+    super(translocoService);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  override getFormlyFields(options?: { data?: LoginInput; errors?: ValidationErrorMetadataInterface[] }): FormlyFieldConfig[] {
+    return super.appendServerErrorsAsValidatorsToFields(
+      [
+        ...super.getFormlyFields(),
+        {
+          key: 'timezone',
+          type: 'select',
+          validation: {
+            show: true,
+          },
+          props: {
+            label: this.translocoService.translate(`auth.sign-in-form.fields.timezone`),
+            placeholder: 'timezone',
+            required: false,
+            options: this.utcTimeZones.map((z) => ({
+              ...z,
+              label: this.translocoService.translate(z.label),
+            })),
+          },
+        },
+      ],
+      options?.errors || []
+    );
+  }
+
+  override toModel(data: UpdateProfileInput) {
+    return {
+      old_password: data['old_password'],
+      new_password: data['new_password'],
+      confirm_new_password: data['confirm_new_password'],
+      picture: data['picture'],
+      timezone: data['timezone'],
+    };
+  }
+
+  override toJson(data: UpdateProfileInput) {
+    return {
+      old_password: data['old_password'],
+      new_password: data['new_password'],
+      confirm_new_password: data['confirm_new_password'],
+      picture: data['picture'],
+      timezone: data['timezone'],
+    };
+  }
+}
+```
+
+Кроме работы с полями формы, нам также нужно реализовать загрузку и сохранение часового пояса пользователя в форму и из формы. Для этого создадим новую реализацию сервиса, который будет работать с профилем пользователя в базе данных `Auth`.
+
+Создаем файл _apps/client/src/app/integrations/custom-auth.service.ts_
+
+```typescript
+import { Inject, Injectable, Optional } from '@angular/core';
+import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
+import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AUTH_CONFIGURATION_TOKEN, AuthConfiguration, AuthorizerService, AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { catchError, map, mergeMap, of } from 'rxjs';
+
+@UntilDestroy()
+@Injectable({ providedIn: 'root' })
+export class CustomAuthService extends AuthService {
+  constructor(
+    protected readonly authRestService: AuthRestService,
+    protected override readonly authorizerService: AuthorizerService,
+    protected override readonly tokensService: TokensService,
+    @Optional()
+    @Inject(AUTH_CONFIGURATION_TOKEN)
+    protected override readonly authConfiguration?: AuthConfiguration
+  ) {
+    super(authorizerService, tokensService, authConfiguration);
+  }
+
+  override setProfile(result: User | undefined) {
+    return this.authRestService.authControllerProfile().pipe(
+      catchError(() => of(null)),
+      mergeMap((profile) => {
+        if (result && profile) {
+          Object.assign(result, profile);
+        }
+        return super.setProfile(result);
+      })
+    );
+  }
+
+  override updateProfile(data: UpdateProfileInput & { timezone: number }) {
+    const { timezone, ...profile } = data;
+    return super.updateProfile(profile).pipe(
+      mergeMap((result) =>
+        this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
+          map(() => {
+            if (result) {
+              Object.assign(result, { timezone });
+            }
+            return result;
+          })
+        )
+      )
+    );
+  }
+}
+```
+
+Чтобы новое поле появилось в форме профиля, нужно добавить правила переопределения классов в конфигурацию фронтенд-приложения.
+
+Обновляем файл _apps/client/src/app/integrations/custom-auth.service.ts_
+
+```typescript
+import { AUTHORIZER_URL, AuthProfileFormService, AuthService } from '@nestjs-mod-fullstack/auth-angular';
+import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
+import { CustomAuthService } from './integrations/custom-auth.service';
+// ...
+
+export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; minioURL: string }): ApplicationConfig => {
+  return {
+    providers: [
+      // ...
+      {
+        provide: AuthProfileFormService,
+        useClass: CustomAuthProfileFormService,
+      },
+      {
+        provide: AuthService,
+        useClass: CustomAuthService,
+      },
+    ],
+  };
+};
+```
+
+### Создание "E2E"-теста для "Angular"-приложения по проверке переключения временной зоны
+
+Для тестирования поведения приложения в контексте смены временной зоны пользователя создадим `End-to-End` тест для `Angular`-приложения, который будет проверять корректность переключения временной зоны в интерфейсе.
+
+Создаем файл _apps/client-e2e/src/timezone-profile-as-user.spec.ts_
+
+```typescript
+import { faker } from '@faker-js/faker';
+import { expect, Page, test } from '@playwright/test';
+import { isDateString } from 'class-validator';
+import { differenceInHours } from 'date-fns';
+import { get } from 'env-var';
+import { join } from 'path';
+import { setTimeout } from 'timers/promises';
+
+test.describe('Work with profile as "User" role (timezone', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
+
+  const user = {
+    email: faker.internet.email({
+      provider: 'example.fakerjs.dev',
+    }),
+    password: faker.internet.password({ length: 8 }),
+    site: `http://${faker.internet.domainName()}`,
+  };
+  let page: Page;
+
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage({
+      viewport: { width: 1920, height: 1080 },
+      recordVideo: {
+        dir: join(__dirname, 'video'),
+        size: { width: 1920, height: 1080 },
+      },
+    });
+    await page.goto('/', {
+      timeout: 7000,
+    });
+    await page.evaluate((authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL), get('SERVER_AUTHORIZER_URL').required().asString());
+    await page.evaluate((minioURL) => localStorage.setItem('minioURL', minioURL), get('SERVER_MINIO_URL').required().asString());
+  });
+
+  test.afterAll(async () => {
+    await setTimeout(1000);
+    await page.close();
+  });
+
+  test('sign up as user', async () => {
+    await page.goto('/sign-up', {
+      timeout: 7000,
+    });
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=password]')).toHaveValue(user.password);
+
+    await page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-up-form').locator('[placeholder=confirm_password]')).toHaveValue(user.password);
+
+    await expect(page.locator('auth-sign-up-form').locator('button[type=submit]')).toHaveText('Sign-up');
+
+    await page.locator('auth-sign-up-form').locator('button[type=submit]').click();
+
+    await setTimeout(3000);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]').first()).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+  });
+
+  test('sign out after sign-up', async () => {
+    await expect(page.locator('nz-header').locator('[nz-submenu]').first()).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last()).toContainText(`Sign-out`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').last().click();
+
+    await setTimeout(4000);
+
+    await expect(page.locator('nz-header').locator('[nz-menu-item]').last()).toContainText(`Sign-in`);
+  });
+
+  test('sign in as user', async () => {
+    await page.goto('/sign-in', {
+      timeout: 7000,
+    });
+
+    await page.locator('auth-sign-in-form').locator('[placeholder=email]').click();
+    await page.keyboard.type(user.email.toLowerCase(), {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=email]')).toHaveValue(user.email.toLowerCase());
+
+    await page.locator('auth-sign-in-form').locator('[placeholder=password]').click();
+    await page.keyboard.type(user.password, {
+      delay: 50,
+    });
+    await expect(page.locator('auth-sign-in-form').locator('[placeholder=password]')).toHaveValue(user.password);
+
+    await expect(page.locator('auth-sign-in-form').locator('button[type=submit]')).toHaveText('Sign-in');
+
+    await page.locator('auth-sign-in-form').locator('button[type=submit]').click();
+
+    await setTimeout(3000);
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]').first()).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+  });
+
+  test('should change timezone in profile', async () => {
+    const oldServerTime = await page.locator('#serverTime').innerText();
+    expect(oldServerTime).toHaveLength(correctStringDateLength);
+    expect(isDateString(oldServerTime)).toBeTruthy();
+
+    await expect(page.locator('nz-header').locator('[nz-submenu]').first()).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
+    await page.locator('nz-header').locator('[nz-submenu]').first().click();
+
+    await expect(page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first()).toContainText(`Profile`);
+
+    await page.locator('[nz-submenu-none-inline-child]').locator('[nz-menu-item]').first().click();
+
+    await setTimeout(4000);
+    //
+    await page.locator('auth-profile-form').locator('[placeholder=timezone]').click();
+    await page.keyboard.press('Enter', { delay: 100 });
+    await expect(page.locator('auth-profile-form').locator('[placeholder=timezone]')).toContainText('UTC−12:00: Date Line (west)');
+
+    await expect(page.locator('auth-profile-form').locator('button[type=submit]')).toHaveText('Update');
+
+    await page.locator('auth-profile-form').locator('button[type=submit]').click();
+
+    await setTimeout(5000);
+
+    const newServerTime = await page.locator('#serverTime').innerText();
+    expect(newServerTime).toHaveLength(correctStringDateLength);
+    expect(isDateString(newServerTime)).toBeTruthy();
+
+    expect(differenceInHours(new Date(oldServerTime), new Date(newServerTime))).toBeGreaterThanOrEqual(11);
+  });
+});
+```
+
+Давайте запустим тест и посмотрим, проходит ли он успешно.
+
+_Команды_
+
+```bash
+npm run nx -- run client-e2e:e2e timezone
+```
+
+Если тест завершился успешно, значит, переключение временной зоны в приложении работает корректно.

@@ -54,6 +54,7 @@ export const appConfig = ({
     providers: [
       provideClientHydration(),
       provideZoneChangeDetection({ eventCoalescing: true }),
+      provideRouter(appRoutes),
       provideHttpClient(),
       provideNzI18n(en_US),
       {
@@ -121,7 +122,6 @@ export const appConfig = ({
         multi: true,
         deps: [AppInitializer],
       },
-      provideRouter(appRoutes),
       {
         provide: AuthProfileFormService,
         useClass: CustomAuthProfileFormService,

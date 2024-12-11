@@ -10,7 +10,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class CustomAuthProfileFormService extends AuthProfileFormService {
-  utcTimeZones = [
+  private utcTimeZones = [
     {
       label: marker('UTC−12:00: Date Line (west)'),
       value: -12,

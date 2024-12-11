@@ -9,7 +9,6 @@ export * from './lib/api/app-rest.service';
 export * from './lib/api/auth-rest.service';
 export * from './lib/api/authorizer-rest.service';
 export * from './lib/api/files-rest.service';
-
 export * from './lib/api/terminus-health-check-rest.service';
 export * from './lib/api/time-rest.service';
 export * from './lib/api/webhook-rest.service';

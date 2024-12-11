@@ -65,53 +65,53 @@ services:
       nestjs-mod-fullstack-postgre-sql-migrations:
         condition: service_completed_successfully
   nestjs-mod-fullstack-minio:
-    image: "bitnami/minio:2024.11.7"
-    container_name: "nestjs-mod-fullstack-minio"
+    image: 'bitnami/minio:2024.11.7'
+    container_name: 'nestjs-mod-fullstack-minio'
     volumes:
-      - "nestjs-mod-fullstack-minio-volume:/bitnami/minio/data"
+      - 'nestjs-mod-fullstack-minio-volume:/bitnami/minio/data'
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '9000:9000'
+      - '9001:9001'
     networks:
-      - "nestjs-mod-fullstack-network"
+      - 'nestjs-mod-fullstack-network'
     environment:
-      MINIO_ROOT_USER: "${SERVER_MINIO_MINIO_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${SERVER_MINIO_MINIO_ROOT_PASSWORD}"
+      MINIO_ROOT_USER: '${SERVER_MINIO_MINIO_ROOT_USER}'
+      MINIO_ROOT_PASSWORD: '${SERVER_MINIO_MINIO_ROOT_PASSWORD}'
     healthcheck:
       test:
-        - "CMD-SHELL"
-        - "mc"
-        - "ready"
-        - "local"
-      interval: "5s"
-      timeout: "5s"
+        - 'CMD-SHELL'
+        - 'mc'
+        - 'ready'
+        - 'local'
+      interval: '5s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
   nestjs-mod-fullstack-redis:
-    image: "bitnami/redis:7.4.1"
-    container_name: "nestjs-mod-fullstack-redis"
+    image: 'bitnami/redis:7.4.1'
+    container_name: 'nestjs-mod-fullstack-redis'
     volumes:
-      - "nestjs-mod-fullstack-redis-volume:/bitnami/redis/data"
+      - 'nestjs-mod-fullstack-redis-volume:/bitnami/redis/data'
     ports:
-      - "6379:6379"
+      - '6379:6379'
     networks:
-      - "nestjs-mod-fullstack-network"
+      - 'nestjs-mod-fullstack-network'
     environment:
-      REDIS_DATABASE: "${SERVER_REDIS_REDIS_DATABASE}"
-      REDIS_PASSWORD: "${SERVER_REDIS_REDIS_PASSWORD}"
-      REDIS_DISABLE_COMMANDS: "${SERVER_REDIS_REDIS_DISABLE_COMMANDS}"
-      REDIS_IO_THREADS: "${SERVER_REDIS_REDIS_IO_THREADS}"
-      REDIS_IO_THREADS_DO_READS: "${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}"
+      REDIS_DATABASE: '${SERVER_REDIS_REDIS_DATABASE}'
+      REDIS_PASSWORD: '${SERVER_REDIS_REDIS_PASSWORD}'
+      REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
+      REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
+      REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
     healthcheck:
       test:
-        - "CMD-SHELL"
-        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
-      interval: "5s"
-      timeout: "5s"
+        - 'CMD-SHELL'
+        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+      interval: '5s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
   nestjs-mod-fullstack-postgre-sql-migrations:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
@@ -123,6 +123,7 @@ services:
       SERVER_ROOT_DATABASE_URL: '${SERVER_ROOT_DATABASE_URL}'
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
       SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
+      SERVER_AUTH_DATABASE_URL: '${SERVER_AUTH_DATABASE_URL}'
       SERVER_AUTHORIZER_DATABASE_URL: '${SERVER_AUTHORIZER_DATABASE_URL}'
     depends_on:
       nestjs-mod-fullstack-postgre-sql:
@@ -153,6 +154,7 @@ services:
       SERVER_PORT: '${SERVER_PORT}'
       SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
       SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
+      SERVER_AUTH_DATABASE_URL: '${SERVER_AUTH_DATABASE_URL}'
       SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID: '${SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
@@ -251,6 +253,6 @@ volumes:
   nestjs-mod-fullstack-https-portal-volume:
     name: 'nestjs-mod-fullstack-https-portal-volume'
   nestjs-mod-fullstack-minio-volume:
-    name: "nestjs-mod-fullstack-minio-volume"
+    name: 'nestjs-mod-fullstack-minio-volume'
   nestjs-mod-fullstack-redis-volume:
-    name: "nestjs-mod-fullstack-redis-volume"
+    name: 'nestjs-mod-fullstack-redis-volume'
