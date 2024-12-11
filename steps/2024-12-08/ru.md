@@ -4,8 +4,6 @@
 
 Приветствую всех, кто интересуется веб-разработкой! В этой статье я расскажу о своём опыте внедрения поддержки временных зон в фулстек-приложение на основе `NestJS` и `Angular`. Мы рассмотрим, как сохранить настройки таймзоны пользователя в базе данных и применять их при взаимодействии с сервером.
 
-Проект реализовывался совместно с `GigaChat`: я описывал свои идеи, а он помогал их уточнять, оценивать и декомпозировать. Запросы к нему были многочисленными, так как я только начинаю осваивать работу с нейронными сетями.
-
 ### Устанавливаем все необходимые библиотеки
 
 _Команды_
@@ -291,6 +289,63 @@ bootstrapNestApplication({
 });
 ```
 
+### Создаем сервис кэширования пользователей базы данных "Auth", для ускоренного доступа из "AuthGuard" и "AuthTimezoneInterceptor"
+
+Создаем файл _libs\core\auth\src\lib\services\auth-cache.service.ts_
+
+```typescript
+import { CacheManagerService } from '@nestjs-mod/cache-manager';
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { Injectable } from '@nestjs/common';
+import { AuthUser, PrismaClient } from '@prisma/auth-client';
+import { AUTH_FEATURE } from '../auth.constants';
+import { AuthEnvironments } from '../auth.environments';
+
+@Injectable()
+export class AuthCacheService {
+  constructor(
+    @InjectPrismaClient(AUTH_FEATURE)
+    private readonly prismaClient: PrismaClient,
+    private readonly cacheManagerService: CacheManagerService,
+    private readonly authEnvironments: AuthEnvironments
+  ) {}
+
+  async clearCacheByExternalUserId(externalUserId: string) {
+    const authUsers = await this.prismaClient.authUser.findMany({
+      where: { externalUserId },
+    });
+    for (const authUser of authUsers) {
+      await this.cacheManagerService.del(this.getUserCacheKey(authUser));
+    }
+  }
+
+  async getCachedUserByExternalUserId(externalUserId: string) {
+    const cached = await this.cacheManagerService.get<AuthUser | null>(
+      this.getUserCacheKey({
+        externalUserId,
+      })
+    );
+    if (cached) {
+      return cached;
+    }
+    const user = await this.prismaClient.authUser.findFirst({
+      where: {
+        externalUserId,
+      },
+    });
+    if (user) {
+      await this.cacheManagerService.set(this.getUserCacheKey({ externalUserId }), user, this.authEnvironments.cacheTTL);
+      return user;
+    }
+    return null;
+  }
+
+  private getUserCacheKey({ externalUserId }: { externalUserId: string }): string {
+    return `authUser.${externalUserId}`;
+  }
+}
+```
+
 ### Разработка контроллера для получения и записи информации о таймзоне пользователя
 
 Создадим контроллер, который позволит получать текущие настройки временной зоны пользователя и изменять их при необходимости.
@@ -311,6 +366,7 @@ import { AuthError } from '../auth.errors';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { AuthEntities } from '../types/auth-entities';
 import { AuthProfileDto } from '../types/auth-profile.dto';
+import { AuthCacheService } from '../services/auth-cache.service';
 
 @ApiExtraModels(AuthError, AuthEntities, ValidationError)
 @ApiBadRequestResponse({
@@ -322,7 +378,8 @@ import { AuthProfileDto } from '../types/auth-profile.dto';
 export class AuthController {
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
-    private readonly prismaClient: PrismaClient
+    private readonly prismaClient: PrismaClient,
+    private readonly authCacheService: AuthCacheService
   ) {}
 
   @Get('profile')
@@ -333,68 +390,37 @@ export class AuthController {
 
   @Post('update-profile')
   @ApiOkResponse({ type: StatusResponse })
-  async updateProfile(@CurrentAuthUser() authUser: AuthUser, @Body() authProfile: AuthProfileDto, @InjectTranslateFunction() getText: TranslateFunction) {
+  async updateProfile(@CurrentAuthUser() authUser: AuthUser, @Body() args: AuthProfileDto, @InjectTranslateFunction() getText: TranslateFunction) {
     await this.prismaClient.authUser.update({
       where: { id: authUser.id },
       data: {
-        timezone: authProfile.timezone,
+        timezone: args.timezone,
+        updatedAt: new Date(),
       },
     });
+    await this.authCacheService.clearCacheByExternalUserId(authUser.externalUserId);
     return { message: getText('ok') };
   }
 }
 ```
 
-### Интерцептор для автоматической коррекции времени в данных
+### Создаем сервис с функцией рекурсивного конвертирования полей с типом "Date" по определенному значению "Timezone"
 
-Создадим интерцептор, который будет автоматически конвертировать время в данных в соответствии с выбранной пользователем временной зоной. Это обеспечит корректное отображение дат и времени в интерфейсе.
-
-Создаем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
+Создаем файл _libs/core/auth/src/lib/services/auth-timezone.service.ts_
 
 ```typescript
-import { getRequestFromExecutionContext } from '@nestjs-mod/common';
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { addHours } from 'date-fns';
-import { isObservable, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthRequest } from '../types/auth-request';
 
-type TObject = Record<string, unknown>;
+export type TObject = Record<string, unknown>;
 
-type TReturn = unknown | unknown[] | TObject | TObject[];
+export type TData = unknown | unknown[] | TObject | TObject[];
 
 @Injectable()
-export class AuthTimezoneInterceptor implements NestInterceptor<TReturn, TReturn> {
-  private logger = new Logger(AuthTimezoneInterceptor.name);
+export class AuthTimezoneService {
+  private logger = new Logger(AuthTimezoneService.name);
 
-  intercept(context: ExecutionContext, next: CallHandler) {
-    const req: AuthRequest = getRequestFromExecutionContext(context);
-    const timezone = req.authUser?.timezone;
-
-    const result = next.handle();
-
-    if (isObservable(result)) {
-      return result.pipe(
-        map((data) => {
-          return this.convertObject(data, timezone);
-        })
-      );
-    }
-    if (result instanceof Promise && typeof result?.then === 'function') {
-      return result.then(async (data) => {
-        if (isObservable(result)) {
-          return result.pipe(map((data) => this.convertObject(data, timezone)));
-        } else {
-          // need for correct map types with base method of NestInterceptor
-          return this.convertObject(data, timezone) as Observable<TReturn>;
-        }
-      });
-    }
-    // need for correct map types with base method of NestInterceptor
-    return this.convertObject(result, timezone) as Observable<TReturn>;
-  }
-
-  convertObject(data: TReturn, timezone: number | null | undefined, depth = 10): TReturn {
+  convertObject(data: TData, timezone: number | null | undefined, depth = 10): TData {
     if (depth === 0) {
       return data;
     }
@@ -443,36 +469,298 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TReturn, TReturn
 }
 ```
 
-### Добавляем контроллер и интерцептор в AuthModule
+### Добавляем интерцептор для автоматической коррекции времени в данных
+
+Создадим интерцептор, который будет автоматически конвертировать время в данных в соответствии с выбранной пользователем временной зоной. Это обеспечит корректное отображение дат и времени в интерфейсе.
+
+Создаем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
+
+```typescript
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import { isObservable, Observable } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import { AuthCacheService } from '../services/auth-cache.service';
+import { AuthTimezoneService, TData } from '../services/auth-timezone.service';
+import { AuthRequest } from '../types/auth-request';
+
+@Injectable()
+export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
+  private logger = new Logger(AuthTimezoneInterceptor.name);
+
+  constructor(private readonly authTimezoneService: AuthTimezoneService, private readonly authCacheService: AuthCacheService) {}
+
+  intercept(context: ExecutionContext, next: CallHandler) {
+    const req: AuthRequest = getRequestFromExecutionContext(context);
+    const userId = req.authUser?.externalUserId;
+    const result = next.handle();
+
+    if (!userId) {
+      return result;
+    }
+
+    if (isObservable(result)) {
+      return result.pipe(
+        concatMap(async (data) => {
+          const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
+          return this.authTimezoneService.convertObject(data, user?.timezone);
+        })
+      );
+    }
+    if (result instanceof Promise && typeof result?.then === 'function') {
+      return result.then(async (data) => {
+        if (isObservable(result)) {
+          return result.pipe(
+            concatMap(async (data) => {
+              const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
+              return this.authTimezoneService.convertObject(data, user?.timezone);
+            })
+          );
+        } else {
+          const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
+          // need for correct map types with base method of NestInterceptor
+          return this.authTimezoneService.convertObject(data, user?.timezone) as Observable<TData>;
+        }
+      });
+    }
+    // need for correct map types with base method of NestInterceptor
+    return this.authTimezoneService.convertObject(result, req.authUser?.timezone) as Observable<TData>;
+  }
+}
+```
+
+### Добавим "AuthGuard", для того чтобы пользователи автоматически создавались в базе данных "Auth"
 
 Создаем файл _libs/core/auth/src/lib/auth.module.ts_
 
 ```typescript
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
+import { AllowEmptyUser } from '@nestjs-mod/authorizer';
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthRole, PrismaClient } from '@prisma/auth-client';
+import { AUTH_FEATURE } from './auth.constants';
+import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
+import { AuthError, AuthErrorEnum } from './auth.errors';
+import { AuthCacheService } from './services/auth-cache.service';
+import { AuthRequest } from './types/auth-request';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  private logger = new Logger(AuthGuard.name);
+
+  constructor(
+    @InjectPrismaClient(AUTH_FEATURE)
+    private readonly prismaClient: PrismaClient,
+    private readonly reflector: Reflector,
+    private readonly authCacheService: AuthCacheService
+  ) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    try {
+      const { skipAuthGuard, checkAuthRole, allowEmptyUserMetadata } = this.getHandlersReflectMetadata(context);
+
+      if (skipAuthGuard) {
+        return true;
+      }
+
+      const req: AuthRequest = this.getRequestFromExecutionContext(context);
+
+      if (req.authorizerUser?.id) {
+        await this.tryGetOrCreateCurrentUserWithExternalUserId(req, req.authorizerUser.id);
+      }
+
+      this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
+
+      this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
+    } catch (err) {
+      this.logger.error(err, (err as Error).stack);
+      throw err;
+    }
+    return true;
+  }
+
+  private throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole: AuthRole[] | undefined, req: AuthRequest) {
+    if (checkAuthRole && req.authUser && !checkAuthRole?.includes(req.authUser.userRole)) {
+      throw new AuthError(AuthErrorEnum.FORBIDDEN);
+    }
+  }
+
+  private throwErrorIfCurrentUserNotSet(req: AuthRequest, allowEmptyUserMetadata?: boolean) {
+    if (!req.skippedByAuthorizer && !req.authUser && !allowEmptyUserMetadata) {
+      throw new AuthError(AuthErrorEnum.USER_NOT_FOUND);
+    }
+  }
+
+  private async tryGetOrCreateCurrentUserWithExternalUserId(req: AuthRequest, externalUserId: string) {
+    if (!req.authUser && externalUserId) {
+      const authUser = await this.authCacheService.getCachedUserByExternalUserId(externalUserId);
+      req.authUser =
+        authUser ||
+        (await this.prismaClient.authUser.upsert({
+          create: { externalUserId, userRole: 'User' },
+          update: {},
+          where: { externalUserId },
+        }));
+    }
+  }
+
+  private getRequestFromExecutionContext(context: ExecutionContext) {
+    const req = getRequestFromExecutionContext(context) as AuthRequest;
+    req.headers = req.headers || {};
+    return req;
+  }
+
+  private getHandlersReflectMetadata(context: ExecutionContext) {
+    const allowEmptyUserMetadata = Boolean((typeof context.getHandler === 'function' && this.reflector.get(AllowEmptyUser, context.getHandler())) || (typeof context.getClass === 'function' && this.reflector.get(AllowEmptyUser, context.getClass())) || undefined);
+
+    const skipAuthGuard = (typeof context.getHandler === 'function' && this.reflector.get(SkipAuthGuard, context.getHandler())) || (typeof context.getClass === 'function' && this.reflector.get(SkipAuthGuard, context.getClass())) || undefined;
+
+    const checkAuthRole = (typeof context.getHandler === 'function' && this.reflector.get(CheckAuthRole, context.getHandler())) || (typeof context.getClass === 'function' && this.reflector.get(CheckAuthRole, context.getClass())) || undefined;
+    return { allowEmptyUserMetadata, skipAuthGuard, checkAuthRole };
+  }
+}
+```
+
+### Добавляем все созданные классы в AuthModule
+
+Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
+
+```typescript
+import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
+import { createNestModule, getFeatureDotEnvPropertyNameFormatter, NestModuleCategory } from '@nestjs-mod/common';
 import { PrismaModule } from '@nestjs-mod/prisma';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
+import { AuthEnvironments } from './auth.environments';
+import { AuthExceptionsFilter } from './auth.filter';
+import { AuthGuard } from './auth.guard';
 import { AuthController } from './controllers/auth.controller';
+import { AuthorizerController } from './controllers/authorizer.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
-// ...
+import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-bootstrap.service';
+import { AuthAuthorizerService } from './services/auth-authorizer.service';
+import { AuthTimezoneService } from './services/auth-timezone.service';
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { AuthCacheService } from './services/auth-cache.service';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
-  // ...
+  moduleCategory: NestModuleCategory.feature,
+  staticEnvironmentsModel: AuthEnvironments,
   imports: [
-    // ...
+    AuthorizerModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
     }),
+    CacheManagerModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
   ],
-  controllers: [
-    // ...
-    AuthController,
+  controllers: [AuthorizerController, AuthController],
+  sharedImports: [
+    PrismaModule.forFeature({
+      contextName: AUTH_FEATURE,
+      featureModuleName: AUTH_FEATURE,
+    }),
+    CacheManagerModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
   ],
-  providers: [
-    // ...
-    { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor },
-  ],
-  // ...
+  sharedProviders: [AuthTimezoneService, AuthCacheService],
+  providers: [{ provide: APP_GUARD, useClass: AuthorizerGuard }, { provide: APP_GUARD, useClass: AuthGuard }, { provide: APP_FILTER, useClass: AuthExceptionsFilter }, { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor }, AuthAuthorizerService, AuthAuthorizerBootstrapService],
+  wrapForRootAsync: (asyncModuleOptions) => {
+    if (!asyncModuleOptions) {
+      asyncModuleOptions = {};
+    }
+    const FomatterClass = getFeatureDotEnvPropertyNameFormatter(AUTH_FEATURE);
+    Object.assign(asyncModuleOptions, {
+      environmentsOptions: {
+        propertyNameFormatters: [new FomatterClass()],
+        name: AUTH_FEATURE,
+      },
+    });
+
+    return { asyncModuleOptions };
+  },
+});
+```
+
+### Создаем новый e2e-тест для проверки трансформации полей с типом "Date"
+
+Обновляем файл _apps/server-e2e/src/server/timezone-time.spec.ts_
+
+```typescript
+import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { isDateString } from 'class-validator';
+import { get } from 'env-var';
+import { lastValueFrom, take, toArray } from 'rxjs';
+
+describe('Get server time from rest api and ws (timezone)', () => {
+  jest.setTimeout(60000);
+
+  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
+  const restClientHelper = new RestClientHelper({
+    serverUrl: process.env.IS_DOCKER_COMPOSE ? get('CLIENT_URL').asString() : undefined,
+  });
+
+  beforeAll(async () => {
+    await restClientHelper.createAndLoginAsUser();
+  });
+
+  it('should return time from rest api in two different time zones', async () => {
+    const time = await restClientHelper.getTimeApi().timeControllerTime();
+
+    expect(time.status).toBe(200);
+    expect(time.data).toHaveLength(correctStringDateLength);
+    expect(isDateString(time.data)).toBeTruthy();
+
+    await restClientHelper.getAuthApi().authControllerUpdateProfile({ timezone: -3 });
+
+    const time2 = await restClientHelper.getTimeApi().timeControllerTime();
+
+    expect(time2.status).toBe(200);
+    expect(time2.data).toHaveLength(correctStringDateLength);
+    expect(isDateString(time2.data)).toBeTruthy();
+
+    expect(+new Date(time.data as unknown as string) - +new Date(time2.data as unknown as string)).toBeGreaterThanOrEqual(3 * 60 * 1000);
+  });
+
+  it('should return time from ws in two different time zones', async () => {
+    await restClientHelper.getAuthApi().authControllerUpdateProfile({ timezone: null });
+
+    const last3ChangeTimeEvents = await lastValueFrom(
+      restClientHelper
+        .webSocket<string>({
+          path: `/ws/time?token=${restClientHelper.authorizationTokens?.access_token}`,
+          eventName: 'ChangeTimeStream',
+        })
+        .pipe(take(3), toArray())
+    );
+
+    expect(last3ChangeTimeEvents).toHaveLength(3);
+
+    await restClientHelper.getAuthApi().authControllerUpdateProfile({ timezone: -3 });
+
+    const newLast3ChangeTimeEvents = await lastValueFrom(
+      restClientHelper
+        .webSocket<string>({
+          path: `/ws/time?token=${restClientHelper.authorizationTokens?.access_token}`,
+          eventName: 'ChangeTimeStream',
+        })
+        .pipe(take(3), toArray())
+    );
+
+    expect(newLast3ChangeTimeEvents).toHaveLength(3);
+
+    expect(+new Date(last3ChangeTimeEvents[0].data as unknown as string) - +new Date(newLast3ChangeTimeEvents[0].data as unknown as string)).toBeGreaterThanOrEqual(3 * 60 * 1000);
+    expect(+new Date(last3ChangeTimeEvents[1].data as unknown as string) - +new Date(newLast3ChangeTimeEvents[1].data as unknown as string)).toBeGreaterThanOrEqual(3 * 60 * 1000);
+    expect(+new Date(last3ChangeTimeEvents[2].data as unknown as string) - +new Date(newLast3ChangeTimeEvents[2].data as unknown as string)).toBeGreaterThanOrEqual(3 * 60 * 1000);
+  });
 });
 ```
 

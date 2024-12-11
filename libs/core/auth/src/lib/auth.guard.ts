@@ -12,6 +12,7 @@ import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { AUTH_FEATURE } from './auth.constants';
 import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
 import { AuthError, AuthErrorEnum } from './auth.errors';
+import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
 
 @Injectable()
@@ -21,7 +22,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly reflector: Reflector
+    private readonly reflector: Reflector,
+    private readonly authCacheService: AuthCacheService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -79,11 +81,17 @@ export class AuthGuard implements CanActivate {
     externalUserId: string
   ) {
     if (!req.authUser && externalUserId) {
-      req.authUser = await this.prismaClient.authUser.upsert({
-        create: { externalUserId, userRole: 'User' },
-        update: {},
-        where: { externalUserId },
-      });
+      const authUser =
+        await this.authCacheService.getCachedUserByExternalUserId(
+          externalUserId
+        );
+      req.authUser =
+        authUser ||
+        (await this.prismaClient.authUser.upsert({
+          create: { externalUserId, userRole: 'User' },
+          update: {},
+          where: { externalUserId },
+        }));
     }
   }
 
