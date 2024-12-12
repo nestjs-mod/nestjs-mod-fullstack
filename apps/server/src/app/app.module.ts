@@ -34,7 +34,7 @@ export const { AppModule } = createNestModule({
     }),
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
-      featureModuleName: AUTH_FEATURE,
+      featureModuleName: 'app',
     }),
     TranslatesModule.forRootDefault({
       localePaths: [

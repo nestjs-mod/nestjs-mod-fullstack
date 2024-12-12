@@ -48,12 +48,17 @@ import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
 import { MinioModule } from '@nestjs-mod/minio';
 import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
-import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
+import {
+  PRISMA_SCHEMA_FILE,
+  PrismaClient,
+  PrismaModule,
+  getPrismaClientToken,
+} from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { ExecutionContext } from '@nestjs/common';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { MemoryHealthIndicator } from '@nestjs/terminus';
+import { MemoryHealthIndicator, PrismaHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
@@ -84,8 +89,26 @@ bootstrapNestApplication({
       }),
       NestjsPinoLoggerModule.forRoot(),
       TerminusHealthCheckModule.forRootAsync({
+        imports: [
+          PrismaModule.forFeature({
+            featureModuleName: 'TerminusHealthCheckModule',
+            contextName: 'app',
+          }),
+          PrismaModule.forFeature({
+            featureModuleName: 'TerminusHealthCheckModule',
+            contextName: AUTH_FEATURE,
+          }),
+          PrismaModule.forFeature({
+            featureModuleName: 'TerminusHealthCheckModule',
+            contextName: WEBHOOK_FEATURE,
+          }),
+        ],
         configurationFactory: (
-          memoryHealthIndicator: MemoryHealthIndicator
+          memoryHealthIndicator: MemoryHealthIndicator,
+          prismaHealthIndicator: PrismaHealthIndicator,
+          appPrismaClient: PrismaClient,
+          authPrismaClient: PrismaClient,
+          webhookPrismaClient: PrismaClient
         ) => ({
           standardHealthIndicators: [
             {
@@ -96,9 +119,42 @@ bootstrapNestApplication({
                   150 * 1024 * 1024
                 ),
             },
+            {
+              name: `database_${'app'}`,
+              check: () =>
+                prismaHealthIndicator.pingCheck(
+                  `database_${'app'}`,
+                  appPrismaClient,
+                  { timeout: 60 * 1000 }
+                ),
+            },
+            {
+              name: `database_${AUTH_FEATURE}`,
+              check: () =>
+                prismaHealthIndicator.pingCheck(
+                  `database_${AUTH_FEATURE}`,
+                  authPrismaClient,
+                  { timeout: 60 * 1000 }
+                ),
+            },
+            {
+              name: `database_${WEBHOOK_FEATURE}`,
+              check: () =>
+                prismaHealthIndicator.pingCheck(
+                  `database_${WEBHOOK_FEATURE}`,
+                  webhookPrismaClient,
+                  { timeout: 60 * 1000 }
+                ),
+            },
           ],
         }),
-        inject: [MemoryHealthIndicator],
+        inject: [
+          MemoryHealthIndicator,
+          PrismaHealthIndicator,
+          getPrismaClientToken('app'),
+          getPrismaClientToken(AUTH_FEATURE),
+          getPrismaClientToken(WEBHOOK_FEATURE),
+        ],
       }),
       DefaultNestApplicationListener.forRoot({
         staticConfiguration: {
@@ -193,6 +249,12 @@ bootstrapNestApplication({
       PrismaModule.forRoot({
         contextName: appFeatureName,
         staticConfiguration: {
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+          ],
           featureName: appFeatureName,
           schemaFile: join(
             appFolder,
@@ -209,6 +271,12 @@ bootstrapNestApplication({
       PrismaModule.forRoot({
         contextName: WEBHOOK_FEATURE,
         staticConfiguration: {
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+          ],
           featureName: WEBHOOK_FEATURE,
           schemaFile: join(
             rootFolder,
@@ -231,6 +299,12 @@ bootstrapNestApplication({
       PrismaModule.forRoot({
         contextName: AUTH_FEATURE,
         staticConfiguration: {
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+          ],
           featureName: AUTH_FEATURE,
           schemaFile: join(
             rootFolder,

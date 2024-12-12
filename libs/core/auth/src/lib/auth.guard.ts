@@ -14,6 +14,7 @@ import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
+import { AuthEnvironments } from './auth.environments';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,10 +24,15 @@ export class AuthGuard implements CanActivate {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
+    private readonly authEnvironments: AuthEnvironments
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (!this.authEnvironments.useGuards) {
+      return true;
+    }
+
     try {
       const { skipAuthGuard, checkAuthRole, allowEmptyUserMetadata } =
         this.getHandlersReflectMetadata(context);

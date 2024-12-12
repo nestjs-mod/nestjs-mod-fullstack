@@ -145,7 +145,7 @@ Variables of primitive and complex types that are used in the module; values for
 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
-|`standardHealthIndicators`|Standard health indicators @see https://docs.nestjs.com/recipes/terminus#setting-up-a-healthcheck|**optional**|-|[ ```{"name":"memory_heap"}``` ]|
+|`standardHealthIndicators`|Standard health indicators @see https://docs.nestjs.com/recipes/terminus#setting-up-a-healthcheck|**optional**|-|[ ```{"name":"memory_heap"}```, ```{"name":"database_app"}```, ```{"name":"database_auth"}```, ```{"name":"database_webhook"}``` ]|
 
 ## Core modules
 Core modules necessary for the operation of feature and integration modules (examples: main module with connection to the database, main module for connecting to aws, etc.). NestJS and NestJS-mod compatible modules.
@@ -211,6 +211,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -229,6 +230,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -247,6 +249,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -270,6 +273,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -288,6 +292,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -306,6 +311,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -329,6 +335,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```auth```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -347,6 +354,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```webhook```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|Application or library project.json-file (nx)|**optional**|-|```/usr/src/app/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -365,6 +373,7 @@ Static variables of primitive and complex types that are used in the module and 
 |`featureName`|Prisma feature name for generate prefix to environments keys (infrastructure)|**optional**|-|```app```|
 |`schemaFile`|Schema file for prisma (infrastructure)|**optional**|-|```/usr/src/app/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|The option specifies whether it is necessary to create scripts to work with database migrations, for those who use third-party applications to create and apply migrations in the database (infrastructure, example: https://flywaydb.org, https://www.npmjs.com/package/db-migrate)|**optional**|```true```|```false```|
+|`binaryTargets`|Binary targets (infrastructure)|**optional**|-|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
 
 ### CacheManagerModule
 A cache module for nodejs that allows easy wrapping of functions in cache, tiered caches, and a consistent interface for NestJS-mod (Wrapper for https://www.npmjs.com/package/cache-manager)
@@ -427,6 +436,9 @@ Static variables with primitive types used in the module and can be used at the 
 |`adminUsername`|Global admin username|`obj['adminUsername']`, `process.env['SERVER_AUTH_ADMIN_USERNAME']`|**isNotEmpty** (adminUsername should not be empty)|```admin```|```admin```|
 |`adminPassword`|Global admin password|`obj['adminPassword']`, `process.env['SERVER_AUTH_ADMIN_PASSWORD']`|**optional**|-|-|
 |`cacheTTL`|TTL for cached data.|`obj['cacheTTL']`, `process.env['SERVER_AUTH_CACHE_TTL']`|**optional**|```15000```|```15000```|
+|`useGuards`|Use guards.|`obj['useGuards']`, `process.env['SERVER_AUTH_USE_GUARDS']`|**optional**|```true```|```true```|
+|`useFilters`|Use filters.|`obj['useFilters']`, `process.env['SERVER_AUTH_USE_FILTERS']`|**optional**|```true```|```true```|
+|`useInterceptors`|Use interceptors.|`obj['useInterceptors']`, `process.env['SERVER_AUTH_USE_INTERCEPTORS']`|**optional**|```true```|```true```|
 
 ### WebhookModule
 #### Shared providers

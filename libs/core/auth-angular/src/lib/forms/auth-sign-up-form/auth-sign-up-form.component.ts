@@ -129,7 +129,7 @@ export class AuthSignUpFormComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private catchAndProcessServerError(err: any) {
     const error = err.error as ValidationErrorInterface;
-    if (error.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
+    if (error?.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
       this.setFormlyFields({ errors: error.metadata });
       return of(null);
     }

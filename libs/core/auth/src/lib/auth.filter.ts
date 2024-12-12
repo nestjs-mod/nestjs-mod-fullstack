@@ -7,13 +7,22 @@ import {
   Logger,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
+import { AuthEnvironments } from './auth.environments';
 import { AuthErrorEnum } from './auth.errors';
 
 @Catch(AuthorizerError)
 export class AuthExceptionsFilter extends BaseExceptionFilter {
   private logger = new Logger(AuthExceptionsFilter.name);
 
+  constructor(private readonly authEnvironments: AuthEnvironments) {
+    super();
+  }
+
   override catch(exception: AuthorizerError, host: ArgumentsHost) {
+    if (!this.authEnvironments.useFilters) {
+      super.catch(exception, host);
+      return;
+    }
     if (exception instanceof AuthorizerError) {
       this.logger.error(exception, exception.stack);
       super.catch(

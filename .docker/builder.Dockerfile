@@ -45,7 +45,9 @@ COPY --from=builder /usr/src/app/jest.config.ts /usr/src/app/jest.config.ts
 COPY --from=builder /usr/src/app/jest.preset.js /usr/src/app/jest.preset.js
 
 # Install java
-RUN apk add openjdk11-jre
+RUN apk add openjdk11-jre \
+    && apk add --no-cache openssl
+
 # Clean up
 RUN rm -rf /var/cache/apk/*
 

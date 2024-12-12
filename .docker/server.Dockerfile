@@ -37,6 +37,9 @@ RUN rm -rf /usr/src/app/node_modules/@nx && \
 FROM node:22-alpine
 WORKDIR /usr/src/app
 
+RUN apk update \
+  && apk add --no-cache openssl
+
 # Set server port
 ENV SERVER_PORT=8080
 

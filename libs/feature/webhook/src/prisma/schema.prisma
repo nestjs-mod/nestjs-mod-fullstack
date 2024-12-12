@@ -2,12 +2,14 @@ generator client {
   provider = "prisma-client-js"
   engineType = "binary"
   output   = "../../../../../node_modules/@prisma/webhook-client"
-  
+  binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
 }
 datasource db {
   provider          = "postgresql"
   url               = env("SERVER_WEBHOOK_DATABASE_URL")
 }
+
+
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"

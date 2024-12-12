@@ -3,7 +3,6 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  Logger,
   NestInterceptor,
 } from '@nestjs/common';
 import { isObservable, Observable } from 'rxjs';
@@ -11,20 +10,25 @@ import { concatMap } from 'rxjs/operators';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthTimezoneService, TData } from '../services/auth-timezone.service';
 import { AuthRequest } from '../types/auth-request';
+import { AuthEnvironments } from '../auth.environments';
 
 @Injectable()
 export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
-  private logger = new Logger(AuthTimezoneInterceptor.name);
-
   constructor(
     private readonly authTimezoneService: AuthTimezoneService,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
+    private readonly authEnvironments: AuthEnvironments
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
+    const result = next.handle();
+
+    if (!this.authEnvironments.useInterceptors) {
+      return result;
+    }
+
     const req: AuthRequest = getRequestFromExecutionContext(context);
     const userId = req.authUser?.externalUserId;
-    const result = next.handle();
 
     if (!userId) {
       return result;
