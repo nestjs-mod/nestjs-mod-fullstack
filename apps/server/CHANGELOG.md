@@ -1,3 +1,9 @@
+# [1.10.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.9.0...server-v1.10.0) (2024-12-12)
+
+### Features
+
+- We implement support for time zones in a full stack application based on NestJS and Angular when working via REST and WebSockets (2024-12-12) ([3019d98](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/3019d982ca9605479a8b917f71a8ae268f3582bc))
+
 # [1.9.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.8.0...server-v1.9.0) (2024-12-03)
 
 ### Features
