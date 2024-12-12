@@ -1,4 +1,4 @@
-## [2024-12-12] We implement support for time zones in a full stack application based on NestJS and Angular when working via REST and WebSockets
+## [2024-12-12] Timezone support in a full-stack application based on NestJS and Angular: working with REST and WebSockets
 
 In this article, I would like to share my experience in implementing timezone support in a full stack application built on `NestJS` and `Angular`. We will learn how to save user time zone settings in the database and use them correctly when interacting with the server via `REST` and web sockets.
 
@@ -1281,7 +1281,7 @@ The functionality was thoroughly tested using E2E testing.
 
 ### Plans
 
-In the next article I will talk about how to add the ability to save the user's selected language to the database. This is important, since the language can now differ on different devices of the same user.
+In the next post I will talk about how to add the ability to save the user's selected language to the database. This is important, since the language can now differ on different devices of the same user.
 
 ### Links
 
