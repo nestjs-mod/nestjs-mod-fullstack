@@ -13,14 +13,23 @@ import {
   AppRestService,
   TimeRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService } from '@nestjs-mod-fullstack/auth-angular';
+import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
 import { webSocket } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { BehaviorSubject, map, merge, mergeMap, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  merge,
+  mergeMap,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -53,7 +62,8 @@ export class AppComponent implements OnInit {
     private readonly appRestService: AppRestService,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly tokensService: TokensService
   ) {}
 
   ngOnInit() {
@@ -103,10 +113,23 @@ export class AppComponent implements OnInit {
   private fillServerTime() {
     return merge(
       this.timeRestService.timeControllerTime(),
-      webSocket<string>({
-        address: this.timeRestService.configuration.basePath + '/ws/time',
-        eventName: 'ChangeTimeStream',
-      }).pipe(map((result) => result.data))
+      merge(
+        of(this.tokensService.tokens$.value),
+        this.tokensService.tokens$.asObservable()
+      )
+        .pipe(
+          switchMap((token) =>
+            webSocket<string>({
+              address:
+                this.timeRestService.configuration.basePath +
+                (token?.access_token
+                  ? `/ws/time?token=${token?.access_token}`
+                  : '/ws/time'),
+              eventName: 'ChangeTimeStream',
+            })
+          )
+        )
+        .pipe(map((result) => result.data))
     ).pipe(tap((result) => this.serverTime$.next(result as string)));
   }
 

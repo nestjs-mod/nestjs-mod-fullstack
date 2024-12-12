@@ -75,6 +75,7 @@ export class WebhookServiceBootstrap
               ...(eventHeaders || {}),
             };
             const webhookLog = await this.prismaClient.webhookLog.create({
+              select: { id: true },
               data: {
                 externalTenantId: webhook.externalTenantId,
                 request: {
@@ -91,7 +92,7 @@ export class WebhookServiceBootstrap
             try {
               await this.prismaClient.webhookLog.update({
                 where: { id: webhookLog.id },
-                data: { webhookStatus: 'Process' },
+                data: { webhookStatus: 'Process', updatedAt: new Date() },
               });
               const request = await firstValueFrom(
                 this.httpService
@@ -109,6 +110,7 @@ export class WebhookServiceBootstrap
                 responseStatus = request.statusText;
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
               } catch (err: any) {
+                this.logger.error(err, (err as Error).stack);
                 response = String(err.message);
                 responseStatus = 'unhandled';
               }
@@ -118,10 +120,12 @@ export class WebhookServiceBootstrap
                   responseStatus,
                   response,
                   webhookStatus: 'Success',
+                  updatedAt: new Date(),
                 },
               });
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err: any) {
+              this.logger.error(err, (err as Error).stack);
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               let response: any, responseStatus: string;
               try {
@@ -129,6 +133,7 @@ export class WebhookServiceBootstrap
                 responseStatus = err.response?.statusText;
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
               } catch (err2: any) {
+                this.logger.error(err2, (err2 as Error).stack);
                 response = String(err2.message);
                 responseStatus = 'unhandled';
               }
@@ -140,10 +145,11 @@ export class WebhookServiceBootstrap
                     response,
                     webhookStatus:
                       err instanceof TimeoutError ? 'Timeout' : 'Error',
+                    updatedAt: new Date(),
                   },
                 });
               } catch (err) {
-                //
+                this.logger.error(err, (err as Error).stack);
               }
             }
           }

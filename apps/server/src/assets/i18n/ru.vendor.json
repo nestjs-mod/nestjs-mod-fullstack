@@ -4,7 +4,8 @@
   "auth-getText": {
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
-    "User not found": "Пользователь не найден"
+    "User not found": "Пользователь не найден",
+    "ok": "ок"
   },
   "auth-angular": {
     "Sign-in": "Войти",
@@ -12,14 +13,15 @@
     "auth.sign-up-form.fields.email": "Email",
     "auth.sign-up-form.fields.password": "Пароль",
     "auth.sign-up-form.fields.confirm-password": "Пароль (еще раз)",
-    "Success": "Успешно",
-    "Validation errors": "Ошибка при проверке данных",
+    "field \"{{label}}\"": "поле \"{{label}}\"",
     "auth.sign-in-form.fields.email": "Email",
     "auth.sign-in-form.fields.password": "Пароль",
     "auth.profile-form.fields.picture": "Изображение",
     "auth.profile-form.fields.old-password": "Старый пароль",
     "auth.profile-form.fields.new-password": "Новый пароль",
     "auth.profile-form.fields.confirm-new-password": "Новый пароль (еще раз)",
+    "Success": "Успешно",
+    "Validation errors": "Ошибка при проверке данных",
     "Updated": "Обновлен",
     "Update": "Обновить"
   },
@@ -72,6 +74,14 @@
     "Fill user credentials": "Заполните учетные данные пользователя",
     "Fill admin credentials": "Заполните учетные данные администратора",
     "Sign-in": "Войти",
+    "webhook.form.fields.enabled": "Активен",
+    "webhook.form.fields.endpoint": "Адрес",
+    "webhook.form.fields.event-name": "Событие",
+    "webhook.form.fields.headers": "Заголовки",
+    "webhook.form.fields.request-timeout": "Время запроса",
+    "field \"{{label}}\"": "поле \"{{label}}\"",
+    "webhook.form.fields.x-external-userId": "x-external-userId",
+    "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "webhook-log.grid.columns.id": "ИД.",
     "webhook-log.grid.columns.request": "Запрос",
     "webhook-log.grid.columns.response": "Ответ",
@@ -91,14 +101,6 @@
     "webhook.grid.columns.request-timeout": "Время запроса",
     "Success": "Успешно",
     "id not set": "идентификатор не установлен",
-    "webhook.form.fields.enabled": "Активен",
-    "webhook.form.fields.endpoint": "Адрес",
-    "webhook.form.fields.event-name": "Событие",
-    "webhook.form.fields.headers": "Заголовки",
-    "webhook.form.fields.request-timeout": "Время запроса",
-    "field \"{{label}}\"": "поле \"{{label}}\"",
-    "webhook.form.fields.x-external-userId": "x-external-userId",
-    "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "Validation errors": "Ошибка при проверке данных"
   },
   "runtime-tools": {},
@@ -107,7 +109,8 @@
   "auth": {
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
-    "User not found": "Пользователь не найден"
+    "User not found": "Пользователь не найден",
+    "ok": "ок"
   },
   "files": {
     "Files error": "Ошибка файлов",

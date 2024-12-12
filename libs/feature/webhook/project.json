@@ -64,7 +64,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "echo 'select 1;' > ./libs/feature/webhook/src/migrations/V`date +%Y%m%d%H%M`__NewMigration.sql"
+          "echo 'select 1;' > ./libs/feature/webhook/src/migrations/V`date +%Y%m%d%H%M`__${npm_config_args:-NewMigration}.sql"
         ],
         "parallel": false,
         "envFile": "./.env",

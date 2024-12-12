@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "binary"
+  output   = "../../../../../node_modules/@prisma/auth-client"
+  binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
+}
+datasource db {
+  provider          = "postgresql"
+  url               = env("SERVER_AUTH_DATABASE_URL")
+}
+
+
+generator prismaClassGenerator {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../lib/generated/rest/dto"
+  updateDtoPrefix                 = "Update"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  definiteAssignmentAssertion     = "true"
+  flatResourceStructure           = "false"
+  exportRelationModifierClasses   = "true"
+  fileNamingStyle                 = "kebab"
+  createDtoPrefix                 = "Create"
+  classValidation                 = "true"
+  noDependencies                  = "false"
+  outputToNestJsResourceStructure = "false"
+  annotateAllDtoProperties        = "true"
+  dtoSuffix                       = "Dto"
+  reExport                        = "false"
+  prettier                        = "true"
+}
+
+model AuthUser {
+  id             String   @id(map: "PK_AUTH_USER") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  externalUserId String   @unique(map: "UQ_AUTH_USER") @db.Uuid
+  userRole       AuthRole
+  timezone       Float?
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  /// @DtoCreateHidden
+  /// @DtoUpdateHidden
+  updatedAt      DateTime @default(now()) @db.Timestamp(6)
+
+  @@index([userRole], map: "IDX_AUTH_USER__USER_ROLE")
+}
+
+model migrations {
+  installed_rank Int      @id(map: "__migrations_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "__migrations_s_idx")
+  @@map("__migrations")
+}
+
+enum AuthRole {
+  Admin
+  User
+}

@@ -15,7 +15,11 @@ import {
   RestClientApiModule,
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AUTHORIZER_URL,
+  AuthProfileFormService,
+  AuthService,
+} from '@nestjs-mod-fullstack/auth-angular';
 import {
   ImageFileComponent,
   MINIO_URL,
@@ -35,6 +39,8 @@ import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import { provideAppAuthConfiguration } from './integrations/auth.configuration';
+import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
+import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
 export const appConfig = ({
@@ -115,6 +121,14 @@ export const appConfig = ({
           appInitializer.resolve(),
         multi: true,
         deps: [AppInitializer],
+      },
+      {
+        provide: AuthProfileFormService,
+        useClass: CustomAuthProfileFormService,
+      },
+      {
+        provide: AuthService,
+        useClass: CustomAuthService,
       },
     ],
   };

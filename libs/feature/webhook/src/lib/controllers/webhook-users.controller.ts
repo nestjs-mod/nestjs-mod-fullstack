@@ -141,7 +141,7 @@ export class WebhookUsersController {
     @Body() args: UpdateWebhookUserDto
   ) {
     const result = await this.prismaClient.webhookUser.update({
-      data: { ...args },
+      data: { ...args, updatedAt: new Date() },
       where: {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(

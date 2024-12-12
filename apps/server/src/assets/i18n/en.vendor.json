@@ -4,7 +4,8 @@
   "auth-getText": {
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",
-    "User not found": "User not found"
+    "User not found": "User not found",
+    "ok": "ok"
   },
   "auth-angular": {
     "Sign-in": "Sign-in",
@@ -12,14 +13,15 @@
     "auth.sign-up-form.fields.email": "Email",
     "auth.sign-up-form.fields.password": "Password",
     "auth.sign-up-form.fields.confirm-password": "Confirm password",
-    "Success": "Success",
-    "Validation errors": "Validation errors",
+    "field \"{{label}}\"": "field \"{{label}}\"",
     "auth.sign-in-form.fields.email": "Email",
     "auth.sign-in-form.fields.password": "Password",
     "auth.profile-form.fields.picture": "Picture",
     "auth.profile-form.fields.old-password": "Old password",
     "auth.profile-form.fields.new-password": "New password",
     "auth.profile-form.fields.confirm-new-password": "Confirm new password",
+    "Success": "Success",
+    "Validation errors": "Validation errors",
     "Updated": "Updated",
     "Update": "Update"
   },
@@ -72,6 +74,14 @@
     "Fill user credentials": "Fill user credentials",
     "Fill admin credentials": "Fill admin credentials",
     "Sign-in": "Sign-in",
+    "webhook.form.fields.enabled": "Enabled",
+    "webhook.form.fields.endpoint": "Endpoint",
+    "webhook.form.fields.event-name": "Event name",
+    "webhook.form.fields.headers": "Headers",
+    "webhook.form.fields.request-timeout": "Request timeout",
+    "field \"{{label}}\"": "field \"{{label}}\"",
+    "webhook.form.fields.x-external-userId": "x-external-userId",
+    "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "webhook-log.grid.columns.id": "Id",
     "webhook-log.grid.columns.request": "Request",
     "webhook-log.grid.columns.response": "Response",
@@ -91,14 +101,6 @@
     "webhook.grid.columns.request-timeout": "Request timeout",
     "Success": "Success",
     "id not set": "id not set",
-    "webhook.form.fields.enabled": "Enabled",
-    "webhook.form.fields.endpoint": "Endpoint",
-    "webhook.form.fields.event-name": "Event name",
-    "webhook.form.fields.headers": "Headers",
-    "webhook.form.fields.request-timeout": "Request timeout",
-    "field \"{{label}}\"": "field \"{{label}}\"",
-    "webhook.form.fields.x-external-userId": "x-external-userId",
-    "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "Validation errors": "Validation errors"
   },
   "runtime-tools": {},
@@ -107,7 +109,8 @@
   "auth": {
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",
-    "User not found": "User not found"
+    "User not found": "User not found",
+    "ok": "ok"
   },
   "files": {
     "Files error": "Files error",

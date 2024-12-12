@@ -1,4 +1,8 @@
-import { EnvModel, EnvModelProperty } from '@nestjs-mod/common';
+import {
+  BooleanTransformer,
+  EnvModel,
+  EnvModelProperty,
+} from '@nestjs-mod/common';
 import { IsNotEmpty } from 'class-validator';
 
 @EnvModel()
@@ -20,4 +24,35 @@ export class AuthEnvironments {
     description: 'Global admin password',
   })
   adminPassword?: string;
+
+  @EnvModelProperty({
+    description: 'TTL for cached data.',
+    default: 15_000,
+    hidden: true,
+  })
+  cacheTTL?: number;
+
+  @EnvModelProperty({
+    description: 'Use guards.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  useGuards?: boolean;
+
+  @EnvModelProperty({
+    description: 'Use filters.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  useFilters?: boolean;
+
+  @EnvModelProperty({
+    description: 'Use interceptors.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  useInterceptors?: boolean;
 }

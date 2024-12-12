@@ -1,7 +1,9 @@
 import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
 import {
   AppApi,
+  AuthApi,
   AuthorizerApi,
+  AuthProfileDto,
   Configuration,
   FilesApi,
   TimeApi,
@@ -24,6 +26,7 @@ export class RestClientHelper {
 
   authorizationTokens?: AuthToken;
   private webhookProfile?: WebhookUser;
+  private authProfile?: AuthProfileDto;
 
   private authorizer?: Authorizer;
 
@@ -32,12 +35,14 @@ export class RestClientHelper {
   private authorizerApi?: AuthorizerApi;
   private filesApi?: FilesApi;
   private timeApi?: TimeApi;
+  private authApi?: AuthApi;
 
   private webhookApiAxios?: AxiosInstance;
   private appApiAxios?: AxiosInstance;
   private authorizerApiAxios?: AxiosInstance;
   private filesApiAxios?: AxiosInstance;
   private timeApiAxios?: AxiosInstance;
+  private authApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
 
@@ -77,7 +82,13 @@ export class RestClientHelper {
   }) {
     const wss = new WebSocket(
       this.getServerUrl().replace('/api', '').replace('http', 'ws') + path,
-      options
+      {
+        ...(options || {}),
+        headers: {
+          ...(options?.headers || {}),
+          ...this.getAuthorizationHeaders(),
+        },
+      }
     );
     return new Observable<{ data: T; event: string }>((observer) => {
       wss.on('open', () => {
@@ -139,6 +150,13 @@ export class RestClientHelper {
       throw new Error('timeApi not set');
     }
     return this.timeApi;
+  }
+
+  getAuthApi() {
+    if (!this.authApi) {
+      throw new Error('authApi not set');
+    }
+    return this.authApi;
   }
 
   async getAuthorizerClient() {
@@ -230,11 +248,7 @@ export class RestClientHelper {
 
     this.setAuthorizationHeadersFromAuthorizationTokens();
 
-    if (this.webhookApi) {
-      this.webhookProfile = (
-        await this.getWebhookApi().webhookControllerProfile()
-      ).data;
-    }
+    await this.loadProfile();
 
     return this;
   }
@@ -261,13 +275,21 @@ export class RestClientHelper {
 
     this.setAuthorizationHeadersFromAuthorizationTokens();
 
+    await this.loadProfile();
+
+    return this;
+  }
+
+  private async loadProfile() {
     if (this.webhookApi) {
       this.webhookProfile = (
         await this.getWebhookApi().webhookControllerProfile()
       ).data;
     }
 
-    return this;
+    if (this.authApi) {
+      this.authProfile = (await this.getAuthApi().authControllerProfile()).data;
+    }
   }
 
   private setAuthorizationHeadersFromAuthorizationTokens() {
@@ -292,6 +314,18 @@ export class RestClientHelper {
     if (this.filesApiAxios) {
       Object.assign(
         this.filesApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
+    if (this.authApiAxios) {
+      Object.assign(
+        this.authApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
+    if (this.timeApiAxios) {
+      Object.assign(
+        this.timeApiAxios.defaults.headers.common,
         this.getAuthorizationHeaders()
       );
     }
@@ -361,6 +395,16 @@ export class RestClientHelper {
       }),
       undefined,
       this.timeApiAxios
+    );
+    //
+
+    this.authApiAxios = axios.create();
+    this.authApi = new AuthApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.authApiAxios
     );
   }
 

@@ -171,7 +171,7 @@ export class DemoFormComponent implements OnInit {
     );
   }
 
-  private toModel(data: Partial<AppDemoInterface>): object | null {
+  private toModel(data: Partial<AppDemoInterface>) {
     return {
       name: data['name'],
     };

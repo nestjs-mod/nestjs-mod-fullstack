@@ -4,6 +4,7 @@ README.md
 api.module.ts
 api/api.ts
 api/app-rest.service.ts
+api/auth-rest.service.ts
 api/authorizer-rest.service.ts
 api/files-rest.service.ts
 api/terminus-health-check-rest.service.ts
@@ -15,8 +16,12 @@ git_push.sh
 index.ts
 model/app-data.interface.ts
 model/app-demo.interface.ts
+model/auth-controller-profile400-response.interface.ts
+model/auth-entities.interface.ts
 model/auth-error-enum.interface.ts
 model/auth-error.interface.ts
+model/auth-profile-dto.interface.ts
+model/auth-user-scalar-field-enum.interface.ts
 model/authorizer-client-id.interface.ts
 model/create-webhook-dto.interface.ts
 model/files-error-enum.interface.ts

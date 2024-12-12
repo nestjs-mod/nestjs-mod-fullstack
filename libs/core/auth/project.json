@@ -15,13 +15,17 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/core/auth",
         "tsConfig": "libs/core/auth/tsconfig.lib.json",
         "packageJson": "libs/core/auth/package.json",
         "main": "libs/core/auth/src/index.ts",
-        "assets": ["libs/core/auth/*.md"]
+        "assets": [
+          "libs/core/auth/*.md"
+        ]
       }
     },
     "nx-release-publish": {
@@ -31,7 +35,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/core/auth/jest.config.ts"
       }
@@ -41,6 +47,116 @@
       "options": {
         "buildTarget": "${PROJECT_NAME}:build",
         "outputPath": "dist/libs/core/auth"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma db pull --schema=./libs/core/auth/src/prisma/schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "db-create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTH_DATABASE_URL}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo 'select 1;' > ./libs/core/auth/src/migrations/V`date +%Y%m%d%H%M`__${npm_config_args:-NewMigration}.sql"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js migrate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-info": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js info"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-baseline": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js baseline"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js validate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "flyway-repair": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js repair"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
       }
     }
   }

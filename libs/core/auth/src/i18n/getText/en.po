@@ -14,3 +14,6 @@ msgstr "Forbidden"
 
 msgid "User not found"
 msgstr "User not found"
+
+msgid "ok"
+msgstr "ok"
