@@ -2,7 +2,7 @@
 
 In this article, I would like to share my experience in implementing timezone support in a full stack application built on `NestJS` and `Angular`. We will learn how to save user time zone settings in the database and use them correctly when interacting with the server via `REST` and web sockets.
 
-### Install all necessary libraries
+### 1. Install all necessary libraries
 
 Install the `date-fns` library, which is necessary for working with dates and time zones.
 
@@ -12,7 +12,7 @@ _Commands_
 npm install --save date-fns
 ```
 
-### Adding support for Prisma and Flyway migrations to the authorization module
+### 2. Adding support for Prisma and Flyway migrations to the authorization module
 
 Let's include the `Prisma` and `Flyway` modules in the `main.ts` file to set up interaction with the new `Auth` database.
 
@@ -75,7 +75,7 @@ Update the _.env_ and _example.env_ files
 SERVER_AUTH_DATABASE_URL=postgres://auth:auth_password@localhost:5432/auth?schema=public
 ```
 
-### Creating a table to store the user's time zone
+### 3. Creating a table to store the user's time zone
 
 I chose to use the `Auth` authorization module to store data about user time zones, due to the architectural features of our project. In other situations, we could consider creating a separate field in the `Accounts` database or even a special `TimezoneModule` module to manage time zone-related tasks.
 
@@ -183,7 +183,7 @@ enum AuthRole {
 
 ```
 
-### Generating "DTO" for the new "Auth" database
+### 4.Generating "DTO" for the new "Auth" database
 
 Connecting the `DTO` generator to the `Prisma` schema and excluding some fields from the generation process.
 
@@ -263,7 +263,7 @@ Updating _.eslintignore_ files
 libs/core/auth/src/lib/generated/rest/dto
 ```
 
-### Updating the "PrismaModule" module import parameters for the "Auth" database
+### 5. Updating the "PrismaModule" module import parameters for the "Auth" database
 
 Changing the `PrismaModule` module import configuration for the `Auth` database to accommodate new requirements for interacting with the database.
 
@@ -293,7 +293,7 @@ bootstrapNestApplication({
 });
 ```
 
-### Create a caching service for "Auth" database users
+### 6. Create a caching service for "Auth" database users
 
 Create a service for caching `Auth` database users to speed up access to data from the `AuthGuard` and `AuthTimezoneInterceptor` services.
 
@@ -352,7 +352,7 @@ export class AuthCacheService {
 }
 ```
 
-### Developing a controller for working with user time zone information
+### 7. Developing a controller for working with user time zone information
 
 Let's create a controller that will be responsible for receiving the user's current time zone settings and updating these parameters when necessary.
 
@@ -410,7 +410,7 @@ export class AuthController {
 }
 ```
 
-### Create a service for recursive conversion of "Date" type fields to a specified time zone
+### 8. Create a service for recursive conversion of "Date" type fields to a specified time zone
 
 We will develop a service that will perform a recursive conversion of "Date" type fields to a specified time zone.
 
@@ -477,7 +477,7 @@ export class AuthTimezoneService {
 }
 ```
 
-### Adding an interceptor for automatic time correction in data
+### 10. Adding an interceptor for automatic time correction in data
 
 Let's create an interceptor that will automatically convert time values ​​in data according to the time zone selected by the user. This will ensure that dates and times are displayed correctly in the user interface.
 
@@ -541,7 +541,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 }
 ```
 
-### Adding "AuthGuard" to automatically create users in the "Auth" database
+### 11. Adding "AuthGuard" to automatically create users in the "Auth" database
 
 Integrating `AuthGuard` so that users can automatically register in the `Auth` database when working with the system.
 
@@ -643,7 +643,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### Registering the created classes in "AuthModule"
+### 12. Registering the created classes in "AuthModule"
 
 Let's register all the created classes in the `AuthModule` module so that they become available for use in our application.
 
@@ -712,7 +712,7 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### Setting up request processing via the "WebSocket" gateway
+### 13. Setting up request processing via the "WebSocket" gateway
 
 Although we declared global guard and interceptor in the `AuthModule` module, they will not be automatically applied to request processing via the "WebSocket" gateway. Therefore, to process requests via the gateway, we will create a special decorator and apply it to the `TimeController` controller.
 
@@ -806,7 +806,7 @@ export class TimeController {
 }
 ```
 
-### Create a new "e2e" test to check the correctness of the conversion of fields of the "Date" type.
+### 14. Create a new "e2e" test to check the correctness of the conversion of fields of the "Date" type.
 
 Let's create a new `e2e` test that checks the correctness of the conversion of fields of the `Date` type to different time zones.
 
@@ -882,7 +882,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
 });
 ```
 
-### We restart the infrastructure and all applications, check the correctness of the execution of e2e tests
+### 15. We restart the infrastructure and all applications, check the correctness of the execution of e2e tests
 
 _Commands_
 
@@ -892,7 +892,7 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### Passing an authorization token for websockets via a "query" line
+### 16. Passing an authorization token for websockets via a "query" line
 
 We pass the authorization token for websockets through the request parameter to provide user authentication when using websockets.
 
@@ -938,7 +938,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### Replacing the original profile form fields and changing the profile update method
+### 17.Replacing the original profile form fields and changing the profile update method
 
 A lot of the changes on the frontend were made in this post, and while I won't cover every detail, it's important to note that working with forms has been simplified by using the `Dependency Injection` mechanism.
 
@@ -1108,7 +1108,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-### Creating an E2E test for an Angular application to check time zone switching
+### 18. Creating an E2E test for an Angular application to check time zone switching
 
 To test the application's behavior in the context of changing the user's time zone, we will create an End-to-End test for an Angular application that will check the correctness of time zone switching in the interface.
 
