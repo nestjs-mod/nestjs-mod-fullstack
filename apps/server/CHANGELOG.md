@@ -1,3 +1,9 @@
+## [1.10.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.10.0...server-v1.10.1) (2024-12-12)
+
+### Bug Fixes
+
+- try prepare all ([a4c24ce](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a4c24ce575beeebfb401f711a93b2656f95eb338))
+
 # [1.10.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.9.0...server-v1.10.0) (2024-12-12)
 
 ### Features
