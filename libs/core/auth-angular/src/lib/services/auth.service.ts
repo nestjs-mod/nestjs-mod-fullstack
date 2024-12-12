@@ -7,15 +7,7 @@ import {
   User,
 } from '@authorizerdev/authorizer-js';
 import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
-import {
-  BehaviorSubject,
-  catchError,
-  from,
-  map,
-  mergeMap,
-  of,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, catchError, from, map, mergeMap, of } from 'rxjs';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
