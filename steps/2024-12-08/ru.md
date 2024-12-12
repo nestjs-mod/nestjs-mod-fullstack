@@ -1,8 +1,8 @@
-## [2024-12-08] Реализуем поддержку временных зон в фулстек-приложении на NestJS и Angular: сохранение и применение настроек таймзоны пользователя
+## [2024-12-08] Реализуем поддержку временных зон в фулстек-приложении на NestJS и Angular при работе через REST и WebSockets
 
 **Предыдущая статья:** [Добавление поддержки нескольких языков в NestJS и Angular приложениях](https://habr.com/ru/articles/863590/)
 
-В этой статье я хотел бы поделиться своим опытом по внедрению поддержки временных зон в фулстек-приложение, построенное на `NestJS` и `Angular`. Мы узнаем, как сохранить настройки таймзоны пользователя в базе данных и правильно использовать их при взаимодействии с сервером.
+В этой статье я хотел бы поделиться своим опытом по внедрению поддержки временных зон в фулстек-приложение, построенное на `NestJS` и `Angular`. Мы узнаем, как сохранить настройки таймзоны пользователя в базе данных и правильно использовать их при взаимодействии с сервером через `REST` и веб-сокеты.
 
 ### Устанавливаем все необходимые библиотеки
 
@@ -487,23 +487,27 @@ export class AuthTimezoneService {
 
 ```typescript
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { isObservable, Observable } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthTimezoneService, TData } from '../services/auth-timezone.service';
 import { AuthRequest } from '../types/auth-request';
+import { AuthEnvironments } from '../auth.environments';
 
 @Injectable()
 export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
-  private logger = new Logger(AuthTimezoneInterceptor.name);
-
-  constructor(private readonly authTimezoneService: AuthTimezoneService, private readonly authCacheService: AuthCacheService) {}
+  constructor(private readonly authTimezoneService: AuthTimezoneService, private readonly authCacheService: AuthCacheService, private readonly authEnvironments: AuthEnvironments) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
+    const result = next.handle();
+
+    if (!this.authEnvironments.useInterceptors) {
+      return result;
+    }
+
     const req: AuthRequest = getRequestFromExecutionContext(context);
     const userId = req.authUser?.externalUserId;
-    const result = next.handle();
 
     if (!userId) {
       return result;
@@ -557,6 +561,7 @@ import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
+import { AuthEnvironments } from './auth.environments';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -566,10 +571,15 @@ export class AuthGuard implements CanActivate {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
+    private readonly authEnvironments: AuthEnvironments
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (!this.authEnvironments.useGuards) {
+      return true;
+    }
+
     try {
       const { skipAuthGuard, checkAuthRole, allowEmptyUserMetadata } = this.getHandlersReflectMetadata(context);
 
@@ -1262,3 +1272,25 @@ npm run nx -- run client-e2e:e2e timezone
 ```
 
 Если тест завершился успешно, значит, переключение временной зоны в приложении работает корректно.
+
+### Заключение
+
+В рамках данной статьи была реализована поддержка временных зон пользователей, при этом информация о зоне сохраняется в базе данных.
+
+Основную логику обработки временных зон мы разместили на серверной части приложения. На клиентской стороне свойство временной зоны добавляется посредством механизма внедрения зависимостей (`Dependency Injection`).
+
+Функционал был тщательно протестирован с использованием E2E-тестирования.
+
+### Планы
+
+В следующем материале я расскажу о том, как добавить возможность сохранять выбранный пользователем язык в базу данных. Это важно, поскольку сейчас язык может различаться на разных устройствах одного и того же пользователя.
+
+### Ссылки
+
+- https://nestjs.com - официальный сайт фреймворка
+- https://nestjs-mod.com - официальный сайт дополнительных утилит
+- https://fullstack.nestjs-mod.com - сайт из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - изменения
+
+#angular #timezone #nestjsmod #fullstack

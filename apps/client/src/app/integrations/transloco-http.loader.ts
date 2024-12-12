@@ -16,20 +16,23 @@ export class TranslocoHttpLoader implements TranslocoLoader {
             return of({});
           })
         ),
-      vendor: this.httpClient.get(`./assets/i18n/${lang}.vendor.json`).pipe(
-        catchError(() => {
-          return of({});
-        })
-      ),
+      vendors: this.httpClient
+        .get<Record<string, Translation>>(`./assets/i18n/${lang}.vendor.json`)
+        .pipe(
+          catchError(() => {
+            return of({});
+          })
+        ),
     }).pipe(
-      map(({ translation, vendor }) => {
-        const dictionaries = {
+      map(({ translation, vendors }) => {
+        const dictionaries: Record<string, string> = {
           ...translation,
-          ...Object.keys(vendor).reduce(
-            (all, key) => ({ ...all, ...vendor[key] }),
-            {}
-          ),
         };
+        for (const [, vendorValue] of Object.entries(vendors)) {
+          for (const [key, value] of Object.entries(vendorValue)) {
+            dictionaries[key] = dictionaries[key] || value;
+          }
+        }
 
         for (const key in dictionaries) {
           if (Object.prototype.hasOwnProperty.call(dictionaries, key)) {
