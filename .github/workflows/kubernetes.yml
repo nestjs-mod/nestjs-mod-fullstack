@@ -38,14 +38,17 @@ jobs:
       - name: Set root_version
         id: root_version
         run: |
+          git fetch
           echo "root_version="$(npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Set server_version
         id: server_version
         run: |
+          git fetch
           echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Set client_version
         id: client_version
         run: |
+          git fetch
           echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
     outputs:
       root_version: ${{ steps.root_version.outputs.root_version }}

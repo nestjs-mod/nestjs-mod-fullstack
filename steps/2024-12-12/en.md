@@ -1289,6 +1289,6 @@ In the next article I will talk about how to add the ability to save the user's 
 - https://nestjs-mod.com - the official website of additional utilities
 - https://fullstack.nestjs-mod.com - website from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/2c14d02af439c0884a4052a3b0197a9ee94c571d..43979334656d63c8d4250b17f81fbd26793b5d78 - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - current changes
 
 #angular #timezone #nestjsmod #fullstack
