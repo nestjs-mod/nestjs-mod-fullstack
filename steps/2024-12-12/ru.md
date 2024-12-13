@@ -479,7 +479,7 @@ export class AuthTimezoneService {
 }
 ```
 
-### 9.Добавляем интерцептор для автоматической коррекции времени в данных
+### 9. Добавляем интерцептор для автоматической коррекции времени в данных
 
 Создадим интерцептор, который будет автоматически конвертировать временные значения в данных в соответствии с выбранной пользователем временной зоной. Это гарантирует корректное отображение дат и времени в пользовательском интерфейсе.
 
@@ -1292,5 +1292,6 @@ npm run nx -- run client-e2e:e2e timezone
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - видео с E2E-тестов фронтенда
 
 #angular #timezone #nestjsmod #fullstack

@@ -183,7 +183,7 @@ enum AuthRole {
 
 ```
 
-### 4.Generating "DTO" for the new "Auth" database
+### 4. Generating "DTO" for the new "Auth" database
 
 Connecting the `DTO` generator to the `Prisma` schema and excluding some fields from the generation process.
 
@@ -477,7 +477,7 @@ export class AuthTimezoneService {
 }
 ```
 
-### 10. Adding an interceptor for automatic time correction in data
+### 9. Adding an interceptor for automatic time correction in data
 
 Let's create an interceptor that will automatically convert time values ​​in data according to the time zone selected by the user. This will ensure that dates and times are displayed correctly in the user interface.
 
@@ -541,7 +541,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 }
 ```
 
-### 11. Adding "AuthGuard" to automatically create users in the "Auth" database
+### 10. Adding "AuthGuard" to automatically create users in the "Auth" database
 
 Integrating `AuthGuard` so that users can automatically register in the `Auth` database when working with the system.
 
@@ -643,7 +643,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### 12. Registering the created classes in "AuthModule"
+### 11. Registering the created classes in "AuthModule"
 
 Let's register all the created classes in the `AuthModule` module so that they become available for use in our application.
 
@@ -712,7 +712,7 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### 13. Setting up request processing via the "WebSocket" gateway
+### 12. Setting up request processing via the "WebSocket" gateway
 
 Although we declared global guard and interceptor in the `AuthModule` module, they will not be automatically applied to request processing via the "WebSocket" gateway. Therefore, to process requests via the gateway, we will create a special decorator and apply it to the `TimeController` controller.
 
@@ -806,7 +806,7 @@ export class TimeController {
 }
 ```
 
-### 14. Create a new "e2e" test to check the correctness of the conversion of fields of the "Date" type.
+### 13. Create a new "e2e" test to check the correctness of the conversion of fields of the "Date" type.
 
 Let's create a new `e2e` test that checks the correctness of the conversion of fields of the `Date` type to different time zones.
 
@@ -882,7 +882,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
 });
 ```
 
-### 15. We restart the infrastructure and all applications, check the correctness of the execution of e2e tests
+### 14. We restart the infrastructure and all applications, check the correctness of the execution of e2e tests
 
 _Commands_
 
@@ -892,7 +892,7 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### 16. Passing an authorization token for websockets via a "query" line
+### 15. Passing an authorization token for websockets via a "query" line
 
 We pass the authorization token for websockets through the request parameter to provide user authentication when using websockets.
 
@@ -938,7 +938,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 17.Replacing the original profile form fields and changing the profile update method
+### 16.Replacing the original profile form fields and changing the profile update method
 
 A lot of the changes on the frontend were made in this post, and while I won't cover every detail, it's important to note that working with forms has been simplified by using the `Dependency Injection` mechanism.
 
@@ -1108,7 +1108,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-### 18. Creating an E2E test for an Angular application to check time zone switching
+### 17. Creating an E2E test for an Angular application to check time zone switching
 
 To test the application's behavior in the context of changing the user's time zone, we will create an End-to-End test for an Angular application that will check the correctness of time zone switching in the interface.
 
@@ -1290,5 +1290,6 @@ In the next post I will talk about how to add the ability to save the user's sel
 - https://fullstack.nestjs-mod.com - website from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - video from E2E frontend tests
 
 #angular #timezone #nestjsmod #fullstack
