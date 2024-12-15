@@ -1,3 +1,9 @@
+# [1.11.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.10.1...client-v1.11.0) (2024-12-15)
+
+### Features
+
+- Integrating and storing the selected user language into the database in a full-stack application on "Angular" and "NestJS" (2024-12-16) ([93baa1e](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/93baa1e9cf6533c80fe01756c58d7aa5fe3403a9))
+
 ## [1.10.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.10.0...client-v1.10.1) (2024-12-12)
 
 ### Bug Fixes
