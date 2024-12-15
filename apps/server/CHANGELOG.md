@@ -1,3 +1,9 @@
+## [1.11.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.11.0...server-v1.11.1) (2024-12-15)
+
+### Bug Fixes
+
+- lint code ([5851580](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/585158075b1fdc89cc128a349b0c12e6480876e3))
+
 # [1.11.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.10.1...server-v1.11.0) (2024-12-15)
 
 ### Features
