@@ -11,4 +11,5 @@
 
 export interface AuthProfileDtoInterface {
   timezone?: number | null;
+  lang?: string | null;
 }

@@ -2,5 +2,6 @@
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",
     "User not found": "User not found",
-    "ok": "ok"
+    "ok": "ok",
+    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}"
 }

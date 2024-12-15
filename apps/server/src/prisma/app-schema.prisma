@@ -8,26 +8,24 @@ datasource db {
   provider          = "postgres"
   url               = env("SERVER_APP_DATABASE_URL")
 }
-
-
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../app/generated/rest/dto"
+  classValidation                 = "true"
+  entityPrefix                    = ""
+  annotateAllDtoProperties        = "true"
+  outputToNestJsResourceStructure = "false"
+  createDtoPrefix                 = "Create"
+  flatResourceStructure           = "false"
+  fileNamingStyle                 = "kebab"
+  reExport                        = "false"
+  entitySuffix                    = ""
   exportRelationModifierClasses   = "true"
   dtoSuffix                       = "Dto"
-  fileNamingStyle                 = "kebab"
-  entitySuffix                    = ""
   prettier                        = "true"
   definiteAssignmentAssertion     = "true"
   updateDtoPrefix                 = "Update"
   noDependencies                  = "false"
-  createDtoPrefix                 = "Create"
-  outputToNestJsResourceStructure = "false"
-  flatResourceStructure           = "false"
-  reExport                        = "false"
-  entityPrefix                    = ""
-  classValidation                 = "true"
-  annotateAllDtoProperties        = "true"
 }
 
 model AppDemo {

@@ -8,26 +8,24 @@ datasource db {
   provider          = "postgres"
   url               = env("SERVER_AUTH_DATABASE_URL")
 }
-
-
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  updateDtoPrefix                 = "Update"
-  entityPrefix                    = ""
-  entitySuffix                    = ""
-  definiteAssignmentAssertion     = "true"
   flatResourceStructure           = "false"
-  exportRelationModifierClasses   = "true"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  prettier                        = "true"
+  annotateAllDtoProperties        = "true"
   fileNamingStyle                 = "kebab"
+  noDependencies                  = "false"
+  updateDtoPrefix                 = "Update"
+  exportRelationModifierClasses   = "true"
+  entitySuffix                    = ""
+  outputToNestJsResourceStructure = "false"
+  reExport                        = "false"
+  definiteAssignmentAssertion     = "true"
   createDtoPrefix                 = "Create"
   classValidation                 = "true"
-  noDependencies                  = "false"
-  outputToNestJsResourceStructure = "false"
-  annotateAllDtoProperties        = "true"
-  dtoSuffix                       = "Dto"
-  reExport                        = "false"
-  prettier                        = "true"
 }
 
 model AuthUser {
@@ -41,6 +39,7 @@ model AuthUser {
   /// @DtoCreateHidden
   /// @DtoUpdateHidden
   updatedAt      DateTime @default(now()) @db.Timestamp(6)
+  lang           String?  @db.VarChar(2)
 
   @@index([userRole], map: "IDX_AUTH_USER__USER_ROLE")
 }

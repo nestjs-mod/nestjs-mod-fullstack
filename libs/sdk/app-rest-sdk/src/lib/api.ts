@@ -175,6 +175,12 @@ export interface AuthProfileDto {
    * @memberof AuthProfileDto
    */
   timezone?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthProfileDto
+   */
+  lang?: string | null;
 }
 /**
  *
@@ -189,6 +195,7 @@ export const AuthUserScalarFieldEnum = {
   Timezone: 'timezone',
   CreatedAt: 'createdAt',
   UpdatedAt: 'updatedAt',
+  Lang: 'lang',
 } as const;
 
 export type AuthUserScalarFieldEnum =

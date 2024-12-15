@@ -9,12 +9,13 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
+import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
 import { AUTH_FEATURE } from './auth.constants';
 import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
+import { AuthEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
-import { AuthEnvironments } from './auth.environments';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,7 +26,8 @@ export class AuthGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly authCacheService: AuthCacheService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authEnvironments: AuthEnvironments,
+    private readonly translatesStorage: TranslatesStorage
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -98,6 +100,17 @@ export class AuthGuard implements CanActivate {
           update: {},
           where: { externalUserId },
         }));
+
+      if (req.authUser.lang) {
+        req.headers[ACCEPT_LANGUAGE] = req.authUser.lang;
+      }
+    }
+
+    if (
+      req.headers[ACCEPT_LANGUAGE] &&
+      !this.translatesStorage.locales.includes(req.headers[ACCEPT_LANGUAGE])
+    ) {
+      req.headers[ACCEPT_LANGUAGE] = this.translatesStorage.defaultLocale;
     }
   }
 

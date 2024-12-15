@@ -1,5 +1,8 @@
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
-import { ValidationError } from '@nestjs-mod-fullstack/validation';
+import {
+  ValidationError,
+  ValidationErrorEnum,
+} from '@nestjs-mod-fullstack/validation';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import {
@@ -10,14 +13,18 @@ import {
   refs,
 } from '@nestjs/swagger';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
-import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+import {
+  InjectTranslateFunction,
+  TranslateFunction,
+  TranslatesStorage,
+} from 'nestjs-translates';
 import { AUTH_FEATURE } from '../auth.constants';
 import { CheckAuthRole, CurrentAuthUser } from '../auth.decorators';
 import { AuthError } from '../auth.errors';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
+import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthEntities } from '../types/auth-entities';
 import { AuthProfileDto } from '../types/auth-profile.dto';
-import { AuthCacheService } from '../services/auth-cache.service';
 
 @ApiExtraModels(AuthError, AuthEntities, ValidationError)
 @ApiBadRequestResponse({
@@ -30,7 +37,8 @@ export class AuthController {
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
+    private readonly translatesStorage: TranslatesStorage
   ) {}
 
   @Get('profile')
@@ -38,7 +46,7 @@ export class AuthController {
   async profile(
     @CurrentAuthUser() authUser: AuthUser
   ): Promise<AuthProfileDto> {
-    return { timezone: authUser.timezone };
+    return { lang: authUser.lang, timezone: authUser.timezone };
   }
 
   @Post('update-profile')
@@ -48,10 +56,32 @@ export class AuthController {
     @Body() args: AuthProfileDto,
     @InjectTranslateFunction() getText: TranslateFunction
   ) {
+    if (args.lang && !this.translatesStorage.locales.includes(args.lang)) {
+      throw new ValidationError(undefined, ValidationErrorEnum.COMMON, [
+        {
+          property: 'lang',
+          constraints: {
+            isWrongEnumValue: getText(
+              'lang must have one of the values: {{values}}',
+              { values: this.translatesStorage.locales.join(', ') }
+            ),
+          },
+        },
+      ]);
+    }
     await this.prismaClient.authUser.update({
       where: { id: authUser.id },
       data: {
-        timezone: args.timezone,
+        ...(args.lang === undefined
+          ? {}
+          : {
+              lang: args.lang,
+            }),
+        ...(args.timezone === undefined
+          ? {}
+          : {
+              timezone: args.timezone,
+            }),
         updatedAt: new Date(),
       },
     });

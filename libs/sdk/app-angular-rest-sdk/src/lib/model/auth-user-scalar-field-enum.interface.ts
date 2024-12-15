@@ -15,7 +15,8 @@ export type AuthUserScalarFieldEnumInterface =
   | 'userRole'
   | 'timezone'
   | 'createdAt'
-  | 'updatedAt';
+  | 'updatedAt'
+  | 'lang';
 
 export const AuthUserScalarFieldEnumInterface = {
   id: 'id' as AuthUserScalarFieldEnumInterface,
@@ -24,4 +25,5 @@ export const AuthUserScalarFieldEnumInterface = {
   timezone: 'timezone' as AuthUserScalarFieldEnumInterface,
   createdAt: 'createdAt' as AuthUserScalarFieldEnumInterface,
   updatedAt: 'updatedAt' as AuthUserScalarFieldEnumInterface,
+  lang: 'lang' as AuthUserScalarFieldEnumInterface,
 };

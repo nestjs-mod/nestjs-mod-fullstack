@@ -2,7 +2,11 @@
     "name": "@nestjs-mod-fullstack/app-angular-rest-sdk",
     "version": "0.0.1",
     "private": true,
-    "peerDependencies": {},
+    "peerDependencies": {
+        "@angular/core": "18.2.11",
+        "@angular/common": "18.2.11",
+        "rxjs": "^7.8.0"
+    },
     "sideEffects": false,
     "i18n": [
         {

@@ -970,6 +970,11 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
     },
     // ...
     {
+      label: marker('UTC−09:30: Marquesas Islands'),
+      value: -9.5,
+    },
+    // ...
+    {
       label: marker('UTC+14:00: Date Line (east)'),
       value: 14,
     },

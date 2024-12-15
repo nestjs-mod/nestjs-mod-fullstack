@@ -13,7 +13,11 @@ import {
   AppRestService,
   TimeRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AuthActiveLangService,
+  AuthService,
+  TokensService,
+} from '@nestjs-mod-fullstack/auth-angular';
 import { webSocket } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -63,7 +67,8 @@ export class AppComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
+    private readonly authActiveLangService: AuthActiveLangService
   ) {}
 
   ngOnInit() {
@@ -76,8 +81,10 @@ export class AppComponent implements OnInit {
   }
 
   setActiveLang(lang: string) {
-    this.translocoService.setActiveLang(lang);
-    localStorage.setItem('activeLang', lang);
+    this.authActiveLangService
+      .setActiveLang(lang)
+      .pipe(untilDestroyed(this))
+      .subscribe();
   }
 
   signOut() {

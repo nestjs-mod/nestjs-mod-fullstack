@@ -24,4 +24,12 @@ export class CreateAuthUserDto {
   @IsOptional()
   @IsNumber()
   timezone?: number | null;
+  @ApiProperty({
+    type: 'string',
+    required: false,
+    nullable: true,
+  })
+  @IsOptional()
+  @IsString()
+  lang?: string | null;
 }
