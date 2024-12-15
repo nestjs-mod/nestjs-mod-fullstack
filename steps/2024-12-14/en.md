@@ -1,24 +1,22 @@
-## [2024-12-12] Поддержка временных зон в фулстек-приложении на основе NestJS и Angular: работа с REST и WebSockets
+## [2024-12-12] Timezone support in a full-stack application based on NestJS and Angular: working with REST and WebSockets
 
-**Предыдущая статья:** [Добавление поддержки нескольких языков в NestJS и Angular приложениях](https://habr.com/ru/articles/863590/)
+In this article, I would like to share my experience in implementing timezone support in a full stack application built on `NestJS` and `Angular`. We will learn how to save user time zone settings in the database and use them correctly when interacting with the server via `REST` and web sockets.
 
-В этой статье я хотел бы поделиться своим опытом по внедрению поддержки временных зон в фулстек-приложение, построенное на `NestJS` и `Angular`. Мы узнаем, как сохранить настройки таймзоны пользователя в базе данных и правильно использовать их при взаимодействии с сервером через `REST` и веб-сокеты.
+### 1. Install all necessary libraries
 
-### 1. Устанавливаем все необходимые библиотеки
+Install the `date-fns` library, which is necessary for working with dates and time zones.
 
-Установим библиотеку `date-fns`, которая необходима для работы с датами и временными зонами.
-
-_Команды_
+_Commands_
 
 ```bash
 npm install --save date-fns
 ```
 
-### 2. Добавляем поддержку Prisma и миграций от Flyway в модуль авторизации
+### 2. Adding support for Prisma and Flyway migrations to the authorization module
 
-Подключим модули `Prisma` и `Flyway` в файл `main.ts`, чтобы настроить взаимодействие с новой базой данных `Auth`.
+Let's include the `Prisma` and `Flyway` modules in the `main.ts` file to set up interaction with the new `Auth` database.
 
-Обновляем файл _apps/server/src/main.ts_
+Update the file _apps/server/src/main.ts_
 
 ```typescript
 import { AUTH_FEATURE, AUTH_FOLDER, AuthModule } from '@nestjs-mod-fullstack/auth';
@@ -61,29 +59,29 @@ bootstrapNestApplication({
 });
 ```
 
-Генерируем дополнительный код по инфраструктуре.
+We generate additional code for the infrastructure.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run docs:infrastructure
 ```
 
-Добавляем новую переменную окружения с логином и паролем для подключения к новой базе данных.
+Add a new environment variable with login and password to connect to the new database.
 
-Обновляем файлы _.env_ и _example.env_
+Update the _.env_ and _example.env_ files
 
 ```sh
 SERVER_AUTH_DATABASE_URL=postgres://auth:auth_password@localhost:5432/auth?schema=public
 ```
 
-### 3. Создание таблицы для хранения временной зоны пользователя
+### 3. Creating a table to store the user's time zone
 
-Для хранения данных о временных зонах пользователей я предпочёл использовать модуль авторизации `Auth`, что обусловлено архитектурными особенностями нашего проекта. В иных ситуациях можно было бы рассмотреть создание отдельного поля в базе данных `Accounts` или даже специального модуля `TimezoneModule` для управления задачами, связанными с временными зонами.
+I chose to use the `Auth` authorization module to store data about user time zones, due to the architectural features of our project. In other situations, we could consider creating a separate field in the `Accounts` database or even a special `TimezoneModule` module to manage time zone-related tasks.
 
-Теперь создадим миграцию для формирования всех нужных таблиц в базе данных `Auth`.
+Now let's create a migration to generate all the necessary tables in the `Auth` database.
 
-_Команды_
+_Commands_
 
 ```bash
 # Create migrations folder
@@ -93,9 +91,9 @@ mkdir -p ./libs/core/auth/src/migrations
 npm run flyway:create:auth --args=Init
 ```
 
-Заполняем файл миграции SQL-скриптами для создания необходимых таблиц и индексов.
+We fill the migration file with SQL scripts to create the necessary tables and indexes.
 
-Обновляем файл _libs/core/auth/src/migrations/V202412071217\_\_Init.sql_
+Update the file _libs/core/auth/src/migrations/V202412071217\_\_Init.sql_
 
 ```sql
 DO $$
@@ -125,11 +123,11 @@ CREATE UNIQUE INDEX IF NOT EXISTS "UQ_AUTH_USER" ON "AuthUser"("externalUserId")
 CREATE INDEX IF NOT EXISTS "IDX_AUTH_USER__USER_ROLE" ON "AuthUser"("userRole");
 ```
 
-Теперь база данных `Auth` будет содержать таблицу `AuthUser`, в которой будет храниться информация о временной зоне каждого пользователя.
+Now the `Auth` database will contain the `AuthUser` table, which will store information about the time zone of each user.
 
-Применяем созданные миграции и пересоздаем `Prisma`-схемы для всех баз данных.
+Apply the created migrations and recreate the `Prisma` schemas for all databases.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run docker-compose:start-prod:server
@@ -137,7 +135,7 @@ npm run db:create-and-fill
 npm run prisma:pull
 ```
 
-Файл схемы для новой базы данных _libs/core/auth/src/prisma/schema.prisma_
+Schema file for the new database _libs/core/auth/src/prisma/schema.prisma_
 
 ```prisma
 generator client {
@@ -185,11 +183,11 @@ enum AuthRole {
 
 ```
 
-### 4. Генерация "DTO" для новой базы данных "Auth"
+### 4. Generating "DTO" for the new "Auth" database
 
-Подключаем генератор `DTO` к `Prisma`-схеме и исключаем некоторые поля из процесса генерации.
+Connecting the `DTO` generator to the `Prisma` schema and excluding some fields from the generation process.
 
-Обновляем файл _libs/core/auth/src/prisma/schema.prisma_
+Update the file _libs/core/auth/src/prisma/schema.prisma_
 
 ```prisma
 // ...
@@ -233,15 +231,15 @@ model AuthUser {
 
 ```
 
-Перезапускаем генераторы для всех баз данных.
+We restart generators for all databases.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run prisma:generate
 ```
 
-После успешного выполнения команды мы получаем новые файлы в папке `libs/core/auth/src/lib/generated/rest/dto`:
+After the command has successfully completed, we get new files in the `libs/core/auth/src/lib/generated/rest/dto` folder:
 
 ```
 auth-user.dto.ts
@@ -256,20 +254,20 @@ migrations.entity.ts
 update-migrations.dto.ts
 ```
 
-Поскольку сгенерированные файлы могут содержать ошибки форматирования, которые выявляет `eslint`, мы исключаем эти файлы из проверки `eslint`.
+Since the generated files may contain formatting errors that `eslint` detects, we exclude these files from `eslint` checking.
 
-Обновляем файлы _.eslintignore_
+Updating _.eslintignore_ files
 
 ```
 ...
 libs/core/auth/src/lib/generated/rest/dto
 ```
 
-### 5. Обновляем параметры импорта модуля `PrismaModule` для базы данных `Auth`
+### 5. Updating the "PrismaModule" module import parameters for the "Auth" database
 
-Изменяем конфигурацию импорта модуля `PrismaModule` для базы данных `Auth`, чтобы учесть новые требования к взаимодействию с базой данных.
+Changing the `PrismaModule` module import configuration for the `Auth` database to accommodate new requirements for interacting with the database.
 
-Обновляем файл _apps/server/src/main.ts_
+Update the file _apps/server/src/main.ts_
 
 ```typescript
 // ...
@@ -295,11 +293,11 @@ bootstrapNestApplication({
 });
 ```
 
-### 6. Создаем сервис кэширования для пользователей базы данных `Auth`
+### 6. Create a caching service for "Auth" database users
 
-Создаем сервис для кэширования пользователей базы данных `Auth`, чтобы ускорить доступ к данным из сервисов `AuthGuard` и `AuthTimezoneInterceptor`.
+Create a service for caching `Auth` database users to speed up access to data from the `AuthGuard` and `AuthTimezoneInterceptor` services.
 
-Создаем файл _libs\core\auth\src\lib\services\auth-cache.service.ts_
+Create a file _libs\core\auth\src\lib\services\auth-cache.service.ts_
 
 ```typescript
 import { CacheManagerService } from '@nestjs-mod/cache-manager';
@@ -354,11 +352,11 @@ export class AuthCacheService {
 }
 ```
 
-### 7. Разработка контроллера для работы с информацией о временной зоне пользователя
+### 7. Developing a controller for working with user time zone information
 
-Создадим контроллер, который будет отвечать за получение текущих настроек временной зоны пользователя и обновление этих параметров при необходимости.
+Let's create a controller that will be responsible for receiving the user's current time zone settings and updating these parameters when necessary.
 
-Создаем файл _libs/core/auth/src/lib/controllers/auth.controller.ts_
+Create a file _libs/core/auth/src/lib/controllers/auth.controller.ts_
 
 ```typescript
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
@@ -412,11 +410,11 @@ export class AuthController {
 }
 ```
 
-### 8. Создаем сервис для рекурсивного преобразования полей типа "Date" в заданную временную зону
+### 8. Create a service for recursive conversion of "Date" type fields to a specified time zone
 
-Разработаем сервис, который будет выполнять рекурсивное преобразование полей типа "Date" в указанную временную зону.
+We will develop a service that will perform a recursive conversion of "Date" type fields to a specified time zone.
 
-Создаем файл _libs/core/auth/src/lib/services/auth-timezone.service.ts_
+Create a file _libs/core/auth/src/lib/services/auth-timezone.service.ts_
 
 ```typescript
 import { Injectable, Logger } from '@nestjs/common';
@@ -479,11 +477,11 @@ export class AuthTimezoneService {
 }
 ```
 
-### 9. Добавляем интерцептор для автоматической коррекции времени в данных
+### 9. Adding an interceptor for automatic time correction in data
 
-Создадим интерцептор, который будет автоматически конвертировать временные значения в данных в соответствии с выбранной пользователем временной зоной. Это гарантирует корректное отображение дат и времени в пользовательском интерфейсе.
+Let's create an interceptor that will automatically convert time values ​​in data according to the time zone selected by the user. This will ensure that dates and times are displayed correctly in the user interface.
 
-Создаем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
+Create a file _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
 
 ```typescript
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
@@ -543,11 +541,11 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 }
 ```
 
-### 10. Добавляем "AuthGuard" для автоматического создания пользователей в базе данных "Auth"
+### 10. Adding "AuthGuard" to automatically create users in the "Auth" database
 
-Интегрируем "AuthGuard", чтобы пользователи могли автоматически регистрироваться в базе данных "Auth" при работе с системой.
+Integrating `AuthGuard` so that users can automatically register in the `Auth` database when working with the system.
 
-Создаем файл _libs/core/auth/src/lib/auth.module.ts_
+Create a file _libs/core/auth/src/lib/auth.module.ts_
 
 ```typescript
 import { AllowEmptyUser } from '@nestjs-mod/authorizer';
@@ -645,11 +643,11 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### 11. Регистрация созданных классов в "AuthModule"
+### 11. Registering the created classes in "AuthModule"
 
-Зарегистрируем все созданные классы в модуле "AuthModule", чтобы они стали доступны для использования в нашем приложении.
+Let's register all the created classes in the `AuthModule` module so that they become available for use in our application.
 
-Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
+Update the file _libs/core/auth/src/lib/auth.module.ts_
 
 ```typescript
 import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
@@ -714,11 +712,11 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### 12. Настраиваем обработку запросов через "WebSocket"-гейтвей
+### 12. Setting up request processing via the "WebSocket" gateway
 
-Хотя мы объявили глобальные гард и интерцептор в модуле `AuthModule`, они не будут автоматически применяться к обработке запросов через "WebSocket"-гейтвей. Поэтому для обработки запросов через гейтвей создадим специальный декоратор и применим его к контроллеру `TimeController`.
+Although we declared global guard and interceptor in the `AuthModule` module, they will not be automatically applied to request processing via the "WebSocket" gateway. Therefore, to process requests via the gateway, we will create a special decorator and apply it to the `TimeController` controller.
 
-Создаем файл _libs/core/auth/src/lib/auth.decorators.ts_
+Create a file _libs/core/auth/src/lib/auth.decorators.ts_
 
 ```typescript
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
@@ -768,7 +766,7 @@ export function UseAuthInterceptorsAndGuards(options?: { allowEmptyUser?: boolea
 }
 ```
 
-Обновляем файл _apps/server/src/app/time.controller.ts_
+Update the file _apps/server/src/app/time.controller.ts_
 
 ```typescript
 import { UseAuthInterceptorsAndGuards } from '@nestjs-mod-fullstack/auth';
@@ -808,11 +806,11 @@ export class TimeController {
 }
 ```
 
-### 13. Создаем новый "e2e"-тест для проверки корректности преобразования полей типа "Date".
+### 13. Create a new "e2e" test to check the correctness of the conversion of fields of the "Date" type.
 
-Создадим новый e2e-тест, который проверяет правильность преобразования полей типа "Date" в различные временные зоны.
+Let's create a new `e2e` test that checks the correctness of the conversion of fields of the `Date` type to different time zones.
 
-Обновляем файл _apps/server-e2e/src/server/timezone-time.spec.ts_
+Update the file _apps/server-e2e/src/server/timezone-time.spec.ts_
 
 ```typescript
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
@@ -884,9 +882,9 @@ describe('Get server time from rest api and ws (timezone)', () => {
 });
 ```
 
-### 14. Перезапускаем инфраструктуру и все приложения, проверяем корректность выполнения e2e-тестов
+### 14. We restart the infrastructure and all applications, check the correctness of the execution of e2e tests
 
-_Команды_
+_Commands_
 
 ```bash
 npm run pm2-full:dev:stop
@@ -894,11 +892,11 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### 15. Передача токена авторизации для веб-сокетов через "query"-строку
+### 15. Passing an authorization token for websockets via a "query" line
 
-Передаем токен авторизации для веб-сокетов через параметр запроса, чтобы обеспечить аутентификацию пользователей при использовании веб-сокетов.
+We pass the authorization token for websockets through the request parameter to provide user authentication when using websockets.
 
-Обновляем файл _apps/client/src/app/app.component.ts_
+Update the file _apps/client/src/app/app.component.ts_
 
 ```typescript
 // ...
@@ -940,15 +938,15 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 16. Замена оригинальных полей формы профиля и изменение метода обновления профиля
+### 16.Replacing the original profile form fields and changing the profile update method
 
-Многие изменения на фронтенде были внесены в рамках этого поста, и хотя я не буду описывать каждую деталь, важно отметить, что работа с формами стала проще благодаря использованию механизма инъекции зависимостей (`Dependency Injection`).
+A lot of the changes on the frontend were made in this post, and while I won't cover every detail, it's important to note that working with forms has been simplified by using the `Dependency Injection` mechanism.
 
-Теперь, чтобы добавить новое поле в форму профиля или изменить существующие поля, не нужно редактировать исходники непосредственно в модуле. Вместо этого создается новый класс с необходимой реализацией, который заменяет оригинальный класс через механизм `DI`.
+Now, to add a new field to the profile form or change existing fields, you don't need to edit the source directly in the module. Instead, a new class with the necessary implementation is created, which replaces the original class via the `DI` mechanism.
 
-Новое поле `Timezone` будет представлять собой перечислимое значение (`Enum`), которое хранится в соответствующем классе.
+The new `Timezone` field will be an enumeration value (`Enum`), which is stored in the corresponding class.
 
-Создаем файл _apps/client/src/app/integrations/custom-auth-profile-form.service.ts_
+Create a file _apps/client/src/app/integrations/custom-auth-profile-form.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -967,11 +965,6 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
     {
       label: marker('UTC−12:00: Date Line (west)'),
       value: -12,
-    },
-    // ...
-    {
-      label: marker('UTC−09:30: Marquesas Islands'),
-      value: -9.5,
     },
     // ...
     {
@@ -1032,9 +1025,9 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
 }
 ```
 
-Кроме работы с полями формы, нам также нужно реализовать загрузку и сохранение часового пояса пользователя в форму и из формы. Для этого создадим новую реализацию сервиса, который будет работать с профилем пользователя в базе данных `Auth`.
+In addition to working with form fields, we also need to implement loading and saving the user's time zone to and from the form. To do this, we will create a new implementation of the service that will work with the user profile in the `Auth` database.
 
-Создаем файл _apps/client/src/app/integrations/custom-auth.service.ts_
+Create a file _apps/client/src/app/integrations/custom-auth.service.ts_
 
 ```typescript
 import { Inject, Injectable, Optional } from '@angular/core';
@@ -1088,9 +1081,9 @@ export class CustomAuthService extends AuthService {
 }
 ```
 
-Чтобы новое поле появилось в форме профиля, нужно добавить правила переопределения классов в конфигурацию фронтенд-приложения.
+To make the new field appear in the profile form, you need to add class override rules to the frontend application configuration.
 
-Обновляем файл _apps/client/src/app/integrations/custom-auth.service.ts_
+Update the file _apps/client/src/app/integrations/custom-auth.service.ts_
 
 ```typescript
 import { AUTHORIZER_URL, AuthProfileFormService, AuthService } from '@nestjs-mod-fullstack/auth-angular';
@@ -1115,11 +1108,11 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-### 17. Создание "E2E"-теста для "Angular"-приложения по проверке переключения временной зоны
+### 17. Creating an E2E test for an Angular application to check time zone switching
 
-Для тестирования поведения приложения в контексте смены временной зоны пользователя создадим `End-to-End` тест для `Angular`-приложения, который будет проверять корректность переключения временной зоны в интерфейсе.
+To test the application's behavior in the context of changing the user's time zone, we will create an End-to-End test for an Angular application that will check the correctness of time zone switching in the interface.
 
-Создаем файл _apps/client-e2e/src/timezone-profile-as-user.spec.ts_
+Create a file _apps/client-e2e/src/timezone-profile-as-user.spec.ts_
 
 ```typescript
 import { faker } from '@faker-js/faker';
@@ -1268,35 +1261,35 @@ test.describe('Work with profile as "User" role (timezone', () => {
 });
 ```
 
-Давайте запустим тест и посмотрим, проходит ли он успешно.
+Let's run the test and see if it passes.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run nx -- run client-e2e:e2e timezone
 ```
 
-Если тест завершился успешно, значит, переключение временной зоны в приложении работает корректно.
+If the test is successful, then the time zone switching in the application works correctly.
 
-### Заключение
+### Conclusion
 
-В рамках данной статьи была реализована поддержка временных зон пользователей, при этом информация о зоне сохраняется в базе данных.
+Within the framework of this article, support for user time zones was implemented, and the information about the zone is stored in the database.
 
-Основную логику обработки временных зон мы разместили на серверной части приложения. На клиентской стороне свойство временной зоны добавляется посредством механизма внедрения зависимостей (`Dependency Injection`).
+We placed the main logic for processing time zones on the server side of the application. On the client side, the time zone property is added using the dependency injection mechanism (`Dependency Injection`).
 
-Функционал был тщательно протестирован с использованием E2E-тестирования.
+The functionality was thoroughly tested using E2E testing.
 
-### Планы
+### Plans
 
-В следующем посте я расскажу о том, как добавить возможность сохранять выбранный пользователем язык в базу данных. Это важно, поскольку сейчас язык может различаться на разных устройствах одного и того же пользователя.
+In the next post I will talk about how to add the ability to save the user's selected language to the database. This is important, since the language can now differ on different devices of the same user.
 
-### Ссылки
+### Links
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - изменения
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - видео с E2E-тестов фронтенда
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - video from E2E frontend tests
 
 #angular #timezone #nestjsmod #fullstack

@@ -31,4 +31,9 @@ export class AuthUser {
     format: 'date-time',
   })
   updatedAt!: Date;
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+  })
+  lang!: string | null;
 }

@@ -18,6 +18,7 @@ import { AuthAuthorizerService } from './services/auth-authorizer.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
 import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import { AuthCacheService } from './services/auth-cache.service';
+import { TranslatesModule } from 'nestjs-translates';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
@@ -34,6 +35,7 @@ export const { AuthModule } = createNestModule({
     CacheManagerModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
+    TranslatesModule,
   ],
   controllers: [AuthorizerController, AuthController],
   sharedImports: [

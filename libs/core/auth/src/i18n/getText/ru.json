@@ -2,5 +2,6 @@
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
     "User not found": "Пользователь не найден",
-    "ok": "ок"
+    "ok": "ок",
+    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}"
 }

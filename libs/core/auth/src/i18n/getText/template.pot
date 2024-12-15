@@ -17,3 +17,6 @@ msgstr "User not found"
 
 msgid "ok"
 msgstr "ok"
+
+msgid "lang must have one of the values: {{values}}"
+msgstr "lang must have one of the values: {{values}}"

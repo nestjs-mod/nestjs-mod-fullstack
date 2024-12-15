@@ -1,6 +1,7 @@
 export * from './lib/forms/auth-profile-form/auth-profile-form.component';
 export * from './lib/forms/auth-sign-in-form/auth-sign-in-form.component';
 export * from './lib/forms/auth-sign-up-form/auth-sign-up-form.component';
+export * from './lib/services/auth-active-lang.service';
 export * from './lib/services/auth-guard.service';
 export * from './lib/services/auth-profile-form.service';
 export * from './lib/services/auth-sign-in-form.service';

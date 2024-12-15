@@ -9,7 +9,11 @@ import {
   TimeRestService,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { AuthService, TokensService } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AuthActiveLangService,
+  AuthService,
+  TokensService,
+} from '@nestjs-mod-fullstack/auth-angular';
 import {
   catchError,
   map,
@@ -34,7 +38,8 @@ export class AppInitializer {
     private readonly filesRestService: FilesRestService,
     private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
+    private readonly authActiveLangService: AuthActiveLangService
   ) {}
 
   resolve() {
@@ -51,17 +56,12 @@ export class AppInitializer {
               })
             )
     ).pipe(
-      mergeMap(() => {
-        const lang =
-          localStorage.getItem('activeLang') ||
-          this.translocoService.getDefaultLang();
-
-        this.translocoService.setActiveLang(lang);
-        localStorage.setItem('activeLang', lang);
-
-        return this.translocoService.load(lang);
-      }),
       mergeMap(() => this.authService.refreshToken()),
+      mergeMap(() => this.authActiveLangService.getActiveLang()),
+      mergeMap((activeLang) =>
+        this.translocoService.load(activeLang).pipe(map(() => activeLang))
+      ),
+      tap((activeLang) => this.translocoService.setActiveLang(activeLang)),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);
