@@ -1,25 +1,25 @@
-## [2024-12-14] Интеграция и сохранение выбранного языка пользователя в базу данных в фулстек-приложении на "Angular" и "NestJS"
+## [2024-12-16] Integrating and storing the selected user language into the database in a full-stack application on "Angular" and "NestJS"
 
-Этот пост не претендует на масштабность, но поскольку я последовательно документирую все этапы разработки бойлерплейта в формате статей, решил описать и эту задачу.
+This post does not pretend to be large-scale, but since I consistently document all stages of boilerplate development in the article format, I decided to describe this task as well.
 
-Здесь я приведу пример миграции базы данных для добавления нового поля, а также покажу, как реализовать соответствующий функционал на бэкенде и фронтенде для изменения этого значения.
+Here I will give an example of a database migration for adding a new field, and also show how to implement the corresponding functionality on the backend and frontend to change this value.
 
-Язык пользователя, как и временная зона, будет храниться в базе данных `Auth`.
+The user language, like the time zone, will be stored in the `Auth` database.
 
-### Создание миграции для добавления нового поля
+### Creating a migration to add a new field
 
-На данном этапе мы выполним миграцию базы данных, добавив новое поле для хранения выбранной информации.
+At this stage, we will migrate the database, adding a new field to store the selected information.
 
-_Команды_
+_Commands_
 
 ```bash
 # Create empty migration
 npm run flyway:create:auth --args=AddFieldLangToAuthUser
 ```
 
-Заполняем файл миграции `SQL`-скриптами, необходимыми для создания требуемых таблиц и индексов.
+Fill the migration file with `SQL` scripts needed to create the required tables and indexes.
 
-Обновляем файл _libs/core/auth/src/migrations/V202412141339\_\_AddFieldLangToAuthUser.sql_
+Update the file _libs/core/auth/src/migrations/V202412141339\_\_AddFieldLangToAuthUser.sql_
 
 ```sql
 DO $$
@@ -33,11 +33,11 @@ END
 $$;
 ```
 
-### Применение созданных миграций и обновление схем "Prisma"
+### Applying the generated migrations and updating the Prisma schemas
 
-После завершения создания миграций необходимо применить их, обновить схемы `Prisma` для всех баз данных и перезапустить генераторы `Prisma`.
+After you have finished creating the migrations, you need to apply them, update the `Prisma` schemas for all databases and restart the `Prisma` generators.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run db:create-and-fill
@@ -45,7 +45,7 @@ npm run prisma:pull
 npm run generate
 ```
 
-Файл схемы для новой базы данных _libs/core/auth/src/prisma/schema.prisma_
+Schema file for the new database _libs/core/auth/src/prisma/schema.prisma_
 
 ```prisma
 generator client {
@@ -119,9 +119,9 @@ enum AuthRole {
 
 ```
 
-После успешного перезапуска генераторов во всех `DTO`, связанных с таблицей `AuthUser`, появится новое поле `lang`.
+After a successful restart of the generators, all `DTO`s associated with the `AuthUser` table will have a new `lang` field.
 
-Обновленный файл _libs/core/auth/src/lib/generated/rest/dto/auth-user.entity.ts_
+Updated file _libs/core/auth/src/lib/generated/rest/dto/auth-user.entity.ts_
 
 ```typescript
 import { AuthRole } from '../../../../../../../../node_modules/@prisma/auth-client';
@@ -165,11 +165,11 @@ export class AuthUser {
 }
 ```
 
-### Изменения в DTO и методы получения и обновления профиля пользователя
+### Changes in DTO and methods for getting and updating the user profile
 
-Чтобы обновить новое поле `lang`, можно создать отдельный метод либо адаптировать уже имеющиеся методы для получения и обновления профиля. В рамках данного материала мы выберем второй вариант – модификация существующих методов.
+To update the new `lang` field, you can create a separate method or adapt the existing methods for getting and updating the profile. In this article, we will choose the second option - modifying the existing methods.
 
-Обновляем DTO-файл _libs/core/auth/src/lib/types/auth-profile.dto.ts_
+Updating the DTO file _libs/core/auth/src/lib/types/auth-profile.dto.ts_
 
 ```typescript
 import { PickType } from '@nestjs/swagger';
@@ -178,11 +178,11 @@ import { CreateAuthUserDto } from '../generated/rest/dto/create-auth-user.dto';
 export class AuthProfileDto extends PickType(CreateAuthUserDto, ['timezone', 'lang']) {}
 ```
 
-Поскольку допустимые языки ограничены определенным набором значений, необходимо проверить корректность входящих данных на сервере.
+Since the allowed languages ​​are limited to a certain set of values, it is necessary to check the correctness of the incoming data on the server.
 
-Существует несколько подходов к реализации такой проверки. В данном случае я выполню проверку внутри метода и выброшу ошибку валидации, аналогично тому, как это делает пайп валидации. Такой подход поможет унифицировать обработку ошибок полей на клиентской стороне.
+There are several approaches to implementing such a check. In this case, I will perform the check inside the method and throw a validation error, similar to how the validation pipe does it. This approach will help to unify the handling of field errors on the client side.
 
-Теперь обновим контроллер _libs/core/auth/src/lib/controllers/auth.controller.ts_.
+Now let's update the controller _libs/core/auth/src/lib/controllers/auth.controller.ts_
 
 ```typescript
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
@@ -260,11 +260,11 @@ export class AuthController {
 }
 ```
 
-### Адаптация "AuthGuard" для получения языка пользователя из базы данных
+### Adapting "AuthGuard" to get the user's language from the database
 
-Теперь изменим поведение `AuthGuard`, чтобы значение языка пользователя извлекалось не из фронтенд-запроса, а из настроек, сохраненных в базе данных.
+Now let's change the behavior of `AuthGuard` so that the user's language value is retrieved not from the frontend request, but from the settings stored in the database.
 
-Для этого обновим файл _libs/core/auth/src/lib/auth.guard.ts_.
+To do this, update the file _libs/core/auth/src/lib/auth.guard.ts_
 
 ```typescript
 // ...
@@ -304,21 +304,21 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### Обновление "SDK" для взаимодействия с бэкендом
+### Updating "SDK" for interaction with the backend
 
-Теперь необходимо пересоздать все `SDK`, обеспечивающие взаимодействие с нашим сервером.
+Now we need to recreate all `SDK`s that provide interaction with our server.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run manual:prepare
 ```
 
-### Разработка нового теста для бэкенда на смену и использование языка из базы данных
+### Developing a new test for the backend for changing and using the language from the database
 
-Для проверки корректности работы функционала создадим специальный тестовый сценарий, который подтвердит, что смена языка и его последующее извлечение из базы данных происходят без ошибок.
+To check the correctness of the functionality, we will create a special test scenario that will confirm that the change of language and its subsequent extraction from the database occur without errors.
 
-Создаем файл _apps/server-e2e/src/server/store-lang-in-db.spec.ts_
+Create the file _apps/server-e2e/src/server/store-lang-in-db.spec.ts_
 
 ```typescript
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
@@ -393,25 +393,25 @@ describe('Store lang in db', () => {
 });
 ```
 
-### Выполнение всех серверных "E2E"-тестов
+### Running all server "E2E" tests
 
-Запустим все тесты уровня `E2E` для сервера, чтобы убедиться, что весь функционал работает корректно и без сбоев.
+Let's run all `E2E` level tests for the server to make sure that all functionality works correctly and without failures.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run nx -- run server-e2e:e2e
 ```
 
-### Создание сервиса для управления активным языком пользователя во фронтенде
+### Creating a service to manage the user's active language in the frontend
 
-Во фронтенд-приложении создадим сервис, который будет управлять активным языком как для авторизованных, так и для неавторизованных пользователей.
+In the frontend application, we will create a service that will manage the active language for both authorized and unauthorized users.
 
-Логика работы с активным языком для неавторизованных пользователей останется прежней: она будет использовать `localStorage`.
+The logic for working with the active language for unauthorized users will remain the same: it will use `localStorage`.
 
-Однако, после авторизации активный язык будет сохраняться в профиле пользователя.
+However, after authorization, the active language will be saved in the user profile.
 
-Создаем файл _libs/core/auth-angular/src/lib/services/auth-active-lang.service.ts_
+Create the file _libs/core/auth-angular/src/lib/services/auth-active-lang.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -457,13 +457,13 @@ export class AuthActiveLangService {
 }
 ```
 
-Теперь заменим все случаи использования `localStorage` для хранения языка на `AuthActiveLangService` по всему коду фронтенда.
+Now let's replace all usages of `localStorage` for storing language with `AuthActiveLangService` throughout the frontend code.
 
-### Разработка нового теста для фронтенда на смену и использование языка из базы данных
+### Developing a new frontend test for changing and using language from the database
 
-В рамках теста мы выполним следующие шаги: зарегистрируемся, сменим язык на русский, затем изменим язык в `localStorage` с русского на английский и попробуем создать новый веб-хук с пустыми полями. Ожидаемый результат — получение ошибки валидации на русском языке.
+As part of the test, we will perform the following steps: register, change the language to Russian, then change the language in `localStorage` from Russian to English and try to create a new webhook with empty fields. The expected result is getting a validation error in Russian.
 
-Создаем файл _apps/client-e2e/src/ru-validation-with-store-lang-in-db.spec.ts_.
+Create a file _apps/client-e2e/src/ru-validation-with-store-lang-in-db.spec.ts_
 
 ```typescript
 import { faker } from '@faker-js/faker';
@@ -573,33 +573,33 @@ test.describe('Validation with store lang in db (ru)', () => {
 });
 ```
 
-### Выполнение всех тестов уровня E2E для сервера и клиента
+### Run all "E2E" level tests for both server and client
 
-Запустим все тесты уровня E2E как для сервера, так и для клиента, чтобы удостовериться, что вся функциональность работает корректно и без ошибок.
+Let's run all `E2E` level tests for both server and client to make sure all functionality works correctly and without errors.
 
-_Команды_
+_Commands_
 
 ```bash
 npm run pm2-full:dev:test:e2e
 ```
 
-### Заключение
+### Conclusion
 
-Несмотря на кажущуюся простоту задачи, её решение потребовало значительного количества времени и написания немалого объема кода.
+Despite the apparent simplicity of the task, its solution required a significant amount of time and writing a considerable amount of code.
 
-Однако, даже для таких минимальных изменений крайне важно обеспечить покрытие E2E-тестами, что и было продемонстрировано в этом посте.
+However, even for such minimal changes it is extremely important to ensure `E2E` test coverage, which was demonstrated in this post.
 
-### Планы
+### Plans
 
-В предыдущей статье я внедрил функцию автоматической конвертации выходных данных, содержащих поля типа `Date` или строки в формате `ISOString`. Тем не менее, я еще не реализовал автоматическую конвертацию входных данных. В следующем посте я займусь именно этим вопросом.
+In the previous article, I implemented the function of automatic conversion of output data containing fields of type `Date` or strings in `ISOString` format. However, I have not yet implemented automatic conversion of input data. In the next post, I will deal with this issue.
 
-### Ссылки
+### Links
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - изменения
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - видео с E2E-тестов фронтенда
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - video from E2E frontend tests
 
 #angular #translates #nestjsmod #fullstack
