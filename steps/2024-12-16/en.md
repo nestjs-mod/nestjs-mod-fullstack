@@ -6,7 +6,7 @@ Here I will give an example of a database migration for adding a new field, and 
 
 The user language, like the time zone, will be stored in the `Auth` database.
 
-### Creating a migration to add a new field
+### 1. Creating a migration to add a new field
 
 At this stage, we will migrate the database, adding a new field to store the selected information.
 
@@ -33,7 +33,7 @@ END
 $$;
 ```
 
-### Applying the generated migrations and updating the Prisma schemas
+### 2. Applying the generated migrations and updating the Prisma schemas
 
 After you have finished creating the migrations, you need to apply them, update the `Prisma` schemas for all databases and restart the `Prisma` generators.
 
@@ -165,7 +165,7 @@ export class AuthUser {
 }
 ```
 
-### Changes in DTO and methods for getting and updating the user profile
+### 3. Changes in DTO and methods for getting and updating the user profile
 
 To update the new `lang` field, you can create a separate method or adapt the existing methods for getting and updating the profile. In this article, we will choose the second option - modifying the existing methods.
 
@@ -260,7 +260,7 @@ export class AuthController {
 }
 ```
 
-### Adapting "AuthGuard" to get the user's language from the database
+### 4. Adapting "AuthGuard" to get the user's language from the database
 
 Now let's change the behavior of `AuthGuard` so that the user's language value is retrieved not from the frontend request, but from the settings stored in the database.
 
@@ -304,7 +304,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-### Updating "SDK" for interaction with the backend
+### 5. Updating "SDK" for interaction with the backend
 
 Now we need to recreate all `SDK`s that provide interaction with our server.
 
@@ -314,7 +314,7 @@ _Commands_
 npm run manual:prepare
 ```
 
-### Developing a new test for the backend for changing and using the language from the database
+### 6. Developing a new test for the backend for changing and using the language from the database
 
 To check the correctness of the functionality, we will create a special test scenario that will confirm that the change of language and its subsequent extraction from the database occur without errors.
 
@@ -393,7 +393,7 @@ describe('Store lang in db', () => {
 });
 ```
 
-### Running all server "E2E" tests
+### 7. Running all server "E2E" tests
 
 Let's run all `E2E` level tests for the server to make sure that all functionality works correctly and without failures.
 
@@ -403,7 +403,7 @@ _Commands_
 npm run nx -- run server-e2e:e2e
 ```
 
-### Creating a service to manage the user's active language in the frontend
+### 8. Creating a service to manage the user's active language in the frontend
 
 In the frontend application, we will create a service that will manage the active language for both authorized and unauthorized users.
 
@@ -459,7 +459,7 @@ export class AuthActiveLangService {
 
 Now let's replace all usages of `localStorage` for storing language with `AuthActiveLangService` throughout the frontend code.
 
-### Developing a new frontend test for changing and using language from the database
+### 9. Developing a new frontend test for changing and using language from the database
 
 As part of the test, we will perform the following steps: register, change the language to Russian, then change the language in `localStorage` from Russian to English and try to create a new webhook with empty fields. The expected result is getting a validation error in Russian.
 
@@ -573,7 +573,7 @@ test.describe('Validation with store lang in db (ru)', () => {
 });
 ```
 
-### Run all "E2E" level tests for both server and client
+### 10. Run all "E2E" level tests for both server and client
 
 Let's run all `E2E` level tests for both server and client to make sure all functionality works correctly and without errors.
 
@@ -599,7 +599,7 @@ In the previous article, I implemented the function of automatic conversion of o
 - https://nestjs-mod.com - the official website of additional utilities
 - https://fullstack.nestjs-mod.com - website from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/43979334656d63c8d4250b17f81fbd26793b5d78..3019d982ca9605479a8b917f71a8ae268f3582bc - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/3019d982ca9605479a8b917f71a8ae268f3582bc..93baa1e9cf6533c80fe01756c58d7aa5fe3403a9 - current changes
 - https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - video from E2E frontend tests
 
 #angular #translates #nestjsmod #fullstack

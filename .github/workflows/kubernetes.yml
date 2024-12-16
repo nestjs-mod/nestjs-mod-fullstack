@@ -395,6 +395,10 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+    env:
+      ROOT_VERSION: ${{ needs.release.outputs.root_version }}
+      SERVER_VERSION: ${{ needs.release.outputs.server_version }}
+      CLIENT_VERSION: ${{ needs.release.outputs.client_version }}
     steps:
       - name: Checkout repository
         if: ${{ needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
@@ -438,6 +442,10 @@ jobs:
         build-and-push-e2e-tests-image,
       ]
     runs-on: [self-hosted]
+    env:
+      ROOT_VERSION: ${{ needs.release.outputs.root_version }}
+      SERVER_VERSION: ${{ needs.release.outputs.server_version }}
+      CLIENT_VERSION: ${{ needs.release.outputs.client_version }}
 
     steps:
       - name: Checkout repository
@@ -525,6 +533,10 @@ jobs:
       contents: read
       packages: read
       id-token: write
+    env:
+      ROOT_VERSION: ${{ needs.release.outputs.root_version }}
+      SERVER_VERSION: ${{ needs.release.outputs.server_version }}
+      CLIENT_VERSION: ${{ needs.release.outputs.client_version }}
     steps:
       - name: Checkout repository
         if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}

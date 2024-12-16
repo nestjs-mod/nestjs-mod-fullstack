@@ -15,6 +15,13 @@ export NX_PARALLEL=false
 export NX_SKIP_NX_CACHE=true
 export DISABLE_SERVE_STATIC=true
 
-export ROOT_VERSION=$(npm pkg get version --workspaces=false | tr -d \")
-export SERVER_VERSION=$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \")
-export CLIENT_VERSION=$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \")
+if [ -z "${ROOT_VERSION}" ]; then
+    export ROOT_VERSION=$(npm pkg get version --workspaces=false | tr -d \")
+fi
+if [ -z "${SERVER_VERSION}" ]; then
+    export SERVER_VERSION=$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \")
+fi
+
+if [ -z "${CLIENT_VERSION}" ]; then
+    export CLIENT_VERSION=$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \")
+fi
