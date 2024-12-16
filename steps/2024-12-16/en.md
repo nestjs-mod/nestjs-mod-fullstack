@@ -599,7 +599,7 @@ In the previous article, I implemented the function of automatic conversion of o
 - https://nestjs-mod.com - the official website of additional utilities
 - https://fullstack.nestjs-mod.com - website from the post
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/3019d982ca9605479a8b917f71a8ae268f3582bc..93baa1e9cf6533c80fe01756c58d7aa5fe3403a9 - current changes
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12304209080/artifacts/2314033540 - video from E2E frontend tests
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/3019d982ca9605479a8b917f71a8ae268f3582bc..4f495dbd6b9b4efd8d8e13a60c5f66b895c483af - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12347665539/artifacts/2324579763 - video from E2E frontend tests
 
 #angular #translates #nestjsmod #fullstack
