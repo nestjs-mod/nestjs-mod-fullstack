@@ -17,7 +17,7 @@ _Commands_
 npm run flyway:create:auth --args=AddFieldLangToAuthUser
 ```
 
-Fill the migration file with `SQL` scripts needed to create the required tables and indexes.
+Fill the migration file with `SQL` script needed to create new column.
 
 Update the file _libs/core/auth/src/migrations/V202412141339\_\_AddFieldLangToAuthUser.sql_
 
