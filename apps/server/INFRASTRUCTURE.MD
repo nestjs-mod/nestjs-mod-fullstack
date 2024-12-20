@@ -1,5 +1,5 @@
 # server
-> Version: 1.11.0
+> Version: 1.11.1
 
 ## Running the app in watch mode
 ```bash
@@ -127,9 +127,6 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`bufferLogs`|If enabled, logs will be buffered until the "Logger#flush" method is called. @default false|**optional**|-|```true```|
-
-### NestjsPinoLoggerModule
-Pino logger for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-pino)
 
 ### TerminusHealthCheckModule
 Terminus integration provides readiness/liveness health checks for NestJS-mod (Wrapper for https://www.npmjs.com/package/@nestjs/terminus)
@@ -422,7 +419,7 @@ Feature modules with business logic of the application. NestJS and NestJS-mod co
 ### AppModule
 ### AuthModule
 #### Shared providers
-`AuthTimezoneService`, `AuthCacheService`
+`AsyncLocalStorage`, `AuthTimezoneService`, `AuthCacheService`
 
 #### Shared imports
 `PrismaModule`, `CacheManagerModule`
@@ -439,6 +436,7 @@ Static variables with primitive types used in the module and can be used at the 
 |`useGuards`|Use guards.|`obj['useGuards']`, `process.env['SERVER_AUTH_USE_GUARDS']`|**optional**|```true```|```true```|
 |`useFilters`|Use filters.|`obj['useFilters']`, `process.env['SERVER_AUTH_USE_FILTERS']`|**optional**|```true```|```true```|
 |`useInterceptors`|Use interceptors.|`obj['useInterceptors']`, `process.env['SERVER_AUTH_USE_INTERCEPTORS']`|**optional**|```true```|```true```|
+|`usePipes`|Use pipes.|`obj['usePipes']`, `process.env['SERVER_AUTH_USE_PIPES']`|**optional**|```true```|```true```|
 
 ### WebhookModule
 #### Shared providers

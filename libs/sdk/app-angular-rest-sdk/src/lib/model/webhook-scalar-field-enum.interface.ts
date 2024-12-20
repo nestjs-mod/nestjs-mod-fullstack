@@ -20,7 +20,8 @@ export type WebhookScalarFieldEnumInterface =
   | 'createdBy'
   | 'updatedBy'
   | 'createdAt'
-  | 'updatedAt';
+  | 'updatedAt'
+  | 'workUntilDate';
 
 export const WebhookScalarFieldEnumInterface = {
   id: 'id' as WebhookScalarFieldEnumInterface,
@@ -34,4 +35,5 @@ export const WebhookScalarFieldEnumInterface = {
   updatedBy: 'updatedBy' as WebhookScalarFieldEnumInterface,
   createdAt: 'createdAt' as WebhookScalarFieldEnumInterface,
   updatedAt: 'updatedAt' as WebhookScalarFieldEnumInterface,
+  workUntilDate: 'workUntilDate' as WebhookScalarFieldEnumInterface,
 };

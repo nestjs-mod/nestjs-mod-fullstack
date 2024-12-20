@@ -11,20 +11,20 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  annotateAllDtoProperties        = "true"
-  exportRelationModifierClasses   = "true"
-  outputToNestJsResourceStructure = "false"
-  updateDtoPrefix                 = "Update"
-  entitySuffix                    = ""
-  fileNamingStyle                 = "kebab"
   createDtoPrefix                 = "Create"
-  dtoSuffix                       = "Dto"
-  flatResourceStructure           = "false"
-  prettier                        = "true"
-  definiteAssignmentAssertion     = "true"
-  noDependencies                  = "false"
   classValidation                 = "true"
   reExport                        = "false"
+  outputToNestJsResourceStructure = "false"
+  fileNamingStyle                 = "kebab"
+  dtoSuffix                       = "Dto"
+  entitySuffix                    = ""
+  flatResourceStructure           = "false"
+  exportRelationModifierClasses   = "true"
+  prettier                        = "true"
+  updateDtoPrefix                 = "Update"
+  definiteAssignmentAssertion     = "true"
+  noDependencies                  = "false"
+  annotateAllDtoProperties        = "true"
   entityPrefix                    = ""
 }
 
@@ -50,6 +50,7 @@ model Webhook {
   /// @DtoCreateHidden
   /// @DtoUpdateHidden
   updatedAt                                  DateTime     @default(now()) @db.Timestamp(6)
+  workUntilDate                              DateTime?    @db.Timestamp(6)
   WebhookUser_Webhook_createdByToWebhookUser WebhookUser  @relation("Webhook_createdByToWebhookUser", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WEBHOOK__CREATED_BY")
   WebhookUser_Webhook_updatedByToWebhookUser WebhookUser  @relation("Webhook_updatedByToWebhookUser", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_WEBHOOK__UPDATED_BY")
   WebhookLog                                 WebhookLog[]

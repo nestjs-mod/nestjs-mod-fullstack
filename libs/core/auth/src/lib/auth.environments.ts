@@ -55,4 +55,12 @@ export class AuthEnvironments {
     hidden: true,
   })
   useInterceptors?: boolean;
+
+  @EnvModelProperty({
+    description: 'Use pipes.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  usePipes?: boolean;
 }

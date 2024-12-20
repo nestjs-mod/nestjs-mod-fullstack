@@ -2,6 +2,7 @@ import { Prisma } from '../../../../../../../../node_modules/@prisma/webhook-cli
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
+  IsDateString,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -43,4 +44,13 @@ export class CreateWebhookDto {
   @IsOptional()
   @IsInt()
   requestTimeout?: number | null;
+  @ApiProperty({
+    type: 'string',
+    format: 'date-time',
+    required: false,
+    nullable: true,
+  })
+  @IsOptional()
+  @IsDateString()
+  workUntilDate?: Date | null;
 }
