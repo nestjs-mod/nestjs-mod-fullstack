@@ -61,9 +61,21 @@
       (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
       [class.selected]="selectedIds[0] === data.id"
     >
-      @for (key of keys; track $index) {
-      <td>{{ data[key] }}</td>
-      }
+      @for (key of keys; track $index) { @for (key of keys; track $index) { @if
+      (data[key] &&
+      [WebhookLogScalarFieldEnumInterface.createdAt,WebhookLogScalarFieldEnumInterface.updatedAt
+      ].includes(key)) {
+      <td>
+        {{
+          +data[key]
+            | translocoDate : { dateStyle: 'medium', timeStyle: 'medium' }
+        }}
+      </td>
+      } @else{
+      <td>
+        {{ data[key] }}
+      </td>
+      } } }
     </tr>
     }
   </tbody>

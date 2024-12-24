@@ -4,8 +4,8 @@ import {
   UpdateWebhookDtoInterface,
   ValidationErrorMetadataInterface,
   WebhookEventInterface,
+  WebhookScalarFieldEnumInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { safeParseJson } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { tap } from 'rxjs';
@@ -37,7 +37,7 @@ export class WebhookFormService {
     return this.appendServerErrorsAsValidatorsToFields(
       [
         {
-          key: 'enabled',
+          key: WebhookScalarFieldEnumInterface.enabled,
           type: 'checkbox',
           validation: {
             show: true,
@@ -51,7 +51,7 @@ export class WebhookFormService {
           },
         },
         {
-          key: 'endpoint',
+          key: WebhookScalarFieldEnumInterface.endpoint,
           type: 'input',
           validation: {
             show: true,
@@ -65,7 +65,7 @@ export class WebhookFormService {
           },
         },
         {
-          key: 'eventName',
+          key: WebhookScalarFieldEnumInterface.eventName,
           type: 'select',
           validation: {
             show: true,
@@ -83,7 +83,7 @@ export class WebhookFormService {
           },
         },
         {
-          key: 'headers',
+          key: WebhookScalarFieldEnumInterface.headers,
           type: 'textarea',
           validation: {
             show: true,
@@ -96,7 +96,7 @@ export class WebhookFormService {
           },
         },
         {
-          key: 'requestTimeout',
+          key: WebhookScalarFieldEnumInterface.requestTimeout,
           type: 'input',
           validation: {
             show: true,
@@ -107,6 +107,21 @@ export class WebhookFormService {
               `webhook.form.fields.request-timeout`
             ),
             placeholder: 'requestTimeout',
+            required: false,
+          },
+        },
+        {
+          key: WebhookScalarFieldEnumInterface.workUntilDate,
+          type: 'input',
+          validation: {
+            show: true,
+          },
+          props: {
+            type: 'datetime-local',
+            label: this.translocoService.translate(
+              `webhook.form.fields.work-until-date`
+            ),
+            placeholder: 'workUntilDate',
             required: false,
           },
         },
@@ -144,27 +159,5 @@ export class WebhookFormService {
       }
       return f;
     });
-  }
-
-  toModel(data: Partial<UpdateWebhookDtoInterface>) {
-    return {
-      enabled:
-        (data['enabled'] as unknown as string) === 'true' ||
-        data['enabled'] === true,
-      endpoint: data['endpoint'],
-      eventName: data['eventName'],
-      headers: data['headers'] ? JSON.stringify(data['headers']) : '',
-      requestTimeout: data['requestTimeout'] ? +data['requestTimeout'] : '',
-    };
-  }
-
-  toJson(data: Partial<UpdateWebhookDtoInterface>) {
-    return {
-      enabled: data['enabled'] === true,
-      endpoint: data['endpoint'] || '',
-      eventName: data['eventName'] || '',
-      headers: data['headers'] ? safeParseJson(data['headers']) : null,
-      requestTimeout: data['requestTimeout'] || undefined,
-    };
   }
 }

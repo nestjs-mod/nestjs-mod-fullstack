@@ -14,7 +14,9 @@
     "@ngneat/until-destroy": "^10.0.0",
     "@angular/router": "18.2.11",
     "lodash": "^4.17.21",
-    "@jsverse/transloco-keys-manager": "^6.0.0"
+    "@jsverse/transloco-keys-manager": "^6.0.0",
+    "date-fns": "^4.1.0",
+    "@jsverse/transloco-locale": "^7.0.1"
     },
     "sideEffects": false,
     "i18n": [

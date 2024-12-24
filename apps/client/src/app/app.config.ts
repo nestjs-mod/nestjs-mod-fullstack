@@ -1,3 +1,5 @@
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+
 import { provideHttpClient } from '@angular/common/http';
 import {
   APP_INITIALIZER,
@@ -11,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import {
   RestClientApiModule,
   RestClientConfiguration,
@@ -114,6 +117,16 @@ export const appConfig = ({
           },
         },
         loader: TranslocoHttpLoader,
+      }),
+      provideTranslocoLocale({
+        defaultLocale: 'en-US',
+        langToLocaleMapping: {
+          en: 'en-US',
+          ru: 'ru-RU',
+        },
+      }),
+      provideTranslocoMessageformat({
+        locales: ['en-US', 'ru-RU'],
       }),
       {
         provide: APP_INITIALIZER,

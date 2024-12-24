@@ -16,14 +16,13 @@ import {
 } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import {
-  UpdateWebhookDtoInterface,
   ValidationErrorEnumInterface,
   ValidationErrorInterface,
   ValidationErrorMetadataInterface,
-  WebhookInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { addHours } from 'date-fns';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -38,6 +37,10 @@ import {
   throwError,
 } from 'rxjs';
 import { WebhookFormService } from '../../services/webhook-form.service';
+import {
+  WebhookModel,
+  WebhookMapperService,
+} from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
 
 @UntilDestroy()
@@ -65,13 +68,13 @@ export class WebhookFormComponent implements OnInit {
   hideButtons?: boolean;
 
   @Output()
-  afterFind = new EventEmitter<WebhookInterface>();
+  afterFind = new EventEmitter<WebhookModel>();
 
   @Output()
-  afterCreate = new EventEmitter<WebhookInterface>();
+  afterCreate = new EventEmitter<WebhookModel>();
 
   @Output()
-  afterUpdate = new EventEmitter<WebhookInterface>();
+  afterUpdate = new EventEmitter<WebhookModel>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -84,7 +87,8 @@ export class WebhookFormComponent implements OnInit {
     private readonly webhookService: WebhookService,
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
-    private readonly webhookFormService: WebhookFormService
+    private readonly webhookFormService: WebhookFormService,
+    private readonly webhookMapperService: WebhookMapperService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +99,11 @@ export class WebhookFormComponent implements OnInit {
         mergeMap(() => {
           if (this.id) {
             return this.findOne().pipe(
-              tap((result) => this.afterFind.next(result))
+              tap((result) =>
+                this.afterFind.next({
+                  ...result,
+                })
+              )
             );
           } else {
             this.setFieldsAndModel();
@@ -107,10 +115,9 @@ export class WebhookFormComponent implements OnInit {
       .subscribe();
   }
 
-  setFieldsAndModel(data: Partial<UpdateWebhookDtoInterface> = {}) {
-    const model = this.webhookFormService.toModel(data);
+  setFieldsAndModel(model?: Partial<object>) {
     this.setFormlyFields();
-    this.formlyModel$.next(model);
+    this.formlyModel$.next(model || null);
   }
 
   submitForm(): void {
@@ -122,7 +129,9 @@ export class WebhookFormComponent implements OnInit {
               this.nzMessageService.success(
                 this.translocoService.translate('Success')
               );
-              this.afterUpdate.next(result);
+              this.afterUpdate.next({
+                ...result,
+              });
             }
           }),
           untilDestroyed(this)
@@ -136,7 +145,15 @@ export class WebhookFormComponent implements OnInit {
               this.nzMessageService.success(
                 this.translocoService.translate('Success')
               );
-              this.afterCreate.next(result);
+              this.afterCreate.next({
+                ...result,
+                workUntilDate: result.workUntilDate
+                  ? addHours(
+                      new Date(result.workUntilDate),
+                      new Date().getTimezoneOffset() / 60
+                    )
+                  : null,
+              });
             }
           }),
 
@@ -148,7 +165,7 @@ export class WebhookFormComponent implements OnInit {
 
   createOne() {
     return this.webhookService
-      .createOne(this.webhookFormService.toJson(this.form.value))
+      .createOne(this.webhookMapperService.toJson(this.form.value))
       .pipe(catchError((err) => this.catchAndProcessServerError(err)));
   }
 
@@ -157,7 +174,7 @@ export class WebhookFormComponent implements OnInit {
       throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService
-      .updateOne(this.id, this.webhookFormService.toJson(this.form.value))
+      .updateOne(this.id, this.webhookMapperService.toJson(this.form.value))
       .pipe(catchError((err) => this.catchAndProcessServerError(err)));
   }
 
@@ -167,7 +184,7 @@ export class WebhookFormComponent implements OnInit {
     }
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {
-        this.setFieldsAndModel(result);
+        this.setFieldsAndModel(this.webhookMapperService.toForm(result));
       })
     );
   }

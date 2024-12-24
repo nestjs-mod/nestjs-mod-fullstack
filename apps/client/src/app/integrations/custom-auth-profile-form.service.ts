@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LoginInput, UpdateProfileInput } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
-import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  AuthUserScalarFieldEnumInterface,
+  ValidationErrorMetadataInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthProfileFormService } from '@nestjs-mod-fullstack/auth-angular';
 import { marker } from '@ngneat/transloco-keys-manager/marker';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -182,7 +185,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
       [
         ...super.getFormlyFields(),
         {
-          key: 'timezone',
+          key: AuthUserScalarFieldEnumInterface.timezone,
           type: 'select',
           validation: {
             show: true,

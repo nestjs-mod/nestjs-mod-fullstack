@@ -342,6 +342,8 @@
     "@faker-js/faker": "^9.2.0",
     "@jsverse/transloco": "^7.5.0",
     "@jsverse/transloco-keys-manager": "^6.0.0",
+    "@jsverse/transloco-locale": "^7.0.1",
+    "@jsverse/transloco-messageformat": "^7.0.1",
     "@nestjs-mod/authorizer": "^1.4.1",
     "@nestjs-mod/cache-manager": "^1.5.3",
     "@nestjs-mod/common": "2.16.4",

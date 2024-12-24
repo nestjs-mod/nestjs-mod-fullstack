@@ -16,9 +16,11 @@ export class AuthTimezonePipe implements PipeTransform {
     if (!this.authEnvironments.usePipes) {
       return value;
     }
-    return this.authTimezoneService.convertObject(
+    const result = this.authTimezoneService.convertObject(
       value,
-      -1 * (this.asyncLocalStorage.getStore()?.authTimezone || 0)
+      -1 * (this.asyncLocalStorage.getStore()?.authTimezone || 0) -
+        new Date().getTimezoneOffset() / 60
     );
+    return result;
   }
 }

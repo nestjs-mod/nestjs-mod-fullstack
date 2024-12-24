@@ -28,6 +28,7 @@ import {
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
 import { DemoService } from '../../services/demo.service';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 
 @UntilDestroy()
 @Component({
@@ -48,6 +49,7 @@ import { DemoService } from '../../services/demo.service';
     ReactiveFormsModule,
     TranslocoDirective,
     TranslocoPipe,
+    TranslocoDatePipe,
   ],
   selector: 'app-demo-grid',
   templateUrl: './demo-grid.component.html',

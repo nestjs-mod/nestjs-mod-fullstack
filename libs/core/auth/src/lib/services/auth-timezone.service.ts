@@ -20,14 +20,12 @@ export class AuthTimezoneService {
     if (Array.isArray(data)) {
       return this.convertArray(data, timezone, depth);
     }
-    if (typeof data === 'string' || typeof data === 'number') {
-      return data;
-    }
     if (
       (typeof data === 'string' ||
         typeof data === 'number' ||
         typeof data === 'function') &&
-      !this.isValidDate(data)
+      !this.isValidDate(data) &&
+      !this.isValidStringDate(data)
     ) {
       return data;
     }
@@ -79,13 +77,13 @@ export class AuthTimezoneService {
   }
 
   private isValidStringDate(data: string | number | unknown) {
-    return typeof data === 'string' && isValid(new Date(data));
+    return typeof data === 'string' && isNaN(+data) && isValid(new Date(data));
   }
 
   private isValidDate(data: string | number | Date | object | unknown) {
     if (data && typeof data === 'object' && isValid(data)) {
       return true;
     }
-    return typeof data === 'string' && isValid(new Date(data));
+    return typeof data === 'string' && isNaN(+data) && isValid(new Date(data));
   }
 }

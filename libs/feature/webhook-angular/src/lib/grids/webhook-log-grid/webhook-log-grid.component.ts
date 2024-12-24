@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { WebhookLogInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  WebhookLogInterface,
+  WebhookLogScalarFieldEnumInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import isEqual from 'lodash/fp/isEqual';
 import omit from 'lodash/fp/omit';
@@ -33,6 +36,7 @@ import {
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookLogService } from '../../services/webhook-log.service';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +58,7 @@ import { marker } from '@jsverse/transloco-keys-manager/marker';
     NzTableSortOrderDetectorPipe,
     TranslocoDirective,
     TranslocoPipe,
+    TranslocoDatePipe,
   ],
   selector: 'webhook-log-grid',
   templateUrl: './webhook-log-grid.component.html',
@@ -67,14 +72,31 @@ export class WebhookLogGridComponent implements OnInit, OnChanges {
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
-  keys = ['id', 'request', 'response', 'responseStatus', 'webhookStatus'];
+  keys = [
+    WebhookLogScalarFieldEnumInterface.id,
+    WebhookLogScalarFieldEnumInterface.request,
+    WebhookLogScalarFieldEnumInterface.response,
+    WebhookLogScalarFieldEnumInterface.responseStatus,
+    WebhookLogScalarFieldEnumInterface.webhookStatus,
+  ];
   columns = {
-    id: marker('webhook-log.grid.columns.id'),
-    request: marker('webhook-log.grid.columns.request'),
-    response: marker('webhook-log.grid.columns.response'),
-    responseStatus: marker('webhook-log.grid.columns.response-status'),
-    webhookStatus: marker('webhook-log.grid.columns.webhook-status'),
+    [WebhookLogScalarFieldEnumInterface.id]: marker(
+      'webhook-log.grid.columns.id'
+    ),
+    [WebhookLogScalarFieldEnumInterface.request]: marker(
+      'webhook-log.grid.columns.request'
+    ),
+    [WebhookLogScalarFieldEnumInterface.response]: marker(
+      'webhook-log.grid.columns.response'
+    ),
+    [WebhookLogScalarFieldEnumInterface.responseStatus]: marker(
+      'webhook-log.grid.columns.response-status'
+    ),
+    [WebhookLogScalarFieldEnumInterface.webhookStatus]: marker(
+      'webhook-log.grid.columns.webhook-status'
+    ),
   };
+  WebhookLogScalarFieldEnumInterface = WebhookLogScalarFieldEnumInterface;
 
   private filters?: Record<string, string>;
 
