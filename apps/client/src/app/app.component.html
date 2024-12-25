@@ -54,6 +54,6 @@
   </nz-content>
   <nz-footer class="flex justify-between">
     <div id="serverMessage">{{ serverMessage$ | async }}</div>
-    <div id="serverTime">{{ serverTime$ | async }}</div>
+    <div id="serverTime">{{ (serverTime$ | async)! | translocoDate : { dateStyle: 'medium', timeStyle: 'medium' } }}</div>
   </nz-footer>
 </nz-layout>

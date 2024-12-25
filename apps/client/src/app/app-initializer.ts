@@ -61,7 +61,7 @@ export class AppInitializer {
       mergeMap((activeLang) =>
         this.translocoService.load(activeLang).pipe(map(() => activeLang))
       ),
-      tap((activeLang) => this.authActiveLangService.setActiveLang(activeLang)),
+      tap((activeLang) => this.translocoService.setActiveLang(activeLang)),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);

@@ -9,6 +9,7 @@ import {
   TranslocoService,
 } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
   AppRestService,
   TimeRestService,
@@ -20,6 +21,7 @@ import {
 } from '@nestjs-mod-fullstack/auth-angular';
 import { webSocket } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { addHours } from 'date-fns';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -48,6 +50,7 @@ import {
     NgFor,
     TranslocoPipe,
     TranslocoDirective,
+    TranslocoDatePipe,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -56,7 +59,7 @@ import {
 export class AppComponent implements OnInit {
   title = marker('client');
   serverMessage$ = new BehaviorSubject('');
-  serverTime$ = new BehaviorSubject('');
+  serverTime$ = new BehaviorSubject<Date>(new Date());
   authUser$?: Observable<User | undefined>;
   lang$ = new BehaviorSubject<string>('');
   availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
@@ -137,7 +140,16 @@ export class AppComponent implements OnInit {
           )
         )
         .pipe(map((result) => result.data))
-    ).pipe(tap((result) => this.serverTime$.next(result as string)));
+    ).pipe(
+      tap((result) =>
+        this.serverTime$.next(
+          addHours(
+            new Date(result as string),
+            new Date().getTimezoneOffset() / 60
+          )
+        )
+      )
+    );
   }
 
   private fillServerMessage() {

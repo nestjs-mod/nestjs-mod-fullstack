@@ -3,9 +3,9 @@ export * from './lib/configuration';
 export * from './lib/encoder';
 export * from './lib/index';
 export * from './lib/param';
-
 export * from './lib/variables';
 export * from './lib/api/api';
+
 export * from './lib/api/app-rest.service';
 export * from './lib/api/auth-rest.service';
 export * from './lib/api/authorizer-rest.service';

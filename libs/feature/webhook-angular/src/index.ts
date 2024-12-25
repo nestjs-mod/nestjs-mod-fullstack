@@ -8,5 +8,6 @@ export * from './lib/services/webhook-events.service';
 export * from './lib/services/webhook-form.service';
 export * from './lib/services/webhook-guard.service';
 export * from './lib/services/webhook-log.service';
+export * from './lib/services/webhook-mapper.service';
 export * from './lib/services/webhook.configuration';
 export * from './lib/services/webhook.service';
