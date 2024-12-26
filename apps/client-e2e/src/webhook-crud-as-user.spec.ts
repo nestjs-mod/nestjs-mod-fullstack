@@ -15,7 +15,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     site: `http://${faker.internet.domainName()}`,
   };
   let page: Page;
-  let webhookId: string | null;
+  let webhookId: string | null | undefined;
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage({
@@ -203,11 +203,9 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await setTimeout(4000);
 
-    webhookId = await page
-      .locator('webhook-grid')
-      .locator('td')
-      .nth(0)
-      .textContent();
+    webhookId = (
+      await page.locator('webhook-grid').locator('td').nth(0).textContent()
+    )?.trim();
     await expect(
       page.locator('webhook-grid').locator('td').nth(1)
     ).toContainText('false');
