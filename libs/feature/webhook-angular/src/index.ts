@@ -3,6 +3,7 @@ export * from './lib/forms/webhook-form/webhook-form.component';
 export * from './lib/grids/webhook-grid/webhook-grid.component';
 export * from './lib/grids/webhook-log-grid/webhook-log-grid.component';
 export * from './lib/services/webhook-auth-form.service';
+export * from './lib/services/webhook-auth-mapper.service';
 export * from './lib/services/webhook-auth.service';
 export * from './lib/services/webhook-events.service';
 export * from './lib/services/webhook-form.service';

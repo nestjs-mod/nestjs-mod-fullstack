@@ -42,6 +42,7 @@ import {
   WebhookMapperService,
 } from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 
 @UntilDestroy()
 @Component({
@@ -88,7 +89,8 @@ export class WebhookFormComponent implements OnInit {
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
     private readonly webhookFormService: WebhookFormService,
-    private readonly webhookMapperService: WebhookMapperService
+    private readonly webhookMapperService: WebhookMapperService,
+    private readonly validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -166,7 +168,13 @@ export class WebhookFormComponent implements OnInit {
   createOne() {
     return this.webhookService
       .createOne(this.webhookMapperService.toJson(this.form.value))
-      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
+      .pipe(
+        catchError((err) =>
+          this.validationService.catchAndProcessServerError(err, (options) =>
+            this.setFormlyFields(options)
+          )
+        )
+      );
   }
 
   updateOne() {
@@ -175,7 +183,13 @@ export class WebhookFormComponent implements OnInit {
     }
     return this.webhookService
       .updateOne(this.id, this.webhookMapperService.toJson(this.form.value))
-      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
+      .pipe(
+        catchError((err) =>
+          this.validationService.catchAndProcessServerError(err, (options) =>
+            this.setFormlyFields(options)
+          )
+        )
+      );
   }
 
   findOne() {
@@ -193,15 +207,5 @@ export class WebhookFormComponent implements OnInit {
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(this.webhookFormService.getFormlyFields(options));
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private catchAndProcessServerError(err: any) {
-    const error = err.error as ValidationErrorInterface;
-    if (error?.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
-      this.setFormlyFields({ errors: error.metadata });
-      return of(null);
-    }
-    return throwError(() => err);
   }
 }

@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import {
+  LangToLocaleMapping,
+  TRANSLOCO_LOCALE_LANG_MAPPING,
+  TranslocoLocaleService,
+} from '@jsverse/transloco-locale';
 import {
   AuthErrorEnumInterface,
   AuthErrorInterface,
   AuthRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { catchError, map, of, tap, throwError } from 'rxjs';
-
-const keys = {
-  en: 'en-US',
-  ru: 'ru-RU',
-};
 
 const AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY = 'activeLang';
 
@@ -20,7 +19,9 @@ export class AuthActiveLangService {
   constructor(
     private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    @Inject(TRANSLOCO_LOCALE_LANG_MAPPING)
+    readonly langToLocaleMapping: LangToLocaleMapping
   ) {}
 
   getActiveLang() {
@@ -47,7 +48,7 @@ export class AuthActiveLangService {
     return this.authRestService.authControllerUpdateProfile({ lang }).pipe(
       tap(() => {
         this.translocoService.setActiveLang(lang);
-        this.translocoLocaleService.setLocale(keys[lang]);
+        this.translocoLocaleService.setLocale(this.langToLocaleMapping[lang]);
       }),
       catchError((err) => {
         if (
@@ -56,7 +57,7 @@ export class AuthActiveLangService {
         ) {
           localStorage.setItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY, lang);
           this.translocoService.setActiveLang(lang);
-          this.translocoLocaleService.setLocale(keys[lang]);
+          this.translocoLocaleService.setLocale(this.langToLocaleMapping[lang]);
           return of(null);
         }
         return throwError(() => err);

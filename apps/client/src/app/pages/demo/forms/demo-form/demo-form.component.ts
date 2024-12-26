@@ -15,7 +15,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { AppDemoInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -24,6 +23,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, tap } from 'rxjs';
+import {
+  AppDemoModel,
+  DemoMapperService,
+} from '../../services/demo-mapper.service';
 import { DemoService } from '../../services/demo.service';
 
 @UntilDestroy()
@@ -56,13 +59,13 @@ export class DemoFormComponent implements OnInit {
   };
 
   @Output()
-  afterFind = new EventEmitter<AppDemoInterface>();
+  afterFind = new EventEmitter<AppDemoModel>();
 
   @Output()
-  afterCreate = new EventEmitter<AppDemoInterface>();
+  afterCreate = new EventEmitter<AppDemoModel>();
 
   @Output()
-  afterUpdate = new EventEmitter<AppDemoInterface>();
+  afterUpdate = new EventEmitter<AppDemoModel>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -74,7 +77,8 @@ export class DemoFormComponent implements OnInit {
     private readonly nzModalData: DemoFormComponent,
     private readonly demoService: DemoService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly demoMapperService: DemoMapperService
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +95,7 @@ export class DemoFormComponent implements OnInit {
     }
   }
 
-  setFieldsAndModel(data: Partial<AppDemoInterface> = {}) {
+  setFieldsAndModel(model: Partial<object> = {}) {
     this.formlyFields$.next([
       {
         key: 'name',
@@ -110,7 +114,7 @@ export class DemoFormComponent implements OnInit {
         },
       },
     ]);
-    this.formlyModel$.next(this.toModel(data));
+    this.formlyModel$.next(model || null);
   }
 
   submitForm(): void {
@@ -166,14 +170,8 @@ export class DemoFormComponent implements OnInit {
     }
     return this.demoService.findOne(this.id).pipe(
       tap((result) => {
-        this.setFieldsAndModel(result);
+        this.setFieldsAndModel(this.demoMapperService.toForm(result));
       })
     );
-  }
-
-  private toModel(data: Partial<AppDemoInterface>) {
-    return {
-      name: data['name'],
-    };
   }
 }

@@ -35,7 +35,11 @@
   <tbody>
     @for (data of basicTable.data; track $index) {
     <tr
-      (click)="selectedIds$.next(selectedIds[0] === data.id ? [] : [data.id])"
+      (click)="
+        selectedIds$.next(
+          selectedIds[0] === (data.id || 'empty') ? [] : [data.id || 'empty']
+        )
+      "
       [class.selected]="selectedIds[0] === data.id"
     >
       @for (key of keys; track $index) { @if (data[key] &&
@@ -54,7 +58,10 @@
       <td>
         <a (click)="showCreateOrUpdateModal(data.id)" transloco="Edit"></a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a (click)="showDeleteModal(data.id)" transloco="Delete"></a>
+        <a
+          (click)="data?.id ? showDeleteModal(data.id!) : null"
+          transloco="Delete"
+        ></a>
       </td>
     </tr>
     }

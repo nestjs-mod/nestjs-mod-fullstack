@@ -108,7 +108,7 @@ test.describe('Validation', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').first()
+      page.locator('webhook-form').locator('formly-validation-message').nth(1)
     ).toContainText('field "endpoint" should not be empty');
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').last()

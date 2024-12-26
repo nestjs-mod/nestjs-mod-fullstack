@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { LoginInput, UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { LoginInput } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AuthUserScalarFieldEnumInterface,
   ValidationErrorMetadataInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthProfileFormService } from '@nestjs-mod-fullstack/auth-angular';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { marker } from '@ngneat/transloco-keys-manager/marker';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -172,8 +173,11 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
     },
   ];
 
-  constructor(protected override readonly translocoService: TranslocoService) {
-    super(translocoService);
+  constructor(
+    protected override readonly translocoService: TranslocoService,
+    protected override readonly validationService: ValidationService
+  ) {
+    super(translocoService, validationService);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -181,7 +185,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
     data?: LoginInput;
     errors?: ValidationErrorMetadataInterface[];
   }): FormlyFieldConfig[] {
-    return super.appendServerErrorsAsValidatorsToFields(
+    return this.validationService.appendServerErrorsAsValidatorsToFields(
       [
         ...super.getFormlyFields(),
         {
@@ -205,25 +209,5 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
       ],
       options?.errors || []
     );
-  }
-
-  override toModel(data: UpdateProfileInput) {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-      timezone: data['timezone'],
-    };
-  }
-
-  override toJson(data: UpdateProfileInput) {
-    return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
-      picture: data['picture'],
-      timezone: data['timezone'],
-    };
   }
 }

@@ -55,8 +55,8 @@ msgstr "Заголовки"
 msgid "webhook.form.fields.request-timeout"
 msgstr "Таймаута запроса"
 
-msgid "field \"{{label}}\""
-msgstr "поле \"{{label}}\""
+msgid "webhook.form.fields.work-until-date"
+msgstr "До какой даты может работать"
 
 msgid "webhook.form.fields.x-external-userId"
 msgstr "x-external-userId"
@@ -115,6 +115,9 @@ msgstr "Заголовки"
 msgid "webhook.grid.columns.request-timeout"
 msgstr "Таймаута запроса"
 
+msgid "webhook.grid.columns.work-until-date"
+msgstr "До какой даты может работать"
+
 msgid "Success"
 msgstr "Успешно"
 
@@ -123,3 +126,6 @@ msgstr "идентификатор не установлен"
 
 msgid "Validation errors"
 msgstr "Ошибка при проверке данных"
+
+msgid "field \"{{label}}\""
+msgstr "поле \"{{label}}\""

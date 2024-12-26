@@ -17,6 +17,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { AuthToken, SignupInput } from '@authorizerdev/authorizer-js';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -24,14 +26,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { AuthSignUpFormService } from '../../services/auth-sign-up-form.service';
+import { AuthSignUpMapperService } from '../../services/auth-sign-up-mapper.service';
 import { AuthService } from '../../services/auth.service';
-import {
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 
 @UntilDestroy()
 @Component({
@@ -69,7 +67,9 @@ export class AuthSignUpFormComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
-    private readonly authSignUpFormService: AuthSignUpFormService
+    private readonly authSignUpFormService: AuthSignUpFormService,
+    private readonly authSignUpMapperService: AuthSignUpMapperService,
+    private readonly validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -80,14 +80,14 @@ export class AuthSignUpFormComponent implements OnInit {
   setFieldsAndModel(
     data: SignupInput = { password: '', confirm_password: '' }
   ) {
-    const model = this.authSignUpFormService.toModel(data);
+    const model = this.authSignUpMapperService.toModel(data);
     this.setFormlyFields({ data: model });
     this.formlyModel$.next(model);
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.authSignUpFormService.toJson(this.form.value);
+      const value = this.authSignUpMapperService.toJson(this.form.value);
       this.authService
         .signUp({ ...value })
         .pipe(
@@ -99,7 +99,11 @@ export class AuthSignUpFormComponent implements OnInit {
               );
             }
           }),
-          catchError((err) => this.catchAndProcessServerError(err)),
+          catchError((err) =>
+            this.validationService.catchAndProcessServerError(err, (options) =>
+              this.setFormlyFields(options)
+            )
+          ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
@@ -124,15 +128,5 @@ export class AuthSignUpFormComponent implements OnInit {
     this.formlyFields$.next(
       this.authSignUpFormService.getFormlyFields(options)
     );
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private catchAndProcessServerError(err: any) {
-    const error = err.error as ValidationErrorInterface;
-    if (error?.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
-      this.setFormlyFields({ errors: error.metadata });
-      return of(null);
-    }
-    return throwError(() => err);
   }
 }

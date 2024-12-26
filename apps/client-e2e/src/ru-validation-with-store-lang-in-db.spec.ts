@@ -145,7 +145,7 @@ test.describe('Validation with store lang in db (ru)', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').first()
+      page.locator('webhook-form').locator('formly-validation-message').nth(1)
     ).toContainText('поле "адрес" не может быть пустым');
     await expect(
       page.locator('webhook-form').locator('formly-validation-message').last()

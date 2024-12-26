@@ -21,6 +21,7 @@ import {
 import {
   AUTHORIZER_URL,
   AuthProfileFormService,
+  AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -43,6 +44,7 @@ import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import { provideAppAuthConfiguration } from './integrations/auth.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
+import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
@@ -134,6 +136,10 @@ export const appConfig = ({
           appInitializer.resolve(),
         multi: true,
         deps: [AppInitializer],
+      },
+      {
+        provide: AuthProfileMapperService,
+        useClass: CustomAuthProfileMapperService,
       },
       {
         provide: AuthProfileFormService,

@@ -6,6 +6,7 @@ import {
   WebhookEventInterface,
   WebhookScalarFieldEnumInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { tap } from 'rxjs';
@@ -18,7 +19,8 @@ export class WebhookFormService {
 
   constructor(
     protected readonly webhookEventsService: WebhookEventsService,
-    protected readonly translocoService: TranslocoService
+    protected readonly translocoService: TranslocoService,
+    protected readonly validationService: ValidationService
   ) {}
 
   init() {
@@ -34,7 +36,7 @@ export class WebhookFormService {
     data?: UpdateWebhookDtoInterface;
     errors?: ValidationErrorMetadataInterface[];
   }): FormlyFieldConfig[] {
-    return this.appendServerErrorsAsValidatorsToFields(
+    return this.validationService.appendServerErrorsAsValidatorsToFields(
       [
         {
           key: WebhookScalarFieldEnumInterface.enabled,
@@ -128,36 +130,5 @@ export class WebhookFormService {
       ],
       options?.errors || []
     );
-  }
-
-  protected appendServerErrorsAsValidatorsToFields(
-    fields: FormlyFieldConfig[],
-    errors: ValidationErrorMetadataInterface[]
-  ) {
-    return (fields || []).map((f: FormlyFieldConfig) => {
-      const error = errors?.find((e) => e.property === f.key);
-      if (error) {
-        f.validators = Object.fromEntries(
-          error.constraints.map((c) => {
-            if (typeof f.key === 'string') {
-              c.description = c.description.replace(
-                f.key,
-                this.translocoService.translate('field "{{label}}"', {
-                  label: f.props?.label?.toLowerCase(),
-                })
-              );
-            }
-            return [
-              c.name === 'isNotEmpty' ? 'required' : c.name,
-              {
-                expression: () => false,
-                message: () => c.description,
-              },
-            ];
-          })
-        );
-      }
-      return f;
-    });
   }
 }

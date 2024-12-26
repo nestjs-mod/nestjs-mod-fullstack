@@ -15,7 +15,7 @@
     "webhook.form.fields.event-name": "Event name",
     "webhook.form.fields.headers": "Headers",
     "webhook.form.fields.request-timeout": "Request timeout",
-    "field \"{{label}}\"": "field \"{{label}}\"",
+    "webhook.form.fields.work-until-date": "Work until date",
     "webhook.form.fields.x-external-userId": "x-external-userId",
     "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "webhook-log.grid.columns.id": "Id",
@@ -35,7 +35,9 @@
     "webhook.grid.columns.event-name": "Event name",
     "webhook.grid.columns.headers": "Headers",
     "webhook.grid.columns.request-timeout": "Request timeout",
+    "webhook.grid.columns.work-until-date": "Work until date",
     "Success": "Success",
     "id not set": "id not set",
-    "Validation errors": "Validation errors"
+    "Validation errors": "Validation errors",
+    "field \"{{label}}\"": "field \"{{label}}\""
 }
