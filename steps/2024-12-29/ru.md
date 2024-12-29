@@ -1,4 +1,4 @@
-### [2024-12-29] Автоматическая конвертация даты по временной зоне пользователя в "NestJS"-приложении, а также ввод и отображение даты в "Angular"-приложении
+## [2024-12-29] Автоматическая конвертация даты по временной зоне пользователя в "NestJS"-приложении, а также ввод и отображение даты в "Angular"-приложении
 
 В этой статье я расскажу о добавлении нового поля `workUntilDate` с типом `timestamp(6)` в таблицу `Webhook` базы данных `Webhook`.
 
@@ -11,6 +11,8 @@
 ### 1. Установка необходимых библиотек
 
 Для начала установим требуемые пакеты:
+
+_Команды_
 
 ```bash
 npm install --save @jsverse/transloco-locale @jsverse/transloco-messageformat --prefer-offline --no-audit --progress=false
@@ -278,7 +280,7 @@ export class DateInputComponent extends FieldType<FieldTypeConfig> {
 
 Календарь теперь корректно отображает кнопки на выбранной локализации, однако содержимое самого поля ввода остаётся неизменным.
 
-Чтобы решить эту проблему, создадим список основных локалей и формата вывода и настариваем установку формата в качестве вывода даты в `input`.
+Чтобы решить эту проблему, создадим список основных локалей и форматов вывода и настариваем установку формата в качестве вывода даты в `input`.
 
 Создаем файл _libs/common-angular/src/lib/constants/date-input-formats.ts_
 
@@ -723,8 +725,8 @@ npm run pm2-full:dev:test:e2e
 - https://nestjs-mod.com - официальный сайт дополнительных утилит
 - https://fullstack.nestjs-mod.com - сайт из поста
 - https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/3019d982ca9605479a8b917f71a8ae268f3582bc..4f495dbd6b9b4efd8d8e13a60c5f66b895c483af - изменения
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12347665539/artifacts/2324579763 - видео с E2E-тестов фронтенда
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/4f495dbd6b9b4efd8d8e13a60c5f66b895c483af..ac8ce1e94a24f912f73c5eb1950458ebc77c12d4 - изменения
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12537857829/artifacts/2369701323 - видео с E2E-тестов фронтенда
 
 ### P.S.
 

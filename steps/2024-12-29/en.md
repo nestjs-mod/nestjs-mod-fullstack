@@ -1,30 +1,36 @@
-## [2024-12-29] Автоматическая конвертация даты по таймзон пользователя в NestJS-приложении, а также ввод и отображение даты в Angular-приложении
+## [2024-12-29] Automatic date conversion by user's time zone in "NestJS" application, as well as date input and display in "Angular" application
 
-В этой статье я добавлю новое поле `workUntilDate` с типом `timestamp(6)` в таблицу `Webhook` базы данных `Webhook`.
+In this article, I will talk about adding a new field `workUntilDate` with the type `timestamp(6)` to the `Webhook` table of the `Webhook` database.
 
-На стороне фронтенда (в `Angular`-приложении) для этого поля будет добавлено поле с календарём и выбором времени.
+On the frontend side (in the `Angular` application), a convenient calendar with the ability to select a time will be implemented for this field.
 
-Пользователь сможет выбирать дату и время в своей временной зоне, однако бэкенд (`NestJS`-приложение) будет сохранять эти данные в базе данных в формате `UTC+0`.
+Users will be able to set the date and time in their time zone, while the backend (`NestJS` application) will save the entered data in the database in the `UTC+0` format.
 
-Календарь, а также другие элементы интерфейса, отображающие даты, будут формироваться в соответствии с языком пользователя и его таймзоной.
+In addition, the calendar interface and other elements displaying dates will be adapted to the user's language and time zone.
 
-### 1. Устанавливаем все необходимые библиотеки
+### 1. Installing the required libraries
 
-_Команды_
+First, let's install the required packages:
+
+_Commands_
 
 ```bash
 npm install --save @jsverse/transloco-locale @jsverse/transloco-messageformat --prefer-offline --no-audit --progress=false
 ```
 
-### Создаем миграцию
+### 2. Creating a migration
 
-_Команды_
+My migrations are written in a way that they can be re-run.
+
+This is useful in cases where you need to undo the migration and re-run it.
+
+_Commands_
 
 ```bash
 npm run flyway:create:webhook --args=AddFieldWorkUntilDateToAuthUser
 ```
 
-Обновляем файл _libs/feature/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
+Updating the file _libs/feature/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
 
 ```sql
 DO $$
@@ -40,9 +46,11 @@ $$;
 
 ```
 
-### Применяем миграцию и пересоздаем Prisma-схемы и запускаем Prisma-генераторы
+### 3. Applying migration and updating "Prisma" schemas
 
-_Команды_
+Now let's apply the created migration, recreate the `Prisma` schemas and run the `Prisma` generators.
+
+_Commands_
 
 ```bash
 npm run docker-compose:start-prod:server
@@ -51,9 +59,9 @@ npm run prisma:pull
 npm run generate
 ```
 
-Во всех наших ДТО появится поле `workUntilDate`.
+After completing these steps, all relevant `DTO`s will have a new field `workUntilDate`.
 
-Пример обновления ДТО файла _libs/feature/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
+Example of updating `DTO` file _libs/feature/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
 
 ```ts
 import { Prisma } from '../../../../../../../../node_modules/@prisma/webhook-client';
@@ -71,7 +79,7 @@ export class WebhookDto {
 }
 ```
 
-Пример обновления Prisma-схемы _libs/feature/webhook/src/prisma/schema.prisma_
+Example of updating a `Prisma` schema _libs/feature/webhook/src/prisma/schema.prisma_
 
 ```prisma
 generator client {
@@ -90,15 +98,17 @@ model Webhook {
 }
 ```
 
-### Оборачиваем в "AsyncLocalStorage" все входящие запросы и храним там текущую таймзону пользователя
+### 4. Using "AsyncLocalStorage" to store the user's current timezone
 
-Ранее мы использовали `AuthTimezoneInterceptor` для трансформации выходных данных с датами в формате UTC-0 в даты с пользовательским таймзон.
+Previously, we used `AuthTimezoneInterceptor` to convert the output of dates in `UTC-0` format to a format that respects the user's timezone.
 
-Трансформация из входящей даты в таймзоне пользователя в дату UTC-0, в этой таймзоне дата хранится в базе данных, происходит в `AuthTimezonePipe`, но там у нас нет доступа к контексту запроса и мы не можем определить пользователя и его таймзону.
+The conversion of the incoming date from the user's timezone to the `UTC-0` date in which it is stored in the database is done in `AuthTimezonePipe`.
 
-Для того чтобы у нас появилась возможность получить таймзон пользователя, мы каждый входящий запрос оборачиваем в `AsyncLocalStorage`.
+However, in this context, we do not have access to the request data, so it is not possible to determine the user and their timezone.
 
-Обновляем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
+To solve this problem, we wrap each incoming request in `AsyncLocalStorage`, which will allow us to obtain the user's timezone information.
+
+Updating the file _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
 
 ```ts
 // ...
@@ -164,13 +174,13 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 }
 ```
 
-### Создаем "Pipe" для трансформации входящего объекта
+### 5. Creating a "Pipe" to transform the input object
 
-Отнимаем таймзон пользователя со всех полей во входящем объекте которые содержат поля строки с датами.
+We implement a `Pipe` that will subtract the user's time zone from all fields of the input object that contain date strings.
 
-Если сам бэкенд сервер имеет таймзон отличную от UTC-0, то отнимаем разницу.
+If the time zone of the backend server itself is different from `UTC-0`, then we subtract the difference.
 
-Обновляем файл _libs/core/auth/src/lib/pipes/auth-timezone.pipe.ts_
+Updating the file _libs/core/auth/src/lib/pipes/auth-timezone.pipe.ts_
 
 ```ts
 import { SERVER_TIMEZONE_OFFSET } from '@nestjs-mod-fullstack/common';
@@ -194,9 +204,11 @@ export class AuthTimezonePipe implements PipeTransform {
 }
 ```
 
-### Добавляем интерцептор и сервис для хранения асинхронного состояния в модуль авторизации
+### 6. Registering an interceptor and a service for storing asynchronous state in the authorization module
 
-Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
+Now let's add the created interceptor and a service for storing asynchronous state to the authorization module.
+
+Updating the file _libs/core/auth/src/lib/auth.module.ts_
 
 ```ts
 // ...
@@ -225,11 +237,13 @@ export const { AuthModule } = createNestModule({
 });
 ```
 
-### Добавляем новый тип поля "date-input" для "Formly"
+### 7. Adding a new field type "date-input" for "Formly"
 
-Хотя нативное `HTML` - поле и позволяет вводить и отображать данные с типом `Date`, но оно отличается визуально от интерфейса который мы имеем после подключения `ng.ant.design` - компонент, для того чтобы все интерфейсы выглядили одинаково создаем новый `Formly`-контрол: "date-input".
+Although the standard `HTML` input field supports entering and displaying data with the `Date` type, its appearance differs from the components provided by `ng.ant.design`.
 
-Создаем файл _libs/common-angular/src/lib/formly/date-input.component.ts_
+To keep the interface consistent, we will create a new `date-input` control for `Formly`.
+
+Create a file _libs/common-angular/src/lib/formly/date-input.component.ts_
 
 ```ts
 import { AsyncPipe } from '@angular/common';
@@ -264,9 +278,11 @@ export class DateInputComponent extends FieldType<FieldTypeConfig> {
 }
 ```
 
-Календарь успешно отображает кнопки на выбранной локали, но вывод в самом поле не меняется, для этого создаем список с основными локалями и форматами вывода и настариваем его установку в качестве формата вывода даты в `input`.
+The calendar now correctly displays buttons in the selected locale, but the content of the input field itself remains unchanged.
 
-Создаем файл _libs/common-angular/src/lib/constants/date-input-formats.ts_
+To solve this problem, let's create a list of main locales and output formats and set the format to be set as the date output in `input`.
+
+Create a file _libs/common-angular/src/lib/constants/date-input-formats.ts_
 
 ```ts
 export const DATE_INPUT_FORMATS = {
@@ -313,9 +329,9 @@ export const DATE_INPUT_FORMATS = {
 };
 ```
 
-Определяем новый типы в переменной которую подключим в конфигурации приложения.
+Let's define new types in a variable, which we will later include in the application configuration.
 
-Создаем файл _libs/common-angular/src/lib/formly/formly-fields.ts_
+Create a file _libs/common-angular/src/lib/formly/formly-fields.ts_
 
 ```ts
 import { TypeOption } from '@ngx-formly/core/lib/models';
@@ -330,11 +346,11 @@ export const COMMON_FORMLY_FIELDS: TypeOption[] = [
 ];
 ```
 
-### Создаем сервис для смены локали в различных компонентах фронтенд приложения
+### 8. Developing a service for changing locale in different components of a frontend application
 
-Так как различные компоненты имеют собственные способы смены языка, то мы все эти способы обединим в один сервис и метод.
+Since different components use their own unique mechanisms for changing the language, we will combine them into a single service and method.
 
-Создаем файл _libs/common-angular/src/lib/services/active-lang.service.ts_
+Create a file _libs/common-angular/src/lib/services/active-lang.service.ts_
 
 ```ts
 import { Inject, Injectable } from '@angular/core';
@@ -381,9 +397,11 @@ export class ActiveLangService {
 }
 ```
 
-### Подключаем в конфиге приложения все что необходимо для переключения локали в контроле для работы с датой
+### 9. Connecting the necessary elements to the application configuration for switching the locale in components working with dates
 
-Обновляем файл _apps/client/src/app/app.config.ts_
+Now we will connect everything necessary to the configuration of our application to ensure correct switching of the locale in components for working with dates.
+
+Updating the file _apps/client/src/app/app.config.ts_
 
 ```ts
 import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
@@ -425,11 +443,11 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 };
 ```
 
-### Добавляем новое поле ввода на фронтеде "Webhook" - модуля
+### 10. Adding a new input field on the front end in the "Webhook" module
 
-Новое поле формы может работать как в виде нативного `type=input` с типом `props.type=datetime-local` так и в виде кастомного `type=date-input`.
+The new form field can function as a standard `type=input` element with the `props.type=datetime-local` type, or as a custom `type=date-input` field.
 
-Обновляем файл _libs/feature/webhook-angular/src/lib/services/webhook-form.service.ts_
+Updating the file _libs/feature/webhook-angular/src/lib/services/webhook-form.service.ts_
 
 ```ts
 import { Injectable } from '@angular/core';
@@ -547,11 +565,11 @@ export class WebhookFormService {
 }
 ```
 
-Для конвертации входящих и выходящих данных на фронтенде нужно описать мапперы, их описываем в специальном сервисе.
+To convert incoming and outgoing data on the client side, you will need to create mappers, which we will describe in a specialized service.
 
-Так как браузер пользователя может иметь смещение по таймзон, то при конвертации серверной строки с датой в обьект даты браузера нам нужно добавлять браузерное смещение по таймзон.
+Considering the possible offset of the user's browser time zone, when converting a string with a date received from the server into a browser date object, it is necessary to take into account the offset of the browser time zone.
 
-Создаем файл _libs/feature/webhook-angular/src/lib/services/webhook-mapper.service.ts_
+Create a file _libs/feature/webhook-angular/src/lib/services/webhook-mapper.service.ts_
 
 ```ts
 import { Injectable } from '@angular/core';
@@ -600,11 +618,11 @@ export class WebhookMapperService {
 }
 ```
 
-### Подключаем на фронтенде пайп локализации при выводе дат
+### 11. Connecting a localization pipe to display dates on the front
 
-Везде где мы выводим дату, нам необходимо добавить обработку через пайп.
+In all places where we display the date, we should add processing via a pipe.
 
-Пример добавления пайпа _apps/client/src/app/app.component.html_
+Example of adding a pipe _apps/client/src/app/app.component.html_
 
 ```html
 <nz-layout class="layout">
@@ -616,13 +634,17 @@ export class WebhookMapperService {
 </nz-layout>
 ```
 
-### Модифицируем все тесты где происходит локализация интерфейса
+### 12. Adaptation of tests related to interface localization
 
-Ранее мы в интерфейсе выводили дату в формате который приходит нам с бэкенда, но теперь у нас происходит локализация в реальном времени всех данных с датами, и соответственно все наши тесты в которых мы проверяли выводимые данные содержащие даты - сломались.
+Until now, in the interface, we displayed dates in the format received from the backend.
 
-Модификаций тестов очень много, но суть примерно одна и таже.
+Now, thanks to the implementation of real-time localization, all data with dates is automatically adapted to the user's settings.
 
-Пример обновления теста _apps/client-e2e/src/ru-example.spec.ts_
+Accordingly, all our tests that check the output data containing dates stopped working correctly.
+
+The number of necessary changes is large, but the principle of adaptation is the same everywhere.
+
+Example of updating the test _apps/client-e2e/src/ru-example.spec.ts_
 
 ```ts
 import { expect, Page, test } from '@playwright/test';
@@ -660,9 +682,13 @@ test.describe('basic usage (ru)', () => {
 });
 ```
 
-### Запускаем генерацию дополнительных файлов, перегенерацию словарей и запускаем инфраструктуру с приложениями в режиме разработки и проверяем работу через E2E-тесты
+### 13. Generating additional files, updating dictionaries and launching the infrastructure in development mode
 
-_Команды_
+Now we will start generating additional files, update dictionaries and activate the application infrastructure in development mode.
+
+After that, we will perform a final functionality check through E2E tests.
+
+_Commands_
 
 ```bash
 npm run manual:prepare
@@ -671,33 +697,39 @@ npm run pm2-full:dev:start
 npm run pm2-full:dev:test:e2e
 ```
 
-### Заключение
+### Conclusion
 
-Хотел сделать минимальным колличеством изменений, но опять вышло много кода, хотя по идее добавилось всего лишь одно поле с типом `Date`.
+Although my goal was to change the code as little as possible, it turned out to be quite a large update again, despite adding only one field with the `Date` type.
 
-Новые типы полей не так часто добавляются, обычно происходит анализ предстоящих работ по проекту и выделяются основные типы обьектов и под них создаются различные компоненты для ввода и вывода информации.
+New field types rarely need to be added, because before starting a project, a thorough analysis of future tasks is usually carried out and the main types of objects are determined, for which the corresponding input and output components are developed.
 
-Сейчас в проекте имется примеры с вводом и выводом данных различных типов: строка, число, словарь, переключатель, файл, дата-время.
+At the moment, the project provides examples of working with various data types: string values, numbers, dictionaries, switches, files and date-time.
 
-Этих типов достаточно для разработки небольшой `CRM`-системы, а если нужно будет добавлять некую кастомизацию, можно изучить как она добавлена в этом проекте на примере типов: файл и дата-время.
+These types are quite sufficient for creating a small `CRM` system.
 
-### Планы
+If additional customization is needed, you can look at the implementation of custom components for `file` and `date-time`.
 
-В принципе основные статьи о том как я пишу типовой `REST` код я описал, не стал расписывать каким образом подключаются очереди и работа с микросервисами, это все отдельные темы, их раскрою в других статьях не связанных с текущим `REST` бойлерплейтом.
+### Plans
 
-Сейчас продакшен девопс часть проекта жестко связана с билдом докер образов и деплоем в кубернетес, для большинства разработчиков фронтенда и бэкенда это некий оверехед, в следующем посте я постараюь описать легкий девопс на бесплатное или условно бесплатное облако...
+The main aspects of writing typical `REST` code have already been covered in previous articles.
 
-### Ссылки
+I intentionally did not touch upon the issues of queue integration and working with microservices, as they deserve separate series of articles not related to the current `REST` boilerplate.
 
-- https://nestjs.com - официальный сайт фреймворка
-- https://nestjs-mod.com - официальный сайт дополнительных утилит
-- https://fullstack.nestjs-mod.com - сайт из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack - проект из поста
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/3019d982ca9605479a8b917f71a8ae268f3582bc..4f495dbd6b9b4efd8d8e13a60c5f66b895c483af - изменения
-- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12347665539/artifacts/2324579763 - видео с E2E-тестов фронтенда
+To date, the production part of the project is tightly linked to the creation of `Docker` images and deployment to `Kubernetes`, which can be excessively complex for many frontend and backend developers.
+
+In the next article, I will try to describe a simplified approach to `DevOps`, focused on free or shareware cloud solutions.
+
+### Links
+
+- https://nestjs.com - the official website of the framework
+- https://nestjs-mod.com - the official website of additional utilities
+- https://fullstack.nestjs-mod.com - website from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack - the project from the post
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/4f495dbd6b9b4efd8d8e13a60c5f66b895c483af..ac8ce1e94a24f912f73c5eb1950458ebc77c12d4 - current changes
+- https://github.com/nestjs-mod/nestjs-mod-fullstack/actions/runs/12537857829/artifacts/2369701323 - video from E2E frontend tests
 
 ### P.S.
 
-С наступающим новым 2025 годом, желаю всем здоровья, любви и удачи! 🥳🥳🥳
+Happy New Year 2025! I wish you all health, love and good luck! 🥳🥳🥳
 
 #angular #timezone #nestjsmod #fullstack
