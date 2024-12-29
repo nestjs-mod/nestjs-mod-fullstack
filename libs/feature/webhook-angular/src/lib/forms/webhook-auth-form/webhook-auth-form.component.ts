@@ -15,18 +15,14 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import {
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { WebhookAuthFormService } from '../../services/webhook-auth-form.service';
 import { WebhookAuthMapperService } from '../../services/webhook-auth-mapper.service';
 import {

@@ -87,7 +87,7 @@ bootstrapNestApplication({
       DefaultNestApplicationInitializer.forRoot({
         staticConfiguration: { bufferLogs: true },
       }),
-      // NestjsPinoLoggerModule.forRoot(),
+      NestjsPinoLoggerModule.forRoot(),
       TerminusHealthCheckModule.forRootAsync({
         imports: [
           PrismaModule.forFeature({
