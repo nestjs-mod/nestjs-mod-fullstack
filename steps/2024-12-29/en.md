@@ -1,4 +1,4 @@
-## [2024-12-29] Automatic date conversion by user's time zone in "NestJS" application, as well as date input and display in "Angular" application
+## [2024-12-29] Converting date by user time zone in "NestJS", and entering and displaying date in "Angular"
 
 In this article, I will talk about adding a new field `workUntilDate` with the type `timestamp(6)` to the `Webhook` table of the `Webhook` database.
 
