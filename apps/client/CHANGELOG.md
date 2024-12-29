@@ -1,3 +1,9 @@
+# [1.12.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.11.0...client-v1.12.0) (2024-12-29)
+
+### Features
+
+- Automatic date conversion by user's time zone in "NestJS" application, as well as date input and display in "Angular" application (2024-12-29) ([ac8ce1e](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/ac8ce1e94a24f912f73c5eb1950458ebc77c12d4))
+
 # [1.11.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.10.1...client-v1.11.0) (2024-12-15)
 
 ### Features
