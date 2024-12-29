@@ -7,7 +7,7 @@ import {
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { AuthProfileFormService } from '@nestjs-mod-fullstack/auth-angular';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
-import { marker } from '@ngneat/transloco-keys-manager/marker';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 

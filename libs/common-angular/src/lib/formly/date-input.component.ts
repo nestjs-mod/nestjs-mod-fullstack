@@ -35,7 +35,7 @@ export class DateInputComponent extends FieldType<FieldTypeConfig> {
         const { locale } = this.activeLangService.normalizeLangKey(lang);
         return DATE_INPUT_FORMATS[locale]
           ? DATE_INPUT_FORMATS[locale]
-          : 'yyyy-MM-dd HH:mm:ss';
+          : DATE_INPUT_FORMATS['en-US'];
       })
     );
   }

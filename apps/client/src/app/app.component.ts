@@ -19,7 +19,10 @@ import {
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { webSocket } from '@nestjs-mod-fullstack/common-angular';
+import {
+  BROWSER_TIMEZONE_OFFSET,
+  webSocket,
+} from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { addHours } from 'date-fns';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -143,10 +146,7 @@ export class AppComponent implements OnInit {
     ).pipe(
       tap((result) =>
         this.serverTime$.next(
-          addHours(
-            new Date(result as string),
-            new Date().getTimezoneOffset() / 60
-          )
+          addHours(new Date(result as string), BROWSER_TIMEZONE_OFFSET)
         )
       )
     );

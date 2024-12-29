@@ -1,3 +1,4 @@
+export * from './lib/constants/browser-timezone-offset';
 export * from './lib/constants/date-input-formats';
 export * from './lib/form-utils/ng-changes';
 export * from './lib/formly/date-input.component';

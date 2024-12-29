@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { WebhookInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { safeParseJson } from '@nestjs-mod-fullstack/common-angular';
+import {
+  BROWSER_TIMEZONE_OFFSET,
+  safeParseJson,
+} from '@nestjs-mod-fullstack/common-angular';
 import { addHours, format } from 'date-fns';
 
 export interface WebhookModel
@@ -24,22 +27,13 @@ export class WebhookMapperService {
       headers: item?.headers ? JSON.stringify(item.headers) : '',
       requestTimeout: item?.requestTimeout ? +item.requestTimeout : null,
       workUntilDate: item?.workUntilDate
-        ? addHours(
-            new Date(item.workUntilDate),
-            new Date().getTimezoneOffset() / 60
-          )
+        ? addHours(new Date(item.workUntilDate), BROWSER_TIMEZONE_OFFSET)
         : null,
       createdAt: item?.createdAt
-        ? addHours(
-            new Date(item.createdAt),
-            new Date().getTimezoneOffset() / 60
-          )
+        ? addHours(new Date(item.createdAt), BROWSER_TIMEZONE_OFFSET)
         : null,
       updatedAt: item?.updatedAt
-        ? addHours(
-            new Date(item.updatedAt),
-            new Date().getTimezoneOffset() / 60
-          )
+        ? addHours(new Date(item.updatedAt), BROWSER_TIMEZONE_OFFSET)
         : null,
     };
   }
@@ -49,7 +43,7 @@ export class WebhookMapperService {
       ...model,
       requestTimeout: model.requestTimeout ? model.requestTimeout : '',
       workUntilDate: model.workUntilDate
-        ? format(model.workUntilDate, 'yyyy-MM-dd HH:mm')
+        ? format(model.workUntilDate, 'yyyy-MM-dd HH:mm:ss')
         : null,
     };
   }
@@ -62,7 +56,7 @@ export class WebhookMapperService {
       headers: data.headers ? safeParseJson(data.headers) : null,
       requestTimeout: data.requestTimeout ? +data.requestTimeout : null,
       workUntilDate: data.workUntilDate
-        ? format(new Date(data.workUntilDate), 'yyyy-MM-dd HH:mm')
+        ? format(new Date(data.workUntilDate), 'yyyy-MM-dd HH:mm:ss')
         : undefined,
     };
   }

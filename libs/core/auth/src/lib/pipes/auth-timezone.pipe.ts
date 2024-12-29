@@ -1,3 +1,4 @@
+import { SERVER_TIMEZONE_OFFSET } from '@nestjs-mod-fullstack/common';
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthEnvironments } from '../auth.environments';
@@ -19,7 +20,7 @@ export class AuthTimezonePipe implements PipeTransform {
     const result = this.authTimezoneService.convertObject(
       value,
       -1 * (this.asyncLocalStorage.getStore()?.authTimezone || 0) -
-        new Date().getTimezoneOffset() / 60
+        SERVER_TIMEZONE_OFFSET
     );
     return result;
   }

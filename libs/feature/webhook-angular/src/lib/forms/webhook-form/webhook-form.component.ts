@@ -15,11 +15,11 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+  BROWSER_TIMEZONE_OFFSET,
+  ValidationService,
+} from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { addHours } from 'date-fns';
@@ -28,21 +28,13 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import {
-  BehaviorSubject,
-  catchError,
-  mergeMap,
-  of,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, catchError, mergeMap, of, tap } from 'rxjs';
 import { WebhookFormService } from '../../services/webhook-form.service';
 import {
-  WebhookModel,
   WebhookMapperService,
+  WebhookModel,
 } from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
-import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 
 @UntilDestroy()
 @Component({
@@ -152,7 +144,7 @@ export class WebhookFormComponent implements OnInit {
                 workUntilDate: result.workUntilDate
                   ? addHours(
                       new Date(result.workUntilDate),
-                      new Date().getTimezoneOffset() / 60
+                      BROWSER_TIMEZONE_OFFSET
                     )
                   : null,
               });
