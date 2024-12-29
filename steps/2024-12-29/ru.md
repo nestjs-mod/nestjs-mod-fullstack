@@ -1,5 +1,7 @@
 ## [2024-12-29] Конвертация даты по временной зоне пользователя в "NestJS", а также ввод и отображение даты в "Angular"
 
+**Предыдущая статья:** [Интеграция и сохранение выбранного языка пользователя в базу данных в фулстек-приложении на "Angular" и "NestJS"](https://habr.com/ru/articles/866858/)
+
 В этой статье я расскажу о добавлении нового поля `workUntilDate` с типом `timestamp(6)` в таблицу `Webhook` базы данных `Webhook`.
 
 На стороне фронтенда (в `Angular`-приложении) для этого поля будет реализован удобный календарь с возможностью выбора времени.
@@ -63,7 +65,7 @@ npm run generate
 
 Пример обновления `DTO`-файла _libs/feature/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
 
-```ts
+```typescript
 import { Prisma } from '../../../../../../../../node_modules/@prisma/webhook-client';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -110,7 +112,7 @@ model Webhook {
 
 Обновляем файл _libs/core/auth/src/lib/interceptors/auth-timezone.interceptor.ts_
 
-```ts
+```typescript
 // ...
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-data';
@@ -182,7 +184,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
 
 Обновляем файл _libs/core/auth/src/lib/pipes/auth-timezone.pipe.ts_
 
-```ts
+```typescript
 import { SERVER_TIMEZONE_OFFSET } from '@nestjs-mod-fullstack/common';
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -210,7 +212,7 @@ export class AuthTimezonePipe implements PipeTransform {
 
 Обновляем файл _libs/core/auth/src/lib/auth.module.ts_
 
-```ts
+```typescript
 // ...
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 // ...
@@ -245,7 +247,7 @@ export const { AuthModule } = createNestModule({
 
 Создаем файл _libs/common-angular/src/lib/formly/date-input.component.ts_
 
-```ts
+```typescript
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -284,7 +286,7 @@ export class DateInputComponent extends FieldType<FieldTypeConfig> {
 
 Создаем файл _libs/common-angular/src/lib/constants/date-input-formats.ts_
 
-```ts
+```typescript
 export const DATE_INPUT_FORMATS = {
   'en-US': 'MM/dd/yyyy HH:mm:ss',
   'en-GB': 'dd/MM/yyyy HH:mm:ss',
@@ -333,7 +335,7 @@ export const DATE_INPUT_FORMATS = {
 
 Создаем файл _libs/common-angular/src/lib/formly/formly-fields.ts_
 
-```ts
+```typescript
 import { TypeOption } from '@ngx-formly/core/lib/models';
 import { DateInputComponent } from './date-input.component';
 
@@ -352,7 +354,7 @@ export const COMMON_FORMLY_FIELDS: TypeOption[] = [
 
 Создаем файл _libs/common-angular/src/lib/services/active-lang.service.ts_
 
-```ts
+```typescript
 import { Inject, Injectable } from '@angular/core';
 import { toCamelCase, TranslocoService } from '@jsverse/transloco';
 import { LangToLocaleMapping, TRANSLOCO_LOCALE_LANG_MAPPING, TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -403,7 +405,7 @@ export class ActiveLangService {
 
 Обновляем файл _apps/client/src/app/app.config.ts_
 
-```ts
+```typescript
 import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 
 // ...
@@ -449,7 +451,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 
 Обновляем файл _libs/feature/webhook-angular/src/lib/services/webhook-form.service.ts_
 
-```ts
+```typescript
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { UpdateWebhookDtoInterface, ValidationErrorMetadataInterface, WebhookEventInterface, WebhookScalarFieldEnumInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
@@ -571,7 +573,7 @@ export class WebhookFormService {
 
 Создаем файл _libs/feature/webhook-angular/src/lib/services/webhook-mapper.service.ts_
 
-```ts
+```typescript
 import { Injectable } from '@angular/core';
 import { WebhookInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { BROWSER_TIMEZONE_OFFSET, safeParseJson } from '@nestjs-mod-fullstack/common-angular';
@@ -646,7 +648,7 @@ export class WebhookMapperService {
 
 Пример обновления теста _apps/client-e2e/src/ru-example.spec.ts_
 
-```ts
+```typescript
 import { expect, Page, test } from '@playwright/test';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
