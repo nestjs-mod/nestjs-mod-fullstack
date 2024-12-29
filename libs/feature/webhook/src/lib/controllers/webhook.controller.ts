@@ -201,7 +201,6 @@ export class WebhookController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() args: UpdateWebhookDto
   ) {
-    console.log(args);
     return await this.prismaClient.webhook.update({
       data: { ...args, updatedAt: new Date() },
       where: {

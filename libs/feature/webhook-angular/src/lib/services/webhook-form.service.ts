@@ -114,7 +114,7 @@ export class WebhookFormService {
         },
         {
           key: WebhookScalarFieldEnumInterface.workUntilDate,
-          type: 'input',
+          type: 'date-input',
           validation: {
             show: true,
           },

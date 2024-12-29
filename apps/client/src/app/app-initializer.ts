@@ -14,6 +14,7 @@ import {
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
 import {
   catchError,
   map,
@@ -39,7 +40,8 @@ export class AppInitializer {
     private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
-    private readonly authActiveLangService: AuthActiveLangService
+    private readonly authActiveLangService: AuthActiveLangService,
+    private readonly activeLangService: ActiveLangService
   ) {}
 
   resolve() {
@@ -61,7 +63,7 @@ export class AppInitializer {
       mergeMap((activeLang) =>
         this.translocoService.load(activeLang).pipe(map(() => activeLang))
       ),
-      tap((activeLang) => this.translocoService.setActiveLang(activeLang)),
+      tap((activeLang) => this.activeLangService.applyActiveLang(activeLang)),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);

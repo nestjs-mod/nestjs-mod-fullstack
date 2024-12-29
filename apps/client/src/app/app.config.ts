@@ -24,8 +24,9 @@ import {
   AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
 import {
-  ImageFileComponent,
+  FILES_FORMLY_FIELDS,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
 import {
@@ -75,13 +76,7 @@ export const appConfig = ({
             })
         ),
         FormlyModule.forRoot({
-          types: [
-            {
-              name: 'image-file',
-              component: ImageFileComponent,
-              extends: 'input',
-            },
-          ],
+          types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],
         }),
         FormlyNgZorroAntdModule
       ),
