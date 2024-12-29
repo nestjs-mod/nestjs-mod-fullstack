@@ -54,6 +54,12 @@ export class Webhook {
   })
   updatedAt!: Date;
   @ApiProperty({
+    type: 'string',
+    format: 'date-time',
+    nullable: true,
+  })
+  workUntilDate!: Date | null;
+  @ApiProperty({
     type: () => WebhookUser,
     required: false,
   })

@@ -13,6 +13,8 @@
       ],
       "options": {
         "allowedCommonJsDependencies": [
+          "@jsverse/transloco-messageformat",
+          "@jsverse/transloco-keys-manager/marker",
           "lodash/fp/isEqual",
           "lodash/fp/omit",
           "cross-fetch"
@@ -48,7 +50,7 @@
             {
               "type": "initial",
               "maximumWarning": "600kb",
-              "maximumError": "2mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",

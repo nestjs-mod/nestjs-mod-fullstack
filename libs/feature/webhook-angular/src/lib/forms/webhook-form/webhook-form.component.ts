@@ -15,29 +15,25 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
-  UpdateWebhookDtoInterface,
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-  WebhookInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+  BROWSER_TIMEZONE_OFFSET,
+  ValidationService,
+} from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { addHours } from 'date-fns';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import {
-  BehaviorSubject,
-  catchError,
-  mergeMap,
-  of,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, catchError, mergeMap, of, tap } from 'rxjs';
 import { WebhookFormService } from '../../services/webhook-form.service';
+import {
+  WebhookMapperService,
+  WebhookModel,
+} from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
 
 @UntilDestroy()
@@ -65,13 +61,13 @@ export class WebhookFormComponent implements OnInit {
   hideButtons?: boolean;
 
   @Output()
-  afterFind = new EventEmitter<WebhookInterface>();
+  afterFind = new EventEmitter<WebhookModel>();
 
   @Output()
-  afterCreate = new EventEmitter<WebhookInterface>();
+  afterCreate = new EventEmitter<WebhookModel>();
 
   @Output()
-  afterUpdate = new EventEmitter<WebhookInterface>();
+  afterUpdate = new EventEmitter<WebhookModel>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -84,7 +80,9 @@ export class WebhookFormComponent implements OnInit {
     private readonly webhookService: WebhookService,
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
-    private readonly webhookFormService: WebhookFormService
+    private readonly webhookFormService: WebhookFormService,
+    private readonly webhookMapperService: WebhookMapperService,
+    private readonly validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +93,11 @@ export class WebhookFormComponent implements OnInit {
         mergeMap(() => {
           if (this.id) {
             return this.findOne().pipe(
-              tap((result) => this.afterFind.next(result))
+              tap((result) =>
+                this.afterFind.next({
+                  ...result,
+                })
+              )
             );
           } else {
             this.setFieldsAndModel();
@@ -107,10 +109,9 @@ export class WebhookFormComponent implements OnInit {
       .subscribe();
   }
 
-  setFieldsAndModel(data: Partial<UpdateWebhookDtoInterface> = {}) {
-    const model = this.webhookFormService.toModel(data);
+  setFieldsAndModel(model?: Partial<object>) {
     this.setFormlyFields();
-    this.formlyModel$.next(model);
+    this.formlyModel$.next(model || null);
   }
 
   submitForm(): void {
@@ -122,7 +123,9 @@ export class WebhookFormComponent implements OnInit {
               this.nzMessageService.success(
                 this.translocoService.translate('Success')
               );
-              this.afterUpdate.next(result);
+              this.afterUpdate.next({
+                ...result,
+              });
             }
           }),
           untilDestroyed(this)
@@ -136,7 +139,15 @@ export class WebhookFormComponent implements OnInit {
               this.nzMessageService.success(
                 this.translocoService.translate('Success')
               );
-              this.afterCreate.next(result);
+              this.afterCreate.next({
+                ...result,
+                workUntilDate: result.workUntilDate
+                  ? addHours(
+                      new Date(result.workUntilDate),
+                      BROWSER_TIMEZONE_OFFSET
+                    )
+                  : null,
+              });
             }
           }),
 
@@ -148,8 +159,14 @@ export class WebhookFormComponent implements OnInit {
 
   createOne() {
     return this.webhookService
-      .createOne(this.webhookFormService.toJson(this.form.value))
-      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
+      .createOne(this.webhookMapperService.toJson(this.form.value))
+      .pipe(
+        catchError((err) =>
+          this.validationService.catchAndProcessServerError(err, (options) =>
+            this.setFormlyFields(options)
+          )
+        )
+      );
   }
 
   updateOne() {
@@ -157,8 +174,14 @@ export class WebhookFormComponent implements OnInit {
       throw new Error(this.translocoService.translate('id not set'));
     }
     return this.webhookService
-      .updateOne(this.id, this.webhookFormService.toJson(this.form.value))
-      .pipe(catchError((err) => this.catchAndProcessServerError(err)));
+      .updateOne(this.id, this.webhookMapperService.toJson(this.form.value))
+      .pipe(
+        catchError((err) =>
+          this.validationService.catchAndProcessServerError(err, (options) =>
+            this.setFormlyFields(options)
+          )
+        )
+      );
   }
 
   findOne() {
@@ -167,7 +190,7 @@ export class WebhookFormComponent implements OnInit {
     }
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {
-        this.setFieldsAndModel(result);
+        this.setFieldsAndModel(this.webhookMapperService.toForm(result));
       })
     );
   }
@@ -176,15 +199,5 @@ export class WebhookFormComponent implements OnInit {
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(this.webhookFormService.getFormlyFields(options));
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private catchAndProcessServerError(err: any) {
-    const error = err.error as ValidationErrorInterface;
-    if (error?.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
-      this.setFormlyFields({ errors: error.metadata });
-      return of(null);
-    }
-    return throwError(() => err);
   }
 }

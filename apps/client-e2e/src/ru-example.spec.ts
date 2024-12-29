@@ -1,12 +1,10 @@
 import { expect, Page, test } from '@playwright/test';
-import { isDateString } from 'class-validator';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('basic usage (ru)', () => {
   test.describe.configure({ mode: 'serial' });
 
-  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
   let page: Page;
 
   test.beforeAll(async ({ browser }) => {
@@ -72,8 +70,7 @@ test.describe('basic usage (ru)', () => {
       'Привет АПИ'
     );
   });
-
-  test('has serverTime', async () => {
+  test('has serverTime format should be equal to "21 дек. 2024 г., 13:56:00" without "13:56:00"', async () => {
     await page.goto('/', {
       timeout: 7000,
     });
@@ -81,7 +78,20 @@ test.describe('basic usage (ru)', () => {
     await setTimeout(4000);
 
     const serverTime = await page.locator('#serverTime').innerText();
-    expect(serverTime).toHaveLength(correctStringDateLength);
-    expect(isDateString(serverTime)).toBeTruthy();
+    expect(
+      serverTime
+        .split(' ')
+        .filter((p, i) => i !== 4)
+        .join(' ')
+    ).toEqual(
+      new Intl.DateTimeFormat('ru-RU', {
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      })
+        .format(new Date())
+        .split(' ')
+        .filter((p, i) => i !== 4)
+        .join(' ')
+    );
   });
 });

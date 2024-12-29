@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { addHours } from 'date-fns';
+import { addHours, isValid } from 'date-fns';
 
 export type TObject = Record<string, unknown>;
 
@@ -24,14 +24,14 @@ export class AuthTimezoneService {
       (typeof data === 'string' ||
         typeof data === 'number' ||
         typeof data === 'function') &&
-      !this.isValidStringDate(data) &&
-      !this.isValidDate(data)
+      !this.isValidDate(data) &&
+      !this.isValidStringDate(data)
     ) {
       return data;
     }
     try {
       if (data && timezone) {
-        if (this.isValidStringDate(data) || this.isValidDate(data)) {
+        if (this.isValidDate(data)) {
           data = this.convertPrimitive(data, timezone);
         } else {
           this.convertComplexObject(data, timezone, depth);
@@ -77,17 +77,13 @@ export class AuthTimezoneService {
   }
 
   private isValidStringDate(data: string | number | unknown) {
-    return (
-      typeof data === 'string' &&
-      data.length === '0000-00-00T00:00:00.000Z'.length &&
-      !isNaN(+new Date(data))
-    );
+    return typeof data === 'string' && isNaN(+data) && isValid(new Date(data));
   }
 
   private isValidDate(data: string | number | Date | object | unknown) {
-    if (data && typeof data === 'object') {
-      return !isNaN(+data);
+    if (data && typeof data === 'object' && isValid(data)) {
+      return true;
     }
-    return typeof data === 'string' && !isNaN(+new Date(data));
+    return typeof data === 'string' && isNaN(+data) && isValid(new Date(data));
   }
 }

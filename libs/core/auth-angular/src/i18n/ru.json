@@ -4,7 +4,6 @@
     "auth.sign-up-form.fields.email": "Email",
     "auth.sign-up-form.fields.password": "Пароль",
     "auth.sign-up-form.fields.confirm-password": "Пароль (еще раз)",
-    "field \"{{label}}\"": "поле \"{{label}}\"",
     "auth.sign-in-form.fields.email": "Email",
     "auth.sign-in-form.fields.password": "Пароль",
     "auth.profile-form.fields.picture": "Изображение",
@@ -14,5 +13,6 @@
     "Success": "Успешно",
     "Validation errors": "Ошибка при проверке данных",
     "Updated": "Обновлен",
-    "Update": "Обновить"
+    "Update": "Обновить",
+    "field \"{{label}}\"": "поле \"{{label}}\""
 }

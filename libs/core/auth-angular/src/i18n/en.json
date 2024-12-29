@@ -4,7 +4,6 @@
     "auth.sign-up-form.fields.email": "Email",
     "auth.sign-up-form.fields.password": "Password",
     "auth.sign-up-form.fields.confirm-password": "Confirm password",
-    "field \"{{label}}\"": "field \"{{label}}\"",
     "auth.sign-in-form.fields.email": "Email",
     "auth.sign-in-form.fields.password": "Password",
     "auth.profile-form.fields.picture": "Picture",
@@ -14,5 +13,6 @@
     "Success": "Success",
     "Validation errors": "Validation errors",
     "Updated": "Updated",
-    "Update": "Update"
+    "Update": "Update",
+    "field \"{{label}}\"": "field \"{{label}}\""
 }

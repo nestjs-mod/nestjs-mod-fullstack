@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { WebhookInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { WebhookScalarFieldEnumInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import isEqual from 'lodash/fp/isEqual';
 import omit from 'lodash/fp/omit';
@@ -27,6 +27,8 @@ import {
   TranslocoPipe,
   TranslocoService,
 } from '@jsverse/transloco';
+import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
   getQueryMeta,
   getQueryMetaByParams,
@@ -34,8 +36,8 @@ import {
   RequestMeta,
 } from '@nestjs-mod-fullstack/common-angular';
 import { WebhookFormComponent } from '../../forms/webhook-form/webhook-form.component';
+import { WebhookModel } from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
-import { marker } from '@jsverse/transloco-keys-manager/marker';
 
 @UntilDestroy()
 @Component({
@@ -57,32 +59,48 @@ import { marker } from '@jsverse/transloco-keys-manager/marker';
     NzTableSortOrderDetectorPipe,
     TranslocoDirective,
     TranslocoPipe,
+    TranslocoDatePipe,
   ],
   selector: 'webhook-grid',
   templateUrl: './webhook-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WebhookGridComponent implements OnInit {
-  items$ = new BehaviorSubject<WebhookInterface[]>([]);
+  items$ = new BehaviorSubject<WebhookModel[]>([]);
   meta$ = new BehaviorSubject<RequestMeta | undefined>(undefined);
   searchField = new FormControl('');
   selectedIds$ = new BehaviorSubject<string[]>([]);
   keys = [
-    'id',
-    'enabled',
-    'endpoint',
-    'eventName',
-    'headers',
-    'requestTimeout',
+    WebhookScalarFieldEnumInterface.id,
+    WebhookScalarFieldEnumInterface.enabled,
+    WebhookScalarFieldEnumInterface.endpoint,
+    WebhookScalarFieldEnumInterface.eventName,
+    WebhookScalarFieldEnumInterface.headers,
+    WebhookScalarFieldEnumInterface.requestTimeout,
+    WebhookScalarFieldEnumInterface.workUntilDate,
   ];
   columns = {
-    id: marker('webhook.grid.columns.id'),
-    enabled: marker('webhook.grid.columns.enabled'),
-    endpoint: marker('webhook.grid.columns.endpoint'),
-    eventName: marker('webhook.grid.columns.event-name'),
-    headers: marker('webhook.grid.columns.headers'),
-    requestTimeout: marker('webhook.grid.columns.request-timeout'),
+    [WebhookScalarFieldEnumInterface.id]: marker('webhook.grid.columns.id'),
+    [WebhookScalarFieldEnumInterface.enabled]: marker(
+      'webhook.grid.columns.enabled'
+    ),
+    [WebhookScalarFieldEnumInterface.endpoint]: marker(
+      'webhook.grid.columns.endpoint'
+    ),
+    [WebhookScalarFieldEnumInterface.eventName]: marker(
+      'webhook.grid.columns.event-name'
+    ),
+    [WebhookScalarFieldEnumInterface.headers]: marker(
+      'webhook.grid.columns.headers'
+    ),
+    [WebhookScalarFieldEnumInterface.requestTimeout]: marker(
+      'webhook.grid.columns.request-timeout'
+    ),
+    [WebhookScalarFieldEnumInterface.workUntilDate]: marker(
+      'webhook.grid.columns.work-until-date'
+    ),
   };
+  WebhookScalarFieldEnumInterface = WebhookScalarFieldEnumInterface;
 
   private filters?: Record<string, string>;
 
@@ -142,13 +160,7 @@ export class WebhookGridComponent implements OnInit {
       .findMany({ filters, meta })
       .pipe(
         tap((result) => {
-          this.items$.next(
-            result.webhooks.map((item) => ({
-              ...item,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              headers: JSON.stringify(item.headers) as any,
-            }))
-          );
+          this.items$.next(result.webhooks);
           this.meta$.next({ ...result.meta, ...meta });
           this.filters = filters;
           this.selectedIds$.next([]);
@@ -212,7 +224,10 @@ export class WebhookGridComponent implements OnInit {
     });
   }
 
-  showDeleteModal(id: string) {
+  showDeleteModal(id?: string) {
+    if (!id) {
+      return;
+    }
     this.nzModalService.confirm({
       nzTitle: this.translocoService.translate(`webhook.delete-modal.title`, {
         id,

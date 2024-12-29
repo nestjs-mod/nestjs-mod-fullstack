@@ -14,8 +14,8 @@
     "webhook.form.fields.endpoint": "Адрес",
     "webhook.form.fields.event-name": "Событие",
     "webhook.form.fields.headers": "Заголовки",
-    "webhook.form.fields.request-timeout": "Время запроса",
-    "field \"{{label}}\"": "поле \"{{label}}\"",
+    "webhook.form.fields.request-timeout": "Таймаута запроса",
+    "webhook.form.fields.work-until-date": "До какой даты может работать",
     "webhook.form.fields.x-external-userId": "x-external-userId",
     "webhook.form.fields.x-external-tenantId": "x-external-tenantId",
     "webhook-log.grid.columns.id": "ИД.",
@@ -34,8 +34,10 @@
     "webhook.grid.columns.endpoint": "Адрес",
     "webhook.grid.columns.event-name": "Событие",
     "webhook.grid.columns.headers": "Заголовки",
-    "webhook.grid.columns.request-timeout": "Время запроса",
+    "webhook.grid.columns.request-timeout": "Таймаута запроса",
+    "webhook.grid.columns.work-until-date": "До какой даты может работать",
     "Success": "Успешно",
     "id not set": "идентификатор не установлен",
-    "Validation errors": "Ошибка при проверке данных"
+    "Validation errors": "Ошибка при проверке данных",
+    "field \"{{label}}\"": "поле \"{{label}}\""
 }

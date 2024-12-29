@@ -9,3 +9,6 @@ msgstr ""
 
 msgid "Unauthorized"
 msgstr "Вы не авторизованы"
+
+msgid "field \"{{label}}\""
+msgstr ""

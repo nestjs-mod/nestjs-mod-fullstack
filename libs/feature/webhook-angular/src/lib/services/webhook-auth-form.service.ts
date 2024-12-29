@@ -9,6 +9,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { tap } from 'rxjs';
 import { WebhookAuthCredentials } from './webhook-auth.service';
 import { WebhookEventsService } from './webhook-events.service';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
@@ -17,7 +18,8 @@ export class WebhookAuthFormService {
 
   constructor(
     protected readonly webhookEventsService: WebhookEventsService,
-    protected readonly translocoService: TranslocoService
+    protected readonly translocoService: TranslocoService,
+    protected readonly validationService: ValidationService
   ) {}
 
   init() {
@@ -34,7 +36,7 @@ export class WebhookAuthFormService {
     errors?: ValidationErrorMetadataInterface[];
     settings?: { xExternalTenantIdIsRequired: boolean };
   }): FormlyFieldConfig[] {
-    return this.appendServerErrorsAsValidatorsToFields(
+    return this.validationService.appendServerErrorsAsValidatorsToFields(
       [
         {
           key: 'xExternalUserId',
@@ -67,50 +69,5 @@ export class WebhookAuthFormService {
       ],
       options?.errors || []
     );
-  }
-
-  protected appendServerErrorsAsValidatorsToFields(
-    fields: FormlyFieldConfig[],
-    errors: ValidationErrorMetadataInterface[]
-  ) {
-    return (fields || []).map((f: FormlyFieldConfig) => {
-      const error = errors?.find((e) => e.property === f.key);
-      if (error) {
-        f.validators = Object.fromEntries(
-          error.constraints.map((c) => {
-            if (typeof f.key === 'string') {
-              c.description = c.description.replace(
-                f.key,
-                this.translocoService.translate('field "{{label}}"', {
-                  label: f.props?.label?.toLowerCase(),
-                })
-              );
-            }
-            return [
-              c.name === 'isNotEmpty' ? 'required' : c.name,
-              {
-                expression: () => false,
-                message: () => c.description,
-              },
-            ];
-          })
-        );
-      }
-      return f;
-    });
-  }
-
-  toModel(data: Partial<WebhookAuthCredentials>) {
-    return {
-      xExternalUserId: data['xExternalUserId'],
-      xExternalTenantId: data['xExternalTenantId'],
-    };
-  }
-
-  toJson(data: Partial<WebhookAuthCredentials>) {
-    return {
-      xExternalUserId: data['xExternalUserId'],
-      xExternalTenantId: data['xExternalTenantId'],
-    };
   }
 }

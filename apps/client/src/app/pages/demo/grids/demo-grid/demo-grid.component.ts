@@ -28,6 +28,8 @@ import {
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
 import { DemoService } from '../../services/demo.service';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
+import { AppDemoModel } from '../../services/demo-mapper.service';
 
 @UntilDestroy()
 @Component({
@@ -48,13 +50,14 @@ import { DemoService } from '../../services/demo.service';
     ReactiveFormsModule,
     TranslocoDirective,
     TranslocoPipe,
+    TranslocoDatePipe,
   ],
   selector: 'app-demo-grid',
   templateUrl: './demo-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DemoGridComponent implements OnInit {
-  items$ = new BehaviorSubject<AppDemoInterface[]>([]);
+  items$ = new BehaviorSubject<AppDemoModel[]>([]);
   selectedIds$ = new BehaviorSubject<string[]>([]);
   keys = ['id', 'name', 'createdAt', 'updatedAt'];
   columns = {

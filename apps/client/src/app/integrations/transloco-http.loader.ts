@@ -8,6 +8,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   constructor(private readonly httpClient: HttpClient) {}
 
   getTranslation(lang: string) {
+    lang = lang.split('-')[0];
     return forkJoin({
       translation: this.httpClient
         .get<Translation>(`./assets/i18n/${lang}.json`)

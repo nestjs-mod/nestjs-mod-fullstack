@@ -1,3 +1,5 @@
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+
 import { provideHttpClient } from '@angular/common/http';
 import {
   APP_INITIALIZER,
@@ -11,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import {
   RestClientApiModule,
   RestClientConfiguration,
@@ -18,10 +21,12 @@ import {
 import {
   AUTHORIZER_URL,
   AuthProfileFormService,
+  AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
 import {
-  ImageFileComponent,
+  FILES_FORMLY_FIELDS,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
 import {
@@ -40,6 +45,7 @@ import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import { provideAppAuthConfiguration } from './integrations/auth.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
+import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
@@ -70,13 +76,7 @@ export const appConfig = ({
             })
         ),
         FormlyModule.forRoot({
-          types: [
-            {
-              name: 'image-file',
-              component: ImageFileComponent,
-              extends: 'input',
-            },
-          ],
+          types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],
         }),
         FormlyNgZorroAntdModule
       ),
@@ -115,12 +115,26 @@ export const appConfig = ({
         },
         loader: TranslocoHttpLoader,
       }),
+      provideTranslocoLocale({
+        defaultLocale: 'en-US',
+        langToLocaleMapping: {
+          en: 'en-US',
+          ru: 'ru-RU',
+        },
+      }),
+      provideTranslocoMessageformat({
+        locales: ['en-US', 'ru-RU'],
+      }),
       {
         provide: APP_INITIALIZER,
         useFactory: (appInitializer: AppInitializer) => () =>
           appInitializer.resolve(),
         multi: true,
         deps: [AppInitializer],
+      },
+      {
+        provide: AuthProfileMapperService,
+        useClass: CustomAuthProfileMapperService,
       },
       {
         provide: AuthProfileFormService,

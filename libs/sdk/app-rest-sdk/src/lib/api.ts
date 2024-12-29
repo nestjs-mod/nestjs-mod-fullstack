@@ -250,6 +250,12 @@ export interface CreateWebhookDto {
    * @memberof CreateWebhookDto
    */
   requestTimeout?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWebhookDto
+   */
+  workUntilDate?: string | null;
 }
 /**
  *
@@ -530,6 +536,12 @@ export interface UpdateWebhookDto {
    * @memberof UpdateWebhookDto
    */
   requestTimeout?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateWebhookDto
+   */
+  workUntilDate?: string | null;
 }
 /**
  *
@@ -712,6 +724,12 @@ export interface Webhook {
    * @memberof Webhook
    */
   updatedAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Webhook
+   */
+  workUntilDate: string | null;
   /**
    *
    * @type {WebhookUser}
@@ -946,6 +964,7 @@ export const WebhookScalarFieldEnum = {
   UpdatedBy: 'updatedBy',
   CreatedAt: 'createdAt',
   UpdatedAt: 'updatedAt',
+  WorkUntilDate: 'workUntilDate',
 } as const;
 
 export type WebhookScalarFieldEnum =

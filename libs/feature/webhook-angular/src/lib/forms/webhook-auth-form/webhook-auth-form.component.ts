@@ -15,14 +15,16 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { WebhookAuthFormService } from '../../services/webhook-auth-form.service';
+import { WebhookAuthMapperService } from '../../services/webhook-auth-mapper.service';
 import {
   WebhookAuthCredentials,
   WebhookAuthService,
@@ -31,11 +33,6 @@ import {
   WEBHOOK_CONFIGURATION_TOKEN,
   WebhookConfiguration,
 } from '../../services/webhook.configuration';
-import {
-  ValidationErrorEnumInterface,
-  ValidationErrorInterface,
-  ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 
 @Component({
   standalone: true,
@@ -73,7 +70,8 @@ export class WebhookAuthFormComponent implements OnInit {
     private readonly webhookAuthService: WebhookAuthService,
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
-    private readonly webhookAuthFormService: WebhookAuthFormService
+    private readonly webhookAuthFormService: WebhookAuthFormService,
+    private readonly webhookAuthMapperService: WebhookAuthMapperService
   ) {}
 
   ngOnInit(): void {
@@ -87,14 +85,14 @@ export class WebhookAuthFormComponent implements OnInit {
       xExternalTenantIdIsRequired: true,
     }
   ) {
-    const model = this.webhookAuthFormService.toModel(data);
+    const model = this.webhookAuthMapperService.toModel(data);
     this.setFormlyFields({ data: model, settings });
     this.formlyModel$.next(model);
   }
 
   submitForm(): void {
     if (this.form.valid) {
-      const value = this.webhookAuthFormService.toJson(this.form.value);
+      const value = this.webhookAuthMapperService.toJson(this.form.value);
       this.afterSignIn.next(value);
       this.webhookAuthService.setWebhookAuthCredentials(value);
       this.nzMessageService.success(this.translocoService.translate('Success'));
@@ -132,15 +130,5 @@ export class WebhookAuthFormComponent implements OnInit {
     this.formlyFields$.next(
       this.webhookAuthFormService.getFormlyFields(options)
     );
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private catchAndProcessServerError(err: any) {
-    const error = err.error as ValidationErrorInterface;
-    if (error?.code?.includes(ValidationErrorEnumInterface.VALIDATION_000)) {
-      this.setFormlyFields({ errors: error.metadata });
-      return of(null);
-    }
-    return throwError(() => err);
   }
 }

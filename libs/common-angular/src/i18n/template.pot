@@ -8,3 +8,6 @@ msgstr ""
 
 msgid "Unauthorized"
 msgstr "Unauthorized"
+
+msgid "field \"{{label}}\""
+msgstr "field \"{{label}}\""

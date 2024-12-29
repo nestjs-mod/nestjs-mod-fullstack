@@ -15,4 +15,5 @@ export interface UpdateWebhookDtoInterface {
   enabled?: boolean;
   headers?: object | null;
   requestTimeout?: number | null;
+  workUntilDate?: string | null;
 }

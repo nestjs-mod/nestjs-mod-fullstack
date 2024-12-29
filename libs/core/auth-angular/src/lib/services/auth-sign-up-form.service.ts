@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SignupInput } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { of } from 'rxjs';
@@ -9,7 +10,10 @@ import { of } from 'rxjs';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class AuthSignUpFormService {
-  constructor(protected readonly translocoService: TranslocoService) {}
+  constructor(
+    protected readonly translocoService: TranslocoService,
+    protected readonly validationService: ValidationService
+  ) {}
 
   init() {
     return of(true);
@@ -20,7 +24,7 @@ export class AuthSignUpFormService {
     data?: SignupInput;
     errors?: ValidationErrorMetadataInterface[];
   }): FormlyFieldConfig[] {
-    return this.appendServerErrorsAsValidatorsToFields(
+    return this.validationService.appendServerErrorsAsValidatorsToFields(
       [
         {
           key: 'email',
@@ -69,52 +73,5 @@ export class AuthSignUpFormService {
       ],
       options?.errors || []
     );
-  }
-
-  protected appendServerErrorsAsValidatorsToFields(
-    fields: FormlyFieldConfig[],
-    errors: ValidationErrorMetadataInterface[]
-  ) {
-    return (fields || []).map((f: FormlyFieldConfig) => {
-      const error = errors?.find((e) => e.property === f.key);
-      if (error) {
-        f.validators = Object.fromEntries(
-          error.constraints.map((c) => {
-            if (typeof f.key === 'string') {
-              c.description = c.description.replace(
-                f.key,
-                this.translocoService.translate('field "{{label}}"', {
-                  label: f.props?.label?.toLowerCase(),
-                })
-              );
-            }
-            return [
-              c.name === 'isNotEmpty' ? 'required' : c.name,
-              {
-                expression: () => false,
-                message: () => c.description,
-              },
-            ];
-          })
-        );
-      }
-      return f;
-    });
-  }
-
-  toModel(data: SignupInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
-  }
-
-  toJson(data: SignupInput) {
-    return {
-      email: data['email'],
-      password: data['password'],
-      confirm_password: data['confirm_password'],
-    };
   }
 }

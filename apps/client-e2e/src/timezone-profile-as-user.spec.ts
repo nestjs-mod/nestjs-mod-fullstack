@@ -1,15 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { expect, Page, test } from '@playwright/test';
-import { isDateString } from 'class-validator';
-import { differenceInHours } from 'date-fns';
+import { addHours, differenceInHours } from 'date-fns';
 import { get } from 'env-var';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
 test.describe('Work with profile as "User" role (timezone', () => {
   test.describe.configure({ mode: 'serial' });
-
-  const correctStringDateLength = '0000-00-00T00:00:00.000Z'.length;
 
   const user = {
     email: faker.internet.email({
@@ -173,8 +170,21 @@ test.describe('Work with profile as "User" role (timezone', () => {
 
   test('should change timezone in profile', async () => {
     const oldServerTime = await page.locator('#serverTime').innerText();
-    expect(oldServerTime).toHaveLength(correctStringDateLength);
-    expect(isDateString(oldServerTime)).toBeTruthy();
+    expect(
+      oldServerTime
+        .split(' ')
+        .filter((p, i) => i !== 3)
+        .join(' ')
+    ).toEqual(
+      new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      })
+        .format(addHours(new Date(), new Date().getTimezoneOffset() / 60))
+        .split(' ')
+        .filter((p, i) => i !== 3)
+        .join(' ')
+    );
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -214,14 +224,59 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(10000);
 
     const newServerTime = await page.locator('#serverTime').innerText();
-    expect(newServerTime).toHaveLength(correctStringDateLength);
-    expect(isDateString(newServerTime)).toBeTruthy();
+    expect(
+      newServerTime
+        .split(' ')
+        .filter((p, i) => i !== 3)
+        .join(' ')
+    ).toEqual(
+      new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      })
+        .format(addHours(new Date(), new Date().getTimezoneOffset() / 60 + -12))
+        .split(' ')
+        .filter((p, i) => i !== 3)
+        .join(' ')
+    );
+    const oldTimeIsPM =
+      oldServerTime
+        .split(' ')
+        .filter((p, i) => i === 4)
+        .join(' ') === 'PM';
+    const newTimeIsPM =
+      newServerTime
+        .split(' ')
+        .filter((p, i) => i === 4)
+        .join(' ') === 'PM';
+
+    const oldTime = oldServerTime
+      .split(' ')
+      .filter((p, i) => i === 3)
+      .join(' ');
+    const newTime = newServerTime
+      .split(' ')
+      .filter((p, i) => i === 3)
+      .join(' ');
 
     expect(
-      differenceInHours(new Date(oldServerTime), new Date(newServerTime))
+      differenceInHours(
+        addHours(
+          new Date(
+            `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`
+          ),
+          newTimeIsPM ? 12 : 0
+        ),
+        addHours(
+          new Date(
+            `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
+          ),
+          oldTimeIsPM ? 12 : 0
+        )
+      )
     ).toBeGreaterThanOrEqual(11);
   });
 });

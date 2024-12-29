@@ -103,6 +103,7 @@ export class WebhookController {
         }),
         {}
       );
+
     const result = await this.prismaClient.$transaction(async (prisma) => {
       return {
         webhooks: await prisma.webhook.findMany({

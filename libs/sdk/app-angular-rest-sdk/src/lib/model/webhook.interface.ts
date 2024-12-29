@@ -23,6 +23,7 @@ export interface WebhookInterface {
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
+  workUntilDate: string | null;
   WebhookUser_Webhook_createdByToWebhookUser?: WebhookUserInterface;
   WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUserInterface;
   WebhookLog?: Array<WebhookLogInterface>;
