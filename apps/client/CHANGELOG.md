@@ -1,3 +1,9 @@
+# [1.13.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.12.0...client-v1.13.0) (2024-12-30)
+
+### Features
+
+- update dependencies and add support check workUntilDate before call request to webhook endpoint ([8db4e12](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/8db4e12300773b9bbbcd5932215cdfdc9bd903a5))
+
 # [1.12.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.11.0...client-v1.12.0) (2024-12-29)
 
 ### Features
