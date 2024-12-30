@@ -42,7 +42,6 @@ import {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     RouterModule,
     NzMenuModule,

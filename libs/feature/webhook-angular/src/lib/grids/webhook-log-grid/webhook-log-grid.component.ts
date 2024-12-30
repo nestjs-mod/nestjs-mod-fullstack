@@ -40,7 +40,6 @@ import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     NzGridModule,
     NzMenuModule,

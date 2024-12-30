@@ -25,7 +25,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
     AsyncPipe,
     TranslocoPipe,
   ],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nz-upload

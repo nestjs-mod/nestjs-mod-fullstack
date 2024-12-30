@@ -2,11 +2,12 @@ import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat'
 
 import { provideHttpClient } from '@angular/common/http';
 import {
-  APP_INITIALIZER,
   ApplicationConfig,
   ErrorHandler,
   importProvidersFrom,
   provideZoneChangeDetection,
+  inject,
+  provideAppInitializer,
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -125,13 +126,13 @@ export const appConfig = ({
       provideTranslocoMessageformat({
         locales: ['en-US', 'ru-RU'],
       }),
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (appInitializer: AppInitializer) => () =>
-          appInitializer.resolve(),
-        multi: true,
-        deps: [AppInitializer],
-      },
+      provideAppInitializer(() => {
+        const initializerFn = (
+          (appInitializer: AppInitializer) => () =>
+            appInitializer.resolve()
+        )(inject(AppInitializer));
+        return initializerFn();
+      }),
       {
         provide: AuthProfileMapperService,
         useClass: CustomAuthProfileMapperService,

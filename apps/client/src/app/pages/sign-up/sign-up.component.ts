@@ -5,7 +5,6 @@ import { AuthSignUpFormComponent } from '@nestjs-mod-fullstack/auth-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({
-  standalone: true,
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   imports: [NzBreadCrumbModule, TranslocoDirective, AuthSignUpFormComponent],

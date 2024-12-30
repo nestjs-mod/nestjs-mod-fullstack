@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AppDemoInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -26,14 +25,13 @@ import {
   TranslocoService,
 } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
-import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
-import { DemoService } from '../../services/demo.service';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
+import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
 import { AppDemoModel } from '../../services/demo-mapper.service';
+import { DemoService } from '../../services/demo.service';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     NzGridModule,
     NzMenuModule,

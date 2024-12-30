@@ -10,7 +10,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 @Component({
-  standalone: true,
   selector: 'app-webhooks',
   templateUrl: './webhooks.component.html',
   imports: [

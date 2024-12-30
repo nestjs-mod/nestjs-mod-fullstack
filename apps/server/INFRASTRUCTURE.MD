@@ -1,5 +1,5 @@
 # server
-> Version: 1.11.1
+> Version: 1.12.0
 
 ## Running the app in watch mode
 ```bash
@@ -127,6 +127,9 @@ Static variables of primitive and complex types that are used in the module and 
 | Key    | Description | Constraints | Default | Value |
 | ------ | ----------- | ----------- | ------- | ----- |
 |`bufferLogs`|If enabled, logs will be buffered until the "Logger#flush" method is called. @default false|**optional**|-|```true```|
+
+### NestjsPinoLoggerModule
+Pino logger for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-pino)
 
 ### TerminusHealthCheckModule
 Terminus integration provides readiness/liveness health checks for NestJS-mod (Wrapper for https://www.npmjs.com/package/@nestjs/terminus)

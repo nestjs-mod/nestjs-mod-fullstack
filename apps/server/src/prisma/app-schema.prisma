@@ -3,6 +3,7 @@ generator client {
   engineType = "binary"
   output   = "../../../../node_modules/@prisma/app-client"
   binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
+  
 }
 datasource db {
   provider          = "postgres"
@@ -11,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../app/generated/rest/dto"
-  reExport                        = "false"
-  definiteAssignmentAssertion     = "true"
   classValidation                 = "true"
-  fileNamingStyle                 = "kebab"
-  entityPrefix                    = ""
-  outputToNestJsResourceStructure = "false"
   flatResourceStructure           = "false"
-  entitySuffix                    = ""
-  exportRelationModifierClasses   = "true"
-  dtoSuffix                       = "Dto"
   prettier                        = "true"
-  updateDtoPrefix                 = "Update"
-  noDependencies                  = "false"
   annotateAllDtoProperties        = "true"
+  dtoSuffix                       = "Dto"
+  fileNamingStyle                 = "kebab"
+  reExport                        = "false"
+  exportRelationModifierClasses   = "true"
+  definiteAssignmentAssertion     = "true"
+  outputToNestJsResourceStructure = "false"
   createDtoPrefix                 = "Create"
+  noDependencies                  = "false"
+  entitySuffix                    = ""
+  entityPrefix                    = ""
+  updateDtoPrefix                 = "Update"
 }
 
 model AppDemo {

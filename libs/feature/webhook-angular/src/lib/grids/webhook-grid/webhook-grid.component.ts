@@ -41,7 +41,6 @@ import { WebhookService } from '../../services/webhook.service';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     NzGridModule,
     NzMenuModule,

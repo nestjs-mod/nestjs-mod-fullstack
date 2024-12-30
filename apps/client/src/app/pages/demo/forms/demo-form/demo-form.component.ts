@@ -31,7 +31,6 @@ import { DemoService } from '../../services/demo.service';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     FormlyModule,
     NzFormModule,

@@ -1,11 +1,10 @@
 {
+  "root": true,
   "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": ["tsconfig.*?.json"]
-      },
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -19,16 +18,17 @@
               }
             ]
           }
-        ],
-        "@typescript-eslint/await-thenable": "error"
+        ]
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
@@ -37,13 +37,6 @@
         "jest": true
       },
       "rules": {}
-    },
-    {
-      "files": ["*.ts"],
-      "rules": {
-        "@angular-eslint/prefer-standalone": "off"
-      }
     }
-  ],
-  "extends": ["./.eslintrc.base.json"]
+  ]
 }

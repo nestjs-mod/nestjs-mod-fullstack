@@ -6,7 +6,6 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   imports: [NzBreadCrumbModule, AuthProfileFormComponent, TranslocoDirective],

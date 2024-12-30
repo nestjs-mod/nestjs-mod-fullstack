@@ -3,6 +3,7 @@ generator client {
   engineType = "binary"
   output   = "../../../../../node_modules/@prisma/auth-client"
   binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
+  
 }
 datasource db {
   provider          = "postgres"
@@ -11,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  annotateAllDtoProperties        = "true"
-  exportRelationModifierClasses   = "true"
-  outputToNestJsResourceStructure = "false"
-  reExport                        = "false"
   classValidation                 = "true"
-  noDependencies                  = "false"
-  dtoSuffix                       = "Dto"
-  flatResourceStructure           = "false"
-  entityPrefix                    = ""
   prettier                        = "true"
+  dtoSuffix                       = "Dto"
   updateDtoPrefix                 = "Update"
-  entitySuffix                    = ""
-  fileNamingStyle                 = "kebab"
+  entityPrefix                    = ""
+  annotateAllDtoProperties        = "true"
   createDtoPrefix                 = "Create"
+  fileNamingStyle                 = "kebab"
+  flatResourceStructure           = "false"
+  exportRelationModifierClasses   = "true"
   definiteAssignmentAssertion     = "true"
+  reExport                        = "false"
+  entitySuffix                    = ""
+  outputToNestJsResourceStructure = "false"
+  noDependencies                  = "false"
 }
 
 model AuthUser {

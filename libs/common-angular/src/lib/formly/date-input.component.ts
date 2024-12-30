@@ -10,7 +10,6 @@ import { ActiveLangService } from '../services/active-lang.service';
 
 @Component({
   selector: 'date-input',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormlyModule, NzDatePickerModule, AsyncPipe],
   template: `

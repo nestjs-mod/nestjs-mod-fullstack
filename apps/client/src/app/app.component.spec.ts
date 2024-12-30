@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
 import { authorizerURL } from '../environments/environment';
 import { provideTransloco } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -37,6 +39,16 @@ describe('AppComponent', () => {
               allowEmpty: true,
             },
           },
+        }),
+        provideTranslocoLocale({
+          defaultLocale: 'en-US',
+          langToLocaleMapping: {
+            en: 'en-US',
+            ru: 'ru-RU',
+          },
+        }),
+        provideTranslocoMessageformat({
+          locales: ['en-US', 'ru-RU'],
         }),
         {
           provide: AUTHORIZER_URL,

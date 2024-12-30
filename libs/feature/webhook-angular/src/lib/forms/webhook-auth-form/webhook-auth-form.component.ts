@@ -35,7 +35,6 @@ import {
 } from '../../services/webhook.configuration';
 
 @Component({
-  standalone: true,
   imports: [
     FormlyModule,
     NzFormModule,

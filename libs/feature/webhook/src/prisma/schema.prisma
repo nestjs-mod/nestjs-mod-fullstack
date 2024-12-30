@@ -3,6 +3,7 @@ generator client {
   engineType = "binary"
   output   = "../../../../../node_modules/@prisma/webhook-client"
   binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
+  
 }
 datasource db {
   provider          = "postgres"
@@ -11,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  createDtoPrefix                 = "Create"
-  classValidation                 = "true"
-  reExport                        = "false"
-  outputToNestJsResourceStructure = "false"
-  fileNamingStyle                 = "kebab"
-  dtoSuffix                       = "Dto"
-  entitySuffix                    = ""
-  flatResourceStructure           = "false"
-  exportRelationModifierClasses   = "true"
-  prettier                        = "true"
-  updateDtoPrefix                 = "Update"
-  definiteAssignmentAssertion     = "true"
-  noDependencies                  = "false"
-  annotateAllDtoProperties        = "true"
   entityPrefix                    = ""
+  prettier                        = "true"
+  reExport                        = "false"
+  exportRelationModifierClasses   = "true"
+  classValidation                 = "true"
+  definiteAssignmentAssertion     = "true"
+  annotateAllDtoProperties        = "true"
+  dtoSuffix                       = "Dto"
+  fileNamingStyle                 = "kebab"
+  createDtoPrefix                 = "Create"
+  flatResourceStructure           = "false"
+  outputToNestJsResourceStructure = "false"
+  updateDtoPrefix                 = "Update"
+  noDependencies                  = "false"
+  entitySuffix                    = ""
 }
 
 model Webhook {

@@ -24,7 +24,8 @@
             "prefix": "app-angular-rest-sdk",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/prefer-standalone": "off"
       }
     },
     {

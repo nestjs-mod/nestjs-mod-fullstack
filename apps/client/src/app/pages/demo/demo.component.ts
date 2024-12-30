@@ -7,7 +7,6 @@ import { DemoGridComponent } from './grids/demo-grid/demo-grid.component';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

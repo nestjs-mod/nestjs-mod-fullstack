@@ -63,99 +63,127 @@ export class WebhookServiceBootstrap
       .pipe(
         concatMap(async ({ eventName, eventBody, eventHeaders }) => {
           this.logger.debug({ eventName, eventBody, eventHeaders });
-
+          const [{ now }] = await this.getCurrentDatabaseDate();
           const webhooks = await this.prismaClient.webhook.findMany({
             where: { eventName: { contains: eventName }, enabled: true },
           });
 
           for (const webhook of webhooks) {
-            const headers = {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ...((webhook.headers as any) || {}),
-              ...(eventHeaders || {}),
-            };
-            const webhookLog = await this.prismaClient.webhookLog.create({
-              select: { id: true },
-              data: {
-                externalTenantId: webhook.externalTenantId,
-                request: {
-                  url: webhook.endpoint,
-                  body: eventBody,
-                  headers,
-                } as object,
-                responseStatus: '',
-                webhookStatus: 'Pending',
-                response: {},
-                webhookId: webhook.id,
-              },
-            });
-            try {
-              await this.prismaClient.webhookLog.update({
-                where: { id: webhookLog.id },
-                data: { webhookStatus: 'Process', updatedAt: new Date() },
-              });
-              const request = await firstValueFrom(
-                this.httpService
-                  .post(webhook.endpoint, eventBody, {
-                    ...(Object.keys(headers)
-                      ? { headers: new AxiosHeaders({ ...headers }) }
-                      : {}),
-                  })
-                  .pipe(timeout(webhook.requestTimeout || 5000))
-              );
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              let response: any, responseStatus: string;
-              try {
-                response = request.data;
-                responseStatus = request.statusText;
+            if (!webhook.workUntilDate || now <= webhook.workUntilDate) {
+              const headers = {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              } catch (err: any) {
-                this.logger.error(err, (err as Error).stack);
-                response = String(err.message);
-                responseStatus = 'unhandled';
-              }
-              await this.prismaClient.webhookLog.update({
-                where: { id: webhookLog.id },
+                ...((webhook.headers as any) || {}),
+                ...(eventHeaders || {}),
+              };
+              const webhookLog = await this.prismaClient.webhookLog.create({
+                select: { id: true },
                 data: {
-                  responseStatus,
-                  response,
-                  webhookStatus: 'Success',
-                  updatedAt: new Date(),
+                  externalTenantId: webhook.externalTenantId,
+                  request: {
+                    url: webhook.endpoint,
+                    body: eventBody,
+                    headers,
+                  } as object,
+                  responseStatus: '',
+                  webhookStatus: 'Pending',
+                  response: {},
+                  webhookId: webhook.id,
                 },
               });
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-              this.logger.error(err, (err as Error).stack);
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              let response: any, responseStatus: string;
               try {
-                response = err.response?.data || String(err.message);
-                responseStatus = err.response?.statusText;
+                await this.prismaClient.webhookLog.update({
+                  where: { id: webhookLog.id },
+                  data: { webhookStatus: 'Process', updatedAt: new Date() },
+                });
+
+                const request = await this.httpRequest({
+                  endpoint: webhook.endpoint,
+                  eventBody,
+                  headers,
+                  requestTimeout: webhook.requestTimeout || 5000,
+                });
+
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              } catch (err2: any) {
-                this.logger.error(err2, (err2 as Error).stack);
-                response = String(err2.message);
-                responseStatus = 'unhandled';
-              }
-              try {
+                let response: any, responseStatus: string;
+                try {
+                  response = request.data;
+                  responseStatus = request.statusText;
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } catch (err: any) {
+                  this.logger.error(err, (err as Error).stack);
+                  response = String(err.message);
+                  responseStatus = 'unhandled';
+                }
                 await this.prismaClient.webhookLog.update({
                   where: { id: webhookLog.id },
                   data: {
                     responseStatus,
                     response,
-                    webhookStatus:
-                      err instanceof TimeoutError ? 'Timeout' : 'Error',
+                    webhookStatus: 'Success',
                     updatedAt: new Date(),
                   },
                 });
-              } catch (err) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              } catch (err: any) {
                 this.logger.error(err, (err as Error).stack);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                let response: any, responseStatus: string;
+                try {
+                  response = err.response?.data || String(err.message);
+                  responseStatus = err.response?.statusText;
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } catch (err2: any) {
+                  this.logger.error(err2, (err2 as Error).stack);
+                  response = String(err2.message);
+                  responseStatus = 'unhandled';
+                }
+                try {
+                  await this.prismaClient.webhookLog.update({
+                    where: { id: webhookLog.id },
+                    data: {
+                      responseStatus,
+                      response,
+                      webhookStatus:
+                        err instanceof TimeoutError ? 'Timeout' : 'Error',
+                      updatedAt: new Date(),
+                    },
+                  });
+                } catch (err) {
+                  this.logger.error(err, (err as Error).stack);
+                }
               }
             }
           }
         })
       )
       .subscribe();
+  }
+
+  private async getCurrentDatabaseDate() {
+    return await this.prismaClient.$queryRaw<[{ now: Date }]>`SELECT NOW();`;
+  }
+
+  private async httpRequest({
+    endpoint,
+    eventBody,
+    headers,
+    requestTimeout,
+  }: {
+    endpoint: string;
+    eventBody: object;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    headers: any;
+    requestTimeout: number;
+  }) {
+    return await firstValueFrom(
+      this.httpService
+        .post(endpoint, eventBody, {
+          ...(Object.keys(headers)
+            ? { headers: new AxiosHeaders({ ...headers }) }
+            : {}),
+        })
+        .pipe(timeout(requestTimeout))
+    );
   }
 
   private async createDefaultUsers() {

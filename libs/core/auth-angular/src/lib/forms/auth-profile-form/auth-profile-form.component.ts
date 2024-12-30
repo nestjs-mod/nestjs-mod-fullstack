@@ -31,7 +31,6 @@ import { AuthService } from '../../services/auth.service';
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     FormlyModule,
     NzFormModule,
