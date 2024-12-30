@@ -38,6 +38,7 @@ COPY --from=builder /usr/src/app/.env /usr/src/app/.env
 # Copy the settings for linting
 COPY --from=builder /usr/src/app/.nxignore /usr/src/app/.nxignore
 COPY --from=builder /usr/src/app/.eslintrc.json /usr/src/app/.eslintrc.json
+COPY --from=builder /usr/src/app/.eslintrc.base.json /usr/src/app/.eslintrc.base.json
 COPY --from=builder /usr/src/app/.eslintignore /usr/src/app/.eslintignore
 COPY --from=builder /usr/src/app/.prettierignore /usr/src/app/.prettierignore
 COPY --from=builder /usr/src/app/.prettierrc /usr/src/app/.prettierrc
