@@ -8,11 +8,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AuthRoleInterface } from './auth-role.interface';
+import { AuthUserInterface } from './auth-user.interface';
+import { FindManyResponseMetaInterface } from './find-many-response-meta.interface';
 
-export interface AuthProfileDtoInterface {
-  timezone?: number | null;
-  lang?: string | null;
-  userRole?: AuthRoleInterface | null;
+export interface FindManyAuthUserResponseInterface {
+  authUsers: Array<AuthUserInterface>;
+  meta: FindManyResponseMetaInterface;
 }
-export namespace AuthProfileDtoInterface {}

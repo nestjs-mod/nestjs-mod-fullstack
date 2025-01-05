@@ -54,12 +54,29 @@ export class AuthGuard implements CanActivate {
 
       this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
 
+      this.pathAuthorizerUserRoles(checkAuthRole, req);
+
       this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
     } catch (err) {
       this.logger.error(err, (err as Error).stack);
       throw err;
     }
     return true;
+  }
+
+  private pathAuthorizerUserRoles(
+    checkAuthRole: AuthRole[] | undefined,
+    req: AuthRequest
+  ) {
+    if (
+      checkAuthRole &&
+      this.authEnvironments.adminEmail &&
+      req.authorizerUser?.email === this.authEnvironments.adminEmail
+    ) {
+      req.authorizerUser.roles = [
+        ...new Set([...(req.authorizerUser.roles || []), 'admin']),
+      ];
+    }
   }
 
   private throwErrorIfCurrentUserNotHaveNeededRoles(

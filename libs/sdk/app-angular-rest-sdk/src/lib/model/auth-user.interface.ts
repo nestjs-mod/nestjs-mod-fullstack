@@ -10,9 +10,13 @@
  */
 import { AuthRoleInterface } from './auth-role.interface';
 
-export interface AuthProfileDtoInterface {
-  timezone?: number | null;
-  lang?: string | null;
-  userRole?: AuthRoleInterface | null;
+export interface AuthUserInterface {
+  id: string;
+  externalUserId: string;
+  userRole: AuthRoleInterface;
+  timezone: number | null;
+  createdAt: string;
+  updatedAt: string;
+  lang: string | null;
 }
-export namespace AuthProfileDtoInterface {}
+export namespace AuthUserInterface {}

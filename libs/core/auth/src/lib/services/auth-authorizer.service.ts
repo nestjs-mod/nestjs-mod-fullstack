@@ -30,11 +30,11 @@ export class AuthAuthorizerService {
         },
       });
     if (signupUserResult.error) {
-      this.logger.error(
-        signupUserResult.error.message,
-        signupUserResult.error.stack
-      );
       if (signupUserResult.error.message !== 'User already registered') {
+        this.logger.error(
+          signupUserResult.error.message,
+          signupUserResult.error.stack
+        );
         throw new AuthError(signupUserResult.error.message);
       }
     } else {

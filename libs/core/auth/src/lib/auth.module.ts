@@ -13,6 +13,7 @@ import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
 import { AuthGuard } from './auth.guard';
+import { AuthUsersController } from './controllers/auth-users.controller';
 import { AuthController } from './controllers/auth.controller';
 import { AuthorizerController } from './controllers/authorizer.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
@@ -22,6 +23,7 @@ import { AuthAuthorizerService } from './services/auth-authorizer.service';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
 import { SupabaseModule } from './supabase/supabase.module';
+import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
@@ -41,9 +43,12 @@ export const { AuthModule } = createNestModule({
     CacheManagerModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
+    PrismaToolsModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
     TranslatesModule,
   ],
-  controllers: [AuthorizerController, AuthController],
+  controllers: [AuthorizerController, AuthController, AuthUsersController],
   sharedImports: [
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,

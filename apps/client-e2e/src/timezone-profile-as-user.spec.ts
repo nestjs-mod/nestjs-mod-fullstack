@@ -267,15 +267,15 @@ test.describe('Work with profile as "User" role (timezone', () => {
       differenceInHours(
         addHours(
           new Date(
-            `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
-          ),
-          oldTimeIsPM ? 12 : 0
-        ),
-        addHours(
-          new Date(
             `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`
           ),
           newTimeIsPM ? 12 : 0
+        ),
+        addHours(
+          new Date(
+            `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
+          ),
+          oldTimeIsPM ? 12 : 0
         )
       )
     ).toBeGreaterThanOrEqual(11);

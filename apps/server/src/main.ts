@@ -2,6 +2,7 @@ import {
   AUTH_FEATURE,
   AUTH_FOLDER,
   AuthModule,
+  AuthRequest,
   SupabaseModule,
 } from '@nestjs-mod-fullstack/auth';
 import {
@@ -216,7 +217,7 @@ bootstrapNestApplication({
               );
 
               if (ctx && authorizerUser?.id) {
-                const req: WebhookRequest & FilesRequest =
+                const req: WebhookRequest & FilesRequest & AuthRequest =
                   getRequestFromExecutionContext(ctx);
 
                 // webhook
@@ -224,9 +225,8 @@ bootstrapNestApplication({
                   await webhookUsersService.createUserIfNotExists({
                     externalUserId: authorizerUser?.id,
                     externalTenantId: authorizerUser?.id,
-                    userRole: authorizerUser.roles?.includes('admin')
-                      ? 'Admin'
-                      : 'User',
+                    userRole:
+                      req.authUser?.userRole === 'Admin' ? 'Admin' : 'User',
                   });
 
                 if (req.webhookUser) {
@@ -235,9 +235,10 @@ bootstrapNestApplication({
 
                 // files
                 req.filesUser = {
-                  userRole: authorizerUser.roles?.includes('admin')
-                    ? FilesRole.Admin
-                    : FilesRole.User,
+                  userRole:
+                    req.authUser?.userRole === 'Admin'
+                      ? FilesRole.Admin
+                      : FilesRole.User,
                 };
               }
 

@@ -8,11 +8,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AuthRoleInterface } from './auth-role.interface';
 
-export interface AuthProfileDtoInterface {
-  timezone?: number | null;
-  lang?: string | null;
-  userRole?: AuthRoleInterface | null;
-}
-export namespace AuthProfileDtoInterface {}
+export type AuthRoleInterface = 'Admin' | 'User';
+
+export const AuthRoleInterface = {
+  Admin: 'Admin' as AuthRoleInterface,
+  User: 'User' as AuthRoleInterface,
+};

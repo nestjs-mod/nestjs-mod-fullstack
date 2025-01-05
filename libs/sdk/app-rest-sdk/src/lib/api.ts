@@ -181,7 +181,77 @@ export interface AuthProfileDto {
    * @memberof AuthProfileDto
    */
   lang?: string | null;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof AuthProfileDto
+   */
+  userRole?: AuthRole | null;
 }
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const AuthRole = {
+  Admin: 'Admin',
+  User: 'User',
+} as const;
+
+export type AuthRole = (typeof AuthRole)[keyof typeof AuthRole];
+
+/**
+ *
+ * @export
+ * @interface AuthUser
+ */
+export interface AuthUser {
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  externalUserId: string;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof AuthUser
+   */
+  userRole: AuthRole;
+  /**
+   *
+   * @type {number}
+   * @memberof AuthUser
+   */
+  timezone: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  createdAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  updatedAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  lang: string | null;
+}
+
 /**
  *
  * @export
@@ -297,6 +367,25 @@ export const FilesErrorEnum = {
 export type FilesErrorEnum =
   (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
 
+/**
+ *
+ * @export
+ * @interface FindManyAuthUserResponse
+ */
+export interface FindManyAuthUserResponse {
+  /**
+   *
+   * @type {Array<AuthUser>}
+   * @memberof FindManyAuthUserResponse
+   */
+  authUsers: Array<AuthUser>;
+  /**
+   *
+   * @type {FindManyResponseMeta}
+   * @memberof FindManyAuthUserResponse
+   */
+  meta: FindManyResponseMeta;
+}
 /**
  *
  * @export
@@ -500,6 +589,38 @@ export interface TerminusHealthCheckControllerCheck503Response {
     [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
   };
 }
+/**
+ *
+ * @export
+ * @interface UpdateAuthUserDto
+ */
+export interface UpdateAuthUserDto {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateAuthUserDto
+   */
+  externalUserId?: string;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof UpdateAuthUserDto
+   */
+  userRole?: AuthRole;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateAuthUserDto
+   */
+  timezone?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateAuthUserDto
+   */
+  lang?: string | null;
+}
+
 /**
  *
  * @export
@@ -1792,6 +1913,218 @@ export const AuthApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne: async (
+      id: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerDeleteOne', 'id', id);
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany: async (
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/auth/users`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (curPage !== undefined) {
+        localVarQueryParameter['curPage'] = curPage;
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['perPage'] = perPage;
+      }
+
+      if (searchText !== undefined) {
+        localVarQueryParameter['searchText'] = searchText;
+      }
+
+      if (sort !== undefined) {
+        localVarQueryParameter['sort'] = sort;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne: async (
+      id: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerFindOne', 'id', id);
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne: async (
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerUpdateOne', 'id', id);
+      // verify required parameter 'updateAuthUserDto' is not null or undefined
+      assertParamExists(
+        'authUsersControllerUpdateOne',
+        'updateAuthUserDto',
+        updateAuthUserDto
+      );
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updateAuthUserDto,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -1857,6 +2190,138 @@ export const AuthApiFp = function (configuration?: Configuration) {
           configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerDeleteOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerDeleteOne(
+          id,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerFindMany(
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<FindManyAuthUserResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerFindMany(
+          curPage,
+          perPage,
+          searchText,
+          sort,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerFindMany']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerFindOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerFindOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerUpdateOne(
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerUpdateOne(
+          id,
+          updateAuthUserDto,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -1897,6 +2362,76 @@ export const AuthApiFactory = function (
         .authControllerUpdateProfile(authProfileDto, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<StatusResponse> {
+      return localVarFp
+        .authUsersControllerDeleteOne(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany(
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<FindManyAuthUserResponse> {
+      return localVarFp
+        .authUsersControllerFindMany(
+          curPage,
+          perPage,
+          searchText,
+          sort,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AuthUser> {
+      return localVarFp
+        .authUsersControllerFindOne(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne(
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AuthUser> {
+      return localVarFp
+        .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -1932,6 +2467,78 @@ export class AuthApi extends BaseAPI {
   ) {
     return AuthApiFp(this.configuration)
       .authControllerUpdateProfile(authProfileDto, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerDeleteOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerDeleteOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {number} [curPage]
+   * @param {number} [perPage]
+   * @param {string} [searchText]
+   * @param {string} [sort]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerFindMany(
+    curPage?: number,
+    perPage?: number,
+    searchText?: string,
+    sort?: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerFindOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerFindOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {UpdateAuthUserDto} updateAuthUserDto
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerUpdateOne(
+    id: string,
+    updateAuthUserDto: UpdateAuthUserDto,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

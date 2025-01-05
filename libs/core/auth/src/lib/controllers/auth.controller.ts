@@ -46,7 +46,11 @@ export class AuthController {
   async profile(
     @CurrentAuthUser() authUser: AuthUser
   ): Promise<AuthProfileDto> {
-    return { lang: authUser.lang, timezone: authUser.timezone };
+    return {
+      lang: authUser.lang,
+      timezone: authUser.timezone,
+      userRole: authUser.userRole,
+    };
   }
 
   @Post('update-profile')

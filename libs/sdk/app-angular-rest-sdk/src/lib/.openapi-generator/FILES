@@ -21,11 +21,14 @@ model/auth-entities.interface.ts
 model/auth-error-enum.interface.ts
 model/auth-error.interface.ts
 model/auth-profile-dto.interface.ts
+model/auth-role.interface.ts
 model/auth-user-scalar-field-enum.interface.ts
+model/auth-user.interface.ts
 model/authorizer-client-id.interface.ts
 model/create-webhook-dto.interface.ts
 model/files-error-enum.interface.ts
 model/files-error.interface.ts
+model/find-many-auth-user-response.interface.ts
 model/find-many-response-meta.interface.ts
 model/find-many-webhook-log-response.interface.ts
 model/find-many-webhook-response.interface.ts
@@ -36,6 +39,7 @@ model/status-response.interface.ts
 model/terminus-health-check-controller-check200-response-info-value.interface.ts
 model/terminus-health-check-controller-check200-response.interface.ts
 model/terminus-health-check-controller-check503-response.interface.ts
+model/update-auth-user-dto.interface.ts
 model/update-webhook-dto.interface.ts
 model/update-webhook-user-dto.interface.ts
 model/validation-error-enum.interface.ts

@@ -5,9 +5,7 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
   jest.setTimeout(60000);
 
   const user1 = new RestClientHelper();
-  const admin = new RestClientHelper({
-    isAdmin: true,
-  });
+  const admin = new RestClientHelper();
 
   let createEventName: string;
 

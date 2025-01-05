@@ -13,13 +13,20 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TimeController } from './time.controller';
-import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
+import {
+  AUTH_FEATURE,
+  AuthModule,
+  SupabaseModule,
+} from '@nestjs-mod-fullstack/auth';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',
   moduleCategory: NestModuleCategory.feature,
   imports: [
     AuthModule.forFeature({
+      featureModuleName: 'app',
+    }),
+    SupabaseModule.forFeature({
       featureModuleName: 'app',
     }),
     AuthorizerModule.forFeature({

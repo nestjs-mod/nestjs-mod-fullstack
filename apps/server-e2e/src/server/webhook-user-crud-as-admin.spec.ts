@@ -6,9 +6,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
   jest.setTimeout(60000);
 
   const user1 = new RestClientHelper();
-  const admin = new RestClientHelper({
-    isAdmin: true,
-  });
+  const admin = new RestClientHelper();
 
   beforeAll(async () => {
     await user1.createAndLoginAsUser();
@@ -64,7 +62,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
       .webhookUsersControllerFindMany();
     expect(
       webhookUsersControllerFindManyResult.data.webhookUsers.filter(
-        (u) => u.externalUserId === user1.authorizationTokens?.user?.id
+        (u) => u.externalUserId === user1.authData?.user?.id
       )[0]
     ).toMatchObject({
       userRole: 'Admin',
