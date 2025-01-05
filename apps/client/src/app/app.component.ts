@@ -35,7 +35,6 @@ import {
   merge,
   mergeMap,
   Observable,
-  of,
   switchMap,
   tap,
 } from 'rxjs';
@@ -125,10 +124,8 @@ export class AppComponent implements OnInit {
   private fillServerTime() {
     return merge(
       this.timeRestService.timeControllerTime(),
-      merge(
-        of(this.tokensService.tokens$.value),
-        this.tokensService.tokens$.asObservable()
-      )
+      this.tokensService
+        .getStream()
         .pipe(
           switchMap((token) =>
             webSocket<string>({

@@ -16,13 +16,14 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 export class CustomAuthService extends AuthService {
   constructor(
     protected readonly authRestService: AuthRestService,
-    protected override readonly authorizerService: AuthorizerService,
     protected override readonly tokensService: TokensService,
     @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration?: AuthConfiguration
+    protected override readonly authConfiguration?: AuthConfiguration,
+    @Optional()
+    protected override readonly authorizerService?: AuthorizerService
   ) {
-    super(authorizerService, tokensService, authConfiguration);
+    super(tokensService, authConfiguration, authorizerService);
   }
 
   override setProfile(result: User | undefined) {

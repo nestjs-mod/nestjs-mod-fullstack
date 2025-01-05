@@ -24,6 +24,8 @@ import {
   AuthProfileFormService,
   AuthProfileMapperService,
   AuthService,
+  SUPABASE_KEY,
+  SUPABASE_URL,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
 import {
@@ -39,6 +41,8 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import {
   serverUrl,
+  supabaseKey,
+  supabaseURL,
   webhookSuperAdminExternalUserId,
 } from '../environments/environment';
 import { AppInitializer } from './app-initializer';
@@ -47,7 +51,7 @@ import { appRoutes } from './app.routes';
 import { provideAppAuthConfiguration } from './integrations/auth.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
-import { CustomAuthService } from './integrations/custom-auth.service';
+import { CustomSupabaseAuthService } from './integrations/custom-supabase-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
 export const appConfig = ({
@@ -56,6 +60,8 @@ export const appConfig = ({
 }: {
   authorizerURL: string;
   minioURL: string;
+  supabaseURL: string;
+  supabaseKey: string;
 }): ApplicationConfig => {
   return {
     providers: [
@@ -85,6 +91,14 @@ export const appConfig = ({
       {
         provide: AUTHORIZER_URL,
         useValue: authorizerURL,
+      },
+      {
+        provide: SUPABASE_URL,
+        useValue: supabaseURL,
+      },
+      {
+        provide: SUPABASE_KEY,
+        useValue: supabaseKey,
       },
       {
         provide: MINIO_URL,
@@ -143,7 +157,7 @@ export const appConfig = ({
       },
       {
         provide: AuthService,
-        useClass: CustomAuthService,
+        useClass: CustomSupabaseAuthService,
       },
     ],
   };

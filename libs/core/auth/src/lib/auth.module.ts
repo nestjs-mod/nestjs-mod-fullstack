@@ -1,4 +1,5 @@
-import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
+import { AuthorizerModule } from '@nestjs-mod/authorizer';
+import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,
@@ -6,6 +7,8 @@ import {
 } from '@nestjs-mod/common';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { TranslatesModule } from 'nestjs-translates';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
@@ -13,14 +16,12 @@ import { AuthGuard } from './auth.guard';
 import { AuthController } from './controllers/auth.controller';
 import { AuthorizerController } from './controllers/authorizer.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
+import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
 import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-bootstrap.service';
 import { AuthAuthorizerService } from './services/auth-authorizer.service';
-import { AuthTimezoneService } from './services/auth-timezone.service';
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import { AuthCacheService } from './services/auth-cache.service';
-import { TranslatesModule } from 'nestjs-translates';
-import { AsyncLocalStorage } from 'node:async_hooks';
-import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
+import { AuthTimezoneService } from './services/auth-timezone.service';
+import { SupabaseModule } from './supabase/supabase.module';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
@@ -28,6 +29,9 @@ export const { AuthModule } = createNestModule({
   staticEnvironmentsModel: AuthEnvironments,
   imports: [
     AuthorizerModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
+    SupabaseModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
     PrismaModule.forFeature({
@@ -58,7 +62,6 @@ export const { AuthModule } = createNestModule({
     AuthCacheService,
   ],
   providers: [
-    { provide: APP_GUARD, useClass: AuthorizerGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_FILTER, useClass: AuthExceptionsFilter },
     { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor },

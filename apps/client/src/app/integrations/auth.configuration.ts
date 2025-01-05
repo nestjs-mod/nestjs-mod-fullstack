@@ -20,13 +20,13 @@ export class AppAuthConfiguration implements AuthConfiguration {
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
 
-    if (!this.tokensService.tokens$.value?.access_token) {
+    if (!this.tokensService.getAccessToken()) {
       return {
         'Accept-language': lang,
       };
     }
     return {
-      Authorization: `Bearer ${this.tokensService.tokens$.value.access_token}`,
+      Authorization: `Bearer ${this.tokensService.getAccessToken()}`,
       'Accept-language': lang,
     };
   }

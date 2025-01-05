@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
-  AuthorizerRestService,
   AuthRestService,
   FilesRestService,
   TimeRestService,
@@ -20,7 +19,6 @@ import {
   map,
   merge,
   mergeMap,
-  of,
   Subscription,
   tap,
   throwError,
@@ -31,7 +29,6 @@ export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
-    private readonly authorizerRestService: AuthorizerRestService,
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
@@ -46,19 +43,7 @@ export class AppInitializer {
 
   resolve() {
     this.subscribeToTokenUpdates();
-    return (
-      this.authService.getAuthorizerClientID()
-        ? of(null)
-        : this.authorizerRestService
-            .authorizerControllerGetAuthorizerClientID()
-            .pipe(
-              map(({ clientID }) => {
-                this.authService.setAuthorizerClientID(clientID);
-                return null;
-              })
-            )
-    ).pipe(
-      mergeMap(() => this.authService.refreshToken()),
+    return this.authService.refreshToken().pipe(
       mergeMap(() => this.authActiveLangService.getActiveLang()),
       mergeMap((activeLang) =>
         this.translocoService.load(activeLang).pipe(map(() => activeLang))
@@ -77,7 +62,7 @@ export class AppInitializer {
       this.subscribeToTokenUpdatesSubscription = undefined;
     }
     this.subscribeToTokenUpdatesSubscription = merge(
-      this.tokensService.tokens$,
+      this.tokensService.getStream(),
       this.translocoService.langChanges$
     )
       .pipe(
@@ -89,9 +74,6 @@ export class AppInitializer {
               authorizationHeaders
             );
             this.webhookRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.authorizerRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
             this.filesRestService.defaultHeaders = new HttpHeaders(

@@ -2,6 +2,7 @@ import {
   AUTH_FEATURE,
   AUTH_FOLDER,
   AuthModule,
+  SupabaseModule,
 } from '@nestjs-mod-fullstack/auth';
 import {
   FilesModule,
@@ -87,7 +88,7 @@ bootstrapNestApplication({
       DefaultNestApplicationInitializer.forRoot({
         staticConfiguration: { bufferLogs: true },
       }),
-      NestjsPinoLoggerModule.forRoot(),
+      // NestjsPinoLoggerModule.forRoot(),
       TerminusHealthCheckModule.forRootAsync({
         imports: [
           PrismaModule.forFeature({
@@ -245,6 +246,7 @@ bootstrapNestApplication({
           };
         },
       }),
+      SupabaseModule.forRoot(),
       PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
         contextName: appFeatureName,

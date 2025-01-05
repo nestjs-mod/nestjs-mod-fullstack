@@ -1,15 +1,15 @@
-import { AuthorizerService } from '@nestjs-mod/authorizer';
 import { Injectable, Logger } from '@nestjs/common';
 import { AuthError } from '../auth.errors';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class AuthAuthorizerService {
   private logger = new Logger(AuthAuthorizerService.name);
 
-  constructor(private readonly authorizerService: AuthorizerService) {}
+  constructor(private readonly supabaseService: SupabaseService) {}
 
   authorizerClientID() {
-    return this.authorizerService.config.clientID;
+    return 'empty';
   }
 
   async createAdmin(user: {
@@ -17,26 +17,32 @@ export class AuthAuthorizerService {
     password: string;
     email: string;
   }) {
-    const signupUserResult = await this.authorizerService.signup({
-      nickname: user.username,
-      password: user.password,
-      confirm_password: user.password,
-      email: user.email.toLowerCase(),
-      roles: ['admin'],
-    });
-    if (signupUserResult.errors.length > 0) {
+    const signupUserResult = await this.supabaseService
+      .getSupabaseClient()
+      .auth.signUp({
+        password: user.password,
+        email: user.email.toLowerCase(),
+        options: {
+          data: {
+            nickname: user.username,
+            roles: ['admin'],
+          },
+        },
+      });
+    if (signupUserResult.error) {
       this.logger.error(
-        signupUserResult.errors[0].message,
-        signupUserResult.errors[0].stack
+        signupUserResult.error.message,
+        signupUserResult.error.stack
       );
-      if (
-        !signupUserResult.errors[0].message.includes('has already signed up')
-      ) {
-        throw new AuthError(signupUserResult.errors[0].message);
+      if (signupUserResult.error.message !== 'User already registered') {
+        throw new AuthError(signupUserResult.error.message);
       }
     } else {
       if (!signupUserResult.data?.user) {
         throw new AuthError('Failed to create a user');
+      }
+      if (!signupUserResult.data.user.email) {
+        throw new AuthError('signupUserResult.data.user.email not set');
       }
 
       await this.verifyUser({
@@ -67,26 +73,18 @@ export class AuthAuthorizerService {
     params: Partial<Record<string, any>>
   ) {
     if (Object.keys(params).length > 0) {
-      const paramsForUpdate = Object.entries(params)
-        .map(([key, value]) =>
-          typeof value === 'boolean' ? `${key}: ${value}` : `${key}: "${value}"`
-        )
-        .join(',');
-      const updateUserResult = await this.authorizerService.graphqlQuery({
-        query: `mutation {
-  _update_user(params: { 
-      id: "${externalUserId}", ${paramsForUpdate} }) {
-    id
-  }
-}`,
-      });
+      const updateUserResult = await this.supabaseService
+        .getSupabaseClient()
+        .auth.updateUser({
+          email: params['email'],
+        });
 
-      if (updateUserResult.errors.length > 0) {
+      if (updateUserResult.error) {
         this.logger.error(
-          updateUserResult.errors[0].message,
-          updateUserResult.errors[0].stack
+          updateUserResult.error.message,
+          updateUserResult.error.stack
         );
-        throw new AuthError(updateUserResult.errors[0].message);
+        throw new AuthError(updateUserResult.error.message);
       }
     }
   }
