@@ -19,7 +19,9 @@ module.exports = {
     }`,
     user: USERNAME,
     password: PASSWORD,
-    table: '__migrations',
+    table: process.env.DATABASE_MIGRATIONS_TABLE
+      ? `__migrations_${process.env.DATABASE_MIGRATIONS_TABLE}`
+      : '__migrations',
     sqlMigrationSuffixes: '.sql',
     baselineOnMigrate: true,
   },

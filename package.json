@@ -3,6 +3,10 @@
   "version": "0.0.25",
   "license": "MIT",
   "scripts": {
+    "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
+    "pm2-supabase-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server && npm run flyway:migrate && npm run pm2:dev:start",
+    "pm2-supabase-full:dev:stop": "npm run docker-compose:stop-prod:server && npm run pm2:dev:stop",
+    "pm2-supabase-full:dev:test:e2e": "npm run test:e2e",
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
     "pm2-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server && npm run db:create-and-fill && npm run pm2:dev:start",
     "pm2-full:dev:stop": "npm run docker-compose:stop-prod:server && npm run pm2:dev:stop",
@@ -155,6 +159,9 @@
     "*.js": "eslint --cache --fix"
   },
   "scriptsComments": {
+    "pm2-supabase-full:dev:start": [],
+    "pm2-supabase-full:dev:stop": [],
+    "pm2-supabase-full:dev:test:e2e": [],
     "pm2-full:dev:start": [
       "Launching infrastructure and all applications in watch mode via PM2"
     ],
@@ -328,6 +335,7 @@
     "prepare": []
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.47.10",
     "@angular/animations": "19.0.5",
     "@angular/common": "19.0.5",
     "@angular/compiler": "19.0.5",
@@ -348,7 +356,7 @@
     "@nestjs-mod/cache-manager": "^1.5.4",
     "@nestjs-mod/common": "2.17.0",
     "@nestjs-mod/docker-compose": "^1.16.2",
-    "@nestjs-mod/flyway": "^1.7.3",
+    "@nestjs-mod/flyway": "^1.8.0",
     "@nestjs-mod/minio": "^1.3.4",
     "@nestjs-mod/pino": "1.14.4",
     "@nestjs-mod/pm2": "1.12.4",

@@ -95,7 +95,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js migrate"
+          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js migrate"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -106,7 +106,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js info"
+          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js info"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -117,7 +117,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js baseline"
+          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js baseline"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -128,7 +128,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js validate"
+          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js validate"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -139,7 +139,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js repair"
+          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js repair"
         ],
         "parallel": false,
         "envFile": "./.env",

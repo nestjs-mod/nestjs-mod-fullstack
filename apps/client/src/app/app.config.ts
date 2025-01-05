@@ -5,9 +5,9 @@ import {
   ApplicationConfig,
   ErrorHandler,
   importProvidersFrom,
-  provideZoneChangeDetection,
   inject,
   provideAppInitializer,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
