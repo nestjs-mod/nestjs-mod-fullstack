@@ -31,7 +31,7 @@ else
 fi
 
 if [[ -z "${CLIENT_MINIO_URL}" ]]; then
-    CLIENT_MINIO_URL="http://localhost:9000"
+    CLIENT_MINIO_URL="https://gustcjgbrmmipkizqzso.supabase.co/storage/v1/s3"
 else
     CLIENT_MINIO_URL="${CLIENT_MINIO_URL}" | sed "s|/|\/|g"
 fi

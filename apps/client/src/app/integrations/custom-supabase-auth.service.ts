@@ -11,13 +11,15 @@ import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
   AuthService,
+  TokensService,
+} from '@nestjs-mod-fullstack/auth-angular';
+import {
   mapAuthError,
   mapAuthResponse,
   mapAuthTokenResponsePassword,
   mapUserResponse,
   SupabaseService,
-  TokensService,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { catchError, from, map, mergeMap, of } from 'rxjs';
 

@@ -1,5 +1,7 @@
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
 
+import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
+import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import {
   ValidationError,
   ValidationErrorEnum,
@@ -13,11 +15,6 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TimeController } from './time.controller';
-import {
-  AUTH_FEATURE,
-  AuthModule,
-  SupabaseModule,
-} from '@nestjs-mod-fullstack/auth';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',

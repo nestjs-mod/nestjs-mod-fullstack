@@ -9,11 +9,11 @@ import { Reflector } from '@nestjs/core';
 import { AuthRole } from '@prisma/auth-client';
 import { AuthRequest } from './types/auth-request';
 
+import { SupabaseGuard } from '@nestjs-mod-fullstack/common';
 import { AllowEmptyUser } from '@nestjs-mod/authorizer';
 import { applyDecorators } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
-import { SupabaseGuard } from './supabase/supabase.guard';
 
 export const SkipAuthGuard = Reflector.createDecorator<true>();
 export const CheckAuthRole = Reflector.createDecorator<AuthRole[]>();

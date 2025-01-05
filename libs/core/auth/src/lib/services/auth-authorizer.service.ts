@@ -1,6 +1,6 @@
+import { SupabaseService } from '@nestjs-mod-fullstack/common';
 import { Injectable, Logger } from '@nestjs/common';
 import { AuthError } from '../auth.errors';
-import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class AuthAuthorizerService {

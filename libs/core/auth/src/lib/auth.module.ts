@@ -1,3 +1,5 @@
+import { SupabaseModule } from '@nestjs-mod-fullstack/common';
+import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { AuthorizerModule } from '@nestjs-mod/authorizer';
 import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import {
@@ -22,8 +24,6 @@ import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-boots
 import { AuthAuthorizerService } from './services/auth-authorizer.service';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
-import { SupabaseModule } from './supabase/supabase.module';
-import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,

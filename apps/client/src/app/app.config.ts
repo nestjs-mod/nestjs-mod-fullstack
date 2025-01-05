@@ -24,10 +24,12 @@ import {
   AuthProfileFormService,
   AuthProfileMapperService,
   AuthService,
+} from '@nestjs-mod-fullstack/auth-angular';
+import {
+  COMMON_FORMLY_FIELDS,
   SUPABASE_KEY,
   SUPABASE_URL,
-} from '@nestjs-mod-fullstack/auth-angular';
-import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
+} from '@nestjs-mod-fullstack/common-angular';
 import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,

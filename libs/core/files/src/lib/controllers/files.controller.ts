@@ -1,16 +1,17 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
-import { StatusResponse } from '@nestjs-mod-fullstack/common';
+import { StatusResponse, SupabaseService } from '@nestjs-mod-fullstack/common';
 import {
   MinioConfiguration,
-  MinioFilesService,
+  MinioDownloadUrlIsWrongError,
+  MinioEnvironments,
   PresignedUrlsRequest,
   PresignedUrls as PresignedUrlsResponse,
 } from '@nestjs-mod/minio';
 import { ApiExtraModels, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { IsDefined } from 'class-validator';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
-import { map } from 'rxjs';
+import { randomUUID } from 'node:crypto';
 import { CurrentFilesRequest } from '../files.decorators';
 import { FilesError, FilesErrorEnum } from '../files.errors';
 import { FilesRequest } from '../types/files-request';
@@ -40,13 +41,14 @@ export class DeleteFileArgs {
 @Controller()
 export class FilesController {
   constructor(
+    private readonly minioEnvironments: MinioEnvironments,
     private readonly minioConfiguration: MinioConfiguration,
-    private readonly minioFilesService: MinioFilesService
+    private readonly supabaseService: SupabaseService
   ) {}
 
   @Get('/files/get-presigned-url')
   @ApiOkResponse({ type: PresignedUrls })
-  getPresignedUrl(
+  async getPresignedUrl(
     @Query() getPresignedUrlArgs: GetPresignedUrlArgs,
     @CurrentFilesRequest() filesRequest: FilesRequest,
     @InjectTranslateFunction() getText: TranslateFunction
@@ -61,17 +63,27 @@ export class FilesController {
         { ext: getPresignedUrlArgs.ext }
       );
     }
-    return this.minioFilesService.getPresignedUrls({
-      bucketName,
-      expiry: 60,
-      ext: getPresignedUrlArgs.ext,
-      userId: filesRequest.externalUserId,
-    });
+    const fullObjectName = `${
+      filesRequest.externalUserId ?? this.minioEnvironments.minioDefaultUserId
+    }/${bucketName}_${randomUUID()}.${getPresignedUrlArgs.ext}`;
+
+    return {
+      downloadUrl: this.supabaseService
+        .getSupabaseClient()
+        .storage.from(bucketName)
+        .getPublicUrl(fullObjectName).data.publicUrl,
+      uploadUrl: (
+        await this.supabaseService
+          .getSupabaseClient()
+          .storage.from(bucketName)
+          .createSignedUploadUrl(fullObjectName, { upsert: true })
+      ).data?.signedUrl,
+    };
   }
 
   @Post('/files/delete-file')
   @ApiOkResponse({ type: StatusResponse })
-  deleteFile(
+  async deleteFile(
     @Query() deleteFileArgs: DeleteFileArgs,
     @CurrentFilesRequest() filesRequest: FilesRequest,
     @InjectTranslateFunction() getText: TranslateFunction
@@ -80,13 +92,35 @@ export class FilesController {
       filesRequest.filesUser?.userRole === FilesRole.Admin ||
       deleteFileArgs.downloadUrl.includes(`/${filesRequest.externalUserId}/`)
     ) {
-      return this.minioFilesService
-        .deleteFile(deleteFileArgs.downloadUrl)
-        .pipe(map(() => ({ message: getText('ok') })));
+      const { objectName, bucketName } =
+        this.getFromDownloadUrlWithoutBucketNames(deleteFileArgs.downloadUrl);
+      await this.supabaseService
+        .getSupabaseClient()
+        .storage.from(bucketName)
+        .remove([objectName]);
+      return { message: getText('ok') };
     }
     throw new FilesError(
       getText('Only those who uploaded files can delete them'),
       FilesErrorEnum.FORBIDDEN
+    );
+  }
+
+  // todo: remove
+  getFromDownloadUrlWithoutBucketNames(downloadUrl: string) {
+    const bucketNames = Object.keys(this.minioConfiguration.buckets ?? {});
+    for (const bucketName of bucketNames) {
+      const sep = `/${bucketName}/`;
+      const downloadUrlArr = downloadUrl.split(sep);
+      if (downloadUrlArr.length > 1) {
+        return {
+          bucketName,
+          objectName: downloadUrlArr.slice(1).join(sep),
+        };
+      }
+    }
+    throw new MinioDownloadUrlIsWrongError(
+      `Download url "${downloadUrl}" is wrong`
     );
   }
 }

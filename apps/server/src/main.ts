@@ -3,7 +3,6 @@ import {
   AUTH_FOLDER,
   AuthModule,
   AuthRequest,
-  SupabaseModule,
 } from '@nestjs-mod-fullstack/auth';
 import {
   FilesModule,
@@ -65,6 +64,7 @@ import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
+import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -328,7 +328,12 @@ bootstrapNestApplication({
           type: isInfrastructureMode() ? 'memory' : 'redis',
         },
       }),
-      MinioModule.forRoot(),
+      MinioModule.forRoot({
+        staticConfiguration: { region: 'eu-central-1' },
+        staticEnvironments: {
+          minioUseSSL: 'true',
+        },
+      }),
       FilesModule.forRoot(),
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
