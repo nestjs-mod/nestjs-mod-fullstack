@@ -31,8 +31,7 @@ export class WebhookCacheService {
       this.getUserCacheKey({
         externalUserId,
         externalTenantId,
-      }),
-      { raw: true }
+      })
     );
     if (cached) {
       return cached;

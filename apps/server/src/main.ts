@@ -2,6 +2,7 @@ import KeyvRedis, { createClient } from '@keyv/redis';
 import {
   AUTH_FEATURE,
   AUTH_FOLDER,
+  AuthEnvironments,
   AuthModule,
   AuthRequest,
 } from '@nestjs-mod-fullstack/auth';
@@ -190,9 +191,13 @@ bootstrapNestApplication({
       AuthorizerModule.forRootAsync({
         imports: [
           WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
+          AuthModule.forFeature({ featureModuleName: AUTH_FEATURE }),
         ],
-        inject: [WebhookUsersService],
-        configurationFactory: (webhookUsersService: WebhookUsersService) => {
+        inject: [WebhookUsersService, AuthEnvironments],
+        configurationFactory: (
+          webhookUsersService: WebhookUsersService,
+          authEnvironments: AuthEnvironments
+        ) => {
           return {
             extraHeaders: {
               'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
@@ -216,27 +221,42 @@ bootstrapNestApplication({
                 options
               );
 
-              if (ctx && authorizerUser?.id) {
-                const req: WebhookRequest & FilesRequest & AuthRequest =
-                  getRequestFromExecutionContext(ctx);
+              const req: WebhookRequest & FilesRequest & AuthRequest =
+                ctx && getRequestFromExecutionContext(ctx);
 
+              if (req?.authorizerUser?.id) {
                 // webhook
                 req.webhookUser =
                   await webhookUsersService.createUserIfNotExists({
-                    externalUserId: authorizerUser?.id,
-                    externalTenantId: authorizerUser?.id,
+                    externalUserId: req?.authorizerUser?.id,
+                    externalTenantId: req?.authorizerUser?.id,
                     userRole:
                       req.authUser?.userRole === 'Admin' ? 'Admin' : 'User',
                   });
+
+                if (req.authUser?.userRole === 'Admin') {
+                  req.webhookUser.userRole = 'Admin';
+                }
 
                 if (req.webhookUser) {
                   req.externalTenantId = req.webhookUser.externalTenantId;
                 }
 
+                if (
+                  authEnvironments.adminEmail &&
+                  req.authorizerUser?.email === authEnvironments.adminEmail
+                ) {
+                  req.webhookUser.userRole = 'Admin';
+
+                  req.authorizerUser.roles = [
+                    ...new Set([...(req.authorizerUser.roles || []), 'admin']),
+                  ];
+                }
+
                 // files
                 req.filesUser = {
                   userRole:
-                    req.authUser?.userRole === 'Admin'
+                    req.webhookUser?.userRole === 'Admin'
                       ? FilesRole.Admin
                       : FilesRole.User,
                 };
@@ -329,12 +349,6 @@ bootstrapNestApplication({
             return isInfrastructureMode()
               ? undefined
               : new KeyvRedis(createClient({ url }));
-          },
-          deserialize: (params: string) => {
-            return typeof params === 'string' ? JSON.parse(params) : params;
-          },
-          serialize: (params: { value: unknown }) => {
-            return JSON.stringify(params.value);
           },
         },
       }),

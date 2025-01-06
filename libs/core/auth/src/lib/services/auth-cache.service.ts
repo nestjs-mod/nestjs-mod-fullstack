@@ -27,8 +27,7 @@ export class AuthCacheService {
     const cached: AuthUser = await this.keyvService.get(
       this.getUserCacheKey({
         externalUserId,
-      }),
-      { raw: true }
+      })
     );
     if (cached) {
       return cached;

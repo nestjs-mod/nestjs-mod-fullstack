@@ -127,6 +127,8 @@ export class SupabaseService implements OnModuleInit {
       }
     }
 
+    req.authorizerUser = req.authorizerUser || { id: undefined };
+
     if (checkAccess) {
       // check access by custom logic
       const checkAccessValidatorResult = this.authorizerConfiguration
@@ -139,12 +141,12 @@ export class SupabaseService implements OnModuleInit {
         : false;
 
       // check access by roles
-      if (allowEmptyUserMetadata) {
-        req.authorizerUser = req.authorizerUser || { id: undefined };
-      } else {
-        if (!checkAccessValidatorResult && !req.authorizerUser?.id) {
-          throw new AuthorizerError('Unauthorized');
-        }
+      if (
+        !allowEmptyUserMetadata &&
+        !checkAccessValidatorResult &&
+        !req.authorizerUser?.id
+      ) {
+        throw new AuthorizerError('Unauthorized');
       }
     }
 
