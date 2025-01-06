@@ -1,9 +1,11 @@
+import KeyvRedis, { createClient } from '@keyv/redis';
 import {
   AUTH_FEATURE,
   AUTH_FOLDER,
   AuthModule,
   AuthRequest,
 } from '@nestjs-mod-fullstack/auth';
+import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import {
   FilesModule,
   FilesRequest,
@@ -25,7 +27,6 @@ import {
   CheckAccessOptions,
   defaultAuthorizerCheckAccessValidator,
 } from '@nestjs-mod/authorizer';
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -46,8 +47,8 @@ import {
   DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
 import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
-import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import {
   PRISMA_SCHEMA_FILE,
@@ -64,7 +65,6 @@ import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
-import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 
 const appFeatureName = 'app';
 const rootFolder = join(__dirname, '..', '..', '..');
@@ -323,9 +323,19 @@ bootstrapNestApplication({
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),
-      CacheManagerModule.forRoot({
+      KeyvModule.forRoot({
         staticConfiguration: {
-          type: isInfrastructureMode() ? 'memory' : 'redis',
+          storeFactoryByEnvironmentUrl: (url) => {
+            return isInfrastructureMode()
+              ? undefined
+              : new KeyvRedis(createClient({ url }));
+          },
+          deserialize: (params: string) => {
+            return typeof params === 'string' ? JSON.parse(params) : params;
+          },
+          serialize: (params: { value: unknown }) => {
+            return JSON.stringify(params.value);
+          },
         },
       }),
       MinioModule.forRoot({

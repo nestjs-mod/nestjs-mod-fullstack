@@ -1,7 +1,7 @@
 import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { AuthorizerModule } from '@nestjs-mod/authorizer';
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,
@@ -40,7 +40,7 @@ export const { AuthModule } = createNestModule({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
     }),
-    CacheManagerModule.forFeature({
+    KeyvModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
     PrismaToolsModule.forFeature({
@@ -54,7 +54,7 @@ export const { AuthModule } = createNestModule({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
     }),
-    CacheManagerModule.forFeature({
+    KeyvModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
   ],

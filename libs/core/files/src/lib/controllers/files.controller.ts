@@ -3,8 +3,8 @@ import { Controller, Get, Post, Query } from '@nestjs/common';
 import { StatusResponse, SupabaseService } from '@nestjs-mod-fullstack/common';
 import {
   MinioConfiguration,
-  MinioDownloadUrlIsWrongError,
   MinioEnvironments,
+  MinioFilesService,
   PresignedUrlsRequest,
   PresignedUrls as PresignedUrlsResponse,
 } from '@nestjs-mod/minio';
@@ -43,7 +43,8 @@ export class FilesController {
   constructor(
     private readonly minioEnvironments: MinioEnvironments,
     private readonly minioConfiguration: MinioConfiguration,
-    private readonly supabaseService: SupabaseService
+    private readonly supabaseService: SupabaseService,
+    private readonly minioFilesService: MinioFilesService
   ) {}
 
   @Get('/files/get-presigned-url')
@@ -93,7 +94,9 @@ export class FilesController {
       deleteFileArgs.downloadUrl.includes(`/${filesRequest.externalUserId}/`)
     ) {
       const { objectName, bucketName } =
-        this.getFromDownloadUrlWithoutBucketNames(deleteFileArgs.downloadUrl);
+        this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
+          deleteFileArgs.downloadUrl
+        );
       await this.supabaseService
         .getSupabaseClient()
         .storage.from(bucketName)
@@ -103,24 +106,6 @@ export class FilesController {
     throw new FilesError(
       getText('Only those who uploaded files can delete them'),
       FilesErrorEnum.FORBIDDEN
-    );
-  }
-
-  // todo: remove
-  getFromDownloadUrlWithoutBucketNames(downloadUrl: string) {
-    const bucketNames = Object.keys(this.minioConfiguration.buckets ?? {});
-    for (const bucketName of bucketNames) {
-      const sep = `/${bucketName}/`;
-      const downloadUrlArr = downloadUrl.split(sep);
-      if (downloadUrlArr.length > 1) {
-        return {
-          bucketName,
-          objectName: downloadUrlArr.slice(1).join(sep),
-        };
-      }
-    }
-    throw new MinioDownloadUrlIsWrongError(
-      `Download url "${downloadUrl}" is wrong`
     );
   }
 }
