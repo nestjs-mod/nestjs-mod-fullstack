@@ -1,4 +1,4 @@
-import KeyvRedis, { createClient } from '@keyv/redis';
+import KeyvPostgres from '@keyv/postgres';
 import {
   AUTH_FEATURE,
   AUTH_FOLDER,
@@ -345,10 +345,10 @@ bootstrapNestApplication({
       }),
       KeyvModule.forRoot({
         staticConfiguration: {
-          storeFactoryByEnvironmentUrl: (url) => {
+          storeFactoryByEnvironmentUrl: (uri) => {
             return isInfrastructureMode()
               ? undefined
-              : new KeyvRedis(createClient({ url }));
+              : [new KeyvPostgres({ uri }), { table: 'cache' }];
           },
         },
       }),
