@@ -86,73 +86,73 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTH_DATABASE_URL}"
+          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTH_DATABASE_URL}"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-create-migration": {
+    "pg-flyway-create-migration": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "echo 'select 1;' > ./libs/core/auth/src/migrations/V`date +%Y%m%d%H%M`__${npm_config_args:-NewMigration}.sql"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway create --name=${npm_config_args:-NewMigration}"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-migrate": {
+    "pg-flyway-migrate": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=auth && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js migrate"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway migrate"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-info": {
+    "pg-flyway-info": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=auth && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js info"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway info"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-baseline": {
+    "pg-flyway-baseline": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=auth && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js baseline"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway baseline"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-validate": {
+    "pg-flyway-validate": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=auth && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js validate"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway validate"
         ],
         "parallel": false,
         "envFile": "./.env",
         "color": true
       }
     },
-    "flyway-repair": {
+    "pg-flyway-repair": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "export DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=auth && export DATABASE_MIGRATIONS_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js repair"
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTH_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_auth && export PG_FLYWAY_LOCATIONS=./libs/core/auth/src/migrations && ./node_modules/.bin/pg-flyway repair"
         ],
         "parallel": false,
         "envFile": "./.env",

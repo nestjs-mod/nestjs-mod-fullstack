@@ -7,7 +7,6 @@ import {
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
-import { AuthorizerModule } from '@nestjs-mod/authorizer';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TranslatesModule } from 'nestjs-translates';
@@ -24,9 +23,6 @@ export const { AppModule } = createNestModule({
       featureModuleName: 'app',
     }),
     SupabaseModule.forFeature({
-      featureModuleName: 'app',
-    }),
-    AuthorizerModule.forFeature({
       featureModuleName: 'app',
     }),
     WebhookModule.forFeature({

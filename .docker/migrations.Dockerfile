@@ -21,7 +21,7 @@ RUN rm -rf package-lock.json node_modules && npm install --prefer-offline --no-a
 RUN echo '' > .env
 
 # Generate additional files
-RUN ./node_modules/.bin/flyway -c ./.flyway.js info || echo 'skip flyway errors'
+RUN ./node_modules/.bin/pg-flyway info || echo 'skip flyway errors'
 
 FROM node:22-bullseye-slim
 WORKDIR /usr/src/app

@@ -1,12 +1,4 @@
 import {
-  AllowEmptyUser,
-  AuthorizerConfiguration,
-  AuthorizerEnvironments,
-  AuthorizerError,
-  AuthorizerUser,
-  CheckAccess,
-} from '@nestjs-mod/authorizer';
-import {
   ExecutionContext,
   Injectable,
   Logger,
@@ -14,7 +6,11 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseConfiguration } from './supabase.configuration';
+import { AllowEmptyUser, CheckAccess } from './supabase.decorators';
 import { SupabaseEnvironments } from './supabase.environments';
+import { SupabaseError } from './supabase.errors';
+import { SupabaseUser } from './supabase.types';
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
@@ -23,8 +19,7 @@ export class SupabaseService implements OnModuleInit {
 
   constructor(
     private readonly reflector: Reflector,
-    private readonly authorizerConfiguration: AuthorizerConfiguration,
-    private readonly authorizerEnvironments: AuthorizerEnvironments,
+    private readonly supabaseConfiguration: SupabaseConfiguration,
     private readonly supabaseEnvironments: SupabaseEnvironments
   ) {}
 
@@ -43,8 +38,8 @@ export class SupabaseService implements OnModuleInit {
   async getUserFromRequest(
     ctx: ExecutionContext,
     checkAccess = true
-  ): Promise<AuthorizerUser | undefined> {
-    const req = this.authorizerConfiguration.getRequestFromContext?.(ctx) || {};
+  ): Promise<SupabaseUser | undefined> {
+    const req = this.supabaseConfiguration.getRequestFromContext?.(ctx) || {};
 
     const allowEmptyUserMetadata =
       (typeof ctx.getHandler === 'function' &&
@@ -60,27 +55,26 @@ export class SupabaseService implements OnModuleInit {
         this.reflector.get(CheckAccess, ctx.getClass())) ||
       undefined;
 
-    if (!req.authorizerUser?.id) {
+    if (!req.supabaseUser?.id) {
       const token = req.headers?.authorization?.split(' ')[1];
 
       if (token) {
-        // check user in authorizer
+        // check user in supabase
         try {
           const getProfileResult = await this.supabaseClient.auth.getUser(
             token
           );
           if (!getProfileResult.error) {
-            req.authorizerUser = {
+            req.supabaseUser = {
               email: getProfileResult.data.user.email,
-              email_verified: true,
               id: getProfileResult.data.user.id,
-              preferred_username: 'empty',
-              signup_methods: 'empty',
-              created_at: +new Date(getProfileResult.data.user.created_at),
+              created_at: (+new Date(
+                getProfileResult.data.user.created_at
+              )).toString(),
               updated_at: getProfileResult.data.user.updated_at
-                ? +new Date(getProfileResult.data.user.updated_at)
-                : 0,
-              roles: ['user'],
+                ? (+new Date(getProfileResult.data.user.updated_at)).toString()
+                : '0',
+              role: 'user',
               picture: getProfileResult.data.user.user_metadata['picture'],
             };
           } else {
@@ -88,34 +82,34 @@ export class SupabaseService implements OnModuleInit {
               getProfileResult.error.message,
               getProfileResult.error.stack
             );
-            throw new AuthorizerError(getProfileResult.error.message);
+            throw new SupabaseError(getProfileResult.error.message);
           }
         } catch (err) {
-          req.authorizerUser = { id: undefined };
+          req.supabaseUser = { id: undefined };
         }
       }
 
       // check external user id
-      if (!req.authorizerUser) {
+      if (!req.supabaseUser) {
         req.externalUserId =
           req?.headers?.[
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.authorizerConfiguration.externalUserIdHeaderName!
+            this.supabaseConfiguration.externalUserIdHeaderName!
           ];
         req.externalAppId =
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          req?.headers?.[this.authorizerConfiguration.externalAppIdHeaderName!];
+          req?.headers?.[this.supabaseConfiguration.externalAppIdHeaderName!];
 
         if (
           req.externalAppId &&
-          !this.authorizerEnvironments.allowedExternalAppIds?.includes(
+          !this.supabaseEnvironments.allowedExternalAppIds?.includes(
             req.externalAppId
           )
         ) {
-          req.authorizerUser = {
+          req.supabaseUser = {
             id: req.externalUserId
               ? (
-                  await this.authorizerConfiguration.getAuthorizerUserFromExternalUserId?.(
+                  await this.supabaseConfiguration.getSupabaseUserFromExternalUserId?.(
                     req.externalUserId,
                     req.externalAppId,
                     ctx
@@ -127,14 +121,14 @@ export class SupabaseService implements OnModuleInit {
       }
     }
 
-    req.authorizerUser = req.authorizerUser || { id: undefined };
+    req.supabaseUser = req.supabaseUser || { id: undefined };
 
     if (checkAccess) {
       // check access by custom logic
-      const checkAccessValidatorResult = this.authorizerConfiguration
+      const checkAccessValidatorResult = this.supabaseConfiguration
         .checkAccessValidator
-        ? await this.authorizerConfiguration.checkAccessValidator(
-            req.authorizerUser,
+        ? await this.supabaseConfiguration.checkAccessValidator(
+            req.supabaseUser,
             checkAccessMetadata,
             ctx
           )
@@ -144,27 +138,27 @@ export class SupabaseService implements OnModuleInit {
       if (
         !allowEmptyUserMetadata &&
         !checkAccessValidatorResult &&
-        !req.authorizerUser?.id
+        !req.supabaseUser?.id
       ) {
-        throw new AuthorizerError('Unauthorized');
+        throw new SupabaseError('Unauthorized');
       }
     }
 
     if (
-      req.authorizerUser?.id &&
+      req.supabaseUser?.id &&
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      !req?.headers?.[this.authorizerConfiguration.externalUserIdHeaderName!]
+      !req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!]
     ) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      req.headers[this.authorizerConfiguration.externalUserIdHeaderName!] =
-        req.authorizerUser?.id;
+      req.headers[this.supabaseConfiguration.externalUserIdHeaderName!] =
+        req.supabaseUser?.id;
       req.externalUserId =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        req?.headers?.[this.authorizerConfiguration.externalUserIdHeaderName!];
+        req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!];
     }
 
-    req.skippedByAuthorizer =
-      req.authorizerUser === undefined || req.authorizerUser?.id === undefined;
-    return req.authorizerUser;
+    req.skippedBySupabase =
+      req.supabaseUser === undefined || req.supabaseUser?.id === undefined;
+    return req.supabaseUser;
   }
 }

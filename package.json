@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
-    "pm2-supabase-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server && npm run flyway:migrate && npm run pm2:dev:start",
-    "pm2-supabase-full:dev:stop": "npm run docker-compose:stop-prod:server && npm run pm2:dev:stop",
+    "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run pm2:dev:start",
+    "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
     "pm2-supabase-full:dev:test:e2e": "npm run test:e2e",
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
     "pm2-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server && npm run db:create-and-fill && npm run pm2:dev:start",
@@ -55,21 +55,21 @@
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
     "db:create": "./node_modules/.bin/nx run-many -t=db-create",
-    "db:create-and-fill": "npm run db:create && npm run flyway:migrate",
-    "_____flyway_____": "_____flyway_____",
-    "flyway:create:server": "./node_modules/.bin/nx run server:flyway-create-migration",
-    "flyway:migrate:server": "./node_modules/.bin/nx run server:flyway-migrate",
-    "flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate",
-    "flyway:create:webhook": "./node_modules/.bin/nx run webhook:flyway-create-migration",
-    "flyway:migrate:webhook": "./node_modules/.bin/nx run webhook:flyway-migrate",
-    "flyway:create:auth": "./node_modules/.bin/nx run auth:flyway-create-migration",
-    "flyway:migrate:auth": "./node_modules/.bin/nx run auth:flyway-migrate",
+    "db:create-and-fill": "npm run db:create && npm run pg-flyway:migrate",
     "_____prisma_____": "_____prisma_____",
     "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
     "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull --skip-nx-cache=true",
     "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate --parallel=1",
     "prisma:pull:webhook": "./node_modules/.bin/nx run webhook:prisma-pull",
     "prisma:pull:auth": "./node_modules/.bin/nx run auth:prisma-pull",
+    "_____pg-flyway_____": "_____pg-flyway_____",
+    "pg-flyway:create:server": "./node_modules/.bin/nx run server:pg-flyway-create-migration",
+    "pg-flyway:migrate:server": "./node_modules/.bin/nx run server:pg-flyway-migrate",
+    "pg-flyway:migrate": "./node_modules/.bin/nx run-many -t=pg-flyway-migrate",
+    "pg-flyway:create:webhook": "./node_modules/.bin/nx run webhook:pg-flyway-create-migration",
+    "pg-flyway:migrate:webhook": "./node_modules/.bin/nx run webhook:pg-flyway-migrate",
+    "pg-flyway:create:auth": "./node_modules/.bin/nx run auth:pg-flyway-create-migration",
+    "pg-flyway:migrate:auth": "./node_modules/.bin/nx run auth:pg-flyway-migrate",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many --verbose --all -t=generate --parallel=1 && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
@@ -77,7 +77,7 @@
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "make-ts-list": "./node_modules/.bin/rucken make-ts-list",
     "manual:prepare": "npm run generate && npm run docs:infrastructure && npm run test",
-    "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod @nestjs/* nestjs rucken -u",
+    "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod rucken pg-flyway -u",
     "rucken": "rucken",
     "translates": "./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false",
     "wait-on": "./node_modules/.bin/wait-on --timeout=240000 --interval=1000 --window --verbose",
@@ -97,8 +97,8 @@
     "@brakebein/prisma-generator-nestjs-dto": "^1.24.0-beta5",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@nestjs-mod/schematics": "^2.12.1",
-    "@nestjs-mod/testing": "2.17.0",
+    "@nestjs-mod/schematics": "^2.12.2",
+    "@nestjs-mod/testing": "2.17.2",
     "@nestjs/schematics": "^10.2.3",
     "@nestjs/testing": "^10.4.15",
     "@nx/angular": "20.3.0",
@@ -139,19 +139,19 @@
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^15.2.10",
     "ng-packagr": "19.0.1",
-    "node-flywaydb": "^3.0.7",
     "nx": "20.3.0",
     "postcss": "^8.4.5",
     "postcss-url": "~10.1.3",
     "prettier": "^2.6.2",
     "prisma": "^5.22.0",
-    "rucken": "^4.12.0",
+    "rucken": "^4.13.1",
     "string-replace-loader": "3.1.0",
     "tailwindcss": "^3.4.15",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "5.6.3",
-    "verdaccio": "^5.0.4"
+    "verdaccio": "^5.0.4",
+    "pg-flyway": "1.0.1"
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix",
@@ -261,27 +261,6 @@
     "db:create-and-fill": [
       "Create and fill databases"
     ],
-    "flyway:create:server": [
-      "Command to create new empty migration for server, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
-    ],
-    "flyway:migrate:server": [
-      "Applying migrations for server"
-    ],
-    "flyway:migrate": [
-      "Applying migrations of all applications and modules"
-    ],
-    "flyway:create:webhook": [
-      "Command to create new empty migration for webhook, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
-    ],
-    "flyway:migrate:webhook": [
-      "Applying migrations for webhook"
-    ],
-    "flyway:create:auth": [
-      "Command to create new empty migration for auth, for set name pass name to --args, example: npm run flyway:create:appname --args=Init"
-    ],
-    "flyway:migrate:auth": [
-      "Applying migrations for auth"
-    ],
     "prisma:pull:server": [
       "Generating a prisma schema based on a database for server"
     ],
@@ -296,6 +275,27 @@
     ],
     "prisma:pull:auth": [
       "Generating a prisma schema based on a database for auth"
+    ],
+    "pg-flyway:create:server": [
+      "Command to create new empty migration for server, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
+    ],
+    "pg-flyway:migrate:server": [
+      "Applying migrations for server"
+    ],
+    "pg-flyway:migrate": [
+      "Applying migrations of all applications and modules"
+    ],
+    "pg-flyway:create:webhook": [
+      "Command to create new empty migration for webhook, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
+    ],
+    "pg-flyway:migrate:webhook": [
+      "Applying migrations for webhook"
+    ],
+    "pg-flyway:create:auth": [
+      "Command to create new empty migration for auth, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
+    ],
+    "pg-flyway:migrate:auth": [
+      "Applying migrations for auth"
     ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
@@ -357,19 +357,19 @@
     "@jsverse/transloco-keys-manager": "^6.0.0",
     "@jsverse/transloco-locale": "^7.0.1",
     "@jsverse/transloco-messageformat": "^7.0.1",
-    "@nestjs-mod/authorizer": "^1.4.3",
-    "@nestjs-mod/keyv": "1.0.2",
+    "@nestjs-mod/authorizer": "^1.5.0",
+    "@nestjs-mod/keyv": "1.1.0",
     "@keyv/redis": "4.2.0",
     "@keyv/postgres": "2.0.4",
-    "@nestjs-mod/common": "2.17.0",
-    "@nestjs-mod/docker-compose": "^1.16.2",
-    "@nestjs-mod/flyway": "^1.8.0",
-    "@nestjs-mod/minio": "^1.3.5",
-    "@nestjs-mod/pino": "1.14.4",
-    "@nestjs-mod/pm2": "1.12.4",
-    "@nestjs-mod/prisma": "^1.10.4",
-    "@nestjs-mod/reports": "2.17.0",
-    "@nestjs-mod/terminus": "1.13.4",
+    "@nestjs-mod/common": "2.17.2",
+    "@nestjs-mod/docker-compose": "^1.17.0",
+    "@nestjs-mod/pg-flyway": "^1.0.2",
+    "@nestjs-mod/minio": "^1.4.0",
+    "@nestjs-mod/pino": "1.15.0",
+    "@nestjs-mod/pm2": "1.13.0",
+    "@nestjs-mod/prisma": "^1.11.0",
+    "@nestjs-mod/reports": "2.17.2",
+    "@nestjs-mod/terminus": "1.14.0",
     "@nestjs/axios": "^3.1.3",
     "@nestjs/common": "^10.4.15",
     "@nestjs/core": "^10.4.15",
@@ -377,7 +377,7 @@
     "@nestjs/platform-socket.io": "^10.4.15",
     "@nestjs/platform-ws": "^10.4.15",
     "@nestjs/serve-static": "^4.0.2",
-    "@nestjs/swagger": "^8.1.0",
+    "@nestjs/swagger": "^8.1.1",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/websockets": "^10.4.15",
     "@ngneat/until-destroy": "^10.0.0",

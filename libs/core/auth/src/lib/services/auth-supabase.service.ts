@@ -3,14 +3,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { AuthError } from '../auth.errors';
 
 @Injectable()
-export class AuthAuthorizerService {
-  private logger = new Logger(AuthAuthorizerService.name);
+export class AuthSupabaseService {
+  private logger = new Logger(AuthSupabaseService.name);
 
   constructor(private readonly supabaseService: SupabaseService) {}
-
-  authorizerClientID() {
-    return 'empty';
-  }
 
   async createAdmin(user: {
     username?: string;

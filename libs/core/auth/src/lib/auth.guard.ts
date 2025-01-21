@@ -1,4 +1,4 @@
-import { AllowEmptyUser } from '@nestjs-mod/authorizer';
+import { AllowEmptyUser } from '@nestjs-mod-fullstack/common';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
@@ -45,16 +45,16 @@ export class AuthGuard implements CanActivate {
 
       const req: AuthRequest = this.getRequestFromExecutionContext(context);
 
-      if (req.authorizerUser?.id) {
+      if (req.supabaseUser?.id) {
         await this.tryGetOrCreateCurrentUserWithExternalUserId(
           req,
-          req.authorizerUser.id
+          req.supabaseUser.id
         );
       }
 
       this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
 
-      this.pathAuthorizerUserRoles(req);
+      this.pathSupabaseUserRoles(req);
 
       this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
     } catch (err) {
@@ -64,17 +64,15 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private pathAuthorizerUserRoles(req: AuthRequest) {
+  private pathSupabaseUserRoles(req: AuthRequest) {
     if (
       this.authEnvironments.adminEmail &&
-      req.authorizerUser?.email === this.authEnvironments.adminEmail
+      req.supabaseUser?.email === this.authEnvironments.adminEmail
     ) {
       if (req.authUser) {
         req.authUser.userRole = 'Admin';
       }
-      req.authorizerUser.roles = [
-        ...new Set([...(req.authorizerUser.roles || []), 'admin']),
-      ];
+      req.supabaseUser.role = 'admin';
     }
   }
 
@@ -95,7 +93,7 @@ export class AuthGuard implements CanActivate {
     req: AuthRequest,
     allowEmptyUserMetadata?: boolean
   ) {
-    if (!req.skippedByAuthorizer && !req.authUser && !allowEmptyUserMetadata) {
+    if (!req.skippedBySupabase && !req.authUser && !allowEmptyUserMetadata) {
       throw new AuthError(AuthErrorEnum.USER_NOT_FOUND);
     }
   }

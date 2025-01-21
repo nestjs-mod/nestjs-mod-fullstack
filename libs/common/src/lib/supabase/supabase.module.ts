@@ -1,19 +1,17 @@
 import { NestModuleCategory, createNestModule } from '@nestjs-mod/common';
+import { APP_GUARD } from '@nestjs/core';
 import { SUPABASE_MODULE } from './supabase.constants';
 import { SupabaseEnvironments } from './supabase.environments';
-import { SupabaseService } from './supabase.service';
-import { AuthorizerModule } from '@nestjs-mod/authorizer';
-import { APP_GUARD } from '@nestjs/core';
 import { SupabaseGuard } from './supabase.guard';
+import { SupabaseService } from './supabase.service';
+import { SupabaseConfiguration } from './supabase.configuration';
 
 export const { SupabaseModule } = createNestModule({
   moduleName: SUPABASE_MODULE,
   moduleCategory: NestModuleCategory.core,
   moduleDescription: 'Universal javaScript SDK for Supabase API',
-  staticEnvironmentsModel: SupabaseEnvironments,
-  sharedImports: [
-    AuthorizerModule.forFeature({ featureModuleName: SUPABASE_MODULE }),
-  ],
+  configurationModel: SupabaseConfiguration,
+  environmentsModel: SupabaseEnvironments,
   sharedProviders: [SupabaseService],
   providers: [{ provide: APP_GUARD, useClass: SupabaseGuard }],
 });

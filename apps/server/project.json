@@ -72,74 +72,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}",
-          "./node_modules/.bin/rucken postgres --force-change-username=true --force-change-password=true --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTHORIZER_DATABASE_URL}"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-create-migration": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "echo 'select 1;' > ./apps/server/src/migrations/V`date +%Y%m%d%H%M`__${npm_config_args:-NewMigration}.sql"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-migrate": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js migrate"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-info": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js info"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-baseline": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js baseline"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-validate": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js validate"
-        ],
-        "parallel": false,
-        "envFile": "./.env",
-        "color": true
-      }
-    },
-    "flyway-repair": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "export DATABASE_URL=${SERVER_APP_DATABASE_URL} && export DATABASE_MIGRATIONS_TABLE=server && export DATABASE_MIGRATIONS_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/flyway -c ./.flyway.js repair"
+          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}",
+          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTHORIZER_DATABASE_URL}"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -201,6 +135,72 @@
             "prerelease": true
           }
         ]
+      }
+    },
+    "pg-flyway-create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway create --name=${npm_config_args:-NewMigration}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway migrate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-info": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway info"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-baseline": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway baseline"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway validate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-repair": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway repair"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
       }
     }
   }

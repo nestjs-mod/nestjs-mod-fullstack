@@ -8,9 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 
-import { User } from '@authorizerdev/authorizer-js';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
-import { AllowEmptyUser, CurrentAuthorizerUser } from '@nestjs-mod/authorizer';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   ApiCreatedResponse,
@@ -22,6 +20,12 @@ import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { AppService } from './app.service';
 import { AppDemo } from './generated/rest/dto/app-demo.entity';
+import {
+  AllowEmptyUser,
+  CurrentSupabaseUser,
+  SupabaseUser,
+} from '@nestjs-mod-fullstack/common';
+import { User } from '@supabase/supabase-js';
 
 export class AppData {
   @ApiProperty({ type: String })
@@ -52,7 +56,7 @@ export class AppController {
 
   @Post('/demo')
   @ApiCreatedResponse({ type: AppDemo })
-  async demoCreateOne(@CurrentAuthorizerUser() authorizeUser: User) {
+  async demoCreateOne(@CurrentSupabaseUser() authorizeUser: User) {
     return await this.appPrismaClient.appDemo
       .create({
         data: { name: 'demo name' + randomUUID() },
@@ -78,7 +82,7 @@ export class AppController {
   @Delete('/demo/:id')
   @ApiOkResponse({ type: AppDemo })
   async demoDeleteOne(
-    @CurrentAuthorizerUser() authorizeUser: User,
+    @CurrentSupabaseUser() authorizeUser: SupabaseUser,
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
     return await this.appPrismaClient.appDemo
@@ -96,7 +100,7 @@ export class AppController {
   @Put('/demo/:id')
   @ApiOkResponse({ type: AppDemo })
   async demoUpdateOne(
-    @CurrentAuthorizerUser() authorizeUser: User,
+    @CurrentSupabaseUser() authorizeUser: User,
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
     return await this.appPrismaClient.appDemo

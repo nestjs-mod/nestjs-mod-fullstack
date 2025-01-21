@@ -9,8 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthRole } from '@prisma/auth-client';
 import { AuthRequest } from './types/auth-request';
 
-import { SupabaseGuard } from '@nestjs-mod-fullstack/common';
-import { AllowEmptyUser } from '@nestjs-mod/authorizer';
+import { AllowEmptyUser, SupabaseGuard } from '@nestjs-mod-fullstack/common';
 import { applyDecorators } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';

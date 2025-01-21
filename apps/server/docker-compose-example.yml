@@ -23,46 +23,6 @@ services:
       POSTGRESQL_USERNAME: ""
       POSTGRESQL_PASSWORD: ""
       POSTGRESQL_DATABASE: ""
-  server-authorizer:
-    image: "lakhansamani/authorizer:1.4.4"
-    container_name: "server-authorizer"
-    ports:
-      - "8080:8080"
-    networks:
-      - "server-network"
-    environment:
-      ADMIN_SECRET: ""
-      DATABASE_TYPE: ""
-      DATABASE_URL: ""
-      DATABASE_NAME: ""
-      PORT: ""
-      AUTHORIZER_URL: ""
-      COOKIE_NAME: ""
-      DISABLE_PLAYGROUND: ""
-      ACCESS_TOKEN_EXPIRY_TIME: ""
-      IMAGE: ""
-      DISABLE_STRONG_PASSWORD: ""
-      DISABLE_EMAIL_VERIFICATION: ""
-      FEATURE_NAME: ""
-      ORGANIZATION_NAME: ""
-      DEPENDS_ON_SERVICE_NAMES: ""
-      IS_EMAIL_SERVICE_ENABLED: ""
-      IS_SMS_SERVICE_ENABLED: ""
-      ENV: ""
-      EXTERNAL_CLIENT_PORT: ""
-      RESET_PASSWORD_URL: ""
-      ROLES: ""
-      DEFAULT_ROLES: ""
-      JWT_ROLE_CLAIM: ""
-      ORGANIZATION_LOGO: ""
-      COUCHBASE_BUCKET: ""
-      COUCHBASE_BUCKET_RAM_QUOTA: ""
-      COUCHBASE_SCOPE: ""
-    tty: true
-    restart: "always"
-    depends_on:
-      server-postgre-sql:
-        condition: "service_healthy"
   server-redis:
     image: "bitnami/redis:7.4.1"
     container_name: "server-redis"

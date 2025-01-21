@@ -6,7 +6,12 @@ import {
   AuthModule,
   AuthRequest,
 } from '@nestjs-mod-fullstack/auth';
-import { SupabaseModule } from '@nestjs-mod-fullstack/common';
+import {
+  CheckAccessOptions,
+  defaultSupabaseCheckAccessValidator,
+  SupabaseModule,
+  SupabaseUser,
+} from '@nestjs-mod-fullstack/common';
 import {
   FilesModule,
   FilesRequest,
@@ -22,13 +27,6 @@ import {
   WebhookUsersService,
 } from '@nestjs-mod-fullstack/webhook';
 import {
-  AUTHORIZER_ENV_PREFIX,
-  AuthorizerModule,
-  AuthorizerUser,
-  CheckAccessOptions,
-  defaultAuthorizerCheckAccessValidator,
-} from '@nestjs-mod/authorizer';
-import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
   InfrastructureMarkdownReportGenerator,
@@ -42,14 +40,13 @@ import {
 import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
-  DockerComposeAuthorizer,
   DockerComposeMinio,
   DockerComposePostgreSQL,
   DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
-import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
+import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import {
   PRISMA_SCHEMA_FILE,
@@ -188,7 +185,7 @@ bootstrapNestApplication({
       }),
     ],
     core: [
-      AuthorizerModule.forRootAsync({
+      SupabaseModule.forRootAsync({
         imports: [
           WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
           AuthModule.forFeature({ featureModuleName: AUTH_FEATURE }),
@@ -199,11 +196,8 @@ bootstrapNestApplication({
           authEnvironments: AuthEnvironments
         ) => {
           return {
-            extraHeaders: {
-              'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
-            },
             checkAccessValidator: async (
-              authorizerUser?: AuthorizerUser,
+              supabaseUser?: SupabaseUser,
               options?: CheckAccessOptions,
               ctx?: ExecutionContext
             ) => {
@@ -216,20 +210,20 @@ bootstrapNestApplication({
                 return true;
               }
 
-              const result = await defaultAuthorizerCheckAccessValidator(
-                authorizerUser,
+              const result = await defaultSupabaseCheckAccessValidator(
+                supabaseUser,
                 options
               );
 
               const req: WebhookRequest & FilesRequest & AuthRequest =
                 ctx && getRequestFromExecutionContext(ctx);
 
-              if (req?.authorizerUser?.id) {
+              if (req?.supabaseUser?.id) {
                 // webhook
                 req.webhookUser =
                   await webhookUsersService.createUserIfNotExists({
-                    externalUserId: req?.authorizerUser?.id,
-                    externalTenantId: req?.authorizerUser?.id,
+                    externalUserId: req?.supabaseUser?.id,
+                    externalTenantId: req?.supabaseUser?.id,
                     userRole:
                       req.authUser?.userRole === 'Admin' ? 'Admin' : 'User',
                   });
@@ -244,13 +238,11 @@ bootstrapNestApplication({
 
                 if (
                   authEnvironments.adminEmail &&
-                  req.authorizerUser?.email === authEnvironments.adminEmail
+                  req.supabaseUser?.email === authEnvironments.adminEmail
                 ) {
                   req.webhookUser.userRole = 'Admin';
 
-                  req.authorizerUser.roles = [
-                    ...new Set([...(req.authorizerUser.roles || []), 'admin']),
-                  ];
+                  req.supabaseUser.role = 'admin';
                 }
 
                 // files
@@ -267,7 +259,6 @@ bootstrapNestApplication({
           };
         },
       }),
-      SupabaseModule.forRoot(),
       PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
         contextName: appFeatureName,
@@ -409,6 +400,7 @@ bootstrapNestApplication({
         staticConfiguration: {
           markdownFile: join(appFolder, 'INFRASTRUCTURE.MD'),
           skipEmptySettings: true,
+          style: 'pretty',
         },
       }),
       Pm2.forRoot({
@@ -427,35 +419,16 @@ bootstrapNestApplication({
       DockerComposePostgreSQL.forFeature({
         featureModuleName: appFeatureName,
       }),
-      DockerComposePostgreSQL.forFeature({
-        featureModuleName: AUTHORIZER_ENV_PREFIX,
-      }),
-      DockerComposeAuthorizer.forRoot({
-        staticConfiguration: {
-          image: 'lakhansamani/authorizer:1.4.4',
-          disableStrongPassword: 'true',
-          disableEmailVerification: 'true',
-          featureName: AUTHORIZER_ENV_PREFIX,
-          organizationName: 'NestJSModFullstack',
-          dependsOnServiceNames: {
-            'postgre-sql': 'service_healthy',
-          },
-          isEmailServiceEnabled: 'true',
-          isSmsServiceEnabled: 'false',
-          env: 'development',
-        },
-      }),
       DockerComposeRedis.forRoot({
         staticConfiguration: { image: 'bitnami/redis:7.4.1' },
       }),
       DockerComposeMinio.forRoot({
         staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
           featureName: appFeatureName,
           migrationsFolder: join(appFolder, 'src', 'migrations'),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
         },
       }),
       DockerComposePostgreSQL.forFeatureAsync({
@@ -468,7 +441,7 @@ bootstrapNestApplication({
           ),
         },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
           featureName: WEBHOOK_FEATURE,
           migrationsFolder: join(
@@ -477,7 +450,6 @@ bootstrapNestApplication({
             'src',
             'migrations'
           ),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
           nxProjectJsonFile: join(
             rootFolder,
             WEBHOOK_FOLDER,
@@ -491,11 +463,10 @@ bootstrapNestApplication({
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
           featureName: AUTH_FEATURE,
           migrationsFolder: join(rootFolder, AUTH_FOLDER, 'src', 'migrations'),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),

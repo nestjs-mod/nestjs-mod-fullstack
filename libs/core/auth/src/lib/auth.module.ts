@@ -1,12 +1,11 @@
 import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
-import { AuthorizerModule } from '@nestjs-mod/authorizer';
-import { KeyvModule } from '@nestjs-mod/keyv';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,
   NestModuleCategory,
 } from '@nestjs-mod/common';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TranslatesModule } from 'nestjs-translates';
@@ -17,12 +16,11 @@ import { AuthExceptionsFilter } from './auth.filter';
 import { AuthGuard } from './auth.guard';
 import { AuthUsersController } from './controllers/auth-users.controller';
 import { AuthController } from './controllers/auth.controller';
-import { AuthorizerController } from './controllers/authorizer.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
-import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-bootstrap.service';
-import { AuthAuthorizerService } from './services/auth-authorizer.service';
 import { AuthCacheService } from './services/auth-cache.service';
+import { AuthSupabaseBootstrapService } from './services/auth-supabase-bootstrap.service';
+import { AuthSupabaseService } from './services/auth-supabase.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
 
 export const { AuthModule } = createNestModule({
@@ -30,7 +28,7 @@ export const { AuthModule } = createNestModule({
   moduleCategory: NestModuleCategory.feature,
   staticEnvironmentsModel: AuthEnvironments,
   imports: [
-    AuthorizerModule.forFeature({
+    SupabaseModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
     SupabaseModule.forFeature({
@@ -48,7 +46,7 @@ export const { AuthModule } = createNestModule({
     }),
     TranslatesModule,
   ],
-  controllers: [AuthorizerController, AuthController, AuthUsersController],
+  controllers: [AuthController, AuthUsersController],
   sharedImports: [
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
@@ -71,8 +69,8 @@ export const { AuthModule } = createNestModule({
     { provide: APP_FILTER, useClass: AuthExceptionsFilter },
     { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor },
     { provide: APP_PIPE, useClass: AuthTimezonePipe },
-    AuthAuthorizerService,
-    AuthAuthorizerBootstrapService,
+    AuthSupabaseService,
+    AuthSupabaseBootstrapService,
   ],
   wrapForRootAsync: (asyncModuleOptions) => {
     if (!asyncModuleOptions) {
