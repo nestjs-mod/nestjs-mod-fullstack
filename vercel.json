@@ -6,11 +6,18 @@
             "use": "@vercel/node"
         }
     ],
-    "buildCommand": "npm run build:vercel:prod",
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "dist/apps/server/main.js"
+            "dest": "dist/apps/server/main.js",
+            "methods": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "OPTIONS"
+            ]
         }
     ]
 }
