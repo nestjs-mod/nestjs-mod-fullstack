@@ -3,6 +3,8 @@
   "version": "0.0.25",
   "license": "MIT",
   "scripts": {
+    "_____vercel_____": "_____vercel_____",
+    "build:vercel:prod": "echo '' > .env && npm run build:prod",
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
     "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run pm2:dev:start",
     "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
