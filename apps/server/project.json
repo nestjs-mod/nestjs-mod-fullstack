@@ -7,6 +7,12 @@
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
+      "inputs": [
+        "production",
+        {
+          "externalDependencies": []
+        }
+      ],
       "outputs": [
         "{options.outputPath}"
       ],
