@@ -24,13 +24,13 @@ export class AuthCacheService {
   }
 
   async getCachedUserByExternalUserId(externalUserId: string) {
-    const cached: AuthUser = await this.keyvService.get(
+    const cached = await this.keyvService.get<AuthUser>(
       this.getUserCacheKey({
         externalUserId,
       })
     );
     if (cached) {
-      return cached;
+      return cached as AuthUser;
     }
     const user = await this.prismaClient.authUser.findFirst({
       where: {

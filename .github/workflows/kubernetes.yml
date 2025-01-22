@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
-      - run: npm install --prefer-offline --no-audit --progress=false
+      - run: yarn install
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: echo '' > .env && npm run generate -- --verbose
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}

@@ -21,8 +21,8 @@ COPY ./.docker/.dockerignore .dockerignore
 RUN echo '' > .env
 
 # Install dependencies
-RUN rm -rf package-lock.json node_modules && \
-    npm install --prefer-offline --no-audit --progress=false && \
+RUN rm -rf yarn.lock node_modules && \
+    yarn install && \
     # Install external utils
     npx playwright install --with-deps && \
     # Clear cache

@@ -27,14 +27,14 @@ export class WebhookCacheService {
     externalUserId: string,
     externalTenantId?: string
   ) {
-    const cached: WebhookUser = await this.keyvService.get(
+    const cached = await this.keyvService.get<WebhookUser>(
       this.getUserCacheKey({
         externalUserId,
         externalTenantId,
       })
     );
     if (cached) {
-      return cached;
+      return cached as WebhookUser;
     }
     const user = await this.prismaClient.webhookUser.findFirst({
       where: {
