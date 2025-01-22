@@ -1,4 +1,10 @@
 {
+    "builds": [
+        {
+            "src": "/apps/server/main.js",
+            "use": "@vercel/node"
+        }
+    ],
     "routes": [
         {
             "src": "/(.*)",
