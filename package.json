@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "_____vercel_____": "_____vercel_____",
-    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && ./node_modules/.bin/nx run-many -p app-rest-sdk server client --all -t=build -c production --parallel=1",
+    "vercel-build": "cp -r vercel.gitignore .gitignore && echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && ./node_modules/.bin/nx run-many -p app-rest-sdk server client --all -t=build -c production --parallel=1",
     "vercel-start": "node dist/apps/server/main.js",
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
     "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run pm2:dev:start",
