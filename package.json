@@ -3,6 +3,8 @@
   "version": "0.0.25",
   "license": "MIT",
   "scripts": {
+    "_____vercel_____": "_____vercel_____",
+    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && ./node_modules/.bin/nx run-many -p app-rest-sdk server client --all -t=build -c production --parallel=1",
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
     "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run pm2:dev:start",
     "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
@@ -24,7 +26,7 @@
     "pm2-full:prod:test:e2e": "export BASE_URL=http://localhost:3000 && npm run test:e2e",
     "_____prod infra_____": "_____prod infra_____",
     "start": "./node_modules/.bin/nx run-many --all -t=start",
-    "build": "echo '' > .env && npm run generate && ./node_modules/.bin/nx run-many -p  app-rest-sdk server client --all -t=build",
+    "build": "npm run generate && ./node_modules/.bin/nx run-many -p  app-rest-sdk server client --all -t=build",
     "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p  app-rest-sdk server client --all -t=build -c production --parallel=1",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
