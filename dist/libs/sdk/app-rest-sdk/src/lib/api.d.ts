@@ -24,7 +24,7 @@ export interface AppData {
      * @type {string}
      * @memberof AppData
      */
-    message: string;
+    'message': string;
 }
 /**
  *
@@ -37,25 +37,25 @@ export interface AppDemo {
      * @type {string}
      * @memberof AppDemo
      */
-    id: string;
+    'id': string;
     /**
      *
      * @type {string}
      * @memberof AppDemo
      */
-    name: string;
+    'name': string;
     /**
      *
      * @type {string}
      * @memberof AppDemo
      */
-    createdAt: string;
+    'createdAt': string;
     /**
      *
      * @type {string}
      * @memberof AppDemo
      */
-    updatedAt: string;
+    'updatedAt': string;
 }
 /**
  *
@@ -68,19 +68,19 @@ export interface AuthControllerProfile400Response {
      * @type {string}
      * @memberof AuthControllerProfile400Response
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {ValidationErrorEnum}
      * @memberof AuthControllerProfile400Response
      */
-    code: ValidationErrorEnum;
+    'code': ValidationErrorEnum;
     /**
      *
      * @type {Array<ValidationErrorMetadata>}
      * @memberof AuthControllerProfile400Response
      */
-    metadata?: Array<ValidationErrorMetadata>;
+    'metadata'?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -93,7 +93,7 @@ export interface AuthEntities {
      * @type {AuthUserScalarFieldEnum}
      * @memberof AuthEntities
      */
-    authUser: AuthUserScalarFieldEnum;
+    'authUser': AuthUserScalarFieldEnum;
 }
 /**
  *
@@ -106,19 +106,19 @@ export interface AuthError {
      * @type {string}
      * @memberof AuthError
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {AuthErrorEnum}
      * @memberof AuthError
      */
-    code: AuthErrorEnum;
+    'code': AuthErrorEnum;
     /**
      *
      * @type {object}
      * @memberof AuthError
      */
-    metadata?: object;
+    'metadata'?: object;
 }
 /**
  *
@@ -130,7 +130,7 @@ export declare const AuthErrorEnum: {
     readonly _001: "AUTH-001";
     readonly _002: "AUTH-002";
 };
-export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
+export type AuthErrorEnum = typeof AuthErrorEnum[keyof typeof AuthErrorEnum];
 /**
  *
  * @export
@@ -142,19 +142,19 @@ export interface AuthProfileDto {
      * @type {number}
      * @memberof AuthProfileDto
      */
-    timezone?: number | null;
+    'timezone'?: number | null;
     /**
      *
      * @type {string}
      * @memberof AuthProfileDto
      */
-    lang?: string | null;
+    'lang'?: string | null;
     /**
      *
      * @type {AuthRole}
      * @memberof AuthProfileDto
      */
-    userRole?: AuthRole | null;
+    'userRole'?: AuthRole | null;
 }
 /**
  *
@@ -165,7 +165,7 @@ export declare const AuthRole: {
     readonly Admin: "Admin";
     readonly User: "User";
 };
-export type AuthRole = (typeof AuthRole)[keyof typeof AuthRole];
+export type AuthRole = typeof AuthRole[keyof typeof AuthRole];
 /**
  *
  * @export
@@ -177,43 +177,43 @@ export interface AuthUser {
      * @type {string}
      * @memberof AuthUser
      */
-    id: string;
+    'id': string;
     /**
      *
      * @type {string}
      * @memberof AuthUser
      */
-    externalUserId: string;
+    'externalUserId': string;
     /**
      *
      * @type {AuthRole}
      * @memberof AuthUser
      */
-    userRole: AuthRole;
+    'userRole': AuthRole;
     /**
      *
      * @type {number}
      * @memberof AuthUser
      */
-    timezone: number | null;
+    'timezone': number | null;
     /**
      *
      * @type {string}
      * @memberof AuthUser
      */
-    createdAt: string;
+    'createdAt': string;
     /**
      *
      * @type {string}
      * @memberof AuthUser
      */
-    updatedAt: string;
+    'updatedAt': string;
     /**
      *
      * @type {string}
      * @memberof AuthUser
      */
-    lang: string | null;
+    'lang': string | null;
 }
 /**
  *
@@ -229,7 +229,7 @@ export declare const AuthUserScalarFieldEnum: {
     readonly UpdatedAt: "updatedAt";
     readonly Lang: "lang";
 };
-export type AuthUserScalarFieldEnum = (typeof AuthUserScalarFieldEnum)[keyof typeof AuthUserScalarFieldEnum];
+export type AuthUserScalarFieldEnum = typeof AuthUserScalarFieldEnum[keyof typeof AuthUserScalarFieldEnum];
 /**
  *
  * @export
@@ -241,37 +241,37 @@ export interface CreateWebhookDto {
      * @type {string}
      * @memberof CreateWebhookDto
      */
-    eventName: string;
+    'eventName': string;
     /**
      *
      * @type {string}
      * @memberof CreateWebhookDto
      */
-    endpoint: string;
+    'endpoint': string;
     /**
      *
      * @type {boolean}
      * @memberof CreateWebhookDto
      */
-    enabled: boolean;
+    'enabled': boolean;
     /**
      *
      * @type {object}
      * @memberof CreateWebhookDto
      */
-    headers?: object | null;
+    'headers'?: object | null;
     /**
      *
      * @type {number}
      * @memberof CreateWebhookDto
      */
-    requestTimeout?: number | null;
+    'requestTimeout'?: number | null;
     /**
      *
      * @type {string}
      * @memberof CreateWebhookDto
      */
-    workUntilDate?: string | null;
+    'workUntilDate'?: string | null;
 }
 /**
  *
@@ -284,19 +284,19 @@ export interface FilesError {
      * @type {string}
      * @memberof FilesError
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {FilesErrorEnum}
      * @memberof FilesError
      */
-    code: FilesErrorEnum;
+    'code': FilesErrorEnum;
     /**
      *
      * @type {object}
      * @memberof FilesError
      */
-    metadata?: object;
+    'metadata'?: object;
 }
 /**
  *
@@ -307,7 +307,7 @@ export declare const FilesErrorEnum: {
     readonly _000: "FILES-000";
     readonly _001: "FILES-001";
 };
-export type FilesErrorEnum = (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
+export type FilesErrorEnum = typeof FilesErrorEnum[keyof typeof FilesErrorEnum];
 /**
  *
  * @export
@@ -319,13 +319,13 @@ export interface FindManyAuthUserResponse {
      * @type {Array<AuthUser>}
      * @memberof FindManyAuthUserResponse
      */
-    authUsers: Array<AuthUser>;
+    'authUsers': Array<AuthUser>;
     /**
      *
      * @type {FindManyResponseMeta}
      * @memberof FindManyAuthUserResponse
      */
-    meta: FindManyResponseMeta;
+    'meta': FindManyResponseMeta;
 }
 /**
  *
@@ -338,19 +338,19 @@ export interface FindManyResponseMeta {
      * @type {number}
      * @memberof FindManyResponseMeta
      */
-    curPage?: number;
+    'curPage'?: number;
     /**
      *
      * @type {number}
      * @memberof FindManyResponseMeta
      */
-    perPage?: number;
+    'perPage'?: number;
     /**
      *
      * @type {number}
      * @memberof FindManyResponseMeta
      */
-    totalResults: number;
+    'totalResults': number;
 }
 /**
  *
@@ -363,13 +363,13 @@ export interface FindManyWebhookLogResponse {
      * @type {Array<WebhookLog>}
      * @memberof FindManyWebhookLogResponse
      */
-    webhookLogs: Array<WebhookLog>;
+    'webhookLogs': Array<WebhookLog>;
     /**
      *
      * @type {FindManyResponseMeta}
      * @memberof FindManyWebhookLogResponse
      */
-    meta: FindManyResponseMeta;
+    'meta': FindManyResponseMeta;
 }
 /**
  *
@@ -382,13 +382,13 @@ export interface FindManyWebhookResponse {
      * @type {Array<Webhook>}
      * @memberof FindManyWebhookResponse
      */
-    webhooks: Array<Webhook>;
+    'webhooks': Array<Webhook>;
     /**
      *
      * @type {FindManyResponseMeta}
      * @memberof FindManyWebhookResponse
      */
-    meta: FindManyResponseMeta;
+    'meta': FindManyResponseMeta;
 }
 /**
  *
@@ -401,13 +401,13 @@ export interface FindManyWebhookUserResponse {
      * @type {Array<WebhookUser>}
      * @memberof FindManyWebhookUserResponse
      */
-    webhookUsers: Array<WebhookUser>;
+    'webhookUsers': Array<WebhookUser>;
     /**
      *
      * @type {FindManyResponseMeta}
      * @memberof FindManyWebhookUserResponse
      */
-    meta: FindManyResponseMeta;
+    'meta': FindManyResponseMeta;
 }
 /**
  *
@@ -420,13 +420,13 @@ export interface PresignedUrls {
      * @type {string}
      * @memberof PresignedUrls
      */
-    downloadUrl: string;
+    'downloadUrl': string;
     /**
      *
      * @type {string}
      * @memberof PresignedUrls
      */
-    uploadUrl: string;
+    'uploadUrl': string;
 }
 /**
  *
@@ -439,7 +439,7 @@ export interface StatusResponse {
      * @type {string}
      * @memberof StatusResponse
      */
-    message: string;
+    'message': string;
 }
 /**
  *
@@ -452,13 +452,13 @@ export interface TerminusHealthCheckControllerCheck200Response {
      * @type {string}
      * @memberof TerminusHealthCheckControllerCheck200Response
      */
-    status?: string;
+    'status'?: string;
     /**
      *
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck200Response
      */
-    info?: {
+    'info'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     } | null;
     /**
@@ -466,7 +466,7 @@ export interface TerminusHealthCheckControllerCheck200Response {
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck200Response
      */
-    error?: {
+    'error'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     } | null;
     /**
@@ -474,7 +474,7 @@ export interface TerminusHealthCheckControllerCheck200Response {
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck200Response
      */
-    details?: {
+    'details'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     };
 }
@@ -490,7 +490,7 @@ export interface TerminusHealthCheckControllerCheck200ResponseInfoValue {
      * @type {string}
      * @memberof TerminusHealthCheckControllerCheck200ResponseInfoValue
      */
-    status: string;
+    'status': string;
 }
 /**
  *
@@ -503,13 +503,13 @@ export interface TerminusHealthCheckControllerCheck503Response {
      * @type {string}
      * @memberof TerminusHealthCheckControllerCheck503Response
      */
-    status?: string;
+    'status'?: string;
     /**
      *
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck503Response
      */
-    info?: {
+    'info'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     } | null;
     /**
@@ -517,7 +517,7 @@ export interface TerminusHealthCheckControllerCheck503Response {
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck503Response
      */
-    error?: {
+    'error'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     } | null;
     /**
@@ -525,7 +525,7 @@ export interface TerminusHealthCheckControllerCheck503Response {
      * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
      * @memberof TerminusHealthCheckControllerCheck503Response
      */
-    details?: {
+    'details'?: {
         [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
     };
 }
@@ -540,25 +540,25 @@ export interface UpdateAuthUserDto {
      * @type {string}
      * @memberof UpdateAuthUserDto
      */
-    externalUserId?: string;
+    'externalUserId'?: string;
     /**
      *
      * @type {AuthRole}
      * @memberof UpdateAuthUserDto
      */
-    userRole?: AuthRole;
+    'userRole'?: AuthRole;
     /**
      *
      * @type {number}
      * @memberof UpdateAuthUserDto
      */
-    timezone?: number | null;
+    'timezone'?: number | null;
     /**
      *
      * @type {string}
      * @memberof UpdateAuthUserDto
      */
-    lang?: string | null;
+    'lang'?: string | null;
 }
 /**
  *
@@ -571,37 +571,37 @@ export interface UpdateWebhookDto {
      * @type {string}
      * @memberof UpdateWebhookDto
      */
-    eventName?: string;
+    'eventName'?: string;
     /**
      *
      * @type {string}
      * @memberof UpdateWebhookDto
      */
-    endpoint?: string;
+    'endpoint'?: string;
     /**
      *
      * @type {boolean}
      * @memberof UpdateWebhookDto
      */
-    enabled?: boolean;
+    'enabled'?: boolean;
     /**
      *
      * @type {object}
      * @memberof UpdateWebhookDto
      */
-    headers?: object | null;
+    'headers'?: object | null;
     /**
      *
      * @type {number}
      * @memberof UpdateWebhookDto
      */
-    requestTimeout?: number | null;
+    'requestTimeout'?: number | null;
     /**
      *
      * @type {string}
      * @memberof UpdateWebhookDto
      */
-    workUntilDate?: string | null;
+    'workUntilDate'?: string | null;
 }
 /**
  *
@@ -614,19 +614,19 @@ export interface UpdateWebhookUserDto {
      * @type {string}
      * @memberof UpdateWebhookUserDto
      */
-    externalTenantId?: string;
+    'externalTenantId'?: string;
     /**
      *
      * @type {string}
      * @memberof UpdateWebhookUserDto
      */
-    externalUserId?: string;
+    'externalUserId'?: string;
     /**
      *
      * @type {WebhookRole}
      * @memberof UpdateWebhookUserDto
      */
-    userRole?: WebhookRole;
+    'userRole'?: WebhookRole;
 }
 /**
  *
@@ -639,19 +639,19 @@ export interface ValidationError {
      * @type {string}
      * @memberof ValidationError
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {ValidationErrorEnum}
      * @memberof ValidationError
      */
-    code: ValidationErrorEnum;
+    'code': ValidationErrorEnum;
     /**
      *
      * @type {Array<ValidationErrorMetadata>}
      * @memberof ValidationError
      */
-    metadata?: Array<ValidationErrorMetadata>;
+    'metadata'?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -661,7 +661,7 @@ export interface ValidationError {
 export declare const ValidationErrorEnum: {
     readonly Validation000: "VALIDATION-000";
 };
-export type ValidationErrorEnum = (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
+export type ValidationErrorEnum = typeof ValidationErrorEnum[keyof typeof ValidationErrorEnum];
 /**
  *
  * @export
@@ -673,19 +673,19 @@ export interface ValidationErrorMetadata {
      * @type {string}
      * @memberof ValidationErrorMetadata
      */
-    property: string;
+    'property': string;
     /**
      *
      * @type {Array<ValidationErrorMetadataConstraint>}
      * @memberof ValidationErrorMetadata
      */
-    constraints: Array<ValidationErrorMetadataConstraint>;
+    'constraints': Array<ValidationErrorMetadataConstraint>;
     /**
      *
      * @type {Array<ValidationErrorMetadata>}
      * @memberof ValidationErrorMetadata
      */
-    children?: Array<ValidationErrorMetadata>;
+    'children'?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -698,13 +698,13 @@ export interface ValidationErrorMetadataConstraint {
      * @type {string}
      * @memberof ValidationErrorMetadataConstraint
      */
-    name: string;
+    'name': string;
     /**
      *
      * @type {string}
      * @memberof ValidationErrorMetadataConstraint
      */
-    description: string;
+    'description': string;
 }
 /**
  *
@@ -717,91 +717,91 @@ export interface Webhook {
      * @type {string}
      * @memberof Webhook
      */
-    id: string;
+    'id': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    eventName: string;
+    'eventName': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    endpoint: string;
+    'endpoint': string;
     /**
      *
      * @type {boolean}
      * @memberof Webhook
      */
-    enabled: boolean;
+    'enabled': boolean;
     /**
      *
      * @type {object}
      * @memberof Webhook
      */
-    headers: object | null;
+    'headers': object | null;
     /**
      *
      * @type {number}
      * @memberof Webhook
      */
-    requestTimeout: number | null;
+    'requestTimeout': number | null;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    externalTenantId: string;
+    'externalTenantId': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    createdBy: string;
+    'createdBy': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    updatedBy: string;
+    'updatedBy': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    createdAt: string;
+    'createdAt': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    updatedAt: string;
+    'updatedAt': string;
     /**
      *
      * @type {string}
      * @memberof Webhook
      */
-    workUntilDate: string | null;
+    'workUntilDate': string | null;
     /**
      *
      * @type {WebhookUser}
      * @memberof Webhook
      */
-    WebhookUser_Webhook_createdByToWebhookUser?: WebhookUser;
+    'WebhookUser_Webhook_createdByToWebhookUser'?: WebhookUser;
     /**
      *
      * @type {WebhookUser}
      * @memberof Webhook
      */
-    WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUser;
+    'WebhookUser_Webhook_updatedByToWebhookUser'?: WebhookUser;
     /**
      *
      * @type {Array<WebhookLog>}
      * @memberof Webhook
      */
-    WebhookLog?: Array<WebhookLog>;
+    'WebhookLog'?: Array<WebhookLog>;
 }
 /**
  *
@@ -814,19 +814,19 @@ export interface WebhookEntities {
      * @type {WebhookScalarFieldEnum}
      * @memberof WebhookEntities
      */
-    webhook: WebhookScalarFieldEnum;
+    'webhook': WebhookScalarFieldEnum;
     /**
      *
      * @type {WebhookLogScalarFieldEnum}
      * @memberof WebhookEntities
      */
-    webhookLog: WebhookLogScalarFieldEnum;
+    'webhookLog': WebhookLogScalarFieldEnum;
     /**
      *
      * @type {WebhookUserScalarFieldEnum}
      * @memberof WebhookEntities
      */
-    webhookUser: WebhookUserScalarFieldEnum;
+    'webhookUser': WebhookUserScalarFieldEnum;
 }
 /**
  *
@@ -839,19 +839,19 @@ export interface WebhookError {
      * @type {string}
      * @memberof WebhookError
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {WebhookErrorEnum}
      * @memberof WebhookError
      */
-    code: WebhookErrorEnum;
+    'code': WebhookErrorEnum;
     /**
      *
      * @type {object}
      * @memberof WebhookError
      */
-    metadata?: object;
+    'metadata'?: object;
 }
 /**
  *
@@ -866,7 +866,7 @@ export declare const WebhookErrorEnum: {
     readonly _004: "WEBHOOK-004";
     readonly _005: "WEBHOOK-005";
 };
-export type WebhookErrorEnum = (typeof WebhookErrorEnum)[keyof typeof WebhookErrorEnum];
+export type WebhookErrorEnum = typeof WebhookErrorEnum[keyof typeof WebhookErrorEnum];
 /**
  *
  * @export
@@ -878,19 +878,19 @@ export interface WebhookEvent {
      * @type {string}
      * @memberof WebhookEvent
      */
-    eventName: string;
+    'eventName': string;
     /**
      *
      * @type {string}
      * @memberof WebhookEvent
      */
-    description: string;
+    'description': string;
     /**
      *
      * @type {object}
      * @memberof WebhookEvent
      */
-    example: object;
+    'example': object;
 }
 /**
  *
@@ -903,61 +903,61 @@ export interface WebhookLog {
      * @type {string}
      * @memberof WebhookLog
      */
-    id: string;
+    'id': string;
     /**
      *
      * @type {object}
      * @memberof WebhookLog
      */
-    request: object;
+    'request': object;
     /**
      *
      * @type {string}
      * @memberof WebhookLog
      */
-    responseStatus: string;
+    'responseStatus': string;
     /**
      *
      * @type {object}
      * @memberof WebhookLog
      */
-    response: object | null;
+    'response': object | null;
     /**
      *
      * @type {WebhookStatus}
      * @memberof WebhookLog
      */
-    webhookStatus: WebhookStatus;
+    'webhookStatus': WebhookStatus;
     /**
      *
      * @type {string}
      * @memberof WebhookLog
      */
-    webhookId: string;
+    'webhookId': string;
     /**
      *
      * @type {string}
      * @memberof WebhookLog
      */
-    externalTenantId: string;
+    'externalTenantId': string;
     /**
      *
      * @type {string}
      * @memberof WebhookLog
      */
-    createdAt: string;
+    'createdAt': string;
     /**
      *
      * @type {string}
      * @memberof WebhookLog
      */
-    updatedAt: string;
+    'updatedAt': string;
     /**
      *
      * @type {Webhook}
      * @memberof WebhookLog
      */
-    Webhook?: Webhook;
+    'Webhook'?: Webhook;
 }
 /**
  *
@@ -975,7 +975,7 @@ export declare const WebhookLogScalarFieldEnum: {
     readonly CreatedAt: "createdAt";
     readonly UpdatedAt: "updatedAt";
 };
-export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
+export type WebhookLogScalarFieldEnum = typeof WebhookLogScalarFieldEnum[keyof typeof WebhookLogScalarFieldEnum];
 /**
  *
  * @export
@@ -985,7 +985,7 @@ export declare const WebhookRole: {
     readonly Admin: "Admin";
     readonly User: "User";
 };
-export type WebhookRole = (typeof WebhookRole)[keyof typeof WebhookRole];
+export type WebhookRole = typeof WebhookRole[keyof typeof WebhookRole];
 /**
  *
  * @export
@@ -1005,7 +1005,7 @@ export declare const WebhookScalarFieldEnum: {
     readonly UpdatedAt: "updatedAt";
     readonly WorkUntilDate: "workUntilDate";
 };
-export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
+export type WebhookScalarFieldEnum = typeof WebhookScalarFieldEnum[keyof typeof WebhookScalarFieldEnum];
 /**
  *
  * @export
@@ -1018,7 +1018,7 @@ export declare const WebhookStatus: {
     readonly Error: "Error";
     readonly Timeout: "Timeout";
 };
-export type WebhookStatus = (typeof WebhookStatus)[keyof typeof WebhookStatus];
+export type WebhookStatus = typeof WebhookStatus[keyof typeof WebhookStatus];
 /**
  *
  * @export
@@ -1030,49 +1030,49 @@ export interface WebhookUser {
      * @type {string}
      * @memberof WebhookUser
      */
-    id: string;
+    'id': string;
     /**
      *
      * @type {string}
      * @memberof WebhookUser
      */
-    externalTenantId: string;
+    'externalTenantId': string;
     /**
      *
      * @type {string}
      * @memberof WebhookUser
      */
-    externalUserId: string;
+    'externalUserId': string;
     /**
      *
      * @type {WebhookRole}
      * @memberof WebhookUser
      */
-    userRole: WebhookRole;
+    'userRole': WebhookRole;
     /**
      *
      * @type {string}
      * @memberof WebhookUser
      */
-    createdAt: string;
+    'createdAt': string;
     /**
      *
      * @type {string}
      * @memberof WebhookUser
      */
-    updatedAt: string;
+    'updatedAt': string;
     /**
      *
      * @type {Array<Webhook>}
      * @memberof WebhookUser
      */
-    Webhook_Webhook_createdByToWebhookUser?: Array<Webhook>;
+    'Webhook_Webhook_createdByToWebhookUser'?: Array<Webhook>;
     /**
      *
      * @type {Array<Webhook>}
      * @memberof WebhookUser
      */
-    Webhook_Webhook_updatedByToWebhookUser?: Array<Webhook>;
+    'Webhook_Webhook_updatedByToWebhookUser'?: Array<Webhook>;
 }
 /**
  *
@@ -1087,7 +1087,7 @@ export declare const WebhookUserScalarFieldEnum: {
     readonly CreatedAt: "createdAt";
     readonly UpdatedAt: "updatedAt";
 };
-export type WebhookUserScalarFieldEnum = (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
+export type WebhookUserScalarFieldEnum = typeof WebhookUserScalarFieldEnum[keyof typeof WebhookUserScalarFieldEnum];
 /**
  *
  * @export
@@ -1099,19 +1099,19 @@ export interface WebhookUsersControllerFindMany400Response {
      * @type {string}
      * @memberof WebhookUsersControllerFindMany400Response
      */
-    message: string;
+    'message': string;
     /**
      *
      * @type {ValidationErrorEnum}
      * @memberof WebhookUsersControllerFindMany400Response
      */
-    code: ValidationErrorEnum;
+    'code': ValidationErrorEnum;
     /**
      *
      * @type {Array<ValidationErrorMetadata>}
      * @memberof WebhookUsersControllerFindMany400Response
      */
-    metadata?: Array<ValidationErrorMetadata>;
+    'metadata'?: Array<ValidationErrorMetadata>;
 }
 /**
  * AppApi - axios parameter creator

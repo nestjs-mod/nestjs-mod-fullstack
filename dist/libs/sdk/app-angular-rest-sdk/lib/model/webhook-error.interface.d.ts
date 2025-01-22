@@ -17,4 +17,5 @@ export interface WebhookErrorInterface {
     code: WebhookErrorEnumInterface;
     metadata?: object;
 }
-export declare namespace WebhookErrorInterface { }
+export declare namespace WebhookErrorInterface {
+}

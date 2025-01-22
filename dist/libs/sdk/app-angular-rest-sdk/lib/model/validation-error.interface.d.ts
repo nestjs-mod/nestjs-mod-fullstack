@@ -18,4 +18,5 @@ export interface ValidationErrorInterface {
     code: ValidationErrorEnumInterface;
     metadata?: Array<ValidationErrorMetadataInterface>;
 }
-export declare namespace ValidationErrorInterface { }
+export declare namespace ValidationErrorInterface {
+}

@@ -12,4 +12,5 @@ import { AuthUserScalarFieldEnumInterface } from './auth-user-scalar-field-enum.
 export interface AuthEntitiesInterface {
     authUser: AuthUserScalarFieldEnumInterface;
 }
-export declare namespace AuthEntitiesInterface { }
+export declare namespace AuthEntitiesInterface {
+}

@@ -17,4 +17,5 @@ export interface FilesErrorInterface {
     code: FilesErrorEnumInterface;
     metadata?: object;
 }
-export declare namespace FilesErrorInterface { }
+export declare namespace FilesErrorInterface {
+}

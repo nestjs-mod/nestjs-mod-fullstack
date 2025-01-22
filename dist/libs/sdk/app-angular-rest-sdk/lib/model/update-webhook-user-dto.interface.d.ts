@@ -14,4 +14,5 @@ export interface UpdateWebhookUserDtoInterface {
     externalUserId?: string;
     userRole?: WebhookRoleInterface;
 }
-export declare namespace UpdateWebhookUserDtoInterface { }
+export declare namespace UpdateWebhookUserDtoInterface {
+}

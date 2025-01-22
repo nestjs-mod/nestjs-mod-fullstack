@@ -15,4 +15,5 @@ export interface UpdateAuthUserDtoInterface {
     timezone?: number | null;
     lang?: string | null;
 }
-export declare namespace UpdateAuthUserDtoInterface { }
+export declare namespace UpdateAuthUserDtoInterface {
+}

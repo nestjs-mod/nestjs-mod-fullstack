@@ -18,4 +18,5 @@ export interface AuthControllerProfile400ResponseInterface {
     code: ValidationErrorEnumInterface;
     metadata?: Array<ValidationErrorMetadataInterface>;
 }
-export declare namespace AuthControllerProfile400ResponseInterface { }
+export declare namespace AuthControllerProfile400ResponseInterface {
+}

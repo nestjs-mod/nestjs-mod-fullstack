@@ -20,4 +20,5 @@ export interface WebhookUserInterface {
     Webhook_Webhook_createdByToWebhookUser?: Array<WebhookInterface>;
     Webhook_Webhook_updatedByToWebhookUser?: Array<WebhookInterface>;
 }
-export declare namespace WebhookUserInterface { }
+export declare namespace WebhookUserInterface {
+}

@@ -18,4 +18,5 @@ export interface WebhookUsersControllerFindMany400ResponseInterface {
     code: ValidationErrorEnumInterface;
     metadata?: Array<ValidationErrorMetadataInterface>;
 }
-export declare namespace WebhookUsersControllerFindMany400ResponseInterface { }
+export declare namespace WebhookUsersControllerFindMany400ResponseInterface {
+}

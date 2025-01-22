@@ -16,4 +16,5 @@ export interface WebhookEntitiesInterface {
     webhookLog: WebhookLogScalarFieldEnumInterface;
     webhookUser: WebhookUserScalarFieldEnumInterface;
 }
-export declare namespace WebhookEntitiesInterface { }
+export declare namespace WebhookEntitiesInterface {
+}

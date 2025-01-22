@@ -14,4 +14,5 @@ export interface AuthProfileDtoInterface {
     lang?: string | null;
     userRole?: AuthRoleInterface | null;
 }
-export declare namespace AuthProfileDtoInterface { }
+export declare namespace AuthProfileDtoInterface {
+}

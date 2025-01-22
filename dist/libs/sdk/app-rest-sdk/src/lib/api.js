@@ -29,7 +29,7 @@ const base_1 = require("./base");
 exports.AuthErrorEnum = {
     _000: 'AUTH-000',
     _001: 'AUTH-001',
-    _002: 'AUTH-002',
+    _002: 'AUTH-002'
 };
 /**
  *
@@ -38,7 +38,7 @@ exports.AuthErrorEnum = {
  */
 exports.AuthRole = {
     Admin: 'Admin',
-    User: 'User',
+    User: 'User'
 };
 /**
  *
@@ -52,7 +52,7 @@ exports.AuthUserScalarFieldEnum = {
     Timezone: 'timezone',
     CreatedAt: 'createdAt',
     UpdatedAt: 'updatedAt',
-    Lang: 'lang',
+    Lang: 'lang'
 };
 /**
  *
@@ -61,7 +61,7 @@ exports.AuthUserScalarFieldEnum = {
  */
 exports.FilesErrorEnum = {
     _000: 'FILES-000',
-    _001: 'FILES-001',
+    _001: 'FILES-001'
 };
 /**
  *
@@ -69,7 +69,7 @@ exports.FilesErrorEnum = {
  * @enum {string}
  */
 exports.ValidationErrorEnum = {
-    Validation000: 'VALIDATION-000',
+    Validation000: 'VALIDATION-000'
 };
 /**
  *
@@ -82,7 +82,7 @@ exports.WebhookErrorEnum = {
     _002: 'WEBHOOK-002',
     _003: 'WEBHOOK-003',
     _004: 'WEBHOOK-004',
-    _005: 'WEBHOOK-005',
+    _005: 'WEBHOOK-005'
 };
 /**
  *
@@ -98,7 +98,7 @@ exports.WebhookLogScalarFieldEnum = {
     WebhookId: 'webhookId',
     ExternalTenantId: 'externalTenantId',
     CreatedAt: 'createdAt',
-    UpdatedAt: 'updatedAt',
+    UpdatedAt: 'updatedAt'
 };
 /**
  *
@@ -107,7 +107,7 @@ exports.WebhookLogScalarFieldEnum = {
  */
 exports.WebhookRole = {
     Admin: 'Admin',
-    User: 'User',
+    User: 'User'
 };
 /**
  *
@@ -126,7 +126,7 @@ exports.WebhookScalarFieldEnum = {
     UpdatedBy: 'updatedBy',
     CreatedAt: 'createdAt',
     UpdatedAt: 'updatedAt',
-    WorkUntilDate: 'workUntilDate',
+    WorkUntilDate: 'workUntilDate'
 };
 /**
  *
@@ -138,7 +138,7 @@ exports.WebhookStatus = {
     Process: 'Process',
     Success: 'Success',
     Error: 'Error',
-    Timeout: 'Timeout',
+    Timeout: 'Timeout'
 };
 /**
  *
@@ -151,7 +151,7 @@ exports.WebhookUserScalarFieldEnum = {
     ExternalUserId: 'externalUserId',
     UserRole: 'userRole',
     CreatedAt: 'createdAt',
-    UpdatedAt: 'updatedAt',
+    UpdatedAt: 'updatedAt'
 };
 /**
  * AppApi - axios parameter creator
@@ -172,20 +172,12 @@ const AppApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'POST',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -200,27 +192,20 @@ const AppApiAxiosParamCreator = function (configuration) {
         appControllerDemoDeleteOne: async (id, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('appControllerDemoDeleteOne', 'id', id);
-            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/demo/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'DELETE',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -239,20 +224,12 @@ const AppApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -267,27 +244,20 @@ const AppApiAxiosParamCreator = function (configuration) {
         appControllerDemoFindOne: async (id, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('appControllerDemoFindOne', 'id', id);
-            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/demo/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -302,27 +272,20 @@ const AppApiAxiosParamCreator = function (configuration) {
         appControllerDemoUpdateOne: async (id, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('appControllerDemoUpdateOne', 'id', id);
-            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/demo/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'PUT',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -341,20 +304,12 @@ const AppApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -455,9 +410,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerDemoCreateOne(options) {
-            return localVarFp
-                .appControllerDemoCreateOne(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerDemoCreateOne(options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -466,9 +419,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerDemoDeleteOne(id, options) {
-            return localVarFp
-                .appControllerDemoDeleteOne(id, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerDemoDeleteOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -476,9 +427,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerDemoFindMany(options) {
-            return localVarFp
-                .appControllerDemoFindMany(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerDemoFindMany(options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -487,9 +436,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerDemoFindOne(id, options) {
-            return localVarFp
-                .appControllerDemoFindOne(id, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerDemoFindOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -498,9 +445,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerDemoUpdateOne(id, options) {
-            return localVarFp
-                .appControllerDemoUpdateOne(id, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerDemoUpdateOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -508,9 +453,7 @@ const AppApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         appControllerGetData(options) {
-            return localVarFp
-                .appControllerGetData(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.appControllerGetData(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -529,9 +472,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerDemoCreateOne(options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerDemoCreateOne(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerDemoCreateOne(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -541,9 +482,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerDemoDeleteOne(id, options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerDemoDeleteOne(id, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerDemoDeleteOne(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -552,9 +491,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerDemoFindMany(options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerDemoFindMany(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerDemoFindMany(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -564,9 +501,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerDemoFindOne(id, options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerDemoFindOne(id, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerDemoFindOne(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -576,9 +511,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerDemoUpdateOne(id, options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerDemoUpdateOne(id, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerDemoUpdateOne(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -587,9 +520,7 @@ class AppApi extends base_1.BaseAPI {
      * @memberof AppApi
      */
     appControllerGetData(options) {
-        return (0, exports.AppApiFp)(this.configuration)
-            .appControllerGetData(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AppApiFp)(this.configuration).appControllerGetData(options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.AppApi = AppApi;
@@ -612,20 +543,12 @@ const AuthApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -647,21 +570,13 @@ const AuthApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'POST',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             localVarHeaderParameter['Content-Type'] = 'application/json';
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(authProfileDto, localVarRequestOptions, configuration);
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
@@ -677,27 +592,20 @@ const AuthApiAxiosParamCreator = function (configuration) {
         authUsersControllerDeleteOne: async (id, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('authUsersControllerDeleteOne', 'id', id);
-            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/auth/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'DELETE',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -720,11 +628,7 @@ const AuthApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (curPage !== undefined) {
@@ -741,11 +645,7 @@ const AuthApiAxiosParamCreator = function (configuration) {
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -760,27 +660,20 @@ const AuthApiAxiosParamCreator = function (configuration) {
         authUsersControllerFindOne: async (id, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('authUsersControllerFindOne', 'id', id);
-            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/auth/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -798,28 +691,21 @@ const AuthApiAxiosParamCreator = function (configuration) {
             (0, common_1.assertParamExists)('authUsersControllerUpdateOne', 'id', id);
             // verify required parameter 'updateAuthUserDto' is not null or undefined
             (0, common_1.assertParamExists)('authUsersControllerUpdateOne', 'updateAuthUserDto', updateAuthUserDto);
-            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/auth/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'PUT',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             localVarHeaderParameter['Content-Type'] = 'application/json';
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateAuthUserDto, localVarRequestOptions, configuration);
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
@@ -927,9 +813,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authControllerProfile(options) {
-            return localVarFp
-                .authControllerProfile(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authControllerProfile(options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -938,9 +822,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authControllerUpdateProfile(authProfileDto, options) {
-            return localVarFp
-                .authControllerUpdateProfile(authProfileDto, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authControllerUpdateProfile(authProfileDto, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -949,9 +831,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authUsersControllerDeleteOne(id, options) {
-            return localVarFp
-                .authUsersControllerDeleteOne(id, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authUsersControllerDeleteOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -963,9 +843,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
-            return localVarFp
-                .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authUsersControllerFindMany(curPage, perPage, searchText, sort, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -974,9 +852,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authUsersControllerFindOne(id, options) {
-            return localVarFp
-                .authUsersControllerFindOne(id, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authUsersControllerFindOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -986,9 +862,7 @@ const AuthApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
-            return localVarFp
-                .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.authUsersControllerUpdateOne(id, updateAuthUserDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1007,9 +881,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authControllerProfile(options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authControllerProfile(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authControllerProfile(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1019,9 +891,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authControllerUpdateProfile(authProfileDto, options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authControllerUpdateProfile(authProfileDto, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authControllerUpdateProfile(authProfileDto, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1031,9 +901,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authUsersControllerDeleteOne(id, options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authUsersControllerDeleteOne(id, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authUsersControllerDeleteOne(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1046,9 +914,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authUsersControllerFindMany(curPage, perPage, searchText, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1058,9 +924,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authUsersControllerFindOne(id, options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authUsersControllerFindOne(id, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authUsersControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1071,9 +935,7 @@ class AuthApi extends base_1.BaseAPI {
      * @memberof AuthApi
      */
     authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
-        return (0, exports.AuthApiFp)(this.configuration)
-            .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.AuthApiFp)(this.configuration).authUsersControllerUpdateOne(id, updateAuthUserDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.AuthApi = AuthApi;
@@ -1099,11 +961,7 @@ const FilesApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'POST',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (downloadUrl !== undefined) {
@@ -1111,11 +969,7 @@ const FilesApiAxiosParamCreator = function (configuration) {
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1137,11 +991,7 @@ const FilesApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (ext !== undefined) {
@@ -1149,11 +999,7 @@ const FilesApiAxiosParamCreator = function (configuration) {
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1210,9 +1056,7 @@ const FilesApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         filesControllerDeleteFile(downloadUrl, options) {
-            return localVarFp
-                .filesControllerDeleteFile(downloadUrl, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.filesControllerDeleteFile(downloadUrl, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -1221,9 +1065,7 @@ const FilesApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         filesControllerGetPresignedUrl(ext, options) {
-            return localVarFp
-                .filesControllerGetPresignedUrl(ext, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.filesControllerGetPresignedUrl(ext, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1243,9 +1085,7 @@ class FilesApi extends base_1.BaseAPI {
      * @memberof FilesApi
      */
     filesControllerDeleteFile(downloadUrl, options) {
-        return (0, exports.FilesApiFp)(this.configuration)
-            .filesControllerDeleteFile(downloadUrl, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.FilesApiFp)(this.configuration).filesControllerDeleteFile(downloadUrl, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -1255,9 +1095,7 @@ class FilesApi extends base_1.BaseAPI {
      * @memberof FilesApi
      */
     filesControllerGetPresignedUrl(ext, options) {
-        return (0, exports.FilesApiFp)(this.configuration)
-            .filesControllerGetPresignedUrl(ext, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.FilesApiFp)(this.configuration).filesControllerGetPresignedUrl(ext, options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.FilesApi = FilesApi;
@@ -1280,20 +1118,12 @@ const TerminusHealthCheckApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1336,9 +1166,7 @@ const TerminusHealthCheckApiFactory = function (configuration, basePath, axios) 
          * @throws {RequiredError}
          */
         terminusHealthCheckControllerCheck(options) {
-            return localVarFp
-                .terminusHealthCheckControllerCheck(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.terminusHealthCheckControllerCheck(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1357,9 +1185,7 @@ class TerminusHealthCheckApi extends base_1.BaseAPI {
      * @memberof TerminusHealthCheckApi
      */
     terminusHealthCheckControllerCheck(options) {
-        return (0, exports.TerminusHealthCheckApiFp)(this.configuration)
-            .terminusHealthCheckControllerCheck(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.TerminusHealthCheckApiFp)(this.configuration).terminusHealthCheckControllerCheck(options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.TerminusHealthCheckApi = TerminusHealthCheckApi;
@@ -1382,20 +1208,12 @@ const TimeApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1438,9 +1256,7 @@ const TimeApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         timeControllerTime(options) {
-            return localVarFp
-                .timeControllerTime(options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.timeControllerTime(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1459,9 +1275,7 @@ class TimeApi extends base_1.BaseAPI {
      * @memberof TimeApi
      */
     timeControllerTime(options) {
-        return (0, exports.TimeApiFp)(this.configuration)
-            .timeControllerTime(options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.TimeApiFp)(this.configuration).timeControllerTime(options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.TimeApi = TimeApi;
@@ -1489,28 +1303,19 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'POST',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             localVarHeaderParameter['Content-Type'] = 'application/json';
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(createWebhookDto, localVarRequestOptions, configuration);
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
@@ -1528,34 +1333,26 @@ const WebhookApiAxiosParamCreator = function (configuration) {
         webhookControllerDeleteOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('webhookControllerDeleteOne', 'id', id);
-            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'DELETE',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1576,27 +1373,18 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1621,11 +1409,7 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (curPage !== undefined) {
@@ -1644,16 +1428,11 @@ const WebhookApiAxiosParamCreator = function (configuration) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1674,18 +1453,15 @@ const WebhookApiAxiosParamCreator = function (configuration) {
         webhookControllerFindManyLogs: async (id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('webhookControllerFindManyLogs', 'id', id);
-            const localVarPath = `/api/webhook/{id}/logs`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/{id}/logs`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (curPage !== undefined) {
@@ -1704,16 +1480,11 @@ const WebhookApiAxiosParamCreator = function (configuration) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1730,34 +1501,26 @@ const WebhookApiAxiosParamCreator = function (configuration) {
         webhookControllerFindOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('webhookControllerFindOne', 'id', id);
-            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1778,27 +1541,18 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1818,35 +1572,27 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             (0, common_1.assertParamExists)('webhookControllerUpdateOne', 'id', id);
             // verify required parameter 'updateWebhookDto' is not null or undefined
             (0, common_1.assertParamExists)('webhookControllerUpdateOne', 'updateWebhookDto', updateWebhookDto);
-            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'PUT',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             localVarHeaderParameter['Content-Type'] = 'application/json';
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateWebhookDto, localVarRequestOptions, configuration);
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
@@ -1864,34 +1610,26 @@ const WebhookApiAxiosParamCreator = function (configuration) {
         webhookUsersControllerDeleteOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('webhookUsersControllerDeleteOne', 'id', id);
-            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'DELETE',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1916,11 +1654,7 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (curPage !== undefined) {
@@ -1939,16 +1673,11 @@ const WebhookApiAxiosParamCreator = function (configuration) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -1965,34 +1694,26 @@ const WebhookApiAxiosParamCreator = function (configuration) {
         webhookUsersControllerFindOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
             // verify required parameter 'id' is not null or undefined
             (0, common_1.assertParamExists)('webhookUsersControllerFindOne', 'id', id);
-            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'GET',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -2012,35 +1733,27 @@ const WebhookApiAxiosParamCreator = function (configuration) {
             (0, common_1.assertParamExists)('webhookUsersControllerUpdateOne', 'id', id);
             // verify required parameter 'updateWebhookUserDto' is not null or undefined
             (0, common_1.assertParamExists)('webhookUsersControllerUpdateOne', 'updateWebhookUserDto', updateWebhookUserDto);
-            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/webhook/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions = {
-                method: 'PUT',
-                ...baseOptions,
-                ...options,
-            };
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             if (xExternalUserId != null) {
                 localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
             }
             if (xExternalTenantId != null) {
-                localVarHeaderParameter['x-external-tenant-id'] =
-                    String(xExternalTenantId);
+                localVarHeaderParameter['x-external-tenant-id'] = String(xExternalTenantId);
             }
             localVarHeaderParameter['Content-Type'] = 'application/json';
             (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
             localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateWebhookUserDto, localVarRequestOptions, configuration);
             return {
                 url: (0, common_1.toPathString)(localVarUrlObj),
@@ -2254,9 +1967,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2267,9 +1978,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2279,9 +1988,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerEvents(xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2295,9 +2002,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-            return localVarFp
-                .webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2312,9 +2017,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-            return localVarFp
-                .webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2325,9 +2028,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2337,9 +2038,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerProfile(xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2351,9 +2050,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2364,9 +2061,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2380,9 +2075,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-            return localVarFp
-                .webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2393,9 +2086,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -2407,9 +2098,7 @@ const WebhookApiFactory = function (configuration, basePath, axios) {
          * @throws {RequiredError}
          */
         webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options) {
-            return localVarFp
-                .webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options)
-                .then((request) => request(axios, basePath));
+            return localVarFp.webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2431,9 +2120,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2445,9 +2132,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2458,9 +2143,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerEvents(xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2475,9 +2158,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2493,9 +2174,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2507,9 +2186,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2520,9 +2197,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerProfile(xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2535,9 +2210,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2549,9 +2222,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2566,9 +2237,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2580,9 +2249,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      *
@@ -2595,9 +2262,7 @@ class WebhookApi extends base_1.BaseAPI {
      * @memberof WebhookApi
      */
     webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options) {
-        return (0, exports.WebhookApiFp)(this.configuration)
-            .webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options)
-            .then((request) => request(this.axios, this.basePath));
+        return (0, exports.WebhookApiFp)(this.configuration).webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 exports.WebhookApi = WebhookApi;

@@ -3011,15 +3011,15 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/common@2.17.2":
-  version "2.17.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/common/-/common-2.17.2.tgz#8ac67ef7d43994f1831bdce8abf2fc8e8782baf1"
-  integrity sha512-mENc1nmA4jyP1V/yuDJ+FVtH7MM7Nr190WRpGnM144PjJ4NtBqxny+RoxFCxZQGhdOREcLyUjFvtUtFy7ID3HQ==
+"@nestjs-mod/common@2.17.3":
+  version "2.17.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/common/-/common-2.17.3.tgz#45662368daf962404e573c9b5b9dec35fa973452"
+  integrity sha512-dYzkJrCfKIhUrga1chNfhI6LB3m15XyorYcNIvviOJNn960akJTxPMksGjBg+ge+hlNdBO+jAifqZy7ddrbuWQ==
   dependencies:
-    case-anything ">=2.1.13"
+    case-anything "2.1.13"
     dotenv ">=16.3.1"
-    fast-glob "^3.3.2"
-    tslib ">=2.3.0"
+    fast-glob "3.3.2"
+    tslib "^2.3.0"
 
 "@nestjs-mod/docker-compose@^1.17.0":
   version "1.17.0"
@@ -3046,7 +3046,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/pg-flyway@^1.0.2":
+"@nestjs-mod/pg-flyway@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nestjs-mod/pg-flyway/-/pg-flyway-1.0.3.tgz#7549158233e0f856a59ebf493d9a8e1f9ceb5d97"
   integrity sha512-vGQ5Xvggl/5oJOGAIPkmJgj5Yp8SEL++Qj5mPoC1xP0R17uJBt/UHH0Ncd4ePTcwaI4OvCmb3ED3HhZNI8HodA==
@@ -3078,26 +3078,26 @@
     connection-string "^4.3.5"
     tslib "^2.3.0"
 
-"@nestjs-mod/reports@2.17.2":
-  version "2.17.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/reports/-/reports-2.17.2.tgz#f418a07c52a1e4950a6cdde319b944e43196995a"
-  integrity sha512-Wdgsp6u+cHko72XiwoyRyY1nvrs7fmVDX9GeDzlZRvFxG9i7PXDSqTc8LEoVYf543ZuZtQ72SDI69/IFDCxN4A==
+"@nestjs-mod/reports@2.17.3":
+  version "2.17.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/reports/-/reports-2.17.3.tgz#1a894bc36b356c2026ee82df40ea26e462cf2c07"
+  integrity sha512-pLBmfp0zW1I3UutvUuRvrprio0qlfv3eG4LeAGdQHGULGxoriKPHg0LMYyiWnR8BkvQ7D22givW1afe5LienPQ==
   dependencies:
-    case-anything ">=2.1.13"
-    fast-glob ">=3.3.2"
-    markdown-it ">=14.0.0"
-    tslib ">=2.3.0"
+    case-anything "2.1.13"
+    fast-glob "3.3.2"
+    markdown-it "^14.0.0"
+    tslib "^2.3.0"
 
-"@nestjs-mod/schematics@^2.12.2":
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/schematics/-/schematics-2.12.2.tgz#04a098300384aada4037017c8561d50052592bde"
-  integrity sha512-7/H52+jGOYR8VcgIDZrnQLhobS0EhWxpQgp9MKuRGJ1ejcB3cTU7jhJQKQWqe+cgB9azZGIxN/cIRxwGcwQwqw==
+"@nestjs-mod/schematics@^2.12.3":
+  version "2.12.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/schematics/-/schematics-2.12.3.tgz#c54326ef26df052b8e4b14bdcac0d3dc6c684fb4"
+  integrity sha512-+5PoPg9UW9gQzvnf14DAyId5Q5ZlToPgMcmbUVaQhg2bDekN9jIjm53SoAvFIxpAxRxKYdX4hdN2eveMujw+Yg==
   dependencies:
     "@nx/devkit" "20.3.0"
     "@nx/eslint" "20.3.0"
     "@nx/js" "20.3.0"
     "@nx/node" "20.3.0"
-    case-anything "^2.1.13"
+    case-anything "2.1.13"
     tslib "^2.3.0"
     typescript "5.6.3"
 
@@ -3108,28 +3108,19 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/testing@2.17.2":
-  version "2.17.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.17.2.tgz#d648ce84de7043a21e67ee44e1903fd90785d3ca"
-  integrity sha512-8MJI+hASPKJ/ZpRVA3IFViHUYRn0/bbwrlScjCRi2j2YEeSKobrMpp3ZZSAHMHJAzvI7uN/VXv3AONxo1DzMCQ==
+"@nestjs-mod/testing@2.17.3":
+  version "2.17.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.17.3.tgz#29f0f901e875a4da03736867c809faebddf53a05"
+  integrity sha512-tcYLPueNgHcacBz0JZbL7AHuRAESgg+a4GszMLduNlYUBwdUimXgaRnDTVPphqEYrmMwlbIqE+r1UNDCbkv6+g==
   dependencies:
-    tslib ">=2.3.0"
+    tslib "^2.3.0"
 
 "@nestjs/axios@3.1.3", "@nestjs/axios@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-3.1.3.tgz#cf73f317f89800ec2f6f04b577677617c5aef0d9"
   integrity sha512-RZ/63c1tMxGLqyG3iOCVt7A72oy4x1eM6QEhd4KzCYpaVWW0igq0WSREeRoEZhIxRcZfDfIIkvsOMiM7yfVGZQ==
 
-"@nestjs/common@10.4.6":
-  version "10.4.6"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.4.6.tgz#952e8fd0ceafeffcc4eaf47effd67fb395844ae0"
-  integrity sha512-KkezkZvU9poWaNq4L+lNvx+386hpOxPJkfXBBeSMrcqBOx8kVr36TGN2uYkF4Ta4zNu1KbCjmZbc0rhHSg296g==
-  dependencies:
-    uid "2.0.2"
-    iterare "1.2.1"
-    tslib "2.7.0"
-
-"@nestjs/common@^10.4.15":
+"@nestjs/common@10.4.15", "@nestjs/common@^10.4.15":
   version "10.4.15"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.4.15.tgz#27c291466d9100eb86fdbe6f7bbb4d1a6ad55f70"
   integrity sha512-vaLg1ZgwhG29BuLDxPA9OAcIlgqzp9/N8iG0wGapyUNTf4IY4O6zAHgN6QalwLhFxq7nOI021vdRojR1oF3bqg==
@@ -3147,19 +3138,7 @@
     iterare "1.2.1"
     tslib "2.5.3"
 
-"@nestjs/core@10.4.6":
-  version "10.4.6"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.4.6.tgz#797b381f12bd62d2e425897058fa219da4c3689d"
-  integrity sha512-zXVPxCNRfO6gAy0yvEDjUxE/8gfZICJFpsl2lZAUH31bPb6m+tXuhUq2mVCTEltyMYQ+DYtRe+fEYM2v152N1g==
-  dependencies:
-    uid "2.0.2"
-    "@nuxtjs/opencollective" "0.3.2"
-    fast-safe-stringify "2.1.1"
-    iterare "1.2.1"
-    path-to-regexp "3.3.0"
-    tslib "2.7.0"
-
-"@nestjs/core@^10.4.15":
+"@nestjs/core@10.4.15", "@nestjs/core@^10.4.15":
   version "10.4.15"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.4.15.tgz#1343a3395d5c54e9b792608cb75eef39053806d5"
   integrity sha512-UBejmdiYwaH6fTsz2QFBlC1cJHM+3UDeLZN+CiP9I1fRv2KlBZsmozGLbV5eS1JAVWJB4T5N5yQ0gjN8ZvcS2w==
@@ -4045,15 +4024,15 @@
     "@octokit/openapi-types" "^18.0.0"
 
 "@openapitools/openapi-generator-cli@^2.15.3":
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/@openapitools/openapi-generator-cli/-/openapi-generator-cli-2.16.0.tgz#b1419e7bf6e86046f091ae3b4a9aee871fa8a30a"
-  integrity sha512-IZt31B2GYHTrmbGhq7Mly7CAWTeRfoaxi3LY/TmdxWLGdHnVWHmxW0A9/eopNbkGfLgN4jtz+td5xzK4rDQ55A==
+  version "2.16.2"
+  resolved "https://registry.yarnpkg.com/@openapitools/openapi-generator-cli/-/openapi-generator-cli-2.16.2.tgz#62cbbc3ee3939d1233250b3af634aa4a8d7ecd06"
+  integrity sha512-AjPxFPpCr8atXYWAFRlWttWcLz0+2VEEw2dTk8wLBwzwz3+dN/8t1Zi4s89QNPJyrOm1lc+g42nNIy8MJlWOIA==
   dependencies:
     "@nestjs/axios" "3.1.3"
-    "@nestjs/common" "10.4.6"
-    "@nestjs/core" "10.4.6"
+    "@nestjs/common" "10.4.15"
+    "@nestjs/core" "10.4.15"
     "@nuxtjs/opencollective" "0.3.2"
-    axios "1.7.7"
+    axios "1.7.9"
     chalk "4.1.2"
     commander "8.3.0"
     compare-versions "4.1.4"
@@ -6541,16 +6520,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.13.2.tgz#0aa167216965ac9474ccfa83892cfb6b3e1e52ef"
   integrity sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==
 
-axios@1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
-  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
-  dependencies:
-    follow-redirects "^1.15.6"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.7.4, axios@^1.7.7, axios@^1.7.9:
+axios@1.7.9, axios@^1.7.4, axios@^1.7.7, axios@^1.7.9:
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
   integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
@@ -7173,11 +7143,6 @@ case-anything@2.1.13, case-anything@^2.1.13:
   version "2.1.13"
   resolved "https://registry.yarnpkg.com/case-anything/-/case-anything-2.1.13.tgz#0cdc16278cb29a7fcdeb072400da3f342ba329e9"
   integrity sha512-zlOQ80VrQ2Ue+ymH5OuM/DlDq64mEm+B9UTdHULv5osUMD6HalNTblf2b1u/m6QecjsnOkBpqVZ+XPwIVsy7Ng==
-
-case-anything@>=2.1.13:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/case-anything/-/case-anything-3.1.0.tgz#43ba878c2381b2d28e6dead4548c94878d0d66c4"
-  integrity sha512-rRYnn5Elur8RuNHKoJ2b0tgn+pjYxL7BzWom+JZ7NKKn1lt/yGV/tUNwOovxYa9l9VL5hnXQdMc+mENbhJzosQ==
 
 case@^1.6.3:
   version "1.6.3"
@@ -9669,7 +9634,7 @@ fast-glob@3.3.2:
     merge2 "^1.3.0"
     micromatch "^4.0.4"
 
-fast-glob@>=3.3.2, fast-glob@^3.2.12, fast-glob@^3.2.7, fast-glob@^3.2.9, fast-glob@^3.3.2:
+fast-glob@^3.2.12, fast-glob@^3.2.7, fast-glob@^3.2.9, fast-glob@^3.3.2:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.3.tgz#d06d585ce8dba90a16b0505c543c3ccfb3aeb818"
   integrity sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==
@@ -12960,7 +12925,7 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.3.0.tgz#9304f906e93faae70880da102a9f1df0ea8bb05a"
   integrity sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==
 
-markdown-it@>=14.0.0:
+markdown-it@^14.0.0:
   version "14.1.0"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-14.1.0.tgz#3c3c5992883c633db4714ccb4d7b5935d98b7d45"
   integrity sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==
@@ -17927,12 +17892,7 @@ tslib@2.5.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.5.3.tgz#24944ba2d990940e6e982c4bea147aba80209913"
   integrity sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==
 
-tslib@2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
-  integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
-
-tslib@2.8.1, tslib@>=2.3.0, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.6.3, tslib@^2.8.0:
+tslib@2.8.1, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.6.3, tslib@^2.8.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==

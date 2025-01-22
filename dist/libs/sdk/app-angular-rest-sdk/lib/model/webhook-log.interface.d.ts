@@ -22,4 +22,5 @@ export interface WebhookLogInterface {
     updatedAt: string;
     Webhook?: WebhookInterface;
 }
-export declare namespace WebhookLogInterface { }
+export declare namespace WebhookLogInterface {
+}

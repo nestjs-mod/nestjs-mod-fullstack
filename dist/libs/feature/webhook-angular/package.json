@@ -4,19 +4,7 @@
   "peerDependencies": {
     "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
     "@nestjs-mod-fullstack/common-angular": "0.0.1",
-    "@angular/common": "19.0.5",
-    "@angular/core": "19.0.5",
-    "@angular/forms": "19.0.5",
-    "@jsverse/transloco": "^7.5.0",
-    "@ngx-formly/core": "^6.3.10",
-    "ng-zorro-antd": "^19.0.0",
-    "rxjs": "^7.8.0",
-    "@ngneat/until-destroy": "^10.0.0",
-    "@angular/router": "19.0.5",
-    "lodash": "^4.17.21",
-    "@jsverse/transloco-keys-manager": "^6.0.0",
-    "date-fns": "^4.1.0",
-    "@jsverse/transloco-locale": "^7.0.1"
+    "@angular/core": "19.0.5"
   },
   "sideEffects": false,
   "i18n": [

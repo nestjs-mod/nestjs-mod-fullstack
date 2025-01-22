@@ -18,4 +18,5 @@ export interface AuthUserInterface {
     updatedAt: string;
     lang: string | null;
 }
-export declare namespace AuthUserInterface { }
+export declare namespace AuthUserInterface {
+}

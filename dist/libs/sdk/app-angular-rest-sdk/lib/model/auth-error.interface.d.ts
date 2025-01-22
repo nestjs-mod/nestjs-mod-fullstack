@@ -17,4 +17,5 @@ export interface AuthErrorInterface {
     code: AuthErrorEnumInterface;
     metadata?: object;
 }
-export declare namespace AuthErrorInterface { }
+export declare namespace AuthErrorInterface {
+}
