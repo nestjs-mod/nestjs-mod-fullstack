@@ -2,10 +2,6 @@
     "version": 2,
     "builds": [
         {
-            "src": "package.json",
-            "use": "vercel-sapper"
-        },
-        {
             "src": "dist/apps/server/main.js",
             "use": "@vercel/node"
         }
