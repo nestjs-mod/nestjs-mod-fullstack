@@ -1,0 +1,32 @@
+{
+  "name": "@nestjs-mod-fullstack/app-angular-rest-sdk",
+  "version": "0.0.1",
+  "private": true,
+  "peerDependencies": {
+    "@angular/core": "19.0.5",
+    "@angular/common": "19.0.5",
+    "rxjs": "^7.8.0"
+  },
+  "sideEffects": false,
+  "i18n": [
+    {
+      "scope": "app-angular-rest-sdk",
+      "path": "src/i18n",
+      "strategy": "join"
+    }
+  ],
+  "module": "fesm2022/nestjs-mod-fullstack-app-angular-rest-sdk.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./fesm2022/nestjs-mod-fullstack-app-angular-rest-sdk.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}
