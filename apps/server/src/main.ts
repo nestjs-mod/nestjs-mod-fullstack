@@ -30,7 +30,6 @@ import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
   InfrastructureMarkdownReportGenerator,
-  PACKAGE_JSON_FILE,
   PROJECT_JSON_FILE,
   ProjectUtils,
   bootstrapNestApplication,
@@ -64,6 +63,7 @@ import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
+const PACKAGE_JSON_FILE = 'custom-package.json';
 const appFeatureName = 'app';
 let rootFolder = join(__dirname, '..', '..', '..');
 

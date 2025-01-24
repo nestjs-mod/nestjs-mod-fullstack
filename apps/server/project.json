@@ -30,7 +30,7 @@
             "output": "./"
           },
           {
-            "glob": "**/package.json",
+            "glob": "**/custom-package.json",
             "input": "./apps/server/",
             "output": "./"
           }
