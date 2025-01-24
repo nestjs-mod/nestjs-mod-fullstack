@@ -4,18 +4,27 @@
         {
             "src": "/out/apps/server/main.js",
             "use": "@vercel/node"
-        }
-    ],
-    "rewrites": [
+        },
         {
-            "source": "/(.*)",
-            "destination": "/out/apps/client/browser/"
+            "src": "/out/apps/client/browser/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
             "dest": "/out/apps/server/main.js"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/",
+            "dest": "/out/apps/client/browser/index.html"
+        },
+        {
+            "src": "/(.+)",
+            "dest": "/out/apps/client/browser/$1"
         }
     ]
 }
