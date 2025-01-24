@@ -23,9 +23,8 @@
     "pm2-full:prod:stop": "npm run docker-compose:stop-prod:server && npm run pm2:stop",
     "pm2-full:prod:test:e2e": "export BASE_URL=http://localhost:3000 && npm run test:e2e",
     "_____prod infra_____": "_____prod infra_____",
-    "start-no": "./node_modules/.bin/nx run-many --all -t=start",
-    "build": "cp -r vercel.gitignore .gitignore && echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && ./node_modules/.bin/nx run-many -p app-rest-sdk server client --all -t=build -c production --parallel=1",
-    "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p  app-rest-sdk server client --all -t=build -c production --parallel=1",
+    "start": "./node_modules/.bin/nx run-many --all -t=start",
+    "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p app-rest-sdk server client -t=build -c production --parallel=1",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
     "pm2:stop": "./node_modules/.bin/pm2 delete all",
@@ -52,7 +51,8 @@
     "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1 --fix",
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
     "_____vercel_____": "_____vercel_____",
-    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && ./node_modules/.bin/nx run-many -p app-rest-sdk server client --all -t=build -c production --parallel=1 && cp -r dist out",
+    "build-apps": "./node_modules/.bin/nx run-many -p app-rest-sdk server client -t=build -c production --parallel=1",
+    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps && cp -r dist/apps out && cp -r dist/libs out",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
@@ -195,10 +195,7 @@
     "pm2-full:prod:test:e2e": [
       "Running E2E tests for all applications in PM2 prod mode"
     ],
-    "start-no": [],
-    "build": [
-      "Building a NestJS application"
-    ],
+    "start": [],
     "build:prod": [
       "Building a NestJS application in prod mode"
     ],
@@ -254,8 +251,7 @@
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
     "tsc:lint": [],
-    "vercel-build-no": [],
-    "vercel-start-no": [],
+    "vercel-build": [],
     "kubernetes:generate": [],
     "db:create": [
       "Creation all databases of applications and modules"
