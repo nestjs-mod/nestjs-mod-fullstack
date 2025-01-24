@@ -52,7 +52,7 @@
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
     "_____vercel_____": "_____vercel_____",
     "build-apps": "./node_modules/.bin/nx run-many -p app-rest-sdk server client -t=build -c production --parallel=1",
-    "custom-vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps && cp -r dist/apps out && cp -r dist/libs out && ls out/apps/client/browser && ls out/apps/server",
+    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps && cp -r dist/apps out && cp -r dist/libs out && ls out/apps/client/browser && ls out/apps/server",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",

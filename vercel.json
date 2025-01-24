@@ -2,30 +2,35 @@
     "version": 2,
     "builds": [
         {
-            "src": "npm run custom-vercel-build",
-            "use": "@vercel/build"
-        },
-        {
-            "src": "out/apps/server/main.js",
+            "src": "/out/apps/server/main.js",
             "use": "@vercel/node"
         },
         {
-            "src": "out/apps/client/browser/**",
+            "src": "/out/apps/client/browser/**",
             "use": "@vercel/static"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/out/apps/client/browser/"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "out/apps/server/main.js"
+            "dest": "/out/apps/server/main.js"
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/",
-            "dest": "out/apps/client/browser/index.html"
+            "dest": "/out/apps/client/browser/index.html"
         },
         {
             "src": "/(.+)",
-            "dest": "out/apps/client/browser/$1"
+            "dest": "/out/apps/client/browser/$1"
         }
     ]
 }
