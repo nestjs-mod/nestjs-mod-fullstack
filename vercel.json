@@ -6,26 +6,26 @@
             "use": "@vercel/build"
         },
         {
-            "src": "dist/apps/server/main.js",
+            "src": "out/apps/server/main.js",
             "use": "@vercel/node"
         },
         {
-            "src": "dist/apps/client/browser/**",
+            "src": "out/apps/client/browser/**",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "dist/apps/server/main.js"
+            "dest": "out/apps/server/main.js"
         },
         {
             "src": "/",
-            "dest": "dist/apps/client/browser/index.html"
+            "dest": "out/apps/client/browser/index.html"
         },
         {
             "src": "/(.+)",
-            "dest": "dist/apps/client/browser/$1"
+            "dest": "out/apps/client/browser/$1"
         }
     ]
 }
