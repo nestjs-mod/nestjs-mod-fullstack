@@ -52,7 +52,7 @@
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
     "_____vercel_____": "_____vercel_____",
     "build-apps": "rm -rf out/apps/server/project.json && ./node_modules/.bin/nx run-many -p client -t=build -c vercel && ./node_modules/.bin/nx run-many -p app-rest-sdk server -t=build -c production && cp -r dist/apps out && cp -r dist/libs out",
-    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps",
+    "vercel-build": "export NO_PROXY=true && export NX_DAEMON=false && export NX_PARALLEL=1 && echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
@@ -83,8 +83,7 @@
     "rucken": "rucken",
     "translates": "./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false",
     "wait-on": "./node_modules/.bin/wait-on --timeout=240000 --interval=1000 --window --verbose",
-    "prepare": "npx -y husky install",
-    "postinstall": "npm run prisma:generate"
+    "prepare": "npx -y husky install"
   },
   "private": true,
   "devDependencies": {
