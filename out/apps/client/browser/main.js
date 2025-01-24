@@ -7038,12 +7038,7 @@
               },
               (0, e.oKB)(
                 Rt.wb,
-                Dt.forRoot(
-                  () =>
-                    new L({
-                      basePath: 'https://nestjs-mod-fullstack.vercel.app',
-                    })
-                ),
+                Dt.forRoot(() => new L({ basePath: '' })),
                 R.qy.forRoot({ types: [...Yt, ...Xt] }),
                 Qt.i
               ),
