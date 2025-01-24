@@ -2,6 +2,10 @@
     "version": 2,
     "builds": [
         {
+          "src": "npm run vercel-build",
+          "use": "@vercel/build"
+        },
+        {
             "src": "out/apps/server/main.js",
             "use": "@vercel/node"
         },
