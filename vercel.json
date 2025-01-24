@@ -6,11 +6,8 @@
             "use": "@vercel/node"
         },
         {
-          "src": "ls out/apps/client/browser",
-          "use": "@vercel/static-build",
-          "config": {
-            "distDir": "/out/apps/client/browser"
-          }
+            "src": "/out/apps/client/browser/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
@@ -23,7 +20,7 @@
             "dest": "/out/apps/client/browser/index.html"
         },
         {
-            "src": "/(.+)",
+            "src": "/(.*)",
             "dest": "/out/apps/client/browser/$1"
         }
     ]
