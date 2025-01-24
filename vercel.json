@@ -6,17 +6,17 @@
             "use": "@vercel/node"
         },
         {
-            "src": "/out/apps/client/browser/**",
-            "use": "@vercel/static"
+          "src": "ls out/apps/client/browser",
+          "use": "@vercel/static-build",
+          "config": {
+            "distDir": "/out/apps/client/browser"
+          }
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
             "dest": "/out/apps/server/main.js"
-        },
-        {
-            "handle": "filesystem"
         },
         {
             "src": "/",
