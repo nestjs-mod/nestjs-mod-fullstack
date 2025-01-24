@@ -23,6 +23,16 @@
             "glob": "**/*.json",
             "input": "./node_modules/class-validator-multi-lang/i18n/",
             "output": "./assets/i18n/class-validator-multi-lang-messages/"
+          },
+          {
+            "glob": "**/project.json",
+            "input": "./apps/server/",
+            "output": "./"
+          },
+          {
+            "glob": "**/package.json",
+            "input": "./apps/server/",
+            "output": "./"
           }
         ],
         "webpackConfig": "apps/server/webpack.config.js"
