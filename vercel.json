@@ -2,30 +2,30 @@
     "version": 2,
     "builds": [
         {
-          "src": "npm run vercel-build",
-          "use": "@vercel/build"
+            "src": "npm run custom-vercel-build",
+            "use": "@vercel/build"
         },
         {
-            "src": "out/apps/server/main.js",
+            "src": "dist/apps/server/main.js",
             "use": "@vercel/node"
         },
         {
-            "src": "out/apps/client/browser/**",
+            "src": "dist/apps/client/browser/**",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "out/apps/server/main.js"
+            "dest": "dist/apps/server/main.js"
         },
         {
             "src": "/",
-            "dest": "out/apps/client/browser/index.html"
+            "dest": "dist/apps/client/browser/index.html"
         },
         {
             "src": "/(.+)",
-            "dest": "out/apps/client/browser/$1"
+            "dest": "dist/apps/client/browser/$1"
         }
     ]
 }
