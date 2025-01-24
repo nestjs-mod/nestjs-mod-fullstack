@@ -96,6 +96,7 @@ bootstrapNestApplication({
           packageJsonFile: join(rootFolder, PACKAGE_JSON_FILE),
           nxProjectJsonFile: join(appFolder, PROJECT_JSON_FILE),
           envFile: join(rootFolder, '.env'),
+          printAllApplicationEnvs: true,
         },
       }),
       DefaultNestApplicationInitializer.forRoot({
