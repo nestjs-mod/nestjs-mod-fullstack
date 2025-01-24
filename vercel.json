@@ -6,14 +6,22 @@
             "use": "@vercel/node"
         },
         {
-            "src": "out/apps/client/browser/*",
+            "src": "out/apps/client/browser/**",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "src": "(.*)",
+            "src": "/api/(.*)",
             "dest": "out/apps/server/main.js"
+        },
+        {
+            "src": "/",
+            "dest": "out/apps/client/browser/index.html"
+        },
+        {
+            "src": "/(.+)",
+            "dest": "out/apps/client/browser/$1"
         }
     ]
 }
