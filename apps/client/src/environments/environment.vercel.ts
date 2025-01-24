@@ -1,4 +1,4 @@
-export const serverUrl = 'https://nestjs-mod-fullstack.vercel.app';
+export const serverUrl = '';
 export const webhookSuperAdminExternalUserId =
   '248ec37f-628d-43f0-8de2-f58da037dd0f';
 export const authorizerURL = 'http://localhost:8080';
