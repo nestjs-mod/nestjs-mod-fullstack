@@ -1,3 +1,7 @@
+if (process.env.CI !== 'fake') {
+  throw new Error(JSON.stringify(process.env));
+}
+
 import KeyvPostgres from '@keyv/postgres';
 import {
   AUTH_FEATURE,
