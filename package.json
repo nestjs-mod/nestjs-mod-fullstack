@@ -73,7 +73,7 @@
     "pg-flyway:create:auth": "./node_modules/.bin/nx run auth:pg-flyway-create-migration",
     "pg-flyway:migrate:auth": "./node_modules/.bin/nx run auth:pg-flyway-migrate",
     "_____utils_____": "_____utils_____",
-    "generate": "./node_modules/.bin/nx run-many --verbose --all -t=generate --parallel=1 && npm run make-ts-list && npm run lint:fix",
+    "generate": "rm -rf out/apps/server/project.json && ./node_modules/.bin/nx run-many --verbose --all -t=generate --parallel=1 && npm run make-ts-list && npm run lint:fix",
     "tsc": "tsc",
     "nx": "nx",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
