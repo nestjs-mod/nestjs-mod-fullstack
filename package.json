@@ -52,7 +52,7 @@
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
     "_____vercel_____": "_____vercel_____",
     "build-apps": "./node_modules/.bin/nx run-many -p client -t=build -c vercel && ./node_modules/.bin/nx run-many -p app-rest-sdk server -t=build -c production",
-    "vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps",
+    "manual-vercel-build": "echo '' > .env && npm run pg-flyway:migrate && npm run prisma:generate && npm run build-apps",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
@@ -251,7 +251,7 @@
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
     "tsc:lint": [],
-    "vercel-build": [],
+    "manual-vercel-build": [],
     "kubernetes:generate": [],
     "db:create": [
       "Creation all databases of applications and modules"
