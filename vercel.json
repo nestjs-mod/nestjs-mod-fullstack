@@ -2,11 +2,8 @@
     "version": 2,
     "builds": [
         {
-          "src": "package.json",
-          "use": "@vercel/static-build",
-          "config": {
-            "distDir": "out"
-          }
+            "src": "/out/apps/client/browser/**",
+            "use": "@vercel/static"
         },
         {
             "src": "/out/apps/server/main.js",
@@ -18,7 +15,10 @@
             "src": "/api/(.*)",
             "dest": "/out/apps/server/main.js"
         },
-        { "src": "/assets/(.*)", "dest": "/assets/$1" },
+        {
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
         {
             "src": "/(.*)",
             "dest": "/out/apps/client/browser/index.html"
