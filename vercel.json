@@ -2,18 +2,18 @@
     "version": 2,
     "builds": [
         {
-            "src": "dist/apps/client/browser/**",
+            "src": "apps/client/browser/**",
             "use": "@vercel/static"
         },
         {
-            "src": "dist/apps/server/main.js",
+            "src": "apps/server/main.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "/dist/apps/server/main.js"
+            "dest": "/apps/server/main.js"
         },
         {
             "src": "/assets/(.*)",
@@ -21,11 +21,11 @@
         },
         {
             "src": "/(.*)\\.(.*)",
-            "dest": "/dist/apps/client/browser/$1.$2"
+            "dest": "/apps/client/browser/$1.$2"
         },
         {
             "src": "/(.*)",
-            "dest": "/dist/apps/client/browser/index.html"
+            "dest": "/apps/client/browser/index.html"
         }
     ]
 }
