@@ -2,18 +2,18 @@
     "version": 2,
     "builds": [
         {
-            "src": "/out/apps/client/browser/**",
+            "src": "/dist/apps/client/browser/**",
             "use": "@vercel/static"
         },
         {
-            "src": "/out/apps/server/main.js",
+            "src": "/dist/apps/server/main.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "/out/apps/server/main.js"
+            "dest": "/dist/apps/server/main.js"
         },
         {
             "src": "/assets/(.*)",
@@ -21,27 +21,27 @@
         },
         {
             "src": "/[a-z0-9.]+\\.ico",
-            "dest": "/out/apps/client/browser/$1.ico"
+            "dest": "/dist/apps/client/browser/$1.ico"
         },
         {
             "src": "/[a-z0-9.]+\\.js",
-            "dest": "/out/apps/client/browser/$1.js"
+            "dest": "/dist/apps/client/browser/$1.js"
         },
         {
             "src": "/[a-z0-9.]+\\.css",
-            "dest": "/out/apps/client/browser/$1.css"
+            "dest": "/dist/apps/client/browser/$1.css"
         },
         {
             "src": "/[a-z0-9.]+\\.txt",
-            "dest": "/out/apps/client/browser/$1.txt"
+            "dest": "/dist/apps/client/browser/$1.txt"
         },
         {
             "src": "/[a-z0-9.]+\\.txt",
-            "dest": "/out/apps/client/browser/$1.txt"
+            "dest": "/dist/apps/client/browser/$1.txt"
         },
         {
             "src": "/(.*)",
-            "dest": "/out/apps/client/browser/index.html"
+            "dest": "/dist/apps/client/browser/index.html"
         }
     ]
 }
