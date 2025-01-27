@@ -20,23 +20,19 @@
             "dest": "/assets/$1"
         },
         {
-            "src": "/[a-z0-9.]+\\.ico",
+            "src": "/[a-z0-9]+\\.ico",
             "dest": "/dist/apps/client/browser/$1.ico"
         },
         {
-            "src": "/[a-z0-9.]+\\.js",
+            "src": "/[a-z0-9]+\\.js",
             "dest": "/dist/apps/client/browser/$1.js"
         },
         {
-            "src": "/[a-z0-9.]+\\.css",
+            "src": "/[a-z0-9]+\\.css",
             "dest": "/dist/apps/client/browser/$1.css"
         },
         {
-            "src": "/[a-z0-9.]+\\.txt",
-            "dest": "/dist/apps/client/browser/$1.txt"
-        },
-        {
-            "src": "/[a-z0-9.]+\\.txt",
+            "src": "/[a-z0-9]+\\.txt",
             "dest": "/dist/apps/client/browser/$1.txt"
         },
         {
