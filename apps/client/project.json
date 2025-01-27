@@ -84,9 +84,7 @@
               "maximumError": "4kb"
             }
           ],
-          "outputHashing": "none",
-          "namedChunks": true,
-          "vendorChunk": true,
+          "outputHashing": "all",
           "fileReplacements": [
             {
               "replace": "apps/client/src/environments/environment.ts",

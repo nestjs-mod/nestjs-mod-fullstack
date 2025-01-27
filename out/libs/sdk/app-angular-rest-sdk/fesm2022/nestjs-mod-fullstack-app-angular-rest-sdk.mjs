@@ -231,7 +231,7 @@ class AppRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -243,27 +243,27 @@ class AppRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
@@ -272,9 +272,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -307,7 +308,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     appControllerDemoDeleteOne(id, observe = 'body', reportProgress = false, options) {
@@ -318,9 +319,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -345,15 +347,7 @@ class AppRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/demo/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('delete', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -361,7 +355,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     appControllerDemoFindMany(observe = 'body', reportProgress = false, options) {
@@ -369,9 +363,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -404,7 +399,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     appControllerDemoFindOne(id, observe = 'body', reportProgress = false, options) {
@@ -415,9 +410,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -442,15 +438,7 @@ class AppRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/demo/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -458,7 +446,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     appControllerDemoUpdateOne(id, observe = 'body', reportProgress = false, options) {
@@ -469,9 +457,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -496,15 +485,7 @@ class AppRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/demo/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('put', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -512,7 +493,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     appControllerGetData(observe = 'body', reportProgress = false, options) {
@@ -520,9 +501,10 @@ class AppRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -555,7 +537,7 @@ class AppRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: AppRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -564,7 +546,7 @@ class AppRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: AppRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -611,7 +593,7 @@ class AuthRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -623,27 +605,27 @@ class AuthRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
@@ -652,9 +634,10 @@ class AuthRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -687,21 +670,21 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     authControllerUpdateProfile(authProfileDtoInterface, observe = 'body', reportProgress = false, options) {
-        if (authProfileDtoInterface === null ||
-            authProfileDtoInterface === undefined) {
+        if (authProfileDtoInterface === null || authProfileDtoInterface === undefined) {
             throw new Error('Required parameter authProfileDtoInterface was null or undefined when calling authControllerUpdateProfile.');
         }
         let localVarHeaders = this.defaultHeaders;
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -715,7 +698,9 @@ class AuthRestService {
             localVarTransferCache = true;
         }
         // to determine the Content-Type header
-        const consumes = ['application/json'];
+        const consumes = [
+            'application/json'
+        ];
         const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -741,7 +726,7 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     authUsersControllerDeleteOne(id, observe = 'body', reportProgress = false, options) {
@@ -752,9 +737,10 @@ class AuthRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -779,15 +765,7 @@ class AuthRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('delete', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -795,7 +773,7 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     authUsersControllerFindMany(curPage, perPage, searchText, sort, observe = 'body', reportProgress = false, options) {
@@ -816,9 +794,10 @@ class AuthRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -852,7 +831,7 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     authUsersControllerFindOne(id, observe = 'body', reportProgress = false, options) {
@@ -863,9 +842,10 @@ class AuthRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -890,15 +870,7 @@ class AuthRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -906,24 +878,24 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     authUsersControllerUpdateOne(id, updateAuthUserDtoInterface, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling authUsersControllerUpdateOne.');
         }
-        if (updateAuthUserDtoInterface === null ||
-            updateAuthUserDtoInterface === undefined) {
+        if (updateAuthUserDtoInterface === null || updateAuthUserDtoInterface === undefined) {
             throw new Error('Required parameter updateAuthUserDtoInterface was null or undefined when calling authUsersControllerUpdateOne.');
         }
         let localVarHeaders = this.defaultHeaders;
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -937,7 +909,9 @@ class AuthRestService {
             localVarTransferCache = true;
         }
         // to determine the Content-Type header
-        const consumes = ['application/json'];
+        const consumes = [
+            'application/json'
+        ];
         const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -954,15 +928,7 @@ class AuthRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('put', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             body: updateAuthUserDtoInterface,
@@ -971,7 +937,7 @@ class AuthRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: AuthRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -980,7 +946,7 @@ class AuthRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: AuthRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -1027,7 +993,7 @@ class FilesRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -1039,27 +1005,27 @@ class FilesRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
@@ -1075,9 +1041,10 @@ class FilesRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1111,7 +1078,7 @@ class FilesRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     filesControllerGetPresignedUrl(ext, observe = 'body', reportProgress = false, options) {
@@ -1126,9 +1093,10 @@ class FilesRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1162,7 +1130,7 @@ class FilesRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: FilesRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -1171,7 +1139,7 @@ class FilesRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: FilesRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -1218,7 +1186,7 @@ class TerminusHealthCheckRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -1230,27 +1198,27 @@ class TerminusHealthCheckRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
@@ -1259,9 +1227,10 @@ class TerminusHealthCheckRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1294,7 +1263,7 @@ class TerminusHealthCheckRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: TerminusHealthCheckRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -1303,7 +1272,7 @@ class TerminusHealthCheckRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: TerminusHealthCheckRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -1350,7 +1319,7 @@ class TimeRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -1362,27 +1331,27 @@ class TimeRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
@@ -1391,9 +1360,10 @@ class TimeRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1426,7 +1396,7 @@ class TimeRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: TimeRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -1435,7 +1405,7 @@ class TimeRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: TimeRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -1482,7 +1452,7 @@ class WebhookRestService {
     }
     // @ts-ignore
     addToHttpParams(httpParams, value, key) {
-        if (typeof value === 'object' && value instanceof Date === false) {
+        if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         }
         else {
@@ -1494,33 +1464,32 @@ class WebhookRestService {
         if (value == null) {
             return httpParams;
         }
-        if (typeof value === 'object') {
+        if (typeof value === "object") {
             if (Array.isArray(value)) {
-                value.forEach((elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
+                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             }
             else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, value.toISOString().substring(0, 10));
                 }
                 else {
-                    throw Error('key may not be null if value is Date');
+                    throw Error("key may not be null if value is Date");
                 }
             }
             else {
-                Object.keys(value).forEach((k) => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k)));
+                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         }
         else if (key != null) {
             httpParams = httpParams.append(key, value);
         }
         else {
-            throw Error('key may not be null if value is not object or array');
+            throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
     }
     webhookControllerCreateOne(createWebhookDtoInterface, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
-        if (createWebhookDtoInterface === null ||
-            createWebhookDtoInterface === undefined) {
+        if (createWebhookDtoInterface === null || createWebhookDtoInterface === undefined) {
             throw new Error('Required parameter createWebhookDtoInterface was null or undefined when calling webhookControllerCreateOne.');
         }
         let localVarHeaders = this.defaultHeaders;
@@ -1533,9 +1502,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1549,7 +1519,9 @@ class WebhookRestService {
             localVarTransferCache = true;
         }
         // to determine the Content-Type header
-        const consumes = ['application/json'];
+        const consumes = [
+            'application/json'
+        ];
         const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -1575,7 +1547,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -1592,9 +1564,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1619,15 +1592,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('delete', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -1635,7 +1600,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerEvents(xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -1649,9 +1614,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1684,7 +1650,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, observe = 'body', reportProgress = false, options) {
@@ -1711,9 +1677,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1747,7 +1714,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, observe = 'body', reportProgress = false, options) {
@@ -1777,9 +1744,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1804,15 +1772,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}/logs`;
+        let localVarPath = `/api/webhook/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}/logs`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             params: localVarQueryParameters,
@@ -1821,7 +1781,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -1838,9 +1798,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1865,15 +1826,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -1881,7 +1834,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerProfile(xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -1895,9 +1848,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1930,15 +1884,14 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookControllerUpdateOne(id, updateWebhookDtoInterface, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling webhookControllerUpdateOne.');
         }
-        if (updateWebhookDtoInterface === null ||
-            updateWebhookDtoInterface === undefined) {
+        if (updateWebhookDtoInterface === null || updateWebhookDtoInterface === undefined) {
             throw new Error('Required parameter updateWebhookDtoInterface was null or undefined when calling webhookControllerUpdateOne.');
         }
         let localVarHeaders = this.defaultHeaders;
@@ -1951,9 +1904,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -1967,7 +1921,9 @@ class WebhookRestService {
             localVarTransferCache = true;
         }
         // to determine the Content-Type header
-        const consumes = ['application/json'];
+        const consumes = [
+            'application/json'
+        ];
         const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -1984,15 +1940,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('put', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             body: updateWebhookDtoInterface,
@@ -2001,7 +1949,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -2018,9 +1966,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2045,15 +1994,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('delete', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -2061,7 +2002,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, observe = 'body', reportProgress = false, options) {
@@ -2088,9 +2029,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2124,7 +2066,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
@@ -2141,9 +2083,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2168,15 +2111,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             responseType: responseType_,
@@ -2184,15 +2119,14 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     webhookUsersControllerUpdateOne(id, updateWebhookUserDtoInterface, xExternalUserId, xExternalTenantId, observe = 'body', reportProgress = false, options) {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling webhookUsersControllerUpdateOne.');
         }
-        if (updateWebhookUserDtoInterface === null ||
-            updateWebhookUserDtoInterface === undefined) {
+        if (updateWebhookUserDtoInterface === null || updateWebhookUserDtoInterface === undefined) {
             throw new Error('Required parameter updateWebhookUserDtoInterface was null or undefined when calling webhookUsersControllerUpdateOne.');
         }
         let localVarHeaders = this.defaultHeaders;
@@ -2205,9 +2139,10 @@ class WebhookRestService {
         let localVarHttpHeaderAcceptSelected = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
-            const httpHeaderAccepts = ['application/json'];
-            localVarHttpHeaderAcceptSelected =
-                this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            const httpHeaderAccepts = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2221,7 +2156,9 @@ class WebhookRestService {
             localVarTransferCache = true;
         }
         // to determine the Content-Type header
-        const consumes = ['application/json'];
+        const consumes = [
+            'application/json'
+        ];
         const httpContentTypeSelected = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -2238,15 +2175,7 @@ class WebhookRestService {
                 responseType_ = 'blob';
             }
         }
-        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
-            name: 'id',
-            value: id,
-            in: 'path',
-            style: 'simple',
-            explode: false,
-            dataType: 'string',
-            dataFormat: undefined,
-        })}`;
+        let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined })}`;
         return this.httpClient.request('put', `${this.configuration.basePath}${localVarPath}`, {
             context: localVarHttpContext,
             body: updateWebhookUserDtoInterface,
@@ -2255,7 +2184,7 @@ class WebhookRestService {
             headers: localVarHeaders,
             observe: observe,
             transferCache: localVarTransferCache,
-            reportProgress: reportProgress,
+            reportProgress: reportProgress
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: WebhookRestService, deps: [{ token: i1.HttpClient }, { token: BASE_PATH, optional: true }, { token: RestClientConfiguration, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
@@ -2264,7 +2193,7 @@ class WebhookRestService {
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImport: i0, type: WebhookRestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root',
+                    providedIn: 'root'
                 }]
         }], ctorParameters: () => [{ type: i1.HttpClient }, { type: undefined, decorators: [{
                     type: Optional
@@ -2275,14 +2204,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.5", ngImpor
                     type: Optional
                 }] }] });
 
-const APIS = [
-    AppRestService,
-    AuthRestService,
-    FilesRestService,
-    TerminusHealthCheckRestService,
-    TimeRestService,
-    WebhookRestService,
-];
+const APIS = [AppRestService, AuthRestService, FilesRestService, TerminusHealthCheckRestService, TimeRestService, WebhookRestService];
 
 /**
  *
@@ -2319,7 +2241,7 @@ const APIS = [
 const AuthErrorEnumInterface = {
     _000: 'AUTH-000',
     _001: 'AUTH-001',
-    _002: 'AUTH-002',
+    _002: 'AUTH-002'
 };
 
 /**
@@ -2334,7 +2256,7 @@ const AuthErrorEnumInterface = {
  */
 const AuthRoleInterface = {
     Admin: 'Admin',
-    User: 'User',
+    User: 'User'
 };
 
 /**
@@ -2354,7 +2276,7 @@ const AuthUserScalarFieldEnumInterface = {
     timezone: 'timezone',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    lang: 'lang',
+    lang: 'lang'
 };
 
 /**
@@ -2380,7 +2302,7 @@ const AuthUserScalarFieldEnumInterface = {
  */
 const FilesErrorEnumInterface = {
     _000: 'FILES-000',
-    _001: 'FILES-001',
+    _001: 'FILES-001'
 };
 
 /**
@@ -2449,7 +2371,7 @@ const FilesErrorEnumInterface = {
  * Do not edit the class manually.
  */
 const ValidationErrorEnumInterface = {
-    VALIDATION_000: 'VALIDATION-000',
+    VALIDATION_000: 'VALIDATION-000'
 };
 
 /**
@@ -2479,7 +2401,7 @@ const WebhookErrorEnumInterface = {
     _002: 'WEBHOOK-002',
     _003: 'WEBHOOK-003',
     _004: 'WEBHOOK-004',
-    _005: 'WEBHOOK-005',
+    _005: 'WEBHOOK-005'
 };
 
 /**
@@ -2512,7 +2434,7 @@ const WebhookLogScalarFieldEnumInterface = {
     webhookId: 'webhookId',
     externalTenantId: 'externalTenantId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    updatedAt: 'updatedAt'
 };
 
 /**
@@ -2527,7 +2449,7 @@ const WebhookLogScalarFieldEnumInterface = {
  */
 const WebhookRoleInterface = {
     Admin: 'Admin',
-    User: 'User',
+    User: 'User'
 };
 
 /**
@@ -2552,7 +2474,7 @@ const WebhookScalarFieldEnumInterface = {
     updatedBy: 'updatedBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    workUntilDate: 'workUntilDate',
+    workUntilDate: 'workUntilDate'
 };
 
 /**
@@ -2570,7 +2492,7 @@ const WebhookStatusInterface = {
     Process: 'Process',
     Success: 'Success',
     Error: 'Error',
-    Timeout: 'Timeout',
+    Timeout: 'Timeout'
 };
 
 /**
@@ -2589,7 +2511,7 @@ const WebhookUserScalarFieldEnumInterface = {
     externalUserId: 'externalUserId',
     userRole: 'userRole',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    updatedAt: 'updatedAt'
 };
 
 /**

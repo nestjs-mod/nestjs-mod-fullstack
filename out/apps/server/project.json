@@ -1,0 +1,217 @@
+{
+  "name": "server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/server",
+        "main": "apps/server/src/main.ts",
+        "tsConfig": "apps/server/tsconfig.app.json",
+        "assets": [
+          "apps/server/src/assets",
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/class-validator-multi-lang/i18n/",
+            "output": "./assets/i18n/class-validator-multi-lang-messages/"
+          },
+          {
+            "glob": "**/project.json",
+            "input": "./apps/server/",
+            "output": "./"
+          },
+          {
+            "glob": "**/custom-package.json",
+            "input": "./apps/server/",
+            "output": "./"
+          }
+        ],
+        "webpackConfig": "apps/server/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "server:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "server:build:development"
+        },
+        "production": {
+          "buildTarget": "server:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/server/jest.config.ts"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node dist/apps/server/main.js"
+        ],
+        "parallel": false
+      }
+    },
+    "db-create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}",
+          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTHORIZER_DATABASE_URL}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/rucken make-ts-list",
+          "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server --watch=false --inspect=false --skip-nx-cache=true",
+          "rm -rf ./libs/sdk/app-angular-rest-sdk/src/lib && mkdir ./libs/sdk/app-angular-rest-sdk/src/lib && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-angular -o ./libs/sdk/app-angular-rest-sdk/src/lib  --additional-properties=apiModulePrefix=RestClient,configurationPrefix=RestClient,fileNaming=kebab-case,modelFileSuffix=.interface,modelSuffix=Interface,enumNameSuffix=Type,enumPropertyNaming=original,serviceFileSuffix=-rest.service,serviceSuffix=RestService",
+          "rm -rf ./libs/sdk/app-rest-sdk/src/lib && mkdir ./libs/sdk/app-rest-sdk/src/lib && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-axios -o ./libs/sdk/app-rest-sdk/src/lib"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma db pull --schema=./apps/server/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "changelog": true,
+        "npm": true,
+        "github": true,
+        "tagFormat": "server-v${VERSION}",
+        "branches": [
+          "master",
+          {
+            "name": "beta",
+            "prerelease": true
+          },
+          {
+            "name": "alpha",
+            "prerelease": true
+          }
+        ]
+      }
+    },
+    "pg-flyway-create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway create --name=${npm_config_args:-NewMigration}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway migrate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-info": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway info"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-baseline": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway baseline"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway validate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-repair": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server && export PG_FLYWAY_LOCATIONS=./apps/server/src/migrations && ./node_modules/.bin/pg-flyway repair"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    }
+  }
+}
