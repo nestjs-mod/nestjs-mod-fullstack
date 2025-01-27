@@ -26,6 +26,12 @@ jobs:
 
       - name: Build project
         run: npm run vercel-build
+        env:
+          SERVER_APP_DATABASE_URL: ${{ secrets.SERVER_APP_DATABASE_URL }}
+          SERVER_AUTHORIZER_DATABASE_URL: ${{ secrets.SERVER_AUTHORIZER_DATABASE_URL }}
+          SERVER_AUTH_DATABASE_URL: ${{ secrets.SERVER_AUTH_DATABASE_URL }}
+          SERVER_ROOT_DATABASE_URL: ${{ secrets.SERVER_ROOT_DATABASE_URL }}
+          SERVER_WEBHOOK_DATABASE_URL: ${{ secrets.SERVER_WEBHOOK_DATABASE_URL }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
