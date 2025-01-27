@@ -88,6 +88,11 @@ if (
 }
 
 bootstrapNestApplication({
+  project: {
+    name: 'server',
+    description:
+      'Boilerplate for creating a fullstack application on NestJS and Angular',
+  },
   modules: {
     system: [
       ProjectUtils.forRoot({
