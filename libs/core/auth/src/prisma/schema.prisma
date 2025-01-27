@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  engineType = "binary"
   output   = "../../../../../node_modules/@prisma/auth-client"
   binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
   
@@ -13,7 +12,7 @@ generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
   classValidation                 = "true"
-  prettier                        = "true"
+  prettier                        = "false"
   dtoSuffix                       = "Dto"
   updateDtoPrefix                 = "Update"
   entityPrefix                    = ""

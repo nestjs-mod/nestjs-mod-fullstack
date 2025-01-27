@@ -1,9 +1,0 @@
-{
-    "i18n": [
-        {
-            "scope": "bridge-react-webpack-plugin",
-            "path": "src/i18n",
-            "strategy": "join"
-        }
-    ]
-}

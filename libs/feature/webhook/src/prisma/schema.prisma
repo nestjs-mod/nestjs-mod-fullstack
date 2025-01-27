@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  engineType = "binary"
   output   = "../../../../../node_modules/@prisma/webhook-client"
   binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
   
@@ -13,7 +12,7 @@ generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
   entityPrefix                    = ""
-  prettier                        = "true"
+  prettier                        = "false"
   reExport                        = "false"
   exportRelationModifierClasses   = "true"
   classValidation                 = "true"

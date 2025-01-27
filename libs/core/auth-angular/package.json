@@ -7,7 +7,14 @@
         "@angular/core": "19.0.5",
         "@angular/router": "19.0.5",
         "@authorizerdev/authorizer-js": "^2.0.3",
-        "rxjs": "^7.8.0"
+        "rxjs": "^7.8.0",
+    "@angular/common": "19.0.5",
+    "@angular/forms": "19.0.5",
+    "@jsverse/transloco": "^7.5.0",
+    "@ngneat/until-destroy": "^10.0.0",
+    "@ngx-formly/core": "^6.3.12",
+    "ng-zorro-antd": "^19.0.0",
+    "@jsverse/transloco-locale": "^7.0.1"
     },
     "sideEffects": false,
     "i18n": [

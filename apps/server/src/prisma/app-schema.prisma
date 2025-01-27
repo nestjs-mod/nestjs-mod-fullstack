@@ -1,8 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  engineType = "binary"
   output   = "../../../../node_modules/@prisma/app-client"
-  binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
   
 }
 datasource db {
@@ -14,7 +12,7 @@ generator prismaClassGenerator {
   output                          = "../app/generated/rest/dto"
   classValidation                 = "true"
   flatResourceStructure           = "false"
-  prettier                        = "true"
+  prettier                        = "false"
   annotateAllDtoProperties        = "true"
   dtoSuffix                       = "Dto"
   fileNamingStyle                 = "kebab"
