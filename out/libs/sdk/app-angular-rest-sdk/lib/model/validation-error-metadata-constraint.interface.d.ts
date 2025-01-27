@@ -9,6 +9,6 @@
  * Do not edit the class manually.
  */
 export interface ValidationErrorMetadataConstraintInterface {
-  name: string;
-  description: string;
+    name: string;
+    description: string;
 }

@@ -10,7 +10,7 @@
  */
 import { ValidationErrorMetadataConstraintInterface } from './validation-error-metadata-constraint.interface';
 export interface ValidationErrorMetadataInterface {
-  property: string;
-  constraints: Array<ValidationErrorMetadataConstraintInterface>;
-  children?: Array<ValidationErrorMetadataInterface>;
+    property: string;
+    constraints: Array<ValidationErrorMetadataConstraintInterface>;
+    children?: Array<ValidationErrorMetadataInterface>;
 }

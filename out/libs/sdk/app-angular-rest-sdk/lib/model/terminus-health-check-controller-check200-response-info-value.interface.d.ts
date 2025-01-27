@@ -9,6 +9,6 @@
  * Do not edit the class manually.
  */
 export interface TerminusHealthCheckControllerCheck200ResponseInfoValueInterface {
-  [key: string]: any | any;
-  status: string;
+    [key: string]: any | any;
+    status: string;
 }

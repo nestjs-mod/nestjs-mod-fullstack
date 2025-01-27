@@ -1,9 +1,6 @@
-export declare function mapGraphqlErrors<T>(): import('rxjs').OperatorFunction<
-  {
+export declare function mapGraphqlErrors<T>(): import("rxjs").OperatorFunction<{
     data: T;
     errors: {
-      message: string;
+        message: string;
     }[];
-  },
-  T
->;
+}, T>;

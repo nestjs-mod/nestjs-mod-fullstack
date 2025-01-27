@@ -1,3 +1,3 @@
 export declare class ConnectWebhookLogDto {
-  id: string;
+    id: string;
 }

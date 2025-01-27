@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -12,25 +12,20 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-Object.defineProperty(exports, '__esModule', { value: true });
-exports.operationServerMap =
-  exports.RequiredError =
-  exports.BaseAPI =
-  exports.COLLECTION_FORMATS =
-  exports.BASE_PATH =
-    void 0;
-const tslib_1 = require('tslib');
-const axios_1 = tslib_1.__importDefault(require('axios'));
-exports.BASE_PATH = 'http://localhost'.replace(/\/+$/, '');
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.operationServerMap = exports.RequiredError = exports.BaseAPI = exports.COLLECTION_FORMATS = exports.BASE_PATH = void 0;
+const tslib_1 = require("tslib");
+const axios_1 = tslib_1.__importDefault(require("axios"));
+exports.BASE_PATH = "http://localhost".replace(/\/+$/, "");
 /**
  *
  * @export
  */
 exports.COLLECTION_FORMATS = {
-  csv: ',',
-  ssv: ' ',
-  tsv: '\t',
-  pipes: '|',
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
 };
 /**
  *
@@ -38,20 +33,17 @@ exports.COLLECTION_FORMATS = {
  * @class BaseAPI
  */
 class BaseAPI {
-  constructor(
-    configuration,
-    basePath = exports.BASE_PATH,
-    axios = axios_1.default
-  ) {
-    this.basePath = basePath;
-    this.axios = axios;
-    if (configuration) {
-      this.configuration = configuration;
-      this.basePath = configuration.basePath ?? basePath;
+    constructor(configuration, basePath = exports.BASE_PATH, axios = axios_1.default) {
+        this.basePath = basePath;
+        this.axios = axios;
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = configuration.basePath ?? basePath;
+        }
     }
-  }
 }
 exports.BaseAPI = BaseAPI;
+;
 /**
  *
  * @export
@@ -59,11 +51,11 @@ exports.BaseAPI = BaseAPI;
  * @extends {Error}
  */
 class RequiredError extends Error {
-  constructor(field, msg) {
-    super(msg);
-    this.field = field;
-    this.name = 'RequiredError';
-  }
+    constructor(field, msg) {
+        super(msg);
+        this.field = field;
+        this.name = "RequiredError";
+    }
 }
 exports.RequiredError = RequiredError;
 /**

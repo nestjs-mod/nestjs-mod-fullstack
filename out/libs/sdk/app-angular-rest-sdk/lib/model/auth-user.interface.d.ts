@@ -10,12 +10,12 @@
  */
 import { AuthRoleInterface } from './auth-role.interface';
 export interface AuthUserInterface {
-  id: string;
-  externalUserId: string;
-  userRole: AuthRoleInterface;
-  timezone: number | null;
-  createdAt: string;
-  updatedAt: string;
-  lang: string | null;
+    id: string;
+    externalUserId: string;
+    userRole: AuthRoleInterface;
+    timezone: number | null;
+    createdAt: string;
+    updatedAt: string;
+    lang: string | null;
 }
-export declare namespace AuthUserInterface {}
+export declare namespace AuthUserInterface { }

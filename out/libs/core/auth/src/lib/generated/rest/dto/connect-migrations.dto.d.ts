@@ -1,3 +1,3 @@
 export declare class ConnectMigrationsDto {
-  installed_rank: number;
+    installed_rank: number;
 }

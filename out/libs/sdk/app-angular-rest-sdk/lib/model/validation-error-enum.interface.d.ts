@@ -10,5 +10,5 @@
  */
 export type ValidationErrorEnumInterface = 'VALIDATION-000';
 export declare const ValidationErrorEnumInterface: {
-  VALIDATION_000: ValidationErrorEnumInterface;
+    VALIDATION_000: ValidationErrorEnumInterface;
 };

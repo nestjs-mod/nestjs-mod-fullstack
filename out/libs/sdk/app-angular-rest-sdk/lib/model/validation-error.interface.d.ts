@@ -11,11 +11,11 @@
 import { ValidationErrorMetadataInterface } from './validation-error-metadata.interface';
 import { ValidationErrorEnumInterface } from './validation-error-enum.interface';
 export interface ValidationErrorInterface {
-  /**
-   * Validation error (VALIDATION-000)
-   */
-  message: string;
-  code: ValidationErrorEnumInterface;
-  metadata?: Array<ValidationErrorMetadataInterface>;
+    /**
+     * Validation error (VALIDATION-000)
+     */
+    message: string;
+    code: ValidationErrorEnumInterface;
+    metadata?: Array<ValidationErrorMetadataInterface>;
 }
-export declare namespace ValidationErrorInterface {}
+export declare namespace ValidationErrorInterface { }

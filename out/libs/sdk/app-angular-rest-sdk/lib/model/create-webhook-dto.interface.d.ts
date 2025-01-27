@@ -9,10 +9,10 @@
  * Do not edit the class manually.
  */
 export interface CreateWebhookDtoInterface {
-  eventName: string;
-  endpoint: string;
-  enabled: boolean;
-  headers?: object | null;
-  requestTimeout?: number | null;
-  workUntilDate?: string | null;
+    eventName: string;
+    endpoint: string;
+    enabled: boolean;
+    headers?: object | null;
+    requestTimeout?: number | null;
+    workUntilDate?: string | null;
 }

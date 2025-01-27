@@ -10,6 +10,6 @@
  */
 export type AuthRoleInterface = 'Admin' | 'User';
 export declare const AuthRoleInterface: {
-  Admin: AuthRoleInterface;
-  User: AuthRoleInterface;
+    Admin: AuthRoleInterface;
+    User: AuthRoleInterface;
 };

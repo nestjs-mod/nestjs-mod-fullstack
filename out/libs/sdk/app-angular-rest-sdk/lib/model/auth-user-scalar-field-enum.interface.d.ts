@@ -8,20 +8,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type AuthUserScalarFieldEnumInterface =
-  | 'id'
-  | 'externalUserId'
-  | 'userRole'
-  | 'timezone'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'lang';
+export type AuthUserScalarFieldEnumInterface = 'id' | 'externalUserId' | 'userRole' | 'timezone' | 'createdAt' | 'updatedAt' | 'lang';
 export declare const AuthUserScalarFieldEnumInterface: {
-  id: AuthUserScalarFieldEnumInterface;
-  externalUserId: AuthUserScalarFieldEnumInterface;
-  userRole: AuthUserScalarFieldEnumInterface;
-  timezone: AuthUserScalarFieldEnumInterface;
-  createdAt: AuthUserScalarFieldEnumInterface;
-  updatedAt: AuthUserScalarFieldEnumInterface;
-  lang: AuthUserScalarFieldEnumInterface;
+    id: AuthUserScalarFieldEnumInterface;
+    externalUserId: AuthUserScalarFieldEnumInterface;
+    userRole: AuthUserScalarFieldEnumInterface;
+    timezone: AuthUserScalarFieldEnumInterface;
+    createdAt: AuthUserScalarFieldEnumInterface;
+    updatedAt: AuthUserScalarFieldEnumInterface;
+    lang: AuthUserScalarFieldEnumInterface;
 };

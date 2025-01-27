@@ -1,3 +1,3 @@
 export type AuthAsyncLocalStorageData = {
-  authTimezone?: number;
+    authTimezone?: number;
 };

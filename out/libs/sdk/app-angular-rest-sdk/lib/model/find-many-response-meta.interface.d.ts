@@ -9,7 +9,7 @@
  * Do not edit the class manually.
  */
 export interface FindManyResponseMetaInterface {
-  curPage?: number;
-  perPage?: number;
-  totalResults: number;
+    curPage?: number;
+    perPage?: number;
+    totalResults: number;
 }

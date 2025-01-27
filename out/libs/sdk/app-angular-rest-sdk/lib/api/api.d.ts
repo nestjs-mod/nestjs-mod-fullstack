@@ -10,11 +10,4 @@ export * from './time-rest.service';
 import { TimeRestService } from './time-rest.service';
 export * from './webhook-rest.service';
 import { WebhookRestService } from './webhook-rest.service';
-export declare const APIS: (
-  | typeof AppRestService
-  | typeof AuthRestService
-  | typeof FilesRestService
-  | typeof TerminusHealthCheckRestService
-  | typeof TimeRestService
-  | typeof WebhookRestService
-)[];
+export declare const APIS: (typeof AppRestService | typeof AuthRestService | typeof FilesRestService | typeof TerminusHealthCheckRestService | typeof TimeRestService | typeof WebhookRestService)[];

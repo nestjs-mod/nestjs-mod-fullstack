@@ -10,11 +10,11 @@
  */
 import { FilesErrorEnumInterface } from './files-error-enum.interface';
 export interface FilesErrorInterface {
-  /**
-   * Files error (FILES-000), Forbidden (FILES-001)
-   */
-  message: string;
-  code: FilesErrorEnumInterface;
-  metadata?: object;
+    /**
+     * Files error (FILES-000), Forbidden (FILES-001)
+     */
+    message: string;
+    code: FilesErrorEnumInterface;
+    metadata?: object;
 }
-export declare namespace FilesErrorInterface {}
+export declare namespace FilesErrorInterface { }

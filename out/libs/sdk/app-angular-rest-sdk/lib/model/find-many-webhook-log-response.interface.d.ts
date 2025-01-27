@@ -11,6 +11,6 @@
 import { FindManyResponseMetaInterface } from './find-many-response-meta.interface';
 import { WebhookLogInterface } from './webhook-log.interface';
 export interface FindManyWebhookLogResponseInterface {
-  webhookLogs: Array<WebhookLogInterface>;
-  meta: FindManyResponseMetaInterface;
+    webhookLogs: Array<WebhookLogInterface>;
+    meta: FindManyResponseMetaInterface;
 }

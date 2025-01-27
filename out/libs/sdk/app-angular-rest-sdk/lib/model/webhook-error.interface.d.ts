@@ -10,11 +10,11 @@
  */
 import { WebhookErrorEnumInterface } from './webhook-error-enum.interface';
 export interface WebhookErrorInterface {
-  /**
-   * Webhook error (WEBHOOK-000), Tenant ID not set (WEBHOOK-003), User ID not set (WEBHOOK-002), Forbidden (WEBHOOK-001), User not found (WEBHOOK-004), Event not found (WEBHOOK-005)
-   */
-  message: string;
-  code: WebhookErrorEnumInterface;
-  metadata?: object;
+    /**
+     * Webhook error (WEBHOOK-000), Tenant ID not set (WEBHOOK-003), User ID not set (WEBHOOK-002), Forbidden (WEBHOOK-001), User not found (WEBHOOK-004), Event not found (WEBHOOK-005)
+     */
+    message: string;
+    code: WebhookErrorEnumInterface;
+    metadata?: object;
 }
-export declare namespace WebhookErrorInterface {}
+export declare namespace WebhookErrorInterface { }

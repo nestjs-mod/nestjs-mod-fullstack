@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -12,59 +12,24 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-Object.defineProperty(exports, '__esModule', { value: true });
-exports.WebhookApi =
-  exports.WebhookApiFactory =
-  exports.WebhookApiFp =
-  exports.WebhookApiAxiosParamCreator =
-  exports.TimeApi =
-  exports.TimeApiFactory =
-  exports.TimeApiFp =
-  exports.TimeApiAxiosParamCreator =
-  exports.TerminusHealthCheckApi =
-  exports.TerminusHealthCheckApiFactory =
-  exports.TerminusHealthCheckApiFp =
-  exports.TerminusHealthCheckApiAxiosParamCreator =
-  exports.FilesApi =
-  exports.FilesApiFactory =
-  exports.FilesApiFp =
-  exports.FilesApiAxiosParamCreator =
-  exports.AuthApi =
-  exports.AuthApiFactory =
-  exports.AuthApiFp =
-  exports.AuthApiAxiosParamCreator =
-  exports.AppApi =
-  exports.AppApiFactory =
-  exports.AppApiFp =
-  exports.AppApiAxiosParamCreator =
-  exports.WebhookUserScalarFieldEnum =
-  exports.WebhookStatus =
-  exports.WebhookScalarFieldEnum =
-  exports.WebhookRole =
-  exports.WebhookLogScalarFieldEnum =
-  exports.WebhookErrorEnum =
-  exports.ValidationErrorEnum =
-  exports.FilesErrorEnum =
-  exports.AuthUserScalarFieldEnum =
-  exports.AuthRole =
-  exports.AuthErrorEnum =
-    void 0;
-const tslib_1 = require('tslib');
-const axios_1 = tslib_1.__importDefault(require('axios'));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebhookApi = exports.WebhookApiFactory = exports.WebhookApiFp = exports.WebhookApiAxiosParamCreator = exports.TimeApi = exports.TimeApiFactory = exports.TimeApiFp = exports.TimeApiAxiosParamCreator = exports.TerminusHealthCheckApi = exports.TerminusHealthCheckApiFactory = exports.TerminusHealthCheckApiFp = exports.TerminusHealthCheckApiAxiosParamCreator = exports.FilesApi = exports.FilesApiFactory = exports.FilesApiFp = exports.FilesApiAxiosParamCreator = exports.AuthApi = exports.AuthApiFactory = exports.AuthApiFp = exports.AuthApiAxiosParamCreator = exports.AppApi = exports.AppApiFactory = exports.AppApiFp = exports.AppApiAxiosParamCreator = exports.WebhookUserScalarFieldEnum = exports.WebhookStatus = exports.WebhookScalarFieldEnum = exports.WebhookRole = exports.WebhookLogScalarFieldEnum = exports.WebhookErrorEnum = exports.ValidationErrorEnum = exports.FilesErrorEnum = exports.AuthUserScalarFieldEnum = exports.AuthRole = exports.AuthErrorEnum = void 0;
+const tslib_1 = require("tslib");
+const axios_1 = tslib_1.__importDefault(require("axios"));
 // Some imports not used depending on template conditions
 // @ts-ignore
-const common_1 = require('./common');
+const common_1 = require("./common");
 // @ts-ignore
-const base_1 = require('./base');
+const base_1 = require("./base");
 /**
  *
  * @export
  * @enum {string}
  */
 exports.AuthErrorEnum = {
-  _000: 'AUTH-000',
-  _001: 'AUTH-001',
-  _002: 'AUTH-002',
+    _000: 'AUTH-000',
+    _001: 'AUTH-001',
+    _002: 'AUTH-002',
 };
 /**
  *
@@ -72,8 +37,8 @@ exports.AuthErrorEnum = {
  * @enum {string}
  */
 exports.AuthRole = {
-  Admin: 'Admin',
-  User: 'User',
+    Admin: 'Admin',
+    User: 'User',
 };
 /**
  *
@@ -81,13 +46,13 @@ exports.AuthRole = {
  * @enum {string}
  */
 exports.AuthUserScalarFieldEnum = {
-  Id: 'id',
-  ExternalUserId: 'externalUserId',
-  UserRole: 'userRole',
-  Timezone: 'timezone',
-  CreatedAt: 'createdAt',
-  UpdatedAt: 'updatedAt',
-  Lang: 'lang',
+    Id: 'id',
+    ExternalUserId: 'externalUserId',
+    UserRole: 'userRole',
+    Timezone: 'timezone',
+    CreatedAt: 'createdAt',
+    UpdatedAt: 'updatedAt',
+    Lang: 'lang',
 };
 /**
  *
@@ -95,8 +60,8 @@ exports.AuthUserScalarFieldEnum = {
  * @enum {string}
  */
 exports.FilesErrorEnum = {
-  _000: 'FILES-000',
-  _001: 'FILES-001',
+    _000: 'FILES-000',
+    _001: 'FILES-001',
 };
 /**
  *
@@ -104,7 +69,7 @@ exports.FilesErrorEnum = {
  * @enum {string}
  */
 exports.ValidationErrorEnum = {
-  Validation000: 'VALIDATION-000',
+    Validation000: 'VALIDATION-000',
 };
 /**
  *
@@ -112,12 +77,12 @@ exports.ValidationErrorEnum = {
  * @enum {string}
  */
 exports.WebhookErrorEnum = {
-  _000: 'WEBHOOK-000',
-  _001: 'WEBHOOK-001',
-  _002: 'WEBHOOK-002',
-  _003: 'WEBHOOK-003',
-  _004: 'WEBHOOK-004',
-  _005: 'WEBHOOK-005',
+    _000: 'WEBHOOK-000',
+    _001: 'WEBHOOK-001',
+    _002: 'WEBHOOK-002',
+    _003: 'WEBHOOK-003',
+    _004: 'WEBHOOK-004',
+    _005: 'WEBHOOK-005',
 };
 /**
  *
@@ -125,15 +90,15 @@ exports.WebhookErrorEnum = {
  * @enum {string}
  */
 exports.WebhookLogScalarFieldEnum = {
-  Id: 'id',
-  Request: 'request',
-  ResponseStatus: 'responseStatus',
-  Response: 'response',
-  WebhookStatus: 'webhookStatus',
-  WebhookId: 'webhookId',
-  ExternalTenantId: 'externalTenantId',
-  CreatedAt: 'createdAt',
-  UpdatedAt: 'updatedAt',
+    Id: 'id',
+    Request: 'request',
+    ResponseStatus: 'responseStatus',
+    Response: 'response',
+    WebhookStatus: 'webhookStatus',
+    WebhookId: 'webhookId',
+    ExternalTenantId: 'externalTenantId',
+    CreatedAt: 'createdAt',
+    UpdatedAt: 'updatedAt',
 };
 /**
  *
@@ -141,8 +106,8 @@ exports.WebhookLogScalarFieldEnum = {
  * @enum {string}
  */
 exports.WebhookRole = {
-  Admin: 'Admin',
-  User: 'User',
+    Admin: 'Admin',
+    User: 'User',
 };
 /**
  *
@@ -150,18 +115,18 @@ exports.WebhookRole = {
  * @enum {string}
  */
 exports.WebhookScalarFieldEnum = {
-  Id: 'id',
-  EventName: 'eventName',
-  Endpoint: 'endpoint',
-  Enabled: 'enabled',
-  Headers: 'headers',
-  RequestTimeout: 'requestTimeout',
-  ExternalTenantId: 'externalTenantId',
-  CreatedBy: 'createdBy',
-  UpdatedBy: 'updatedBy',
-  CreatedAt: 'createdAt',
-  UpdatedAt: 'updatedAt',
-  WorkUntilDate: 'workUntilDate',
+    Id: 'id',
+    EventName: 'eventName',
+    Endpoint: 'endpoint',
+    Enabled: 'enabled',
+    Headers: 'headers',
+    RequestTimeout: 'requestTimeout',
+    ExternalTenantId: 'externalTenantId',
+    CreatedBy: 'createdBy',
+    UpdatedBy: 'updatedBy',
+    CreatedAt: 'createdAt',
+    UpdatedAt: 'updatedAt',
+    WorkUntilDate: 'workUntilDate',
 };
 /**
  *
@@ -169,11 +134,11 @@ exports.WebhookScalarFieldEnum = {
  * @enum {string}
  */
 exports.WebhookStatus = {
-  Pending: 'Pending',
-  Process: 'Process',
-  Success: 'Success',
-  Error: 'Error',
-  Timeout: 'Timeout',
+    Pending: 'Pending',
+    Process: 'Process',
+    Success: 'Success',
+    Error: 'Error',
+    Timeout: 'Timeout',
 };
 /**
  *
@@ -181,236 +146,221 @@ exports.WebhookStatus = {
  * @enum {string}
  */
 exports.WebhookUserScalarFieldEnum = {
-  Id: 'id',
-  ExternalTenantId: 'externalTenantId',
-  ExternalUserId: 'externalUserId',
-  UserRole: 'userRole',
-  CreatedAt: 'createdAt',
-  UpdatedAt: 'updatedAt',
+    Id: 'id',
+    ExternalTenantId: 'externalTenantId',
+    ExternalUserId: 'externalUserId',
+    UserRole: 'userRole',
+    CreatedAt: 'createdAt',
+    UpdatedAt: 'updatedAt',
 };
 /**
  * AppApi - axios parameter creator
  * @export
  */
 const AppApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoCreateOne: async (options = {}) => {
-      const localVarPath = `/api/demo`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoDeleteOne: async (id, options = {}) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('appControllerDemoDeleteOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoFindMany: async (options = {}) => {
-      const localVarPath = `/api/demo`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoFindOne: async (id, options = {}) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('appControllerDemoFindOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoUpdateOne: async (id, options = {}) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('appControllerDemoUpdateOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerGetData: async (options = {}) => {
-      const localVarPath = `/api/get-data`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoCreateOne: async (options = {}) => {
+            const localVarPath = `/api/demo`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoDeleteOne: async (id, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('appControllerDemoDeleteOne', 'id', id);
+            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoFindMany: async (options = {}) => {
+            const localVarPath = `/api/demo`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoFindOne: async (id, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('appControllerDemoFindOne', 'id', id);
+            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoUpdateOne: async (id, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('appControllerDemoUpdateOne', 'id', id);
+            const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerGetData: async (options = {}) => {
+            const localVarPath = `/api/get-data`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
 exports.AppApiAxiosParamCreator = AppApiAxiosParamCreator;
 /**
@@ -418,140 +368,78 @@ exports.AppApiAxiosParamCreator = AppApiAxiosParamCreator;
  * @export
  */
 const AppApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0, exports.AppApiAxiosParamCreator)(
-    configuration
-  );
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerDemoCreateOne(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoCreateOne(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerDemoCreateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerDemoDeleteOne(id, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoDeleteOne(id, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerDemoDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerDemoFindMany(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoFindMany(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerDemoFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerDemoFindOne(id, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoFindOne(id, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerDemoFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerDemoUpdateOne(id, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoUpdateOne(id, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerDemoUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async appControllerGetData(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerGetData(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AppApi.appControllerGetData']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.AppApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerDemoCreateOne(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoCreateOne(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerDemoCreateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerDemoDeleteOne(id, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoDeleteOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerDemoDeleteOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerDemoFindMany(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoFindMany(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerDemoFindMany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerDemoFindOne(id, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoFindOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerDemoFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerDemoUpdateOne(id, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoUpdateOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerDemoUpdateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerGetData(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetData(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AppApi.appControllerGetData']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.AppApiFp = AppApiFp;
 /**
@@ -559,72 +447,72 @@ exports.AppApiFp = AppApiFp;
  * @export
  */
 const AppApiFactory = function (configuration, basePath, axios) {
-  const localVarFp = (0, exports.AppApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoCreateOne(options) {
-      return localVarFp
-        .appControllerDemoCreateOne(options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoDeleteOne(id, options) {
-      return localVarFp
-        .appControllerDemoDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoFindMany(options) {
-      return localVarFp
-        .appControllerDemoFindMany(options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoFindOne(id, options) {
-      return localVarFp
-        .appControllerDemoFindOne(id, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerDemoUpdateOne(id, options) {
-      return localVarFp
-        .appControllerDemoUpdateOne(id, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    appControllerGetData(options) {
-      return localVarFp
-        .appControllerGetData(options)
-        .then((request) => request(axios, basePath));
-    },
-  };
+    const localVarFp = (0, exports.AppApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoCreateOne(options) {
+            return localVarFp
+                .appControllerDemoCreateOne(options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoDeleteOne(id, options) {
+            return localVarFp
+                .appControllerDemoDeleteOne(id, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoFindMany(options) {
+            return localVarFp
+                .appControllerDemoFindMany(options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoFindOne(id, options) {
+            return localVarFp
+                .appControllerDemoFindOne(id, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerDemoUpdateOne(id, options) {
+            return localVarFp
+                .appControllerDemoUpdateOne(id, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerGetData(options) {
+            return localVarFp
+                .appControllerGetData(options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.AppApiFactory = AppApiFactory;
 /**
@@ -634,75 +522,75 @@ exports.AppApiFactory = AppApiFactory;
  * @extends {BaseAPI}
  */
 class AppApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoCreateOne(options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerDemoCreateOne(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoDeleteOne(id, options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerDemoDeleteOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoFindMany(options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerDemoFindMany(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoFindOne(id, options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerDemoFindOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoUpdateOne(id, options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerDemoUpdateOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerGetData(options) {
-    return (0, exports.AppApiFp)(this.configuration)
-      .appControllerGetData(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoCreateOne(options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerDemoCreateOne(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoDeleteOne(id, options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerDemoDeleteOne(id, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoFindMany(options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerDemoFindMany(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoFindOne(id, options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerDemoFindOne(id, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoUpdateOne(id, options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerDemoUpdateOne(id, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerGetData(options) {
+        return (0, exports.AppApiFp)(this.configuration)
+            .appControllerGetData(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.AppApi = AppApi;
 /**
@@ -710,276 +598,235 @@ exports.AppApi = AppApi;
  * @export
  */
 const AuthApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authControllerProfile: async (options = {}) => {
-      const localVarPath = `/api/auth/profile`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {AuthProfileDto} authProfileDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authControllerUpdateProfile: async (authProfileDto, options = {}) => {
-      // verify required parameter 'authProfileDto' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'authControllerUpdateProfile',
-        'authProfileDto',
-        authProfileDto
-      );
-      const localVarPath = `/api/auth/update-profile`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(
-        authProfileDto,
-        localVarRequestOptions,
-        configuration
-      );
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerDeleteOne: async (id, options = {}) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('authUsersControllerDeleteOne', 'id', id);
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerFindMany: async (
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options = {}
-    ) => {
-      const localVarPath = `/api/auth/users`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (curPage !== undefined) {
-        localVarQueryParameter['curPage'] = curPage;
-      }
-      if (perPage !== undefined) {
-        localVarQueryParameter['perPage'] = perPage;
-      }
-      if (searchText !== undefined) {
-        localVarQueryParameter['searchText'] = searchText;
-      }
-      if (sort !== undefined) {
-        localVarQueryParameter['sort'] = sort;
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerFindOne: async (id, options = {}) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('authUsersControllerFindOne', 'id', id);
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateAuthUserDto} updateAuthUserDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerUpdateOne: async (
-      id,
-      updateAuthUserDto,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('authUsersControllerUpdateOne', 'id', id);
-      // verify required parameter 'updateAuthUserDto' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'authUsersControllerUpdateOne',
-        'updateAuthUserDto',
-        updateAuthUserDto
-      );
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(
-        updateAuthUserDto,
-        localVarRequestOptions,
-        configuration
-      );
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerProfile: async (options = {}) => {
+            const localVarPath = `/api/auth/profile`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {AuthProfileDto} authProfileDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerUpdateProfile: async (authProfileDto, options = {}) => {
+            // verify required parameter 'authProfileDto' is not null or undefined
+            (0, common_1.assertParamExists)('authControllerUpdateProfile', 'authProfileDto', authProfileDto);
+            const localVarPath = `/api/auth/update-profile`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(authProfileDto, localVarRequestOptions, configuration);
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerDeleteOne: async (id, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('authUsersControllerDeleteOne', 'id', id);
+            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerFindMany: async (curPage, perPage, searchText, sort, options = {}) => {
+            const localVarPath = `/api/auth/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (curPage !== undefined) {
+                localVarQueryParameter['curPage'] = curPage;
+            }
+            if (perPage !== undefined) {
+                localVarQueryParameter['perPage'] = perPage;
+            }
+            if (searchText !== undefined) {
+                localVarQueryParameter['searchText'] = searchText;
+            }
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerFindOne: async (id, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('authUsersControllerFindOne', 'id', id);
+            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateAuthUserDto} updateAuthUserDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerUpdateOne: async (id, updateAuthUserDto, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('authUsersControllerUpdateOne', 'id', id);
+            // verify required parameter 'updateAuthUserDto' is not null or undefined
+            (0, common_1.assertParamExists)('authUsersControllerUpdateOne', 'updateAuthUserDto', updateAuthUserDto);
+            const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateAuthUserDto, localVarRequestOptions, configuration);
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
 exports.AuthApiAxiosParamCreator = AuthApiAxiosParamCreator;
 /**
@@ -987,168 +834,84 @@ exports.AuthApiAxiosParamCreator = AuthApiAxiosParamCreator;
  * @export
  */
 const AuthApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0, exports.AuthApiAxiosParamCreator)(
-    configuration
-  );
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authControllerProfile(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authControllerProfile(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authControllerProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {AuthProfileDto} authProfileDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authControllerUpdateProfile(authProfileDto, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authControllerUpdateProfile(
-          authProfileDto,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authControllerUpdateProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authUsersControllerDeleteOne(id, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerDeleteOne(
-          id,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authUsersControllerFindMany(
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerFindMany(
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authUsersControllerFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authUsersControllerFindOne(id, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authUsersControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateAuthUserDto} updateAuthUserDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerUpdateOne(
-          id,
-          updateAuthUserDto,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.AuthApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authControllerProfile(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerProfile(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authControllerProfile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {AuthProfileDto} authProfileDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authControllerUpdateProfile(authProfileDto, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerUpdateProfile(authProfileDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authControllerUpdateProfile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authUsersControllerDeleteOne(id, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerDeleteOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerFindMany(curPage, perPage, searchText, sort, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authUsersControllerFindMany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authUsersControllerFindOne(id, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authUsersControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateAuthUserDto} updateAuthUserDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerUpdateOne(id, updateAuthUserDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.AuthApiFp = AuthApiFp;
 /**
@@ -1156,84 +919,78 @@ exports.AuthApiFp = AuthApiFp;
  * @export
  */
 const AuthApiFactory = function (configuration, basePath, axios) {
-  const localVarFp = (0, exports.AuthApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authControllerProfile(options) {
-      return localVarFp
-        .authControllerProfile(options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {AuthProfileDto} authProfileDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authControllerUpdateProfile(authProfileDto, options) {
-      return localVarFp
-        .authControllerUpdateProfile(authProfileDto, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerDeleteOne(id, options) {
-      return localVarFp
-        .authUsersControllerDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
-      return localVarFp
-        .authUsersControllerFindMany(
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerFindOne(id, options) {
-      return localVarFp
-        .authUsersControllerFindOne(id, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateAuthUserDto} updateAuthUserDto
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
-      return localVarFp
-        .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
-        .then((request) => request(axios, basePath));
-    },
-  };
+    const localVarFp = (0, exports.AuthApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerProfile(options) {
+            return localVarFp
+                .authControllerProfile(options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {AuthProfileDto} authProfileDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerUpdateProfile(authProfileDto, options) {
+            return localVarFp
+                .authControllerUpdateProfile(authProfileDto, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerDeleteOne(id, options) {
+            return localVarFp
+                .authUsersControllerDeleteOne(id, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
+            return localVarFp
+                .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerFindOne(id, options) {
+            return localVarFp
+                .authUsersControllerFindOne(id, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateAuthUserDto} updateAuthUserDto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
+            return localVarFp
+                .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.AuthApiFactory = AuthApiFactory;
 /**
@@ -1243,81 +1000,81 @@ exports.AuthApiFactory = AuthApiFactory;
  * @extends {BaseAPI}
  */
 class AuthApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authControllerProfile(options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authControllerProfile(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {AuthProfileDto} authProfileDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authControllerUpdateProfile(authProfileDto, options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authControllerUpdateProfile(authProfileDto, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerDeleteOne(id, options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authUsersControllerDeleteOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerFindOne(id, options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authUsersControllerFindOne(id, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateAuthUserDto} updateAuthUserDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
-    return (0, exports.AuthApiFp)(this.configuration)
-      .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authControllerProfile(options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authControllerProfile(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {AuthProfileDto} authProfileDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authControllerUpdateProfile(authProfileDto, options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authControllerUpdateProfile(authProfileDto, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerDeleteOne(id, options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authUsersControllerDeleteOne(id, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerFindMany(curPage, perPage, searchText, sort, options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerFindOne(id, options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authUsersControllerFindOne(id, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerUpdateOne(id, updateAuthUserDto, options) {
+        return (0, exports.AuthApiFp)(this.configuration)
+            .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.AuthApi = AuthApi;
 /**
@@ -1325,94 +1082,84 @@ exports.AuthApi = AuthApi;
  * @export
  */
 const FilesApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {string} downloadUrl
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    filesControllerDeleteFile: async (downloadUrl, options = {}) => {
-      // verify required parameter 'downloadUrl' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'filesControllerDeleteFile',
-        'downloadUrl',
-        downloadUrl
-      );
-      const localVarPath = `/api/files/delete-file`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (downloadUrl !== undefined) {
-        localVarQueryParameter['downloadUrl'] = downloadUrl;
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} ext
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    filesControllerGetPresignedUrl: async (ext, options = {}) => {
-      // verify required parameter 'ext' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'filesControllerGetPresignedUrl',
-        'ext',
-        ext
-      );
-      const localVarPath = `/api/files/get-presigned-url`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (ext !== undefined) {
-        localVarQueryParameter['ext'] = ext;
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {string} downloadUrl
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filesControllerDeleteFile: async (downloadUrl, options = {}) => {
+            // verify required parameter 'downloadUrl' is not null or undefined
+            (0, common_1.assertParamExists)('filesControllerDeleteFile', 'downloadUrl', downloadUrl);
+            const localVarPath = `/api/files/delete-file`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (downloadUrl !== undefined) {
+                localVarQueryParameter['downloadUrl'] = downloadUrl;
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} ext
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filesControllerGetPresignedUrl: async (ext, options = {}) => {
+            // verify required parameter 'ext' is not null or undefined
+            (0, common_1.assertParamExists)('filesControllerGetPresignedUrl', 'ext', ext);
+            const localVarPath = `/api/files/get-presigned-url`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (ext !== undefined) {
+                localVarQueryParameter['ext'] = ext;
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
 exports.FilesApiAxiosParamCreator = FilesApiAxiosParamCreator;
 /**
@@ -1420,61 +1167,33 @@ exports.FilesApiAxiosParamCreator = FilesApiAxiosParamCreator;
  * @export
  */
 const FilesApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0, exports.FilesApiAxiosParamCreator)(
-    configuration
-  );
-  return {
-    /**
-     *
-     * @param {string} downloadUrl
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async filesControllerDeleteFile(downloadUrl, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.filesControllerDeleteFile(
-          downloadUrl,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['FilesApi.filesControllerDeleteFile']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} ext
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async filesControllerGetPresignedUrl(ext, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.filesControllerGetPresignedUrl(
-          ext,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['FilesApi.filesControllerGetPresignedUrl']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.FilesApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {string} downloadUrl
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async filesControllerDeleteFile(downloadUrl, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerDeleteFile(downloadUrl, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['FilesApi.filesControllerDeleteFile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} ext
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async filesControllerGetPresignedUrl(ext, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerGetPresignedUrl(ext, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['FilesApi.filesControllerGetPresignedUrl']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.FilesApiFp = FilesApiFp;
 /**
@@ -1482,31 +1201,31 @@ exports.FilesApiFp = FilesApiFp;
  * @export
  */
 const FilesApiFactory = function (configuration, basePath, axios) {
-  const localVarFp = (0, exports.FilesApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {string} downloadUrl
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    filesControllerDeleteFile(downloadUrl, options) {
-      return localVarFp
-        .filesControllerDeleteFile(downloadUrl, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} ext
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    filesControllerGetPresignedUrl(ext, options) {
-      return localVarFp
-        .filesControllerGetPresignedUrl(ext, options)
-        .then((request) => request(axios, basePath));
-    },
-  };
+    const localVarFp = (0, exports.FilesApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {string} downloadUrl
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filesControllerDeleteFile(downloadUrl, options) {
+            return localVarFp
+                .filesControllerDeleteFile(downloadUrl, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} ext
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filesControllerGetPresignedUrl(ext, options) {
+            return localVarFp
+                .filesControllerGetPresignedUrl(ext, options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.FilesApiFactory = FilesApiFactory;
 /**
@@ -1516,30 +1235,30 @@ exports.FilesApiFactory = FilesApiFactory;
  * @extends {BaseAPI}
  */
 class FilesApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {string} downloadUrl
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FilesApi
-   */
-  filesControllerDeleteFile(downloadUrl, options) {
-    return (0, exports.FilesApiFp)(this.configuration)
-      .filesControllerDeleteFile(downloadUrl, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} ext
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FilesApi
-   */
-  filesControllerGetPresignedUrl(ext, options) {
-    return (0, exports.FilesApiFp)(this.configuration)
-      .filesControllerGetPresignedUrl(ext, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    filesControllerDeleteFile(downloadUrl, options) {
+        return (0, exports.FilesApiFp)(this.configuration)
+            .filesControllerDeleteFile(downloadUrl, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    filesControllerGetPresignedUrl(ext, options) {
+        return (0, exports.FilesApiFp)(this.configuration)
+            .filesControllerGetPresignedUrl(ext, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.FilesApi = FilesApi;
 /**
@@ -1547,100 +1266,81 @@ exports.FilesApi = FilesApi;
  * @export
  */
 const TerminusHealthCheckApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    terminusHealthCheckControllerCheck: async (options = {}) => {
-      const localVarPath = `/api/health`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        terminusHealthCheckControllerCheck: async (options = {}) => {
+            const localVarPath = `/api/health`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
-exports.TerminusHealthCheckApiAxiosParamCreator =
-  TerminusHealthCheckApiAxiosParamCreator;
+exports.TerminusHealthCheckApiAxiosParamCreator = TerminusHealthCheckApiAxiosParamCreator;
 /**
  * TerminusHealthCheckApi - functional programming interface
  * @export
  */
 const TerminusHealthCheckApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0,
-  exports.TerminusHealthCheckApiAxiosParamCreator)(configuration);
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async terminusHealthCheckControllerCheck(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap[
-          'TerminusHealthCheckApi.terminusHealthCheckControllerCheck'
-        ]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.TerminusHealthCheckApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async terminusHealthCheckControllerCheck(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['TerminusHealthCheckApi.terminusHealthCheckControllerCheck']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.TerminusHealthCheckApiFp = TerminusHealthCheckApiFp;
 /**
  * TerminusHealthCheckApi - factory interface
  * @export
  */
-const TerminusHealthCheckApiFactory = function (
-  configuration,
-  basePath,
-  axios
-) {
-  const localVarFp = (0, exports.TerminusHealthCheckApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    terminusHealthCheckControllerCheck(options) {
-      return localVarFp
-        .terminusHealthCheckControllerCheck(options)
-        .then((request) => request(axios, basePath));
-    },
-  };
+const TerminusHealthCheckApiFactory = function (configuration, basePath, axios) {
+    const localVarFp = (0, exports.TerminusHealthCheckApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        terminusHealthCheckControllerCheck(options) {
+            return localVarFp
+                .terminusHealthCheckControllerCheck(options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.TerminusHealthCheckApiFactory = TerminusHealthCheckApiFactory;
 /**
@@ -1650,17 +1350,17 @@ exports.TerminusHealthCheckApiFactory = TerminusHealthCheckApiFactory;
  * @extends {BaseAPI}
  */
 class TerminusHealthCheckApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TerminusHealthCheckApi
-   */
-  terminusHealthCheckControllerCheck(options) {
-    return (0, exports.TerminusHealthCheckApiFp)(this.configuration)
-      .terminusHealthCheckControllerCheck(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TerminusHealthCheckApi
+     */
+    terminusHealthCheckControllerCheck(options) {
+        return (0, exports.TerminusHealthCheckApiFp)(this.configuration)
+            .terminusHealthCheckControllerCheck(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.TerminusHealthCheckApi = TerminusHealthCheckApi;
 /**
@@ -1668,41 +1368,40 @@ exports.TerminusHealthCheckApi = TerminusHealthCheckApi;
  * @export
  */
 const TimeApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    timeControllerTime: async (options = {}) => {
-      const localVarPath = `/api/time`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        timeControllerTime: async (options = {}) => {
+            const localVarPath = `/api/time`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
 exports.TimeApiAxiosParamCreator = TimeApiAxiosParamCreator;
 /**
@@ -1710,32 +1409,20 @@ exports.TimeApiAxiosParamCreator = TimeApiAxiosParamCreator;
  * @export
  */
 const TimeApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0, exports.TimeApiAxiosParamCreator)(
-    configuration
-  );
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async timeControllerTime(options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.timeControllerTime(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['TimeApi.timeControllerTime']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.TimeApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async timeControllerTime(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.timeControllerTime(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['TimeApi.timeControllerTime']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.TimeApiFp = TimeApiFp;
 /**
@@ -1743,19 +1430,19 @@ exports.TimeApiFp = TimeApiFp;
  * @export
  */
 const TimeApiFactory = function (configuration, basePath, axios) {
-  const localVarFp = (0, exports.TimeApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    timeControllerTime(options) {
-      return localVarFp
-        .timeControllerTime(options)
-        .then((request) => request(axios, basePath));
-    },
-  };
+    const localVarFp = (0, exports.TimeApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        timeControllerTime(options) {
+            return localVarFp
+                .timeControllerTime(options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.TimeApiFactory = TimeApiFactory;
 /**
@@ -1765,17 +1452,17 @@ exports.TimeApiFactory = TimeApiFactory;
  * @extends {BaseAPI}
  */
 class TimeApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TimeApi
-   */
-  timeControllerTime(options) {
-    return (0, exports.TimeApiFp)(this.configuration)
-      .timeControllerTime(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TimeApi
+     */
+    timeControllerTime(options) {
+        return (0, exports.TimeApiFp)(this.configuration)
+            .timeControllerTime(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.TimeApi = TimeApi;
 /**
@@ -1783,727 +1470,584 @@ exports.TimeApi = TimeApi;
  * @export
  */
 const WebhookApiAxiosParamCreator = function (configuration) {
-  return {
-    /**
-     *
-     * @param {CreateWebhookDto} createWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerCreateOne: async (
-      createWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'createWebhookDto' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookControllerCreateOne',
-        'createWebhookDto',
-        createWebhookDto
-      );
-      const localVarPath = `/api/webhook`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(
-        createWebhookDto,
-        localVarRequestOptions,
-        configuration
-      );
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerDeleteOne: async (
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('webhookControllerDeleteOne', 'id', id);
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerEvents: async (
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      const localVarPath = `/api/webhook/events`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindMany: async (
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options = {}
-    ) => {
-      const localVarPath = `/api/webhook`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (curPage !== undefined) {
-        localVarQueryParameter['curPage'] = curPage;
-      }
-      if (perPage !== undefined) {
-        localVarQueryParameter['perPage'] = perPage;
-      }
-      if (searchText !== undefined) {
-        localVarQueryParameter['searchText'] = searchText;
-      }
-      if (sort !== undefined) {
-        localVarQueryParameter['sort'] = sort;
-      }
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindManyLogs: async (
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookControllerFindManyLogs',
-        'id',
-        id
-      );
-      const localVarPath = `/api/webhook/{id}/logs`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (curPage !== undefined) {
-        localVarQueryParameter['curPage'] = curPage;
-      }
-      if (perPage !== undefined) {
-        localVarQueryParameter['perPage'] = perPage;
-      }
-      if (searchText !== undefined) {
-        localVarQueryParameter['searchText'] = searchText;
-      }
-      if (sort !== undefined) {
-        localVarQueryParameter['sort'] = sort;
-      }
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindOne: async (
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('webhookControllerFindOne', 'id', id);
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerProfile: async (
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      const localVarPath = `/api/webhook/profile`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookDto} updateWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerUpdateOne: async (
-      id,
-      updateWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)('webhookControllerUpdateOne', 'id', id);
-      // verify required parameter 'updateWebhookDto' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookControllerUpdateOne',
-        'updateWebhookDto',
-        updateWebhookDto
-      );
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(
-        updateWebhookDto,
-        localVarRequestOptions,
-        configuration
-      );
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerDeleteOne: async (
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookUsersControllerDeleteOne',
-        'id',
-        id
-      );
-      const localVarPath = `/api/webhook/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerFindMany: async (
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options = {}
-    ) => {
-      const localVarPath = `/api/webhook/users`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (curPage !== undefined) {
-        localVarQueryParameter['curPage'] = curPage;
-      }
-      if (perPage !== undefined) {
-        localVarQueryParameter['perPage'] = perPage;
-      }
-      if (searchText !== undefined) {
-        localVarQueryParameter['searchText'] = searchText;
-      }
-      if (sort !== undefined) {
-        localVarQueryParameter['sort'] = sort;
-      }
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerFindOne: async (
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookUsersControllerFindOne',
-        'id',
-        id
-      );
-      const localVarPath = `/api/webhook/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookUserDto} updateWebhookUserDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerUpdateOne: async (
-      id,
-      updateWebhookUserDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options = {}
-    ) => {
-      // verify required parameter 'id' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookUsersControllerUpdateOne',
-        'id',
-        id
-      );
-      // verify required parameter 'updateWebhookUserDto' is not null or undefined
-      (0, common_1.assertParamExists)(
-        'webhookUsersControllerUpdateOne',
-        'updateWebhookUserDto',
-        updateWebhookUserDto
-      );
-      const localVarPath = `/api/webhook/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {};
-      const localVarQueryParameter = {};
-      if (xExternalUserId != null) {
-        localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
-      }
-      if (xExternalTenantId != null) {
-        localVarHeaderParameter['x-external-tenant-id'] =
-          String(xExternalTenantId);
-      }
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-      (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(
-        updateWebhookUserDto,
-        localVarRequestOptions,
-        configuration
-      );
-      return {
-        url: (0, common_1.toPathString)(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+    return {
+        /**
+         *
+         * @param {CreateWebhookDto} createWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerCreateOne: async (createWebhookDto, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'createWebhookDto' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerCreateOne', 'createWebhookDto', createWebhookDto);
+            const localVarPath = `/api/webhook`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(createWebhookDto, localVarRequestOptions, configuration);
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerDeleteOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerDeleteOne', 'id', id);
+            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerEvents: async (xExternalUserId, xExternalTenantId, options = {}) => {
+            const localVarPath = `/api/webhook/events`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindMany: async (xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options = {}) => {
+            const localVarPath = `/api/webhook`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (curPage !== undefined) {
+                localVarQueryParameter['curPage'] = curPage;
+            }
+            if (perPage !== undefined) {
+                localVarQueryParameter['perPage'] = perPage;
+            }
+            if (searchText !== undefined) {
+                localVarQueryParameter['searchText'] = searchText;
+            }
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindManyLogs: async (id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerFindManyLogs', 'id', id);
+            const localVarPath = `/api/webhook/{id}/logs`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (curPage !== undefined) {
+                localVarQueryParameter['curPage'] = curPage;
+            }
+            if (perPage !== undefined) {
+                localVarQueryParameter['perPage'] = perPage;
+            }
+            if (searchText !== undefined) {
+                localVarQueryParameter['searchText'] = searchText;
+            }
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerFindOne', 'id', id);
+            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerProfile: async (xExternalUserId, xExternalTenantId, options = {}) => {
+            const localVarPath = `/api/webhook/profile`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookDto} updateWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerUpdateOne: async (id, updateWebhookDto, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerUpdateOne', 'id', id);
+            // verify required parameter 'updateWebhookDto' is not null or undefined
+            (0, common_1.assertParamExists)('webhookControllerUpdateOne', 'updateWebhookDto', updateWebhookDto);
+            const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateWebhookDto, localVarRequestOptions, configuration);
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerDeleteOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookUsersControllerDeleteOne', 'id', id);
+            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerFindMany: async (xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options = {}) => {
+            const localVarPath = `/api/webhook/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (curPage !== undefined) {
+                localVarQueryParameter['curPage'] = curPage;
+            }
+            if (perPage !== undefined) {
+                localVarQueryParameter['perPage'] = perPage;
+            }
+            if (searchText !== undefined) {
+                localVarQueryParameter['searchText'] = searchText;
+            }
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerFindOne: async (id, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookUsersControllerFindOne', 'id', id);
+            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookUserDto} updateWebhookUserDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerUpdateOne: async (id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options = {}) => {
+            // verify required parameter 'id' is not null or undefined
+            (0, common_1.assertParamExists)('webhookUsersControllerUpdateOne', 'id', id);
+            // verify required parameter 'updateWebhookUserDto' is not null or undefined
+            (0, common_1.assertParamExists)('webhookUsersControllerUpdateOne', 'updateWebhookUserDto', updateWebhookUserDto);
+            const localVarPath = `/api/webhook/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, common_1.DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            if (xExternalUserId != null) {
+                localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
+            }
+            if (xExternalTenantId != null) {
+                localVarHeaderParameter['x-external-tenant-id'] =
+                    String(xExternalTenantId);
+            }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            (0, common_1.setSearchParams)(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            localVarRequestOptions.data = (0, common_1.serializeDataIfNeeded)(updateWebhookUserDto, localVarRequestOptions, configuration);
+            return {
+                url: (0, common_1.toPathString)(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
 };
 exports.WebhookApiAxiosParamCreator = WebhookApiAxiosParamCreator;
 /**
@@ -2511,445 +2055,187 @@ exports.WebhookApiAxiosParamCreator = WebhookApiAxiosParamCreator;
  * @export
  */
 const WebhookApiFp = function (configuration) {
-  const localVarAxiosParamCreator = (0, exports.WebhookApiAxiosParamCreator)(
-    configuration
-  );
-  return {
-    /**
-     *
-     * @param {CreateWebhookDto} createWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerCreateOne(
-      createWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerCreateOne(
-          createWebhookDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerCreateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerDeleteOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerDeleteOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerEvents(
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerEvents']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerFindMany(
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerFindMany(
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerFindManyLogs(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerFindManyLogs(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerFindManyLogs']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerFindOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerFindOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerProfile(
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerProfile(
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookDto} updateWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookControllerUpdateOne(
-      id,
-      updateWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerUpdateOne(
-          id,
-          updateWebhookDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookControllerUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookUsersControllerDeleteOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookUsersControllerDeleteOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap[
-          'WebhookApi.webhookUsersControllerDeleteOne'
-        ]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookUsersControllerFindMany(
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookUsersControllerFindMany(
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap[
-          'WebhookApi.webhookUsersControllerFindMany'
-        ]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookUsersControllerFindOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookUsersControllerFindOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap['WebhookApi.webhookUsersControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookUserDto} updateWebhookUserDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async webhookUsersControllerUpdateOne(
-      id,
-      updateWebhookUserDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookUsersControllerUpdateOne(
-          id,
-          updateWebhookUserDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        base_1.operationServerMap[
-          'WebhookApi.webhookUsersControllerUpdateOne'
-        ]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        (0, common_1.createRequestFunction)(
-          localVarAxiosArgs,
-          axios_1.default,
-          base_1.BASE_PATH,
-          configuration
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
+    const localVarAxiosParamCreator = (0, exports.WebhookApiAxiosParamCreator)(configuration);
+    return {
+        /**
+         *
+         * @param {CreateWebhookDto} createWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerCreateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerEvents(xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerFindMany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerFindManyLogs']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerProfile(xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerProfile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookDto} updateWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookControllerUpdateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookUsersControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookUsersControllerFindMany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookUsersControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookUserDto} updateWebhookUserDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = base_1.operationServerMap['WebhookApi.webhookUsersControllerUpdateOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => (0, common_1.createRequestFunction)(localVarAxiosArgs, axios_1.default, base_1.BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    };
 };
 exports.WebhookApiFp = WebhookApiFp;
 /**
@@ -2957,294 +2243,175 @@ exports.WebhookApiFp = WebhookApiFp;
  * @export
  */
 const WebhookApiFactory = function (configuration, basePath, axios) {
-  const localVarFp = (0, exports.WebhookApiFp)(configuration);
-  return {
-    /**
-     *
-     * @param {CreateWebhookDto} createWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerCreateOne(
-      createWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookControllerCreateOne(
-          createWebhookDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerDeleteOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookControllerDeleteOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
-      return localVarFp
-        .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindMany(
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      return localVarFp
-        .webhookControllerFindMany(
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindManyLogs(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      return localVarFp
-        .webhookControllerFindManyLogs(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-      return localVarFp
-        .webhookControllerFindOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
-      return localVarFp
-        .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookDto} updateWebhookDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookControllerUpdateOne(
-      id,
-      updateWebhookDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookControllerUpdateOne(
-          id,
-          updateWebhookDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerDeleteOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookUsersControllerDeleteOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {number} [curPage]
-     * @param {number} [perPage]
-     * @param {string} [searchText]
-     * @param {string} [sort]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerFindMany(
-      xExternalUserId,
-      xExternalTenantId,
-      curPage,
-      perPage,
-      searchText,
-      sort,
-      options
-    ) {
-      return localVarFp
-        .webhookUsersControllerFindMany(
-          xExternalUserId,
-          xExternalTenantId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerFindOne(
-      id,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookUsersControllerFindOne(
-          id,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     *
-     * @param {string} id
-     * @param {UpdateWebhookUserDto} updateWebhookUserDto
-     * @param {string} [xExternalUserId]
-     * @param {string} [xExternalTenantId]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    webhookUsersControllerUpdateOne(
-      id,
-      updateWebhookUserDto,
-      xExternalUserId,
-      xExternalTenantId,
-      options
-    ) {
-      return localVarFp
-        .webhookUsersControllerUpdateOne(
-          id,
-          updateWebhookUserDto,
-          xExternalUserId,
-          xExternalTenantId,
-          options
-        )
-        .then((request) => request(axios, basePath));
-    },
-  };
+    const localVarFp = (0, exports.WebhookApiFp)(configuration);
+    return {
+        /**
+         *
+         * @param {CreateWebhookDto} createWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            return localVarFp
+                .webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            return localVarFp
+                .webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookDto} updateWebhookDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {number} [curPage]
+         * @param {number} [perPage]
+         * @param {string} [searchText]
+         * @param {string} [sort]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+            return localVarFp
+                .webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {string} id
+         * @param {UpdateWebhookUserDto} updateWebhookUserDto
+         * @param {string} [xExternalUserId]
+         * @param {string} [xExternalTenantId]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options) {
+            return localVarFp
+                .webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options)
+                .then((request) => request(axios, basePath));
+        },
+    };
 };
 exports.WebhookApiFactory = WebhookApiFactory;
 /**
@@ -3254,293 +2421,184 @@ exports.WebhookApiFactory = WebhookApiFactory;
  * @extends {BaseAPI}
  */
 class WebhookApi extends base_1.BaseAPI {
-  /**
-   *
-   * @param {CreateWebhookDto} createWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerCreateOne(
-    createWebhookDto,
-    xExternalUserId,
-    xExternalTenantId,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerCreateOne(
-        createWebhookDto,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerDeleteOne(
-        id,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindMany(
-    xExternalUserId,
-    xExternalTenantId,
-    curPage,
-    perPage,
-    searchText,
-    sort,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerFindMany(
-        xExternalUserId,
-        xExternalTenantId,
-        curPage,
-        perPage,
-        searchText,
-        sort,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindManyLogs(
-    id,
-    xExternalUserId,
-    xExternalTenantId,
-    curPage,
-    perPage,
-    searchText,
-    sort,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerFindManyLogs(
-        id,
-        xExternalUserId,
-        xExternalTenantId,
-        curPage,
-        perPage,
-        searchText,
-        sort,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookDto} updateWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerUpdateOne(
-    id,
-    updateWebhookDto,
-    xExternalUserId,
-    xExternalTenantId,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookControllerUpdateOne(
-        id,
-        updateWebhookDto,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerDeleteOne(
-    id,
-    xExternalUserId,
-    xExternalTenantId,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookUsersControllerDeleteOne(
-        id,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerFindMany(
-    xExternalUserId,
-    xExternalTenantId,
-    curPage,
-    perPage,
-    searchText,
-    sort,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookUsersControllerFindMany(
-        xExternalUserId,
-        xExternalTenantId,
-        curPage,
-        perPage,
-        searchText,
-        sort,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerFindOne(
-    id,
-    xExternalUserId,
-    xExternalTenantId,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookUsersControllerFindOne(
-        id,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookUserDto} updateWebhookUserDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerUpdateOne(
-    id,
-    updateWebhookUserDto,
-    xExternalUserId,
-    xExternalTenantId,
-    options
-  ) {
-    return (0, exports.WebhookApiFp)(this.configuration)
-      .webhookUsersControllerUpdateOne(
-        id,
-        updateWebhookUserDto,
-        xExternalUserId,
-        xExternalTenantId,
-        options
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
+    /**
+     *
+     * @param {CreateWebhookDto} createWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerCreateOne(createWebhookDto, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerEvents(xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerEvents(xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerFindManyLogs(id, xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerProfile(xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerProfile(xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookDto} updateWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookControllerUpdateOne(id, updateWebhookDto, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookUsersControllerDeleteOne(id, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookUsersControllerFindMany(xExternalUserId, xExternalTenantId, curPage, perPage, searchText, sort, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookUsersControllerFindOne(id, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookUserDto} updateWebhookUserDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options) {
+        return (0, exports.WebhookApiFp)(this.configuration)
+            .webhookUsersControllerUpdateOne(id, updateWebhookUserDto, xExternalUserId, xExternalTenantId, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
 }
 exports.WebhookApi = WebhookApi;
 //# sourceMappingURL=api.js.map

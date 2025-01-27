@@ -8,18 +8,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type WebhookUserScalarFieldEnumInterface =
-  | 'id'
-  | 'externalTenantId'
-  | 'externalUserId'
-  | 'userRole'
-  | 'createdAt'
-  | 'updatedAt';
+export type WebhookUserScalarFieldEnumInterface = 'id' | 'externalTenantId' | 'externalUserId' | 'userRole' | 'createdAt' | 'updatedAt';
 export declare const WebhookUserScalarFieldEnumInterface: {
-  id: WebhookUserScalarFieldEnumInterface;
-  externalTenantId: WebhookUserScalarFieldEnumInterface;
-  externalUserId: WebhookUserScalarFieldEnumInterface;
-  userRole: WebhookUserScalarFieldEnumInterface;
-  createdAt: WebhookUserScalarFieldEnumInterface;
-  updatedAt: WebhookUserScalarFieldEnumInterface;
+    id: WebhookUserScalarFieldEnumInterface;
+    externalTenantId: WebhookUserScalarFieldEnumInterface;
+    externalUserId: WebhookUserScalarFieldEnumInterface;
+    userRole: WebhookUserScalarFieldEnumInterface;
+    createdAt: WebhookUserScalarFieldEnumInterface;
+    updatedAt: WebhookUserScalarFieldEnumInterface;
 };

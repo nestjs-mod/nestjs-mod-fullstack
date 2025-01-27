@@ -8,16 +8,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type WebhookStatusInterface =
-  | 'Pending'
-  | 'Process'
-  | 'Success'
-  | 'Error'
-  | 'Timeout';
+export type WebhookStatusInterface = 'Pending' | 'Process' | 'Success' | 'Error' | 'Timeout';
 export declare const WebhookStatusInterface: {
-  Pending: WebhookStatusInterface;
-  Process: WebhookStatusInterface;
-  Success: WebhookStatusInterface;
-  Error: WebhookStatusInterface;
-  Timeout: WebhookStatusInterface;
+    Pending: WebhookStatusInterface;
+    Process: WebhookStatusInterface;
+    Success: WebhookStatusInterface;
+    Error: WebhookStatusInterface;
+    Timeout: WebhookStatusInterface;
 };

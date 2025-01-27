@@ -10,8 +10,8 @@
  */
 import { WebhookRoleInterface } from './webhook-role.interface';
 export interface UpdateWebhookUserDtoInterface {
-  externalTenantId?: string;
-  externalUserId?: string;
-  userRole?: WebhookRoleInterface;
+    externalTenantId?: string;
+    externalUserId?: string;
+    userRole?: WebhookRoleInterface;
 }
-export declare namespace UpdateWebhookUserDtoInterface {}
+export declare namespace UpdateWebhookUserDtoInterface { }

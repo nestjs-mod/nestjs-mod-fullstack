@@ -17,10 +17,10 @@ export declare const BASE_PATH: string;
  * @export
  */
 export declare const COLLECTION_FORMATS: {
-  csv: string;
-  ssv: string;
-  tsv: string;
-  pipes: string;
+    csv: string;
+    ssv: string;
+    tsv: string;
+    pipes: string;
 };
 /**
  *
@@ -28,8 +28,8 @@ export declare const COLLECTION_FORMATS: {
  * @interface RequestArgs
  */
 export interface RequestArgs {
-  url: string;
-  options: RawAxiosRequestConfig;
+    url: string;
+    options: RawAxiosRequestConfig;
 }
 /**
  *
@@ -37,14 +37,10 @@ export interface RequestArgs {
  * @class BaseAPI
  */
 export declare class BaseAPI {
-  protected basePath: string;
-  protected axios: AxiosInstance;
-  protected configuration: Configuration | undefined;
-  constructor(
-    configuration?: Configuration,
-    basePath?: string,
-    axios?: AxiosInstance
-  );
+    protected basePath: string;
+    protected axios: AxiosInstance;
+    protected configuration: Configuration | undefined;
+    constructor(configuration?: Configuration, basePath?: string, axios?: AxiosInstance);
 }
 /**
  *
@@ -53,14 +49,14 @@ export declare class BaseAPI {
  * @extends {Error}
  */
 export declare class RequiredError extends Error {
-  field: string;
-  constructor(field: string, msg?: string);
+    field: string;
+    constructor(field: string, msg?: string);
 }
 interface ServerMap {
-  [key: string]: {
-    url: string;
-    description: string;
-  }[];
+    [key: string]: {
+        url: string;
+        description: string;
+    }[];
 }
 /**
  *

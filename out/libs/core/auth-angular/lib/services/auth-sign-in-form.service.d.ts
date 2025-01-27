@@ -3,19 +3,16 @@ import { TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import * as i0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class AuthSignInFormService {
-  protected readonly translocoService: TranslocoService;
-  protected readonly validationService: ValidationService;
-  constructor(
-    translocoService: TranslocoService,
-    validationService: ValidationService
-  );
-  init(): import('rxjs').Observable<boolean>;
-  getFormlyFields(options?: {
-    data?: LoginInput;
-    errors?: ValidationErrorMetadataInterface[];
-  }): FormlyFieldConfig[];
-  static ɵfac: i0.ɵɵFactoryDeclaration<AuthSignInFormService, never>;
-  static ɵprov: i0.ɵɵInjectableDeclaration<AuthSignInFormService>;
+    protected readonly translocoService: TranslocoService;
+    protected readonly validationService: ValidationService;
+    constructor(translocoService: TranslocoService, validationService: ValidationService);
+    init(): import("rxjs").Observable<boolean>;
+    getFormlyFields(options?: {
+        data?: LoginInput;
+        errors?: ValidationErrorMetadataInterface[];
+    }): FormlyFieldConfig[];
+    static ɵfac: i0.ɵɵFactoryDeclaration<AuthSignInFormService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<AuthSignInFormService>;
 }

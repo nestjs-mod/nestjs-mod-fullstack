@@ -8,30 +8,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type WebhookScalarFieldEnumInterface =
-  | 'id'
-  | 'eventName'
-  | 'endpoint'
-  | 'enabled'
-  | 'headers'
-  | 'requestTimeout'
-  | 'externalTenantId'
-  | 'createdBy'
-  | 'updatedBy'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'workUntilDate';
+export type WebhookScalarFieldEnumInterface = 'id' | 'eventName' | 'endpoint' | 'enabled' | 'headers' | 'requestTimeout' | 'externalTenantId' | 'createdBy' | 'updatedBy' | 'createdAt' | 'updatedAt' | 'workUntilDate';
 export declare const WebhookScalarFieldEnumInterface: {
-  id: WebhookScalarFieldEnumInterface;
-  eventName: WebhookScalarFieldEnumInterface;
-  endpoint: WebhookScalarFieldEnumInterface;
-  enabled: WebhookScalarFieldEnumInterface;
-  headers: WebhookScalarFieldEnumInterface;
-  requestTimeout: WebhookScalarFieldEnumInterface;
-  externalTenantId: WebhookScalarFieldEnumInterface;
-  createdBy: WebhookScalarFieldEnumInterface;
-  updatedBy: WebhookScalarFieldEnumInterface;
-  createdAt: WebhookScalarFieldEnumInterface;
-  updatedAt: WebhookScalarFieldEnumInterface;
-  workUntilDate: WebhookScalarFieldEnumInterface;
+    id: WebhookScalarFieldEnumInterface;
+    eventName: WebhookScalarFieldEnumInterface;
+    endpoint: WebhookScalarFieldEnumInterface;
+    enabled: WebhookScalarFieldEnumInterface;
+    headers: WebhookScalarFieldEnumInterface;
+    requestTimeout: WebhookScalarFieldEnumInterface;
+    externalTenantId: WebhookScalarFieldEnumInterface;
+    createdBy: WebhookScalarFieldEnumInterface;
+    updatedBy: WebhookScalarFieldEnumInterface;
+    createdAt: WebhookScalarFieldEnumInterface;
+    updatedAt: WebhookScalarFieldEnumInterface;
+    workUntilDate: WebhookScalarFieldEnumInterface;
 };

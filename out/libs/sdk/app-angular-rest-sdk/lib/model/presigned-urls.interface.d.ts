@@ -9,6 +9,6 @@
  * Do not edit the class manually.
  */
 export interface PresignedUrlsInterface {
-  downloadUrl: string;
-  uploadUrl: string;
+    downloadUrl: string;
+    uploadUrl: string;
 }

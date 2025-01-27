@@ -10,6 +10,6 @@
  */
 export type WebhookRoleInterface = 'Admin' | 'User';
 export declare const WebhookRoleInterface: {
-  Admin: WebhookRoleInterface;
-  User: WebhookRoleInterface;
+    Admin: WebhookRoleInterface;
+    User: WebhookRoleInterface;
 };

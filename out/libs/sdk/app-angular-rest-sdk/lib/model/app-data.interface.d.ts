@@ -9,5 +9,5 @@
  * Do not edit the class manually.
  */
 export interface AppDataInterface {
-  message: string;
+    message: string;
 }

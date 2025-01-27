@@ -1,4 +1,4 @@
 export declare class ValidationEnvironments {
-  usePipes?: boolean;
-  useFilters?: boolean;
+    usePipes?: boolean;
+    useFilters?: boolean;
 }

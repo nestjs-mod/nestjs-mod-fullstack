@@ -1,4 +1,4 @@
 export declare enum FilesRole {
-  Admin = 'Admin',
-  User = 'User',
+    Admin = "Admin",
+    User = "User"
 }

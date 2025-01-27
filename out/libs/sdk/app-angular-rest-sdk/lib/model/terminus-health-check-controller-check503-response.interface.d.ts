@@ -10,20 +10,14 @@
  */
 import { TerminusHealthCheckControllerCheck200ResponseInfoValueInterface } from './terminus-health-check-controller-check200-response-info-value.interface';
 export interface TerminusHealthCheckControllerCheck503ResponseInterface {
-  status?: string;
-  info?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  } | null;
-  error?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  } | null;
-  details?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  };
+    status?: string;
+    info?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
+    } | null;
+    error?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
+    } | null;
+    details?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
+    };
 }

@@ -10,7 +10,7 @@
  */
 export type AuthErrorEnumInterface = 'AUTH-000' | 'AUTH-001' | 'AUTH-002';
 export declare const AuthErrorEnumInterface: {
-  _000: AuthErrorEnumInterface;
-  _001: AuthErrorEnumInterface;
-  _002: AuthErrorEnumInterface;
+    _000: AuthErrorEnumInterface;
+    _001: AuthErrorEnumInterface;
+    _002: AuthErrorEnumInterface;
 };

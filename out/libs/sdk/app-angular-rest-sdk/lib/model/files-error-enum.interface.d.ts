@@ -10,6 +10,6 @@
  */
 export type FilesErrorEnumInterface = 'FILES-000' | 'FILES-001';
 export declare const FilesErrorEnumInterface: {
-  _000: FilesErrorEnumInterface;
-  _001: FilesErrorEnumInterface;
+    _000: FilesErrorEnumInterface;
+    _001: FilesErrorEnumInterface;
 };

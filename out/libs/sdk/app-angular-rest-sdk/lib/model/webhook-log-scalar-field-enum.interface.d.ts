@@ -8,24 +8,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type WebhookLogScalarFieldEnumInterface =
-  | 'id'
-  | 'request'
-  | 'responseStatus'
-  | 'response'
-  | 'webhookStatus'
-  | 'webhookId'
-  | 'externalTenantId'
-  | 'createdAt'
-  | 'updatedAt';
+export type WebhookLogScalarFieldEnumInterface = 'id' | 'request' | 'responseStatus' | 'response' | 'webhookStatus' | 'webhookId' | 'externalTenantId' | 'createdAt' | 'updatedAt';
 export declare const WebhookLogScalarFieldEnumInterface: {
-  id: WebhookLogScalarFieldEnumInterface;
-  request: WebhookLogScalarFieldEnumInterface;
-  responseStatus: WebhookLogScalarFieldEnumInterface;
-  response: WebhookLogScalarFieldEnumInterface;
-  webhookStatus: WebhookLogScalarFieldEnumInterface;
-  webhookId: WebhookLogScalarFieldEnumInterface;
-  externalTenantId: WebhookLogScalarFieldEnumInterface;
-  createdAt: WebhookLogScalarFieldEnumInterface;
-  updatedAt: WebhookLogScalarFieldEnumInterface;
+    id: WebhookLogScalarFieldEnumInterface;
+    request: WebhookLogScalarFieldEnumInterface;
+    responseStatus: WebhookLogScalarFieldEnumInterface;
+    response: WebhookLogScalarFieldEnumInterface;
+    webhookStatus: WebhookLogScalarFieldEnumInterface;
+    webhookId: WebhookLogScalarFieldEnumInterface;
+    externalTenantId: WebhookLogScalarFieldEnumInterface;
+    createdAt: WebhookLogScalarFieldEnumInterface;
+    updatedAt: WebhookLogScalarFieldEnumInterface;
 };

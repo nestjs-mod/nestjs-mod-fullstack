@@ -1,3 +1,3 @@
 export declare class StatusResponse {
-  message: string;
+    message: string;
 }

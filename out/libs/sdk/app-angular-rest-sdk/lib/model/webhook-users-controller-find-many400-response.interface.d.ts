@@ -11,11 +11,11 @@
 import { ValidationErrorMetadataInterface } from './validation-error-metadata.interface';
 import { ValidationErrorEnumInterface } from './validation-error-enum.interface';
 export interface WebhookUsersControllerFindMany400ResponseInterface {
-  /**
-   * Validation error (VALIDATION-000)
-   */
-  message: string;
-  code: ValidationErrorEnumInterface;
-  metadata?: Array<ValidationErrorMetadataInterface>;
+    /**
+     * Validation error (VALIDATION-000)
+     */
+    message: string;
+    code: ValidationErrorEnumInterface;
+    metadata?: Array<ValidationErrorMetadataInterface>;
 }
-export declare namespace WebhookUsersControllerFindMany400ResponseInterface {}
+export declare namespace WebhookUsersControllerFindMany400ResponseInterface { }

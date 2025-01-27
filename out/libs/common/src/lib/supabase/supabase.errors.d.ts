@@ -1,1 +1,2 @@
-export declare class SupabaseError extends Error {}
+export declare class SupabaseError extends Error {
+}

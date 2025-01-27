@@ -9,7 +9,7 @@
  * Do not edit the class manually.
  */
 export interface WebhookEventInterface {
-  eventName: string;
-  description: string;
-  example: object;
+    eventName: string;
+    description: string;
+    example: object;
 }

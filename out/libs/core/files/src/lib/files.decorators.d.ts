@@ -1,3 +1,1 @@
-export declare const CurrentFilesRequest: (
-  ...dataOrPipes: unknown[]
-) => ParameterDecorator;
+export declare const CurrentFilesRequest: (...dataOrPipes: unknown[]) => ParameterDecorator;

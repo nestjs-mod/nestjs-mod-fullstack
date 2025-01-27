@@ -6,71 +6,35 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject } from 'rxjs';
 import { WebhookFormService } from '../../services/webhook-form.service';
-import {
-  WebhookMapperService,
-  WebhookModel,
-} from '../../services/webhook-mapper.service';
+import { WebhookMapperService, WebhookModel } from '../../services/webhook-mapper.service';
 import { WebhookService } from '../../services/webhook.service';
-import * as i0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class WebhookFormComponent implements OnInit {
-  private readonly nzModalData;
-  private readonly webhookService;
-  private readonly nzMessageService;
-  private readonly translocoService;
-  private readonly webhookFormService;
-  private readonly webhookMapperService;
-  private readonly validationService;
-  id?: string;
-  hideButtons?: boolean;
-  afterFind: EventEmitter<WebhookModel>;
-  afterCreate: EventEmitter<WebhookModel>;
-  afterUpdate: EventEmitter<WebhookModel>;
-  form: UntypedFormGroup;
-  formlyModel$: BehaviorSubject<object | null>;
-  formlyFields$: BehaviorSubject<
-    | FormlyFieldConfig<
-        import('@ngx-formly/core').FormlyFieldProps & {
-          [additionalProperties: string]: any;
-        }
-      >[]
-    | null
-  >;
-  constructor(
-    nzModalData: WebhookFormComponent,
-    webhookService: WebhookService,
-    nzMessageService: NzMessageService,
-    translocoService: TranslocoService,
-    webhookFormService: WebhookFormService,
-    webhookMapperService: WebhookMapperService,
-    validationService: ValidationService
-  );
-  ngOnInit(): void;
-  setFieldsAndModel(model?: Partial<object>): void;
-  submitForm(): void;
-  createOne(): import('rxjs').Observable<WebhookModel | null>;
-  updateOne(): import('rxjs').Observable<WebhookModel | null>;
-  findOne(): import('rxjs').Observable<WebhookModel>;
-  private setFormlyFields;
-  static ɵfac: i0.ɵɵFactoryDeclaration<
-    WebhookFormComponent,
-    [{ optional: true }, null, null, null, null, null, null]
-  >;
-  static ɵcmp: i0.ɵɵComponentDeclaration<
-    WebhookFormComponent,
-    'webhook-form',
-    never,
-    {
-      id: { alias: 'id'; required: false };
-      hideButtons: { alias: 'hideButtons'; required: false };
-    },
-    {
-      afterFind: 'afterFind';
-      afterCreate: 'afterCreate';
-      afterUpdate: 'afterUpdate';
-    },
-    never,
-    never,
-    true,
-    never
-  >;
+    private readonly nzModalData;
+    private readonly webhookService;
+    private readonly nzMessageService;
+    private readonly translocoService;
+    private readonly webhookFormService;
+    private readonly webhookMapperService;
+    private readonly validationService;
+    id?: string;
+    hideButtons?: boolean;
+    afterFind: EventEmitter<WebhookModel>;
+    afterCreate: EventEmitter<WebhookModel>;
+    afterUpdate: EventEmitter<WebhookModel>;
+    form: UntypedFormGroup;
+    formlyModel$: BehaviorSubject<object | null>;
+    formlyFields$: BehaviorSubject<FormlyFieldConfig<import("@ngx-formly/core").FormlyFieldProps & {
+        [additionalProperties: string]: any;
+    }>[] | null>;
+    constructor(nzModalData: WebhookFormComponent, webhookService: WebhookService, nzMessageService: NzMessageService, translocoService: TranslocoService, webhookFormService: WebhookFormService, webhookMapperService: WebhookMapperService, validationService: ValidationService);
+    ngOnInit(): void;
+    setFieldsAndModel(model?: Partial<object>): void;
+    submitForm(): void;
+    createOne(): import("rxjs").Observable<WebhookModel | null>;
+    updateOne(): import("rxjs").Observable<WebhookModel | null>;
+    findOne(): import("rxjs").Observable<WebhookModel>;
+    private setFormlyFields;
+    static ɵfac: i0.ɵɵFactoryDeclaration<WebhookFormComponent, [{ optional: true; }, null, null, null, null, null, null]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<WebhookFormComponent, "webhook-form", never, { "id": { "alias": "id"; "required": false; }; "hideButtons": { "alias": "hideButtons"; "required": false; }; }, { "afterFind": "afterFind"; "afterCreate": "afterCreate"; "afterUpdate": "afterUpdate"; }, never, never, true, never>;
 }

@@ -19,12 +19,12 @@ import { BaseAPI } from './base';
  * @interface AppData
  */
 export interface AppData {
-  /**
-   *
-   * @type {string}
-   * @memberof AppData
-   */
-  message: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AppData
+     */
+    message: string;
 }
 /**
  *
@@ -32,30 +32,30 @@ export interface AppData {
  * @interface AppDemo
  */
 export interface AppDemo {
-  /**
-   *
-   * @type {string}
-   * @memberof AppDemo
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppDemo
-   */
-  name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppDemo
-   */
-  createdAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppDemo
-   */
-  updatedAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AppDemo
+     */
+    id: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AppDemo
+     */
+    name: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AppDemo
+     */
+    createdAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AppDemo
+     */
+    updatedAt: string;
 }
 /**
  *
@@ -63,24 +63,24 @@ export interface AppDemo {
  * @interface AuthControllerProfile400Response
  */
 export interface AuthControllerProfile400Response {
-  /**
-   * Validation error (VALIDATION-000)
-   * @type {string}
-   * @memberof AuthControllerProfile400Response
-   */
-  message: string;
-  /**
-   *
-   * @type {ValidationErrorEnum}
-   * @memberof AuthControllerProfile400Response
-   */
-  code: ValidationErrorEnum;
-  /**
-   *
-   * @type {Array<ValidationErrorMetadata>}
-   * @memberof AuthControllerProfile400Response
-   */
-  metadata?: Array<ValidationErrorMetadata>;
+    /**
+     * Validation error (VALIDATION-000)
+     * @type {string}
+     * @memberof AuthControllerProfile400Response
+     */
+    message: string;
+    /**
+     *
+     * @type {ValidationErrorEnum}
+     * @memberof AuthControllerProfile400Response
+     */
+    code: ValidationErrorEnum;
+    /**
+     *
+     * @type {Array<ValidationErrorMetadata>}
+     * @memberof AuthControllerProfile400Response
+     */
+    metadata?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -88,12 +88,12 @@ export interface AuthControllerProfile400Response {
  * @interface AuthEntities
  */
 export interface AuthEntities {
-  /**
-   *
-   * @type {AuthUserScalarFieldEnum}
-   * @memberof AuthEntities
-   */
-  authUser: AuthUserScalarFieldEnum;
+    /**
+     *
+     * @type {AuthUserScalarFieldEnum}
+     * @memberof AuthEntities
+     */
+    authUser: AuthUserScalarFieldEnum;
 }
 /**
  *
@@ -101,24 +101,24 @@ export interface AuthEntities {
  * @interface AuthError
  */
 export interface AuthError {
-  /**
-   * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
-   * @type {string}
-   * @memberof AuthError
-   */
-  message: string;
-  /**
-   *
-   * @type {AuthErrorEnum}
-   * @memberof AuthError
-   */
-  code: AuthErrorEnum;
-  /**
-   *
-   * @type {object}
-   * @memberof AuthError
-   */
-  metadata?: object;
+    /**
+     * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
+     * @type {string}
+     * @memberof AuthError
+     */
+    message: string;
+    /**
+     *
+     * @type {AuthErrorEnum}
+     * @memberof AuthError
+     */
+    code: AuthErrorEnum;
+    /**
+     *
+     * @type {object}
+     * @memberof AuthError
+     */
+    metadata?: object;
 }
 /**
  *
@@ -126,9 +126,9 @@ export interface AuthError {
  * @enum {string}
  */
 export declare const AuthErrorEnum: {
-  readonly _000: 'AUTH-000';
-  readonly _001: 'AUTH-001';
-  readonly _002: 'AUTH-002';
+    readonly _000: "AUTH-000";
+    readonly _001: "AUTH-001";
+    readonly _002: "AUTH-002";
 };
 export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
 /**
@@ -137,24 +137,24 @@ export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
  * @interface AuthProfileDto
  */
 export interface AuthProfileDto {
-  /**
-   *
-   * @type {number}
-   * @memberof AuthProfileDto
-   */
-  timezone?: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthProfileDto
-   */
-  lang?: string | null;
-  /**
-   *
-   * @type {AuthRole}
-   * @memberof AuthProfileDto
-   */
-  userRole?: AuthRole | null;
+    /**
+     *
+     * @type {number}
+     * @memberof AuthProfileDto
+     */
+    timezone?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthProfileDto
+     */
+    lang?: string | null;
+    /**
+     *
+     * @type {AuthRole}
+     * @memberof AuthProfileDto
+     */
+    userRole?: AuthRole | null;
 }
 /**
  *
@@ -162,8 +162,8 @@ export interface AuthProfileDto {
  * @enum {string}
  */
 export declare const AuthRole: {
-  readonly Admin: 'Admin';
-  readonly User: 'User';
+    readonly Admin: "Admin";
+    readonly User: "User";
 };
 export type AuthRole = (typeof AuthRole)[keyof typeof AuthRole];
 /**
@@ -172,48 +172,48 @@ export type AuthRole = (typeof AuthRole)[keyof typeof AuthRole];
  * @interface AuthUser
  */
 export interface AuthUser {
-  /**
-   *
-   * @type {string}
-   * @memberof AuthUser
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthUser
-   */
-  externalUserId: string;
-  /**
-   *
-   * @type {AuthRole}
-   * @memberof AuthUser
-   */
-  userRole: AuthRole;
-  /**
-   *
-   * @type {number}
-   * @memberof AuthUser
-   */
-  timezone: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthUser
-   */
-  createdAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthUser
-   */
-  updatedAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthUser
-   */
-  lang: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthUser
+     */
+    id: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthUser
+     */
+    externalUserId: string;
+    /**
+     *
+     * @type {AuthRole}
+     * @memberof AuthUser
+     */
+    userRole: AuthRole;
+    /**
+     *
+     * @type {number}
+     * @memberof AuthUser
+     */
+    timezone: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthUser
+     */
+    createdAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthUser
+     */
+    updatedAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthUser
+     */
+    lang: string | null;
 }
 /**
  *
@@ -221,58 +221,57 @@ export interface AuthUser {
  * @enum {string}
  */
 export declare const AuthUserScalarFieldEnum: {
-  readonly Id: 'id';
-  readonly ExternalUserId: 'externalUserId';
-  readonly UserRole: 'userRole';
-  readonly Timezone: 'timezone';
-  readonly CreatedAt: 'createdAt';
-  readonly UpdatedAt: 'updatedAt';
-  readonly Lang: 'lang';
+    readonly Id: "id";
+    readonly ExternalUserId: "externalUserId";
+    readonly UserRole: "userRole";
+    readonly Timezone: "timezone";
+    readonly CreatedAt: "createdAt";
+    readonly UpdatedAt: "updatedAt";
+    readonly Lang: "lang";
 };
-export type AuthUserScalarFieldEnum =
-  (typeof AuthUserScalarFieldEnum)[keyof typeof AuthUserScalarFieldEnum];
+export type AuthUserScalarFieldEnum = (typeof AuthUserScalarFieldEnum)[keyof typeof AuthUserScalarFieldEnum];
 /**
  *
  * @export
  * @interface CreateWebhookDto
  */
 export interface CreateWebhookDto {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateWebhookDto
-   */
-  eventName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateWebhookDto
-   */
-  endpoint: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateWebhookDto
-   */
-  enabled: boolean;
-  /**
-   *
-   * @type {object}
-   * @memberof CreateWebhookDto
-   */
-  headers?: object | null;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateWebhookDto
-   */
-  requestTimeout?: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateWebhookDto
-   */
-  workUntilDate?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateWebhookDto
+     */
+    eventName: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateWebhookDto
+     */
+    endpoint: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof CreateWebhookDto
+     */
+    enabled: boolean;
+    /**
+     *
+     * @type {object}
+     * @memberof CreateWebhookDto
+     */
+    headers?: object | null;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateWebhookDto
+     */
+    requestTimeout?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateWebhookDto
+     */
+    workUntilDate?: string | null;
 }
 /**
  *
@@ -280,24 +279,24 @@ export interface CreateWebhookDto {
  * @interface FilesError
  */
 export interface FilesError {
-  /**
-   * Files error (FILES-000), Forbidden (FILES-001)
-   * @type {string}
-   * @memberof FilesError
-   */
-  message: string;
-  /**
-   *
-   * @type {FilesErrorEnum}
-   * @memberof FilesError
-   */
-  code: FilesErrorEnum;
-  /**
-   *
-   * @type {object}
-   * @memberof FilesError
-   */
-  metadata?: object;
+    /**
+     * Files error (FILES-000), Forbidden (FILES-001)
+     * @type {string}
+     * @memberof FilesError
+     */
+    message: string;
+    /**
+     *
+     * @type {FilesErrorEnum}
+     * @memberof FilesError
+     */
+    code: FilesErrorEnum;
+    /**
+     *
+     * @type {object}
+     * @memberof FilesError
+     */
+    metadata?: object;
 }
 /**
  *
@@ -305,29 +304,28 @@ export interface FilesError {
  * @enum {string}
  */
 export declare const FilesErrorEnum: {
-  readonly _000: 'FILES-000';
-  readonly _001: 'FILES-001';
+    readonly _000: "FILES-000";
+    readonly _001: "FILES-001";
 };
-export type FilesErrorEnum =
-  (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
+export type FilesErrorEnum = (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
 /**
  *
  * @export
  * @interface FindManyAuthUserResponse
  */
 export interface FindManyAuthUserResponse {
-  /**
-   *
-   * @type {Array<AuthUser>}
-   * @memberof FindManyAuthUserResponse
-   */
-  authUsers: Array<AuthUser>;
-  /**
-   *
-   * @type {FindManyResponseMeta}
-   * @memberof FindManyAuthUserResponse
-   */
-  meta: FindManyResponseMeta;
+    /**
+     *
+     * @type {Array<AuthUser>}
+     * @memberof FindManyAuthUserResponse
+     */
+    authUsers: Array<AuthUser>;
+    /**
+     *
+     * @type {FindManyResponseMeta}
+     * @memberof FindManyAuthUserResponse
+     */
+    meta: FindManyResponseMeta;
 }
 /**
  *
@@ -335,24 +333,24 @@ export interface FindManyAuthUserResponse {
  * @interface FindManyResponseMeta
  */
 export interface FindManyResponseMeta {
-  /**
-   *
-   * @type {number}
-   * @memberof FindManyResponseMeta
-   */
-  curPage?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof FindManyResponseMeta
-   */
-  perPage?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof FindManyResponseMeta
-   */
-  totalResults: number;
+    /**
+     *
+     * @type {number}
+     * @memberof FindManyResponseMeta
+     */
+    curPage?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof FindManyResponseMeta
+     */
+    perPage?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof FindManyResponseMeta
+     */
+    totalResults: number;
 }
 /**
  *
@@ -360,18 +358,18 @@ export interface FindManyResponseMeta {
  * @interface FindManyWebhookLogResponse
  */
 export interface FindManyWebhookLogResponse {
-  /**
-   *
-   * @type {Array<WebhookLog>}
-   * @memberof FindManyWebhookLogResponse
-   */
-  webhookLogs: Array<WebhookLog>;
-  /**
-   *
-   * @type {FindManyResponseMeta}
-   * @memberof FindManyWebhookLogResponse
-   */
-  meta: FindManyResponseMeta;
+    /**
+     *
+     * @type {Array<WebhookLog>}
+     * @memberof FindManyWebhookLogResponse
+     */
+    webhookLogs: Array<WebhookLog>;
+    /**
+     *
+     * @type {FindManyResponseMeta}
+     * @memberof FindManyWebhookLogResponse
+     */
+    meta: FindManyResponseMeta;
 }
 /**
  *
@@ -379,18 +377,18 @@ export interface FindManyWebhookLogResponse {
  * @interface FindManyWebhookResponse
  */
 export interface FindManyWebhookResponse {
-  /**
-   *
-   * @type {Array<Webhook>}
-   * @memberof FindManyWebhookResponse
-   */
-  webhooks: Array<Webhook>;
-  /**
-   *
-   * @type {FindManyResponseMeta}
-   * @memberof FindManyWebhookResponse
-   */
-  meta: FindManyResponseMeta;
+    /**
+     *
+     * @type {Array<Webhook>}
+     * @memberof FindManyWebhookResponse
+     */
+    webhooks: Array<Webhook>;
+    /**
+     *
+     * @type {FindManyResponseMeta}
+     * @memberof FindManyWebhookResponse
+     */
+    meta: FindManyResponseMeta;
 }
 /**
  *
@@ -398,18 +396,18 @@ export interface FindManyWebhookResponse {
  * @interface FindManyWebhookUserResponse
  */
 export interface FindManyWebhookUserResponse {
-  /**
-   *
-   * @type {Array<WebhookUser>}
-   * @memberof FindManyWebhookUserResponse
-   */
-  webhookUsers: Array<WebhookUser>;
-  /**
-   *
-   * @type {FindManyResponseMeta}
-   * @memberof FindManyWebhookUserResponse
-   */
-  meta: FindManyResponseMeta;
+    /**
+     *
+     * @type {Array<WebhookUser>}
+     * @memberof FindManyWebhookUserResponse
+     */
+    webhookUsers: Array<WebhookUser>;
+    /**
+     *
+     * @type {FindManyResponseMeta}
+     * @memberof FindManyWebhookUserResponse
+     */
+    meta: FindManyResponseMeta;
 }
 /**
  *
@@ -417,18 +415,18 @@ export interface FindManyWebhookUserResponse {
  * @interface PresignedUrls
  */
 export interface PresignedUrls {
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  downloadUrl: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  uploadUrl: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PresignedUrls
+     */
+    downloadUrl: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PresignedUrls
+     */
+    uploadUrl: string;
 }
 /**
  *
@@ -436,12 +434,12 @@ export interface PresignedUrls {
  * @interface StatusResponse
  */
 export interface StatusResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof StatusResponse
-   */
-  message: string;
+    /**
+     *
+     * @type {string}
+     * @memberof StatusResponse
+     */
+    message: string;
 }
 /**
  *
@@ -449,36 +447,36 @@ export interface StatusResponse {
  * @interface TerminusHealthCheckControllerCheck200Response
  */
 export interface TerminusHealthCheckControllerCheck200Response {
-  /**
-   *
-   * @type {string}
-   * @memberof TerminusHealthCheckControllerCheck200Response
-   */
-  status?: string;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck200Response
-   */
-  info?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck200Response
-   */
-  error?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck200Response
-   */
-  details?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  };
+    /**
+     *
+     * @type {string}
+     * @memberof TerminusHealthCheckControllerCheck200Response
+     */
+    status?: string;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck200Response
+     */
+    info?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    } | null;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck200Response
+     */
+    error?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    } | null;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck200Response
+     */
+    details?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    };
 }
 /**
  *
@@ -486,13 +484,13 @@ export interface TerminusHealthCheckControllerCheck200Response {
  * @interface TerminusHealthCheckControllerCheck200ResponseInfoValue
  */
 export interface TerminusHealthCheckControllerCheck200ResponseInfoValue {
-  [key: string]: any;
-  /**
-   *
-   * @type {string}
-   * @memberof TerminusHealthCheckControllerCheck200ResponseInfoValue
-   */
-  status: string;
+    [key: string]: any;
+    /**
+     *
+     * @type {string}
+     * @memberof TerminusHealthCheckControllerCheck200ResponseInfoValue
+     */
+    status: string;
 }
 /**
  *
@@ -500,36 +498,36 @@ export interface TerminusHealthCheckControllerCheck200ResponseInfoValue {
  * @interface TerminusHealthCheckControllerCheck503Response
  */
 export interface TerminusHealthCheckControllerCheck503Response {
-  /**
-   *
-   * @type {string}
-   * @memberof TerminusHealthCheckControllerCheck503Response
-   */
-  status?: string;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck503Response
-   */
-  info?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck503Response
-   */
-  error?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
-  /**
-   *
-   * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
-   * @memberof TerminusHealthCheckControllerCheck503Response
-   */
-  details?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  };
+    /**
+     *
+     * @type {string}
+     * @memberof TerminusHealthCheckControllerCheck503Response
+     */
+    status?: string;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck503Response
+     */
+    info?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    } | null;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck503Response
+     */
+    error?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    } | null;
+    /**
+     *
+     * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
+     * @memberof TerminusHealthCheckControllerCheck503Response
+     */
+    details?: {
+        [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
+    };
 }
 /**
  *
@@ -537,30 +535,30 @@ export interface TerminusHealthCheckControllerCheck503Response {
  * @interface UpdateAuthUserDto
  */
 export interface UpdateAuthUserDto {
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateAuthUserDto
-   */
-  externalUserId?: string;
-  /**
-   *
-   * @type {AuthRole}
-   * @memberof UpdateAuthUserDto
-   */
-  userRole?: AuthRole;
-  /**
-   *
-   * @type {number}
-   * @memberof UpdateAuthUserDto
-   */
-  timezone?: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateAuthUserDto
-   */
-  lang?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateAuthUserDto
+     */
+    externalUserId?: string;
+    /**
+     *
+     * @type {AuthRole}
+     * @memberof UpdateAuthUserDto
+     */
+    userRole?: AuthRole;
+    /**
+     *
+     * @type {number}
+     * @memberof UpdateAuthUserDto
+     */
+    timezone?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateAuthUserDto
+     */
+    lang?: string | null;
 }
 /**
  *
@@ -568,42 +566,42 @@ export interface UpdateAuthUserDto {
  * @interface UpdateWebhookDto
  */
 export interface UpdateWebhookDto {
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateWebhookDto
-   */
-  eventName?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateWebhookDto
-   */
-  endpoint?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateWebhookDto
-   */
-  enabled?: boolean;
-  /**
-   *
-   * @type {object}
-   * @memberof UpdateWebhookDto
-   */
-  headers?: object | null;
-  /**
-   *
-   * @type {number}
-   * @memberof UpdateWebhookDto
-   */
-  requestTimeout?: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateWebhookDto
-   */
-  workUntilDate?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateWebhookDto
+     */
+    eventName?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateWebhookDto
+     */
+    endpoint?: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof UpdateWebhookDto
+     */
+    enabled?: boolean;
+    /**
+     *
+     * @type {object}
+     * @memberof UpdateWebhookDto
+     */
+    headers?: object | null;
+    /**
+     *
+     * @type {number}
+     * @memberof UpdateWebhookDto
+     */
+    requestTimeout?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateWebhookDto
+     */
+    workUntilDate?: string | null;
 }
 /**
  *
@@ -611,24 +609,24 @@ export interface UpdateWebhookDto {
  * @interface UpdateWebhookUserDto
  */
 export interface UpdateWebhookUserDto {
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateWebhookUserDto
-   */
-  externalTenantId?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdateWebhookUserDto
-   */
-  externalUserId?: string;
-  /**
-   *
-   * @type {WebhookRole}
-   * @memberof UpdateWebhookUserDto
-   */
-  userRole?: WebhookRole;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateWebhookUserDto
+     */
+    externalTenantId?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateWebhookUserDto
+     */
+    externalUserId?: string;
+    /**
+     *
+     * @type {WebhookRole}
+     * @memberof UpdateWebhookUserDto
+     */
+    userRole?: WebhookRole;
 }
 /**
  *
@@ -636,24 +634,24 @@ export interface UpdateWebhookUserDto {
  * @interface ValidationError
  */
 export interface ValidationError {
-  /**
-   * Validation error (VALIDATION-000)
-   * @type {string}
-   * @memberof ValidationError
-   */
-  message: string;
-  /**
-   *
-   * @type {ValidationErrorEnum}
-   * @memberof ValidationError
-   */
-  code: ValidationErrorEnum;
-  /**
-   *
-   * @type {Array<ValidationErrorMetadata>}
-   * @memberof ValidationError
-   */
-  metadata?: Array<ValidationErrorMetadata>;
+    /**
+     * Validation error (VALIDATION-000)
+     * @type {string}
+     * @memberof ValidationError
+     */
+    message: string;
+    /**
+     *
+     * @type {ValidationErrorEnum}
+     * @memberof ValidationError
+     */
+    code: ValidationErrorEnum;
+    /**
+     *
+     * @type {Array<ValidationErrorMetadata>}
+     * @memberof ValidationError
+     */
+    metadata?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -661,34 +659,33 @@ export interface ValidationError {
  * @enum {string}
  */
 export declare const ValidationErrorEnum: {
-  readonly Validation000: 'VALIDATION-000';
+    readonly Validation000: "VALIDATION-000";
 };
-export type ValidationErrorEnum =
-  (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
+export type ValidationErrorEnum = (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
 /**
  *
  * @export
  * @interface ValidationErrorMetadata
  */
 export interface ValidationErrorMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof ValidationErrorMetadata
-   */
-  property: string;
-  /**
-   *
-   * @type {Array<ValidationErrorMetadataConstraint>}
-   * @memberof ValidationErrorMetadata
-   */
-  constraints: Array<ValidationErrorMetadataConstraint>;
-  /**
-   *
-   * @type {Array<ValidationErrorMetadata>}
-   * @memberof ValidationErrorMetadata
-   */
-  children?: Array<ValidationErrorMetadata>;
+    /**
+     *
+     * @type {string}
+     * @memberof ValidationErrorMetadata
+     */
+    property: string;
+    /**
+     *
+     * @type {Array<ValidationErrorMetadataConstraint>}
+     * @memberof ValidationErrorMetadata
+     */
+    constraints: Array<ValidationErrorMetadataConstraint>;
+    /**
+     *
+     * @type {Array<ValidationErrorMetadata>}
+     * @memberof ValidationErrorMetadata
+     */
+    children?: Array<ValidationErrorMetadata>;
 }
 /**
  *
@@ -696,18 +693,18 @@ export interface ValidationErrorMetadata {
  * @interface ValidationErrorMetadataConstraint
  */
 export interface ValidationErrorMetadataConstraint {
-  /**
-   *
-   * @type {string}
-   * @memberof ValidationErrorMetadataConstraint
-   */
-  name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ValidationErrorMetadataConstraint
-   */
-  description: string;
+    /**
+     *
+     * @type {string}
+     * @memberof ValidationErrorMetadataConstraint
+     */
+    name: string;
+    /**
+     *
+     * @type {string}
+     * @memberof ValidationErrorMetadataConstraint
+     */
+    description: string;
 }
 /**
  *
@@ -715,96 +712,96 @@ export interface ValidationErrorMetadataConstraint {
  * @interface Webhook
  */
 export interface Webhook {
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  eventName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  endpoint: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Webhook
-   */
-  enabled: boolean;
-  /**
-   *
-   * @type {object}
-   * @memberof Webhook
-   */
-  headers: object | null;
-  /**
-   *
-   * @type {number}
-   * @memberof Webhook
-   */
-  requestTimeout: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  externalTenantId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  createdBy: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  updatedBy: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  createdAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  updatedAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Webhook
-   */
-  workUntilDate: string | null;
-  /**
-   *
-   * @type {WebhookUser}
-   * @memberof Webhook
-   */
-  WebhookUser_Webhook_createdByToWebhookUser?: WebhookUser;
-  /**
-   *
-   * @type {WebhookUser}
-   * @memberof Webhook
-   */
-  WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUser;
-  /**
-   *
-   * @type {Array<WebhookLog>}
-   * @memberof Webhook
-   */
-  WebhookLog?: Array<WebhookLog>;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    id: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    eventName: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    endpoint: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof Webhook
+     */
+    enabled: boolean;
+    /**
+     *
+     * @type {object}
+     * @memberof Webhook
+     */
+    headers: object | null;
+    /**
+     *
+     * @type {number}
+     * @memberof Webhook
+     */
+    requestTimeout: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    externalTenantId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    createdBy: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    updatedBy: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    createdAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    updatedAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Webhook
+     */
+    workUntilDate: string | null;
+    /**
+     *
+     * @type {WebhookUser}
+     * @memberof Webhook
+     */
+    WebhookUser_Webhook_createdByToWebhookUser?: WebhookUser;
+    /**
+     *
+     * @type {WebhookUser}
+     * @memberof Webhook
+     */
+    WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUser;
+    /**
+     *
+     * @type {Array<WebhookLog>}
+     * @memberof Webhook
+     */
+    WebhookLog?: Array<WebhookLog>;
 }
 /**
  *
@@ -812,24 +809,24 @@ export interface Webhook {
  * @interface WebhookEntities
  */
 export interface WebhookEntities {
-  /**
-   *
-   * @type {WebhookScalarFieldEnum}
-   * @memberof WebhookEntities
-   */
-  webhook: WebhookScalarFieldEnum;
-  /**
-   *
-   * @type {WebhookLogScalarFieldEnum}
-   * @memberof WebhookEntities
-   */
-  webhookLog: WebhookLogScalarFieldEnum;
-  /**
-   *
-   * @type {WebhookUserScalarFieldEnum}
-   * @memberof WebhookEntities
-   */
-  webhookUser: WebhookUserScalarFieldEnum;
+    /**
+     *
+     * @type {WebhookScalarFieldEnum}
+     * @memberof WebhookEntities
+     */
+    webhook: WebhookScalarFieldEnum;
+    /**
+     *
+     * @type {WebhookLogScalarFieldEnum}
+     * @memberof WebhookEntities
+     */
+    webhookLog: WebhookLogScalarFieldEnum;
+    /**
+     *
+     * @type {WebhookUserScalarFieldEnum}
+     * @memberof WebhookEntities
+     */
+    webhookUser: WebhookUserScalarFieldEnum;
 }
 /**
  *
@@ -837,24 +834,24 @@ export interface WebhookEntities {
  * @interface WebhookError
  */
 export interface WebhookError {
-  /**
-   * Webhook error (WEBHOOK-000), Tenant ID not set (WEBHOOK-003), User ID not set (WEBHOOK-002), Forbidden (WEBHOOK-001), User not found (WEBHOOK-004), Event not found (WEBHOOK-005)
-   * @type {string}
-   * @memberof WebhookError
-   */
-  message: string;
-  /**
-   *
-   * @type {WebhookErrorEnum}
-   * @memberof WebhookError
-   */
-  code: WebhookErrorEnum;
-  /**
-   *
-   * @type {object}
-   * @memberof WebhookError
-   */
-  metadata?: object;
+    /**
+     * Webhook error (WEBHOOK-000), Tenant ID not set (WEBHOOK-003), User ID not set (WEBHOOK-002), Forbidden (WEBHOOK-001), User not found (WEBHOOK-004), Event not found (WEBHOOK-005)
+     * @type {string}
+     * @memberof WebhookError
+     */
+    message: string;
+    /**
+     *
+     * @type {WebhookErrorEnum}
+     * @memberof WebhookError
+     */
+    code: WebhookErrorEnum;
+    /**
+     *
+     * @type {object}
+     * @memberof WebhookError
+     */
+    metadata?: object;
 }
 /**
  *
@@ -862,39 +859,38 @@ export interface WebhookError {
  * @enum {string}
  */
 export declare const WebhookErrorEnum: {
-  readonly _000: 'WEBHOOK-000';
-  readonly _001: 'WEBHOOK-001';
-  readonly _002: 'WEBHOOK-002';
-  readonly _003: 'WEBHOOK-003';
-  readonly _004: 'WEBHOOK-004';
-  readonly _005: 'WEBHOOK-005';
+    readonly _000: "WEBHOOK-000";
+    readonly _001: "WEBHOOK-001";
+    readonly _002: "WEBHOOK-002";
+    readonly _003: "WEBHOOK-003";
+    readonly _004: "WEBHOOK-004";
+    readonly _005: "WEBHOOK-005";
 };
-export type WebhookErrorEnum =
-  (typeof WebhookErrorEnum)[keyof typeof WebhookErrorEnum];
+export type WebhookErrorEnum = (typeof WebhookErrorEnum)[keyof typeof WebhookErrorEnum];
 /**
  *
  * @export
  * @interface WebhookEvent
  */
 export interface WebhookEvent {
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookEvent
-   */
-  eventName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookEvent
-   */
-  description: string;
-  /**
-   *
-   * @type {object}
-   * @memberof WebhookEvent
-   */
-  example: object;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookEvent
+     */
+    eventName: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookEvent
+     */
+    description: string;
+    /**
+     *
+     * @type {object}
+     * @memberof WebhookEvent
+     */
+    example: object;
 }
 /**
  *
@@ -902,66 +898,66 @@ export interface WebhookEvent {
  * @interface WebhookLog
  */
 export interface WebhookLog {
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  id: string;
-  /**
-   *
-   * @type {object}
-   * @memberof WebhookLog
-   */
-  request: object;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  responseStatus: string;
-  /**
-   *
-   * @type {object}
-   * @memberof WebhookLog
-   */
-  response: object | null;
-  /**
-   *
-   * @type {WebhookStatus}
-   * @memberof WebhookLog
-   */
-  webhookStatus: WebhookStatus;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  webhookId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  externalTenantId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  createdAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookLog
-   */
-  updatedAt: string;
-  /**
-   *
-   * @type {Webhook}
-   * @memberof WebhookLog
-   */
-  Webhook?: Webhook;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    id: string;
+    /**
+     *
+     * @type {object}
+     * @memberof WebhookLog
+     */
+    request: object;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    responseStatus: string;
+    /**
+     *
+     * @type {object}
+     * @memberof WebhookLog
+     */
+    response: object | null;
+    /**
+     *
+     * @type {WebhookStatus}
+     * @memberof WebhookLog
+     */
+    webhookStatus: WebhookStatus;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    webhookId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    externalTenantId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    createdAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookLog
+     */
+    updatedAt: string;
+    /**
+     *
+     * @type {Webhook}
+     * @memberof WebhookLog
+     */
+    Webhook?: Webhook;
 }
 /**
  *
@@ -969,26 +965,25 @@ export interface WebhookLog {
  * @enum {string}
  */
 export declare const WebhookLogScalarFieldEnum: {
-  readonly Id: 'id';
-  readonly Request: 'request';
-  readonly ResponseStatus: 'responseStatus';
-  readonly Response: 'response';
-  readonly WebhookStatus: 'webhookStatus';
-  readonly WebhookId: 'webhookId';
-  readonly ExternalTenantId: 'externalTenantId';
-  readonly CreatedAt: 'createdAt';
-  readonly UpdatedAt: 'updatedAt';
+    readonly Id: "id";
+    readonly Request: "request";
+    readonly ResponseStatus: "responseStatus";
+    readonly Response: "response";
+    readonly WebhookStatus: "webhookStatus";
+    readonly WebhookId: "webhookId";
+    readonly ExternalTenantId: "externalTenantId";
+    readonly CreatedAt: "createdAt";
+    readonly UpdatedAt: "updatedAt";
 };
-export type WebhookLogScalarFieldEnum =
-  (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
+export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
 /**
  *
  * @export
  * @enum {string}
  */
 export declare const WebhookRole: {
-  readonly Admin: 'Admin';
-  readonly User: 'User';
+    readonly Admin: "Admin";
+    readonly User: "User";
 };
 export type WebhookRole = (typeof WebhookRole)[keyof typeof WebhookRole];
 /**
@@ -997,32 +992,31 @@ export type WebhookRole = (typeof WebhookRole)[keyof typeof WebhookRole];
  * @enum {string}
  */
 export declare const WebhookScalarFieldEnum: {
-  readonly Id: 'id';
-  readonly EventName: 'eventName';
-  readonly Endpoint: 'endpoint';
-  readonly Enabled: 'enabled';
-  readonly Headers: 'headers';
-  readonly RequestTimeout: 'requestTimeout';
-  readonly ExternalTenantId: 'externalTenantId';
-  readonly CreatedBy: 'createdBy';
-  readonly UpdatedBy: 'updatedBy';
-  readonly CreatedAt: 'createdAt';
-  readonly UpdatedAt: 'updatedAt';
-  readonly WorkUntilDate: 'workUntilDate';
+    readonly Id: "id";
+    readonly EventName: "eventName";
+    readonly Endpoint: "endpoint";
+    readonly Enabled: "enabled";
+    readonly Headers: "headers";
+    readonly RequestTimeout: "requestTimeout";
+    readonly ExternalTenantId: "externalTenantId";
+    readonly CreatedBy: "createdBy";
+    readonly UpdatedBy: "updatedBy";
+    readonly CreatedAt: "createdAt";
+    readonly UpdatedAt: "updatedAt";
+    readonly WorkUntilDate: "workUntilDate";
 };
-export type WebhookScalarFieldEnum =
-  (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
+export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
 /**
  *
  * @export
  * @enum {string}
  */
 export declare const WebhookStatus: {
-  readonly Pending: 'Pending';
-  readonly Process: 'Process';
-  readonly Success: 'Success';
-  readonly Error: 'Error';
-  readonly Timeout: 'Timeout';
+    readonly Pending: "Pending";
+    readonly Process: "Process";
+    readonly Success: "Success";
+    readonly Error: "Error";
+    readonly Timeout: "Timeout";
 };
 export type WebhookStatus = (typeof WebhookStatus)[keyof typeof WebhookStatus];
 /**
@@ -1031,54 +1025,54 @@ export type WebhookStatus = (typeof WebhookStatus)[keyof typeof WebhookStatus];
  * @interface WebhookUser
  */
 export interface WebhookUser {
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookUser
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookUser
-   */
-  externalTenantId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookUser
-   */
-  externalUserId: string;
-  /**
-   *
-   * @type {WebhookRole}
-   * @memberof WebhookUser
-   */
-  userRole: WebhookRole;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookUser
-   */
-  createdAt: string;
-  /**
-   *
-   * @type {string}
-   * @memberof WebhookUser
-   */
-  updatedAt: string;
-  /**
-   *
-   * @type {Array<Webhook>}
-   * @memberof WebhookUser
-   */
-  Webhook_Webhook_createdByToWebhookUser?: Array<Webhook>;
-  /**
-   *
-   * @type {Array<Webhook>}
-   * @memberof WebhookUser
-   */
-  Webhook_Webhook_updatedByToWebhookUser?: Array<Webhook>;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookUser
+     */
+    id: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookUser
+     */
+    externalTenantId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookUser
+     */
+    externalUserId: string;
+    /**
+     *
+     * @type {WebhookRole}
+     * @memberof WebhookUser
+     */
+    userRole: WebhookRole;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookUser
+     */
+    createdAt: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WebhookUser
+     */
+    updatedAt: string;
+    /**
+     *
+     * @type {Array<Webhook>}
+     * @memberof WebhookUser
+     */
+    Webhook_Webhook_createdByToWebhookUser?: Array<Webhook>;
+    /**
+     *
+     * @type {Array<Webhook>}
+     * @memberof WebhookUser
+     */
+    Webhook_Webhook_updatedByToWebhookUser?: Array<Webhook>;
 }
 /**
  *
@@ -1086,235 +1080,173 @@ export interface WebhookUser {
  * @enum {string}
  */
 export declare const WebhookUserScalarFieldEnum: {
-  readonly Id: 'id';
-  readonly ExternalTenantId: 'externalTenantId';
-  readonly ExternalUserId: 'externalUserId';
-  readonly UserRole: 'userRole';
-  readonly CreatedAt: 'createdAt';
-  readonly UpdatedAt: 'updatedAt';
+    readonly Id: "id";
+    readonly ExternalTenantId: "externalTenantId";
+    readonly ExternalUserId: "externalUserId";
+    readonly UserRole: "userRole";
+    readonly CreatedAt: "createdAt";
+    readonly UpdatedAt: "updatedAt";
 };
-export type WebhookUserScalarFieldEnum =
-  (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
+export type WebhookUserScalarFieldEnum = (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
 /**
  *
  * @export
  * @interface WebhookUsersControllerFindMany400Response
  */
 export interface WebhookUsersControllerFindMany400Response {
-  /**
-   * Validation error (VALIDATION-000)
-   * @type {string}
-   * @memberof WebhookUsersControllerFindMany400Response
-   */
-  message: string;
-  /**
-   *
-   * @type {ValidationErrorEnum}
-   * @memberof WebhookUsersControllerFindMany400Response
-   */
-  code: ValidationErrorEnum;
-  /**
-   *
-   * @type {Array<ValidationErrorMetadata>}
-   * @memberof WebhookUsersControllerFindMany400Response
-   */
-  metadata?: Array<ValidationErrorMetadata>;
+    /**
+     * Validation error (VALIDATION-000)
+     * @type {string}
+     * @memberof WebhookUsersControllerFindMany400Response
+     */
+    message: string;
+    /**
+     *
+     * @type {ValidationErrorEnum}
+     * @memberof WebhookUsersControllerFindMany400Response
+     */
+    code: ValidationErrorEnum;
+    /**
+     *
+     * @type {Array<ValidationErrorMetadata>}
+     * @memberof WebhookUsersControllerFindMany400Response
+     */
+    metadata?: Array<ValidationErrorMetadata>;
 }
 /**
  * AppApi - axios parameter creator
  * @export
  */
-export declare const AppApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoCreateOne: (
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoDeleteOne: (
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindMany: (
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindOne: (
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoUpdateOne: (
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerGetData: (
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
+export declare const AppApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoCreateOne: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoDeleteOne: (id: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindMany: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindOne: (id: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoUpdateOne: (id: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerGetData: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * AppApi - functional programming interface
  * @export
  */
 export declare const AppApiFp: (configuration?: Configuration) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoCreateOne(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-  >;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindMany(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AppDemo>>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoUpdateOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-  >;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerGetData(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppData>
-  >;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoCreateOne(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoDeleteOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindMany(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AppDemo>>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoUpdateOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerGetData(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppData>>;
 };
 /**
  * AppApi - factory interface
  * @export
  */
-export declare const AppApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoCreateOne(
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AppDemo>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AppDemo>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindMany(
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Array<AppDemo>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AppDemo>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerDemoUpdateOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AppDemo>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  appControllerGetData(options?: RawAxiosRequestConfig): AxiosPromise<AppData>;
+export declare const AppApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoCreateOne(options?: RawAxiosRequestConfig): AxiosPromise<AppDemo>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindMany(options?: RawAxiosRequestConfig): AxiosPromise<Array<AppDemo>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerDemoUpdateOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    appControllerGetData(options?: RawAxiosRequestConfig): AxiosPromise<AppData>;
 };
 /**
  * AppApi - object-oriented interface
@@ -1323,303 +1255,204 @@ export declare const AppApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class AppApi extends BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoCreateOne(
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppDemo, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppDemo, any>>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoFindMany(
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppDemo[], any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppDemo, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerDemoUpdateOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppDemo, any>>;
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  appControllerGetData(
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AppData, any>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoCreateOne(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppDemo, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoDeleteOne(id: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppDemo, any>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoFindMany(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppDemo[], any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppDemo, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerDemoUpdateOne(id: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppDemo, any>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    appControllerGetData(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppData, any>>;
 }
 /**
  * AuthApi - axios parameter creator
  * @export
  */
-export declare const AuthApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerProfile: (
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {AuthProfileDto} authProfileDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerUpdateProfile: (
-    authProfileDto: AuthProfileDto,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerDeleteOne: (
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindMany: (
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindOne: (
-    id: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateAuthUserDto} updateAuthUserDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerUpdateOne: (
-    id: string,
-    updateAuthUserDto: UpdateAuthUserDto,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
+export declare const AuthApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerProfile: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {AuthProfileDto} authProfileDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerUpdateProfile: (authProfileDto: AuthProfileDto, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne: (id: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany: (curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne: (id: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne: (id: string, updateAuthUserDto: UpdateAuthUserDto, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * AuthApi - functional programming interface
  * @export
  */
 export declare const AuthApiFp: (configuration?: Configuration) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerProfile(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthProfileDto>
-  >;
-  /**
-   *
-   * @param {AuthProfileDto} authProfileDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerUpdateProfile(
-    authProfileDto: AuthProfileDto,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-  >;
-  /**
-   *
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<FindManyAuthUserResponse>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateAuthUserDto} updateAuthUserDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerUpdateOne(
-    id: string,
-    updateAuthUserDto: UpdateAuthUserDto,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
-  >;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerProfile(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthProfileDto>>;
+    /**
+     *
+     * @param {AuthProfileDto} authProfileDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerUpdateProfile(authProfileDto: AuthProfileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>>;
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany(curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyAuthUserResponse>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne(id: string, updateAuthUserDto: UpdateAuthUserDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>>;
 };
 /**
  * AuthApi - factory interface
  * @export
  */
-export declare const AuthApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerProfile(
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AuthProfileDto>;
-  /**
-   *
-   * @param {AuthProfileDto} authProfileDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authControllerUpdateProfile(
-    authProfileDto: AuthProfileDto,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<StatusResponse>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<StatusResponse>;
-  /**
-   *
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<FindManyAuthUserResponse>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AuthUser>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateAuthUserDto} updateAuthUserDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  authUsersControllerUpdateOne(
-    id: string,
-    updateAuthUserDto: UpdateAuthUserDto,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<AuthUser>;
+export declare const AuthApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerProfile(options?: RawAxiosRequestConfig): AxiosPromise<AuthProfileDto>;
+    /**
+     *
+     * @param {AuthProfileDto} authProfileDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authControllerUpdateProfile(authProfileDto: AuthProfileDto, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse>;
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany(curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<FindManyAuthUserResponse>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AuthUser>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne(id: string, updateAuthUserDto: UpdateAuthUserDto, options?: RawAxiosRequestConfig): AxiosPromise<AuthUser>;
 };
 /**
  * AuthApi - object-oriented interface
@@ -1628,166 +1461,117 @@ export declare const AuthApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class AuthApi extends BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authControllerProfile(
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AuthProfileDto, any>>;
-  /**
-   *
-   * @param {AuthProfileDto} authProfileDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authControllerUpdateProfile(
-    authProfileDto: AuthProfileDto,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<StatusResponse, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<StatusResponse, any>>;
-  /**
-   *
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<FindManyAuthUserResponse, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AuthUser, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateAuthUserDto} updateAuthUserDto
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AuthApi
-   */
-  authUsersControllerUpdateOne(
-    id: string,
-    updateAuthUserDto: UpdateAuthUserDto,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<AuthUser, any>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authControllerProfile(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AuthProfileDto, any>>;
+    /**
+     *
+     * @param {AuthProfileDto} authProfileDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authControllerUpdateProfile(authProfileDto: AuthProfileDto, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StatusResponse, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StatusResponse, any>>;
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerFindMany(curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<FindManyAuthUserResponse, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerFindOne(id: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AuthUser, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    authUsersControllerUpdateOne(id: string, updateAuthUserDto: UpdateAuthUserDto, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AuthUser, any>>;
 }
 /**
  * FilesApi - axios parameter creator
  * @export
  */
-export declare const FilesApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {string} downloadUrl
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerDeleteFile: (
-    downloadUrl: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} ext
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerGetPresignedUrl: (
-    ext: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
+export declare const FilesApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerDeleteFile: (downloadUrl: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerGetPresignedUrl: (ext: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * FilesApi - functional programming interface
  * @export
  */
 export declare const FilesApiFp: (configuration?: Configuration) => {
-  /**
-   *
-   * @param {string} downloadUrl
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerDeleteFile(
-    downloadUrl: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-  >;
-  /**
-   *
-   * @param {string} ext
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerGetPresignedUrl(
-    ext: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PresignedUrls>
-  >;
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerDeleteFile(downloadUrl: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>>;
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerGetPresignedUrl(ext: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PresignedUrls>>;
 };
 /**
  * FilesApi - factory interface
  * @export
  */
-export declare const FilesApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {string} downloadUrl
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerDeleteFile(
-    downloadUrl: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<StatusResponse>;
-  /**
-   *
-   * @param {string} ext
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  filesControllerGetPresignedUrl(
-    ext: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<PresignedUrls>;
+export declare const FilesApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerDeleteFile(downloadUrl: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse>;
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filesControllerGetPresignedUrl(ext: string, options?: RawAxiosRequestConfig): AxiosPromise<PresignedUrls>;
 };
 /**
  * FilesApi - object-oriented interface
@@ -1796,83 +1580,58 @@ export declare const FilesApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class FilesApi extends BaseAPI {
-  /**
-   *
-   * @param {string} downloadUrl
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FilesApi
-   */
-  filesControllerDeleteFile(
-    downloadUrl: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<StatusResponse, any>>;
-  /**
-   *
-   * @param {string} ext
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FilesApi
-   */
-  filesControllerGetPresignedUrl(
-    ext: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<PresignedUrls, any>>;
+    /**
+     *
+     * @param {string} downloadUrl
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    filesControllerDeleteFile(downloadUrl: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StatusResponse, any>>;
+    /**
+     *
+     * @param {string} ext
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    filesControllerGetPresignedUrl(ext: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<PresignedUrls, any>>;
 }
 /**
  * TerminusHealthCheckApi - axios parameter creator
  * @export
  */
-export declare const TerminusHealthCheckApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  terminusHealthCheckControllerCheck: (
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
+export declare const TerminusHealthCheckApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    terminusHealthCheckControllerCheck: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * TerminusHealthCheckApi - functional programming interface
  * @export
  */
-export declare const TerminusHealthCheckApiFp: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  terminusHealthCheckControllerCheck(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>
-  >;
+export declare const TerminusHealthCheckApiFp: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    terminusHealthCheckControllerCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>>;
 };
 /**
  * TerminusHealthCheckApi - factory interface
  * @export
  */
-export declare const TerminusHealthCheckApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  terminusHealthCheckControllerCheck(
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<TerminusHealthCheckControllerCheck200Response>;
+export declare const TerminusHealthCheckApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    terminusHealthCheckControllerCheck(options?: RawAxiosRequestConfig): AxiosPromise<TerminusHealthCheckControllerCheck200Response>;
 };
 /**
  * TerminusHealthCheckApi - object-oriented interface
@@ -1881,66 +1640,49 @@ export declare const TerminusHealthCheckApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class TerminusHealthCheckApi extends BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TerminusHealthCheckApi
-   */
-  terminusHealthCheckControllerCheck(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    import('axios').AxiosResponse<
-      TerminusHealthCheckControllerCheck200Response,
-      any
-    >
-  >;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TerminusHealthCheckApi
+     */
+    terminusHealthCheckControllerCheck(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<TerminusHealthCheckControllerCheck200Response, any>>;
 }
 /**
  * TimeApi - axios parameter creator
  * @export
  */
-export declare const TimeApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  timeControllerTime: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+export declare const TimeApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    timeControllerTime: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * TimeApi - functional programming interface
  * @export
  */
 export declare const TimeApiFp: (configuration?: Configuration) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  timeControllerTime(
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>
-  >;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    timeControllerTime(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
 };
 /**
  * TimeApi - factory interface
  * @export
  */
-export declare const TimeApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  timeControllerTime(options?: RawAxiosRequestConfig): AxiosPromise<object>;
+export declare const TimeApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    timeControllerTime(options?: RawAxiosRequestConfig): AxiosPromise<object>;
 };
 /**
  * TimeApi - object-oriented interface
@@ -1949,639 +1691,385 @@ export declare const TimeApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class TimeApi extends BaseAPI {
-  /**
-   *
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TimeApi
-   */
-  timeControllerTime(
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<object, any>>;
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TimeApi
+     */
+    timeControllerTime(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
 }
 /**
  * WebhookApi - axios parameter creator
  * @export
  */
-export declare const WebhookApiAxiosParamCreator: (
-  configuration?: Configuration
-) => {
-  /**
-   *
-   * @param {CreateWebhookDto} createWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerCreateOne: (
-    createWebhookDto: CreateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerDeleteOne: (
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerEvents: (
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindMany: (
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindManyLogs: (
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindOne: (
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerProfile: (
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookDto} updateWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerUpdateOne: (
-    id: string,
-    updateWebhookDto: UpdateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerDeleteOne: (
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindMany: (
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindOne: (
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookUserDto} updateWebhookUserDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerUpdateOne: (
-    id: string,
-    updateWebhookUserDto: UpdateWebhookUserDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ) => Promise<RequestArgs>;
+export declare const WebhookApiAxiosParamCreator: (configuration?: Configuration) => {
+    /**
+     *
+     * @param {CreateWebhookDto} createWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerCreateOne: (createWebhookDto: CreateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerDeleteOne: (id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerEvents: (xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindMany: (xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindManyLogs: (id: string, xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindOne: (id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerProfile: (xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookDto} updateWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerUpdateOne: (id: string, updateWebhookDto: UpdateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerDeleteOne: (id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindMany: (xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindOne: (id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookUserDto} updateWebhookUserDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerUpdateOne: (id: string, updateWebhookUserDto: UpdateWebhookUserDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 /**
  * WebhookApi - functional programming interface
  * @export
  */
 export declare const WebhookApiFp: (configuration?: Configuration) => {
-  /**
-   *
-   * @param {CreateWebhookDto} createWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerCreateOne(
-    createWebhookDto: CreateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-  >;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<Array<WebhookEvent>>
-  >;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<FindManyWebhookResponse>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindManyLogs(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<FindManyWebhookLogResponse>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-  >;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookDto} updateWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerUpdateOne(
-    id: string,
-    updateWebhookDto: UpdateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-  >;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (
-      axios?: AxiosInstance,
-      basePath?: string
-    ) => AxiosPromise<FindManyWebhookUserResponse>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>
-  >;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookUserDto} updateWebhookUserDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDto: UpdateWebhookUserDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<
-    (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>
-  >;
+    /**
+     *
+     * @param {CreateWebhookDto} createWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerCreateOne(createWebhookDto: CreateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerEvents(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WebhookEvent>>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyWebhookResponse>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindManyLogs(id: string, xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyWebhookLogResponse>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerProfile(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookDto} updateWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerUpdateOne(id: string, updateWebhookDto: UpdateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyWebhookUserResponse>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookUserDto} updateWebhookUserDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerUpdateOne(id: string, updateWebhookUserDto: UpdateWebhookUserDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>>;
 };
 /**
  * WebhookApi - factory interface
  * @export
  */
-export declare const WebhookApiFactory: (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) => {
-  /**
-   *
-   * @param {CreateWebhookDto} createWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerCreateOne(
-    createWebhookDto: CreateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Webhook>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<StatusResponse>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Array<WebhookEvent>>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<FindManyWebhookResponse>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindManyLogs(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<FindManyWebhookLogResponse>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Webhook>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<WebhookUser>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookDto} updateWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookControllerUpdateOne(
-    id: string,
-    updateWebhookDto: UpdateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Webhook>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<StatusResponse>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<FindManyWebhookUserResponse>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<WebhookUser>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookUserDto} updateWebhookUserDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   */
-  webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDto: UpdateWebhookUserDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<WebhookUser>;
+export declare const WebhookApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
+    /**
+     *
+     * @param {CreateWebhookDto} createWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerCreateOne(createWebhookDto: CreateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<Webhook>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerEvents(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<WebhookEvent>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<FindManyWebhookResponse>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindManyLogs(id: string, xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<FindManyWebhookLogResponse>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<Webhook>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerProfile(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<WebhookUser>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookDto} updateWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookControllerUpdateOne(id: string, updateWebhookDto: UpdateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<Webhook>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<FindManyWebhookUserResponse>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<WebhookUser>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookUserDto} updateWebhookUserDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    webhookUsersControllerUpdateOne(id: string, updateWebhookUserDto: UpdateWebhookUserDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): AxiosPromise<WebhookUser>;
 };
 /**
  * WebhookApi - object-oriented interface
@@ -2590,204 +2078,134 @@ export declare const WebhookApiFactory: (
  * @extends {BaseAPI}
  */
 export declare class WebhookApi extends BaseAPI {
-  /**
-   *
-   * @param {CreateWebhookDto} createWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerCreateOne(
-    createWebhookDto: CreateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<Webhook, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<StatusResponse, any>>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<WebhookEvent[], any>>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<FindManyWebhookResponse, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindManyLogs(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<FindManyWebhookLogResponse, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<Webhook, any>>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<WebhookUser, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookDto} updateWebhookDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookControllerUpdateOne(
-    id: string,
-    updateWebhookDto: UpdateWebhookDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<Webhook, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerDeleteOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<StatusResponse, any>>;
-  /**
-   *
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {number} [curPage]
-   * @param {number} [perPage]
-   * @param {string} [searchText]
-   * @param {string} [sort]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<FindManyWebhookUserResponse, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerFindOne(
-    id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<WebhookUser, any>>;
-  /**
-   *
-   * @param {string} id
-   * @param {UpdateWebhookUserDto} updateWebhookUserDto
-   * @param {string} [xExternalUserId]
-   * @param {string} [xExternalTenantId]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebhookApi
-   */
-  webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDto: UpdateWebhookUserDto,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
-    options?: RawAxiosRequestConfig
-  ): Promise<import('axios').AxiosResponse<WebhookUser, any>>;
+    /**
+     *
+     * @param {CreateWebhookDto} createWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerCreateOne(createWebhookDto: CreateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<Webhook, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StatusResponse, any>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerEvents(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<WebhookEvent[], any>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<FindManyWebhookResponse, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindManyLogs(id: string, xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<FindManyWebhookLogResponse, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<Webhook, any>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerProfile(xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<WebhookUser, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookDto} updateWebhookDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookControllerUpdateOne(id: string, updateWebhookDto: UpdateWebhookDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<Webhook, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerDeleteOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StatusResponse, any>>;
+    /**
+     *
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerFindMany(xExternalUserId?: string, xExternalTenantId?: string, curPage?: number, perPage?: number, searchText?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<FindManyWebhookUserResponse, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerFindOne(id: string, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<WebhookUser, any>>;
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateWebhookUserDto} updateWebhookUserDto
+     * @param {string} [xExternalUserId]
+     * @param {string} [xExternalTenantId]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebhookApi
+     */
+    webhookUsersControllerUpdateOne(id: string, updateWebhookUserDto: UpdateWebhookUserDto, xExternalUserId?: string, xExternalTenantId?: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<WebhookUser, any>>;
 }

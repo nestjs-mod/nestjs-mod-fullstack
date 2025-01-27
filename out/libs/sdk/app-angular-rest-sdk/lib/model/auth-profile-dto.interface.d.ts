@@ -10,8 +10,8 @@
  */
 import { AuthRoleInterface } from './auth-role.interface';
 export interface AuthProfileDtoInterface {
-  timezone?: number | null;
-  lang?: string | null;
-  userRole?: AuthRoleInterface | null;
+    timezone?: number | null;
+    lang?: string | null;
+    userRole?: AuthRoleInterface | null;
 }
-export declare namespace AuthProfileDtoInterface {}
+export declare namespace AuthProfileDtoInterface { }

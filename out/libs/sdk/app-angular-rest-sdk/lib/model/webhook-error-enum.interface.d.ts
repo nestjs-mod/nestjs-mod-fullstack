@@ -8,18 +8,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-export type WebhookErrorEnumInterface =
-  | 'WEBHOOK-000'
-  | 'WEBHOOK-001'
-  | 'WEBHOOK-002'
-  | 'WEBHOOK-003'
-  | 'WEBHOOK-004'
-  | 'WEBHOOK-005';
+export type WebhookErrorEnumInterface = 'WEBHOOK-000' | 'WEBHOOK-001' | 'WEBHOOK-002' | 'WEBHOOK-003' | 'WEBHOOK-004' | 'WEBHOOK-005';
 export declare const WebhookErrorEnumInterface: {
-  _000: WebhookErrorEnumInterface;
-  _001: WebhookErrorEnumInterface;
-  _002: WebhookErrorEnumInterface;
-  _003: WebhookErrorEnumInterface;
-  _004: WebhookErrorEnumInterface;
-  _005: WebhookErrorEnumInterface;
+    _000: WebhookErrorEnumInterface;
+    _001: WebhookErrorEnumInterface;
+    _002: WebhookErrorEnumInterface;
+    _003: WebhookErrorEnumInterface;
+    _004: WebhookErrorEnumInterface;
+    _005: WebhookErrorEnumInterface;
 };

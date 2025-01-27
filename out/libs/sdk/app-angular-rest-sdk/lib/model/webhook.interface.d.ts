@@ -11,19 +11,19 @@
 import { WebhookLogInterface } from './webhook-log.interface';
 import { WebhookUserInterface } from './webhook-user.interface';
 export interface WebhookInterface {
-  id: string;
-  eventName: string;
-  endpoint: string;
-  enabled: boolean;
-  headers: object | null;
-  requestTimeout: number | null;
-  externalTenantId: string;
-  createdBy: string;
-  updatedBy: string;
-  createdAt: string;
-  updatedAt: string;
-  workUntilDate: string | null;
-  WebhookUser_Webhook_createdByToWebhookUser?: WebhookUserInterface;
-  WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUserInterface;
-  WebhookLog?: Array<WebhookLogInterface>;
+    id: string;
+    eventName: string;
+    endpoint: string;
+    enabled: boolean;
+    headers: object | null;
+    requestTimeout: number | null;
+    externalTenantId: string;
+    createdBy: string;
+    updatedBy: string;
+    createdAt: string;
+    updatedAt: string;
+    workUntilDate: string | null;
+    WebhookUser_Webhook_createdByToWebhookUser?: WebhookUserInterface;
+    WebhookUser_Webhook_updatedByToWebhookUser?: WebhookUserInterface;
+    WebhookLog?: Array<WebhookLogInterface>;
 }

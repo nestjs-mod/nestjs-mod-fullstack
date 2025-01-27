@@ -11,15 +11,15 @@
 import { WebhookStatusInterface } from './webhook-status.interface';
 import { WebhookInterface } from './webhook.interface';
 export interface WebhookLogInterface {
-  id: string;
-  request: object;
-  responseStatus: string;
-  response: object | null;
-  webhookStatus: WebhookStatusInterface;
-  webhookId: string;
-  externalTenantId: string;
-  createdAt: string;
-  updatedAt: string;
-  Webhook?: WebhookInterface;
+    id: string;
+    request: object;
+    responseStatus: string;
+    response: object | null;
+    webhookStatus: WebhookStatusInterface;
+    webhookId: string;
+    externalTenantId: string;
+    createdAt: string;
+    updatedAt: string;
+    Webhook?: WebhookInterface;
 }
-export declare namespace WebhookLogInterface {}
+export declare namespace WebhookLogInterface { }
