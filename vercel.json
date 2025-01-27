@@ -2,11 +2,11 @@
     "version": 2,
     "builds": [
         {
-            "src": "/dist/apps/client/browser/**",
+            "src": "dist/apps/client/browser/**",
             "use": "@vercel/static"
         },
         {
-            "src": "/dist/apps/server/main.js",
+            "src": "dist/apps/server/main.js",
             "use": "@vercel/node"
         }
     ],
@@ -20,20 +20,8 @@
             "dest": "/assets/$1"
         },
         {
-            "src": "/[a-z0-9]+\\.ico",
-            "dest": "/dist/apps/client/browser/$1.ico"
-        },
-        {
-            "src": "/[a-z0-9]+\\.js",
-            "dest": "/dist/apps/client/browser/$1.js"
-        },
-        {
-            "src": "/[a-z0-9]+\\.css",
-            "dest": "/dist/apps/client/browser/$1.css"
-        },
-        {
-            "src": "/[a-z0-9]+\\.txt",
-            "dest": "/dist/apps/client/browser/$1.txt"
+            "src": "/(.*)\\.(.*)",
+            "dest": "/dist/$1.$2"
         },
         {
             "src": "/(.*)",
