@@ -13,19 +13,19 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "/apps/server/main.js"
+            "dest": "apps/server/main.js"
         },
         {
             "src": "/assets/(.*)",
-            "dest": "/assets/$1"
+            "dest": "apps/client/browser/assets/$1"
         },
         {
             "src": "/(.*)\\.(.*)",
-            "dest": "/apps/client/browser/$1.$2"
+            "dest": "apps/client/browser/$1.$2"
         },
         {
             "src": "/(.*)",
-            "dest": "/apps/client/browser/index.html"
+            "dest": "apps/client/browser/index.html"
         }
     ]
 }
