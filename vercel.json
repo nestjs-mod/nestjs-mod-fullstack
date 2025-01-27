@@ -16,6 +16,10 @@
             "dest": "apps/server/main.js"
         },
         {
+            "src": "/favicon.ico",
+            "dest": "apps/client/browser/favicon.ico"
+        },
+        {
             "src": "/assets/(.*)",
             "dest": "apps/client/browser/assets/$1"
         },
