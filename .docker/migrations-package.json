@@ -13,7 +13,7 @@
   "devDependencies": {
     "pg-flyway": "1.0.1",
     "nx": "20.0.3",
-    "rucken": "^4.10.4"
+    "rucken": "^4.15.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
