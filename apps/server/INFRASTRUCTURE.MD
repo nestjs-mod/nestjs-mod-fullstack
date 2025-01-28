@@ -1,26 +1,7 @@
 # server
 > Version: 1.13.0
 
-## Running the app in watch mode
-```bash
-# preparing code, building code, creating infrastructure documentation and all the files necessary to raise the infrastructure and running tests (generate, build, docs:infrastructure, test)
-npm run manual:prepare
-
-# running server source code in watch mode
-npm run serve:dev:server
-```
-## Running the app in production mode
-```bash
-# preparing code, building code, creating infrastructure documentation and all the files necessary to raise the infrastructure and running tests (generate, build, docs:infrastructure, test)
-npm run manual:prepare
-
-npm run start:prod:server
-```
-## Test
-```bash
-# running tests for server
-npm run test:server
-```
+Boilerplate for creating a fullstack application on NestJS and Angular
 ## System modules
 
 ### ProjectUtils
@@ -117,7 +98,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -134,7 +115,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -151,7 +132,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -173,7 +154,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -190,7 +171,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -207,7 +188,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -229,7 +210,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -246,7 +227,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -263,7 +244,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
 
 ### KeyvModule
 Simple key-value storage with support for multiple backends, and a consistent interface for NestJS-mod (Wrapper for https://www.npmjs.com/package/keyv)

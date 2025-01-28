@@ -1,7 +1,8 @@
 generator client {
   provider = "prisma-client-js"
+  
   output   = "../../../../../node_modules/@prisma/webhook-client"
-  binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native","linux-musl","debian-openssl-1.1.x","linux-musl-openssl-3.0.x","rhel-openssl-3.0.x"]
   
 }
 datasource db {

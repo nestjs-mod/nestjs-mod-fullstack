@@ -8,9 +8,9 @@ import {
 } from '@nestjs-mod-fullstack/auth';
 import {
   CheckAccessOptions,
-  defaultSupabaseCheckAccessValidator,
   SupabaseModule,
   SupabaseUser,
+  defaultSupabaseCheckAccessValidator,
 } from '@nestjs-mod-fullstack/common';
 import {
   FilesModule,
@@ -294,7 +294,13 @@ bootstrapNestApplication({
             ? import(`@nestjs-mod/prisma`)
             : import(`@prisma/app-client`),
           addMigrationScripts: false,
-          binaryTargets: [],
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+            'rhel-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
@@ -317,7 +323,14 @@ bootstrapNestApplication({
             WEBHOOK_FOLDER,
             PROJECT_JSON_FILE
           ),
-          binaryTargets: [],
+
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+            'rhel-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
@@ -336,7 +349,14 @@ bootstrapNestApplication({
             : import(`@prisma/auth-client`),
           addMigrationScripts: false,
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
-          binaryTargets: [],
+
+          binaryTargets: [
+            'native',
+            'linux-musl',
+            'debian-openssl-1.1.x',
+            'linux-musl-openssl-3.0.x',
+            'rhel-openssl-3.0.x',
+          ],
         },
       }),
       KeyvModule.forRoot({

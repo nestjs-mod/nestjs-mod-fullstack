@@ -251,6 +251,7 @@
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
     "tsc:lint": [],
+    "build-apps": [],
     "manual-vercel-build": [],
     "kubernetes:generate": [],
     "db:create": [
