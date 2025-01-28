@@ -294,13 +294,7 @@ bootstrapNestApplication({
             ? import(`@nestjs-mod/prisma`)
             : import(`@prisma/app-client`),
           addMigrationScripts: false,
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-            'rhel-openssl-3.0.x',
-          ],
+          binaryTargets: ['rhel-openssl-3.0.x'],
         },
       }),
       PrismaModule.forRoot({
@@ -324,13 +318,7 @@ bootstrapNestApplication({
             PROJECT_JSON_FILE
           ),
 
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-            'rhel-openssl-3.0.x',
-          ],
+          binaryTargets: ['rhel-openssl-3.0.x'],
         },
       }),
       PrismaModule.forRoot({
@@ -350,13 +338,7 @@ bootstrapNestApplication({
           addMigrationScripts: false,
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
 
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-            'rhel-openssl-3.0.x',
-          ],
+          binaryTargets: ['rhel-openssl-3.0.x'],
         },
       }),
       KeyvModule.forRoot({
