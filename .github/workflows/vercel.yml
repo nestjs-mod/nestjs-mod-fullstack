@@ -33,11 +33,22 @@ jobs:
           SERVER_ROOT_DATABASE_URL: ${{ secrets.SERVER_ROOT_DATABASE_URL }}
           SERVER_WEBHOOK_DATABASE_URL: ${{ secrets.SERVER_WEBHOOK_DATABASE_URL }}
 
+      - name: Install only prod dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --prod
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --yes
+        run: vercel deploy --yes --prebuilt --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
 
     #  - name: Deploy to Vercel
     #    uses: amondnet/vercel-action@v20
