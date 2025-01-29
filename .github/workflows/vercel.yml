@@ -57,7 +57,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --prod
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --yes --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
