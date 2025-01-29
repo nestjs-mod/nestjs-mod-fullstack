@@ -28,11 +28,6 @@
             "glob": "**/project.json",
             "input": "./apps/server/",
             "output": "./"
-          },
-          {
-            "glob": "**/package.json",
-            "input": "./apps/server/",
-            "output": "./"
           }
         ],
         "webpackConfig": "apps/server/webpack.config.js"
