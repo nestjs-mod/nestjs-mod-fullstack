@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { of } from 'rxjs';
+import { AuthUpdateProfileInput } from './auth.types';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,7 @@ export class AuthProfileFormService {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getFormlyFields(options?: {
-    data?: UpdateProfileInput;
+    data?: AuthUpdateProfileInput;
     errors?: ValidationErrorMetadataInterface[];
   }): FormlyFieldConfig[] {
     return this.validationService.appendServerErrorsAsValidatorsToFields(

@@ -20,7 +20,6 @@ import {
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
-  AUTHORIZER_URL,
   AuthProfileFormService,
   AuthProfileMapperService,
   AuthService,
@@ -50,7 +49,10 @@ import {
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
-import { provideAppAuthConfiguration } from './integrations/auth.configuration';
+import {
+  AUTHORIZER_URL,
+  provideAppAuthConfiguration,
+} from './integrations/auth.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomSupabaseAuthService } from './integrations/custom-supabase-auth.service';

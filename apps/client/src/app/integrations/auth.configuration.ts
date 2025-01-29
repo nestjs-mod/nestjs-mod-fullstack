@@ -1,21 +1,87 @@
-import { Provider } from '@angular/core';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { Inject, InjectionToken, Provider } from '@angular/core';
+import { Authorizer, ConfigType } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AfterUpdateProfileEvent,
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
+  AuthLoginInput,
+  AuthSignupInput,
+  AuthUpdateProfileInput,
+  AuthUser,
+  AuthUserAndTokens,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
-import { map, Observable, of } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
+
+export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 
 export class AppAuthConfiguration implements AuthConfiguration {
+  authorizer: Authorizer;
+
   constructor(
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
-    private readonly tokensService: TokensService
-  ) {}
+    private readonly tokensService: TokensService,
+    @Inject(AUTHORIZER_URL)
+    private readonly authorizerURL: string
+  ) {
+    this.authorizer = new Authorizer({
+      authorizerURL:
+        // need for override from e2e-tests
+        localStorage.getItem('authorizerURL') ||
+        // use from environments
+        authorizerURL ||
+        '',
+      clientID: '',
+      redirectURL: window.location.origin,
+    } as ConfigType);
+  }
+
+  logout(): Observable<void | null> {
+    return from(this.authorizer.logout(this.getAuthorizationHeaders())).pipe(
+      mapGraphqlErrors(),
+      map(() => null)
+    );
+  }
+
+  getProfile(): Observable<AuthUser | undefined> {
+    return from(
+      this.authorizer.getProfile(this.getAuthorizationHeaders())
+    ).pipe(mapGraphqlErrors());
+  }
+
+  updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
+    return from(
+      this.authorizer.updateProfile(data, this.getAuthorizationHeaders())
+    ).pipe(
+      mapGraphqlErrors(),
+      map(() => null)
+    );
+  }
+
+  browserLogin(): Observable<AuthUserAndTokens> {
+    return from(this.authorizer.browserLogin()).pipe(
+      mapGraphqlErrors(),
+      map((result) => ({ tokens: result, user: result?.user }))
+    );
+  }
+
+  signup(data: AuthSignupInput): Observable<AuthUserAndTokens> {
+    return from(this.authorizer.signup(data)).pipe(
+      mapGraphqlErrors(),
+      map((result) => ({ tokens: result, user: result?.user }))
+    );
+  }
+
+  login(data: AuthLoginInput): Observable<AuthUserAndTokens> {
+    return from(this.authorizer.login(data)).pipe(
+      mapGraphqlErrors(),
+      map((result) => ({ tokens: result, user: result?.user }))
+    );
+  }
 
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
@@ -32,8 +98,8 @@ export class AppAuthConfiguration implements AuthConfiguration {
   }
 
   beforeUpdateProfile(
-    data: UpdateProfileInput
-  ): Observable<UpdateProfileInput> {
+    data: AuthUpdateProfileInput
+  ): Observable<AuthUpdateProfileInput> {
     if (data.picture) {
       return this.filesService.getPresignedUrlAndUploadFile(data.picture).pipe(
         map((picture) => {
@@ -61,6 +127,6 @@ export function provideAppAuthConfiguration(): Provider {
   return {
     provide: AUTH_CONFIGURATION_TOKEN,
     useClass: AppAuthConfiguration,
-    deps: [FilesService, TranslocoService, TokensService],
+    deps: [FilesService, TranslocoService, TokensService, AUTHORIZER_URL],
   };
 }

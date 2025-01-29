@@ -13,7 +13,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
@@ -28,6 +27,7 @@ import { BehaviorSubject, catchError, merge, mergeMap, of, tap } from 'rxjs';
 import { AuthProfileFormService } from '../../services/auth-profile-form.service';
 import { AuthProfileMapperService } from '../../services/auth-profile-mapper.service';
 import { AuthService } from '../../services/auth.service';
+import { AuthUpdateProfileInput } from '../../services/auth.types';
 
 @UntilDestroy()
 @Component({
@@ -105,14 +105,14 @@ export class AuthProfileFormComponent implements OnInit {
       .subscribe();
   }
 
-  setFieldsAndModel(data: UpdateProfileInput = {}) {
+  setFieldsAndModel(data: AuthUpdateProfileInput = {}) {
     const model = this.authProfileMapperService.toModel(data);
     this.setFormlyFields({ data: model });
     this.formlyModel$.next(model);
   }
 
   private setFormlyFields(options?: {
-    data?: Partial<UpdateProfileInput>;
+    data?: Partial<AuthUpdateProfileInput>;
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(
@@ -156,7 +156,7 @@ export class AuthProfileFormComponent implements OnInit {
 
   private fillFromProfile() {
     this.setFieldsAndModel(
-      this.authService.profile$.value as UpdateProfileInput
+      this.authService.profile$.value as AuthUpdateProfileInput
     );
   }
 }

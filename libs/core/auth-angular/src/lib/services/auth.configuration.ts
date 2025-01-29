@@ -1,26 +1,38 @@
 import { InjectionToken } from '@angular/core';
-import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
 import { Observable } from 'rxjs';
+import {
+  AuthLoginInput,
+  AuthSignupInput,
+  AuthUpdateProfileInput,
+  AuthUser,
+  AuthUserAndTokens,
+} from './auth.types';
 
 export type AfterUpdateProfileEvent = {
-  old?: User;
-  new?: User;
+  old?: AuthUser;
+  new?: AuthUser;
 };
 
 export class AuthConfiguration {
   constructor(options?: AuthConfiguration) {
     Object.assign(this, options);
   }
+  logout!: () => Observable<void | null>;
+  getProfile!: () => Observable<AuthUser | undefined>;
+  browserLogin!: () => Observable<AuthUserAndTokens>;
+  signup!: (data: AuthSignupInput) => Observable<AuthUserAndTokens>;
+  login!: (data: AuthLoginInput) => Observable<AuthUserAndTokens>;
+  updateProfile!: (data: AuthUpdateProfileInput) => Observable<void | null>;
 
-  beforeUpdateProfile?(
-    data: UpdateProfileInput
-  ): Observable<UpdateProfileInput>;
+  beforeUpdateProfile?: (
+    data: AuthUpdateProfileInput
+  ) => Observable<AuthUpdateProfileInput>;
 
-  afterUpdateProfile?(
+  afterUpdateProfile?: (
     data: AfterUpdateProfileEvent
-  ): Observable<User | undefined>;
+  ) => Observable<AuthUser | undefined>;
 
-  getAuthorizationHeaders?(): Record<string, string>;
+  getAuthorizationHeaders?: () => Record<string, string>;
 }
 
 export const AUTH_CONFIGURATION_TOKEN = new InjectionToken<string>(

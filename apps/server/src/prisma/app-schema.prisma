@@ -14,7 +14,7 @@ generator prismaClassGenerator {
   output                          = "../app/generated/rest/dto"
   classValidation                 = "true"
   flatResourceStructure           = "false"
-  prettier                        = "false"
+  prettier                        = "true"
   annotateAllDtoProperties        = "true"
   dtoSuffix                       = "Dto"
   fileNamingStyle                 = "kebab"

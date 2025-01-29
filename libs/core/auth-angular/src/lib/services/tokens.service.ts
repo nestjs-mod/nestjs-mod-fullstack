@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthToken } from '@authorizerdev/authorizer-js';
 import { BehaviorSubject, merge, of } from 'rxjs';
+import { AuthTokens } from './auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class TokensService {
-  private tokens$ = new BehaviorSubject<AuthToken | undefined>(undefined);
+  private tokens$ = new BehaviorSubject<AuthTokens | undefined>(undefined);
 
   getRefreshToken() {
     return (
@@ -18,10 +18,12 @@ export class TokensService {
     );
   }
 
-  setTokens(tokens: AuthToken) {
+  setTokens(tokens: AuthTokens | undefined) {
     this.tokens$.next(tokens);
-    if (tokens.refresh_token) {
+    if (tokens?.refresh_token) {
       localStorage.setItem('refreshToken', tokens.refresh_token);
+    } else {
+      localStorage.removeItem('refreshToken');
     }
   }
 

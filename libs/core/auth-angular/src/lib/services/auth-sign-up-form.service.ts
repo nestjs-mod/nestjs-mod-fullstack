@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SignupInput } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { of } from 'rxjs';
+import { AuthSignupInput } from './auth.types';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,7 @@ export class AuthSignUpFormService {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getFormlyFields(options?: {
-    data?: SignupInput;
+    data?: AuthSignupInput;
     errors?: ValidationErrorMetadataInterface[];
   }): FormlyFieldConfig[] {
     return this.validationService.appendServerErrorsAsValidatorsToFields(

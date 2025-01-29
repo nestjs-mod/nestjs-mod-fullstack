@@ -13,7 +13,7 @@ generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
   entityPrefix                    = ""
-  prettier                        = "false"
+  prettier                        = "true"
   reExport                        = "false"
   exportRelationModifierClasses   = "true"
   classValidation                 = "true"

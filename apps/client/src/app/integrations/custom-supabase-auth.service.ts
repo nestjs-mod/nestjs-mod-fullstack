@@ -1,16 +1,13 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import {
-  AuthToken,
-  LoginInput,
-  SignupInput,
-  UpdateProfileInput,
-  User,
-} from '@authorizerdev/authorizer-js';
+import { Inject, Injectable } from '@angular/core';
 import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
+  AuthLoginInput,
   AuthService,
+  AuthSignupInput,
+  AuthUpdateProfileInput,
+  AuthUser,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -30,14 +27,13 @@ export class CustomSupabaseAuthService extends AuthService {
     protected readonly supabaseService: SupabaseService,
     protected readonly authRestService: AuthRestService,
     protected override readonly tokensService: TokensService,
-    @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration?: AuthConfiguration
+    protected override readonly authConfiguration: AuthConfiguration
   ) {
     super(tokensService, authConfiguration);
   }
 
-  override signUp(data: SignupInput) {
+  override signUp(data: AuthSignupInput) {
     if (!data.email) {
       throw new Error('data.email not set');
     }
@@ -61,36 +57,31 @@ export class CustomSupabaseAuthService extends AuthService {
         if (!result.user.email) {
           throw new Error('result.user.email not set');
         }
-        const tokens: AuthToken = {
+        const tokens = {
           access_token: result.session.access_token,
           refresh_token: result.session.refresh_token,
-          expires_in: result.session.expires_in,
-          id_token: 'empty',
-          user: {
-            email: result.user.email,
-            email_verified: true,
-            id: result.user.id,
-            preferred_username: 'empty',
-            signup_methods: 'empty',
-            created_at: +new Date(result.user.created_at),
-            updated_at: result.user.updated_at
-              ? +new Date(result.user.updated_at)
-              : 0,
-            roles: ['user'],
-            picture: result.user.user_metadata['picture'],
-          },
         };
-        return this.setProfileAndTokens(tokens).pipe(
+        const user = {
+          email: result.user.email,
+          id: result.user.id,
+          preferred_username: 'empty',
+          roles: ['user'],
+          picture: result.user.user_metadata['picture'],
+        };
+        return this.setProfileAndTokens({
+          tokens,
+          user,
+        }).pipe(
           map((profile) => ({
-            profile,
             tokens,
+            profile,
           }))
         );
       })
     );
   }
 
-  fullUpdateProfile(data: UpdateProfileInput) {
+  fullUpdateProfile(data: AuthUpdateProfileInput) {
     const oldProfile = this.profile$.value;
     return (
       this.authConfiguration?.beforeUpdateProfile
@@ -117,14 +108,8 @@ export class CustomSupabaseAuthService extends AuthService {
         }
         return this.setProfile({
           email: result.user.email,
-          email_verified: true,
           id: result.user.id,
           preferred_username: 'empty',
-          signup_methods: 'empty',
-          created_at: +new Date(result.user.created_at),
-          updated_at: result.user.updated_at
-            ? +new Date(result.user.updated_at)
-            : 0,
           roles: ['user'],
           picture: result.user.user_metadata['picture'],
         });
@@ -142,7 +127,7 @@ export class CustomSupabaseAuthService extends AuthService {
     );
   }
 
-  override signIn(data: LoginInput) {
+  override signIn(data: AuthLoginInput) {
     if (!data.email) {
       throw new Error('data.email not set');
     }
@@ -166,23 +151,21 @@ export class CustomSupabaseAuthService extends AuthService {
         const tokens = {
           access_token: result.session.access_token,
           refresh_token: result.session.refresh_token,
-          expires_in: result.session.expires_in,
-          id_token: 'empty',
-          user: {
-            email: result.user.email,
-            email_verified: true,
-            id: result.user.id,
-            preferred_username: 'empty',
-            signup_methods: 'empty',
-            created_at: +new Date(result.user.created_at),
-            updated_at: result.user.updated_at
-              ? +new Date(result.user.updated_at)
-              : 0,
-            roles: ['user'],
-            picture: result.user.user_metadata['picture'],
-          },
         };
-        return this.setProfileAndTokens(tokens).pipe(
+        const user = {
+          email: result.user.email,
+          email_verified: true,
+          id: result.user.id,
+          preferred_username: 'empty',
+          signup_methods: 'empty',
+          created_at: +new Date(result.user.created_at),
+          updated_at: result.user.updated_at
+            ? +new Date(result.user.updated_at)
+            : 0,
+          roles: ['user'],
+          picture: result.user.user_metadata['picture'],
+        };
+        return this.setProfileAndTokens({ tokens, user }).pipe(
           map((profile) => ({
             profile,
             tokens,
@@ -223,20 +206,14 @@ export class CustomSupabaseAuthService extends AuthService {
           throw new Error('result.user.email not set');
         }
         return this.setProfileAndTokens({
-          access_token: result.session.access_token,
-          refresh_token: result.session.refresh_token,
-          expires_in: result.session.expires_in,
-          id_token: 'empty',
+          tokens: {
+            access_token: result.session.access_token,
+            refresh_token: result.session.refresh_token,
+          },
           user: {
             email: result.user.email,
-            email_verified: true,
             id: result.user.id,
             preferred_username: 'empty',
-            signup_methods: 'empty',
-            created_at: +new Date(result.user.created_at),
-            updated_at: result.user.updated_at
-              ? +new Date(result.user.updated_at)
-              : 0,
             roles: ['user'],
             picture: result.user.user_metadata['picture'],
           },
@@ -249,7 +226,7 @@ export class CustomSupabaseAuthService extends AuthService {
     );
   }
 
-  override setProfile(result: User | undefined) {
+  override setProfile(result: AuthUser | undefined) {
     return this.authRestService.authControllerProfile().pipe(
       catchError(() => of(null)),
       mergeMap((profile) => {
@@ -261,7 +238,7 @@ export class CustomSupabaseAuthService extends AuthService {
     );
   }
 
-  override updateProfile(data: UpdateProfileInput & { timezone: number }) {
+  override updateProfile(data: AuthUpdateProfileInput & { timezone: number }) {
     const { timezone, ...profile } = data;
     return this.fullUpdateProfile(profile).pipe(
       mergeMap((result) =>

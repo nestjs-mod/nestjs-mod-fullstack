@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
-import { AuthProfileMapperService } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AuthProfileMapperService,
+  AuthUpdateProfileInput,
+} from '@nestjs-mod-fullstack/auth-angular';
 
 @Injectable({ providedIn: 'root' })
 export class CustomAuthProfileMapperService extends AuthProfileMapperService {
-  override toModel(data: UpdateProfileInput) {
+  override toModel(data: AuthUpdateProfileInput) {
     return {
       old_password: data['old_password'],
       new_password: data['new_password'],
@@ -14,7 +16,7 @@ export class CustomAuthProfileMapperService extends AuthProfileMapperService {
     };
   }
 
-  override toJson(data: UpdateProfileInput) {
+  override toJson(data: AuthUpdateProfileInput) {
     return {
       old_password: data['old_password'],
       new_password: data['new_password'],

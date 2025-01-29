@@ -1,11 +1,11 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
+import { Inject, Injectable } from '@angular/core';
 import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
-  AuthorizerService,
   AuthService,
+  AuthUpdateProfileInput,
+  AuthUser,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -17,16 +17,13 @@ export class CustomAuthService extends AuthService {
   constructor(
     protected readonly authRestService: AuthRestService,
     protected override readonly tokensService: TokensService,
-    @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration?: AuthConfiguration,
-    @Optional()
-    protected override readonly authorizerService?: AuthorizerService
+    protected override readonly authConfiguration: AuthConfiguration
   ) {
-    super(tokensService, authConfiguration, authorizerService);
+    super(tokensService, authConfiguration);
   }
 
-  override setProfile(result: User | undefined) {
+  override setProfile(result: AuthUser | undefined) {
     return this.authRestService.authControllerProfile().pipe(
       catchError(() => of(null)),
       mergeMap((profile) => {
@@ -38,7 +35,7 @@ export class CustomAuthService extends AuthService {
     );
   }
 
-  override updateProfile(data: UpdateProfileInput & { timezone: number }) {
+  override updateProfile(data: AuthUpdateProfileInput & { timezone: number }) {
     const { timezone, ...profile } = data;
     return super.updateProfile(profile).pipe(
       mergeMap((result) =>

@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
@@ -9,7 +9,9 @@ import {
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
+  AUTH_CONFIGURATION_TOKEN,
   AuthActiveLangService,
+  AuthConfiguration,
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
@@ -29,6 +31,8 @@ export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
+    @Inject(AUTH_CONFIGURATION_TOKEN)
+    private readonly authConfiguration: AuthConfiguration,
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
@@ -68,7 +72,7 @@ export class AppInitializer {
       .pipe(
         tap(() => {
           const authorizationHeaders =
-            this.authService.getAuthorizationHeaders();
+            this.authConfiguration.getAuthorizationHeaders?.();
           if (authorizationHeaders) {
             this.appRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders

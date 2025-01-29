@@ -33,7 +33,6 @@ export class WebhookService {
     filters: Record<string, string>;
     meta?: RequestMeta;
   }) {
-    console.log('11', this.webhookRestService.defaultHeaders);
     return this.webhookRestService
       .webhookControllerFindMany(
         this.webhookAuthService.getWebhookAuthCredentials().xExternalUserId,

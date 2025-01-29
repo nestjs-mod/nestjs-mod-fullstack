@@ -1,7 +1,6 @@
 import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '@authorizerdev/authorizer-js';
 import {
   LangDefinition,
   TranslocoDirective,
@@ -17,6 +16,7 @@ import {
 import {
   AuthActiveLangService,
   AuthService,
+  AuthUser,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   title = marker('client');
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject<Date>(new Date());
-  authUser$?: Observable<User | undefined>;
+  authUser$?: Observable<AuthUser | undefined>;
   lang$ = new BehaviorSubject<string>('');
   availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
 
