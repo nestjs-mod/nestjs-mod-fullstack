@@ -79,8 +79,6 @@ export class PrismaToolsService {
           metadata: exception?.meta,
           originalError,
         };
-      } else {
-        console.log({ ...exception });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

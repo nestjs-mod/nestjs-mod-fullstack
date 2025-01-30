@@ -1,7 +1,6 @@
 import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
 
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
-import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import {
   ValidationError,
   ValidationErrorEnum,
@@ -13,6 +12,7 @@ import { TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { SupabaseModule } from './supabase/supabase.module';
 import { TimeController } from './time.controller';
 
 export const { AppModule } = createNestModule({

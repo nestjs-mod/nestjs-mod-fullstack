@@ -1,14 +1,14 @@
 import { isInfrastructureMode } from '@nestjs-mod/common';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { AuthEnvironments } from '../auth.environments';
-import { AuthSupabaseService } from './auth-supabase.service';
+import { AuthConfiguration } from '../auth.configuration';
 
 @Injectable()
-export class AuthSupabaseBootstrapService implements OnModuleInit {
-  private logger = new Logger(AuthSupabaseBootstrapService.name);
+export class AuthDefaultDataBootstrapService implements OnModuleInit {
+  private logger = new Logger(AuthDefaultDataBootstrapService.name);
 
   constructor(
-    private readonly authSupabaseService: AuthSupabaseService,
+    private readonly authConfiguration: AuthConfiguration,
     private readonly authEnvironments: AuthEnvironments
   ) {}
 
@@ -30,7 +30,7 @@ export class AuthSupabaseBootstrapService implements OnModuleInit {
         this.authEnvironments.adminEmail &&
         this.authEnvironments.adminPassword
       ) {
-        await this.authSupabaseService.createAdmin({
+        await this.authConfiguration.createAdmin({
           username: this.authEnvironments.adminUsername,
           password: this.authEnvironments.adminPassword,
           email: this.authEnvironments.adminEmail,

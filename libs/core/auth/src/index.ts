@@ -1,3 +1,4 @@
+export * from './lib/auth.configuration';
 export * from './lib/auth.constants';
 export * from './lib/auth.decorators';
 export * from './lib/auth.environments';
@@ -20,8 +21,7 @@ export * from './lib/generated/rest/dto/update-migrations.dto';
 export * from './lib/interceptors/auth-timezone.interceptor';
 export * from './lib/pipes/auth-timezone.pipe';
 export * from './lib/services/auth-cache.service';
-export * from './lib/services/auth-supabase-bootstrap.service';
-export * from './lib/services/auth-supabase.service';
+export * from './lib/services/auth-default-data-bootstrap.service';
 export * from './lib/services/auth-timezone.service';
 export * from './lib/types/auth-async-local-storage-data';
 export * from './lib/types/auth-entities';

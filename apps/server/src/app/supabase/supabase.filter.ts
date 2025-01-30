@@ -6,28 +6,28 @@ import {
   Logger,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { AuthEnvironments } from './auth.environments';
-import { AuthError, AuthErrorEnum } from './auth.errors';
+import { SupabaseEnvironments } from './supabase.environments';
+import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 
-@Catch(AuthError)
-export class AuthExceptionsFilter extends BaseExceptionFilter {
-  private logger = new Logger(AuthExceptionsFilter.name);
+@Catch(SupabaseError)
+export class SupabaseExceptionsFilter extends BaseExceptionFilter {
+  private logger = new Logger(SupabaseExceptionsFilter.name);
 
-  constructor(private readonly authEnvironments: AuthEnvironments) {
+  constructor(private readonly supabaseEnvironments: SupabaseEnvironments) {
     super();
   }
 
-  override catch(exception: AuthError, host: ArgumentsHost) {
-    if (!this.authEnvironments.useFilters) {
+  override catch(exception: SupabaseError, host: ArgumentsHost) {
+    if (!this.supabaseEnvironments.useFilters) {
       super.catch(exception, host);
       return;
     }
-    if (exception instanceof AuthError) {
+    if (exception instanceof SupabaseError) {
       this.logger.error(exception, exception.stack);
       super.catch(
         new HttpException(
           {
-            code: AuthErrorEnum.FORBIDDEN,
+            code: SupabaseErrorEnum.FORBIDDEN,
             message: exception.message,
           },
           HttpStatus.BAD_REQUEST

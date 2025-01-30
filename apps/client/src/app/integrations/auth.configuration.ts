@@ -62,7 +62,7 @@ export class AppAuthConfiguration implements AuthConfiguration {
     );
   }
 
-  browserLogin(): Observable<AuthUserAndTokens> {
+  refreshToken(): Observable<AuthUserAndTokens> {
     return from(this.authorizer.browserLogin()).pipe(
       mapGraphqlErrors(),
       map((result) => ({ tokens: result, user: result?.user }))

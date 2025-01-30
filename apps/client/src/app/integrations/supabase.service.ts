@@ -65,7 +65,7 @@ export function mapAuthTokenResponsePassword() {
 }
 
 @Injectable({ providedIn: 'root' })
-export class SupabaseService extends SupabaseClient {
+export class SupabaseAngularService extends SupabaseClient {
   constructor(
     @Inject(SUPABASE_URL)
     private readonly _supabaseUrl: string,

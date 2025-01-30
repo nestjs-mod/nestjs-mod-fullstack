@@ -1,4 +1,3 @@
-import { SupabaseModule } from '@nestjs-mod-fullstack/common';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import {
   createNestModule,
@@ -10,6 +9,7 @@ import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TranslatesModule } from 'nestjs-translates';
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
@@ -19,21 +19,15 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
 import { AuthCacheService } from './services/auth-cache.service';
-import { AuthSupabaseBootstrapService } from './services/auth-supabase-bootstrap.service';
-import { AuthSupabaseService } from './services/auth-supabase.service';
+import { AuthDefaultDataBootstrapService } from './services/auth-default-data-bootstrap.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
   moduleCategory: NestModuleCategory.feature,
   staticEnvironmentsModel: AuthEnvironments,
+  configurationModel: AuthConfiguration,
   imports: [
-    SupabaseModule.forFeature({
-      featureModuleName: AUTH_FEATURE,
-    }),
-    SupabaseModule.forFeature({
-      featureModuleName: AUTH_FEATURE,
-    }),
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
@@ -69,8 +63,7 @@ export const { AuthModule } = createNestModule({
     { provide: APP_FILTER, useClass: AuthExceptionsFilter },
     { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor },
     { provide: APP_PIPE, useClass: AuthTimezonePipe },
-    AuthSupabaseService,
-    AuthSupabaseBootstrapService,
+    AuthDefaultDataBootstrapService,
   ],
   wrapForRootAsync: (asyncModuleOptions) => {
     if (!asyncModuleOptions) {

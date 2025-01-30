@@ -1,10 +1,11 @@
 import { NestModuleCategory, createNestModule } from '@nestjs-mod/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { SUPABASE_MODULE } from './supabase.constants';
 import { SupabaseEnvironments } from './supabase.environments';
 import { SupabaseGuard } from './supabase.guard';
 import { SupabaseService } from './supabase.service';
 import { SupabaseConfiguration } from './supabase.configuration';
+import { SupabaseExceptionsFilter } from './supabase.filter';
 
 export const { SupabaseModule } = createNestModule({
   moduleName: SUPABASE_MODULE,
@@ -13,5 +14,8 @@ export const { SupabaseModule } = createNestModule({
   configurationModel: SupabaseConfiguration,
   environmentsModel: SupabaseEnvironments,
   sharedProviders: [SupabaseService],
-  providers: [{ provide: APP_GUARD, useClass: SupabaseGuard }],
+  providers: [
+    { provide: APP_GUARD, useClass: SupabaseGuard },
+    { provide: APP_FILTER, useClass: SupabaseExceptionsFilter },
+  ],
 });

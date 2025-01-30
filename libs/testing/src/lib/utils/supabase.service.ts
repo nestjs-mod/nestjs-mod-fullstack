@@ -60,7 +60,7 @@ export function mapAuthTokenResponsePassword() {
   });
 }
 
-export class SupabaseService extends SupabaseClient {
+export class TestingSupabaseService extends SupabaseClient {
   constructor(
     private readonly _supabaseUrl: string,
     private readonly _supabaseKey: string

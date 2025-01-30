@@ -1,60 +1,37 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
-import { StatusResponse, SupabaseService } from '@nestjs-mod-fullstack/common';
-import {
-  MinioConfiguration,
-  MinioEnvironments,
-  MinioFilesService,
-  PresignedUrlsRequest,
-  PresignedUrls as PresignedUrlsResponse,
-} from '@nestjs-mod/minio';
-import { ApiExtraModels, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
-import { IsDefined } from 'class-validator';
+import { StatusResponse } from '@nestjs-mod-fullstack/common';
+import { ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { randomUUID } from 'node:crypto';
+import { FilesConfiguration } from '../files.configuration';
 import { CurrentFilesRequest } from '../files.decorators';
+import { FilesEnvironments } from '../files.environments';
 import { FilesError, FilesErrorEnum } from '../files.errors';
+import {
+  FilesDeleteFileArgs,
+  FilesGetPresignedUrlArgs,
+  FilesPresignedUrls,
+} from '../types/dto';
 import { FilesRequest } from '../types/files-request';
 import { FilesRole } from '../types/files-role';
-
-export class GetPresignedUrlArgs implements PresignedUrlsRequest {
-  @ApiProperty({ type: String })
-  @IsDefined()
-  ext!: string;
-}
-
-export class PresignedUrls implements PresignedUrlsResponse {
-  @ApiProperty({ type: String })
-  downloadUrl!: string;
-
-  @ApiProperty({ type: String })
-  uploadUrl!: string;
-}
-
-export class DeleteFileArgs {
-  @ApiProperty({ type: String })
-  @IsDefined()
-  downloadUrl!: string;
-}
 
 @ApiExtraModels(FilesError)
 @Controller()
 export class FilesController {
   constructor(
-    private readonly minioEnvironments: MinioEnvironments,
-    private readonly minioConfiguration: MinioConfiguration,
-    private readonly supabaseService: SupabaseService,
-    private readonly minioFilesService: MinioFilesService
+    private readonly filesConfiguration: FilesConfiguration,
+    private readonly filesEnvironments: FilesEnvironments
   ) {}
 
   @Get('/files/get-presigned-url')
-  @ApiOkResponse({ type: PresignedUrls })
+  @ApiOkResponse({ type: FilesPresignedUrls })
   async getPresignedUrl(
-    @Query() getPresignedUrlArgs: GetPresignedUrlArgs,
+    @Query() getPresignedUrlArgs: FilesGetPresignedUrlArgs,
     @CurrentFilesRequest() filesRequest: FilesRequest,
     @InjectTranslateFunction() getText: TranslateFunction
   ) {
-    const bucketName = Object.entries(this.minioConfiguration.buckets || {})
+    const bucketName = Object.entries(this.filesConfiguration.buckets || {})
       .filter(([, options]) => options.ext.includes(getPresignedUrlArgs.ext))
       .map(([name]) => name)?.[0];
     if (!bucketName) {
@@ -65,27 +42,19 @@ export class FilesController {
       );
     }
     const fullObjectName = `${
-      filesRequest.externalUserId ?? this.minioEnvironments.minioDefaultUserId
+      filesRequest.externalUserId ?? this.filesEnvironments.minioDefaultUserId
     }/${bucketName}_${randomUUID()}.${getPresignedUrlArgs.ext}`;
 
-    return {
-      downloadUrl: this.supabaseService
-        .getSupabaseClient()
-        .storage.from(bucketName)
-        .getPublicUrl(fullObjectName).data.publicUrl,
-      uploadUrl: (
-        await this.supabaseService
-          .getSupabaseClient()
-          .storage.from(bucketName)
-          .createSignedUploadUrl(fullObjectName, { upsert: true })
-      ).data?.signedUrl,
-    };
+    return await this.filesConfiguration.getPresignedUrls({
+      bucketName,
+      fullObjectName,
+    });
   }
 
   @Post('/files/delete-file')
   @ApiOkResponse({ type: StatusResponse })
   async deleteFile(
-    @Query() deleteFileArgs: DeleteFileArgs,
+    @Query() deleteFileArgs: FilesDeleteFileArgs,
     @CurrentFilesRequest() filesRequest: FilesRequest,
     @InjectTranslateFunction() getText: TranslateFunction
   ) {
@@ -94,13 +63,10 @@ export class FilesController {
       deleteFileArgs.downloadUrl.includes(`/${filesRequest.externalUserId}/`)
     ) {
       const { objectName, bucketName } =
-        this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
+        this.filesConfiguration.getFromDownloadUrlWithoutBucketNames(
           deleteFileArgs.downloadUrl
         );
-      await this.supabaseService
-        .getSupabaseClient()
-        .storage.from(bucketName)
-        .remove([objectName]);
+      await this.filesConfiguration.deleteFile({ bucketName, objectName });
       return { message: getText('ok') };
     }
     throw new FilesError(

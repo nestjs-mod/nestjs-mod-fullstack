@@ -9,8 +9,8 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseConfiguration } from './supabase.configuration';
 import { AllowEmptyUser, CheckAccess } from './supabase.decorators';
 import { SupabaseEnvironments } from './supabase.environments';
-import { SupabaseError } from './supabase.errors';
-import { SupabaseUser } from './supabase.types';
+import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
+import { SupabaseRequest, SupabaseUser } from './supabase.types';
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
@@ -39,22 +39,73 @@ export class SupabaseService implements OnModuleInit {
     ctx: ExecutionContext,
     checkAccess = true
   ): Promise<SupabaseUser | undefined> {
-    const req = this.supabaseConfiguration.getRequestFromContext?.(ctx) || {};
+    await this.tryGetOrCreateCurrentUserWithExternalUserId(ctx);
 
-    const allowEmptyUserMetadata =
-      (typeof ctx.getHandler === 'function' &&
-        this.reflector.get(AllowEmptyUser, ctx.getHandler())) ||
-      (typeof ctx.getClass === 'function' &&
-        this.reflector.get(AllowEmptyUser, ctx.getClass())) ||
-      undefined;
+    await this.checkAccessValidator(checkAccess, ctx);
 
-    const checkAccessMetadata =
-      (typeof ctx.getHandler === 'function' &&
-        this.reflector.get(CheckAccess, ctx.getHandler())) ||
-      (typeof ctx.getClass === 'function' &&
-        this.reflector.get(CheckAccess, ctx.getClass())) ||
-      undefined;
+    const req = this.getRequestFromExecutionContext(ctx);
 
+    this.setInfoOfExternalUserIdToRequest(req);
+
+    this.setSkippedBySupabaseIfUserIsEmpty(req);
+
+    return req.supabaseUser;
+  }
+
+  private setSkippedBySupabaseIfUserIsEmpty(req: SupabaseRequest) {
+    req.skippedBySupabase =
+      req.supabaseUser === undefined || req.supabaseUser?.id === undefined;
+  }
+
+  private setInfoOfExternalUserIdToRequest(req: SupabaseRequest) {
+    if (
+      req.supabaseUser?.id &&
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      !req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!]
+    ) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      req.headers[this.supabaseConfiguration.externalUserIdHeaderName!] =
+        req.supabaseUser?.id;
+      req.externalUserId =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!];
+    }
+  }
+
+  private async checkAccessValidator(
+    checkAccess: boolean,
+    ctx: ExecutionContext
+  ) {
+    const { checkAccessMetadata, allowEmptyUserMetadata } =
+      this.getHandlersReflectMetadata(ctx);
+
+    const req = this.getRequestFromExecutionContext(ctx);
+    if (checkAccess) {
+      // check access by custom logic
+      const checkAccessValidatorResult = this.supabaseConfiguration
+        .checkAccessValidator
+        ? await this.supabaseConfiguration.checkAccessValidator(
+            req.supabaseUser,
+            checkAccessMetadata,
+            ctx
+          )
+        : false;
+
+      // check access by roles
+      if (
+        !allowEmptyUserMetadata &&
+        !checkAccessValidatorResult &&
+        !req.supabaseUser?.id
+      ) {
+        throw new SupabaseError(SupabaseErrorEnum.UNAUTHORIZED);
+      }
+    }
+  }
+
+  private async tryGetOrCreateCurrentUserWithExternalUserId(
+    ctx: ExecutionContext
+  ) {
+    const req = this.getRequestFromExecutionContext(ctx);
     if (!req.supabaseUser?.id) {
       const token = req.headers?.authorization?.split(' ')[1];
 
@@ -122,43 +173,27 @@ export class SupabaseService implements OnModuleInit {
     }
 
     req.supabaseUser = req.supabaseUser || { id: undefined };
+  }
 
-    if (checkAccess) {
-      // check access by custom logic
-      const checkAccessValidatorResult = this.supabaseConfiguration
-        .checkAccessValidator
-        ? await this.supabaseConfiguration.checkAccessValidator(
-            req.supabaseUser,
-            checkAccessMetadata,
-            ctx
-          )
-        : false;
+  private getRequestFromExecutionContext(ctx: ExecutionContext) {
+    return this.supabaseConfiguration.getRequestFromContext?.(ctx) || {};
+  }
 
-      // check access by roles
-      if (
-        !allowEmptyUserMetadata &&
-        !checkAccessValidatorResult &&
-        !req.supabaseUser?.id
-      ) {
-        throw new SupabaseError('Unauthorized');
-      }
-    }
+  private getHandlersReflectMetadata(ctx: ExecutionContext) {
+    const allowEmptyUserMetadata = Boolean(
+      (typeof ctx.getHandler === 'function' &&
+        this.reflector.get(AllowEmptyUser, ctx.getHandler())) ||
+        (typeof ctx.getClass === 'function' &&
+          this.reflector.get(AllowEmptyUser, ctx.getClass())) ||
+        undefined
+    );
 
-    if (
-      req.supabaseUser?.id &&
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      !req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!]
-    ) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      req.headers[this.supabaseConfiguration.externalUserIdHeaderName!] =
-        req.supabaseUser?.id;
-      req.externalUserId =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        req?.headers?.[this.supabaseConfiguration.externalUserIdHeaderName!];
-    }
-
-    req.skippedBySupabase =
-      req.supabaseUser === undefined || req.supabaseUser?.id === undefined;
-    return req.supabaseUser;
+    const checkAccessMetadata =
+      (typeof ctx.getHandler === 'function' &&
+        this.reflector.get(CheckAccess, ctx.getHandler())) ||
+      (typeof ctx.getClass === 'function' &&
+        this.reflector.get(CheckAccess, ctx.getClass())) ||
+      undefined;
+    return { checkAccessMetadata, allowEmptyUserMetadata };
   }
 }

@@ -20,12 +20,10 @@ import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { AppService } from './app.service';
 import { AppDemo } from './generated/rest/dto/app-demo.entity';
-import {
-  AllowEmptyUser,
-  CurrentSupabaseUser,
-  SupabaseUser,
-} from '@nestjs-mod-fullstack/common';
 import { User } from '@supabase/supabase-js';
+import { AllowEmptyUser } from '@nestjs-mod-fullstack/auth';
+import { CurrentSupabaseUser } from './supabase/supabase.decorators';
+import { SupabaseUser } from './supabase/supabase.types';
 
 export class AppData {
   @ApiProperty({ type: String })

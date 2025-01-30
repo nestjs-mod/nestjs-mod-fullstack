@@ -24,11 +24,7 @@ import {
   AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import {
-  COMMON_FORMLY_FIELDS,
-  SUPABASE_KEY,
-  SUPABASE_URL,
-} from '@nestjs-mod-fullstack/common-angular';
+import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
 import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,
@@ -57,6 +53,7 @@ import { CustomAuthProfileFormService } from './integrations/custom-auth-profile
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomSupabaseAuthService } from './integrations/custom-supabase-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { SUPABASE_URL, SUPABASE_KEY } from './integrations/supabase.service';
 
 export const appConfig = ({
   authorizerURL,

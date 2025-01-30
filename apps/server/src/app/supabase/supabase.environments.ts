@@ -1,5 +1,6 @@
 import {
   ArrayOfStringTransformer,
+  BooleanTransformer,
   EnvModel,
   EnvModelProperty,
 } from '@nestjs-mod/common';
@@ -25,4 +26,20 @@ export class SupabaseEnvironments {
     transform: new ArrayOfStringTransformer(),
   })
   allowedExternalAppIds?: string[];
+
+  @EnvModelProperty({
+    description: 'Use guards.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  useGuards?: boolean;
+
+  @EnvModelProperty({
+    description: 'Use filters.',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  useFilters?: boolean;
 }

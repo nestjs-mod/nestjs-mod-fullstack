@@ -19,14 +19,14 @@ import { getUrls } from './get-urls';
 
 import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
-import { SupabaseService } from './supabase.service';
+import { TestingSupabaseService } from './supabase.service';
 
 export class RestClientHelper {
   authData?: AuthResponse['data'];
   private webhookProfile?: WebhookUser;
   private authProfile?: AuthProfileDto;
 
-  private supabaseService?: SupabaseService;
+  private testingSupabaseService?: TestingSupabaseService;
 
   private webhookApi?: WebhookApi;
   private appApi?: AppApi;
@@ -153,13 +153,13 @@ export class RestClientHelper {
   }
 
   async getSupabaseClient() {
-    if (!this.supabaseService) {
-      this.supabaseService = new SupabaseService(
+    if (!this.testingSupabaseService) {
+      this.testingSupabaseService = new TestingSupabaseService(
         this.getSupabaseUrl(),
         this.getSupabaseKey()
       );
     }
-    return this.supabaseService;
+    return this.testingSupabaseService;
   }
 
   async setRoles(userId: string, role: AuthRole) {

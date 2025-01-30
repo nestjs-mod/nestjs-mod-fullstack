@@ -1,19 +1,16 @@
 import KeyvPostgres from '@keyv/postgres';
 import {
+  AUTH_ADMIN_ROLE,
   AUTH_FEATURE,
   AUTH_FOLDER,
   AuthEnvironments,
+  AuthError,
   AuthModule,
   AuthRequest,
 } from '@nestjs-mod-fullstack/auth';
 import {
-  CheckAccessOptions,
-  SupabaseModule,
-  SupabaseUser,
-  defaultSupabaseCheckAccessValidator,
-} from '@nestjs-mod-fullstack/common';
-import {
   FilesModule,
+  FilesPresignedUrls,
   FilesRequest,
   FilesRole,
 } from '@nestjs-mod-fullstack/files';
@@ -63,6 +60,14 @@ import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
+import { defaultSupabaseCheckAccessValidator } from './app/supabase/supabase.configuration';
+import { SupabaseModule } from './app/supabase/supabase.module';
+import { SupabaseService } from './app/supabase/supabase.service';
+import {
+  CheckAccessOptions,
+  SupabaseRequest,
+  SupabaseUser,
+} from './app/supabase/supabase.types';
 
 const appFeatureName = 'app';
 let rootFolder = join(__dirname, '..', '..', '..');
@@ -205,6 +210,7 @@ bootstrapNestApplication({
       }),
     ],
     core: [
+      PrismaToolsModule.forRoot(),
       SupabaseModule.forRootAsync({
         imports: [
           WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
@@ -235,8 +241,10 @@ bootstrapNestApplication({
                 options
               );
 
-              const req: WebhookRequest & FilesRequest & AuthRequest =
-                ctx && getRequestFromExecutionContext(ctx);
+              const req: WebhookRequest &
+                FilesRequest &
+                AuthRequest &
+                SupabaseRequest = ctx && getRequestFromExecutionContext(ctx);
 
               if (req?.supabaseUser?.id) {
                 // webhook
@@ -262,7 +270,7 @@ bootstrapNestApplication({
                 ) {
                   req.webhookUser.userRole = 'Admin';
 
-                  req.supabaseUser.role = 'admin';
+                  req.supabaseUser.role = AUTH_ADMIN_ROLE;
                 }
 
                 // files
@@ -272,6 +280,13 @@ bootstrapNestApplication({
                       ? FilesRole.Admin
                       : FilesRole.User,
                 };
+
+                if (supabaseUser?.email && supabaseUser?.role) {
+                  req.externalUser = {
+                    email: supabaseUser?.email,
+                    role: supabaseUser?.role,
+                  };
+                }
               }
 
               return result;
@@ -279,7 +294,6 @@ bootstrapNestApplication({
           };
         },
       }),
-      PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
         contextName: appFeatureName,
         staticConfiguration: {
@@ -356,12 +370,102 @@ bootstrapNestApplication({
           minioUseSSL: 'true',
         },
       }),
-      FilesModule.forRoot(),
+      FilesModule.forRootAsync({
+        imports: [SupabaseModule.forFeature(), MinioModule.forFeature()],
+        inject: [SupabaseService],
+        configurationFactory: (supabaseService: SupabaseService) => {
+          return {
+            getFromDownloadUrlWithoutBucketNames(downloadUrl) {
+              return this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
+                downloadUrl
+              );
+            },
+            async deleteFile({ bucketName, objectName }) {
+              const result = await this.supabaseService
+                .getSupabaseClient()
+                .storage.from(bucketName)
+                .remove([objectName]);
+              return result;
+            },
+            getPresignedUrls: async ({
+              bucketName,
+              fullObjectName,
+            }: {
+              bucketName: string;
+              fullObjectName: string;
+            }) => {
+              const createSignedUploadUrlResult = await supabaseService
+                .getSupabaseClient()
+                .storage.from(bucketName)
+                .createSignedUploadUrl(fullObjectName, { upsert: true });
+              if (!createSignedUploadUrlResult?.data) {
+                throw new Error('createSignedUploadUrlResult not set');
+              }
+              return {
+                downloadUrl: supabaseService
+                  .getSupabaseClient()
+                  .storage.from(bucketName)
+                  .getPublicUrl(fullObjectName).data.publicUrl,
+                uploadUrl: createSignedUploadUrlResult.data.signedUrl,
+              } as FilesPresignedUrls;
+            },
+          };
+        },
+      }),
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
       AppModule.forRoot(),
-      AuthModule.forRootAsync({}),
+      AuthModule.forRootAsync({
+        imports: [SupabaseModule.forFeature()],
+        inject: [SupabaseService],
+        configurationFactory: (supabaseService: SupabaseService) => ({
+          createAdmin: async (user: {
+            username?: string;
+            password: string;
+            email: string;
+          }): Promise<void | null> => {
+            const signupUserResult = await supabaseService
+              .getSupabaseClient()
+              .auth.signUp({
+                password: user.password,
+                email: user.email.toLowerCase(),
+                options: {
+                  data: {
+                    nickname: user.username,
+                    roles: ['admin'],
+                  },
+                },
+              });
+            if (signupUserResult.error) {
+              if (
+                signupUserResult.error.message !== 'User already registered'
+              ) {
+                throw new AuthError(signupUserResult.error.message);
+              }
+            } else {
+              if (!signupUserResult.data?.user) {
+                throw new AuthError('Failed to create a user');
+              }
+              if (!signupUserResult.data.user.email) {
+                throw new AuthError('signupUserResult.data.user.email not set');
+              }
+
+              if (Object.keys(user).length > 0) {
+                const updateUserResult = await supabaseService
+                  .getSupabaseClient()
+                  .auth.updateUser({
+                    email: user['email'],
+                  });
+
+                if (updateUserResult.error) {
+                  throw new AuthError(updateUserResult.error.message);
+                }
+              }
+            }
+          },
+        }),
+      }),
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {

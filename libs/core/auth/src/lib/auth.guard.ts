@@ -1,4 +1,3 @@
-import { AllowEmptyUser } from '@nestjs-mod-fullstack/common';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
@@ -10,8 +9,12 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
-import { AUTH_FEATURE } from './auth.constants';
-import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
+import { AUTH_ADMIN_ROLE, AUTH_FEATURE } from './auth.constants';
+import {
+  AllowEmptyUser,
+  CheckAuthRole,
+  SkipAuthGuard,
+} from './auth.decorators';
 import { AuthEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
@@ -45,16 +48,16 @@ export class AuthGuard implements CanActivate {
 
       const req: AuthRequest = this.getRequestFromExecutionContext(context);
 
-      if (req.supabaseUser?.id) {
+      if (req.externalUserId) {
         await this.tryGetOrCreateCurrentUserWithExternalUserId(
           req,
-          req.supabaseUser.id
+          req.externalUserId
         );
       }
 
       this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
 
-      this.pathSupabaseUserRoles(req);
+      this.pathAdminRoles(req);
 
       this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
     } catch (err) {
@@ -64,15 +67,12 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private pathSupabaseUserRoles(req: AuthRequest) {
+  private pathAdminRoles(req: AuthRequest) {
     if (
       this.authEnvironments.adminEmail &&
-      req.supabaseUser?.email === this.authEnvironments.adminEmail
+      req.externalUser?.email === this.authEnvironments.adminEmail
     ) {
-      if (req.authUser) {
-        req.authUser.userRole = 'Admin';
-      }
-      req.supabaseUser.role = 'admin';
+      req.externalUser.role = AUTH_ADMIN_ROLE;
     }
   }
 
@@ -93,7 +93,11 @@ export class AuthGuard implements CanActivate {
     req: AuthRequest,
     allowEmptyUserMetadata?: boolean
   ) {
-    if (!req.skippedBySupabase && !req.authUser && !allowEmptyUserMetadata) {
+    if (
+      !req.skippUserNotFoundError &&
+      !req.authUser &&
+      !allowEmptyUserMetadata
+    ) {
       throw new AuthError(AuthErrorEnum.USER_NOT_FOUND);
     }
   }

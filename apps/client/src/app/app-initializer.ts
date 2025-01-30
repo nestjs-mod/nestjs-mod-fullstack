@@ -21,6 +21,7 @@ import {
   map,
   merge,
   mergeMap,
+  of,
   Subscription,
   tap,
   throwError,
@@ -55,7 +56,7 @@ export class AppInitializer {
       tap((activeLang) => this.activeLangService.applyActiveLang(activeLang)),
       catchError((err) => {
         console.error(err);
-        return throwError(() => err);
+        return of(true);
       })
     );
   }

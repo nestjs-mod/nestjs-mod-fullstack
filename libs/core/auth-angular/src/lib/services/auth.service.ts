@@ -95,7 +95,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.authConfiguration.browserLogin().pipe(
+    return this.authConfiguration.refreshToken().pipe(
       mergeMap((result) => {
         return this.setProfileAndTokens(result);
       }),

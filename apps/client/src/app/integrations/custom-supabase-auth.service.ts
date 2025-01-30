@@ -10,21 +10,21 @@ import {
   AuthUser,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { catchError, from, map, mergeMap, of } from 'rxjs';
 import {
+  SupabaseAngularService,
   mapAuthError,
   mapAuthResponse,
   mapAuthTokenResponsePassword,
   mapUserResponse,
-  SupabaseService,
-} from '@nestjs-mod-fullstack/common-angular';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { catchError, from, map, mergeMap, of } from 'rxjs';
+} from './supabase.service';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class CustomSupabaseAuthService extends AuthService {
   constructor(
-    protected readonly supabaseService: SupabaseService,
+    protected readonly supabaseAngularService: SupabaseAngularService,
     protected readonly authRestService: AuthRestService,
     protected override readonly tokensService: TokensService,
     @Inject(AUTH_CONFIGURATION_TOKEN)
@@ -38,7 +38,7 @@ export class CustomSupabaseAuthService extends AuthService {
       throw new Error('data.email not set');
     }
     return from(
-      this.supabaseService.auth.signUp({
+      this.supabaseAngularService.auth.signUp({
         email: data.email.toLowerCase(),
         password: data.password,
         options: {
@@ -90,7 +90,7 @@ export class CustomSupabaseAuthService extends AuthService {
     ).pipe(
       mergeMap((data) =>
         from(
-          this.supabaseService.auth.updateUser({
+          this.supabaseAngularService.auth.updateUser({
             data: { ...data.app_data, picture: data.picture },
             email: data.email,
             password: data.new_password,
@@ -132,7 +132,7 @@ export class CustomSupabaseAuthService extends AuthService {
       throw new Error('data.email not set');
     }
     return from(
-      this.supabaseService.auth.signInWithPassword({
+      this.supabaseAngularService.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       })
@@ -176,7 +176,9 @@ export class CustomSupabaseAuthService extends AuthService {
   }
 
   override signOut() {
-    return from(this.supabaseService.auth.signOut({ scope: 'local' })).pipe(
+    return from(
+      this.supabaseAngularService.auth.signOut({ scope: 'local' })
+    ).pipe(
       mapAuthError(),
       mergeMap(() => {
         return this.clearProfileAndTokens();
@@ -190,7 +192,7 @@ export class CustomSupabaseAuthService extends AuthService {
       return of(this.profile$.value);
     }
     return from(
-      this.supabaseService.auth.refreshSession({
+      this.supabaseAngularService.auth.refreshSession({
         refresh_token: refreshToken,
       })
     ).pipe(
