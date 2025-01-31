@@ -19,7 +19,7 @@ import { from, map, Observable, of } from 'rxjs';
 export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 
 export class AppAuthConfiguration implements AuthConfiguration {
-  authorizer: Authorizer;
+  private authorizer: Authorizer;
 
   constructor(
     private readonly filesService: FilesService,

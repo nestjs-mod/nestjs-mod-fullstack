@@ -227,12 +227,18 @@ bootstrapNestApplication({
               options?: CheckAccessOptions,
               ctx?: ExecutionContext
             ) => {
+              const req: WebhookRequest &
+                FilesRequest &
+                AuthRequest &
+                SupabaseRequest = ctx && getRequestFromExecutionContext(ctx);
+
               if (
                 typeof ctx?.getClass === 'function' &&
                 typeof ctx?.getHandler === 'function' &&
                 ctx?.getClass().name === 'TerminusHealthCheckController' &&
                 ctx?.getHandler().name === 'check'
               ) {
+                req.skippUserNotFoundError = true;
                 return true;
               }
 
@@ -240,11 +246,6 @@ bootstrapNestApplication({
                 supabaseUser,
                 options
               );
-
-              const req: WebhookRequest &
-                FilesRequest &
-                AuthRequest &
-                SupabaseRequest = ctx && getRequestFromExecutionContext(ctx);
 
               if (req?.supabaseUser?.id) {
                 // webhook
@@ -287,6 +288,10 @@ bootstrapNestApplication({
                     role: supabaseUser?.role,
                   };
                 }
+              }
+
+              if (result) {
+                req.skippUserNotFoundError = true;
               }
 
               return result;
