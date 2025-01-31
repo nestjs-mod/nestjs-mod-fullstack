@@ -45,15 +45,16 @@ import {
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
+import { AUTHORIZER_URL } from './integrations/auth-authorizer.configuration';
 import {
-  AUTHORIZER_URL,
-  provideAppAuthConfiguration,
-} from './integrations/auth.configuration';
+  provideSupabaseAuthConfiguration,
+  SUPABASE_KEY,
+  SUPABASE_URL,
+} from './integrations/auth-supabase.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
-import { CustomSupabaseAuthService } from './integrations/custom-supabase-auth.service';
+import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
-import { SUPABASE_URL, SUPABASE_KEY } from './integrations/supabase.service';
 
 export const appConfig = ({
   authorizerURL,
@@ -105,7 +106,7 @@ export const appConfig = ({
         provide: MINIO_URL,
         useValue: minioURL,
       },
-      provideAppAuthConfiguration(),
+      provideSupabaseAuthConfiguration(),
       // Transloco Config
       provideTransloco({
         config: {
@@ -158,7 +159,7 @@ export const appConfig = ({
       },
       {
         provide: AuthService,
-        useClass: CustomSupabaseAuthService,
+        useClass: CustomAuthService,
       },
     ],
   };

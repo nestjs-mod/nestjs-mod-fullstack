@@ -24,14 +24,6 @@ export class AuthConfiguration {
   login!: (data: AuthLoginInput) => Observable<AuthUserAndTokens>;
   updateProfile!: (data: AuthUpdateProfileInput) => Observable<void | null>;
 
-  beforeUpdateProfile?: (
-    data: AuthUpdateProfileInput
-  ) => Observable<AuthUpdateProfileInput>;
-
-  afterUpdateProfile?: (
-    data: AfterUpdateProfileEvent
-  ) => Observable<AuthUser | undefined>;
-
   getAuthorizationHeaders?: () => Record<string, string>;
 }
 

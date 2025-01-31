@@ -42,7 +42,7 @@ import {
   DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
 import { KeyvModule } from '@nestjs-mod/keyv';
-import { MinioModule } from '@nestjs-mod/minio';
+import { MinioFilesService, MinioModule } from '@nestjs-mod/minio';
 import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import {
@@ -377,20 +377,26 @@ bootstrapNestApplication({
       }),
       FilesModule.forRootAsync({
         imports: [SupabaseModule.forFeature(), MinioModule.forFeature()],
-        inject: [SupabaseService],
-        configurationFactory: (supabaseService: SupabaseService) => {
+        inject: [SupabaseService, MinioFilesService],
+        configurationFactory: (
+          supabaseService: SupabaseService,
+          minioFilesService: MinioFilesService
+        ) => {
           return {
             getFromDownloadUrlWithoutBucketNames(downloadUrl) {
-              return this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
+              return minioFilesService.getFromDownloadUrlWithoutBucketNames(
                 downloadUrl
               );
             },
             async deleteFile({ bucketName, objectName }) {
-              const result = await this.supabaseService
+              const result = await supabaseService
                 .getSupabaseClient()
                 .storage.from(bucketName)
                 .remove([objectName]);
-              return result;
+              if (result.error?.message) {
+                throw new AuthError(result.error?.message);
+              }
+              return null;
             },
             getPresignedUrls: async ({
               bucketName,
@@ -399,19 +405,23 @@ bootstrapNestApplication({
               bucketName: string;
               fullObjectName: string;
             }) => {
-              const createSignedUploadUrlResult = await supabaseService
+              const result = await supabaseService
                 .getSupabaseClient()
                 .storage.from(bucketName)
                 .createSignedUploadUrl(fullObjectName, { upsert: true });
-              if (!createSignedUploadUrlResult?.data) {
-                throw new Error('createSignedUploadUrlResult not set');
+              if (result.error?.message) {
+                throw new AuthError(result.error?.message);
               }
+              if (!result?.data) {
+                throw new AuthError('createSignedUploadUrlResult not set');
+              }
+
               return {
                 downloadUrl: supabaseService
                   .getSupabaseClient()
                   .storage.from(bucketName)
                   .getPublicUrl(fullObjectName).data.publicUrl,
-                uploadUrl: createSignedUploadUrlResult.data.signedUrl,
+                uploadUrl: result.data.signedUrl,
               } as FilesPresignedUrls;
             },
           };

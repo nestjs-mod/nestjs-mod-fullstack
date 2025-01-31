@@ -42,30 +42,14 @@ export class AuthService {
   }
 
   updateProfile(data: AuthUpdateProfileInput) {
-    const oldProfile = this.profile$.value;
-    return (
-      this.authConfiguration?.beforeUpdateProfile
-        ? this.authConfiguration.beforeUpdateProfile(data)
-        : of(data)
-    ).pipe(
-      mergeMap((data) =>
-        this.authConfiguration.updateProfile({
-          ...data,
-        })
-      ),
-      mergeMap(() => this.authConfiguration.getProfile()),
-      mergeMap((result) => this.setProfile(result)),
-      mergeMap((updatedProfile) =>
-        this.authConfiguration?.afterUpdateProfile
-          ? this.authConfiguration.afterUpdateProfile({
-              new: updatedProfile,
-              old: oldProfile,
-            })
-          : of({
-              new: updatedProfile,
-            })
-      )
-    );
+    return this.authConfiguration
+      .updateProfile({
+        ...data,
+      })
+      .pipe(
+        mergeMap(() => this.authConfiguration.getProfile()),
+        mergeMap((result) => this.setProfile(result))
+      );
   }
 
   signIn(data: AuthLoginInput) {
