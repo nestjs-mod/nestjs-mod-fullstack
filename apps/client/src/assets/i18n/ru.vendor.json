@@ -6,7 +6,8 @@
     "Forbidden": "Нет доступа",
     "User not found": "Пользователь не найден",
     "ok": "ок",
-    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}"
+    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}",
+    "Unauthorized": "Неавторизован"
   },
   "auth-angular": {
     "Sign-in": "Войти",
@@ -28,8 +29,8 @@
   },
   "common": {},
   "common-angular": {
-    "Unauthorized": "Вы не авторизованы",
-    "field \"{{label}}\"": ""
+    "Unauthorized": "Неавторизован",
+    "field \"{{label}}\"": "поле \"{{label}}\""
   },
   "files-getText": {
     "Files error": "Ошибка файлов",
@@ -115,7 +116,8 @@
     "Forbidden": "Нет доступа",
     "User not found": "Пользователь не найден",
     "ok": "ок",
-    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}"
+    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}",
+    "Unauthorized": "Неавторизован"
   },
   "files": {
     "Files error": "Ошибка файлов",

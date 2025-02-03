@@ -5,5 +5,5 @@ export type AuthRequest = {
   headers: Record<string, string>;
   externalUserId?: string;
   externalUser?: { email: string; role: string };
-  skippUserNotFoundError?: boolean;
+  skipEmptyAuthUser?: boolean;
 };

@@ -15,6 +15,9 @@ test.describe('basic usage', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    page.on('pageerror', (exception) => {
+      console.log(exception);
+    });
   });
 
   test.afterAll(async () => {

@@ -21,9 +21,12 @@ import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { AppService } from './app.service';
 import { AppDemo } from './generated/rest/dto/app-demo.entity';
 import { User } from '@supabase/supabase-js';
-import { AllowEmptyUser } from '@nestjs-mod-fullstack/auth';
-import { CurrentSupabaseUser } from './supabase/supabase.decorators';
+import {
+  AllowEmptySupabaseUser,
+  CurrentSupabaseUser,
+} from './supabase/supabase.decorators';
 import { SupabaseUser } from './supabase/supabase.types';
+import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 
 export class AppData {
   @ApiProperty({ type: String })
@@ -36,7 +39,8 @@ enum AppDemoEventName {
   'app-demo.delete' = 'app-demo.delete',
 }
 
-@AllowEmptyUser()
+@AllowEmptySupabaseUser()
+@AllowEmptyAuthUser()
 @Controller()
 export class AppController {
   constructor(

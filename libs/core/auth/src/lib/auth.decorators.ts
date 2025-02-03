@@ -14,7 +14,7 @@ import { applyDecorators } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 
-export const AllowEmptyUser = Reflector.createDecorator();
+export const AllowEmptyAuthUser = Reflector.createDecorator();
 export const SkipAuthGuard = Reflector.createDecorator<true>();
 export const CheckAuthRole = Reflector.createDecorator<AuthRole[]>();
 
@@ -52,14 +52,13 @@ function AddHandleConnection() {
 }
 
 export function UseAuthInterceptorsAndGuards(options?: {
-  allowEmptyUser?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   guards?: (CanActivate | Function)[];
 }) {
   return applyDecorators(
     UseInterceptors(AuthTimezoneInterceptor),
     UseGuards(...(options?.guards || []), AuthGuard),
-    AddHandleConnection(),
-    ...(options?.allowEmptyUser ? [AllowEmptyUser()] : [])
+    AllowEmptyAuthUser(),
+    AddHandleConnection()
   );
 }

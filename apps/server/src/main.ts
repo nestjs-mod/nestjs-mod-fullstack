@@ -5,6 +5,7 @@ import {
   AUTH_FOLDER,
   AuthEnvironments,
   AuthError,
+  AuthErrorEnum,
   AuthModule,
   AuthRequest,
 } from '@nestjs-mod-fullstack/auth';
@@ -238,7 +239,8 @@ bootstrapNestApplication({
                 ctx?.getClass().name === 'TerminusHealthCheckController' &&
                 ctx?.getHandler().name === 'check'
               ) {
-                req.skippUserNotFoundError = true;
+                req.skipEmptyAuthUser = true;
+                req.skipEmptySupabaseUser = true;
                 return true;
               }
 
@@ -291,7 +293,16 @@ bootstrapNestApplication({
               }
 
               if (result) {
-                req.skippUserNotFoundError = true;
+                req.skipEmptyAuthUser = true;
+                req.skipEmptySupabaseUser = true;
+                return true;
+              }
+
+              if (!req.skipEmptySupabaseUser && !result) {
+                if (!req.supabaseUser?.id) {
+                  throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
+                }
+                throw new AuthError(AuthErrorEnum.FORBIDDEN);
               }
 
               return result;

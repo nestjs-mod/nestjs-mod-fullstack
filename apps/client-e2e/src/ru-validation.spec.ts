@@ -24,6 +24,9 @@ test.describe('Validation (ru)', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    page.on('pageerror', (exception) => {
+      console.log(exception);
+    });
     await page.goto('/', {
       timeout: 7000,
     });

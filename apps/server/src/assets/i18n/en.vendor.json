@@ -6,7 +6,8 @@
     "Forbidden": "Forbidden",
     "User not found": "User not found",
     "ok": "ok",
-    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}"
+    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}",
+    "Unauthorized": "Unauthorized"
   },
   "auth-angular": {
     "Sign-in": "Sign-in",
@@ -115,7 +116,8 @@
     "Forbidden": "Forbidden",
     "User not found": "User not found",
     "ok": "ok",
-    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}"
+    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}",
+    "Unauthorized": "Unauthorized"
   },
   "files": {
     "Files error": "Files error",

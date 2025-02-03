@@ -17,4 +17,5 @@ export type SupabaseRequest = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   headers?: any;
   skippedBySupabase?: boolean;
+  skipEmptySupabaseUser?: boolean;
 };

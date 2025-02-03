@@ -24,7 +24,7 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { PresignedUrlsInterface } from '../model/presigned-urls.interface';
+import { FilesPresignedUrlsInterface } from '../model/files-presigned-urls.interface';
 // @ts-ignore
 import { StatusResponseInterface } from '../model/status-response.interface';
 
@@ -252,7 +252,7 @@ export class FilesRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<PresignedUrlsInterface>;
+  ): Observable<FilesPresignedUrlsInterface>;
   public filesControllerGetPresignedUrl(
     ext: string,
     observe?: 'response',
@@ -262,7 +262,7 @@ export class FilesRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<PresignedUrlsInterface>>;
+  ): Observable<HttpResponse<FilesPresignedUrlsInterface>>;
   public filesControllerGetPresignedUrl(
     ext: string,
     observe?: 'events',
@@ -272,7 +272,7 @@ export class FilesRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<PresignedUrlsInterface>>;
+  ): Observable<HttpEvent<FilesPresignedUrlsInterface>>;
   public filesControllerGetPresignedUrl(
     ext: string,
     observe: any = 'body',
@@ -341,7 +341,7 @@ export class FilesRestService {
     }
 
     let localVarPath = `/api/files/get-presigned-url`;
-    return this.httpClient.request<PresignedUrlsInterface>(
+    return this.httpClient.request<FilesPresignedUrlsInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {

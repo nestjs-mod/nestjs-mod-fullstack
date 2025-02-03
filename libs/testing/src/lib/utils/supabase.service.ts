@@ -1,4 +1,3 @@
-import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
   AuthError,
   AuthResponse,
@@ -13,7 +12,7 @@ export function mapAuthResponse() {
     const message = result.error?.message;
     if (message) {
       if (message === 'unauthorized') {
-        throw new Error(marker('Unauthorized'));
+        throw new Error('Unauthorized');
       } else {
         throw new Error(message);
       }
@@ -37,7 +36,7 @@ export function mapUserResponse() {
     const message = result.error?.message;
     if (message) {
       if (message === 'unauthorized') {
-        throw new Error(marker('Unauthorized'));
+        throw new Error('Unauthorized');
       } else {
         throw new Error(message);
       }
@@ -51,7 +50,7 @@ export function mapAuthTokenResponsePassword() {
     const message = result.error?.message;
     if (message) {
       if (message === 'unauthorized') {
-        throw new Error(marker('Unauthorized'));
+        throw new Error('Unauthorized');
       } else {
         throw new Error(message);
       }

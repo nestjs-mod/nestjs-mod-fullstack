@@ -28,7 +28,14 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, mergeMap, of, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  mergeMap,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { WebhookFormService } from '../../services/webhook-form.service';
 import {
   WebhookMapperService,
@@ -170,7 +177,9 @@ export class WebhookFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      throw new Error(this.translocoService.translate('id not set'));
+      return throwError(
+        () => new Error(this.translocoService.translate('id not set'))
+      );
     }
     return this.webhookService
       .updateOne(this.id, this.webhookMapperService.toJson(this.form.value))
@@ -185,7 +194,9 @@ export class WebhookFormComponent implements OnInit {
 
   findOne() {
     if (!this.id) {
-      throw new Error(this.translocoService.translate('id not set'));
+      return throwError(
+        () => new Error(this.translocoService.translate('id not set'))
+      );
     }
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {

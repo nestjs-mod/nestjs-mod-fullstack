@@ -8,11 +8,13 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 import { interval, map, Observable } from 'rxjs';
+import { AllowEmptySupabaseUser } from './supabase/supabase.decorators';
 import { SupabaseGuard } from './supabase/supabase.guard';
 
 export const ChangeTimeStream = 'ChangeTimeStream';
 
-@UseAuthInterceptorsAndGuards({ allowEmptyUser: true, guards: [SupabaseGuard] })
+@UseAuthInterceptorsAndGuards({ guards: [SupabaseGuard] })
+@AllowEmptySupabaseUser()
 @WebSocketGateway({
   cors: {
     origin: '*',

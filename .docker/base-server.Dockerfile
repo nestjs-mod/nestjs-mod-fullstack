@@ -13,9 +13,7 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install deps
 RUN yarn install
 # Installing utilities to generate additional files
-RUN yarn add nx@20.1.2 -D
-RUN yarn add  prisma@5.22.0 -D
-RUN yarn add  @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 -D
+RUN yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 -D
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

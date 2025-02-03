@@ -12,7 +12,7 @@ import { AuthErrorEnumInterface } from './auth-error-enum.interface';
 
 export interface AuthErrorInterface {
   /**
-   * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
+   * Auth error (AUTH-000), Forbidden (AUTH-001), Unauthorized (AUTH-002)
    */
   message: string;
   code: AuthErrorEnumInterface;

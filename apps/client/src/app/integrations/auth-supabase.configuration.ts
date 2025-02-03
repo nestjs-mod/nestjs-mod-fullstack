@@ -20,7 +20,15 @@ import {
   SupabaseClient,
   UserResponse,
 } from '@supabase/supabase-js';
-import { catchError, from, map, mergeMap, Observable, of } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 
 export const SUPABASE_URL = new InjectionToken<string>('SupabaseUrl');
 export const SUPABASE_KEY = new InjectionToken<string>('SupabaseKey');
@@ -175,7 +183,7 @@ export class AuthSupabaseConfiguration implements AuthConfiguration {
   refreshToken(): Observable<AuthUserAndTokens> {
     const refreshToken = this.tokensService.getRefreshToken();
     if (!refreshToken) {
-      throw new Error('refreshToken not set');
+      return throwError(() => new Error('refreshToken not set'));
     }
     return from(
       this.supabaseClient.auth.refreshSession({
@@ -212,7 +220,7 @@ export class AuthSupabaseConfiguration implements AuthConfiguration {
 
   signup(data: AuthSignupInput): Observable<AuthUserAndTokens> {
     if (!data.email) {
-      throw new Error('data.email not set');
+      return throwError(() => new Error('data.email not set'));
     }
     return from(
       this.supabaseClient.auth.signUp({
@@ -252,7 +260,7 @@ export class AuthSupabaseConfiguration implements AuthConfiguration {
 
   login(data: AuthLoginInput): Observable<AuthUserAndTokens> {
     if (!data.email) {
-      throw new Error('data.email not set');
+      return throwError(() => new Error('data.email not set'));
     }
     return from(
       this.supabaseClient.auth.signInWithPassword({

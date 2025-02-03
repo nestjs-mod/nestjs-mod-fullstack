@@ -64,3 +64,6 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Copy the settings
+        run: cp -r .docker/nx.json nx.json

@@ -22,7 +22,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, tap, throwError } from 'rxjs';
 import {
   AppDemoModel,
   DemoMapperService,
@@ -158,14 +158,18 @@ export class DemoFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      throw new Error(this.translocoService.translate('id not set'));
+      return throwError(
+        () => new Error(this.translocoService.translate('id not set'))
+      );
     }
     return this.demoService.updateOne(this.id);
   }
 
   findOne() {
     if (!this.id) {
-      throw new Error(this.translocoService.translate('id not set'));
+      return throwError(
+        () => new Error(this.translocoService.translate('id not set'))
+      );
     }
     return this.demoService.findOne(this.id).pipe(
       tap((result) => {

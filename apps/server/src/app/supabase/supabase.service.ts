@@ -7,7 +7,10 @@ import {
 import { Reflector } from '@nestjs/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseConfiguration } from './supabase.configuration';
-import { AllowEmptyUser, CheckAccess } from './supabase.decorators';
+import {
+  AllowEmptySupabaseUser,
+  CheckSupabaseAccess,
+} from './supabase.decorators';
 import { SupabaseEnvironments } from './supabase.environments';
 import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 import { SupabaseRequest, SupabaseUser } from './supabase.types';
@@ -80,6 +83,11 @@ export class SupabaseService implements OnModuleInit {
       this.getHandlersReflectMetadata(ctx);
 
     const req = this.getRequestFromExecutionContext(ctx);
+
+    if (allowEmptyUserMetadata) {
+      req.skipEmptySupabaseUser = true;
+    }
+
     if (checkAccess) {
       // check access by custom logic
       const checkAccessValidatorResult = this.supabaseConfiguration
@@ -93,7 +101,7 @@ export class SupabaseService implements OnModuleInit {
 
       // check access by roles
       if (
-        !allowEmptyUserMetadata &&
+        !req.skipEmptySupabaseUser &&
         !checkAccessValidatorResult &&
         !req.supabaseUser?.id
       ) {
@@ -182,18 +190,21 @@ export class SupabaseService implements OnModuleInit {
   private getHandlersReflectMetadata(ctx: ExecutionContext) {
     const allowEmptyUserMetadata = Boolean(
       (typeof ctx.getHandler === 'function' &&
-        this.reflector.get(AllowEmptyUser, ctx.getHandler())) ||
+        this.reflector.get(AllowEmptySupabaseUser, ctx.getHandler())) ||
         (typeof ctx.getClass === 'function' &&
-          this.reflector.get(AllowEmptyUser, ctx.getClass())) ||
+          this.reflector.get(AllowEmptySupabaseUser, ctx.getClass())) ||
         undefined
     );
-
     const checkAccessMetadata =
       (typeof ctx.getHandler === 'function' &&
-        this.reflector.get(CheckAccess, ctx.getHandler())) ||
+        this.reflector.get(CheckSupabaseAccess, ctx.getHandler())) ||
       (typeof ctx.getClass === 'function' &&
-        this.reflector.get(CheckAccess, ctx.getClass())) ||
+        this.reflector.get(CheckSupabaseAccess, ctx.getClass())) ||
       undefined;
-    return { checkAccessMetadata, allowEmptyUserMetadata };
+
+    return {
+      checkAccessMetadata,
+      allowEmptyUserMetadata,
+    };
   }
 }

@@ -21,3 +21,6 @@ msgstr "ок"
 
 msgid "lang must have one of the values: {{values}}"
 msgstr "lang должен иметь одно из значений: {{values}}"
+
+msgid "Unauthorized"
+msgstr "Неавторизован"

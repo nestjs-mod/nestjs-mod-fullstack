@@ -12,7 +12,7 @@
   "private": true,
   "devDependencies": {
     "pg-flyway": "1.0.1",
-    "nx": "20.0.3",
+    "nx": "20.3.3",
     "rucken": "^4.15.0"
   },
   "dependencies": {

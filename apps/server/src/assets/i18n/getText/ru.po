@@ -18,3 +18,12 @@ msgstr "Событие, которое произойдет после обно�
 
 msgid "Hello API"
 msgstr "Привет АПИ"
+
+msgid "Forbidden"
+msgstr "Нет доступа"
+
+msgid "Supabase error"
+msgstr "Ошибка Supabase"
+
+msgid "Unauthorized"
+msgstr "Неавторизован"

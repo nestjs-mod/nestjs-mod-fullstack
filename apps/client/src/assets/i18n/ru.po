@@ -267,3 +267,6 @@ msgstr "UTC+13:00: Самоа, Тонга"
 
 msgid "UTC+14:00: Date Line (east)"
 msgstr "UTC+14:00: Линия перемены дат (восток)"
+
+msgid "Unauthorized"
+msgstr "Неавторизован"

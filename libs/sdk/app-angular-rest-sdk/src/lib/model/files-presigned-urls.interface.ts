@@ -9,7 +9,7 @@
  * Do not edit the class manually.
  */
 
-export interface PresignedUrlsInterface {
+export interface FilesPresignedUrlsInterface {
   downloadUrl: string;
   uploadUrl: string;
 }

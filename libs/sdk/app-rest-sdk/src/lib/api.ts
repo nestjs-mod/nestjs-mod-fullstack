@@ -130,7 +130,7 @@ export interface AuthEntities {
  */
 export interface AuthError {
   /**
-   * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
+   * Auth error (AUTH-000), Forbidden (AUTH-001), Unauthorized (AUTH-002)
    * @type {string}
    * @memberof AuthError
    */
@@ -357,6 +357,25 @@ export type FilesErrorEnum =
 /**
  *
  * @export
+ * @interface FilesPresignedUrls
+ */
+export interface FilesPresignedUrls {
+  /**
+   *
+   * @type {string}
+   * @memberof FilesPresignedUrls
+   */
+  downloadUrl: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FilesPresignedUrls
+   */
+  uploadUrl: string;
+}
+/**
+ *
+ * @export
  * @interface FindManyAuthUserResponse
  */
 export interface FindManyAuthUserResponse {
@@ -454,25 +473,6 @@ export interface FindManyWebhookUserResponse {
    * @memberof FindManyWebhookUserResponse
    */
   meta: FindManyResponseMeta;
-}
-/**
- *
- * @export
- * @interface PresignedUrls
- */
-export interface PresignedUrls {
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  downloadUrl: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  uploadUrl: string;
 }
 /**
  *
@@ -2684,7 +2684,10 @@ export const FilesApiFp = function (configuration?: Configuration) {
       ext: string,
       options?: RawAxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PresignedUrls>
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<FilesPresignedUrls>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.filesControllerGetPresignedUrl(
@@ -2741,7 +2744,7 @@ export const FilesApiFactory = function (
     filesControllerGetPresignedUrl(
       ext: string,
       options?: RawAxiosRequestConfig
-    ): AxiosPromise<PresignedUrls> {
+    ): AxiosPromise<FilesPresignedUrls> {
       return localVarFp
         .filesControllerGetPresignedUrl(ext, options)
         .then((request) => request(axios, basePath));

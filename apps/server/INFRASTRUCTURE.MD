@@ -45,26 +45,6 @@ Terminus integration provides readiness/liveness health checks for NestJS-mod (W
 
 ## Core modules
 
-### SupabaseModule
-Universal javaScript SDK for Supabase API
-
-#### Shared providers
-`SupabaseService`
-
-#### Environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`supabaseURL`|`obj['supabaseURL']`, `process.env['SERVER_SUPABASE_URL']`|**isNotEmpty** (supabaseURL should not be empty)|```https://gustcjgbrmmipkizqzso.supabase.co```|
-|`supabaseKey`|`obj['supabaseKey']`, `process.env['SERVER_SUPABASE_KEY']`|**isNotEmpty** (supabaseKey should not be empty)|```eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1c3Rjamdicm1taXBraXpxenNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYwMTIzMjEsImV4cCI6MjA1MTU4ODMyMX0.GKguijZ5Pqxx0g3R1ey6XaCjBica6DSjEv5jvTUMHYo```|
-|`allowedExternalAppIds`|`obj['allowedExternalAppIds']`, `process.env['SERVER_ALLOWED_EXTERNAL_APP_IDS']`|**optional**|-|
-
-#### Configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`checkAccessValidator`|**optional**|```checkAccessValidator```|
-
 ### PrismaToolsModule
 #### Shared providers
 `PrismaToolsService`
@@ -78,61 +58,27 @@ Universal javaScript SDK for Supabase API
 |`paginationPerPageSteps`|`obj['paginationPerPageSteps']`, `process.env['SERVER_PAGINATION_PER_PAGE_STEPS']`|**optional**|-|
 |`paginationPerPage`|`obj['paginationPerPage']`, `process.env['SERVER_PAGINATION_PER_PAGE']`|**optional**|```5```|
 
-### PrismaModule
-Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
+### SupabaseModule
+Universal javaScript SDK for Supabase API
 
 #### Shared providers
-`PrismaClientFactoryService`, `PrismaClient`
+`SupabaseService`
 
-#### Environments(auth)
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
-
-#### Static configuration(auth)
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
-|`featureName`|**optional**|```auth```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
-
-#### Environments(webhook)
+#### Environments
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`supabaseURL`|`obj['supabaseURL']`, `process.env['SERVER_SUPABASE_URL']`|**isNotEmpty** (supabaseURL should not be empty)|```https://gustcjgbrmmipkizqzso.supabase.co```|
+|`supabaseKey`|`obj['supabaseKey']`, `process.env['SERVER_SUPABASE_KEY']`|**isNotEmpty** (supabaseKey should not be empty)|```eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1c3Rjamdicm1taXBraXpxenNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYwMTIzMjEsImV4cCI6MjA1MTU4ODMyMX0.GKguijZ5Pqxx0g3R1ey6XaCjBica6DSjEv5jvTUMHYo```|
+|`allowedExternalAppIds`|`obj['allowedExternalAppIds']`, `process.env['SERVER_ALLOWED_EXTERNAL_APP_IDS']`|**optional**|-|
+|`useGuards`|`obj['useGuards']`, `process.env['SERVER_USE_GUARDS']`|**optional**|```true```|
+|`useFilters`|`obj['useFilters']`, `process.env['SERVER_USE_FILTERS']`|**optional**|```true```|
 
-#### Static configuration(webhook)
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
-|`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
-
-#### Environments(app)
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
-
-#### Static configuration(app)
+#### Configuration
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
-|`featureName`|**optional**|```app```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`checkAccessValidator`|**optional**|```checkAccessValidator```|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -154,7 +100,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -171,7 +117,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -188,7 +134,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -210,7 +156,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -227,7 +173,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -244,7 +190,63 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```linux-musl```, ```debian-openssl-1.1.x```, ```linux-musl-openssl-3.0.x```, ```rhel-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
+
+### PrismaModule
+Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
+
+#### Shared providers
+`PrismaClientFactoryService`, `PrismaClient`
+
+#### Environments(auth)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+
+#### Static configuration(auth)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`featureName`|**optional**|```auth```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+
+#### Environments(webhook)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+
+#### Static configuration(webhook)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`featureName`|**optional**|```webhook```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
+
+#### Environments(app)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+
+#### Static configuration(app)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`featureName`|**optional**|```app```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x``` ]|
 
 ### KeyvModule
 Simple key-value storage with support for multiple backends, and a consistent interface for NestJS-mod (Wrapper for https://www.npmjs.com/package/keyv)
@@ -288,6 +290,20 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 |`region`|**optional**|```eu-central-1```|
 
 ### FilesModule
+#### Environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`minioDefaultUserId`|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|
+
+#### Configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`getFromDownloadUrlWithoutBucketNames`|**optional**|```getFromDownloadUrlWithoutBucketNames```|
+|`getPresignedUrls`|**optional**|```getPresignedUrls```|
+|`deleteFile`|**optional**|```deleteFile```|
+
 ### ValidationModule
 #### Static environments
 
@@ -305,6 +321,12 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 
 #### Shared imports
 `PrismaModule`, `KeyvModule`
+
+#### Configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`createAdmin`|**optional**|```createAdmin```|
 
 #### Static environments
 

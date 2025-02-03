@@ -22,9 +22,10 @@ export const {
   moduleName: SUPABASE_MODULE,
 });
 
-export const AllowEmptyUser = Reflector.createDecorator();
+export const AllowEmptySupabaseUser = Reflector.createDecorator();
 
-export const CheckAccess = Reflector.createDecorator<CheckAccessOptions>();
+export const CheckSupabaseAccess =
+  Reflector.createDecorator<CheckAccessOptions>();
 
 export const CurrentSupabaseUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {

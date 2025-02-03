@@ -11,7 +11,7 @@ import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
 import { AUTH_ADMIN_ROLE, AUTH_FEATURE } from './auth.constants';
 import {
-  AllowEmptyUser,
+  AllowEmptyAuthUser,
   CheckAuthRole,
   SkipAuthGuard,
 } from './auth.decorators';
@@ -48,6 +48,10 @@ export class AuthGuard implements CanActivate {
 
       const req: AuthRequest = this.getRequestFromExecutionContext(context);
 
+      if (allowEmptyUserMetadata) {
+        req.skipEmptyAuthUser = true;
+      }
+
       if (req.externalUserId) {
         await this.tryGetOrCreateCurrentUserWithExternalUserId(
           req,
@@ -55,7 +59,7 @@ export class AuthGuard implements CanActivate {
         );
       }
 
-      this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
+      this.throwErrorIfCurrentUserNotSet(req);
 
       this.pathAdminRoles(req);
 
@@ -81,6 +85,7 @@ export class AuthGuard implements CanActivate {
     req: AuthRequest
   ) {
     if (
+      !req.skipEmptyAuthUser &&
       checkAuthRole &&
       req.authUser &&
       !checkAuthRole?.includes(req.authUser.userRole)
@@ -89,16 +94,9 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  private throwErrorIfCurrentUserNotSet(
-    req: AuthRequest,
-    allowEmptyUserMetadata?: boolean
-  ) {
-    if (
-      !req.skippUserNotFoundError &&
-      !req.authUser &&
-      !allowEmptyUserMetadata
-    ) {
-      throw new AuthError(AuthErrorEnum.USER_NOT_FOUND);
+  private throwErrorIfCurrentUserNotSet(req: AuthRequest) {
+    if (!req.authUser && !req.skipEmptyAuthUser) {
+      throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
     }
   }
 
@@ -141,18 +139,19 @@ export class AuthGuard implements CanActivate {
   private getHandlersReflectMetadata(context: ExecutionContext) {
     const allowEmptyUserMetadata = Boolean(
       (typeof context.getHandler === 'function' &&
-        this.reflector.get(AllowEmptyUser, context.getHandler())) ||
+        this.reflector.get(AllowEmptyAuthUser, context.getHandler())) ||
         (typeof context.getClass === 'function' &&
-          this.reflector.get(AllowEmptyUser, context.getClass())) ||
+          this.reflector.get(AllowEmptyAuthUser, context.getClass())) ||
         undefined
     );
 
-    const skipAuthGuard =
+    const skipAuthGuard = Boolean(
       (typeof context.getHandler === 'function' &&
         this.reflector.get(SkipAuthGuard, context.getHandler())) ||
-      (typeof context.getClass === 'function' &&
-        this.reflector.get(SkipAuthGuard, context.getClass())) ||
-      undefined;
+        (typeof context.getClass === 'function' &&
+          this.reflector.get(SkipAuthGuard, context.getClass())) ||
+        undefined
+    );
 
     const checkAuthRole =
       (typeof context.getHandler === 'function' &&
@@ -160,6 +159,7 @@ export class AuthGuard implements CanActivate {
       (typeof context.getClass === 'function' &&
         this.reflector.get(CheckAuthRole, context.getClass())) ||
       undefined;
+
     return { allowEmptyUserMetadata, skipAuthGuard, checkAuthRole };
   }
 }

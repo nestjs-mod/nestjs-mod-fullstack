@@ -6,14 +6,14 @@
         "@angular/core": "19.0.5",
         "@jsverse/transloco-keys-manager": "^6.0.0",
         "rxjs": "^7.8.0",
-    "@jsverse/transloco": "^7.5.0",
-    "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
-    "@ngx-formly/core": "^6.3.10",
-    "@angular/common": "19.0.5",
-    "@angular/forms": "19.0.5",
-    "@jsverse/transloco-locale": "^7.0.1",
-    "date-fns": "^4.1.0",
-    "@ngneat/until-destroy": "^10.0.0"
+        "@jsverse/transloco": "^7.5.0",
+        "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
+        "@ngx-formly/core": "^6.3.12",
+        "@angular/common": "19.0.5",
+        "@angular/forms": "19.0.5",
+        "@jsverse/transloco-locale": "^7.0.1",
+        "date-fns": "^4.1.0",
+        "@ngneat/until-destroy": "^10.0.0"
     },
     "sideEffects": false,
     "i18n": [
