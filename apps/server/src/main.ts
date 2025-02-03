@@ -298,11 +298,12 @@ bootstrapNestApplication({
                 return true;
               }
 
-              if (!req.skipEmptySupabaseUser && !result) {
-                if (!req.supabaseUser?.id) {
-                  throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
-                }
-                throw new AuthError(AuthErrorEnum.FORBIDDEN);
+              if (
+                !req.skipEmptySupabaseUser &&
+                !result &&
+                !req.supabaseUser?.id
+              ) {
+                throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
               }
 
               return result;

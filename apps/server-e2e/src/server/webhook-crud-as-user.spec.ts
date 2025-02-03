@@ -49,7 +49,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
     await expect(
       user2.getWebhookApi().webhookControllerProfile()
     ).rejects.toHaveProperty('response.data', {
-      code: AuthErrorEnum._002,
+      code: AuthErrorEnum._001,
       message: 'Unauthorized',
     });
   });
