@@ -36,7 +36,7 @@ import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
-import { AppModule } from './app/app.module';
+import { AppModule as SupabaseAppModule } from './app/supabase-app.module';
 import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
 
 let rootFolder = join(__dirname, '..', '..', '..');
@@ -208,7 +208,7 @@ bootstrapNestApplication({
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
-      AppModule.forRoot(),
+      SupabaseAppModule.forRoot(),
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {

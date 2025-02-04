@@ -4,7 +4,7 @@ import { WEBHOOK_FEATURE, WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { FakePrismaClient, PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FEATURE } from '../app.constants';
 import { AppService } from '../services/app.service';
-import { AppController } from './app.controller';
+import { AppController } from './supabase-app.controller';
 
 describe('AppController', () => {
   let app: TestingModule;

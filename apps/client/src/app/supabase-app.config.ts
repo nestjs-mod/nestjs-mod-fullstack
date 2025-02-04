@@ -38,8 +38,6 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import {
   serverUrl,
-  supabaseKey,
-  supabaseURL,
   webhookSuperAdminExternalUserId,
 } from '../environments/environment';
 import { AppInitializer } from './app-initializer';
@@ -48,19 +46,18 @@ import { appRoutes } from './app.routes';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
-import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
-import { AUTHORIZER_URL } from './integrations/authorizer-auth.configuration';
 import {
-  SUPABASE_URL,
   SUPABASE_KEY,
+  SUPABASE_URL,
   provideSupabaseAuthConfiguration,
 } from './integrations/supabase-auth.configuration';
+import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
 export const appConfig = ({
-  authorizerURL,
+  supabaseURL,
+  supabaseKey,
   minioURL,
 }: {
-  authorizerURL: string;
   minioURL: string;
   supabaseURL: string;
   supabaseKey: string;
@@ -90,10 +87,6 @@ export const appConfig = ({
         FormlyNgZorroAntdModule
       ),
       { provide: ErrorHandler, useClass: AppErrorHandler },
-      {
-        provide: AUTHORIZER_URL,
-        useValue: authorizerURL,
-      },
       {
         provide: SUPABASE_URL,
         useValue: supabaseURL,
