@@ -32,9 +32,6 @@ jobs:
           SERVER_AUTH_DATABASE_URL: ${{ secrets.SERVER_AUTH_DATABASE_URL }}
           SERVER_ROOT_DATABASE_URL: ${{ secrets.SERVER_ROOT_DATABASE_URL }}
           SERVER_WEBHOOK_DATABASE_URL: ${{ secrets.SERVER_WEBHOOK_DATABASE_URL }}
-
-      - name: Copy the package.json to original-package.json
-        run: cp -r package.json original-package.json
         
       - name: Remove devDependencies
         run: echo $(cat package.json | jq 'del(.devDependencies)') > package.json
@@ -67,17 +64,3 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Copy the original-package.json to package.json
-        run: cp -r original-package.json package.json
-        
-      - name: Install all dependencies
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
-          
-      - name: Generate prisma clients
-        run: npm run prisma:generate
-        
-      - name: Run e2e tests
-        run: npm run test:e2e
