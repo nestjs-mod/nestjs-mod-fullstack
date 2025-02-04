@@ -3021,10 +3021,10 @@
     "@emnapi/runtime" "^1.3.1"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs-mod/authorizer@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.5.1.tgz#c132b7cf73b58c6337de501f572baea433a514f6"
-  integrity sha512-EGrKxd6chgdFg2THcAyVVArdzJ49IagMjCQVm71XagtjZGNDKmtqRbZc41ldBRBEcXZ3nrj1T67dqoZ7xMHe/g==
+"@nestjs-mod/authorizer@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.5.2.tgz#13ac1323fe732c1f1cfb9c370017c9631ee0b5f6"
+  integrity sha512-AxwEQZSOxk01X7B8flLEBgS4AtG1jzjYOAIbPjQHIoa6TkaWzRyfq+XozROi3o8Giw+8eh0RUFGeG4aslGWz3Q==
   dependencies:
     tslib "^2.3.0"
 

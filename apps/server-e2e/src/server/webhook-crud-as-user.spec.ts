@@ -39,9 +39,9 @@ describe('CRUD operations with Webhook as "User" role', () => {
         'app-demo.update',
         'app-demo.delete',
       ]);
-    } catch (error) {
-      console.log(error);
-      throw error;
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
   });
 

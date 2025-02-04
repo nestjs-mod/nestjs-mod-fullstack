@@ -1,40 +1,62 @@
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
-
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
+import { FilesModule } from '@nestjs-mod-fullstack/files';
 import {
   ValidationError,
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
+import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
+import { KeyvModule } from '@nestjs-mod/keyv';
+import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { APP_FEATURE, APP_MODULE } from './app.constants';
+import { AppController } from './controllers/app.controller';
+import { FakeEndpointController } from './controllers/fake-endoint.controller';
+import { TimeController } from './controllers/time.controller';
+import { SupabaseAuthConfiguration } from './integrations/supabase-auth.configuration';
+import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-with-minio-files.configuration';
+import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
+import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
-import { TimeController } from './time.controller';
 
 export const { AppModule } = createNestModule({
-  moduleName: 'AppModule',
+  moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
   imports: [
-    AuthModule.forFeature({
-      featureModuleName: 'app',
+    SupabaseModule.forRootAsync({
+      imports: [
+        WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
+        AuthModule.forFeature({ featureModuleName: AUTH_FEATURE }),
+      ],
+      configurationClass: WebhookWithAuthSupabaseConfiguration,
+    }),
+    FilesModule.forRootAsync({
+      imports: [SupabaseModule.forFeature(), MinioModule.forFeature()],
+      configurationClass: SupabaseWithMinioFilesConfiguration,
+    }),
+    AuthModule.forRootAsync({
+      imports: [SupabaseModule.forFeature()],
+      configurationClass: SupabaseAuthConfiguration,
     }),
     SupabaseModule.forFeature({
-      featureModuleName: 'app',
+      featureModuleName: APP_FEATURE,
+    }),
+    AuthModule.forFeature({
+      featureModuleName: APP_FEATURE,
     }),
     WebhookModule.forFeature({
-      featureModuleName: 'app',
+      featureModuleName: APP_FEATURE,
     }),
     PrismaModule.forFeature({
-      contextName: 'app',
-      featureModuleName: 'app',
+      contextName: APP_FEATURE,
+      featureModuleName: APP_FEATURE,
     }),
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
-      featureModuleName: 'app',
+      featureModuleName: APP_FEATURE,
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
@@ -59,6 +81,7 @@ export const { AppModule } = createNestModule({
       usePipes: true,
       useInterceptors: true,
     }),
+    KeyvModule.forFeature({ featureModuleName: APP_FEATURE }),
     ...(process.env.DISABLE_SERVE_STATIC
       ? []
       : [
@@ -67,6 +90,6 @@ export const { AppModule } = createNestModule({
           }),
         ]),
   ],
-  controllers: [AppController, TimeController],
-  providers: [AppService, TimeController],
+  controllers: [AppController, TimeController, FakeEndpointController],
+  providers: [AppService, TimeController, FakeEndpointController],
 });

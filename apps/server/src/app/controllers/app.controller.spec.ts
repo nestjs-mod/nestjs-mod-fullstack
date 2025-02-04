@@ -2,24 +2,24 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { WEBHOOK_FEATURE, WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { FakePrismaClient, PrismaModule } from '@nestjs-mod/prisma';
+import { APP_FEATURE } from '../app.constants';
+import { AppService } from '../services/app.service';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 describe('AppController', () => {
-  const appFeatureName = 'app';
   let app: TestingModule;
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
       imports: [
         WebhookModule.forFeature({
-          featureModuleName: 'app',
+          featureModuleName: APP_FEATURE,
         }),
         PrismaModule.forRoot({
-          contextName: 'app',
+          contextName: APP_FEATURE,
           environments: { databaseUrl: 'fake' },
           staticConfiguration: {
-            featureName: appFeatureName,
+            featureName: APP_FEATURE,
             prismaModule: { PrismaClient: FakePrismaClient },
           },
         }),
@@ -27,7 +27,7 @@ describe('AppController', () => {
           contextName: WEBHOOK_FEATURE,
           environments: { databaseUrl: 'fake' },
           staticConfiguration: {
-            featureName: appFeatureName,
+            featureName: APP_FEATURE,
             prismaModule: { PrismaClient: FakePrismaClient },
           },
         }),

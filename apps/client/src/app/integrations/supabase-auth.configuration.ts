@@ -85,7 +85,7 @@ export function mapAuthTokenResponsePassword() {
   });
 }
 
-export class AuthSupabaseConfiguration implements AuthConfiguration {
+export class SupabaseAuthConfiguration implements AuthConfiguration {
   private supabaseClient: SupabaseClient;
 
   constructor(
@@ -319,7 +319,7 @@ export class AuthSupabaseConfiguration implements AuthConfiguration {
 export function provideSupabaseAuthConfiguration(): Provider {
   return {
     provide: AUTH_CONFIGURATION_TOKEN,
-    useClass: AuthSupabaseConfiguration,
+    useClass: SupabaseAuthConfiguration,
     deps: [
       SUPABASE_URL,
       SUPABASE_KEY,

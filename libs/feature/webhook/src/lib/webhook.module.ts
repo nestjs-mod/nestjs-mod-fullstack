@@ -48,6 +48,7 @@ export const { WebhookModule } = createNestModule({
     TranslatesModule,
   ],
   sharedImports: [
+    HttpModule,
     PrismaModule.forFeature({
       contextName: WEBHOOK_FEATURE,
       featureModuleName: WEBHOOK_FEATURE,

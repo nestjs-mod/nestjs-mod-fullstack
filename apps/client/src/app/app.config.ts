@@ -45,16 +45,16 @@ import {
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
-import { AUTHORIZER_URL } from './integrations/auth-authorizer.configuration';
-import {
-  provideSupabaseAuthConfiguration,
-  SUPABASE_KEY,
-  SUPABASE_URL,
-} from './integrations/auth-supabase.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { AUTHORIZER_URL } from './integrations/authorizer-auth.configuration';
+import {
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  provideSupabaseAuthConfiguration,
+} from './integrations/supabase-auth.configuration';
 
 export const appConfig = ({
   authorizerURL,

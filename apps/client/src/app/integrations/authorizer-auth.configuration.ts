@@ -18,7 +18,7 @@ import { catchError, from, map, mergeMap, Observable, of } from 'rxjs';
 
 export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 
-export class AuthAuthorizerConfiguration implements AuthConfiguration {
+export class AuthorizerAuthConfiguration implements AuthConfiguration {
   private authorizer: Authorizer;
 
   constructor(
@@ -129,10 +129,10 @@ export class AuthAuthorizerConfiguration implements AuthConfiguration {
   }
 }
 
-export function provideAuthAuthorizerConfiguration(): Provider {
+export function provideAuthorizerAuthConfiguration(): Provider {
   return {
     provide: AUTH_CONFIGURATION_TOKEN,
-    useClass: AuthAuthorizerConfiguration,
+    useClass: AuthorizerAuthConfiguration,
     deps: [
       AuthRestService,
       FilesService,

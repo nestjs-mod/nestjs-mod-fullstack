@@ -2531,6 +2531,250 @@ export class AuthApi extends BaseAPI {
 }
 
 /**
+ * FakeEndpointApi - axios parameter creator
+ * @export
+ */
+export const FakeEndpointApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointHandler: async (
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/fake-endpoint`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointLogs: async (
+      appId: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        'fakeEndpointControllerFakeEndpointLogs',
+        'appId',
+        appId
+      );
+      const localVarPath = `/api/fake-endpoint/logs/{appId}`.replace(
+        `{${'appId'}}`,
+        encodeURIComponent(String(appId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - functional programming interface
+ * @export
+ */
+export const FakeEndpointApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    FakeEndpointApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fakeEndpointControllerFakeEndpointHandler(
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointHandler(
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'FakeEndpointApi.fakeEndpointControllerFakeEndpointHandler'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fakeEndpointControllerFakeEndpointLogs(
+      appId: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointLogs(
+          appId,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'FakeEndpointApi.fakeEndpointControllerFakeEndpointLogs'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - factory interface
+ * @export
+ */
+export const FakeEndpointApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = FakeEndpointApiFp(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointHandler(
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fakeEndpointControllerFakeEndpointHandler(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointLogs(
+      appId: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fakeEndpointControllerFakeEndpointLogs(appId, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - object-oriented interface
+ * @export
+ * @class FakeEndpointApi
+ * @extends {BaseAPI}
+ */
+export class FakeEndpointApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FakeEndpointApi
+   */
+  public fakeEndpointControllerFakeEndpointHandler(
+    options?: RawAxiosRequestConfig
+  ) {
+    return FakeEndpointApiFp(this.configuration)
+      .fakeEndpointControllerFakeEndpointHandler(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FakeEndpointApi
+   */
+  public fakeEndpointControllerFakeEndpointLogs(
+    appId: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return FakeEndpointApiFp(this.configuration)
+      .fakeEndpointControllerFakeEndpointLogs(appId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
  * FilesApi - axios parameter creator
  * @export
  */

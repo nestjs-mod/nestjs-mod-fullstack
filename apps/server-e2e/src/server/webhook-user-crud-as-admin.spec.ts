@@ -44,6 +44,20 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
     });
   });
 
+  it('should return error when we try update webhook user role to admin as user', async () => {
+    const { data: userProfile } = await user1
+      .getWebhookApi()
+      .webhookControllerProfile();
+    await expect(
+      user1
+        .getWebhookApi()
+        .webhookUsersControllerUpdateOne(userProfile.id, { userRole: 'Admin' })
+    ).rejects.toHaveProperty('response.data', {
+      code: WebhookErrorEnum._001,
+      message: 'Forbidden',
+    });
+  });
+
   it('should update webhook user role to admin as admin', async () => {
     const { data: userProfile } = await user1
       .getWebhookApi()

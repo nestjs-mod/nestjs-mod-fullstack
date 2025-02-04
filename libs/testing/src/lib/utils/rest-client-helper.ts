@@ -4,6 +4,7 @@ import {
   AuthProfileDto,
   AuthRole,
   Configuration,
+  FakeEndpointApi,
   FilesApi,
   TimeApi,
   WebhookApi,
@@ -33,12 +34,14 @@ export class RestClientHelper {
   private filesApi?: FilesApi;
   private timeApi?: TimeApi;
   private authApi?: AuthApi;
+  private fakeEndpointApi?: FakeEndpointApi;
 
   private webhookApiAxios?: AxiosInstance;
   private appApiAxios?: AxiosInstance;
   private filesApiAxios?: AxiosInstance;
   private timeApiAxios?: AxiosInstance;
   private authApiAxios?: AxiosInstance;
+  private fakeEndpointApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
 
@@ -150,6 +153,13 @@ export class RestClientHelper {
       throw new Error('authApi not set');
     }
     return this.authApi;
+  }
+
+  getFakeEndpointApi() {
+    if (!this.fakeEndpointApi) {
+      throw new Error('fakeEndpointApi not set');
+    }
+    return this.fakeEndpointApi;
   }
 
   async getSupabaseClient() {
@@ -283,6 +293,12 @@ export class RestClientHelper {
         this.getAuthorizationHeaders()
       );
     }
+    if (this.fakeEndpointApiAxios) {
+      Object.assign(
+        this.fakeEndpointApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
   }
 
   async logout() {
@@ -347,6 +363,16 @@ export class RestClientHelper {
       }),
       undefined,
       this.authApiAxios
+    );
+    //
+
+    this.fakeEndpointApiAxios = axios.create();
+    this.fakeEndpointApi = new FakeEndpointApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.fakeEndpointApiAxios
     );
   }
 

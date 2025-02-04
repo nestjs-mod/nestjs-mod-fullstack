@@ -5,6 +5,7 @@ api.module.ts
 api/api.ts
 api/app-rest.service.ts
 api/auth-rest.service.ts
+api/fake-endpoint-rest.service.ts
 api/files-rest.service.ts
 api/terminus-health-check-rest.service.ts
 api/time-rest.service.ts

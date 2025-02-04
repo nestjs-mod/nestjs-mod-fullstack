@@ -8,8 +8,8 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 import { interval, map, Observable } from 'rxjs';
-import { AllowEmptySupabaseUser } from './supabase/supabase.decorators';
-import { SupabaseGuard } from './supabase/supabase.guard';
+import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
+import { SupabaseGuard } from '../supabase/supabase.guard';
 
 export const ChangeTimeStream = 'ChangeTimeStream';
 

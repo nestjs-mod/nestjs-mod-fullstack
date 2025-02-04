@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 
+import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
@@ -18,15 +19,13 @@ import {
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
-import { AppService } from './app.service';
-import { AppDemo } from './generated/rest/dto/app-demo.entity';
-import { User } from '@supabase/supabase-js';
+import { APP_FEATURE } from '../app.constants';
+import { AppDemo } from '../generated/rest/dto/app-demo.entity';
+import { AppService } from '../services/app.service';
 import {
   AllowEmptySupabaseUser,
   CurrentSupabaseUser,
-} from './supabase/supabase.decorators';
-import { SupabaseUser } from './supabase/supabase.types';
-import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
+} from '../supabase/supabase.decorators';
 
 export class AppData {
   @ApiProperty({ type: String })
@@ -44,7 +43,7 @@ enum AppDemoEventName {
 @Controller()
 export class AppController {
   constructor(
-    @InjectPrismaClient('app')
+    @InjectPrismaClient(APP_FEATURE)
     private readonly appPrismaClient: AppPrismaClient,
     private readonly appService: AppService,
     private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
@@ -58,19 +57,18 @@ export class AppController {
 
   @Post('/demo')
   @ApiCreatedResponse({ type: AppDemo })
-  async demoCreateOne(@CurrentSupabaseUser() authorizeUser: User) {
-    return await this.appPrismaClient.appDemo
-      .create({
-        data: { name: 'demo name' + randomUUID() },
-      })
-      .then(async (result) => {
-        await this.webhookService.sendEvent(
-          AppDemoEventName['app-demo.create'],
-          result,
-          { ['external-user-id']: authorizeUser.id }
-        );
-        return result;
-      });
+  async demoCreateOne(@CurrentSupabaseUser() externalUser: { id: string }) {
+    const result = await this.appPrismaClient.appDemo.create({
+      data: { name: 'demo name' + randomUUID() },
+    });
+
+    await this.webhookService.sendEvent({
+      eventBody: result,
+      eventHeaders: { ['external-user-id']: externalUser.id },
+      eventName: AppDemoEventName['app-demo.create'],
+    });
+
+    return result;
   }
 
   @Get('/demo/:id')
@@ -84,40 +82,38 @@ export class AppController {
   @Delete('/demo/:id')
   @ApiOkResponse({ type: AppDemo })
   async demoDeleteOne(
-    @CurrentSupabaseUser() authorizeUser: SupabaseUser,
+    @CurrentSupabaseUser() externalUser: { id: string },
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
-    return await this.appPrismaClient.appDemo
-      .delete({ where: { id } })
-      .then(async (result) => {
-        await this.webhookService.sendEvent(
-          AppDemoEventName['app-demo.delete'],
-          result,
-          { ['external-user-id']: authorizeUser.id }
-        );
-        return result;
-      });
+    const result = await this.appPrismaClient.appDemo.delete({ where: { id } });
+
+    await this.webhookService.sendEvent({
+      eventBody: result,
+      eventHeaders: { ['external-user-id']: externalUser.id },
+      eventName: AppDemoEventName['app-demo.delete'],
+    });
+
+    return result;
   }
 
   @Put('/demo/:id')
   @ApiOkResponse({ type: AppDemo })
   async demoUpdateOne(
-    @CurrentSupabaseUser() authorizeUser: User,
+    @CurrentSupabaseUser() externalUser: { id: string },
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
-    return await this.appPrismaClient.appDemo
-      .update({
-        data: { name: 'new demo name' + randomUUID(), updatedAt: new Date() },
-        where: { id },
-      })
-      .then(async (result) => {
-        await this.webhookService.sendEvent(
-          AppDemoEventName['app-demo.update'],
-          result,
-          { ['external-user-id']: authorizeUser.id }
-        );
-        return result;
-      });
+    const result = await this.appPrismaClient.appDemo.update({
+      data: { name: 'new demo name' + randomUUID(), updatedAt: new Date() },
+      where: { id },
+    });
+
+    await this.webhookService.sendEvent({
+      eventBody: result,
+      eventHeaders: { ['external-user-id']: externalUser.id },
+      eventName: AppDemoEventName['app-demo.update'],
+    });
+
+    return result;
   }
 
   @Get('/demo')
