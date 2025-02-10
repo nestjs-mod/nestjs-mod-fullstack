@@ -130,7 +130,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   }
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
-    let oldData = data;
+    const oldData = data;
     return (
       data.picture
         ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
@@ -144,9 +144,8 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       catchError(() => of(null)),
       mergeMap((profile) => {
         if (data && profile) {
-          Object.assign(data, profile);
+          data = { ...data, ...profile };
         }
-        oldData = data;
         return from(
           this.supabaseClient.auth.updateUser({
             data: { ...data.app_data, picture: data.picture },
@@ -168,6 +167,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       mergeMap((newData) => {
         if (
           oldData?.picture &&
+          typeof oldData?.picture === 'string' &&
           (newData as AuthUpdateProfileInput)?.picture !== oldData.picture
         ) {
           return this.filesService

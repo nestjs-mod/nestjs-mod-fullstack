@@ -147,6 +147,9 @@ msgstr "Validation errors"
 msgid "id not set"
 msgstr "id not set"
 
+msgid "Unauthorized"
+msgstr "Unauthorized"
+
 msgid "auth.sign-in-form.fields.timezone"
 msgstr "Timezone"
 
@@ -266,6 +269,3 @@ msgstr "UTC+13:00: Samoa, Tonga"
 
 msgid "UTC+14:00: Date Line (east)"
 msgstr "UTC+14:00: Date Line (east)"
-
-msgid "Unauthorized"
-msgstr "Unauthorized"

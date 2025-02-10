@@ -135,7 +135,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === createEventName &&
-        l.headers['external-user-id'] === user1.authData?.user?.id
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
     );
     expect(data).toMatchObject({
       ...my[0].body,
@@ -174,7 +174,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === updateEventName &&
-        l.headers['external-user-id'] === user1.authData?.user?.id
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
     );
 
     expect(my).toHaveLength(1);
@@ -204,7 +204,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === deleteEventName &&
-        l.headers['external-user-id'] === user1.authData?.user?.id
+        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
     );
 
     expect(my).toHaveLength(0);
@@ -231,7 +231,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authData?.user?.id
+          user1.authorizationTokens?.user?.id
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -262,7 +262,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authData?.user?.id
+          user1.authorizationTokens?.user?.id
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -294,7 +294,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authData?.user?.id
+          user1.authorizationTokens?.user?.id
       ),
     }).toMatchObject({
       webhookLogs: [

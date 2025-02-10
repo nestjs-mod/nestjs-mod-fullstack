@@ -18,7 +18,8 @@ export class AuthTimezoneService {
       return data;
     }
     if (Array.isArray(data)) {
-      return this.convertArray(data, timezone, depth);
+      const newData = this.convertArray(data, timezone, depth);
+      return newData;
     }
     if (
       (typeof data === 'string' ||
@@ -37,10 +38,9 @@ export class AuthTimezoneService {
           this.convertComplexObject(data, timezone, depth);
         }
       }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        this.logger.error(err, err.stack);
-      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      this.logger.error(err, err.stack);
     }
     return data;
   }
@@ -59,6 +59,9 @@ export class AuthTimezoneService {
   private convertPrimitive(data: unknown, timezone: number) {
     if (this.isValidStringDate(data) && typeof data === 'string') {
       data = new Date(data);
+    }
+    if (this.isValidDate(data)) {
+      data = data as Date;
     }
     data = addHours(data as Date, timezone);
     return data;

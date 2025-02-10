@@ -9,6 +9,7 @@ import {
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 @UntilDestroy()
@@ -28,23 +29,23 @@ export class CustomAuthService extends AuthService {
       catchError(() => of(null)),
       mergeMap((profile) => {
         if (result && profile) {
-          Object.assign(result, profile);
+          result = { ...result, ...profile };
         }
         return super.setProfile(result);
       })
     );
   }
 
-  override updateProfile(data: AuthUpdateProfileInput & { timezone: number }) {
-    const { timezone, ...profile } = data;
+  override updateProfile(
+    data: AuthUpdateProfileInput & { timezone: number; lang: string }
+  ) {
+    const { timezone, lang } = { ...data };
+    const profile = omit({ ...data }, ['timezone', 'lang']);
     return super.updateProfile(profile).pipe(
       mergeMap((result) =>
         this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
           map(() => {
-            if (result) {
-              Object.assign(result, { timezone });
-            }
-            return result;
+            return result ? { ...result, timezone, lang } : result;
           })
         )
       )

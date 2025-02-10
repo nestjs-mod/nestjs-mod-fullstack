@@ -32,9 +32,13 @@ export class FilesConfiguration {
   getPresignedUrls!: ({
     bucketName,
     fullObjectName,
+    ext,
+    userId,
   }: {
     bucketName: string;
     fullObjectName: string;
+    ext: string;
+    userId: string;
   }) => Promise<FilesPresignedUrls>;
 
   @ConfigModelProperty({
@@ -43,9 +47,11 @@ export class FilesConfiguration {
   deleteFile!: ({
     bucketName,
     objectName,
+    downloadUrl,
   }: {
     bucketName: string;
     objectName: string;
+    downloadUrl: string;
   }) => Promise<void | null>;
 
   @ConfigModelProperty({

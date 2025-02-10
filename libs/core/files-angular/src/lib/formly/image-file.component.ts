@@ -62,7 +62,7 @@ export class ImageFileComponent
           uid: this.formControl.value,
           name: this.formControl.value.split('/').at(-1),
           status: 'done',
-          url: this.formControl.value,
+          url: this.filesService.getMinioURL() + this.formControl.value,
         },
       ]);
     } else {

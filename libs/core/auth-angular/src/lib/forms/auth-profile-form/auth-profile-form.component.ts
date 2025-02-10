@@ -129,7 +129,9 @@ export class AuthProfileFormComponent implements OnInit {
           tap(() => {
             this.fillFromProfile();
             this.nzMessageService.success(
-              this.translocoService.translate('Updated')
+              this.translocoService.translate(
+                'Profile data updated successfully!'
+              )
             );
           }),
           catchError((err) =>

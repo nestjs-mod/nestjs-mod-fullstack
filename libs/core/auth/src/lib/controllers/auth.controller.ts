@@ -4,7 +4,14 @@ import {
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiExtraModels,
@@ -54,6 +61,7 @@ export class AuthController {
   }
 
   @Post('update-profile')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: StatusResponse })
   async updateProfile(
     @CurrentAuthUser() authUser: AuthUser,

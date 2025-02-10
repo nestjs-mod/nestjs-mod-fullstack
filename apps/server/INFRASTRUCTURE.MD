@@ -58,28 +58,6 @@ Terminus integration provides readiness/liveness health checks for NestJS-mod (W
 |`paginationPerPageSteps`|`obj['paginationPerPageSteps']`, `process.env['SERVER_PAGINATION_PER_PAGE_STEPS']`|**optional**|-|
 |`paginationPerPage`|`obj['paginationPerPage']`, `process.env['SERVER_PAGINATION_PER_PAGE']`|**optional**|```5```|
 
-### SupabaseModule
-Universal javaScript SDK for Supabase API
-
-#### Shared providers
-`SupabaseService`
-
-#### Environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`supabaseURL`|`obj['supabaseURL']`, `process.env['SERVER_SUPABASE_URL']`|**isNotEmpty** (supabaseURL should not be empty)|```https://gustcjgbrmmipkizqzso.supabase.co```|
-|`supabaseKey`|`obj['supabaseKey']`, `process.env['SERVER_SUPABASE_KEY']`|**isNotEmpty** (supabaseKey should not be empty)|```eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1c3Rjamdicm1taXBraXpxenNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYwMTIzMjEsImV4cCI6MjA1MTU4ODMyMX0.GKguijZ5Pqxx0g3R1ey6XaCjBica6DSjEv5jvTUMHYo```|
-|`allowedExternalAppIds`|`obj['allowedExternalAppIds']`, `process.env['SERVER_ALLOWED_EXTERNAL_APP_IDS']`|**optional**|-|
-|`useGuards`|`obj['useGuards']`, `process.env['SERVER_USE_GUARDS']`|**optional**|```true```|
-|`useFilters`|`obj['useFilters']`, `process.env['SERVER_USE_FILTERS']`|**optional**|```true```|
-
-#### Configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`checkAccessValidator`|**optional**|```checkAccessValidator```|
-
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
 
@@ -90,7 +68,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
 
 #### Static configuration(auth)
 
@@ -107,7 +85,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Static configuration(webhook)
 
@@ -124,7 +102,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration(app)
 
@@ -146,7 +124,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
 
 #### Static configuration(auth)
 
@@ -163,7 +141,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Static configuration(webhook)
 
@@ -180,7 +158,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration(app)
 
@@ -202,7 +180,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
 
 #### Static configuration(auth)
 
@@ -219,7 +197,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Static configuration(webhook)
 
@@ -236,7 +214,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration(app)
 
@@ -258,7 +236,7 @@ Simple key-value storage with support for multiple backends, and a consistent in
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`url`|`obj['url']`, `process.env['SERVER_KEYV_URL']`|**optional**|```postgresql://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres```|
+|`url`|`obj['url']`, `process.env['SERVER_KEYV_URL']`|**optional**|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
 
 #### Static configuration
 
@@ -276,33 +254,12 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`minioServerHost`|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|```gustcjgbrmmipkizqzso.supabase.co```|
+|`minioServerHost`|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|```localhost```|
 |`minioServerPort`|`obj['minioServerPort']`, `process.env['SERVER_MINIO_SERVER_PORT']`|**optional**|```9000```|
-|`minioAccessKey`|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|```7c3668c64557544ce98dab6d9871cc51```|
-|`minioSecretKey`|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|```fae88901a317966b92f875e689377e36bbbfa9e463560f75ca3a4cec7c9d700a```|
-|`minioUseSSL`|`obj['minioUseSSL']`, `process.env['SERVER_MINIO_USE_SSL']`|**optional**|```true```|
+|`minioAccessKey`|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|```FWGmrAGaeMKM```|
+|`minioSecretKey`|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
+|`minioUseSSL`|`obj['minioUseSSL']`, `process.env['SERVER_MINIO_USE_SSL']`|**optional**|```false```|
 |`minioDefaultUserId`|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|
-
-#### Static configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`region`|**optional**|```eu-central-1```|
-
-### FilesModule
-#### Environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`minioDefaultUserId`|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|
-
-#### Configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`getFromDownloadUrlWithoutBucketNames`|**optional**|```getFromDownloadUrlWithoutBucketNames```|
-|`getPresignedUrls`|**optional**|```getPresignedUrls```|
-|`deleteFile`|**optional**|```deleteFile```|
 
 ### ValidationModule
 #### Static environments
@@ -315,38 +272,12 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 ## Feature modules
 
 ### AppModule
-### AuthModule
-#### Shared providers
-`AsyncLocalStorage`, `AuthTimezoneService`, `AuthCacheService`
-
-#### Shared imports
-`PrismaModule`, `KeyvModule`
-
-#### Configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`createAdmin`|**optional**|```createAdmin```|
-
-#### Static environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`adminEmail`|`obj['adminEmail']`, `process.env['SERVER_AUTH_ADMIN_EMAIL']`|**optional**|```nestjs-mod-fullstack@site15.ru```|
-|`adminUsername`|`obj['adminUsername']`, `process.env['SERVER_AUTH_ADMIN_USERNAME']`|**isNotEmpty** (adminUsername should not be empty)|```admin```|
-|`adminPassword`|`obj['adminPassword']`, `process.env['SERVER_AUTH_ADMIN_PASSWORD']`|**optional**|```SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA```|
-|`cacheTTL`|`obj['cacheTTL']`, `process.env['SERVER_AUTH_CACHE_TTL']`|**optional**|```15000```|
-|`useGuards`|`obj['useGuards']`, `process.env['SERVER_AUTH_USE_GUARDS']`|**optional**|```true```|
-|`useFilters`|`obj['useFilters']`, `process.env['SERVER_AUTH_USE_FILTERS']`|**optional**|```true```|
-|`useInterceptors`|`obj['useInterceptors']`, `process.env['SERVER_AUTH_USE_INTERCEPTORS']`|**optional**|```true```|
-|`usePipes`|`obj['usePipes']`, `process.env['SERVER_AUTH_USE_PIPES']`|**optional**|```true```|
-
 ### WebhookModule
 #### Shared providers
 `WebhookService`, `WebhookUsersService`
 
 #### Shared imports
-`PrismaModule`
+`HttpModule`, `PrismaModule`
 
 #### Configuration
 
@@ -418,6 +349,14 @@ Docker Compose is a tool for defining and running multi-container applications. 
 |`volumes`|**optional**|```{"server-postgre-sql-volume":{"name":"server-postgre-sql-volume"}}```|
 
 #### Modules that use feature configuration
+##### Feature module name: SERVER_AUTHORIZER
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`services`|**optional**|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"NestJSModFullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
+|`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
+
+#### Modules that use feature configuration
 ##### Feature module name: SERVER_REDIS
 
 | Key    | Constraints | Value |
@@ -431,7 +370,7 @@ Docker Compose is a tool for defining and running multi-container applications. 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`services`|**optional**|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{"MINIO_ROOT_USER":"7c3668c64557544ce98dab6d9871cc51","MINIO_ROOT_PASSWORD":"fae88901a317966b92f875e689377e36bbbfa9e463560f75ca3a4cec7c9d700a"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`services`|**optional**|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{"MINIO_ROOT_USER":"FWGmrAGaeMKM","MINIO_ROOT_PASSWORD":"QatVJuLoZRARlJguoZMpoKvZMJHzvuOR"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|**optional**|```{"server-minio-volume":{"name":"server-minio-volume"}}```|
 
@@ -442,7 +381,7 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 
@@ -458,7 +397,7 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 
@@ -474,7 +413,7 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
 #### Static configuration
 
@@ -504,7 +443,7 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`rootDatabaseUrl`|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`rootDatabaseUrl`|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|```postgres://postgres:postgres_password@localhost:5432/postgres?schema=public```|
 
 #### Feature environments
 
@@ -531,21 +470,108 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+
+#### Modules that use feature environments
+##### Feature module name: authorizer
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
 
 #### Modules that use feature environments
 ##### Feature module name: webhook
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Modules that use feature environments
 ##### Feature module name: auth
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://postgres.gustcjgbrmmipkizqzso:yvnJ!tNMP72-RCB@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+### DockerComposeAuthorizer
+Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`adminSecret`|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
+|`databaseType`|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|```postgres```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@localhost:5432/authorizer```|
+|`databaseName`|`obj['databaseName']`, `process.env['SERVER_AUTHORIZER_DATABASE_NAME']`|**optional**|```authorizer```|
+|`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_AUTHORIZER_REDIS_URL']`|**optional**|-|
+|`databasePort`|`obj['databasePort']`, `process.env['SERVER_AUTHORIZER_DATABASE_PORT']`|**optional**|-|
+|`databaseHost`|`obj['databaseHost']`, `process.env['SERVER_AUTHORIZER_DATABASE_HOST']`|**optional**|-|
+|`databaseUsername`|`obj['databaseUsername']`, `process.env['SERVER_AUTHORIZER_DATABASE_USERNAME']`|**optional**|-|
+|`databasePassword`|`obj['databasePassword']`, `process.env['SERVER_AUTHORIZER_DATABASE_PASSWORD']`|**optional**|-|
+|`databaseCert`|`obj['databaseCert']`, `process.env['SERVER_AUTHORIZER_DATABASE_CERT']`|**optional**|-|
+|`databaseCertKey`|`obj['databaseCertKey']`, `process.env['SERVER_AUTHORIZER_DATABASE_CERT_KEY']`|**optional**|-|
+|`databaseCaCert`|`obj['databaseCaCert']`, `process.env['SERVER_AUTHORIZER_DATABASE_CA_CERT']`|**optional**|-|
+|`port`|`obj['port']`, `process.env['SERVER_AUTHORIZER_PORT']`|**optional**|```8080```|
+|`authorizerUrl`|`obj['authorizerUrl']`, `process.env['SERVER_AUTHORIZER_AUTHORIZER_URL']`|**optional**|```http://localhost:8080```|
+|`cookieName`|`obj['cookieName']`, `process.env['SERVER_AUTHORIZER_COOKIE_NAME']`|**optional**|```authorizer```|
+|`smtpHost`|`obj['smtpHost']`, `process.env['SERVER_AUTHORIZER_SMTP_HOST']`|**optional**|-|
+|`smtpPort`|`obj['smtpPort']`, `process.env['SERVER_AUTHORIZER_SMTP_PORT']`|**optional**|-|
+|`smtpUsername`|`obj['smtpUsername']`, `process.env['SERVER_AUTHORIZER_SMTP_USERNAME']`|**optional**|-|
+|`smtpPassword`|`obj['smtpPassword']`, `process.env['SERVER_AUTHORIZER_SMTP_PASSWORD']`|**optional**|-|
+|`senderEmail`|`obj['senderEmail']`, `process.env['SERVER_AUTHORIZER_SENDER_EMAIL']`|**optional**|-|
+|`senderName`|`obj['senderName']`, `process.env['SERVER_AUTHORIZER_SENDER_NAME']`|**optional**|-|
+|`disablePlayground`|`obj['disablePlayground']`, `process.env['SERVER_AUTHORIZER_DISABLE_PLAYGROUND']`|**optional**|```true```|
+|`accessTokenExpiryTime`|`obj['accessTokenExpiryTime']`, `process.env['SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME']`|**optional**|```30m```|
+|`awsAccessKeyId`|`obj['awsAccessKeyId']`, `process.env['SERVER_AUTHORIZER_AWS_ACCESS_KEY_ID']`|**optional**|-|
+|`awsSecretAccessKey`|`obj['awsSecretAccessKey']`, `process.env['SERVER_AUTHORIZER_AWS_SECRET_ACCESS_KEY']`|**optional**|-|
+|`googleClientId`|`obj['googleClientId']`, `process.env['SERVER_AUTHORIZER_GOOGLE_CLIENT_ID']`|**optional**|-|
+|`googleClientSecret`|`obj['googleClientSecret']`, `process.env['SERVER_AUTHORIZER_GOOGLE_CLIENT_SECRET']`|**optional**|-|
+|`githubClientId`|`obj['githubClientId']`, `process.env['SERVER_AUTHORIZER_GITHUB_CLIENT_ID']`|**optional**|-|
+|`githubClientSecret`|`obj['githubClientSecret']`, `process.env['SERVER_AUTHORIZER_GITHUB_CLIENT_SECRET']`|**optional**|-|
+|`facebookClientId`|`obj['facebookClientId']`, `process.env['SERVER_AUTHORIZER_FACEBOOK_CLIENT_ID']`|**optional**|-|
+|`facebookClientSecret`|`obj['facebookClientSecret']`, `process.env['SERVER_AUTHORIZER_FACEBOOK_CLIENT_SECRET']`|**optional**|-|
+|`linkedinClientId`|`obj['linkedinClientId']`, `process.env['SERVER_AUTHORIZER_LINKEDIN_CLIENT_ID']`|**optional**|-|
+|`linkedinClientSecret`|`obj['linkedinClientSecret']`, `process.env['SERVER_AUTHORIZER_LINKEDIN_CLIENT_SECRET']`|**optional**|-|
+|`appleClientId`|`obj['appleClientId']`, `process.env['SERVER_AUTHORIZER_APPLE_CLIENT_ID']`|**optional**|-|
+|`appleClientSecret`|`obj['appleClientSecret']`, `process.env['SERVER_AUTHORIZER_APPLE_CLIENT_SECRET']`|**optional**|-|
+|`twitterClientId`|`obj['twitterClientId']`, `process.env['SERVER_AUTHORIZER_TWITTER_CLIENT_ID']`|**optional**|-|
+|`twitterClientSecret`|`obj['twitterClientSecret']`, `process.env['SERVER_AUTHORIZER_TWITTER_CLIENT_SECRET']`|**optional**|-|
+|`microsoftClientId`|`obj['microsoftClientId']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_CLIENT_ID']`|**optional**|-|
+|`microsoftClientSecret`|`obj['microsoftClientSecret']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_CLIENT_SECRET']`|**optional**|-|
+|`microsoftActiveDirectoryTenantId`|`obj['microsoftActiveDirectoryTenantId']`, `process.env['SERVER_AUTHORIZER_MICROSOFT_ACTIVE_DIRECTORY_TENANT_ID']`|**optional**|-|
+|`smtpLocalName`|`obj['smtpLocalName']`, `process.env['SERVER_AUTHORIZER_SMTP_LOCAL_NAME']`|**optional**|-|
+|`jwtSecret`|`obj['jwtSecret']`, `process.env['SERVER_AUTHORIZER_JWT_SECRET']`|**optional**|-|
+|`jwtPrivateKey`|`obj['jwtPrivateKey']`, `process.env['SERVER_AUTHORIZER_JWT_PRIVATE_KEY']`|**optional**|-|
+|`jwtPublicKey`|`obj['jwtPublicKey']`, `process.env['SERVER_AUTHORIZER_JWT_PUBLIC_KEY']`|**optional**|-|
+|`appUrl`|`obj['appUrl']`, `process.env['SERVER_AUTHORIZER_APP_URL']`|**optional**|-|
+|`discordClientId`|`obj['discordClientId']`, `process.env['SERVER_AUTHORIZER_DISCORD_CLIENT_ID']`|**optional**|-|
+|`discordClientSecret`|`obj['discordClientSecret']`, `process.env['SERVER_AUTHORIZER_DISCORD_CLIENT_SECRET']`|**optional**|-|
+|`twitchClientId`|`obj['twitchClientId']`, `process.env['SERVER_AUTHORIZER_TWITCH_CLIENT_ID']`|**optional**|-|
+|`twitchClientSecret`|`obj['twitchClientSecret']`, `process.env['SERVER_AUTHORIZER_TWITCH_CLIENT_SECRET']`|**optional**|-|
+|`clientId`|`obj['clientId']`, `process.env['SERVER_AUTHORIZER_CLIENT_ID']`|**optional**|-|
+|`clientSecret`|`obj['clientSecret']`, `process.env['SERVER_AUTHORIZER_CLIENT_SECRET']`|**optional**|-|
+|`encryptionKey`|`obj['encryptionKey']`, `process.env['SERVER_AUTHORIZER_ENCRYPTION_KEY']`|**optional**|-|
+|`isProd`|`obj['isProd']`, `process.env['SERVER_AUTHORIZER_IS_PROD']`|**optional**|-|
+|`allowedOrigins`|`obj['allowedOrigins']`, `process.env['SERVER_AUTHORIZER_ALLOWED_ORIGINS']`|**optional**|-|
+|`twilioApiKey`|`obj['twilioApiKey']`, `process.env['SERVER_AUTHORIZER_TWILIO_API_KEY']`|**optional**|-|
+|`twilioApiSecret`|`obj['twilioApiSecret']`, `process.env['SERVER_AUTHORIZER_TWILIO_API_SECRET']`|**optional**|-|
+|`twilioAccountSid`|`obj['twilioAccountSid']`, `process.env['SERVER_AUTHORIZER_TWILIO_ACCOUNT_SID']`|**optional**|-|
+|`twilioSender`|`obj['twilioSender']`, `process.env['SERVER_AUTHORIZER_TWILIO_SENDER']`|**optional**|-|
+
+#### Static configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`image`|**optional**|```lakhansamani/authorizer:1.4.4```|
+|`featureName`|**optional**|```authorizer```|
+|`dependsOnServiceNames`|**optional**|```{"postgre-sql":"service_healthy"}```|
+|`env`|**optional**|```development```|
+|`disableEmailVerification`|**optional**|```true```|
+|`organizationName`|**optional**|```NestJSModFullstack```|
+|`isEmailServiceEnabled`|**optional**|```true```|
+|`isSmsServiceEnabled`|**optional**|```false```|
+|`disableStrongPassword`|**optional**|```true```|
 
 ### DockerComposeRedis
 The open-source, in-memory data store used by millions of developers as a cache, vector database, document database, streaming engine, and message broker. (Generator for redis in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
@@ -569,8 +595,8 @@ MinIO is a high-performance, S3 compatible object storage. (Generator for minio 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|```7c3668c64557544ce98dab6d9871cc51```|
-|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|```fae88901a317966b92f875e689377e36bbbfa9e463560f75ca3a4cec7c9d700a```|
+|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|```FWGmrAGaeMKM```|
+|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
 
 #### Static configuration
 

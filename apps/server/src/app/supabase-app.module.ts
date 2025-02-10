@@ -13,6 +13,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE, APP_MODULE } from './app.constants';
+import { AuthorizerController } from './controllers/authorizer.controller';
 import { AppController } from './controllers/supabase-app.controller';
 import { FakeEndpointController } from './controllers/supabase-fake-endoint.controller';
 import { TimeController } from './controllers/supabase-time.controller';
@@ -22,7 +23,7 @@ import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-wit
 import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
 
-export const { AppModule } = createNestModule({
+export const { AppModule: SupabaseAppModule } = createNestModule({
   moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
   imports: [
@@ -90,6 +91,11 @@ export const { AppModule } = createNestModule({
           }),
         ]),
   ],
-  controllers: [AppController, TimeController, FakeEndpointController],
-  providers: [AppService, TimeController, FakeEndpointController],
+  controllers: [
+    AppController,
+    TimeController,
+    FakeEndpointController,
+    AuthorizerController,
+  ],
+  providers: [AppService, TimeController],
 });

@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
 import { ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
@@ -48,10 +55,15 @@ export class FilesController {
     return await this.filesConfiguration.getPresignedUrls({
       bucketName,
       fullObjectName,
+      ext: getPresignedUrlArgs.ext,
+      userId:
+        filesRequest.externalUserId ??
+        this.filesEnvironments.minioDefaultUserId,
     });
   }
 
   @Post('/files/delete-file')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: StatusResponse })
   async deleteFile(
     @Query() deleteFileArgs: FilesDeleteFileArgs,
@@ -66,7 +78,11 @@ export class FilesController {
         this.filesConfiguration.getFromDownloadUrlWithoutBucketNames(
           deleteFileArgs.downloadUrl
         );
-      await this.filesConfiguration.deleteFile({ bucketName, objectName });
+      await this.filesConfiguration.deleteFile({
+        bucketName,
+        objectName,
+        downloadUrl: deleteFileArgs.downloadUrl,
+      });
       return { message: getText('ok') };
     }
     throw new FilesError(

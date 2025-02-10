@@ -16,16 +16,7 @@ import {
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
-import {
-  catchError,
-  map,
-  merge,
-  mergeMap,
-  of,
-  Subscription,
-  tap,
-  throwError,
-} from 'rxjs';
+import { catchError, map, merge, mergeMap, of, Subscription, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppInitializer {

@@ -11,11 +11,7 @@ import {
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
-import {
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
@@ -26,17 +22,8 @@ import {
   AllowEmptySupabaseUser,
   CurrentSupabaseUser,
 } from '../supabase/supabase.decorators';
-
-export class AppData {
-  @ApiProperty({ type: String })
-  message!: string;
-}
-
-enum AppDemoEventName {
-  'app-demo.create' = 'app-demo.create',
-  'app-demo.update' = 'app-demo.update',
-  'app-demo.delete' = 'app-demo.delete',
-}
+import { AppData } from '../types/app-data';
+import { AppDemoEventName } from '../types/app-demo-event-name';
 
 @AllowEmptySupabaseUser()
 @AllowEmptyAuthUser()

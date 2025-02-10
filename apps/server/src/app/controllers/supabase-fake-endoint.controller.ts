@@ -13,15 +13,9 @@ import {
 
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 import { KeyvService } from '@nestjs-mod/keyv';
+import { CACHE_KEY } from '../app.constants';
 import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
-
-type AppHandlerLog = {
-  appId: string;
-  body: any;
-  headers: any;
-};
-
-const CACHE_KEY = 'appHandlerLogs';
+import { AppHandlerLog } from '../types/app-handler-log';
 
 @AllowEmptySupabaseUser()
 @AllowEmptyAuthUser()

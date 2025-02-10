@@ -42,6 +42,7 @@
     "Success": "Успешно",
     "Validation errors": "Ошибка при проверке данных",
     "id not set": "идентификатор не установлен",
+    "Unauthorized": "Неавторизован",
     "auth.sign-in-form.fields.timezone": "Часовой пояс",
     "UTC−12:00: Date Line (west)": "UTC−12:00: Линия перемены дат (запад)",
     "UTC−11:00: Niue, Samoa": "UTC−11:00: Ниуэ, Самоа",
@@ -81,6 +82,5 @@
     "UTC+12:00: Fiji, Kamchatka, Marshall Islands": "UTC+12:00: Фиджи, Камчатка, Маршалловы острова",
     "UTC+12:45: Chatham Islands": "UTC+12:45: острова Чатем",
     "UTC+13:00: Samoa, Tonga": "UTC+13:00: Самоа, Тонга",
-    "UTC+14:00: Date Line (east)": "UTC+14:00: Линия перемены дат (восток)",
-    "Unauthorized": "Неавторизован"
+    "UTC+14:00: Date Line (east)": "UTC+14:00: Линия перемены дат (восток)"
 }

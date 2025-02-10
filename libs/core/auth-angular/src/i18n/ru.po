@@ -46,11 +46,11 @@ msgstr "Успешно"
 msgid "Validation errors"
 msgstr "Ошибка при проверке данных"
 
-msgid "Updated"
-msgstr "Обновлен"
+msgid "Profile data updated successfully!"
+msgstr "Данные профиля успешно обновлены!"
 
 msgid "Update"
-msgstr "Обновить"
+msgstr "Изменить"
 
 msgid "field \"{{label}}\""
 msgstr "поле \"{{label}}\""

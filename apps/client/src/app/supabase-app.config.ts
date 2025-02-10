@@ -53,7 +53,7 @@ import {
 } from './integrations/supabase-auth.configuration';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
-export const appConfig = ({
+export const supabaseAppConfig = ({
   supabaseURL,
   supabaseKey,
   minioURL,

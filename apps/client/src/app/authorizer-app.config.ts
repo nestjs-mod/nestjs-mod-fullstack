@@ -43,13 +43,16 @@ import {
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
-import { AUTHORIZER_URL } from './integrations/authorizer-auth.configuration';
+import {
+  AUTHORIZER_URL,
+  provideAuthorizerAuthConfiguration,
+} from './integrations/authorizer-auth.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 
-export const appConfig = ({
+export const authorizerAppConfig = ({
   authorizerURL,
   minioURL,
 }: {
@@ -89,6 +92,7 @@ export const appConfig = ({
         provide: MINIO_URL,
         useValue: minioURL,
       },
+      provideAuthorizerAuthConfiguration(),
       // Transloco Config
       provideTransloco({
         config: {

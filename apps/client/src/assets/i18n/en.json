@@ -42,6 +42,7 @@
     "Success": "Success",
     "Validation errors": "Validation errors",
     "id not set": "id not set",
+    "Unauthorized": "Unauthorized",
     "auth.sign-in-form.fields.timezone": "Timezone",
     "UTC−12:00: Date Line (west)": "UTC−12:00: Date Line (west)",
     "UTC−11:00: Niue, Samoa": "UTC−11:00: Niue, Samoa",
@@ -81,6 +82,5 @@
     "UTC+12:00: Fiji, Kamchatka, Marshall Islands": "UTC+12:00: Fiji, Kamchatka, Marshall Islands",
     "UTC+12:45: Chatham Islands": "UTC+12:45: Chatham Islands",
     "UTC+13:00: Samoa, Tonga": "UTC+13:00: Samoa, Tonga",
-    "UTC+14:00: Date Line (east)": "UTC+14:00: Date Line (east)",
-    "Unauthorized": "Unauthorized"
+    "UTC+14:00: Date Line (east)": "UTC+14:00: Date Line (east)"
 }

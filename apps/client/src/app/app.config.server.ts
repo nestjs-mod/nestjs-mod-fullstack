@@ -7,13 +7,16 @@ import {
   supabaseKey,
   supabaseURL,
 } from '../environments/environment';
-import { appConfig } from './app.config';
+import { authorizerAppConfig } from './authorizer-app.config';
+import { supabaseAppConfig } from './supabase-app.config';
 
 const serverConfig: ApplicationConfig = {
   providers: [provideServerRendering(), provideClientHydration()],
 };
 
 export const config = mergeApplicationConfig(
-  appConfig({ authorizerURL, minioURL, supabaseKey, supabaseURL }),
+  authorizerURL
+    ? authorizerAppConfig({ authorizerURL, minioURL })
+    : supabaseAppConfig({ minioURL, supabaseKey, supabaseURL }),
   serverConfig
 );

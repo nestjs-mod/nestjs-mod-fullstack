@@ -55,7 +55,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
   }
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
-    let oldData = data;
+    const oldData = data;
     return (
       data.picture
         ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
@@ -69,18 +69,35 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
       catchError(() => of(null)),
       mergeMap((profile) => {
         if (data && profile) {
-          Object.assign(data, profile);
+          data = { ...data, ...profile };
         }
-        oldData = data;
         return this.authorizer.updateProfile(
-          data,
+          {
+            old_password: data.old_password,
+            new_password: data.new_password,
+            confirm_new_password: data.confirm_new_password,
+            email: data.email,
+            given_name: data.given_name,
+            family_name: data.family_name,
+            middle_name: data.middle_name,
+            nickname: data.nickname,
+            gender: data.gender,
+            birthdate: data.birthdate,
+            phone_number: data.phone_number,
+            picture: data.picture,
+            app_data: data.app_data,
+          },
           this.getAuthorizationHeaders()
         );
       }),
       mapGraphqlErrors(),
-      mergeMap((newData) => {
+      mergeMap(() =>
+        this.authorizer.getProfile(this.getAuthorizationHeaders())
+      ),
+      mergeMap(({ data: newData }) => {
         if (
           oldData?.picture &&
+          typeof oldData?.picture === 'string' &&
           (newData as AuthUpdateProfileInput)?.picture !== oldData.picture
         ) {
           return this.filesService

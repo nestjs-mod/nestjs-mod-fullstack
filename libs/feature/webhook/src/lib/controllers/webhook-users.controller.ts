@@ -2,6 +2,7 @@ import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
 import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
+import { ValidationError } from '@nestjs-mod-fullstack/validation';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
@@ -21,20 +22,21 @@ import {
   refs,
 } from '@nestjs/swagger';
 import { isUUID } from 'class-validator';
+import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { UpdateWebhookUserDto } from '../generated/rest/dto/update-webhook-user.dto';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 import { WebhookCacheService } from '../services/webhook-cache.service';
 import { WebhookToolsService } from '../services/webhook-tools.service';
 import { FindManyWebhookUserResponse } from '../types/find-many-webhook-user-response';
+import { WebhookRequest } from '../types/webhook-request';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
   CheckWebhookRole,
   CurrentWebhookExternalTenantId,
+  CurrentWebhookRequest,
   CurrentWebhookUser,
 } from '../webhook.decorators';
 import { WebhookError } from '../webhook.errors';
-import { ValidationError } from '@nestjs-mod-fullstack/validation';
-import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 
 @ApiExtraModels(WebhookError, ValidationError)
 @ApiBadRequestResponse({
@@ -55,6 +57,7 @@ export class WebhookUsersController {
   @Get()
   @ApiOkResponse({ type: FindManyWebhookUserResponse })
   async findMany(
+    @CurrentWebhookRequest() req: WebhookRequest,
     @CurrentWebhookExternalTenantId() externalTenantId: string,
     @CurrentWebhookUser() webhookUser: WebhookUser,
     @Query() args: FindManyArgs

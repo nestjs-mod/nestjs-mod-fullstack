@@ -26,6 +26,7 @@ export class SupabaseWithMinioFilesConfiguration implements FilesConfiguration {
   }: {
     bucketName: string;
     objectName: string;
+    downloadUrl: string;
   }) {
     const result = await this.supabaseService
       .getSupabaseClient()
@@ -43,6 +44,8 @@ export class SupabaseWithMinioFilesConfiguration implements FilesConfiguration {
   }: {
     bucketName: string;
     fullObjectName: string;
+    ext: string;
+    userId: string;
   }) {
     const result = await this.supabaseService
       .getSupabaseClient()

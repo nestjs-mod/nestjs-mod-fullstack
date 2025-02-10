@@ -44,8 +44,11 @@ function AddHandleConnection() {
       const authorizationHeader = args[0]?.headers.authorization;
       const queryToken = args[0]?.url?.split('token=')?.[1];
       client.headers = {
-        authorization:
-          authorizationHeader || queryToken ? `Bearer ${queryToken}` : '',
+        authorization: authorizationHeader
+          ? authorizationHeader
+          : queryToken
+          ? `Bearer ${queryToken}`
+          : '',
       };
     };
   };

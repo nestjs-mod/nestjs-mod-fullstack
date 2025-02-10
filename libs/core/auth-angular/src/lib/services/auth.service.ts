@@ -42,14 +42,10 @@ export class AuthService {
   }
 
   updateProfile(data: AuthUpdateProfileInput) {
-    return this.authConfiguration
-      .updateProfile({
-        ...data,
-      })
-      .pipe(
-        mergeMap(() => this.authConfiguration.getProfile()),
-        mergeMap((result) => this.setProfile(result))
-      );
+    return this.authConfiguration.updateProfile(data).pipe(
+      mergeMap(() => this.authConfiguration.getProfile()),
+      mergeMap((result) => this.setProfile(result))
+    );
   }
 
   signIn(data: AuthLoginInput) {

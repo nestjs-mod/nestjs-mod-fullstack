@@ -2,11 +2,14 @@ import KeyvPostgres from '@keyv/postgres';
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationModule } from '@nestjs-mod-fullstack/validation';
+
+import KeyvRedis, { createClient } from '@keyv/redis';
 import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,
   WebhookModule,
 } from '@nestjs-mod-fullstack/webhook';
+import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -20,6 +23,7 @@ import {
 import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
+  DockerComposeAuthorizer,
   DockerComposeMinio,
   DockerComposePostgreSQL,
   DockerComposeRedis,
@@ -36,7 +40,8 @@ import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
-import { AppModule as SupabaseAppModule } from './app/supabase-app.module';
+import { AuthorizerAppModule } from './app/authorizer-app.module';
+import { SupabaseAppModule } from './app/supabase-app.module';
 import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
 
 let rootFolder = join(__dirname, '..', '..', '..');
@@ -195,24 +200,32 @@ bootstrapNestApplication({
           storeFactoryByEnvironmentUrl: (uri) => {
             return isInfrastructureMode()
               ? undefined
+              : process.env?.['SERVER_AUTHORIZER_URL']
+              ? [new KeyvRedis(createClient({ url: uri }))]
               : [new KeyvPostgres({ uri }), { table: 'cache' }];
           },
         },
       }),
-      MinioModule.forRoot({
-        staticConfiguration: { region: 'eu-central-1' },
-        staticEnvironments: {
-          minioUseSSL: 'true',
-        },
-      }),
+      MinioModule.forRoot(
+        process.env?.['SERVER_AUTHORIZER_URL']
+          ? undefined
+          : {
+              staticConfiguration: { region: 'eu-central-1' },
+              staticEnvironments: {
+                minioUseSSL: 'true',
+              },
+            }
+      ),
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
-      SupabaseAppModule.forRoot(),
+      process.env?.['SERVER_AUTHORIZER_URL']
+        ? AuthorizerAppModule.forRoot()
+        : SupabaseAppModule.forRoot(),
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {
-          syncMode: true,
+          syncMode: process.env?.['SERVER_AUTHORIZER_URL'] ? false : true,
           events: [
             {
               eventName: 'app-demo.create',
@@ -274,6 +287,28 @@ bootstrapNestApplication({
       DockerComposePostgreSQL.forFeature({
         featureModuleName: APP_FEATURE,
       }),
+      ...(process.env?.['SERVER_AUTHORIZER_URL']
+        ? [
+            DockerComposePostgreSQL.forFeature({
+              featureModuleName: AUTHORIZER_ENV_PREFIX,
+            }),
+            DockerComposeAuthorizer.forRoot({
+              staticConfiguration: {
+                image: 'lakhansamani/authorizer:1.4.4',
+                disableStrongPassword: 'true',
+                disableEmailVerification: 'true',
+                featureName: AUTHORIZER_ENV_PREFIX,
+                organizationName: 'NestJSModFullstack',
+                dependsOnServiceNames: {
+                  'postgre-sql': 'service_healthy',
+                },
+                isEmailServiceEnabled: 'true',
+                isSmsServiceEnabled: 'false',
+                env: 'development',
+              },
+            }),
+          ]
+        : []),
       DockerComposeRedis.forRoot({
         staticConfiguration: { image: 'bitnami/redis:7.4.1' },
       }),

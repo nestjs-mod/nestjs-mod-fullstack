@@ -8,6 +8,7 @@ export * from './auth-profile-dto.interface';
 export * from './auth-role.interface';
 export * from './auth-user.interface';
 export * from './auth-user-scalar-field-enum.interface';
+export * from './authorizer-client-id.interface';
 export * from './create-webhook-dto.interface';
 export * from './files-error-enum.interface';
 export * from './files-error.interface';

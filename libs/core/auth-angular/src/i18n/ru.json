@@ -12,7 +12,7 @@
     "auth.profile-form.fields.confirm-new-password": "Новый пароль (еще раз)",
     "Success": "Успешно",
     "Validation errors": "Ошибка при проверке данных",
-    "Updated": "Обновлен",
-    "Update": "Обновить",
+    "Profile data updated successfully!": "Данные профиля успешно обновлены!",
+    "Update": "Изменить",
     "field \"{{label}}\"": "поле \"{{label}}\""
 }

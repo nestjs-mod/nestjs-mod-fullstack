@@ -10,7 +10,11 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
   let createEventName: string;
 
   beforeAll(async () => {
-    await user1.createAndLoginAsUser();
+    try {
+      await user1.createAndLoginAsUser();
+    } catch (error) {
+      console.log({ ...error });
+    }
     await admin.login({
       email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
       password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),

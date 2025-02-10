@@ -22,18 +22,18 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
     await user1.getWebhookApi().webhookControllerEvents();
   });
 
-  afterAll(async () => {
-    const { data: manyWebhooks } = await admin
-      .getWebhookApi()
-      .webhookControllerFindMany();
-    for (const webhook of manyWebhooks.webhooks) {
-      if (webhook.endpoint.startsWith(admin.getGeneratedRandomUser().site)) {
-        await admin.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
-          enabled: false,
-        });
-      }
-    }
-  });
+  // afterAll(async () => {
+  //   const { data: manyWebhooks } = await admin
+  //     .getWebhookApi()
+  //     .webhookControllerFindMany();
+  //   for (const webhook of manyWebhooks.webhooks) {
+  //     if (webhook.endpoint.startsWith(admin.getGeneratedRandomUser().site)) {
+  //       await admin.getWebhookApi().webhookControllerUpdateOne(webhook.id, {
+  //         enabled: false,
+  //       });
+  //     }
+  //   }
+  // });
 
   it('should return error when we try read webhook users as user', async () => {
     await expect(
@@ -73,10 +73,11 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
   it('should read webhook users as user', async () => {
     const webhookUsersControllerFindManyResult = await user1
       .getWebhookApi()
-      .webhookUsersControllerFindMany();
+      .webhookUsersControllerFindMany(undefined, undefined, 1, 10000);
+
     expect(
       webhookUsersControllerFindManyResult.data.webhookUsers.filter(
-        (u) => u.externalUserId === user1.authData?.user?.id
+        (u) => u.externalUserId === user1.getWebhookProfile()?.externalUserId
       )[0]
     ).toMatchObject({
       userRole: 'Admin',

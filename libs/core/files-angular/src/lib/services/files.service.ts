@@ -27,10 +27,17 @@ export class FilesService {
             presignedUrls,
           })
         ),
-        map((presignedUrls) => presignedUrls.downloadUrl)
+        map((presignedUrls) =>
+          presignedUrls.downloadUrl.replace(this.getMinioURL(), '')
+        )
       );
     }
-    return of(file);
+    return of(file.replace(this.getMinioURL(), ''));
+  }
+
+  getMinioURL(): string | RegExp {
+    // need for override from e2e-tests
+    return localStorage.getItem('minioURL') || this.minioURL;
   }
 
   getPresignedUrl(file: File) {
@@ -50,8 +57,8 @@ export class FilesService {
   }) {
     return new Observable<FilesPresignedUrlsInterface>((observer) => {
       const outPresignedUrls: FilesPresignedUrlsInterface = {
-        downloadUrl: presignedUrls.downloadUrl,
-        uploadUrl: presignedUrls.uploadUrl,
+        downloadUrl: this.getMinioURL() + presignedUrls.downloadUrl,
+        uploadUrl: this.getMinioURL() + presignedUrls.uploadUrl,
       };
       if (presignedUrls.uploadUrl) {
         const xhr = new XMLHttpRequest();
