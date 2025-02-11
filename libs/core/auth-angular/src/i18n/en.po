@@ -45,8 +45,8 @@ msgstr "Success"
 msgid "Validation errors"
 msgstr "Validation errors"
 
-msgid "Updated"
-msgstr "Updated"
+msgid "Profile data updated successfully!"
+msgstr "Profile data updated successfully!"
 
 msgid "Update"
 msgstr "Update"

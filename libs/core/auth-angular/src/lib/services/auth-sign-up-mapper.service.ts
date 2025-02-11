@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SignupInput } from '@authorizerdev/authorizer-js';
+import { AuthSignupInput } from './auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSignUpMapperService {
-  toModel(data: SignupInput) {
+  toModel(data: AuthSignupInput) {
     return {
       email: data['email'],
       password: data['password'],
@@ -11,7 +11,7 @@ export class AuthSignUpMapperService {
     };
   }
 
-  toJson(data: SignupInput) {
+  toJson(data: AuthSignupInput) {
     return {
       email: data['email'],
       password: data['password'],

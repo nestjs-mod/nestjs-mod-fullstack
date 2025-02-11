@@ -24,12 +24,15 @@ test.describe('Work with profile as "User" role', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    page.on('pageerror', (exception) => {
+      console.log(exception);
+    });
     await page.goto('/', {
       timeout: 7000,
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_URL').required().asString()
+      get('SERVER_AUTHORIZER_URL').asString() || ''
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),

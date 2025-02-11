@@ -1,9 +1,9 @@
-import { CacheManagerService } from '@nestjs-mod/cache-manager';
+import { KeyvService } from '@nestjs-mod/keyv';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable } from '@nestjs/common';
 import { PrismaClient, WebhookUser } from '@prisma/webhook-client';
-import { WEBHOOK_FEATURE } from '../webhook.constants';
 import { WebhookConfiguration } from '../webhook.configuration';
+import { WEBHOOK_FEATURE } from '../webhook.constants';
 
 @Injectable()
 export class WebhookCacheService {
@@ -11,7 +11,7 @@ export class WebhookCacheService {
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly webhookConfiguration: WebhookConfiguration,
-    private readonly cacheManagerService: CacheManagerService
+    private readonly keyvService: KeyvService
   ) {}
 
   async clearCacheByExternalUserId(externalUserId: string) {
@@ -19,7 +19,7 @@ export class WebhookCacheService {
       where: { externalUserId },
     });
     for (const webhookUser of webhookUsers) {
-      await this.cacheManagerService.del(this.getUserCacheKey(webhookUser));
+      await this.keyvService.delete(this.getUserCacheKey(webhookUser));
     }
   }
 
@@ -27,14 +27,14 @@ export class WebhookCacheService {
     externalUserId: string,
     externalTenantId?: string
   ) {
-    const cached = await this.cacheManagerService.get<WebhookUser | null>(
+    const cached = await this.keyvService.get<WebhookUser>(
       this.getUserCacheKey({
         externalUserId,
         externalTenantId,
       })
     );
     if (cached) {
-      return cached;
+      return cached as WebhookUser;
     }
     const user = await this.prismaClient.webhookUser.findFirst({
       where: {
@@ -43,7 +43,7 @@ export class WebhookCacheService {
       },
     });
     if (user) {
-      await this.cacheManagerService.set(
+      await this.keyvService.set(
         this.getUserCacheKey({ externalTenantId, externalUserId }),
         user,
         this.webhookConfiguration.cacheTTL

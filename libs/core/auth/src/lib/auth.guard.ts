@@ -1,4 +1,3 @@
-import { AllowEmptyUser } from '@nestjs-mod/authorizer';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
@@ -10,8 +9,12 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
-import { AUTH_FEATURE } from './auth.constants';
-import { CheckAuthRole, SkipAuthGuard } from './auth.decorators';
+import { AUTH_ADMIN_ROLE, AUTH_FEATURE } from './auth.constants';
+import {
+  AllowEmptyAuthUser,
+  CheckAuthRole,
+  SkipAuthGuard,
+} from './auth.decorators';
 import { AuthEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
@@ -45,14 +48,20 @@ export class AuthGuard implements CanActivate {
 
       const req: AuthRequest = this.getRequestFromExecutionContext(context);
 
-      if (req.authorizerUser?.id) {
+      if (allowEmptyUserMetadata) {
+        req.skipEmptyAuthUser = true;
+      }
+
+      if (req.externalUserId) {
         await this.tryGetOrCreateCurrentUserWithExternalUserId(
           req,
-          req.authorizerUser.id
+          req.externalUserId
         );
       }
 
-      this.throwErrorIfCurrentUserNotSet(req, allowEmptyUserMetadata);
+      this.throwErrorIfCurrentUserNotSet(req);
+
+      this.pathAdminRoles(req);
 
       this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
     } catch (err) {
@@ -62,11 +71,21 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  private pathAdminRoles(req: AuthRequest) {
+    if (
+      this.authEnvironments.adminEmail &&
+      req.externalUser?.email === this.authEnvironments.adminEmail
+    ) {
+      req.externalUser.role = AUTH_ADMIN_ROLE;
+    }
+  }
+
   private throwErrorIfCurrentUserNotHaveNeededRoles(
     checkAuthRole: AuthRole[] | undefined,
     req: AuthRequest
   ) {
     if (
+      !req.skipEmptyAuthUser &&
       checkAuthRole &&
       req.authUser &&
       !checkAuthRole?.includes(req.authUser.userRole)
@@ -75,12 +94,9 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  private throwErrorIfCurrentUserNotSet(
-    req: AuthRequest,
-    allowEmptyUserMetadata?: boolean
-  ) {
-    if (!req.skippedByAuthorizer && !req.authUser && !allowEmptyUserMetadata) {
-      throw new AuthError(AuthErrorEnum.USER_NOT_FOUND);
+  private throwErrorIfCurrentUserNotSet(req: AuthRequest) {
+    if (!req.authUser && !req.skipEmptyAuthUser) {
+      throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
     }
   }
 
@@ -123,18 +139,19 @@ export class AuthGuard implements CanActivate {
   private getHandlersReflectMetadata(context: ExecutionContext) {
     const allowEmptyUserMetadata = Boolean(
       (typeof context.getHandler === 'function' &&
-        this.reflector.get(AllowEmptyUser, context.getHandler())) ||
+        this.reflector.get(AllowEmptyAuthUser, context.getHandler())) ||
         (typeof context.getClass === 'function' &&
-          this.reflector.get(AllowEmptyUser, context.getClass())) ||
+          this.reflector.get(AllowEmptyAuthUser, context.getClass())) ||
         undefined
     );
 
-    const skipAuthGuard =
+    const skipAuthGuard = Boolean(
       (typeof context.getHandler === 'function' &&
         this.reflector.get(SkipAuthGuard, context.getHandler())) ||
-      (typeof context.getClass === 'function' &&
-        this.reflector.get(SkipAuthGuard, context.getClass())) ||
-      undefined;
+        (typeof context.getClass === 'function' &&
+          this.reflector.get(SkipAuthGuard, context.getClass())) ||
+        undefined
+    );
 
     const checkAuthRole =
       (typeof context.getHandler === 'function' &&
@@ -142,6 +159,7 @@ export class AuthGuard implements CanActivate {
       (typeof context.getClass === 'function' &&
         this.reflector.get(CheckAuthRole, context.getClass())) ||
       undefined;
+
     return { allowEmptyUserMetadata, skipAuthGuard, checkAuthRole };
   }
 }

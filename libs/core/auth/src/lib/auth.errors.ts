@@ -4,13 +4,13 @@ import { getText } from 'nestjs-translates';
 export enum AuthErrorEnum {
   COMMON = 'AUTH-000',
   FORBIDDEN = 'AUTH-001',
-  USER_NOT_FOUND = 'AUTH-002',
+  UNAUTHORIZED = 'AUTH-002',
 }
 
 export const AUTH_ERROR_ENUM_TITLES: Record<AuthErrorEnum, string> = {
   [AuthErrorEnum.COMMON]: getText('Auth error'),
   [AuthErrorEnum.FORBIDDEN]: getText('Forbidden'),
-  [AuthErrorEnum.USER_NOT_FOUND]: getText('User not found'),
+  [AuthErrorEnum.UNAUTHORIZED]: getText('Unauthorized'),
 };
 
 export class AuthError<T = unknown> extends Error {

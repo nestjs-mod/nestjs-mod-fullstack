@@ -16,12 +16,9 @@ COPY ./.docker/.dockerignore .dockerignore
 COPY ./.docker/nx.json nx.json
 
 # Install dependencies
-RUN rm -rf package-lock.json node_modules && npm install --prefer-offline --no-audit --progress=false
+RUN rm -rf yarn.lock node_modules && yarn install && rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 # Some utilities require a ".env" file
 RUN echo '' > .env
-
-# Generate additional files
-RUN ./node_modules/.bin/flyway -c ./.flyway.js info || echo 'skip flyway errors'
 
 FROM node:22-bullseye-slim
 WORKDIR /usr/src/app
@@ -35,9 +32,6 @@ COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/rucken.json /usr/src/app/rucken.json
 COPY --from=builder /usr/src/app/tsconfig.base.json /usr/src/app/tsconfig.base.json
 COPY --from=builder /usr/src/app/.env /usr/src/app/.env
-# Copy files for flyway
-COPY --from=builder /usr/src/app/tmp /usr/src/app/tmp
-COPY --from=builder /usr/src/app/.flyway.js /usr/src/app/.flyway.js
 
 # Copy folders with migrations
 # COPY --chown=node:node ./apps ./apps

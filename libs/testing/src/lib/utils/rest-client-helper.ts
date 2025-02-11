@@ -2,16 +2,17 @@ import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
 import {
   AppApi,
   AuthApi,
-  AuthorizerApi,
   AuthProfileDto,
+  AuthRole,
+  AuthorizerApi,
   Configuration,
+  FakeEndpointApi,
   FilesApi,
   TimeApi,
   WebhookApi,
   WebhookUser,
 } from '@nestjs-mod-fullstack/app-rest-sdk';
 import axios, { AxiosInstance } from 'axios';
-import { get } from 'env-var';
 import { Observable, finalize } from 'rxjs';
 import {
   GenerateRandomUserResult,
@@ -19,16 +20,22 @@ import {
 } from './generate-random-user';
 import { getUrls } from './get-urls';
 
+import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
+import { TestingSupabaseService } from './supabase.service';
 
 export class RestClientHelper {
   private authorizerClientID!: string;
 
   authorizationTokens?: AuthToken;
+  authData?: AuthResponse['data'];
+
   private webhookProfile?: WebhookUser;
   private authProfile?: AuthProfileDto;
 
   private authorizer?: Authorizer;
+
+  private testingSupabaseService?: TestingSupabaseService;
 
   private webhookApi?: WebhookApi;
   private appApi?: AppApi;
@@ -36,6 +43,7 @@ export class RestClientHelper {
   private filesApi?: FilesApi;
   private timeApi?: TimeApi;
   private authApi?: AuthApi;
+  private fakeEndpointApi?: FakeEndpointApi;
 
   private webhookApiAxios?: AxiosInstance;
   private appApiAxios?: AxiosInstance;
@@ -43,14 +51,16 @@ export class RestClientHelper {
   private filesApiAxios?: AxiosInstance;
   private timeApiAxios?: AxiosInstance;
   private authApiAxios?: AxiosInstance;
+  private fakeEndpointApiAxios?: AxiosInstance;
 
   randomUser?: GenerateRandomUserResult;
 
   constructor(
     private readonly options?: {
-      isAdmin?: boolean;
       serverUrl?: string;
       authorizerURL?: string;
+      supabaseUrl?: string;
+      supabaseKey?: string;
       randomUser?: GenerateRandomUserResult;
       activeLang?: string;
     }
@@ -62,6 +72,10 @@ export class RestClientHelper {
 
   getWebhookProfile() {
     return this.webhookProfile;
+  }
+
+  getAuthProfile() {
+    return this.authProfile;
   }
 
   getGeneratedRandomUser(): Required<GenerateRandomUserResult> {
@@ -80,14 +94,15 @@ export class RestClientHelper {
     eventName: string;
     options?: WebSocket.ClientOptions;
   }) {
+    const headers = {
+      ...(options?.headers || {}),
+      ...this.getAuthorizationHeaders(),
+    };
     const wss = new WebSocket(
       this.getServerUrl().replace('/api', '').replace('http', 'ws') + path,
       {
         ...(options || {}),
-        headers: {
-          ...(options?.headers || {}),
-          ...this.getAuthorizationHeaders(),
-        },
+        headers,
       }
     );
     return new Observable<{ data: T; event: string }>((observer) => {
@@ -160,54 +175,49 @@ export class RestClientHelper {
   }
 
   async getAuthorizerClient() {
-    if (!this.authorizerClientID && this.authorizerApi) {
+    const authorizerURL = this.getAuthorizerUrl();
+    if (!this.authorizerClientID && this.authorizerApi && authorizerURL) {
       this.authorizerClientID = (
         await this.authorizerApi.authorizerControllerGetAuthorizerClientID()
       ).data.clientID;
-      if (!this.options?.isAdmin) {
-        this.authorizer = new Authorizer({
-          authorizerURL: this.getAuthorizerUrl(),
-          clientID: this.authorizerClientID,
-          redirectURL: this.getServerUrl(),
-        });
-      } else {
-        this.authorizer = new Authorizer({
-          authorizerURL: this.getAuthorizerUrl(),
-          clientID: this.authorizerClientID,
-          redirectURL: this.getServerUrl(),
-          extraHeaders: {
-            'x-authorizer-admin-secret': get('SERVER_AUTHORIZER_ADMIN_SECRET')
-              .required()
-              .asString(),
-          },
-        });
-      }
+
+      this.authorizer = new Authorizer({
+        authorizerURL,
+        clientID: this.authorizerClientID,
+        redirectURL: this.getServerUrl(),
+      });
     }
-    return this.authorizer as Authorizer;
+    return this.authorizer;
   }
 
-  async setRoles(roles: string[]) {
-    const _updateUserResult = await (
-      await this.getAuthorizerClient()
-    ).graphqlQuery({
-      query: `mutation {
-  _update_user(
-    params: { id: "${
-      this.authorizationTokens?.user?.id
-    }", roles: ${JSON.stringify(roles)} }
-  ) {
-    id
-    roles
-  }
-}`,
+  async setRoles(userId: string, role: AuthRole) {
+    await this.getAuthApi().authUsersControllerUpdateOne(userId, {
+      userRole: role,
     });
-    if (_updateUserResult.errors.length > 0) {
-      console.error(_updateUserResult.errors);
-      throw new Error(_updateUserResult.errors[0].message);
-    }
-    await this.login();
 
     return this;
+  }
+
+  getFakeEndpointApi() {
+    if (!this.fakeEndpointApi) {
+      throw new Error('fakeEndpointApi not set');
+    }
+    return this.fakeEndpointApi;
+  }
+
+  async getSupabaseClient() {
+    const supabaseUrl = this.getSupabaseUrl();
+    const supabaseKey = this.getSupabaseKey();
+    if (!supabaseUrl || !supabaseKey) {
+      return null;
+    }
+    if (!this.testingSupabaseService) {
+      this.testingSupabaseService = new TestingSupabaseService(
+        supabaseUrl,
+        supabaseKey
+      );
+    }
+    return this.testingSupabaseService;
   }
 
   async createAndLoginAsUser(
@@ -216,10 +226,6 @@ export class RestClientHelper {
     await this.generateRandomUser(options);
     await this.reg();
     await this.login(options);
-
-    if (this.options?.isAdmin) {
-      await this.setRoles(['admin', 'user']);
-    }
 
     return this;
   }
@@ -237,15 +243,30 @@ export class RestClientHelper {
     if (!this.randomUser) {
       this.randomUser = await generateRandomUser();
     }
+    const supabaseClient = await this.getSupabaseClient();
     const authorizerClient = await this.getAuthorizerClient();
-    this.authorizationTokens = (
-      await authorizerClient.signup({
-        email: this.randomUser.email,
-        confirm_password: this.randomUser.password,
-        password: this.randomUser.password,
-      })
-    ).data;
 
+    if (supabaseClient) {
+      const signUpResult = await supabaseClient.auth.signUp({
+        email: this.randomUser.email,
+        password: this.randomUser.password,
+      });
+
+      if (signUpResult.error) {
+        throw new Error(signUpResult.error.message);
+      }
+
+      this.authData = signUpResult.data;
+    }
+    if (authorizerClient) {
+      this.authorizationTokens = (
+        await authorizerClient.signup({
+          email: this.randomUser.email,
+          confirm_password: this.randomUser.password,
+          password: this.randomUser.password,
+        })
+      ).data;
+    }
     this.setAuthorizationHeadersFromAuthorizationTokens();
 
     await this.loadProfile();
@@ -263,21 +284,44 @@ export class RestClientHelper {
       email: options?.email || this.randomUser.email,
       password: options?.password || this.randomUser.password,
     };
-    const loginResult = await (
-      await this.getAuthorizerClient()
-    ).login(loginOptions);
 
-    if (loginResult.errors.length) {
-      throw new Error(loginResult.errors[0].message);
+    const supabaseClient = await this.getSupabaseClient();
+    const authorizerClient = await this.getAuthorizerClient();
+
+    if (supabaseClient) {
+      const loginResult = await supabaseClient.auth.signInWithPassword(
+        loginOptions
+      );
+
+      if (loginResult.error) {
+        throw new Error(loginResult.error.message);
+      }
+
+      this.authData = loginResult.data;
+
+      this.setAuthorizationHeadersFromAuthorizationTokens();
+
+      await this.loadProfile();
+
+      return this;
     }
 
-    this.authorizationTokens = loginResult.data;
+    if (authorizerClient) {
+      const loginResult = await authorizerClient.login(loginOptions);
 
-    this.setAuthorizationHeadersFromAuthorizationTokens();
+      if (loginResult.errors.length) {
+        throw new Error(loginResult.errors[0].message);
+      }
 
-    await this.loadProfile();
+      this.authorizationTokens = loginResult.data;
 
-    return this;
+      this.setAuthorizationHeadersFromAuthorizationTokens();
+
+      await this.loadProfile();
+
+      return this;
+    }
+    throw new Error('Fatal');
   }
 
   private async loadProfile() {
@@ -329,18 +373,34 @@ export class RestClientHelper {
         this.getAuthorizationHeaders()
       );
     }
+    if (this.fakeEndpointApiAxios) {
+      Object.assign(
+        this.fakeEndpointApiAxios.defaults.headers.common,
+        this.getAuthorizationHeaders()
+      );
+    }
   }
 
   async logout() {
-    await (
-      await this.getAuthorizerClient()
-    ).logout({ Authorization: this.getAuthorizationHeaders().Authorization });
+    const supabaseClient = await this.getSupabaseClient();
+    const authorizerClient = await this.getAuthorizerClient();
+    if (supabaseClient) {
+      await supabaseClient.auth.signOut({ scope: 'local' });
+    }
+    if (authorizerClient) {
+      await authorizerClient.logout({
+        Authorization: this.getAuthorizationHeaders().Authorization,
+      });
+    }
     return this;
   }
 
   getAuthorizationHeaders() {
     return {
-      Authorization: `Bearer ${this.authorizationTokens?.access_token}`,
+      Authorization: `Bearer ${
+        this.authData?.session?.access_token ||
+        this.authorizationTokens?.access_token
+      }`,
       ...(this.options?.activeLang
         ? { ['Accept-Language']: this.options?.activeLang }
         : {}),
@@ -406,13 +466,31 @@ export class RestClientHelper {
       undefined,
       this.authApiAxios
     );
-  }
+    //
 
-  private getAuthorizerUrl(): string {
-    return this.options?.authorizerURL || getUrls().authorizerUrl;
+    this.fakeEndpointApiAxios = axios.create();
+    this.fakeEndpointApi = new FakeEndpointApi(
+      new Configuration({
+        basePath: this.getServerUrl(),
+      }),
+      undefined,
+      this.fakeEndpointApiAxios
+    );
   }
 
   private getServerUrl(): string {
     return this.options?.serverUrl || getUrls().serverUrl;
+  }
+
+  private getAuthorizerUrl() {
+    return this.options?.authorizerURL || getUrls().authorizerUrl;
+  }
+
+  private getSupabaseUrl() {
+    return this.options?.supabaseUrl || getUrls().supabaseUrl;
+  }
+
+  private getSupabaseKey() {
+    return this.options?.supabaseKey || getUrls().supabaseKey;
   }
 }

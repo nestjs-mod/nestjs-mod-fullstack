@@ -9,13 +9,13 @@ import {
 import { Reflector } from '@nestjs/core';
 import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
+import { WebhookCacheService } from './services/webhook-cache.service';
 import { WebhookRequest } from './types/webhook-request';
 import { WebhookStaticConfiguration } from './webhook.configuration';
 import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
 import { WebhookEnvironments } from './webhook.environments';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
-import { WebhookCacheService } from './services/webhook-cache.service';
 
 @Injectable()
 export class WebhookGuard implements CanActivate {

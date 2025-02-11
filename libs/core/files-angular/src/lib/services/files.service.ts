@@ -1,6 +1,8 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { FilesRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { PresignedUrls } from '@nestjs-mod-fullstack/app-rest-sdk';
+import {
+  FilesPresignedUrlsInterface,
+  FilesRestService,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { Observable, from, map, mergeMap, of } from 'rxjs';
 
 export const MINIO_URL = new InjectionToken<string>('MinioURL');
@@ -51,12 +53,18 @@ export class FilesService {
     presignedUrls,
   }: {
     file: File;
-    presignedUrls: PresignedUrls;
+    presignedUrls: FilesPresignedUrlsInterface;
   }) {
-    return new Observable<PresignedUrls>((observer) => {
-      const outPresignedUrls: PresignedUrls = {
-        downloadUrl: this.getMinioURL() + presignedUrls.downloadUrl,
-        uploadUrl: this.getMinioURL() + presignedUrls.uploadUrl,
+    return new Observable<FilesPresignedUrlsInterface>((observer) => {
+      const outPresignedUrls: FilesPresignedUrlsInterface = {
+        downloadUrl:
+          (!presignedUrls.downloadUrl.toLowerCase().startsWith('http')
+            ? this.getMinioURL()
+            : '') + presignedUrls.downloadUrl,
+        uploadUrl:
+          (!presignedUrls.downloadUrl.toLowerCase().startsWith('http')
+            ? this.getMinioURL()
+            : '') + presignedUrls.uploadUrl,
       };
       if (presignedUrls.uploadUrl) {
         const xhr = new XMLHttpRequest();

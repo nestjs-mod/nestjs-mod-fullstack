@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { UpdateProfileInput } from '@authorizerdev/authorizer-js';
+import { AuthUpdateProfileInput } from './auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthProfileMapperService {
-  toModel(data: UpdateProfileInput) {
+  toModel(data: AuthUpdateProfileInput) {
     return {
       old_password: data['old_password'],
       new_password: data['new_password'],
@@ -12,7 +12,7 @@ export class AuthProfileMapperService {
     };
   }
 
-  toJson(data: UpdateProfileInput) {
+  toJson(data: AuthUpdateProfileInput) {
     return {
       old_password: data['old_password'],
       new_password: data['new_password'],

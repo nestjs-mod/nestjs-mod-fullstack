@@ -3,5 +3,8 @@
         "activityBar.background": "#0a0808",
         "titleBar.activeBackground": "#E0234E",
         "titleBar.activeForeground": "#FEFBFB"
-    }
+    },
+    "cSpell.words": [
+        "Supabase"
+    ]
 }

@@ -42,6 +42,7 @@
     "Success": "Успешно",
     "Validation errors": "Ошибка при проверке данных",
     "id not set": "идентификатор не установлен",
+    "Unauthorized": "Неавторизован",
     "auth.sign-in-form.fields.timezone": "Часовой пояс",
     "UTC−12:00: Date Line (west)": "UTC−12:00: Линия перемены дат (запад)",
     "UTC−11:00: Niue, Samoa": "UTC−11:00: Ниуэ, Самоа",

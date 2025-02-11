@@ -20,3 +20,6 @@ msgstr "ok"
 
 msgid "lang must have one of the values: {{values}}"
 msgstr "lang must have one of the values: {{values}}"
+
+msgid "Unauthorized"
+msgstr "Unauthorized"

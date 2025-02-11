@@ -21,12 +21,12 @@ COPY ./.docker/.dockerignore .dockerignore
 RUN echo '' > .env
 
 # Install dependencies
-RUN rm -rf package-lock.json node_modules && \
-    npm install --prefer-offline --no-audit --progress=false && \
+RUN rm -rf yarn.lock node_modules && \
+    yarn install && \
     # Install external utils
     npx playwright install --with-deps && \
     # Clear cache
-    npm cache clean --force
+    rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 
 # Copy folders with migrations
 # COPY --chown=node:node ./apps ./apps

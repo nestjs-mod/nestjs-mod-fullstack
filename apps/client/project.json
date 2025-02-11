@@ -37,6 +37,11 @@
             "glob": "**/*",
             "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
             "output": "/assets/"
+          },
+          {
+            "glob": "**/package.json",
+            "input": "./apps/client/",
+            "output": "./"
           }
         ],
         "styles": [
@@ -66,6 +71,48 @@
             }
           ]
         },
+        "supabase-prod": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "600kb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client/src/environments/environment.ts",
+              "with": "apps/client/src/environments/environment.supabase-prod.ts"
+            }
+          ]
+        },
+        "supabase": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "600kb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client/src/environments/environment.ts",
+              "with": "apps/client/src/environments/environment.supabase.ts"
+            }
+          ]
+        },
         "development": {
           "buildOptimizer": false,
           "optimization": false,
@@ -85,6 +132,12 @@
         },
         "development": {
           "buildTarget": "client:build:development"
+        },
+        "supabase": {
+          "buildTarget": "client:build:supabase"
+        },
+        "supabase-prod": {
+          "buildTarget": "client:build:supabase-prod"
         }
       },
       "defaultConfiguration": "development"

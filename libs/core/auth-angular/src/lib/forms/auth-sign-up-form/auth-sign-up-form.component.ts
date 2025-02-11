@@ -15,7 +15,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthToken, SignupInput } from '@authorizerdev/authorizer-js';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
@@ -30,6 +29,7 @@ import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { AuthSignUpFormService } from '../../services/auth-sign-up-form.service';
 import { AuthSignUpMapperService } from '../../services/auth-sign-up-mapper.service';
 import { AuthService } from '../../services/auth.service';
+import { AuthSignupInput, AuthUserAndTokens } from '../../services/auth.types';
 
 @UntilDestroy()
 @Component({
@@ -53,7 +53,7 @@ export class AuthSignUpFormComponent implements OnInit {
   hideButtons?: boolean;
 
   @Output()
-  afterSignUp = new EventEmitter<AuthToken>();
+  afterSignUp = new EventEmitter<AuthUserAndTokens>();
 
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
@@ -77,7 +77,7 @@ export class AuthSignUpFormComponent implements OnInit {
   }
 
   setFieldsAndModel(
-    data: SignupInput = { password: '', confirm_password: '' }
+    data: AuthSignupInput = { password: '', confirm_password: '' }
   ) {
     const model = this.authSignUpMapperService.toModel(data);
     this.setFormlyFields({ data: model });
@@ -92,7 +92,7 @@ export class AuthSignUpFormComponent implements OnInit {
         .pipe(
           tap((result) => {
             if (result.tokens) {
-              this.afterSignUp.next(result.tokens);
+              this.afterSignUp.next(result);
               this.nzMessageService.success(
                 this.translocoService.translate('Success')
               );
@@ -121,7 +121,7 @@ export class AuthSignUpFormComponent implements OnInit {
   }
 
   private setFormlyFields(options?: {
-    data?: SignupInput;
+    data?: AuthSignupInput;
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(

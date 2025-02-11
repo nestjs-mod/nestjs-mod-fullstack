@@ -94,6 +94,12 @@ npm run docker-compose-full:prod:start
 
 http://localhost:8080
 
+### Testing
+
+```sh
+npm run docker-compose-full:prod:test:e2e
+```
+
 ### Stop
 
 ```sh

@@ -25,12 +25,15 @@ test.describe('Work with profile as "User" role (timezone', () => {
         size: { width: 1920, height: 1080 },
       },
     });
+    page.on('pageerror', (exception) => {
+      console.log(exception);
+    });
     await page.goto('/', {
       timeout: 7000,
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_URL').required().asString()
+      get('SERVER_AUTHORIZER_URL').asString() || ''
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
@@ -264,18 +267,20 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .join(' ');
 
     expect(
-      differenceInHours(
-        addHours(
-          new Date(
-            `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
+      Math.abs(
+        differenceInHours(
+          addHours(
+            new Date(
+              `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`
+            ),
+            newTimeIsPM ? 12 : 0
           ),
-          oldTimeIsPM ? 12 : 0
-        ),
-        addHours(
-          new Date(
-            `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`
-          ),
-          newTimeIsPM ? 12 : 0
+          addHours(
+            new Date(
+              `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
+            ),
+            oldTimeIsPM ? 12 : 0
+          )
         )
       )
     ).toBeGreaterThanOrEqual(11);

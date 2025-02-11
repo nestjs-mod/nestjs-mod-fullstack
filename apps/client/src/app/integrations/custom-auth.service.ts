@@ -1,14 +1,15 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import { UpdateProfileInput, User } from '@authorizerdev/authorizer-js';
+import { Inject, Injectable } from '@angular/core';
 import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
-  AuthorizerService,
   AuthService,
+  AuthUpdateProfileInput,
+  AuthUser,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 @UntilDestroy()
@@ -16,37 +17,35 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 export class CustomAuthService extends AuthService {
   constructor(
     protected readonly authRestService: AuthRestService,
-    protected override readonly authorizerService: AuthorizerService,
     protected override readonly tokensService: TokensService,
-    @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration?: AuthConfiguration
+    protected override readonly authConfiguration: AuthConfiguration
   ) {
-    super(authorizerService, tokensService, authConfiguration);
+    super(tokensService, authConfiguration);
   }
 
-  override setProfile(result: User | undefined) {
+  override setProfile(result: AuthUser | undefined) {
     return this.authRestService.authControllerProfile().pipe(
       catchError(() => of(null)),
       mergeMap((profile) => {
         if (result && profile) {
-          Object.assign(result, profile);
+          result = { ...result, ...profile };
         }
         return super.setProfile(result);
       })
     );
   }
 
-  override updateProfile(data: UpdateProfileInput & { timezone: number }) {
-    const { timezone, ...profile } = data;
+  override updateProfile(
+    data: AuthUpdateProfileInput & { timezone: number; lang: string }
+  ) {
+    const { timezone, lang } = { ...data };
+    const profile = omit({ ...data }, ['timezone', 'lang']);
     return super.updateProfile(profile).pipe(
       mergeMap((result) =>
         this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
           map(() => {
-            if (result) {
-              Object.assign(result, { timezone });
-            }
-            return result;
+            return result ? { ...result, timezone, lang } : result;
           })
         )
       )

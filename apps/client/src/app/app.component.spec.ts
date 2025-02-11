@@ -1,16 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import {
   RestClientApiModule,
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { MINIO_URL } from '@nestjs-mod-fullstack/files-angular';
+import { authorizerURL, minioURL } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AUTHORIZER_URL } from '@nestjs-mod-fullstack/auth-angular';
-import { authorizerURL } from '../environments/environment';
-import { provideTransloco } from '@jsverse/transloco';
-import { provideTranslocoLocale } from '@jsverse/transloco-locale';
-import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+import {
+  AUTHORIZER_URL,
+  provideAuthorizerAuthConfiguration,
+} from './integrations/authorizer-auth.configuration';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -50,6 +54,11 @@ describe('AppComponent', () => {
         provideTranslocoMessageformat({
           locales: ['en-US', 'ru-RU'],
         }),
+        provideAuthorizerAuthConfiguration(),
+        {
+          provide: MINIO_URL,
+          useValue: minioURL,
+        },
         {
           provide: AUTHORIZER_URL,
           useValue: authorizerURL,

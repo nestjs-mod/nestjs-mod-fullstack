@@ -1,16 +1,18 @@
-import { CacheManagerService } from '@nestjs-mod/cache-manager';
+import { KeyvService } from '@nestjs-mod/keyv';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { AuthUser, PrismaClient } from '@prisma/auth-client';
 import { AUTH_FEATURE } from '../auth.constants';
 import { AuthEnvironments } from '../auth.environments';
 
 @Injectable()
 export class AuthCacheService {
+  private readonly logger = new Logger(AuthCacheService.name);
+
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly cacheManagerService: CacheManagerService,
+    private readonly keyvService: KeyvService,
     private readonly authEnvironments: AuthEnvironments
   ) {}
 
@@ -19,18 +21,18 @@ export class AuthCacheService {
       where: { externalUserId },
     });
     for (const authUser of authUsers) {
-      await this.cacheManagerService.del(this.getUserCacheKey(authUser));
+      await this.keyvService.delete(this.getUserCacheKey(authUser));
     }
   }
 
   async getCachedUserByExternalUserId(externalUserId: string) {
-    const cached = await this.cacheManagerService.get<AuthUser | null>(
+    const cached = await this.keyvService.get<AuthUser>(
       this.getUserCacheKey({
         externalUserId,
       })
     );
     if (cached) {
-      return cached;
+      return cached as AuthUser;
     }
     const user = await this.prismaClient.authUser.findFirst({
       where: {
@@ -38,7 +40,7 @@ export class AuthCacheService {
       },
     });
     if (user) {
-      await this.cacheManagerService.set(
+      await this.keyvService.set(
         this.getUserCacheKey({ externalUserId }),
         user,
         this.authEnvironments.cacheTTL

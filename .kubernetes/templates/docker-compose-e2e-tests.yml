@@ -13,7 +13,7 @@ services:
       CLIENT_URL: 'https://%SERVER_DOMAIN%'
       SERVER_AUTHORIZER_URL: 'https://sso.%SERVER_DOMAIN%'
       SERVER_MINIO_URL: 'https://files.%SERVER_DOMAIN%'
-      SERVER_URL: 'https://%SERVER_DOMAIN%'
+      SERVER_URL: 'https://%SERVER_DOMAIN%/api'
       SERVER_AUTH_ADMIN_EMAIL: 'admin@site15.ru'
       SERVER_AUTH_ADMIN_USERNAME: 'admin'
       SERVER_AUTH_ADMIN_PASSWORD: '%SERVER_AUTH_ADMIN_PASSWORD%'

@@ -17,3 +17,12 @@ msgstr "Event that will trigger after the update"
 
 msgid "Hello API"
 msgstr "Hello API"
+
+msgid "Forbidden"
+msgstr "Forbidden"
+
+msgid "Supabase error"
+msgstr "Supabase error"
+
+msgid "Unauthorized"
+msgstr "Unauthorized"

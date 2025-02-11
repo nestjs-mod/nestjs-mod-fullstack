@@ -1,51 +1,52 @@
-import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
+import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,
   NestModuleCategory,
 } from '@nestjs-mod/common';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { TranslatesModule } from 'nestjs-translates';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
 import { AuthGuard } from './auth.guard';
+import { AuthUsersController } from './controllers/auth-users.controller';
 import { AuthController } from './controllers/auth.controller';
-import { AuthorizerController } from './controllers/authorizer.controller';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
-import { AuthAuthorizerBootstrapService } from './services/auth-authorizer-bootstrap.service';
-import { AuthAuthorizerService } from './services/auth-authorizer.service';
-import { AuthTimezoneService } from './services/auth-timezone.service';
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
-import { AuthCacheService } from './services/auth-cache.service';
-import { TranslatesModule } from 'nestjs-translates';
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
+import { AuthCacheService } from './services/auth-cache.service';
+import { AuthDefaultDataBootstrapService } from './services/auth-default-data-bootstrap.service';
+import { AuthTimezoneService } from './services/auth-timezone.service';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
   moduleCategory: NestModuleCategory.feature,
   staticEnvironmentsModel: AuthEnvironments,
+  configurationModel: AuthConfiguration,
   imports: [
-    AuthorizerModule.forFeature({
-      featureModuleName: AUTH_FEATURE,
-    }),
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
     }),
-    CacheManagerModule.forFeature({
+    KeyvModule.forFeature({
+      featureModuleName: AUTH_FEATURE,
+    }),
+    PrismaToolsModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
     TranslatesModule,
   ],
-  controllers: [AuthorizerController, AuthController],
+  controllers: [AuthController, AuthUsersController],
   sharedImports: [
     PrismaModule.forFeature({
       contextName: AUTH_FEATURE,
       featureModuleName: AUTH_FEATURE,
     }),
-    CacheManagerModule.forFeature({
+    KeyvModule.forFeature({
       featureModuleName: AUTH_FEATURE,
     }),
   ],
@@ -58,13 +59,11 @@ export const { AuthModule } = createNestModule({
     AuthCacheService,
   ],
   providers: [
-    { provide: APP_GUARD, useClass: AuthorizerGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_FILTER, useClass: AuthExceptionsFilter },
     { provide: APP_INTERCEPTOR, useClass: AuthTimezoneInterceptor },
     { provide: APP_PIPE, useClass: AuthTimezonePipe },
-    AuthAuthorizerService,
-    AuthAuthorizerBootstrapService,
+    AuthDefaultDataBootstrapService,
   ],
   wrapForRootAsync: (asyncModuleOptions) => {
     if (!asyncModuleOptions) {

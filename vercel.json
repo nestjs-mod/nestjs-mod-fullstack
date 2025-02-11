@@ -1,0 +1,35 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "dist/apps/client/browser/**",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "dist/apps/server/main.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "dist/apps/server/main.js"
+        },
+        {
+            "src": "/favicon.ico",
+            "dest": "dist/apps/client/browser/favicon.ico"
+        },
+        {
+            "src": "/assets/(.*)",
+            "dest": "dist/apps/client/browser/assets/$1"
+        },
+        {
+            "src": "/(.*)\\.(.*)",
+            "dest": "dist/apps/client/browser/$1.$2"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "dist/apps/client/browser/index.html"
+        }
+    ]
+}

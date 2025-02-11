@@ -1,4 +1,4 @@
 {
-    "Unauthorized": "Вы не авторизованы",
-    "field \"{{label}}\"": ""
+    "Unauthorized": "Неавторизован",
+    "field \"{{label}}\"": "поле \"{{label}}\""
 }

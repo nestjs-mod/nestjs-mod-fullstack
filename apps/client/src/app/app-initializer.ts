@@ -1,37 +1,30 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
-  AuthorizerRestService,
   AuthRestService,
   FilesRestService,
   TimeRestService,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
+  AUTH_CONFIGURATION_TOKEN,
   AuthActiveLangService,
+  AuthConfiguration,
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
-import {
-  catchError,
-  map,
-  merge,
-  mergeMap,
-  of,
-  Subscription,
-  tap,
-  throwError,
-} from 'rxjs';
+import { catchError, map, merge, mergeMap, of, Subscription, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
-    private readonly authorizerRestService: AuthorizerRestService,
+    @Inject(AUTH_CONFIGURATION_TOKEN)
+    private readonly authConfiguration: AuthConfiguration,
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
@@ -46,19 +39,7 @@ export class AppInitializer {
 
   resolve() {
     this.subscribeToTokenUpdates();
-    return (
-      this.authService.getAuthorizerClientID()
-        ? of(null)
-        : this.authorizerRestService
-            .authorizerControllerGetAuthorizerClientID()
-            .pipe(
-              map(({ clientID }) => {
-                this.authService.setAuthorizerClientID(clientID);
-                return null;
-              })
-            )
-    ).pipe(
-      mergeMap(() => this.authService.refreshToken()),
+    return this.authService.refreshToken().pipe(
       mergeMap(() => this.authActiveLangService.getActiveLang()),
       mergeMap((activeLang) =>
         this.translocoService.load(activeLang).pipe(map(() => activeLang))
@@ -66,7 +47,7 @@ export class AppInitializer {
       tap((activeLang) => this.activeLangService.applyActiveLang(activeLang)),
       catchError((err) => {
         console.error(err);
-        return throwError(() => err);
+        return of(true);
       })
     );
   }
@@ -77,21 +58,18 @@ export class AppInitializer {
       this.subscribeToTokenUpdatesSubscription = undefined;
     }
     this.subscribeToTokenUpdatesSubscription = merge(
-      this.tokensService.tokens$,
+      this.tokensService.getStream(),
       this.translocoService.langChanges$
     )
       .pipe(
         tap(() => {
           const authorizationHeaders =
-            this.authService.getAuthorizationHeaders();
+            this.authConfiguration.getAuthorizationHeaders?.();
           if (authorizationHeaders) {
             this.appRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
             this.webhookRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.authorizerRestService.defaultHeaders = new HttpHeaders(
               authorizationHeaders
             );
             this.filesRestService.defaultHeaders = new HttpHeaders(

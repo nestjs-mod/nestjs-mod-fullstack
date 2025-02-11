@@ -1,9 +1,0 @@
-{
-    "i18n": [
-        {
-            "scope": "data-prefetch",
-            "path": "src/i18n",
-            "strategy": "join"
-        }
-    ]
-}

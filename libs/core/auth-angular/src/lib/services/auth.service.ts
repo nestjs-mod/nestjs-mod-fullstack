@@ -1,119 +1,73 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import {
-  AuthToken,
-  LoginInput,
-  SignupInput,
-  UpdateProfileInput,
-  User,
-} from '@authorizerdev/authorizer-js';
-import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
-import { BehaviorSubject, catchError, from, map, mergeMap, of } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, map, mergeMap, of } from 'rxjs';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
 } from './auth.configuration';
-import { AuthorizerService } from './authorizer.service';
+import {
+  AuthLoginInput,
+  AuthSignupInput,
+  AuthUpdateProfileInput,
+  AuthUser,
+  AuthUserAndTokens,
+} from './auth.types';
 import { TokensService } from './tokens.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  profile$ = new BehaviorSubject<User | undefined>(undefined);
+  profile$ = new BehaviorSubject<AuthUser | undefined>(undefined);
 
   constructor(
-    protected readonly authorizerService: AuthorizerService,
     protected readonly tokensService: TokensService,
-    @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected readonly authConfiguration?: AuthConfiguration
+    protected readonly authConfiguration: AuthConfiguration
   ) {}
 
-  getAuthorizerClientID() {
-    return this.authorizerService.config.clientID;
-  }
-
-  setAuthorizerClientID(clientID: string) {
-    this.authorizerService.config.clientID = clientID;
-  }
-
-  signUp(data: SignupInput) {
-    return from(
-      this.authorizerService.signup({
+  signUp(data: AuthSignupInput) {
+    return this.authConfiguration
+      .signup({
         ...data,
         email: data.email?.toLowerCase(),
       })
-    ).pipe(
-      mapGraphqlErrors(),
-      mergeMap((result) => {
-        return this.setProfileAndTokens(result).pipe(
-          map(() => ({
-            profile: result?.user,
-            tokens: this.tokensService.tokens$.value,
-          }))
-        );
-      })
+      .pipe(
+        mergeMap((result) => {
+          return this.setProfileAndTokens(result).pipe(
+            map((profile) => ({
+              profile,
+              tokens: result.tokens,
+            }))
+          );
+        })
+      );
+  }
+
+  updateProfile(data: AuthUpdateProfileInput) {
+    return this.authConfiguration.updateProfile(data).pipe(
+      mergeMap(() => this.authConfiguration.getProfile()),
+      mergeMap((result) => this.setProfile(result))
     );
   }
 
-  updateProfile(data: UpdateProfileInput) {
-    const oldProfile = this.profile$.value;
-    return (
-      this.authConfiguration?.beforeUpdateProfile
-        ? this.authConfiguration.beforeUpdateProfile(data)
-        : of(data)
-    ).pipe(
-      mergeMap((data) =>
-        from(
-          this.authorizerService.updateProfile(
-            {
-              ...data,
-            },
-            this.getAuthorizationHeaders()
-          )
-        )
-      ),
-      mapGraphqlErrors(),
-      mergeMap(() =>
-        this.authorizerService.getProfile(this.getAuthorizationHeaders())
-      ),
-      mapGraphqlErrors(),
-      mergeMap((result) => this.setProfile(result)),
-      mergeMap((updatedProfile) =>
-        this.authConfiguration?.afterUpdateProfile
-          ? this.authConfiguration.afterUpdateProfile({
-              new: updatedProfile,
-              old: oldProfile,
-            })
-          : of({
-              new: updatedProfile,
-            })
-      )
-    );
-  }
-
-  signIn(data: LoginInput) {
-    return from(
-      this.authorizerService.login({
+  signIn(data: AuthLoginInput) {
+    return this.authConfiguration
+      .login({
         ...data,
         email: data.email?.toLowerCase(),
       })
-    ).pipe(
-      mapGraphqlErrors(),
-      mergeMap((result) => {
-        return this.setProfileAndTokens(result).pipe(
-          map(() => ({
-            profile: result?.user,
-            tokens: this.tokensService.tokens$.value,
-          }))
-        );
-      })
-    );
+      .pipe(
+        mergeMap((result) => {
+          return this.setProfileAndTokens(result).pipe(
+            map((profile) => ({
+              profile,
+              tokens: result.tokens,
+            }))
+          );
+        })
+      );
   }
 
   signOut() {
-    return from(
-      this.authorizerService.logout(this.getAuthorizationHeaders())
-    ).pipe(
-      mapGraphqlErrors(),
+    return this.authConfiguration.logout().pipe(
       mergeMap(() => {
         return this.clearProfileAndTokens();
       })
@@ -121,8 +75,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return from(this.authorizerService.browserLogin()).pipe(
-      mapGraphqlErrors(),
+    return this.authConfiguration.refreshToken().pipe(
       mergeMap((result) => {
         return this.setProfileAndTokens(result);
       }),
@@ -134,27 +87,15 @@ export class AuthService {
   }
 
   clearProfileAndTokens() {
-    return this.setProfileAndTokens({} as AuthToken);
+    return this.setProfileAndTokens({} as AuthUserAndTokens);
   }
 
-  setProfileAndTokens(result: AuthToken | undefined) {
-    this.tokensService.tokens$.next(result as AuthToken);
+  setProfileAndTokens(result: AuthUserAndTokens | undefined) {
+    this.tokensService.setTokens(result?.tokens);
     return this.setProfile(result?.user);
   }
 
-  getAuthorizationHeaders(): Record<string, string> {
-    if (this.authConfiguration?.getAuthorizationHeaders) {
-      return this.authConfiguration.getAuthorizationHeaders();
-    }
-    if (!this.tokensService.tokens$.value?.access_token) {
-      return {};
-    }
-    return {
-      Authorization: `Bearer ${this.tokensService.tokens$.value.access_token}`,
-    };
-  }
-
-  setProfile(result: User | undefined) {
+  setProfile(result: AuthUser | undefined) {
     this.profile$.next(result);
     return of(result);
   }

@@ -23,9 +23,9 @@ import { WebhookEnvironments } from './webhook.environments';
 import { WebhookExceptionsFilter } from './webhook.filter';
 import { WebhookGuard } from './webhook.guard';
 
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
-import { WebhookCacheService } from './services/webhook-cache.service';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import { TranslatesModule } from 'nestjs-translates';
+import { WebhookCacheService } from './services/webhook-cache.service';
 
 export const { WebhookModule } = createNestModule({
   moduleName: WEBHOOK_MODULE,
@@ -42,12 +42,13 @@ export const { WebhookModule } = createNestModule({
     PrismaToolsModule.forFeature({
       featureModuleName: WEBHOOK_FEATURE,
     }),
-    CacheManagerModule.forFeature({
+    KeyvModule.forFeature({
       featureModuleName: WEBHOOK_FEATURE,
     }),
     TranslatesModule,
   ],
   sharedImports: [
+    HttpModule,
     PrismaModule.forFeature({
       contextName: WEBHOOK_FEATURE,
       featureModuleName: WEBHOOK_FEATURE,

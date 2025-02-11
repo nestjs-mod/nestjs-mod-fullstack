@@ -1,5 +1,6 @@
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import {
+  CanActivate,
   createParamDecorator,
   ExecutionContext,
   UseGuards,
@@ -9,11 +10,11 @@ import { Reflector } from '@nestjs/core';
 import { AuthRole } from '@prisma/auth-client';
 import { AuthRequest } from './types/auth-request';
 
-import { AllowEmptyUser, AuthorizerGuard } from '@nestjs-mod/authorizer';
 import { applyDecorators } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 
+export const AllowEmptyAuthUser = Reflector.createDecorator();
 export const SkipAuthGuard = Reflector.createDecorator<true>();
 export const CheckAuthRole = Reflector.createDecorator<AuthRole[]>();
 
@@ -43,20 +44,24 @@ function AddHandleConnection() {
       const authorizationHeader = args[0]?.headers.authorization;
       const queryToken = args[0]?.url?.split('token=')?.[1];
       client.headers = {
-        authorization:
-          authorizationHeader || queryToken ? `Bearer ${queryToken}` : '',
+        authorization: authorizationHeader
+          ? authorizationHeader
+          : queryToken
+          ? `Bearer ${queryToken}`
+          : '',
       };
     };
   };
 }
 
 export function UseAuthInterceptorsAndGuards(options?: {
-  allowEmptyUser?: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  guards?: (CanActivate | Function)[];
 }) {
   return applyDecorators(
     UseInterceptors(AuthTimezoneInterceptor),
-    UseGuards(AuthorizerGuard, AuthGuard),
-    AddHandleConnection(),
-    ...(options?.allowEmptyUser ? [AllowEmptyUser()] : [])
+    UseGuards(...(options?.guards || []), AuthGuard),
+    AllowEmptyAuthUser(),
+    AddHandleConnection()
   );
 }

@@ -130,7 +130,7 @@ export interface AuthEntities {
  */
 export interface AuthError {
   /**
-   * Auth error (AUTH-000), Forbidden (AUTH-001), User not found (AUTH-002)
+   * Auth error (AUTH-000), Forbidden (AUTH-001), Unauthorized (AUTH-002)
    * @type {string}
    * @memberof AuthError
    */
@@ -156,9 +156,9 @@ export interface AuthError {
  */
 
 export const AuthErrorEnum = {
-  _000: 'AUTH-000',
-  _001: 'AUTH-001',
-  _002: 'AUTH-002',
+  Auth000: 'AUTH-000',
+  Auth001: 'AUTH-001',
+  Auth002: 'AUTH-002',
 } as const;
 
 export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
@@ -181,7 +181,77 @@ export interface AuthProfileDto {
    * @memberof AuthProfileDto
    */
   lang?: string | null;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof AuthProfileDto
+   */
+  userRole?: AuthRole | null;
 }
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const AuthRole = {
+  Admin: 'Admin',
+  User: 'User',
+} as const;
+
+export type AuthRole = (typeof AuthRole)[keyof typeof AuthRole];
+
+/**
+ *
+ * @export
+ * @interface AuthUser
+ */
+export interface AuthUser {
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  externalUserId: string;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof AuthUser
+   */
+  userRole: AuthRole;
+  /**
+   *
+   * @type {number}
+   * @memberof AuthUser
+   */
+  timezone: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  createdAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  updatedAt: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthUser
+   */
+  lang: string | null;
+}
+
 /**
  *
  * @export
@@ -290,13 +360,51 @@ export interface FilesError {
  */
 
 export const FilesErrorEnum = {
-  _000: 'FILES-000',
-  _001: 'FILES-001',
+  Files000: 'FILES-000',
+  Files001: 'FILES-001',
 } as const;
 
 export type FilesErrorEnum =
   (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
 
+/**
+ *
+ * @export
+ * @interface FilesPresignedUrls
+ */
+export interface FilesPresignedUrls {
+  /**
+   *
+   * @type {string}
+   * @memberof FilesPresignedUrls
+   */
+  downloadUrl: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FilesPresignedUrls
+   */
+  uploadUrl: string;
+}
+/**
+ *
+ * @export
+ * @interface FindManyAuthUserResponse
+ */
+export interface FindManyAuthUserResponse {
+  /**
+   *
+   * @type {Array<AuthUser>}
+   * @memberof FindManyAuthUserResponse
+   */
+  authUsers: Array<AuthUser>;
+  /**
+   *
+   * @type {FindManyResponseMeta}
+   * @memberof FindManyAuthUserResponse
+   */
+  meta: FindManyResponseMeta;
+}
 /**
  *
  * @export
@@ -378,25 +486,6 @@ export interface FindManyWebhookUserResponse {
    * @memberof FindManyWebhookUserResponse
    */
   meta: FindManyResponseMeta;
-}
-/**
- *
- * @export
- * @interface PresignedUrls
- */
-export interface PresignedUrls {
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  downloadUrl: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PresignedUrls
-   */
-  uploadUrl: string;
 }
 /**
  *
@@ -500,6 +589,38 @@ export interface TerminusHealthCheckControllerCheck503Response {
     [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
   };
 }
+/**
+ *
+ * @export
+ * @interface UpdateAuthUserDto
+ */
+export interface UpdateAuthUserDto {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateAuthUserDto
+   */
+  externalUserId?: string;
+  /**
+   *
+   * @type {AuthRole}
+   * @memberof UpdateAuthUserDto
+   */
+  userRole?: AuthRole;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateAuthUserDto
+   */
+  timezone?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateAuthUserDto
+   */
+  lang?: string | null;
+}
+
 /**
  *
  * @export
@@ -808,12 +929,12 @@ export interface WebhookError {
  */
 
 export const WebhookErrorEnum = {
-  _000: 'WEBHOOK-000',
-  _001: 'WEBHOOK-001',
-  _002: 'WEBHOOK-002',
-  _003: 'WEBHOOK-003',
-  _004: 'WEBHOOK-004',
-  _005: 'WEBHOOK-005',
+  Webhook000: 'WEBHOOK-000',
+  Webhook001: 'WEBHOOK-001',
+  Webhook002: 'WEBHOOK-002',
+  Webhook003: 'WEBHOOK-003',
+  Webhook004: 'WEBHOOK-004',
+  Webhook005: 'WEBHOOK-005',
 } as const;
 
 export type WebhookErrorEnum =
@@ -1792,6 +1913,218 @@ export const AuthApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne: async (
+      id: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerDeleteOne', 'id', id);
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany: async (
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/auth/users`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (curPage !== undefined) {
+        localVarQueryParameter['curPage'] = curPage;
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['perPage'] = perPage;
+      }
+
+      if (searchText !== undefined) {
+        localVarQueryParameter['searchText'] = searchText;
+      }
+
+      if (sort !== undefined) {
+        localVarQueryParameter['sort'] = sort;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne: async (
+      id: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerFindOne', 'id', id);
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne: async (
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('authUsersControllerUpdateOne', 'id', id);
+      // verify required parameter 'updateAuthUserDto' is not null or undefined
+      assertParamExists(
+        'authUsersControllerUpdateOne',
+        'updateAuthUserDto',
+        updateAuthUserDto
+      );
+      const localVarPath = `/api/auth/users/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updateAuthUserDto,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -1857,6 +2190,138 @@ export const AuthApiFp = function (configuration?: Configuration) {
           configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerDeleteOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerDeleteOne(
+          id,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerFindMany(
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<FindManyAuthUserResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerFindMany(
+          curPage,
+          perPage,
+          searchText,
+          sort,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerFindMany']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerFindOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerFindOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authUsersControllerUpdateOne(
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authUsersControllerUpdateOne(
+          id,
+          updateAuthUserDto,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -1897,6 +2362,76 @@ export const AuthApiFactory = function (
         .authControllerUpdateProfile(authProfileDto, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerDeleteOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<StatusResponse> {
+      return localVarFp
+        .authUsersControllerDeleteOne(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} [curPage]
+     * @param {number} [perPage]
+     * @param {string} [searchText]
+     * @param {string} [sort]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindMany(
+      curPage?: number,
+      perPage?: number,
+      searchText?: string,
+      sort?: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<FindManyAuthUserResponse> {
+      return localVarFp
+        .authUsersControllerFindMany(
+          curPage,
+          perPage,
+          searchText,
+          sort,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerFindOne(
+      id: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AuthUser> {
+      return localVarFp
+        .authUsersControllerFindOne(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {UpdateAuthUserDto} updateAuthUserDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authUsersControllerUpdateOne(
+      id: string,
+      updateAuthUserDto: UpdateAuthUserDto,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AuthUser> {
+      return localVarFp
+        .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -1932,6 +2467,78 @@ export class AuthApi extends BaseAPI {
   ) {
     return AuthApiFp(this.configuration)
       .authControllerUpdateProfile(authProfileDto, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerDeleteOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerDeleteOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {number} [curPage]
+   * @param {number} [perPage]
+   * @param {string} [searchText]
+   * @param {string} [sort]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerFindMany(
+    curPage?: number,
+    perPage?: number,
+    searchText?: string,
+    sort?: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerFindOne(
+    id: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerFindOne(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {UpdateAuthUserDto} updateAuthUserDto
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public authUsersControllerUpdateOne(
+    id: string,
+    updateAuthUserDto: UpdateAuthUserDto,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AuthApiFp(this.configuration)
+      .authUsersControllerUpdateOne(id, updateAuthUserDto, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -2070,6 +2677,250 @@ export class AuthorizerApi extends BaseAPI {
   ) {
     return AuthorizerApiFp(this.configuration)
       .authorizerControllerGetAuthorizerClientID(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * FakeEndpointApi - axios parameter creator
+ * @export
+ */
+export const FakeEndpointApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointHandler: async (
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/fake-endpoint`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointLogs: async (
+      appId: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        'fakeEndpointControllerFakeEndpointLogs',
+        'appId',
+        appId
+      );
+      const localVarPath = `/api/fake-endpoint/logs/{appId}`.replace(
+        `{${'appId'}}`,
+        encodeURIComponent(String(appId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - functional programming interface
+ * @export
+ */
+export const FakeEndpointApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    FakeEndpointApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fakeEndpointControllerFakeEndpointHandler(
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointHandler(
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'FakeEndpointApi.fakeEndpointControllerFakeEndpointHandler'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fakeEndpointControllerFakeEndpointLogs(
+      appId: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointLogs(
+          appId,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'FakeEndpointApi.fakeEndpointControllerFakeEndpointLogs'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - factory interface
+ * @export
+ */
+export const FakeEndpointApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = FakeEndpointApiFp(configuration);
+  return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointHandler(
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fakeEndpointControllerFakeEndpointHandler(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fakeEndpointControllerFakeEndpointLogs(
+      appId: string,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fakeEndpointControllerFakeEndpointLogs(appId, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * FakeEndpointApi - object-oriented interface
+ * @export
+ * @class FakeEndpointApi
+ * @extends {BaseAPI}
+ */
+export class FakeEndpointApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FakeEndpointApi
+   */
+  public fakeEndpointControllerFakeEndpointHandler(
+    options?: RawAxiosRequestConfig
+  ) {
+    return FakeEndpointApiFp(this.configuration)
+      .fakeEndpointControllerFakeEndpointHandler(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FakeEndpointApi
+   */
+  public fakeEndpointControllerFakeEndpointLogs(
+    appId: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return FakeEndpointApiFp(this.configuration)
+      .fakeEndpointControllerFakeEndpointLogs(appId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -2228,7 +3079,10 @@ export const FilesApiFp = function (configuration?: Configuration) {
       ext: string,
       options?: RawAxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PresignedUrls>
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<FilesPresignedUrls>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.filesControllerGetPresignedUrl(
@@ -2285,7 +3139,7 @@ export const FilesApiFactory = function (
     filesControllerGetPresignedUrl(
       ext: string,
       options?: RawAxiosRequestConfig
-    ): AxiosPromise<PresignedUrls> {
+    ): AxiosPromise<FilesPresignedUrls> {
       return localVarFp
         .filesControllerGetPresignedUrl(ext, options)
         .then((request) => request(axios, basePath));
@@ -2643,17 +3497,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2711,12 +3563,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2762,12 +3612,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2837,12 +3685,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2919,12 +3765,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2977,12 +3821,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3028,12 +3870,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3091,17 +3931,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3159,12 +3997,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3234,12 +4070,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3292,12 +4126,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3355,17 +4187,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};

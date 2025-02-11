@@ -1,4 +1,3 @@
-import { AuthorizerError } from '@nestjs-mod/authorizer';
 import {
   ArgumentsHost,
   Catch,
@@ -8,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { AuthEnvironments } from './auth.environments';
-import { AuthErrorEnum } from './auth.errors';
+import { AuthError, AuthErrorEnum } from './auth.errors';
 
-@Catch(AuthorizerError)
+@Catch(AuthError)
 export class AuthExceptionsFilter extends BaseExceptionFilter {
   private logger = new Logger(AuthExceptionsFilter.name);
 
@@ -18,12 +17,12 @@ export class AuthExceptionsFilter extends BaseExceptionFilter {
     super();
   }
 
-  override catch(exception: AuthorizerError, host: ArgumentsHost) {
+  override catch(exception: AuthError, host: ArgumentsHost) {
     if (!this.authEnvironments.useFilters) {
       super.catch(exception, host);
       return;
     }
-    if (exception instanceof AuthorizerError) {
+    if (exception instanceof AuthError) {
       this.logger.error(exception, exception.stack);
       super.catch(
         new HttpException(

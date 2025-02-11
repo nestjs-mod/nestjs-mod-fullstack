@@ -13,6 +13,13 @@ export class WebhookConfiguration {
     default: 15_000,
   })
   cacheTTL?: number;
+
+  @ConfigModelProperty({
+    description:
+      'When we run an application in a serverless environment, our background tasks do not have time to complete, to disable background tasks and process requests on demand, we need to switch this property to true',
+    default: false,
+  })
+  syncMode?: boolean;
 }
 
 @ConfigModel()

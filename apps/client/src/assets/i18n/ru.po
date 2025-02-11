@@ -148,6 +148,9 @@ msgstr "Ошибка при проверке данных"
 msgid "id not set"
 msgstr "идентификатор не установлен"
 
+msgid "Unauthorized"
+msgstr "Неавторизован"
+
 msgid "auth.sign-in-form.fields.timezone"
 msgstr "Часовой пояс"
 

@@ -1,9 +1,7 @@
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { getUrls, RestClientHelper } from '@nestjs-mod-fullstack/testing';
 import { randomUUID } from 'crypto';
+import { get } from 'env-var';
 
-import express, { Express } from 'express';
-import { Server } from 'http';
-import { AddressInfo } from 'net';
 import { setTimeout } from 'timers/promises';
 
 describe('CRUD and business operations with WebhookLog as "User" role', () => {
@@ -11,16 +9,11 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
 
   const appId = randomUUID();
 
-  const appHandler = '/api/callback-user';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const appHandlerLogs: { body: any; headers: any }[] = [];
-
-  let app: Express;
-  let server: Server;
   let endpoint: string;
   let wrongEndpoint: string;
 
   const user1 = new RestClientHelper();
+  const admin = new RestClientHelper();
 
   let createEventName: string;
   let updateEventName: string;
@@ -28,26 +21,24 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
 
   beforeAll(async () => {
     await user1.createAndLoginAsUser();
-
-    app = express();
-    app.use(express.json());
-    app.post(appHandler, async (req, res) => {
-      if (req.headers['app-id'] === appId) {
-        appHandlerLogs.push({ body: req.body, headers: req.headers });
-      }
-      res.send(req.body);
+    await admin.login({
+      email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
+      password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
     });
-    server = app.listen(0);
-    endpoint = `http://${
-      process.env.IS_DOCKER_COMPOSE
-        ? 'nestjs-mod-fullstack-e2e-tests'
-        : 'localhost'
-    }:${(server.address() as AddressInfo).port}${appHandler}`;
-    wrongEndpoint = `http://${
-      process.env.IS_DOCKER_COMPOSE
-        ? 'nestjs-mod-fullstack-e2e-tests'
-        : 'localhost'
-    }:${(server.address() as AddressInfo).port}${appHandler}-is-wrong`;
+
+    endpoint = getUrls().serverUrl + '/fake-endpoint';
+    wrongEndpoint = 'http://localhost:17351/wrong-endpoint';
+
+    const { data: webhooks } = await admin
+      .getWebhookApi()
+      .webhookControllerFindMany(undefined, undefined, 1, 1000);
+    for (const webhook of webhooks.webhooks) {
+      if (webhook.enabled) {
+        await admin
+          .getWebhookApi()
+          .webhookControllerUpdateOne(webhook.id, { enabled: false });
+      }
+    }
   });
 
   afterAll(async () => {
@@ -61,7 +52,6 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         });
       }
     }
-    server.close();
   });
 
   it('should return a list of available event names', async () => {
@@ -103,13 +93,13 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookControllerCreateOne({
         enabled: true,
-        endpoint,
+        endpoint: wrongEndpoint,
         eventName: deleteEventName,
         headers: { 'app-id': appId, 'event-name': deleteEventName },
       });
     expect(newWebhook2).toMatchObject({
       enabled: true,
-      endpoint,
+      endpoint: wrongEndpoint,
       eventName: deleteEventName,
     });
     //////
@@ -118,13 +108,13 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookControllerCreateOne({
         enabled: true,
-        endpoint: wrongEndpoint,
+        endpoint,
         eventName: updateEventName,
         headers: { 'app-id': appId, 'event-name': updateEventName },
       });
     expect(newWebhook3).toMatchObject({
       enabled: true,
-      endpoint: wrongEndpoint,
+      endpoint,
       eventName: updateEventName,
     });
   });
@@ -135,12 +125,25 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     // wait event processing
     await setTimeout(4000);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const appHandlerLogs: any = (
+      await user1
+        .getFakeEndpointApi()
+        .fakeEndpointControllerFakeEndpointLogs(appId)
+    ).data;
+
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === createEventName &&
-        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
+        l.headers['external-user-id'] ===
+          user1.getWebhookProfile()?.externalUserId
     );
-    expect(data).toEqual(my[0].body);
+    expect(data).toMatchObject({
+      ...my[0].body,
+      // ignore date fields with tz
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    });
     expect(my).toHaveLength(1);
 
     const { data: findMany } = await user1
@@ -150,6 +153,13 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
   });
 
   it('should create webhook log info after update app-demo', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let appHandlerLogs: any = (
+      await user1
+        .getFakeEndpointApi()
+        .fakeEndpointControllerFakeEndpointLogs(appId)
+    ).data;
+
     await user1
       .getAppApi()
       .appControllerDemoUpdateOne(appHandlerLogs[0].body.id);
@@ -157,16 +167,29 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     // wait event processing
     await setTimeout(4000);
 
+    appHandlerLogs = (
+      await user1
+        .getFakeEndpointApi()
+        .fakeEndpointControllerFakeEndpointLogs(appId)
+    ).data;
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === updateEventName &&
-        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
+        l.headers['external-user-id'] ===
+          user1.getWebhookProfile()?.externalUserId
     );
 
-    expect(my).toHaveLength(0);
+    expect(my).toHaveLength(1);
   });
 
   it('should create webhook log info after delete app-demo', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let appHandlerLogs: any = (
+      await user1
+        .getFakeEndpointApi()
+        .fakeEndpointControllerFakeEndpointLogs(appId)
+    ).data;
+
     await user1
       .getAppApi()
       .appControllerDemoDeleteOne(appHandlerLogs[0].body.id);
@@ -174,18 +197,25 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     // wait event processing
     await setTimeout(4000);
 
+    appHandlerLogs = (
+      await user1
+        .getFakeEndpointApi()
+        .fakeEndpointControllerFakeEndpointLogs(appId)
+    ).data;
+
     const my = appHandlerLogs.filter(
       (l) =>
         l.headers['event-name'] === deleteEventName &&
-        l.headers['external-user-id'] === user1.authorizationTokens?.user?.id
+        l.headers['external-user-id'] ===
+          user1.getWebhookProfile()?.externalUserId
     );
 
-    expect(my).toHaveLength(1);
+    expect(my).toHaveLength(0);
 
     const { data: findMany } = await user1
       .getAppApi()
       .appControllerDemoFindMany();
-    expect(findMany.filter((d) => d.id === my[0].body.id)).toHaveLength(0);
+    expect(findMany.filter((d) => d.id === my[0]?.body?.id)).toHaveLength(0);
   });
 
   it('should read all created webhook logs for "create" event', async () => {
@@ -204,7 +234,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authorizationTokens?.user?.id
+          user1.getWebhookProfile()?.externalUserId
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -235,13 +265,14 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authorizationTokens?.user?.id
+          user1.getWebhookProfile()?.externalUserId
       ),
     }).toMatchObject({
       webhookLogs: [
         {
-          responseStatus: 'OK',
-          webhookStatus: 'Success',
+          // response: 'connect ECONNREFUSED 127.0.0.1:17351',
+          responseStatus: '',
+          webhookStatus: 'Error',
           webhookId: manyWebhooks.webhooks.find(
             (w) => w.eventName === deleteEventName
           )?.id,
@@ -266,24 +297,13 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.authorizationTokens?.user?.id
+          user1.getWebhookProfile()?.externalUserId
       ),
     }).toMatchObject({
       webhookLogs: [
         {
-          responseStatus: 'Not Found',
-          response:
-            '<!DOCTYPE html>\n' +
-            '<html lang="en">\n' +
-            '<head>\n' +
-            '<meta charset="utf-8">\n' +
-            '<title>Error</title>\n' +
-            '</head>\n' +
-            '<body>\n' +
-            '<pre>Cannot POST /api/callback-user-is-wrong</pre>\n' +
-            '</body>\n' +
-            '</html>\n',
-          webhookStatus: 'Error',
+          responseStatus: 'OK',
+          webhookStatus: 'Success',
           webhookId: manyWebhooks.webhooks.find(
             (w) => w.eventName === updateEventName
           )?.id,

@@ -12,7 +12,7 @@
     "auth.profile-form.fields.confirm-new-password": "Confirm new password",
     "Success": "Success",
     "Validation errors": "Validation errors",
-    "Updated": "Updated",
+    "Profile data updated successfully!": "Profile data updated successfully!",
     "Update": "Update",
     "field \"{{label}}\"": "field \"{{label}}\""
 }

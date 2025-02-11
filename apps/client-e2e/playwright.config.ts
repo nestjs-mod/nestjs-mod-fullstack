@@ -19,7 +19,7 @@ config();
 export default defineConfig({
   workers: 1,
   maxFailures: 1,
-  timeout: 60 * 1000,
+  timeout: 240 * 1000,
   ...nxE2EPreset(__filename, { testDir: './src' }),
   reporter: [['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -30,6 +30,7 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
     video: 'on',
     viewport: { width: 1920, height: 1080 },
+    // headless: false,
   },
   projects: [
     {

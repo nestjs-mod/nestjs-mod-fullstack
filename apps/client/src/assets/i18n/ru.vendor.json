@@ -6,7 +6,8 @@
     "Forbidden": "Нет доступа",
     "User not found": "Пользователь не найден",
     "ok": "ок",
-    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}"
+    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}",
+    "Unauthorized": "Неавторизован"
   },
   "auth-angular": {
     "Sign-in": "Войти",
@@ -22,14 +23,14 @@
     "auth.profile-form.fields.confirm-new-password": "Новый пароль (еще раз)",
     "Success": "Успешно",
     "Validation errors": "Ошибка при проверке данных",
-    "Updated": "Обновлен",
-    "Update": "Обновить",
+    "Profile data updated successfully!": "Данные профиля успешно обновлены!",
+    "Update": "Изменить",
     "field \"{{label}}\"": "поле \"{{label}}\""
   },
   "common": {},
   "common-angular": {
-    "Unauthorized": "Вы не авторизованы",
-    "field \"{{label}}\"": ""
+    "Unauthorized": "Неавторизован",
+    "field \"{{label}}\"": "поле \"{{label}}\""
   },
   "files-getText": {
     "Files error": "Ошибка файлов",
@@ -108,14 +109,14 @@
     "field \"{{label}}\"": "поле \"{{label}}\""
   },
   "runtime-tools": {},
-  "data-prefetch": {},
   "bridge-react-webpack-plugin": {},
   "auth": {
     "Auth error": "Ошибка авторизации",
     "Forbidden": "Нет доступа",
     "User not found": "Пользователь не найден",
     "ok": "ок",
-    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}"
+    "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}",
+    "Unauthorized": "Неавторизован"
   },
   "files": {
     "Files error": "Ошибка файлов",

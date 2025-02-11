@@ -9,7 +9,7 @@ RUN apk add dumb-init
 # Clean up
 RUN rm -rf /var/cache/apk/* node_modules
 # Install deps
-RUN npm install --prefer-offline --no-audit --progress=false
+RUN yarn install && rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

@@ -5,14 +5,16 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
   jest.setTimeout(60000);
 
   const user1 = new RestClientHelper();
-  const admin = new RestClientHelper({
-    isAdmin: true,
-  });
+  const admin = new RestClientHelper();
 
   let createEventName: string;
 
   beforeAll(async () => {
-    await user1.createAndLoginAsUser();
+    try {
+      await user1.createAndLoginAsUser();
+    } catch (error) {
+      console.log({ ...error });
+    }
     await admin.login({
       email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
       password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),

@@ -1,30 +1,15 @@
-import {
-  AUTH_FEATURE,
-  AUTH_FOLDER,
-  AuthModule,
-} from '@nestjs-mod-fullstack/auth';
-import {
-  FilesModule,
-  FilesRequest,
-  FilesRole,
-} from '@nestjs-mod-fullstack/files';
+import KeyvPostgres from '@keyv/postgres';
+import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationModule } from '@nestjs-mod-fullstack/validation';
+
+import KeyvRedis, { createClient } from '@keyv/redis';
 import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,
   WebhookModule,
-  WebhookRequest,
-  WebhookUsersService,
 } from '@nestjs-mod-fullstack/webhook';
-import {
-  AUTHORIZER_ENV_PREFIX,
-  AuthorizerModule,
-  AuthorizerUser,
-  CheckAccessOptions,
-  defaultAuthorizerCheckAccessValidator,
-} from '@nestjs-mod/authorizer';
-import { CacheManagerModule } from '@nestjs-mod/cache-manager';
+import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
 import {
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
@@ -33,7 +18,6 @@ import {
   PROJECT_JSON_FILE,
   ProjectUtils,
   bootstrapNestApplication,
-  getRequestFromExecutionContext,
   isInfrastructureMode,
 } from '@nestjs-mod/common';
 import {
@@ -44,28 +28,37 @@ import {
   DockerComposePostgreSQL,
   DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
-import { FLYWAY_JS_CONFIG_FILE, Flyway } from '@nestjs-mod/flyway';
+import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
-import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
+import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
-import {
-  PRISMA_SCHEMA_FILE,
-  PrismaClient,
-  PrismaModule,
-  getPrismaClientToken,
-} from '@nestjs-mod/prisma';
+import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
-import { ExecutionContext } from '@nestjs/common';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { MemoryHealthIndicator, PrismaHealthIndicator } from '@nestjs/terminus';
 import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
-import { AppModule } from './app/app.module';
+import { APP_FEATURE } from './app/app.constants';
+import { AuthorizerAppModule } from './app/authorizer-app.module';
+import { SupabaseAppModule } from './app/supabase-app.module';
+import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
+import { authProvider } from './environments/environment';
 
-const appFeatureName = 'app';
-const rootFolder = join(__dirname, '..', '..', '..');
+// detect vercel environments and start use supabase as store
+if (process.env.VERCEL) {
+  process.env.DISABLE_SERVE_STATIC = 'true';
+  process.env.SERVER_PORT = '3000';
+}
+
+let rootFolder = join(__dirname, '..', '..', '..');
+
+if (
+  !existsSync(join(rootFolder, PACKAGE_JSON_FILE)) &&
+  existsSync(join(__dirname, PACKAGE_JSON_FILE))
+) {
+  rootFolder = join(__dirname);
+}
 
 let appFolder = join(rootFolder, 'apps', 'server');
 
@@ -73,7 +66,19 @@ if (!existsSync(join(appFolder, PACKAGE_JSON_FILE))) {
   appFolder = join(rootFolder, 'dist', 'apps', 'server');
 }
 
+if (
+  !existsSync(join(appFolder, PACKAGE_JSON_FILE)) &&
+  existsSync(join(__dirname, PACKAGE_JSON_FILE))
+) {
+  appFolder = join(__dirname);
+}
+
 bootstrapNestApplication({
+  project: {
+    name: 'server',
+    description:
+      'Boilerplate for creating a fullstack application on NestJS and Angular',
+  },
   modules: {
     system: [
       ProjectUtils.forRoot({
@@ -82,17 +87,18 @@ bootstrapNestApplication({
           packageJsonFile: join(rootFolder, PACKAGE_JSON_FILE),
           nxProjectJsonFile: join(appFolder, PROJECT_JSON_FILE),
           envFile: join(rootFolder, '.env'),
+          printAllApplicationEnvs: true,
         },
       }),
       DefaultNestApplicationInitializer.forRoot({
         staticConfiguration: { bufferLogs: true },
       }),
-      NestjsPinoLoggerModule.forRoot(),
+      // NestjsPinoLoggerModule.forRoot(),
       TerminusHealthCheckModule.forRootAsync({
         imports: [
           PrismaModule.forFeature({
             featureModuleName: 'TerminusHealthCheckModule',
-            contextName: 'app',
+            contextName: APP_FEATURE,
           }),
           PrismaModule.forFeature({
             featureModuleName: 'TerminusHealthCheckModule',
@@ -103,58 +109,7 @@ bootstrapNestApplication({
             contextName: WEBHOOK_FEATURE,
           }),
         ],
-        configurationFactory: (
-          memoryHealthIndicator: MemoryHealthIndicator,
-          prismaHealthIndicator: PrismaHealthIndicator,
-          appPrismaClient: PrismaClient,
-          authPrismaClient: PrismaClient,
-          webhookPrismaClient: PrismaClient
-        ) => ({
-          standardHealthIndicators: [
-            {
-              name: 'memory_heap',
-              check: () =>
-                memoryHealthIndicator.checkHeap(
-                  'memory_heap',
-                  150 * 1024 * 1024
-                ),
-            },
-            {
-              name: `database_${'app'}`,
-              check: () =>
-                prismaHealthIndicator.pingCheck(
-                  `database_${'app'}`,
-                  appPrismaClient,
-                  { timeout: 60 * 1000 }
-                ),
-            },
-            {
-              name: `database_${AUTH_FEATURE}`,
-              check: () =>
-                prismaHealthIndicator.pingCheck(
-                  `database_${AUTH_FEATURE}`,
-                  authPrismaClient,
-                  { timeout: 60 * 1000 }
-                ),
-            },
-            {
-              name: `database_${WEBHOOK_FEATURE}`,
-              check: () =>
-                prismaHealthIndicator.pingCheck(
-                  `database_${WEBHOOK_FEATURE}`,
-                  webhookPrismaClient,
-                  { timeout: 60 * 1000 }
-                ),
-            },
-          ],
-        }),
-        inject: [
-          MemoryHealthIndicator,
-          PrismaHealthIndicator,
-          getPrismaClientToken('app'),
-          getPrismaClientToken(AUTH_FEATURE),
-          getPrismaClientToken(WEBHOOK_FEATURE),
-        ],
+        configurationClass: PrismaTerminusHealthCheckConfiguration,
       }),
       DefaultNestApplicationListener.forRoot({
         staticConfiguration: {
@@ -185,98 +140,31 @@ bootstrapNestApplication({
       }),
     ],
     core: [
-      AuthorizerModule.forRootAsync({
-        imports: [
-          WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
-        ],
-        inject: [WebhookUsersService],
-        configurationFactory: (webhookUsersService: WebhookUsersService) => {
-          return {
-            extraHeaders: {
-              'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
-            },
-            checkAccessValidator: async (
-              authorizerUser?: AuthorizerUser,
-              options?: CheckAccessOptions,
-              ctx?: ExecutionContext
-            ) => {
-              if (
-                typeof ctx?.getClass === 'function' &&
-                typeof ctx?.getHandler === 'function' &&
-                ctx?.getClass().name === 'TerminusHealthCheckController' &&
-                ctx?.getHandler().name === 'check'
-              ) {
-                return true;
-              }
-
-              const result = await defaultAuthorizerCheckAccessValidator(
-                authorizerUser,
-                options
-              );
-
-              if (ctx && authorizerUser?.id) {
-                const req: WebhookRequest & FilesRequest =
-                  getRequestFromExecutionContext(ctx);
-
-                // webhook
-                req.webhookUser =
-                  await webhookUsersService.createUserIfNotExists({
-                    externalUserId: authorizerUser?.id,
-                    externalTenantId: authorizerUser?.id,
-                    userRole: authorizerUser.roles?.includes('admin')
-                      ? 'Admin'
-                      : 'User',
-                  });
-
-                if (req.webhookUser) {
-                  req.externalTenantId = req.webhookUser.externalTenantId;
-                }
-
-                // files
-                req.filesUser = {
-                  userRole: authorizerUser.roles?.includes('admin')
-                    ? FilesRole.Admin
-                    : FilesRole.User,
-                };
-              }
-
-              return result;
-            },
-          };
-        },
-      }),
       PrismaToolsModule.forRoot(),
       PrismaModule.forRoot({
-        contextName: appFeatureName,
+        contextName: APP_FEATURE,
         staticConfiguration: {
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-          ],
-          featureName: appFeatureName,
+          featureName: APP_FEATURE,
           schemaFile: join(
             appFolder,
             'src',
             'prisma',
-            `${appFeatureName}-${PRISMA_SCHEMA_FILE}`
+            `${APP_FEATURE}-${PRISMA_SCHEMA_FILE}`
           ),
           prismaModule: isInfrastructureMode()
             ? import(`@nestjs-mod/prisma`)
             : import(`@prisma/app-client`),
           addMigrationScripts: false,
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
         contextName: WEBHOOK_FEATURE,
         staticConfiguration: {
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-          ],
           featureName: WEBHOOK_FEATURE,
           schemaFile: join(
             rootFolder,
@@ -294,17 +182,17 @@ bootstrapNestApplication({
             WEBHOOK_FOLDER,
             PROJECT_JSON_FILE
           ),
+
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
         contextName: AUTH_FEATURE,
         staticConfiguration: {
-          binaryTargets: [
-            'native',
-            'linux-musl',
-            'debian-openssl-1.1.x',
-            'linux-musl-openssl-3.0.x',
-          ],
           featureName: AUTH_FEATURE,
           schemaFile: join(
             rootFolder,
@@ -318,23 +206,45 @@ bootstrapNestApplication({
             : import(`@prisma/auth-client`),
           addMigrationScripts: false,
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
+
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
-      CacheManagerModule.forRoot({
+      KeyvModule.forRoot({
         staticConfiguration: {
-          type: isInfrastructureMode() ? 'memory' : 'redis',
+          storeFactoryByEnvironmentUrl: (uri) => {
+            return isInfrastructureMode()
+              ? undefined
+              : authProvider === 'authorizer'
+              ? [new KeyvRedis(createClient({ url: uri }))]
+              : [new KeyvPostgres({ uri }), { table: 'cache' }];
+          },
         },
       }),
-      MinioModule.forRoot(),
-      FilesModule.forRoot(),
+      MinioModule.forRoot(
+        authProvider === 'authorizer'
+          ? undefined
+          : {
+              staticConfiguration: { region: 'eu-central-1' },
+              staticEnvironments: {
+                minioUseSSL: 'true',
+              },
+            }
+      ),
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
-      AppModule.forRoot(),
-      AuthModule.forRootAsync({}),
+      authProvider === 'authorizer'
+        ? AuthorizerAppModule.forRoot()
+        : SupabaseAppModule.forRoot(),
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {
+          syncMode: authProvider === 'authorizer' ? false : true,
           events: [
             {
               eventName: 'app-demo.create',
@@ -377,6 +287,7 @@ bootstrapNestApplication({
         staticConfiguration: {
           markdownFile: join(appFolder, 'INFRASTRUCTURE.MD'),
           skipEmptySettings: true,
+          style: 'pretty',
         },
       }),
       Pm2.forRoot({
@@ -393,37 +304,40 @@ bootstrapNestApplication({
       }),
       DockerComposePostgreSQL.forRoot(),
       DockerComposePostgreSQL.forFeature({
-        featureModuleName: appFeatureName,
+        featureModuleName: APP_FEATURE,
       }),
-      DockerComposePostgreSQL.forFeature({
-        featureModuleName: AUTHORIZER_ENV_PREFIX,
-      }),
-      DockerComposeAuthorizer.forRoot({
-        staticConfiguration: {
-          image: 'lakhansamani/authorizer:1.4.4',
-          disableStrongPassword: 'true',
-          disableEmailVerification: 'true',
-          featureName: AUTHORIZER_ENV_PREFIX,
-          organizationName: 'NestJSModFullstack',
-          dependsOnServiceNames: {
-            'postgre-sql': 'service_healthy',
-          },
-          isEmailServiceEnabled: 'true',
-          isSmsServiceEnabled: 'false',
-          env: 'development',
-        },
-      }),
+      ...(authProvider === 'authorizer'
+        ? [
+            DockerComposePostgreSQL.forFeature({
+              featureModuleName: AUTHORIZER_ENV_PREFIX,
+            }),
+            DockerComposeAuthorizer.forRoot({
+              staticConfiguration: {
+                image: 'lakhansamani/authorizer:1.4.4',
+                disableStrongPassword: 'true',
+                disableEmailVerification: 'true',
+                featureName: AUTHORIZER_ENV_PREFIX,
+                organizationName: 'NestJSModFullstack',
+                dependsOnServiceNames: {
+                  'postgre-sql': 'service_healthy',
+                },
+                isEmailServiceEnabled: 'true',
+                isSmsServiceEnabled: 'false',
+                env: 'development',
+              },
+            }),
+          ]
+        : []),
       DockerComposeRedis.forRoot({
         staticConfiguration: { image: 'bitnami/redis:7.4.1' },
       }),
       DockerComposeMinio.forRoot({
         staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
-          featureName: appFeatureName,
+          featureName: APP_FEATURE,
           migrationsFolder: join(appFolder, 'src', 'migrations'),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
         },
       }),
       DockerComposePostgreSQL.forFeatureAsync({
@@ -436,7 +350,7 @@ bootstrapNestApplication({
           ),
         },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
           featureName: WEBHOOK_FEATURE,
           migrationsFolder: join(
@@ -445,7 +359,6 @@ bootstrapNestApplication({
             'src',
             'migrations'
           ),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
           nxProjectJsonFile: join(
             rootFolder,
             WEBHOOK_FOLDER,
@@ -459,11 +372,10 @@ bootstrapNestApplication({
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),
-      Flyway.forRoot({
+      PgFlyway.forRoot({
         staticConfiguration: {
           featureName: AUTH_FEATURE,
           migrationsFolder: join(rootFolder, AUTH_FOLDER, 'src', 'migrations'),
-          configFile: join(rootFolder, FLYWAY_JS_CONFIG_FILE),
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
         },
       }),

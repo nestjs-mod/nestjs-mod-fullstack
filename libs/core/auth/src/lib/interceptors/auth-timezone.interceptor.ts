@@ -43,7 +43,12 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
           concatMap(async (data) => {
             const user =
               await this.authCacheService.getCachedUserByExternalUserId(userId);
-            return this.authTimezoneService.convertObject(data, user?.timezone);
+            const newData = this.authTimezoneService.convertObject(
+              data,
+              user?.timezone
+            );
+
+            return newData;
           })
         );
       }
