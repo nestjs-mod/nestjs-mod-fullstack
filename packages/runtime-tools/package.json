@@ -1,9 +1,0 @@
-{
-    "i18n": [
-        {
-            "scope": "runtime-tools",
-            "path": "src/i18n",
-            "strategy": "join"
-        }
-    ]
-}
