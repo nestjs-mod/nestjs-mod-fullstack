@@ -1,3 +1,9 @@
+# [1.14.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.13.0...client-v1.14.0) (2025-02-11)
+
+### Features
+
+- Integrate supabase as an authentication server, database, key-value store, and deploy NestJS and Angular apps for Vercel (2025-02-12) ([#17](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/17)) ([9f2de5f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/9f2de5f6760eec6765945a5e14ab9788d2800e45))
+
 # [1.13.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.12.0...client-v1.13.0) (2024-12-30)
 
 ### Features
