@@ -36,7 +36,7 @@ services:
       DATABASE_NAME: '${SERVER_AUTHORIZER_DATABASE_NAME}'
       ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
       PORT: '${SERVER_AUTHORIZER_PORT}'
-      AUTHORIZER_URL: '${SERVER_AUTHORIZER_URL}'
+      AUTHORIZER_URL: 'http://localhost:${SERVER_AUTHORIZER_PORT}'
       COOKIE_NAME: '${SERVER_AUTHORIZER_COOKIE_NAME}'
       SMTP_HOST: '${SERVER_AUTHORIZER_SMTP_HOST}'
       SMTP_PORT: '${SERVER_AUTHORIZER_SMTP_PORT}'
@@ -167,6 +167,7 @@ services:
       SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
       SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
       SERVER_REDIS_URL: '${SERVER_REDIS_URL}'
+      SERVER_KEYV_URL: '${SERVER_KEYV_URL}'
     restart: 'always'
     depends_on:
       nestjs-mod-fullstack-authorizer:
@@ -216,7 +217,7 @@ services:
       SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
       SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
       CLIENT_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
-      SERVER_URL: 'http://nestjs-mod-fullstack-server:8080'
+      SERVER_URL: 'http://localhost:9090/api'
       SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
       SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
       SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'

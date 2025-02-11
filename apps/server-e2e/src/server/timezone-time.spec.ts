@@ -45,10 +45,6 @@ describe('Get server time from rest api and ws (timezone)', () => {
       .getAuthApi()
       .authControllerUpdateProfile({ timezone: null });
 
-    const { data: oldTime } = await restClientHelper
-      .getTimeApi()
-      .timeControllerTime();
-
     const last3ChangeTimeEvents = await lastValueFrom(
       restClientHelper
         .webSocket<string>({
@@ -63,10 +59,6 @@ describe('Get server time from rest api and ws (timezone)', () => {
     await restClientHelper
       .getAuthApi()
       .authControllerUpdateProfile({ timezone: -3 });
-
-    const { data: newTime } = await restClientHelper
-      .getTimeApi()
-      .timeControllerTime();
 
     const newLast3ChangeTimeEvents = await lastValueFrom(
       restClientHelper

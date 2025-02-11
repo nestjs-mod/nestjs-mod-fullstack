@@ -25,7 +25,7 @@ jobs:
           cmd: install
 
       - name: Build project
-        run: npm run manual-vercel-build
+        run: npm run manual-supabase-build
         env:
           SERVER_APP_DATABASE_URL: ${{ secrets.SERVER_APP_DATABASE_URL }}
           SERVER_AUTHORIZER_DATABASE_URL: ${{ secrets.SERVER_AUTHORIZER_DATABASE_URL }}

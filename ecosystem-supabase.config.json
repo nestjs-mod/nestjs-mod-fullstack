@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "server",
+      "script": "./node_modules/.bin/nx serve server --skip-nx-cache=true --configuration=supabase",
+      "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "client",
+      "script": "./node_modules/.bin/nx serve client --skip-nx-cache=true --configuration=supabase",
+      "node_args": "-r dotenv/config"
+    }
+  ]
+}

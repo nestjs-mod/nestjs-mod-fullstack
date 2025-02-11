@@ -32,7 +32,8 @@ export class AuthActiveLangService {
       catchError((err) => {
         if (
           'error' in err &&
-          (err.error as AuthErrorInterface).code === AuthErrorEnumInterface._001
+          (err.error as AuthErrorInterface).code ===
+            AuthErrorEnumInterface.AUTH_001
         ) {
           return of(
             localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
@@ -52,7 +53,8 @@ export class AuthActiveLangService {
       catchError((err) => {
         if (
           'error' in err &&
-          (err.error as AuthErrorInterface).code === AuthErrorEnumInterface._001
+          (err.error as AuthErrorInterface).code ===
+            AuthErrorEnumInterface.AUTH_001
         ) {
           localStorage.setItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY, lang);
 

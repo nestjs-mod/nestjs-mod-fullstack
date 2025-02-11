@@ -11,7 +11,7 @@ RUN rm -rf /var/cache/apk/* node_modules
 # Remove dev dependencies info
 RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install deps
-RUN yarn install
+RUN yarn install && rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 # Installing utilities to generate additional files
 RUN yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 -D
 # Some utilities require a ".env" file

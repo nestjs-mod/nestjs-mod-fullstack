@@ -1,7 +1,7 @@
-export const serverUrl = '';
+export const serverUrl = 'http://localhost:3000';
 export const webhookSuperAdminExternalUserId =
   '248ec37f-628d-43f0-8de2-f58da037dd0f';
-export const authorizerURL = 'http://localhost:8080';
+export const authorizerURL = '';
 export const minioURL =
   'https://gustcjgbrmmipkizqzso.supabase.co/storage/v1/s3';
 export const supabaseURL = 'https://gustcjgbrmmipkizqzso.supabase.co';

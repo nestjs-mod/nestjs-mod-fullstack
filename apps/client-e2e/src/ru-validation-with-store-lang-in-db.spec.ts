@@ -32,7 +32,7 @@ test.describe('Validation with store lang in db (ru)', () => {
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_URL').required().asString()
+      get('SERVER_AUTHORIZER_URL').asString() || ''
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),

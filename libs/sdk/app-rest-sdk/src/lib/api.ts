@@ -156,9 +156,9 @@ export interface AuthError {
  */
 
 export const AuthErrorEnum = {
-  _000: 'AUTH-000',
-  _001: 'AUTH-001',
-  _002: 'AUTH-002',
+  Auth000: 'AUTH-000',
+  Auth001: 'AUTH-001',
+  Auth002: 'AUTH-002',
 } as const;
 
 export type AuthErrorEnum = (typeof AuthErrorEnum)[keyof typeof AuthErrorEnum];
@@ -360,8 +360,8 @@ export interface FilesError {
  */
 
 export const FilesErrorEnum = {
-  _000: 'FILES-000',
-  _001: 'FILES-001',
+  Files000: 'FILES-000',
+  Files001: 'FILES-001',
 } as const;
 
 export type FilesErrorEnum =
@@ -929,12 +929,12 @@ export interface WebhookError {
  */
 
 export const WebhookErrorEnum = {
-  _000: 'WEBHOOK-000',
-  _001: 'WEBHOOK-001',
-  _002: 'WEBHOOK-002',
-  _003: 'WEBHOOK-003',
-  _004: 'WEBHOOK-004',
-  _005: 'WEBHOOK-005',
+  Webhook000: 'WEBHOOK-000',
+  Webhook001: 'WEBHOOK-001',
+  Webhook002: 'WEBHOOK-002',
+  Webhook003: 'WEBHOOK-003',
+  Webhook004: 'WEBHOOK-004',
+  Webhook005: 'WEBHOOK-005',
 } as const;
 
 export type WebhookErrorEnum =
@@ -3497,17 +3497,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3565,12 +3563,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3616,12 +3612,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3691,12 +3685,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3773,12 +3765,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3831,12 +3821,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3882,12 +3870,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3945,17 +3931,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4013,12 +3997,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4088,12 +4070,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4146,12 +4126,10 @@ export const WebhookApiAxiosParamCreator = function (
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4209,17 +4187,15 @@ export const WebhookApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       if (xExternalUserId != null) {
         localVarHeaderParameter['x-external-user-id'] = String(xExternalUserId);
       }
-
       if (xExternalTenantId != null) {
         localVarHeaderParameter['x-external-tenant-id'] =
           String(xExternalTenantId);
       }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};

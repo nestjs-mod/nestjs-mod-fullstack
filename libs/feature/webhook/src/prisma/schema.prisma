@@ -2,11 +2,11 @@ generator client {
   provider = "prisma-client-js"
   
   output   = "../../../../../node_modules/@prisma/webhook-client"
-  binaryTargets = ["native","rhel-openssl-3.0.x"]
+  binaryTargets = ["native","rhel-openssl-3.0.x","linux-musl-openssl-3.0.x"]
   
 }
 datasource db {
-  provider          = "postgres"
+  provider          = "postgresql"
   url               = env("SERVER_WEBHOOK_DATABASE_URL")
 }
 generator prismaClassGenerator {

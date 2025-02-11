@@ -7,13 +7,15 @@
     "db:create": "./node_modules/.bin/nx run-many -t=db-create",
     "db:create-and-fill": "npm run db:create && npm run pg-flyway:migrate",
     "_____flyway_____": "_____flyway_____",
-    "pg-flyway:migrate": "./node_modules/.bin/nx run-many -t=flyway-migrate"
+    "pg-flyway:migrate": "./node_modules/.bin/nx run-many -t=pg-flyway-migrate"
   },
   "private": true,
   "devDependencies": {
     "pg-flyway": "1.0.1",
     "nx": "20.3.3",
-    "rucken": "^4.15.0"
+    "rucken": "^4.15.0",
+    "reflect-metadata": "^0.1.13",
+    "pg-promise": "10.12.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5"

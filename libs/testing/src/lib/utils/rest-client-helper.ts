@@ -28,8 +28,8 @@ export class RestClientHelper {
   private authorizerClientID!: string;
 
   authorizationTokens?: AuthToken;
-
   authData?: AuthResponse['data'];
+
   private webhookProfile?: WebhookUser;
   private authProfile?: AuthProfileDto;
 

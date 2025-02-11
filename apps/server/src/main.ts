@@ -43,6 +43,7 @@ import { APP_FEATURE } from './app/app.constants';
 import { AuthorizerAppModule } from './app/authorizer-app.module';
 import { SupabaseAppModule } from './app/supabase-app.module';
 import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
+import { authProvider } from './environments/environment';
 
 let rootFolder = join(__dirname, '..', '..', '..');
 
@@ -148,7 +149,11 @@ bootstrapNestApplication({
             ? import(`@nestjs-mod/prisma`)
             : import(`@prisma/app-client`),
           addMigrationScripts: false,
-          binaryTargets: ['native', 'rhel-openssl-3.0.x'],
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
@@ -172,7 +177,11 @@ bootstrapNestApplication({
             PROJECT_JSON_FILE
           ),
 
-          binaryTargets: ['native', 'rhel-openssl-3.0.x'],
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
       PrismaModule.forRoot({
@@ -192,7 +201,11 @@ bootstrapNestApplication({
           addMigrationScripts: false,
           nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
 
-          binaryTargets: ['native', 'rhel-openssl-3.0.x'],
+          binaryTargets: [
+            'native',
+            'rhel-openssl-3.0.x',
+            'linux-musl-openssl-3.0.x',
+          ],
         },
       }),
       KeyvModule.forRoot({
@@ -200,14 +213,14 @@ bootstrapNestApplication({
           storeFactoryByEnvironmentUrl: (uri) => {
             return isInfrastructureMode()
               ? undefined
-              : process.env?.['SERVER_AUTHORIZER_URL']
+              : authProvider === 'authorizer'
               ? [new KeyvRedis(createClient({ url: uri }))]
               : [new KeyvPostgres({ uri }), { table: 'cache' }];
           },
         },
       }),
       MinioModule.forRoot(
-        process.env?.['SERVER_AUTHORIZER_URL']
+        authProvider === 'authorizer'
           ? undefined
           : {
               staticConfiguration: { region: 'eu-central-1' },
@@ -219,13 +232,13 @@ bootstrapNestApplication({
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
     feature: [
-      process.env?.['SERVER_AUTHORIZER_URL']
+      authProvider === 'authorizer'
         ? AuthorizerAppModule.forRoot()
         : SupabaseAppModule.forRoot(),
       WebhookModule.forRootAsync({
         staticEnvironments: { checkHeaders: false },
         configuration: {
-          syncMode: process.env?.['SERVER_AUTHORIZER_URL'] ? false : true,
+          syncMode: authProvider === 'authorizer' ? false : true,
           events: [
             {
               eventName: 'app-demo.create',
@@ -287,7 +300,7 @@ bootstrapNestApplication({
       DockerComposePostgreSQL.forFeature({
         featureModuleName: APP_FEATURE,
       }),
-      ...(process.env?.['SERVER_AUTHORIZER_URL']
+      ...(authProvider === 'authorizer'
         ? [
             DockerComposePostgreSQL.forFeature({
               featureModuleName: AUTHORIZER_ENV_PREFIX,

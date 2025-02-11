@@ -39,7 +39,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
     await expect(
       user1.getWebhookApi().webhookUsersControllerFindMany()
     ).rejects.toHaveProperty('response.data', {
-      code: WebhookErrorEnum._001,
+      code: WebhookErrorEnum.Webhook001,
       message: 'Forbidden',
     });
   });
@@ -53,7 +53,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
         .getWebhookApi()
         .webhookUsersControllerUpdateOne(userProfile.id, { userRole: 'Admin' })
     ).rejects.toHaveProperty('response.data', {
-      code: WebhookErrorEnum._001,
+      code: WebhookErrorEnum.Webhook001,
       message: 'Forbidden',
     });
   });

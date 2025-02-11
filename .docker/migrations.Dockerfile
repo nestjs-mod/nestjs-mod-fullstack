@@ -16,7 +16,7 @@ COPY ./.docker/.dockerignore .dockerignore
 COPY ./.docker/nx.json nx.json
 
 # Install dependencies
-RUN rm -rf yarn.lock node_modules && yarn install
+RUN rm -rf yarn.lock node_modules && yarn install && rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

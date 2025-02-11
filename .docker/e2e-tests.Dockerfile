@@ -26,7 +26,7 @@ RUN rm -rf yarn.lock node_modules && \
     # Install external utils
     npx playwright install --with-deps && \
     # Clear cache
-    npm cache clean --force
+    rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 
 # Copy folders with migrations
 # COPY --chown=node:node ./apps ./apps
