@@ -33,7 +33,7 @@ jobs:
       - name: Build project
         run: |
           cp -r .vercel/.env.production.local .env
-          export $(cat .env)
+          set -o allexport && source .env && set +o allexport
           echo -e "\nSERVER_AUTH_DATABASE_URL1=$POSTGRES_URL" >> .env
           echo -e "\SERVER_APP_DATABASE_URL1=$POSTGRES_URL" >> .env
           echo -e "\SERVER_WEBHOOK_DATABASE_URL1=$POSTGRES_URL" >> .env
