@@ -2,7 +2,9 @@ import { config } from 'dotenv';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const parsedEnvs = config({ path: '.env' }).parsed || {};
+const envFile = join(__dirname, '.env');
+
+const parsedEnvs = config({ path: envFile }).parsed || {};
 const supabaseUrl = parsedEnvs.SUPABASE_URL;
 const postgresUrl = parsedEnvs.POSTGRES_URL;
 const supabaseAnonKey = parsedEnvs.SUPABASE_ANON_KEY;
@@ -79,3 +81,29 @@ export const supabaseKey =
   '${supabaseAnonKey}';
 `
 );
+
+const envContent = Object.entries(parsedEnvs)
+  .map(([key, value]) => {
+    if (key.trim().startsWith('#')) {
+      return `${key}${value ? value : ''}`;
+    }
+    if (value !== undefined && value !== null && !isNaN(+value)) {
+      return `${key}=${value}`;
+    }
+    if (
+      value &&
+      (value.includes('*') ||
+        value.includes('!') ||
+        value.includes('$') ||
+        value.includes(' '))
+    ) {
+      if (value.includes("'")) {
+        return `${key}='${value.split("'").join("\\'")}'`;
+      }
+      return `${key}='${value}'`;
+    }
+    return `${key}=${value}`;
+  })
+  .join('\n');
+
+writeFileSync(envFile, envContent);
