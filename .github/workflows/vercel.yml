@@ -2,8 +2,7 @@ name: Deploy to Vercel
 
 on:
   push:
-    branches:
-      - feature/2025-01-10
+    branches: ['master', 'alpha', 'beta']
 
 jobs:
   build-and-deploy:
