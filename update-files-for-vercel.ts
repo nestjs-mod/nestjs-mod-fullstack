@@ -3,26 +3,25 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const parsedEnvs = config({ path: '.env' }).parsed || {};
-console.log(parsedEnvs);
+const supabaseUrl = parsedEnvs.SUPABASE_URL;
+const postgresUrl = parsedEnvs.POSTGRES_URL;
+const supabaseAnonKey = parsedEnvs.SUPABASE_ANON_KEY;
 
-if (!parsedEnvs.SUPABASE_URL) {
+if (!supabaseUrl) {
   throw new Error('SUPABASE_URL not set');
 }
 
-const supabaseName = parsedEnvs.SUPABASE_URL.split('//')[1].split('.')[0];
+const supabaseName = supabaseUrl.split('//')[1].split('.')[0];
 
-if (!parsedEnvs.POSTGRES_URL) {
+if (!postgresUrl) {
   throw new Error('POSTGRES_URL not set');
 }
 
-parsedEnvs.SERVER_ROOT_DATABASE_URL = parsedEnvs.POSTGRES_URL;
-parsedEnvs.SERVER_AUTH_DATABASE_URL = parsedEnvs.POSTGRES_URL;
-parsedEnvs.SERVER_APP_DATABASE_URL = parsedEnvs.POSTGRES_URL;
-parsedEnvs.SERVER_WEBHOOK_DATABASE_URL = parsedEnvs.POSTGRES_URL;
-parsedEnvs.SERVER_KEYV_URL = parsedEnvs.POSTGRES_URL.replace(
-  '?schema=public',
-  ''
-);
+parsedEnvs.SERVER_ROOT_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_AUTH_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_APP_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_WEBHOOK_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_KEYV_URL = postgresUrl.replace('?schema=public', '');
 
 if (!supabaseName) {
   throw new Error('supabaseName not set');
@@ -33,11 +32,11 @@ parsedEnvs.SERVER_MINIO_URL = `https://${supabaseName}.supabase.co/storage/v1/s3
 parsedEnvs.SERVER_MINIO_SERVER_HOST = `${supabaseName}.supabase.co`;
 parsedEnvs.SERVER_SUPABASE_URL = `https://${supabaseName}.supabase.co`;
 
-if (!parsedEnvs.SUPABASE_ANON_KEY) {
+if (!supabaseAnonKey) {
   throw new Error('SUPABASE_ANON_KEY not set');
 }
 
-parsedEnvs.SERVER_SUPABASE_KEY = parsedEnvs.SUPABASE_ANON_KEY;
+parsedEnvs.SERVER_SUPABASE_KEY = supabaseAnonKey;
 
 if (!parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID) {
   parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
@@ -77,6 +76,6 @@ export const minioURL =
   'https://${supabaseName}.supabase.co/storage/v1/s3';
 export const supabaseURL = 'https://${supabaseName}.supabase.co';
 export const supabaseKey =
-  '${parsedEnvs.SUPABASE_ANON_KEY}';
+  '${supabaseAnonKey}';
 `
 );
