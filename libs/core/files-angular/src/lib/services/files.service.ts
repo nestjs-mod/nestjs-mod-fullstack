@@ -57,8 +57,14 @@ export class FilesService {
   }) {
     return new Observable<FilesPresignedUrlsInterface>((observer) => {
       const outPresignedUrls: FilesPresignedUrlsInterface = {
-        downloadUrl: this.getMinioURL() + presignedUrls.downloadUrl,
-        uploadUrl: this.getMinioURL() + presignedUrls.uploadUrl,
+        downloadUrl:
+          (!presignedUrls.downloadUrl.toLowerCase().startsWith('http')
+            ? this.getMinioURL()
+            : '') + presignedUrls.downloadUrl,
+        uploadUrl:
+          (!presignedUrls.downloadUrl.toLowerCase().startsWith('http')
+            ? this.getMinioURL()
+            : '') + presignedUrls.uploadUrl,
       };
       if (presignedUrls.uploadUrl) {
         const xhr = new XMLHttpRequest();
