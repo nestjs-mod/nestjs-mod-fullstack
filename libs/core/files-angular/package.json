@@ -2,7 +2,15 @@
     "name": "@nestjs-mod-fullstack/files-angular",
     "version": "0.0.1",
     "peerDependencies": {
-        "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1"
+        "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
+    "@ngx-formly/core": "^6.3.12",
+    "@angular/common": "19.0.5",
+    "@angular/core": "19.0.5",
+    "@angular/forms": "19.0.5",
+    "ng-zorro-antd": "^19.0.0",
+    "rxjs": "^7.8.0",
+    "@jsverse/transloco-keys-manager": "^6.0.0",
+    "@jsverse/transloco": "^7.5.0"
     },
     "sideEffects": false,
     "i18n": [
