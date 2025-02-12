@@ -69,8 +69,8 @@ jobs:
         run: |
           rm -rf yarn.lock
           cp -r original-yarn.lock yarn.lock
-          rm -rf package.lock
-          cp -r original-package.lock package.lock
+          rm -rf package.json
+          cp -r original-package.json package.json
 
       - name: Install dependencies
         uses: borales/actions-yarn@v4

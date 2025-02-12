@@ -26,6 +26,7 @@ import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-wit
 import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
 import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
+import { ExecutionContext } from '@nestjs/common';
 
 export const { AppModule: SupabaseAppModule } = createNestModule({
   moduleName: APP_MODULE,
@@ -70,7 +71,8 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
         join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
       ],
       vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
-      contextRequestDetector: (ctx) => getRequestFromExecutionContext(ctx),
+      contextRequestDetector: (ctx: ExecutionContext) =>
+        getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
       validationPipeOptions: {
         validatorPackage: require('class-validator'),

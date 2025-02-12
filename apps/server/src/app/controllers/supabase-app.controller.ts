@@ -18,7 +18,13 @@ import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
-import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+import {
+  getGlobal,
+  InjectTranslateFunction,
+  TranslateFunction,
+  TranslatesConfig,
+  TranslatesService,
+} from 'nestjs-translates';
 import { APP_FEATURE } from '../app.constants';
 import { AppDemo } from '../generated/rest/dto/app-demo.entity';
 import { AppService } from '../services/app.service';
@@ -37,7 +43,8 @@ export class AppController {
     @InjectPrismaClient(APP_FEATURE)
     private readonly appPrismaClient: AppPrismaClient,
     private readonly appService: AppService,
-    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
+    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>,
+    private readonly translatesService: TranslatesService
   ) {}
 
   @Get('/get-data')
@@ -46,7 +53,13 @@ export class AppController {
     @InjectTranslateFunction() getText: TranslateFunction,
     @CurrentAuthRequest() req?: AuthRequest
   ) {
-    console.log(req);
+    const locale = getGlobal<{
+      translatesConfig: TranslatesConfig;
+    }>().translatesConfig.requestLocaleDetector(req);
+    console.log({
+      locale,
+      w: this.translatesService.translate('Hello API', locale),
+    });
     return this.appService.getData(getText);
   }
 
