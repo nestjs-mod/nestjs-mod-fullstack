@@ -94,6 +94,10 @@ console.log(
 );
 console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
 console.log(
+  'rootFolder/../',
+  existsSync(join(rootFolder, '..')) && readdirSync(join(rootFolder, '..'))
+);
+console.log(
   'rootFolder/../../',
   existsSync(join(rootFolder, '..', '..')) &&
     readdirSync(join(rootFolder, '..', '..'))
