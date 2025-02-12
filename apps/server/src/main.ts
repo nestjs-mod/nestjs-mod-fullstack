@@ -77,7 +77,27 @@ console.log(
   existsSync(join(rootFolder, 'dist/apps/server/assets/i18n')) &&
     readdirSync(join(rootFolder, 'dist/apps/server/assets/i18n'))
 );
+console.log(
+  'rootFolder/dist/apps/server/assets',
+  existsSync(join(rootFolder, 'dist/apps/server/assets')) &&
+    readdirSync(join(rootFolder, 'dist/apps/server/assets'))
+);
+console.log(
+  'rootFolder/dist/apps/server',
+  existsSync(join(rootFolder, 'dist/apps/server')) &&
+    readdirSync(join(rootFolder, 'dist/apps/server'))
+);
+console.log(
+  'rootFolder/dist/apps',
+  existsSync(join(rootFolder, 'dist/apps')) &&
+    readdirSync(join(rootFolder, 'dist/apps'))
+);
 console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
+console.log(
+  'rootFolder/../../',
+  existsSync(join(rootFolder, '..', '..')) &&
+    readdirSync(join(rootFolder, '..', '..'))
+);
 console.log('appFolder', existsSync(appFolder) && readdirSync(appFolder));
 console.log('__dirname', existsSync(__dirname) && readdirSync(__dirname));
 console.log(
