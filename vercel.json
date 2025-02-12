@@ -6,6 +6,14 @@
             "use": "@vercel/static"
         },
         {
+            "src": "dist/apps/server/assets/**",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "dist/apps/server/assets/**/**",
+            "use": "@vercel/static"
+        },
+        {
             "src": "dist/apps/server/main.js",
             "use": "@vercel/node"
         }
