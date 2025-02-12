@@ -44,9 +44,9 @@ export class AppController {
   @ApiOkResponse({ type: AppData })
   getData(
     @InjectTranslateFunction() getText: TranslateFunction,
-    @CurrentAuthRequest() req: AuthRequest
+    @CurrentAuthRequest() req?: AuthRequest
   ) {
-    console.log({ headers: req.headers });
+    console.log({ headers: req?.headers });
     return this.appService.getData(getText);
   }
 
