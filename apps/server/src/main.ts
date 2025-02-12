@@ -42,14 +42,8 @@ import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
 import { AuthorizerAppModule } from './app/authorizer-app.module';
 import { SupabaseAppModule } from './app/supabase-app.module';
-import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
 import { authProvider } from './environments/environment';
-
-// detect vercel environments and start use supabase as store
-if (process.env.VERCEL) {
-  process.env.DISABLE_SERVE_STATIC = 'true';
-  process.env.SERVER_PORT = '3000';
-}
+import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
 
 let rootFolder = join(__dirname, '..', '..', '..');
 
