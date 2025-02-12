@@ -28,6 +28,26 @@ import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ExecutionContext } from '@nestjs/common';
 
+console.log({
+  localePaths: [
+    join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
+    join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n', 'getText'),
+    join(
+      process.cwd(),
+      'dist',
+      'apps',
+      'server',
+      'assets',
+      'i18n',
+      'class-validator-messages'
+    ),
+  ],
+  vendorLocalePaths: [
+    join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
+  ],
+  usePipes: true,
+  useInterceptors: true,
+});
 export const { AppModule: SupabaseAppModule } = createNestModule({
   moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
@@ -66,22 +86,28 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
-        join(join(process.cwd(), 'dist', 'apps', 'server'), 'assets', 'i18n'),
+        join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
         join(
-          join(process.cwd(), 'dist', 'apps', 'server'),
+          process.cwd(),
+          'dist',
+          'apps',
+          'server',
           'assets',
           'i18n',
           'getText'
         ),
         join(
-          join(process.cwd(), 'dist', 'apps', 'server'),
+          process.cwd(),
+          'dist',
+          'apps',
+          'server',
           'assets',
           'i18n',
           'class-validator-messages'
         ),
       ],
       vendorLocalePaths: [
-        join(join(process.cwd(), 'dist', 'apps', 'server'), 'assets', 'i18n'),
+        join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
       ],
       contextRequestDetector: (ctx: ExecutionContext) =>
         getRequestFromExecutionContext(ctx),

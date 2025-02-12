@@ -72,13 +72,18 @@ if (authProvider) {
   appFolder = join(process.cwd(), 'dist', 'apps', 'server');
 }
 
-// console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
-// console.log('appFolder', existsSync(appFolder) && readdirSync(appFolder));
-// console.log('__dirname', existsSync(__dirname) && readdirSync(__dirname));
-// console.log(
-//   'process.cwd()',
-//   existsSync(process.cwd()) && readdirSync(process.cwd())
-// );
+console.log(
+  'rootFolder/dist/apps/server/assets/i18n',
+  existsSync(join(rootFolder, 'dist/apps/server/assets/i18n')) &&
+    readdirSync(join(rootFolder, 'dist/apps/server/assets/i18n'))
+);
+console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
+console.log('appFolder', existsSync(appFolder) && readdirSync(appFolder));
+console.log('__dirname', existsSync(__dirname) && readdirSync(__dirname));
+console.log(
+  'process.cwd()',
+  existsSync(process.cwd()) && readdirSync(process.cwd())
+);
 
 bootstrapNestApplication({
   project: {
