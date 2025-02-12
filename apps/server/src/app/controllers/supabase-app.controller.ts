@@ -8,7 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 
-import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
+import {
+  AllowEmptyAuthUser,
+  AuthRequest,
+  CurrentAuthRequest,
+} from '@nestjs-mod-fullstack/auth';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -38,7 +42,11 @@ export class AppController {
 
   @Get('/get-data')
   @ApiOkResponse({ type: AppData })
-  getData(@InjectTranslateFunction() getText: TranslateFunction) {
+  getData(
+    @InjectTranslateFunction() getText: TranslateFunction,
+    @CurrentAuthRequest() req: AuthRequest
+  ) {
+    console.log({ headers: req.headers });
     return this.appService.getData(getText);
   }
 
