@@ -46,7 +46,7 @@ export class AppController {
     @InjectTranslateFunction() getText: TranslateFunction,
     @CurrentAuthRequest() req?: AuthRequest
   ) {
-    console.log({ headers: req?.headers });
+    console.log(req);
     return this.appService.getData(getText);
   }
 

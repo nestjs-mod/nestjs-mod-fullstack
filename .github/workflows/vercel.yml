@@ -36,10 +36,14 @@ jobs:
           npm run manual-supabase-build
 
       - name: Remove devDependencies
-        run: echo $(cat package.json | jq 'del(.devDependencies)') > package.json
+        run: |
+          cp -r package.json original-package.json
+          echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
       - name: Remove yarn lock file
-        run: rm -rf yarn.lock
+        run: |
+          cp -r yarn.lock original-yarn.lock
+          rm -rf yarn.lock
 
       - name: Copy the settings
         run: cp -r .docker/nx.json nx.json
@@ -60,6 +64,18 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Restore original yarn lock file and package.json
+        run: |
+          rm -rf yarn.lock
+          cp -r original-yarn.lock yarn.lock
+          rm -rf package.lock
+          cp -r original-package.lock package.lock
+
+      - name: Install dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
 
       - name: Run e2e-tests
         run: |

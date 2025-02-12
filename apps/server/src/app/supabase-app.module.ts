@@ -5,7 +5,11 @@ import {
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
+import {
+  createNestModule,
+  getRequestFromExecutionContext,
+  NestModuleCategory,
+} from '@nestjs-mod/common';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
@@ -66,6 +70,7 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
         join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
       ],
       vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
+      contextRequestDetector: (ctx) => getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
       validationPipeOptions: {
         validatorPackage: require('class-validator'),
