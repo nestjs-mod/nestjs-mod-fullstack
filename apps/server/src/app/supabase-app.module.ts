@@ -66,11 +66,23 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
-        join(__dirname, 'assets', 'i18n'),
-        join(__dirname, 'assets', 'i18n', 'getText'),
-        join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
+        join(join(process.cwd(), 'dist', 'apps', 'server'), 'assets', 'i18n'),
+        join(
+          join(process.cwd(), 'dist', 'apps', 'server'),
+          'assets',
+          'i18n',
+          'getText'
+        ),
+        join(
+          join(process.cwd(), 'dist', 'apps', 'server'),
+          'assets',
+          'i18n',
+          'class-validator-messages'
+        ),
       ],
-      vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
+      vendorLocalePaths: [
+        join(join(process.cwd(), 'dist', 'apps', 'server'), 'assets', 'i18n'),
+      ],
       contextRequestDetector: (ctx: ExecutionContext) =>
         getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
@@ -94,7 +106,12 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
       ? []
       : [
           ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client', 'browser'),
+            rootPath: join(
+              join(process.cwd(), 'dist', 'apps', 'server'),
+              '..',
+              'client',
+              'browser'
+            ),
           }),
         ]),
   ],
