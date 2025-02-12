@@ -1,4 +1,8 @@
-import { UseAuthInterceptorsAndGuards } from '@nestjs-mod-fullstack/auth';
+import {
+  AuthRequest,
+  CurrentAuthRequest,
+  UseAuthInterceptorsAndGuards,
+} from '@nestjs-mod-fullstack/auth';
 import { AllowEmptyUser, AuthorizerGuard } from '@nestjs-mod/authorizer';
 import { Controller, Get } from '@nestjs/common';
 
@@ -24,7 +28,8 @@ import { ChangeTimeStream } from '../app.constants';
 export class TimeController {
   @Get('/time')
   @ApiOkResponse({ type: Date })
-  time() {
+  time(@CurrentAuthRequest() req: AuthRequest) {
+    console.log(req.headers);
     return new Date();
   }
 
