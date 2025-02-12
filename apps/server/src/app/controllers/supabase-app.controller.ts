@@ -8,13 +8,22 @@ import {
   Put,
 } from '@nestjs/common';
 
-import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
+import {
+  AllowEmptyAuthUser,
+  AuthRequest,
+  CurrentAuthRequest,
+} from '@nestjs-mod-fullstack/auth';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
-import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
+import {
+  ACCEPT_LANGUAGE,
+  InjectTranslateFunction,
+  TranslateFunction,
+  TranslatesService,
+} from 'nestjs-translates';
 import { APP_FEATURE } from '../app.constants';
 import { AppDemo } from '../generated/rest/dto/app-demo.entity';
 import { AppService } from '../services/app.service';
@@ -33,12 +42,26 @@ export class AppController {
     @InjectPrismaClient(APP_FEATURE)
     private readonly appPrismaClient: AppPrismaClient,
     private readonly appService: AppService,
-    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
+    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>,
+    private readonly translatesService: TranslatesService
   ) {}
 
   @Get('/get-data')
   @ApiOkResponse({ type: AppData })
-  getData(@InjectTranslateFunction() getText: TranslateFunction) {
+  getData(
+    @InjectTranslateFunction() getText: TranslateFunction,
+    @CurrentAuthRequest() authRequest?: AuthRequest
+  ) {
+    console.log({
+      locale: authRequest?.headers[ACCEPT_LANGUAGE],
+      translated: authRequest
+        ? this.translatesService.translate(
+            'Hello API',
+            authRequest.headers[ACCEPT_LANGUAGE]
+          )
+        : null,
+      headers: authRequest?.headers,
+    });
     return this.appService.getData(getText);
   }
 
