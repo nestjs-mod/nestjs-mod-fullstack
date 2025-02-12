@@ -36,7 +36,7 @@ import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { existsSync, writeFileSync } from 'fs';
+import { existsSync, readdirSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
@@ -66,6 +66,14 @@ if (
 ) {
   appFolder = join(__dirname);
 }
+
+console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
+console.log('appFolder', existsSync(appFolder) && readdirSync(appFolder));
+console.log('__dirname', existsSync(__dirname) && readdirSync(__dirname));
+console.log(
+  'process.cwd()',
+  existsSync(process.cwd()) && readdirSync(process.cwd())
+);
 
 bootstrapNestApplication({
   project: {
