@@ -35,33 +35,40 @@ export const CurrentAuthUser = createParamDecorator(
 function AddHandleConnection() {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (constructor: Function) {
-    constructor.prototype.handleConnection = function (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      client: any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...args: any[]
-    ) {
-      const authorizationHeader = args[0]?.headers.authorization;
-      const queryToken = args[0]?.url?.split('token=')?.[1];
-      client.headers = {
-        authorization: authorizationHeader
-          ? authorizationHeader
-          : queryToken
-          ? `Bearer ${queryToken}`
-          : '',
+    if (constructor.prototype) {
+      constructor.prototype.handleConnection = function (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        client: any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...args: any[]
+      ) {
+        const authorizationHeader = args[0]?.headers.authorization;
+        const queryToken = args[0]?.url?.split('token=')?.[1];
+        client.headers = {
+          authorization: authorizationHeader
+            ? authorizationHeader
+            : queryToken
+            ? `Bearer ${queryToken}`
+            : '',
+        };
       };
-    };
+    }
   };
 }
 
 export function UseAuthInterceptorsAndGuards(options?: {
   // eslint-disable-next-line @typescript-eslint/ban-types
   guards?: (CanActivate | Function)[];
+  skipInterceptor?: boolean;
 }) {
   return applyDecorators(
-    UseInterceptors(AuthTimezoneInterceptor),
-    UseGuards(...(options?.guards || []), AuthGuard),
-    AllowEmptyAuthUser(),
-    AddHandleConnection()
+    ...[
+      ...(options?.skipInterceptor
+        ? []
+        : [UseInterceptors(AuthTimezoneInterceptor)]),
+      UseGuards(...(options?.guards || []), AuthGuard),
+      AllowEmptyAuthUser(),
+      AddHandleConnection(),
+    ]
   );
 }

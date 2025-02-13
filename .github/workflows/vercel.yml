@@ -122,3 +122,8 @@ jobs:
           npx --yes tsx update-files-for-vercel.ts
           npx playwright install chromium --with-deps
           npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        with:
+          name: e2e-tests-videos
+          path: apps/client-e2e/src/video/

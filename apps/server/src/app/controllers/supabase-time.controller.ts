@@ -12,7 +12,10 @@ import { ChangeTimeStream } from '../app.constants';
 import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
 import { SupabaseGuard } from '../supabase/supabase.guard';
 
-@UseAuthInterceptorsAndGuards({ guards: [SupabaseGuard] })
+@UseAuthInterceptorsAndGuards({
+  guards: [SupabaseGuard],
+  skipInterceptor: true,
+})
 @AllowEmptySupabaseUser()
 @WebSocketGateway({
   cors: {
@@ -29,6 +32,7 @@ export class TimeController {
     return new Date();
   }
 
+  @UseAuthInterceptorsAndGuards()
   @SubscribeMessage(ChangeTimeStream)
   onChangeTimeStream(): Observable<WsResponse<Date>> {
     return interval(1000).pipe(

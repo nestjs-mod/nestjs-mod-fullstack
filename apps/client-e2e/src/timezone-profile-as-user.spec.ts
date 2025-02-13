@@ -5,6 +5,8 @@ import { get } from 'env-var';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
+process.env.TZ = 'UTC';
+
 test.describe('Work with profile as "User" role (timezone', () => {
   test.describe.configure({ mode: 'serial' });
 
@@ -174,6 +176,8 @@ test.describe('Work with profile as "User" role (timezone', () => {
   test('should change timezone in profile', async () => {
     const oldServerTime = await page.locator('#serverTime').innerText();
 
+    console.log({ oldServerTime });
+
     expect(
       oldServerTime
         .split(' ')
@@ -230,7 +234,18 @@ test.describe('Work with profile as "User" role (timezone', () => {
 
     await setTimeout(10000);
 
+    await page.reload();
+
+    const currentServerTime = await page.locator('#serverTime').innerText();
+
+    console.log({ currentServerTime });
+
+    await setTimeout(10000);
+
     const newServerTime = await page.locator('#serverTime').innerText();
+
+    console.log({ newServerTime });
+
     expect(
       newServerTime
         .split(' ')
