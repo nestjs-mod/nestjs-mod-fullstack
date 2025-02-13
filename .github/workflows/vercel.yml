@@ -118,5 +118,6 @@ jobs:
           export BASE_URL=https://nestjs-mod-fullstack.vercel.app
           export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
           export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
+          cp -r .vercel/.env.production.local .env
           npx --yes tsx update-files-for-vercel.ts
           npm run test:e2e
