@@ -70,6 +70,9 @@ if (
 if (authProvider) {
   rootFolder = process.cwd();
   appFolder = join(process.cwd(), 'dist', 'apps', 'server');
+  if (existsSync(join(rootFolder, 'assets'))) {
+    appFolder = process.cwd();
+  }
 }
 
 console.log(
