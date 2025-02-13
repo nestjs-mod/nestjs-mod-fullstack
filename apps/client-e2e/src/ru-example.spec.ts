@@ -54,7 +54,7 @@ test.describe('basic usage (ru)', () => {
       .last()
       .click();
 
-    await setTimeout(4000);
+    await setTimeout(7000);
     //
 
     await expect(

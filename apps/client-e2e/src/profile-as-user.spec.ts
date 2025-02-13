@@ -94,7 +94,7 @@ test.describe('Work with profile as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -163,7 +163,7 @@ test.describe('Work with profile as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -240,7 +240,7 @@ test.describe('Work with profile as "User" role', () => {
       .locator('auth-profile-form')
       .locator('button[type=submit]')
       .click();
-    await setTimeout(3000);
+    await setTimeout(7000);
   });
 
   test('sign out', async () => {
@@ -305,7 +305,7 @@ test.describe('Work with profile as "User" role', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()

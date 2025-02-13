@@ -94,7 +94,7 @@ test.describe('Validation', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()

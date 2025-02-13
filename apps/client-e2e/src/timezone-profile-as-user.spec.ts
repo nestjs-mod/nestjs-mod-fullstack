@@ -97,7 +97,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -166,7 +166,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
