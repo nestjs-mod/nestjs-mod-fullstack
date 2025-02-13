@@ -36,14 +36,10 @@ jobs:
           npm run manual-supabase-build
 
       - name: Remove devDependencies
-        run: |
-          cp -r package.json original-package.json
-          echo $(cat package.json | jq 'del(.devDependencies)') > package.json
+        run: echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
       - name: Remove yarn lock file
-        run: |
-          cp -r yarn.lock original-yarn.lock
-          rm -rf yarn.lock
+        run: rm -rf yarn.lock
 
       - name: Copy the settings
         run: cp -r .docker/nx.json nx.json
@@ -65,17 +61,32 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Restore original yarn lock file and package.json
-        run: |
-          rm -rf yarn.lock
-          cp -r original-yarn.lock yarn.lock
-          rm -rf package.json
-          cp -r original-package.json package.json
+  e2e-tests:
+    environment: vercel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
 
       - name: Install dependencies
         uses: borales/actions-yarn@v4
         with:
           cmd: install
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Generate prisma clients
+        run: npm run prisma:generate
 
       - name: Run e2e-tests
         run: |
@@ -84,5 +95,8 @@ jobs:
           export BASE_URL=https://$VERCEL_PROJECT_PRODUCTION_URL
           export CLIENT_URL=https://$VERCEL_PROJECT_PRODUCTION_URL
           export SERVER_URL=https://$VERCEL_PROJECT_PRODUCTION_URL/api
+          echo $BASE_URL
+          echo $CLIENT_URL
+          echo $SERVER_URL
           npx --yes tsx update-files-for-vercel.ts
           npm run test:e2e
