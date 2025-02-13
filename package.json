@@ -6,7 +6,7 @@
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
     "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run prisma:generate && npm run pm2-supabase:dev:start",
     "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
-    "pm2-supabase-full:dev:test:e2e": "export SERVER_URL=http://localhost:3000 && npm run test:e2e",
+    "pm2-supabase-full:dev:test:e2e": "npm run test:e2e",
     "pm2-supabase:dev:start": "./node_modules/.bin/pm2 start ./ecosystem-supabase.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:4200",
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
     "pm2-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server && npm run db:create-and-fill && npm run pm2:dev:start",

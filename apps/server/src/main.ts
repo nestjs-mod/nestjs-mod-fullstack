@@ -1,3 +1,5 @@
+process.env.TZ = 'UTC';
+
 import KeyvPostgres from '@keyv/postgres';
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
@@ -36,7 +38,7 @@ import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
 import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { existsSync, readdirSync, writeFileSync } from 'fs';
+import { existsSync, writeFileSync } from 'fs';
 import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
@@ -66,51 +68,6 @@ if (
 ) {
   appFolder = join(__dirname);
 }
-
-if (authProvider) {
-  rootFolder = process.cwd();
-  appFolder = join(process.cwd(), 'dist', 'apps', 'server');
-  if (existsSync(join(rootFolder, 'assets'))) {
-    appFolder = process.cwd();
-  }
-}
-
-console.log(
-  'rootFolder/dist/apps/server/assets/i18n',
-  existsSync(join(rootFolder, 'dist/apps/server/assets/i18n')) &&
-    readdirSync(join(rootFolder, 'dist/apps/server/assets/i18n'))
-);
-console.log(
-  'rootFolder/dist/apps/server/assets',
-  existsSync(join(rootFolder, 'dist/apps/server/assets')) &&
-    readdirSync(join(rootFolder, 'dist/apps/server/assets'))
-);
-console.log(
-  'rootFolder/dist/apps/server',
-  existsSync(join(rootFolder, 'dist/apps/server')) &&
-    readdirSync(join(rootFolder, 'dist/apps/server'))
-);
-console.log(
-  'rootFolder/dist/apps',
-  existsSync(join(rootFolder, 'dist/apps')) &&
-    readdirSync(join(rootFolder, 'dist/apps'))
-);
-console.log('rootFolder', existsSync(rootFolder) && readdirSync(rootFolder));
-console.log(
-  'rootFolder/../',
-  existsSync(join(rootFolder, '..')) && readdirSync(join(rootFolder, '..'))
-);
-console.log(
-  'rootFolder/../../',
-  existsSync(join(rootFolder, '..', '..')) &&
-    readdirSync(join(rootFolder, '..', '..'))
-);
-console.log('appFolder', existsSync(appFolder) && readdirSync(appFolder));
-console.log('__dirname', existsSync(__dirname) && readdirSync(__dirname));
-console.log(
-  'process.cwd()',
-  existsSync(process.cwd()) && readdirSync(process.cwd())
-);
 
 bootstrapNestApplication({
   project: {

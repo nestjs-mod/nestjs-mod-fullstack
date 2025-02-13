@@ -64,21 +64,22 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
-#
-#      - name: Restore original yarn lock file and package.json
-#        run: |
-#          rm -rf yarn.lock
-#          cp -r original-yarn.lock yarn.lock
-#          rm -rf package.json
-#          cp -r original-package.json package.json
-#
-#      - name: Install dependencies
-#        uses: borales/actions-yarn@v4
-#        with:
-#          cmd: install
-#
-#      - name: Run e2e-tests
-#        run: |
-#          export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
-#          export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
-#          npm run test:e2e -- ru-server.spec.ts
+
+      - name: Restore original yarn lock file and package.json
+        run: |
+          rm -rf yarn.lock
+          cp -r original-yarn.lock yarn.lock
+          rm -rf package.json
+          cp -r original-package.json package.json
+
+      - name: Install dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Run e2e-tests
+        run: |
+          export BASE_URL=https://nestjs-mod-fullstack.vercel.app
+          export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
+          export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
+          npm run test:e2e -- ru-server.spec.ts

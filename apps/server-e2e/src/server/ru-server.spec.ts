@@ -12,46 +12,45 @@ describe('GET /api (ru)', () => {
     expect(res.status).toBe(200);
     expect(res.data).toEqual({ message: 'Привет АПИ' });
   });
-  xdescribe('', () => {
-    it('should create and return a demo object', async () => {
-      const res = await appApi.appControllerDemoCreateOne();
 
-      expect(res.status).toBe(201);
-      expect(res.data.name).toContain('demo name');
+  it('should create and return a demo object', async () => {
+    const res = await appApi.appControllerDemoCreateOne();
 
-      newDemoObject = res.data;
-    });
+    expect(res.status).toBe(201);
+    expect(res.data.name).toContain('demo name');
 
-    it('should get demo object by id', async () => {
-      const res = await appApi.appControllerDemoFindOne(newDemoObject.id);
+    newDemoObject = res.data;
+  });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toMatchObject(newDemoObject);
-    });
+  it('should get demo object by id', async () => {
+    const res = await appApi.appControllerDemoFindOne(newDemoObject.id);
 
-    it('should get all demo object', async () => {
-      const res = await appApi.appControllerDemoFindMany();
+    expect(res.status).toBe(200);
+    expect(res.data).toMatchObject(newDemoObject);
+  });
 
-      expect(res.status).toBe(200);
-      expect(
-        res.data.filter((row) => row.id === newDemoObject.id)
-      ).toMatchObject([newDemoObject]);
-    });
+  it('should get all demo object', async () => {
+    const res = await appApi.appControllerDemoFindMany();
 
-    it('should delete demo object by id', async () => {
-      const res = await appApi.appControllerDemoDeleteOne(newDemoObject.id);
+    expect(res.status).toBe(200);
+    expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
+      [newDemoObject]
+    );
+  });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toMatchObject(newDemoObject);
-    });
+  it('should delete demo object by id', async () => {
+    const res = await appApi.appControllerDemoDeleteOne(newDemoObject.id);
 
-    it('should get all demo object', async () => {
-      const res = await appApi.appControllerDemoFindMany();
+    expect(res.status).toBe(200);
+    expect(res.data).toMatchObject(newDemoObject);
+  });
 
-      expect(res.status).toBe(200);
-      expect(
-        res.data.filter((row) => row.id === newDemoObject.id)
-      ).toMatchObject([]);
-    });
+  it('should get all demo object', async () => {
+    const res = await appApi.appControllerDemoFindMany();
+
+    expect(res.status).toBe(200);
+    expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
+      []
+    );
   });
 });

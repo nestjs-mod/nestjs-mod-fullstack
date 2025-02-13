@@ -99,7 +99,12 @@ export class WebhookWithAuthAuthorizerConfiguration
       return true;
     }
 
-    if (!req.skipEmptyAuthorizerUser && !result && !req.authorizerUser?.id) {
+    if (
+      !req.skipEmptyAuthUser &&
+      !req.skipEmptyAuthorizerUser &&
+      !result &&
+      !req.authorizerUser?.id
+    ) {
       throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
     }
 
