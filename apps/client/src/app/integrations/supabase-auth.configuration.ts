@@ -183,7 +183,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   refreshToken(): Observable<AuthUserAndTokens> {
     const refreshToken = this.tokensService.getRefreshToken();
     if (!refreshToken) {
-      return throwError(() => new Error('refreshToken not set'));
+      return of({});
     }
     return from(
       this.supabaseClient.auth.refreshSession({
