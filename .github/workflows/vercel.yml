@@ -2,7 +2,7 @@ name: Deploy to Vercel
 
 on:
   push:
-    branches: ['master', 'alpha', 'beta']
+    branches: ['master', 'vercel']
 
 jobs:
   build-and-deploy:
@@ -11,52 +11,119 @@ jobs:
 
     steps:
       - name: Checkout code
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         uses: actions/checkout@v4
 
       - name: Set up Node.js
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         uses: actions/setup-node@v4
         with:
           node-version: '22.11.0'
 
       - name: Install dependencies
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         uses: borales/actions-yarn@v4
         with:
           cmd: install
 
       - name: Install Vercel CLI
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: |
           cp -r .vercel/.env.production.local .env
           npx --yes tsx update-files-for-vercel.ts
           npm run manual-supabase-build
 
       - name: Remove devDependencies
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 
       - name: Remove yarn lock file
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: rm -rf yarn.lock
 
       - name: Copy the settings
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: cp -r .docker/nx.json nx.json
 
       - name: Install only prod dependencies
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         uses: borales/actions-yarn@v4
         with:
           cmd: install --prod
 
       - name: Installing utilities to generate additional files
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 tslib -D
 
       - name: Generate prisma clients
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: npm run prisma:generate
 
       - name: Build Project Artifacts
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --prod
 
       - name: Deploy Project Artifacts to Vercel
+        if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
         run: vercel deploy --yes --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+
+  e2e-tests:
+    environment: vercel
+    runs-on: ubuntu-latest
+    needs: [build-and-deploy]
+
+    steps:
+      - name: Checkout code
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+
+      - name: Install dependencies
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Install Vercel CLI
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          cp -r .vercel/.env.production.local .env
+          npx --yes tsx update-files-for-vercel.ts
+
+      - name: Generate prisma clients
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        run: npm run prisma:generate
+
+      - name: Run e2e-tests
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        run: |
+          export BASE_URL=https://nestjs-mod-fullstack.vercel.app
+          export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
+          export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
+          cp -r .vercel/.env.production.local .env
+          npx --yes tsx update-files-for-vercel.ts
+          npx playwright install chromium --with-deps
+          npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
+        with:
+          name: e2e-tests-videos
+          path: apps/client-e2e/src/video/

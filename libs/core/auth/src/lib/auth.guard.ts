@@ -111,10 +111,8 @@ export class AuthGuard implements CanActivate {
         );
       req.authUser =
         authUser ||
-        (await this.prismaClient.authUser.upsert({
-          create: { externalUserId, userRole: 'User' },
-          update: {},
-          where: { externalUserId },
+        (await this.prismaClient.authUser.create({
+          data: { externalUserId, userRole: 'User' },
         }));
 
       if (req.authUser.lang) {

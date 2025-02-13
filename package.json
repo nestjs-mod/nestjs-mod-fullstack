@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/source",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "license": "MIT",
   "scripts": {
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
@@ -256,6 +256,7 @@
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
     "tsc:lint": [],
+    "vercel:pull-environment:production": [],
     "build-supabase": [],
     "manual-supabase-build": [],
     "kubernetes:generate": [],
@@ -403,7 +404,7 @@
     "minio": "^8.0.2",
     "nestjs-minio": "^2.6.2",
     "nestjs-pino": "^4.1.0",
-    "nestjs-translates": "^2.0.1",
+    "nestjs-translates": "^2.0.2",
     "ng-zorro-antd": "^19.0.0",
     "pino-http": "^10.3.0",
     "pino-pretty": "^13.0.0",

@@ -7,5 +7,5 @@ export class FilesEnvironments {
     default: 'default',
     hidden: true,
   })
-  minioDefaultUserId?: string;
+  filesDefaultUserId?: string;
 }

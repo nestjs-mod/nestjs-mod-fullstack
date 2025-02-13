@@ -1,3 +1,5 @@
+process.env.TZ = 'UTC';
+
 import KeyvPostgres from '@keyv/postgres';
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';

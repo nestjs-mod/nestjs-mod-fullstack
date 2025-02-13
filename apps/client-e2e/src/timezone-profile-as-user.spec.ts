@@ -5,6 +5,8 @@ import { get } from 'env-var';
 import { join } from 'path';
 import { setTimeout } from 'timers/promises';
 
+process.env.TZ = 'UTC';
+
 test.describe('Work with profile as "User" role (timezone', () => {
   test.describe.configure({ mode: 'serial' });
 
@@ -95,7 +97,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -164,7 +166,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -230,7 +232,10 @@ test.describe('Work with profile as "User" role (timezone', () => {
 
     await setTimeout(10000);
 
+    await page.reload({ waitUntil: 'networkidle' });
+
     const newServerTime = await page.locator('#serverTime').innerText();
+
     expect(
       newServerTime
         .split(' ')

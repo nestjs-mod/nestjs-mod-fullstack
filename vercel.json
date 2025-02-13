@@ -7,7 +7,10 @@
         },
         {
             "src": "dist/apps/server/main.js",
-            "use": "@vercel/node"
+            "use": "@vercel/node",
+            "config": {
+              "includeFiles": ["dist/apps/server/assets/**"]
+            }
         }
     ],
     "routes": [

@@ -5,7 +5,11 @@ import {
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
+import {
+  createNestModule,
+  getRequestFromExecutionContext,
+  NestModuleCategory,
+} from '@nestjs-mod/common';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
@@ -22,6 +26,7 @@ import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-wit
 import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
 import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
+import { ExecutionContext } from '@nestjs/common';
 
 export const { AppModule: SupabaseAppModule } = createNestModule({
   moduleName: APP_MODULE,
@@ -61,11 +66,31 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
-        join(__dirname, 'assets', 'i18n'),
-        join(__dirname, 'assets', 'i18n', 'getText'),
-        join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
+        join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server',
+          'assets',
+          'i18n',
+          'getText'
+        ),
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server',
+          'assets',
+          'i18n',
+          'class-validator-messages'
+        ),
       ],
-      vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
+      vendorLocalePaths: [
+        join(process.cwd(), 'dist', 'apps', 'server', 'assets', 'i18n'),
+      ],
+      contextRequestDetector: (ctx: ExecutionContext) =>
+        getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
       validationPipeOptions: {
         validatorPackage: require('class-validator'),
@@ -87,7 +112,12 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
       ? []
       : [
           ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client', 'browser'),
+            rootPath: join(
+              join(process.cwd(), 'dist', 'apps', 'server'),
+              '..',
+              'client',
+              'browser'
+            ),
           }),
         ]),
   ],

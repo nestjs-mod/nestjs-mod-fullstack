@@ -11,6 +11,7 @@ import {
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
 import { catchError, map, of, tap, throwError } from 'rxjs';
+import { TokensService } from './tokens.service';
 
 const AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY = 'activeLang';
 
@@ -21,10 +22,18 @@ export class AuthActiveLangService {
     private readonly translocoService: TranslocoService,
     @Inject(TRANSLOCO_LOCALE_LANG_MAPPING)
     readonly langToLocaleMapping: LangToLocaleMapping,
-    private readonly activeLangService: ActiveLangService
+    private readonly activeLangService: ActiveLangService,
+    private readonly tokensService: TokensService
   ) {}
 
   getActiveLang() {
+    if (!this.tokensService.getAccessToken()) {
+      return of(
+        localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
+          this.translocoService.getDefaultLang()
+      );
+    }
+
     return this.authRestService.authControllerProfile().pipe(
       map((profile) => {
         return profile.lang || this.translocoService.getDefaultLang();

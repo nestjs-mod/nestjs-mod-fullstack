@@ -137,6 +137,7 @@ export class SupabaseService implements OnModuleInit {
               picture: getProfileResult.data.user.user_metadata['picture'],
             };
           } else {
+            this.logger.debug({ token });
             this.logger.error(
               getProfileResult.error.message,
               getProfileResult.error.stack

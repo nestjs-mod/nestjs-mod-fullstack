@@ -49,7 +49,7 @@ export class FilesController {
       );
     }
     const fullObjectName = `${
-      filesRequest.externalUserId ?? this.filesEnvironments.minioDefaultUserId
+      filesRequest.externalUserId ?? this.filesEnvironments.filesDefaultUserId
     }/${bucketName}_${randomUUID()}.${getPresignedUrlArgs.ext}`;
 
     return await this.filesConfiguration.getPresignedUrls({
@@ -58,7 +58,7 @@ export class FilesController {
       ext: getPresignedUrlArgs.ext,
       userId:
         filesRequest.externalUserId ??
-        this.filesEnvironments.minioDefaultUserId,
+        this.filesEnvironments.filesDefaultUserId,
     });
   }
 

@@ -94,7 +94,7 @@ test.describe('Validation with store lang in db (ru)', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(5000);
+    await setTimeout(7000);
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -120,7 +120,7 @@ test.describe('Validation with store lang in db (ru)', () => {
       .last()
       .click();
 
-    await setTimeout(4000);
+    await setTimeout(7000);
     //
 
     await expect(

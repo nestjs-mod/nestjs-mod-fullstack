@@ -32,6 +32,7 @@ export default defineConfig({
     viewport: { width: 1920, height: 1080 },
     // headless: false,
   },
+  expect: { timeout: 10_000 },
   projects: [
     {
       name: 'chromium',

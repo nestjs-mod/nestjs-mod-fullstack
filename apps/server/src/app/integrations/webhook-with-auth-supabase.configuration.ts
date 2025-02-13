@@ -102,7 +102,12 @@ export class WebhookWithAuthSupabaseConfiguration
       return true;
     }
 
-    if (!req.skipEmptySupabaseUser && !result && !req.supabaseUser?.id) {
+    if (
+      !req.skipEmptyAuthUser &&
+      !req.skipEmptySupabaseUser &&
+      !result &&
+      !req.supabaseUser?.id
+    ) {
       throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
     }
 

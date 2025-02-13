@@ -11,7 +11,10 @@ import {
 import { interval, map, Observable } from 'rxjs';
 import { ChangeTimeStream } from '../app.constants';
 
-@UseAuthInterceptorsAndGuards({ guards: [AuthorizerGuard] })
+@UseAuthInterceptorsAndGuards({
+  guards: [AuthorizerGuard],
+  skipInterceptor: true,
+})
 @AllowEmptyUser()
 @WebSocketGateway({
   cors: {
@@ -28,6 +31,7 @@ export class TimeController {
     return new Date();
   }
 
+  @UseAuthInterceptorsAndGuards()
   @SubscribeMessage(ChangeTimeStream)
   onChangeTimeStream(): Observable<WsResponse<Date>> {
     return interval(1000).pipe(
