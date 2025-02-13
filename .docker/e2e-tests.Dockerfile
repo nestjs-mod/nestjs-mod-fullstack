@@ -24,7 +24,7 @@ RUN echo '' > .env
 RUN rm -rf yarn.lock node_modules && \
     yarn install && \
     # Install external utils
-    npx playwright install --with-deps && \
+    npx playwright install chromium --with-deps && \
     # Clear cache
     rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 

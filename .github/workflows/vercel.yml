@@ -120,5 +120,5 @@ jobs:
           export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
           cp -r .vercel/.env.production.local .env
           npx --yes tsx update-files-for-vercel.ts
-          npx playwright install --with-deps
+          npx playwright install chromium --with-deps
           npm run test:e2e
