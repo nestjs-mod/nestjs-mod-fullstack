@@ -3,8 +3,8 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const envFile = join(__dirname, '.env');
-
-const parsedEnvs = config({ path: envFile }).parsed || {};
+const processEnv = {};
+const parsedEnvs = config({ path: envFile, processEnv }).parsed || {};
 const supabaseUrl = parsedEnvs.SUPABASE_URL;
 const postgresUrl = parsedEnvs.POSTGRES_URL;
 const supabaseAnonKey = parsedEnvs.SUPABASE_ANON_KEY;
@@ -46,25 +46,23 @@ parsedEnvs.SERVER_MINIO_SERVER_HOST = `${supabaseName}.supabase.co`;
 parsedEnvs.SERVER_SUPABASE_URL = `https://${supabaseName}.supabase.co`;
 
 parsedEnvs.SERVER_SUPABASE_KEY = supabaseAnonKey;
-
-parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
-  parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID ||
-  '248ec37f-628d-43f0-8de2-f58da037dd0f';
-
-parsedEnvs.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
-  parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID;
-
-parsedEnvs.SERVER_AUTH_ADMIN_EMAIL =
-  parsedEnvs.SERVER_AUTH_ADMIN_EMAIL || 'nestjs-mod-fullstack@site15.ru';
-
-parsedEnvs.SERVER_AUTH_ADMIN_PASSWORD =
-  parsedEnvs.SERVER_AUTH_ADMIN_PASSWORD || 'SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA';
-
-parsedEnvs.SERVER_AUTH_ADMIN_USERNAME =
-  parsedEnvs.SERVER_AUTH_ADMIN_USERNAME || 'admin';
-
 parsedEnvs.DISABLE_SERVE_STATIC = 'true';
 parsedEnvs.SERVER_PORT = '3000';
+
+// check real process envs
+parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
+  process.env.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID ||
+  '248ec37f-628d-43f0-8de2-f58da037dd0f';
+parsedEnvs.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
+  parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID;
+parsedEnvs.SERVER_AUTH_ADMIN_EMAIL =
+  process.env.SERVER_AUTH_ADMIN_EMAIL || 'nestjs-mod-fullstack@site15.ru';
+parsedEnvs.SERVER_AUTH_ADMIN_PASSWORD =
+  process.env.SERVER_AUTH_ADMIN_PASSWORD || 'SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA';
+parsedEnvs.SERVER_AUTH_ADMIN_USERNAME =
+  process.env.SERVER_AUTH_ADMIN_USERNAME || 'admin';
+parsedEnvs.SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000/api';
+parsedEnvs.CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:4200';
 
 writeFileSync(
   join(__dirname, 'apps/client/src/environments/environment.supabase-prod.ts'),

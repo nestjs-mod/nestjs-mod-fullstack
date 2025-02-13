@@ -79,7 +79,10 @@ jobs:
 
       - name: Run e2e-tests
         run: |
-          export BASE_URL=https://nestjs-mod-fullstack.vercel.app
-          export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
-          export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
+          cp -r .vercel/.env.production.local .env
+          set -o allexport && . .env && set +o allexport
+          export BASE_URL=https://$VERCEL_PROJECT_PRODUCTION_URL
+          export CLIENT_URL=https://$VERCEL_PROJECT_PRODUCTION_URL
+          export SERVER_URL=https://$VERCEL_PROJECT_PRODUCTION_URL/api
+          npx --yes tsx update-files-for-vercel.ts
           npm run test:e2e

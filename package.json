@@ -256,6 +256,7 @@
       "Checking the typescript code throughout the project and trying to fix everything possible"
     ],
     "tsc:lint": [],
+    "vercel:pull-environment:production": [],
     "build-supabase": [],
     "manual-supabase-build": [],
     "kubernetes:generate": [],
