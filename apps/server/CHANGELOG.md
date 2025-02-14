@@ -1,3 +1,9 @@
+## [1.14.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.14.0...server-v1.14.1) (2025-02-13)
+
+### Bug Fixes
+
+- update time controller, add use interceptor to ws method, change timeout value ([#18](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/18)) ([387d003](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/387d003ba3c38488efc4712638be422cae5efe19))
+
 # [1.14.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.13.0...server-v1.14.0) (2025-02-11)
 
 ### Features
