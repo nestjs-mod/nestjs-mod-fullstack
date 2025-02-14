@@ -1,3 +1,9 @@
+# [1.15.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.14.1...server-v1.15.0) (2025-02-14)
+
+### Features
+
+- update all error class, append descriptions for run with Supabase infra, append new posts ([a27c0b6](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a27c0b6a96a84707b1bc18b5743566775b7cd86c))
+
 ## [1.14.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.14.0...server-v1.14.1) (2025-02-13)
 
 ### Bug Fixes
