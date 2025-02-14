@@ -41,8 +41,8 @@ export class FilesError<T = unknown> extends Error {
         Object.values(FilesErrorEnum).includes(message as FilesErrorEnum)
     );
     const preparedCode = messageAsCode ? (message as FilesErrorEnum) : code;
-    const preparedMessage = preparedCode
-      ? FILES_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? FILES_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || FilesErrorEnum.COMMON;

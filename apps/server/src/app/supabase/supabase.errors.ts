@@ -43,8 +43,8 @@ export class SupabaseError<T = unknown> extends Error {
         Object.values(SupabaseErrorEnum).includes(message as SupabaseErrorEnum)
     );
     const preparedCode = messageAsCode ? (message as SupabaseErrorEnum) : code;
-    const preparedMessage = preparedCode
-      ? SUPABASE_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? SUPABASE_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || SupabaseErrorEnum.COMMON;

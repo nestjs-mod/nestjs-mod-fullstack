@@ -35,8 +35,8 @@ export class DatabaseError<T = unknown> extends Error {
         Object.values(DatabaseErrorEnum).includes(message as DatabaseErrorEnum)
     );
     const preparedCode = messageAsCode ? (message as DatabaseErrorEnum) : code;
-    const preparedMessage = preparedCode
-      ? DATABASE_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? DATABASE_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || DatabaseErrorEnum.COMMON;

@@ -51,6 +51,8 @@ import { CustomAuthProfileFormService } from './integrations/custom-auth-profile
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import { GithubFill } from '@ant-design/icons-angular/icons';
 
 export const authorizerAppConfig = ({
   authorizerURL,
@@ -61,6 +63,7 @@ export const authorizerAppConfig = ({
 }): ApplicationConfig => {
   return {
     providers: [
+      provideNzIcons([GithubFill]),
       provideClientHydration(),
       provideZoneChangeDetection({ eventCoalescing: true }),
       provideRouter(appRoutes),

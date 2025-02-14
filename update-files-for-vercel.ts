@@ -92,14 +92,7 @@ export const supabaseKey =
 );
 
 const envContent = Object.entries(parsedEnvs)
-  .filter(
-    ([key]) =>
-      key !== 'POSTGRES_URL' &&
-      key !== 'SUPABASE_ANON_KEY' &&
-      key !== 'SUPABASE_URL' &&
-      !key.startsWith('TURBO') &&
-      !key.startsWith('VERCEL')
-  )
+  .filter(([key]) => !key.startsWith('TURBO') && !key.startsWith('VERCEL'))
   .map(([key, value]) => {
     if (key.trim().startsWith('#')) {
       return `${key}${value ? value : ''}`;

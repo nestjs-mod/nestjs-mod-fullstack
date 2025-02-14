@@ -25,6 +25,7 @@ import {
 } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { addHours } from 'date-fns';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -42,6 +43,7 @@ import {
 @UntilDestroy()
 @Component({
   imports: [
+    NzIconModule,
     RouterModule,
     NzMenuModule,
     NzLayoutModule,

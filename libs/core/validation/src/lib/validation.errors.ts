@@ -109,8 +109,8 @@ export class ValidationError extends Error {
     const preparedCode = messageAsCode
       ? (message as ValidationErrorEnum)
       : code;
-    const preparedMessage = preparedCode
-      ? VALIDATION_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? VALIDATION_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || ValidationErrorEnum.COMMON;

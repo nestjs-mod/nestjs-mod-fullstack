@@ -42,8 +42,8 @@ export class AuthError<T = unknown> extends Error {
       message && Object.values(AuthErrorEnum).includes(message as AuthErrorEnum)
     );
     const preparedCode = messageAsCode ? (message as AuthErrorEnum) : code;
-    const preparedMessage = preparedCode
-      ? AUTH_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? AUTH_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || AuthErrorEnum.COMMON;

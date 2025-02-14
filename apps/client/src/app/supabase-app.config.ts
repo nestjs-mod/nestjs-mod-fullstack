@@ -12,6 +12,7 @@ import {
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { GithubFill } from '@ant-design/icons-angular/icons';
 import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
@@ -36,6 +37,7 @@ import {
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
 import {
   serverUrl,
   webhookSuperAdminExternalUserId,
@@ -64,6 +66,7 @@ export const supabaseAppConfig = ({
 }): ApplicationConfig => {
   return {
     providers: [
+      provideNzIcons([GithubFill]),
       provideClientHydration(),
       provideZoneChangeDetection({ eventCoalescing: true }),
       provideRouter(appRoutes),

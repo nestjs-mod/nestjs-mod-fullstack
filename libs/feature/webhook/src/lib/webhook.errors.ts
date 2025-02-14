@@ -49,8 +49,8 @@ export class WebhookError<T = unknown> extends Error {
         Object.values(WebhookErrorEnum).includes(message as WebhookErrorEnum)
     );
     const preparedCode = messageAsCode ? (message as WebhookErrorEnum) : code;
-    const preparedMessage = preparedCode
-      ? WEBHOOK_ERROR_ENUM_TITLES[preparedCode]
+    const preparedMessage = messageAsCode
+      ? WEBHOOK_ERROR_ENUM_TITLES[preparedCode!]
       : message;
 
     code = preparedCode || WebhookErrorEnum.COMMON;
