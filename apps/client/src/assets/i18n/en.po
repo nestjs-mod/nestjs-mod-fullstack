@@ -6,6 +6,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "Source code"
+msgstr "Source code"
+
 msgid "You are logged in as {{email}}"
 msgstr "You are logged in as {{email}}"
 
@@ -65,6 +68,16 @@ msgid ""
 msgstr ""
 "Docker-compose prod mode: the infrastructure and applications built into "
 "Docker images are run using docker-compose"
+
+msgid ""
+"Supabase Dev/Watch mode: the infrastructure is running on Supabase, "
+"applications are launched in watch pm2 mode"
+msgstr ""
+"Supabase Dev/Watch mode: the infrastructure is running on Supabase, "
+"applications are launched in watch pm2 mode"
+
+msgid "Prepare"
+msgstr "Prepare"
 
 msgid "Hello Static"
 msgstr "Hello Static"
