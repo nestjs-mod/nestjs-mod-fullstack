@@ -11,7 +11,7 @@
   },
   "private": true,
   "devDependencies": {
-    "pg-flyway": "1.0.1",
+    "pg-flyway": "1.0.2",
     "nx": "20.3.3",
     "rucken": "^4.15.0",
     "reflect-metadata": "^0.1.13",
