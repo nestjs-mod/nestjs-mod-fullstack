@@ -1,3 +1,9 @@
+## [1.15.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.0...client-v1.15.1) (2025-02-21)
+
+### Bug Fixes
+
+- update logic for wotk with als and update nestjs-translates lib ([4c1ecba](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4c1ecba6f9fe9847506d88a2677ce25427cd35f0))
+
 # [1.15.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.14.1...client-v1.15.0) (2025-02-14)
 
 ### Features
