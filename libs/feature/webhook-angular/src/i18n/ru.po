@@ -53,7 +53,7 @@ msgid "webhook.form.fields.headers"
 msgstr "Заголовки"
 
 msgid "webhook.form.fields.request-timeout"
-msgstr "Таймаута запроса"
+msgstr "Таймаут запроса"
 
 msgid "webhook.form.fields.work-until-date"
 msgstr "До какой даты может работать"
@@ -113,7 +113,7 @@ msgid "webhook.grid.columns.headers"
 msgstr "Заголовки"
 
 msgid "webhook.grid.columns.request-timeout"
-msgstr "Таймаута запроса"
+msgstr "Таймаут запроса"
 
 msgid "webhook.grid.columns.work-until-date"
 msgstr "До какой даты может работать"

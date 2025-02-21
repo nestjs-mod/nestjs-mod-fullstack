@@ -17,7 +17,9 @@
           "@jsverse/transloco-keys-manager/marker",
           "lodash/fp/isEqual",
           "lodash/fp/omit",
-          "cross-fetch"
+          "cross-fetch",
+          "ws",
+          "@messageformat/core"
         ],
         "outputPath": "dist/apps/client/browser",
         "index": "apps/client/src/index.html",

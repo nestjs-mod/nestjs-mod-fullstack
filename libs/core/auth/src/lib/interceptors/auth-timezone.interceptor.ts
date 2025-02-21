@@ -5,14 +5,14 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { isObservable, Observable } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
+import { AuthEnvironments } from '../auth.environments';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthTimezoneService, TData } from '../services/auth-timezone.service';
-import { AuthRequest } from '../types/auth-request';
-import { AuthEnvironments } from '../auth.environments';
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-data';
+import { AuthRequest } from '../types/auth-request';
 
 @Injectable()
 export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
@@ -34,12 +34,26 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
     if (!userId) {
       return next.handle();
     }
+    const store = { authTimezone: req.authUser?.timezone || 0 };
+    const wrapObservableForWorkWithAsyncLocalStorage = (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      observable: Observable<any>
+    ) =>
+      new Observable((observer) => {
+        this.asyncLocalStorage.run(store, () => {
+          observable.subscribe({
+            next: (res) => observer.next(res),
+            error: (error) => observer.error(error),
+            complete: () => observer.complete(),
+          });
+        });
+      });
 
     const run = () => {
-      const result = next.handle();
+      const result = this.asyncLocalStorage.run(store, () => next.handle());
 
       if (isObservable(result)) {
-        return result.pipe(
+        return wrapObservableForWorkWithAsyncLocalStorage(result).pipe(
           concatMap(async (data) => {
             const user =
               await this.authCacheService.getCachedUserByExternalUserId(userId);
@@ -55,7 +69,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
       if (result instanceof Promise && typeof result?.then === 'function') {
         return result.then(async (data) => {
           if (isObservable(data)) {
-            return data.pipe(
+            return wrapObservableForWorkWithAsyncLocalStorage(data).pipe(
               concatMap(async (data) => {
                 const user =
                   await this.authCacheService.getCachedUserByExternalUserId(
@@ -89,9 +103,6 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
       return run();
     }
 
-    return this.asyncLocalStorage.run(
-      { authTimezone: req.authUser?.timezone || 0 },
-      () => run()
-    );
+    return run();
   }
 }

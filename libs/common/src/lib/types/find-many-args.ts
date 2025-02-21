@@ -1,16 +1,16 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumberString, IsOptional } from 'class-validator';
 
 export class FindManyArgs {
   @ApiPropertyOptional({ type: Number })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @Type(() => Number)
   curPage?: number;
 
   @ApiPropertyOptional({ type: Number })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @Type(() => Number)
   perPage?: number;

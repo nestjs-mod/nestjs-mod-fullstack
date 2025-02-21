@@ -9,7 +9,7 @@ import {
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { omit } from 'lodash';
+import omit from 'lodash/fp/omit';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 @UntilDestroy()
@@ -40,7 +40,7 @@ export class CustomAuthService extends AuthService {
     data: AuthUpdateProfileInput & { timezone: number; lang: string }
   ) {
     const { timezone, lang } = { ...data };
-    const profile = omit({ ...data }, ['timezone', 'lang']);
+    const profile = omit(['timezone', 'lang'], { ...data });
     return super.updateProfile(profile).pipe(
       mergeMap((result) =>
         this.authRestService.authControllerUpdateProfile({ timezone }).pipe(

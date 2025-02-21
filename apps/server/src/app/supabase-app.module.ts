@@ -13,6 +13,7 @@ import {
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
+import { ExecutionContext } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
@@ -26,7 +27,6 @@ import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-wit
 import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
 import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
-import { ExecutionContext } from '@nestjs/common';
 
 export const { AppModule: SupabaseAppModule } = createNestModule({
   moduleName: APP_MODULE,
@@ -93,8 +93,6 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
         getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
       validationPipeOptions: {
-        validatorPackage: require('class-validator'),
-        transformerPackage: require('class-transformer'),
         transform: true,
         whitelist: true,
         validationError: {

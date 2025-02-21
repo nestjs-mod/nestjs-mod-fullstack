@@ -1,7 +1,7 @@
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/webhook-client';
-import { omit } from 'lodash/fp';
+import omit from 'lodash/fp/omit';
 import { randomUUID } from 'node:crypto';
 import { CreateWebhookUserDto } from '../generated/rest/dto/create-webhook-user.dto';
 import { WEBHOOK_FEATURE } from '../webhook.constants';

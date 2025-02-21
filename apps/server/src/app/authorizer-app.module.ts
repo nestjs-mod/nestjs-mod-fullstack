@@ -74,8 +74,6 @@ export const { AppModule: AuthorizerAppModule } = createNestModule({
       vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
       locales: ['en', 'ru'],
       validationPipeOptions: {
-        validatorPackage: require('class-validator'),
-        transformerPackage: require('class-transformer'),
         transform: true,
         whitelist: true,
         validationError: {
