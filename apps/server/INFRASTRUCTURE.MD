@@ -1,7 +1,7 @@
 # server
 > Version: 1.15.1
 
-Boilerplate for creating a sso application on NestJS and Angular
+Boilerplate for creating application on NestJS and Angular
 ## System modules
 
 ### ProjectUtils

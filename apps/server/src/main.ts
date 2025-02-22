@@ -44,8 +44,7 @@ import {
 bootstrapNestApplication({
   project: {
     name: 'server',
-    description:
-      'Boilerplate for creating a sso application on NestJS and Angular',
+    description: 'Boilerplate for creating application on NestJS and Angular',
   },
   modules: {
     system: [
