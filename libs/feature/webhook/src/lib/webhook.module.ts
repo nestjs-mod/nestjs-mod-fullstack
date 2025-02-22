@@ -77,21 +77,19 @@ export const { WebhookModule } = createNestModule({
     return { asyncModuleOptions };
   },
   preWrapApplication: async ({ current }) => {
-    const staticEnvironments =
-      current.staticEnvironments as WebhookStaticEnvironments;
-    const staticConfiguration =
-      current.staticConfiguration as WebhookStaticConfiguration;
+    const staticEnvironments = current.staticEnvironments;
+    const staticConfiguration = current.staticConfiguration;
 
     for (const ctrl of [WebhookController, WebhookUsersController]) {
-      if (staticEnvironments.useFilters) {
+      if (staticEnvironments?.useFilters) {
         UseFilters(WebhookExceptionsFilter)(ctrl);
       }
-      if (staticEnvironments.useGuards) {
+      if (staticEnvironments?.useGuards) {
         UseGuards(WebhookGuard)(ctrl);
       }
       if (
-        staticConfiguration.externalUserIdHeaderName &&
-        staticConfiguration.externalTenantIdHeaderName
+        staticConfiguration?.externalUserIdHeaderName &&
+        staticConfiguration?.externalTenantIdHeaderName
       ) {
         ApiHeaders([
           {
