@@ -1,3 +1,9 @@
+## [1.15.5](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.4...server-v1.15.5) (2025-02-22)
+
+### Bug Fixes
+
+- remove cast to config ([e447354](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/e447354907069e835311280d2aca3be681c91dac))
+
 ## [1.15.4](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.3...server-v1.15.4) (2025-02-22)
 
 ### Bug Fixes
