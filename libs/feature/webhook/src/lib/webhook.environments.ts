@@ -7,7 +7,7 @@ import {
 @EnvModel()
 export class WebhookStaticEnvironments {
   @EnvModelProperty({
-    description: 'Use guards.',
+    description: 'Use guards',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
@@ -15,7 +15,7 @@ export class WebhookStaticEnvironments {
   useGuards?: boolean;
 
   @EnvModelProperty({
-    description: 'Use filters.',
+    description: 'Use filters',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
@@ -23,7 +23,7 @@ export class WebhookStaticEnvironments {
   useFilters?: boolean;
 
   @EnvModelProperty({
-    description: 'Auto create user from guard.',
+    description: 'Auto create user from guard',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
@@ -31,7 +31,7 @@ export class WebhookStaticEnvironments {
   autoCreateUser?: boolean;
 
   @EnvModelProperty({
-    description: 'Search tenantId and userId in headers.',
+    description: 'Search tenantId and userId in headers',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
@@ -39,7 +39,7 @@ export class WebhookStaticEnvironments {
   checkHeaders?: boolean;
 
   @EnvModelProperty({
-    description: 'Skip any guard errors.',
+    description: 'Skip any guard errors',
     transform: new BooleanTransformer(),
     default: false,
     hidden: true,
@@ -47,7 +47,7 @@ export class WebhookStaticEnvironments {
   skipGuardErrors?: boolean;
 
   @EnvModelProperty({
-    description: 'User ID with super admin role.',
+    description: 'User ID with super admin role',
   })
   superAdminExternalUserId?: string;
 }

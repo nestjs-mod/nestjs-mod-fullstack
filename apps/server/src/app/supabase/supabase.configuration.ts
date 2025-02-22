@@ -51,14 +51,14 @@ export class SupabaseConfiguration {
 
   @ConfigModelProperty({
     description:
-      'A header for searching for an external user ID, if you have logged in previously and do not need to log in again in the authorization service, can be used during testing.',
+      'A header for searching for an external user ID, if you have logged in previously and do not need to log in again in the authorization service, can be used during testing',
     default: 'x-external-user-id',
   })
   externalUserIdHeaderName?: string;
 
   @ConfigModelProperty({
     description:
-      'Header for searching for external application identifiers, if you have logged in previously and do not need to log in again in the authorization service, these identifiers must be private and can be used for testing.',
+      'Header for searching for external application identifiers, if you have logged in previously and do not need to log in again in the authorization service, these identifiers must be private and can be used for testing',
     default: 'x-external-app-id',
   })
   externalAppIdHeaderName?: string;

@@ -19,7 +19,7 @@ export type FilesModuleBucket = Record<
 @ConfigModel()
 export class FilesConfiguration {
   @ConfigModelProperty({
-    description: 'Function for get from download url without bucket names.',
+    description: 'Function for get from download url without bucket names',
   })
   getFromDownloadUrlWithoutBucketNames!: (downloadUrl: string) => {
     bucketName: string;
@@ -27,7 +27,7 @@ export class FilesConfiguration {
   };
 
   @ConfigModelProperty({
-    description: 'Function for get presigned urls.',
+    description: 'Function for get presigned urls',
   })
   getPresignedUrls!: ({
     bucketName,
@@ -42,7 +42,7 @@ export class FilesConfiguration {
   }) => Promise<FilesPresignedUrls>;
 
   @ConfigModelProperty({
-    description: 'Function for delete file.',
+    description: 'Function for delete file',
   })
   deleteFile!: ({
     bucketName,

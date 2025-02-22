@@ -10,7 +10,7 @@ import { AuthRequest } from './types/auth-request';
 @ConfigModel()
 export class AuthConfiguration {
   @ConfigModelProperty({
-    description: 'Function for create default admin.',
+    description: 'Function for create default admin',
   })
   createAdmin!: (user: {
     username?: string;

@@ -7,7 +7,7 @@ import {
 @EnvModel()
 export class ValidationStaticEnvironments {
   @EnvModelProperty({
-    description: 'Use pipes.',
+    description: 'Use pipes',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
@@ -15,7 +15,7 @@ export class ValidationStaticEnvironments {
   usePipes?: boolean;
 
   @EnvModelProperty({
-    description: 'Use filters.',
+    description: 'Use filters',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,

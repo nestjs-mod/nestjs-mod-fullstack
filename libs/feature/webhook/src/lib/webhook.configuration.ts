@@ -4,12 +4,12 @@ import { WebhookEvent } from './types/webhook-event';
 @ConfigModel()
 export class WebhookConfiguration {
   @ConfigModelProperty({
-    description: 'List of available events.',
+    description: 'List of available events',
   })
   events!: WebhookEvent[];
 
   @ConfigModelProperty({
-    description: 'TTL for cached data.',
+    description: 'TTL for cached data',
     default: 15_000,
   })
   cacheTTL?: number;
@@ -25,14 +25,14 @@ export class WebhookConfiguration {
 @ConfigModel()
 export class WebhookStaticConfiguration {
   @ConfigModelProperty({
-    description: 'The name of the header key that stores the external user ID.',
+    description: 'The name of the header key that stores the external user ID',
     default: 'x-external-user-id',
   })
   externalUserIdHeaderName?: string;
 
   @ConfigModelProperty({
     description:
-      'The name of the header key that stores the external tenant ID.',
+      'The name of the header key that stores the external tenant ID',
     default: 'x-external-tenant-id',
   })
   externalTenantIdHeaderName?: string;
