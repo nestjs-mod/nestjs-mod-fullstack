@@ -1,3 +1,9 @@
+## [1.15.4](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.3...server-v1.15.4) (2025-02-22)
+
+### Bug Fixes
+
+- rename all static configs classes ([10dc3fc](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/10dc3fc1dcb7c4c2b9f7f027178545154ebbf2ae))
+
 ## [1.15.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.2...server-v1.15.3) (2025-02-22)
 
 ### Bug Fixes
