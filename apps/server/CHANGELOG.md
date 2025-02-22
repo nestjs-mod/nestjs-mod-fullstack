@@ -1,3 +1,9 @@
+## [1.15.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.1...server-v1.15.2) (2025-02-22)
+
+### Bug Fixes
+
+- unified the folder structure when developing a parallel project with SSO ([eaf67ee](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/eaf67eebc3bb3d95b435cbdc825479e43e6dccee))
+
 ## [1.15.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.0...server-v1.15.1) (2025-02-21)
 
 ### Bug Fixes
