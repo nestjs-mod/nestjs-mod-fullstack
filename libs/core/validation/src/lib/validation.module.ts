@@ -7,7 +7,7 @@ import { Provider, ValidationPipe } from '@nestjs/common';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ValidationConfiguration } from './validation.configuration';
 import { VALIDATION_FEATURE, VALIDATION_MODULE } from './validation.constants';
-import { ValidationEnvironments } from './validation.environments';
+import { ValidationStaticEnvironments } from './validation.environments';
 import { ValidationExceptionsFilter } from './validation.filter';
 import { ValidationError, ValidationErrorEnum } from './validation.errors';
 
@@ -15,7 +15,7 @@ export const { ValidationModule } = createNestModule({
   moduleName: VALIDATION_MODULE,
   moduleCategory: NestModuleCategory.feature,
   configurationModel: ValidationConfiguration,
-  staticEnvironmentsModel: ValidationEnvironments,
+  staticEnvironmentsModel: ValidationStaticEnvironments,
   providers: ({ staticEnvironments }) => {
     const providers: Provider[] = [];
     if (staticEnvironments.usePipes) {

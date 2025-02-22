@@ -13,7 +13,7 @@ import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { randomUUID } from 'node:crypto';
 import { FilesConfiguration } from '../files.configuration';
 import { CurrentFilesRequest } from '../files.decorators';
-import { FilesEnvironments } from '../files.environments';
+import { FilesStaticEnvironments } from '../files.environments';
 import { FilesError, FilesErrorEnum } from '../files.errors';
 import {
   FilesDeleteFileArgs,
@@ -28,7 +28,7 @@ import { FilesRole } from '../types/files-role';
 export class FilesController {
   constructor(
     private readonly filesConfiguration: FilesConfiguration,
-    private readonly filesEnvironments: FilesEnvironments
+    private readonly filesStaticEnvironments: FilesStaticEnvironments
   ) {}
 
   @Get('/files/get-presigned-url')
@@ -49,7 +49,8 @@ export class FilesController {
       );
     }
     const fullObjectName = `${
-      filesRequest.externalUserId ?? this.filesEnvironments.filesDefaultUserId
+      filesRequest.externalUserId ??
+      this.filesStaticEnvironments.filesDefaultUserId
     }/${bucketName}_${randomUUID()}.${getPresignedUrlArgs.ext}`;
 
     return await this.filesConfiguration.getPresignedUrls({
@@ -58,7 +59,7 @@ export class FilesController {
       ext: getPresignedUrlArgs.ext,
       userId:
         filesRequest.externalUserId ??
-        this.filesEnvironments.filesDefaultUserId,
+        this.filesStaticEnvironments.filesDefaultUserId,
     });
   }
 

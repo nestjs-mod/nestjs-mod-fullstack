@@ -3,7 +3,7 @@ import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable, Logger } from '@nestjs/common';
 import { AuthUser, PrismaClient } from '@prisma/auth-client';
 import { AUTH_FEATURE } from '../auth.constants';
-import { AuthEnvironments } from '../auth.environments';
+import { AuthStaticEnvironments } from '../auth.environments';
 
 @Injectable()
 export class AuthCacheService {
@@ -13,7 +13,7 @@ export class AuthCacheService {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly keyvService: KeyvService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments
   ) {}
 
   async clearCacheByExternalUserId(externalUserId: string) {
@@ -43,7 +43,7 @@ export class AuthCacheService {
       await this.keyvService.set(
         this.getUserCacheKey({ externalUserId }),
         user,
-        this.authEnvironments.cacheTTL
+        this.authStaticEnvironments.cacheTTL
       );
       return user;
     }

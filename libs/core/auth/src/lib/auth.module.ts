@@ -11,7 +11,7 @@ import { TranslatesModule } from 'nestjs-translates';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
-import { AuthEnvironments } from './auth.environments';
+import { AuthStaticEnvironments } from './auth.environments';
 import { AuthExceptionsFilter } from './auth.filter';
 import { AuthGuard } from './auth.guard';
 import { AuthUsersController } from './controllers/auth-users.controller';
@@ -25,7 +25,7 @@ import { AuthTimezoneService } from './services/auth-timezone.service';
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
   moduleCategory: NestModuleCategory.feature,
-  staticEnvironmentsModel: AuthEnvironments,
+  staticEnvironmentsModel: AuthStaticEnvironments,
   configurationModel: AuthConfiguration,
   imports: [
     PrismaModule.forFeature({

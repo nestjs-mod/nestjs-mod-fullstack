@@ -7,7 +7,7 @@ import {
 import { IsNotEmpty } from 'class-validator';
 
 @EnvModel()
-export class SupabaseEnvironments {
+export class SupabaseStaticEnvironments {
   @EnvModelProperty({
     description: 'Supabase URL',
   })

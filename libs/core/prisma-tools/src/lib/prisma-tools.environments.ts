@@ -7,7 +7,7 @@ import {
 } from '@nestjs-mod/common';
 
 @EnvModel()
-export class PrismaToolsEnvironments {
+export class PrismaToolsStaticEnvironments {
   @EnvModelProperty({
     description: 'Use filters.',
     transform: new BooleanTransformer(),

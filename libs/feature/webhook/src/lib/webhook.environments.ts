@@ -5,7 +5,7 @@ import {
 } from '@nestjs-mod/common';
 
 @EnvModel()
-export class WebhookEnvironments {
+export class WebhookStaticEnvironments {
   @EnvModelProperty({
     description: 'Use guards.',
     transform: new BooleanTransformer(),

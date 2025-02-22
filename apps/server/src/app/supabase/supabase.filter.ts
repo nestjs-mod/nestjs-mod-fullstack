@@ -6,19 +6,21 @@ import {
   Logger,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { SupabaseEnvironments } from './supabase.environments';
+import { SupabaseStaticEnvironments } from './supabase.environments';
 import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 
 @Catch(SupabaseError)
 export class SupabaseExceptionsFilter extends BaseExceptionFilter {
   private logger = new Logger(SupabaseExceptionsFilter.name);
 
-  constructor(private readonly supabaseEnvironments: SupabaseEnvironments) {
+  constructor(
+    private readonly supabaseStaticEnvironments: SupabaseStaticEnvironments
+  ) {
     super();
   }
 
   override catch(exception: SupabaseError, host: ArgumentsHost) {
-    if (!this.supabaseEnvironments.useFilters) {
+    if (!this.supabaseStaticEnvironments.useFilters) {
       super.catch(exception, host);
       return;
     }

@@ -1,6 +1,6 @@
 import { isInfrastructureMode } from '@nestjs-mod/common';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { AuthEnvironments } from '../auth.environments';
+import { AuthStaticEnvironments } from '../auth.environments';
 import { AuthConfiguration } from '../auth.configuration';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AuthDefaultDataBootstrapService implements OnModuleInit {
 
   constructor(
     private readonly authConfiguration: AuthConfiguration,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments
   ) {}
 
   async onModuleInit() {
@@ -27,13 +27,13 @@ export class AuthDefaultDataBootstrapService implements OnModuleInit {
   private async createAdmin() {
     try {
       if (
-        this.authEnvironments.adminEmail &&
-        this.authEnvironments.adminPassword
+        this.authStaticEnvironments.adminEmail &&
+        this.authStaticEnvironments.adminPassword
       ) {
         await this.authConfiguration.createAdmin({
-          username: this.authEnvironments.adminUsername,
-          password: this.authEnvironments.adminPassword,
-          email: this.authEnvironments.adminEmail,
+          username: this.authStaticEnvironments.adminUsername,
+          password: this.authStaticEnvironments.adminPassword,
+          email: this.authStaticEnvironments.adminEmail,
         });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

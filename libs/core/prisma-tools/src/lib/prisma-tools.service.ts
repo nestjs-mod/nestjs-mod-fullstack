@@ -3,7 +3,7 @@ import { FindManyArgs } from '@nestjs-mod-fullstack/common';
 import { ConfigModel } from '@nestjs-mod/common';
 import { Logger } from '@nestjs/common';
 import { basename } from 'path';
-import { PrismaToolsEnvironments } from './prisma-tools.environments';
+import { PrismaToolsStaticEnvironments } from './prisma-tools.environments';
 import {
   DATABASE_ERROR_ENUM_TITLES,
   DatabaseErrorEnum,
@@ -21,7 +21,7 @@ export class PrismaToolsService {
   private logger = new Logger(PrismaToolsService.name);
 
   constructor(
-    private readonly prismaToolsEnvironments: PrismaToolsEnvironments
+    private readonly prismaToolsStaticEnvironments: PrismaToolsStaticEnvironments
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,13 +115,13 @@ export class PrismaToolsService {
     const curPage = +(
       args.curPage ||
       defaultOptions?.defaultCurPage ||
-      this.prismaToolsEnvironments.paginationInitialPage ||
+      this.prismaToolsStaticEnvironments.paginationInitialPage ||
       1
     );
     const perPage = +(
       args.perPage ||
       defaultOptions?.defaultPerPage ||
-      this.prismaToolsEnvironments.paginationPerPage ||
+      this.prismaToolsStaticEnvironments.paginationPerPage ||
       5
     );
     const skip = +curPage === 1 ? 0 : +perPage * +curPage - +perPage;

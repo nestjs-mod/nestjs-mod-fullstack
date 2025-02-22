@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { PrismaToolsEnvironments } from './prisma-tools.environments';
+import { PrismaToolsStaticEnvironments } from './prisma-tools.environments';
 import { PrismaToolsService } from './prisma-tools.service';
 
 @Catch()
@@ -15,13 +15,13 @@ export class PrismaToolsExceptionsFilter extends BaseExceptionFilter {
 
   constructor(
     private readonly prismaToolsService: PrismaToolsService,
-    private readonly prismaToolsEnvironments: PrismaToolsEnvironments
+    private readonly prismaToolsStaticEnvironments: PrismaToolsStaticEnvironments
   ) {
     super();
   }
 
   override catch(exception: HttpException, host: ArgumentsHost) {
-    if (!this.prismaToolsEnvironments.useFilters) {
+    if (!this.prismaToolsStaticEnvironments.useFilters) {
       super.catch(exception, host);
       return;
     }

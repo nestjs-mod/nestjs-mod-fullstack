@@ -6,7 +6,7 @@ import {
 import { IsNotEmpty } from 'class-validator';
 
 @EnvModel()
-export class AuthEnvironments {
+export class AuthStaticEnvironments {
   @EnvModelProperty({
     description: 'Global admin username',
     default: 'admin@example.com',

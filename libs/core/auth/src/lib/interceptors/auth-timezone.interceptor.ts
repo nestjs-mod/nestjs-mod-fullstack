@@ -8,7 +8,7 @@ import {
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { isObservable, Observable } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { AuthEnvironments } from '../auth.environments';
+import { AuthStaticEnvironments } from '../auth.environments';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthTimezoneService, TData } from '../services/auth-timezone.service';
 import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-data';
@@ -19,7 +19,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
   constructor(
     private readonly authTimezoneService: AuthTimezoneService,
     private readonly authCacheService: AuthCacheService,
-    private readonly authEnvironments: AuthEnvironments,
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
     private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>
   ) {}
 
@@ -27,7 +27,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
     const req: AuthRequest = getRequestFromExecutionContext(context);
     const userId = req.authUser?.externalUserId;
 
-    if (!this.authEnvironments.useInterceptors) {
+    if (!this.authStaticEnvironments.useInterceptors) {
       return next.handle();
     }
 
@@ -99,7 +99,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
       ) as Observable<TData>;
     };
 
-    if (!this.authEnvironments.usePipes) {
+    if (!this.authStaticEnvironments.usePipes) {
       return run();
     }
 

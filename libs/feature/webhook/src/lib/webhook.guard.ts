@@ -14,7 +14,7 @@ import { WebhookRequest } from './types/webhook-request';
 import { WebhookStaticConfiguration } from './webhook.configuration';
 import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
-import { WebhookEnvironments } from './webhook.environments';
+import { WebhookStaticEnvironments } from './webhook.environments';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class WebhookGuard implements CanActivate {
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
-    private readonly webhookEnvironments: WebhookEnvironments,
+    private readonly webhookStaticEnvironments: WebhookStaticEnvironments,
     private readonly webhookStaticConfiguration: WebhookStaticConfiguration,
     private readonly webhookCacheService: WebhookCacheService
   ) {}
@@ -62,7 +62,7 @@ export class WebhookGuard implements CanActivate {
   }
 
   private throwAllGuardErrorsIfItNeeded(err: unknown) {
-    if (!this.webhookEnvironments.skipGuardErrors) {
+    if (!this.webhookStaticEnvironments.skipGuardErrors) {
       throw err;
     } else {
       this.logger.error(err, (err as Error).stack);
@@ -97,7 +97,7 @@ export class WebhookGuard implements CanActivate {
       if (!externalTenantId || !isUUID(externalTenantId)) {
         throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
       }
-      if (this.webhookEnvironments.autoCreateUser) {
+      if (this.webhookStaticEnvironments.autoCreateUser) {
         req.webhookUser =
           await this.webhookCacheService.getCachedUserByExternalUserId(
             externalUserId,
@@ -124,7 +124,7 @@ export class WebhookGuard implements CanActivate {
   ) {
     if (
       !req.webhookUser &&
-      this.webhookEnvironments.superAdminExternalUserId === externalUserId
+      this.webhookStaticEnvironments.superAdminExternalUserId === externalUserId
     ) {
       req.webhookUser =
         await this.webhookCacheService.getCachedUserByExternalUserId(
@@ -135,7 +135,7 @@ export class WebhookGuard implements CanActivate {
 
   private getExternalTenantIdFromRequest(req: WebhookRequest) {
     const externalTenantId =
-      req.externalTenantId || this.webhookEnvironments.checkHeaders
+      req.externalTenantId || this.webhookStaticEnvironments.checkHeaders
         ? this.webhookStaticConfiguration.externalTenantIdHeaderName &&
           req.headers?.[
             this.webhookStaticConfiguration.externalTenantIdHeaderName
@@ -149,7 +149,7 @@ export class WebhookGuard implements CanActivate {
 
   private getExternalUserIdFromRequest(req: WebhookRequest) {
     const externalUserId =
-      req.externalUserId || this.webhookEnvironments.checkHeaders
+      req.externalUserId || this.webhookStaticEnvironments.checkHeaders
         ? this.webhookStaticConfiguration.externalUserIdHeaderName &&
           req.headers?.[
             this.webhookStaticConfiguration.externalUserIdHeaderName

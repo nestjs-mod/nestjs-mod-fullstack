@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/webhook-client';
 import { randomUUID } from 'crypto';
 import { concatMap, Subscription } from 'rxjs';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
-import { WebhookEnvironments } from '../webhook.environments';
+import { WebhookStaticEnvironments } from '../webhook.environments';
 import { WebhookService } from './webhook.service';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class WebhookServiceBootstrap
   constructor(
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly webhookEnvironments: WebhookEnvironments,
+    private readonly webhookStaticEnvironments: WebhookStaticEnvironments,
     private readonly webhookService: WebhookService
   ) {}
 
@@ -59,10 +59,11 @@ export class WebhookServiceBootstrap
 
   private async createDefaultUsers() {
     try {
-      if (this.webhookEnvironments.superAdminExternalUserId) {
+      if (this.webhookStaticEnvironments.superAdminExternalUserId) {
         const existsUser = await this.prismaClient.webhookUser.findFirst({
           where: {
-            externalUserId: this.webhookEnvironments.superAdminExternalUserId,
+            externalUserId:
+              this.webhookStaticEnvironments.superAdminExternalUserId,
             userRole: 'Admin',
           },
         });
@@ -70,7 +71,8 @@ export class WebhookServiceBootstrap
           await this.prismaClient.webhookUser.create({
             data: {
               externalTenantId: randomUUID(),
-              externalUserId: this.webhookEnvironments.superAdminExternalUserId,
+              externalUserId:
+                this.webhookStaticEnvironments.superAdminExternalUserId,
               userRole: 'Admin',
             },
           });

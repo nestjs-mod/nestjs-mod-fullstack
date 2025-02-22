@@ -1,6 +1,6 @@
 import {
   AUTH_ADMIN_ROLE,
-  AuthEnvironments,
+  AuthStaticEnvironments,
   AuthError,
   AuthErrorEnum,
   AuthRequest,
@@ -28,7 +28,7 @@ export class WebhookWithAuthSupabaseConfiguration
 {
   constructor(
     private readonly webhookUsersService: WebhookUsersService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments
   ) {}
 
   async checkAccessValidator(
@@ -72,8 +72,8 @@ export class WebhookWithAuthSupabaseConfiguration
       }
 
       if (
-        this.authEnvironments.adminEmail &&
-        req.supabaseUser?.email === this.authEnvironments.adminEmail
+        this.authStaticEnvironments.adminEmail &&
+        req.supabaseUser?.email === this.authStaticEnvironments.adminEmail
       ) {
         req.webhookUser.userRole = 'Admin';
 

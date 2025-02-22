@@ -1,7 +1,7 @@
 import { SERVER_TIMEZONE_OFFSET } from '@nestjs-mod-fullstack/common';
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AuthEnvironments } from '../auth.environments';
+import { AuthStaticEnvironments } from '../auth.environments';
 import { AuthTimezoneService } from '../services/auth-timezone.service';
 import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-data';
 
@@ -10,11 +10,11 @@ export class AuthTimezonePipe implements PipeTransform {
   constructor(
     private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>,
     private readonly authTimezoneService: AuthTimezoneService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments
   ) {}
 
   transform(value: unknown) {
-    if (!this.authEnvironments.usePipes) {
+    if (!this.authStaticEnvironments.usePipes) {
       return value;
     }
     const result = this.authTimezoneService.convertObject(

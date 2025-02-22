@@ -6,13 +6,13 @@ import {
 import { FilesController } from './controllers/files.controller';
 import { FilesConfiguration } from './files.configuration';
 import { FILES_FEATURE, FILES_MODULE } from './files.constants';
-import { FilesEnvironments } from './files.environments';
+import { FilesStaticEnvironments } from './files.environments';
 
 export const { FilesModule } = createNestModule({
   moduleName: FILES_MODULE,
   moduleCategory: NestModuleCategory.feature,
   configurationModel: FilesConfiguration,
-  staticEnvironmentsModel: FilesEnvironments,
+  staticEnvironmentsModel: FilesStaticEnvironments,
   controllers: [FilesController],
   wrapForRootAsync: (asyncModuleOptions) => {
     if (!asyncModuleOptions) {

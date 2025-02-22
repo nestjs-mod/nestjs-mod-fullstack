@@ -16,7 +16,7 @@ import {
   CheckAuthRole,
   SkipAuthGuard,
 } from './auth.decorators';
-import { AuthEnvironments } from './auth.environments';
+import { AuthStaticEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
@@ -30,13 +30,13 @@ export class AuthGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly authCacheService: AuthCacheService,
-    private readonly authEnvironments: AuthEnvironments,
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
     private readonly authConfiguration: AuthConfiguration,
     private readonly translatesStorage: TranslatesStorage
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (!this.authEnvironments.useGuards) {
+    if (!this.authStaticEnvironments.useGuards) {
       return true;
     }
 
@@ -83,8 +83,8 @@ export class AuthGuard implements CanActivate {
 
   private pathAdminRoles(req: AuthRequest) {
     if (
-      this.authEnvironments.adminEmail &&
-      req.externalUser?.email === this.authEnvironments.adminEmail
+      this.authStaticEnvironments.adminEmail &&
+      req.externalUser?.email === this.authStaticEnvironments.adminEmail
     ) {
       req.externalUser.role = AUTH_ADMIN_ROLE;
     }

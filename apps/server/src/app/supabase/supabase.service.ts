@@ -11,7 +11,7 @@ import {
   AllowEmptySupabaseUser,
   CheckSupabaseAccess,
 } from './supabase.decorators';
-import { SupabaseEnvironments } from './supabase.environments';
+import { SupabaseStaticEnvironments } from './supabase.environments';
 import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 import { SupabaseRequest, SupabaseUser } from './supabase.types';
 
@@ -23,13 +23,13 @@ export class SupabaseService implements OnModuleInit {
   constructor(
     private readonly reflector: Reflector,
     private readonly supabaseConfiguration: SupabaseConfiguration,
-    private readonly supabaseEnvironments: SupabaseEnvironments
+    private readonly supabaseStaticEnvironments: SupabaseStaticEnvironments
   ) {}
 
   onModuleInit() {
     this.supabaseClient = new SupabaseClient(
-      this.supabaseEnvironments.url,
-      this.supabaseEnvironments.key
+      this.supabaseStaticEnvironments.url,
+      this.supabaseStaticEnvironments.key
     );
   }
 
@@ -162,7 +162,7 @@ export class SupabaseService implements OnModuleInit {
 
         if (
           req.externalAppId &&
-          !this.supabaseEnvironments.allowedExternalAppIds?.includes(
+          !this.supabaseStaticEnvironments.allowedExternalAppIds?.includes(
             req.externalAppId
           )
         ) {
