@@ -1,3 +1,9 @@
+## [1.15.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.2...server-v1.15.3) (2025-02-22)
+
+### Bug Fixes
+
+- revert description of project ([871b32b](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/871b32bd9b244cbfec9cc8d709e7e0622b52b7ad))
+
 ## [1.15.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.1...server-v1.15.2) (2025-02-22)
 
 ### Bug Fixes
