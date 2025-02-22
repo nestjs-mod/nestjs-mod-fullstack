@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 
-export class UpdateMigrationsDto {
+export class UpdateMigrationsWebhookDto {
   @ApiProperty({
     type: 'string',
     required: false,

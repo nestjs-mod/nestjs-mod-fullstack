@@ -1,79 +1,51 @@
 process.env.TZ = 'UTC';
 
-import KeyvPostgres from '@keyv/postgres';
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationModule } from '@nestjs-mod-fullstack/validation';
-
-import KeyvRedis, { createClient } from '@keyv/redis';
+import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod-fullstack/webhook';
 import {
-  WEBHOOK_FEATURE,
-  WEBHOOK_FOLDER,
-  WebhookModule,
-} from '@nestjs-mod-fullstack/webhook';
-import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
-import {
+  bootstrapNestApplication,
   DefaultNestApplicationInitializer,
   DefaultNestApplicationListener,
   InfrastructureMarkdownReportGenerator,
+  isInfrastructureMode,
   PACKAGE_JSON_FILE,
   PROJECT_JSON_FILE,
   ProjectUtils,
-  bootstrapNestApplication,
-  isInfrastructureMode,
 } from '@nestjs-mod/common';
 import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
-  DockerComposeAuthorizer,
   DockerComposeMinio,
   DockerComposePostgreSQL,
   DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
-import { KeyvModule } from '@nestjs-mod/keyv';
-import { MinioModule } from '@nestjs-mod/minio';
 import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
 import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
-import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { existsSync, writeFileSync } from 'fs';
-import { getText } from 'nestjs-translates';
+import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
-import { AuthorizerAppModule } from './app/authorizer-app.module';
-import { SupabaseAppModule } from './app/supabase-app.module';
-import { authProvider } from './environments/environment';
-import { PrismaTerminusHealthCheckConfiguration } from './integrations/prisma-terminus-health-check.configuration';
-
-let rootFolder = join(__dirname, '..', '..', '..');
-
-if (
-  !existsSync(join(rootFolder, PACKAGE_JSON_FILE)) &&
-  existsSync(join(__dirname, PACKAGE_JSON_FILE))
-) {
-  rootFolder = join(__dirname);
-}
-
-let appFolder = join(rootFolder, 'apps', 'server');
-
-if (!existsSync(join(appFolder, PACKAGE_JSON_FILE))) {
-  appFolder = join(rootFolder, 'dist', 'apps', 'server');
-}
-
-if (
-  !existsSync(join(appFolder, PACKAGE_JSON_FILE)) &&
-  existsSync(join(__dirname, PACKAGE_JSON_FILE))
-) {
-  appFolder = join(__dirname);
-}
+import {
+  appFolder,
+  AppModule,
+  coreModules,
+  infrastructuresModules,
+  MainKeyvModule,
+  MainMinioModule,
+  MainTerminusHealthCheckModule,
+  MainWebhookModule,
+  rootFolder,
+} from './environments/environment';
 
 bootstrapNestApplication({
   project: {
     name: 'server',
     description:
-      'Boilerplate for creating a fullstack application on NestJS and Angular',
+      'Boilerplate for creating a sso application on NestJS and Angular',
   },
   modules: {
     system: [
@@ -90,23 +62,7 @@ bootstrapNestApplication({
         staticConfiguration: { bufferLogs: true },
       }),
       // NestjsPinoLoggerModule.forRoot(),
-      TerminusHealthCheckModule.forRootAsync({
-        imports: [
-          PrismaModule.forFeature({
-            featureModuleName: 'TerminusHealthCheckModule',
-            contextName: APP_FEATURE,
-          }),
-          PrismaModule.forFeature({
-            featureModuleName: 'TerminusHealthCheckModule',
-            contextName: AUTH_FEATURE,
-          }),
-          PrismaModule.forFeature({
-            featureModuleName: 'TerminusHealthCheckModule',
-            contextName: WEBHOOK_FEATURE,
-          }),
-        ],
-        configurationClass: PrismaTerminusHealthCheckConfiguration,
-      }),
+      MainTerminusHealthCheckModule,
       DefaultNestApplicationListener.forRoot({
         staticConfiguration: {
           // When running in infrastructure mode, the backend server does not start.
@@ -210,74 +166,12 @@ bootstrapNestApplication({
           ],
         },
       }),
-      KeyvModule.forRoot({
-        staticConfiguration: {
-          storeFactoryByEnvironmentUrl: (uri) => {
-            return isInfrastructureMode()
-              ? undefined
-              : authProvider === 'authorizer'
-              ? [new KeyvRedis(createClient({ url: uri }))]
-              : [new KeyvPostgres({ uri }), { table: 'cache' }];
-          },
-        },
-      }),
-      MinioModule.forRoot(
-        authProvider === 'authorizer'
-          ? undefined
-          : {
-              staticConfiguration: { region: 'eu-central-1' },
-              staticEnvironments: {
-                minioUseSSL: 'true',
-              },
-            }
-      ),
+      ...coreModules,
+      MainKeyvModule,
+      MainMinioModule,
       ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
     ],
-    feature: [
-      authProvider === 'authorizer'
-        ? AuthorizerAppModule.forRoot()
-        : SupabaseAppModule.forRoot(),
-      WebhookModule.forRootAsync({
-        staticEnvironments: { checkHeaders: false },
-        configuration: {
-          syncMode: authProvider === 'authorizer' ? false : true,
-          events: [
-            {
-              eventName: 'app-demo.create',
-              description: getText(
-                'Event that will be triggered after creation'
-              ),
-              example: {
-                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-                name: 'demo name',
-                createdAt: '2024-10-02T18:49:07.992Z',
-                updatedAt: '2024-10-02T18:49:07.992Z',
-              },
-            },
-            {
-              eventName: 'app-demo.update',
-              description: getText('Event that will trigger after the update'),
-              example: {
-                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-                name: 'demo name',
-                createdAt: '2024-10-02T18:49:07.992Z',
-                updatedAt: '2024-10-02T18:49:07.992Z',
-              },
-            },
-            {
-              eventName: 'app-demo.delete',
-              description: getText('Event that will fire after deletion'),
-              example: {
-                id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-                name: 'demo name',
-                createdAt: '2024-10-02T18:49:07.992Z',
-                updatedAt: '2024-10-02T18:49:07.992Z',
-              },
-            },
-          ],
-        },
-      }),
-    ],
+    feature: [AppModule.forRoot(), MainWebhookModule],
     infrastructure: [
       InfrastructureMarkdownReportGenerator.forRoot({
         staticConfiguration: {
@@ -302,28 +196,7 @@ bootstrapNestApplication({
       DockerComposePostgreSQL.forFeature({
         featureModuleName: APP_FEATURE,
       }),
-      ...(authProvider === 'authorizer'
-        ? [
-            DockerComposePostgreSQL.forFeature({
-              featureModuleName: AUTHORIZER_ENV_PREFIX,
-            }),
-            DockerComposeAuthorizer.forRoot({
-              staticConfiguration: {
-                image: 'lakhansamani/authorizer:1.4.4',
-                disableStrongPassword: 'true',
-                disableEmailVerification: 'true',
-                featureName: AUTHORIZER_ENV_PREFIX,
-                organizationName: 'NestJSModFullstack',
-                dependsOnServiceNames: {
-                  'postgre-sql': 'service_healthy',
-                },
-                isEmailServiceEnabled: 'true',
-                isSmsServiceEnabled: 'false',
-                env: 'development',
-              },
-            }),
-          ]
-        : []),
+      ...infrastructuresModules,
       DockerComposeRedis.forRoot({
         staticConfiguration: { image: 'bitnami/redis:7.4.1' },
       }),

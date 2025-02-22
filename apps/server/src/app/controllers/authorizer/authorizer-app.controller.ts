@@ -16,11 +16,11 @@ import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
-import { APP_FEATURE } from '../app.constants';
-import { AppDemo } from '../generated/rest/dto/app-demo.entity';
-import { AppService } from '../services/app.service';
-import { AppData } from '../types/app-data';
-import { AppDemoEventName } from '../types/app-demo-event-name';
+import { APP_FEATURE } from '../../app.constants';
+import { AppDemo } from '../../generated/rest/dto/app-demo.entity';
+import { AppService } from '../../services/app.service';
+import { AppData } from '../../types/app-data';
+import { AppDemoEventName } from '../../types/app-demo-event-name';
 
 @AllowEmptyUser()
 @AllowEmptyAuthUser()

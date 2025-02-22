@@ -9,7 +9,7 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 import { interval, map, Observable } from 'rxjs';
-import { ChangeTimeStream } from '../app.constants';
+import { ChangeTimeStream } from '../../app.constants';
 
 @UseAuthInterceptorsAndGuards({
   guards: [AuthorizerGuard],

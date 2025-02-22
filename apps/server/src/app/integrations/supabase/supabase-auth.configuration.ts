@@ -1,10 +1,33 @@
-import { AuthConfiguration, AuthError } from '@nestjs-mod-fullstack/auth';
-import { Injectable } from '@nestjs/common';
-import { SupabaseService } from '../supabase/supabase.service';
+import {
+  AuthConfiguration,
+  AuthError,
+  AuthRequest,
+  AuthUser,
+} from '@nestjs-mod-fullstack/auth';
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { SupabaseService } from '../../supabase/supabase.service';
 
 @Injectable()
 export class SupabaseAuthConfiguration implements AuthConfiguration {
   constructor(private readonly supabaseService: SupabaseService) {}
+
+  async checkAccessValidator(
+    authUser?: AuthUser | null,
+    ctx?: ExecutionContext
+  ) {
+    const req: AuthRequest = ctx && getRequestFromExecutionContext(ctx);
+
+    if (
+      typeof ctx?.getClass === 'function' &&
+      typeof ctx?.getHandler === 'function' &&
+      ctx?.getClass().name === 'TerminusHealthCheckController' &&
+      ctx?.getHandler().name === 'check'
+    ) {
+      req.skipEmptyAuthUser = true;
+    }
+  }
+
   async createAdmin(user: {
     username?: string;
     password: string;

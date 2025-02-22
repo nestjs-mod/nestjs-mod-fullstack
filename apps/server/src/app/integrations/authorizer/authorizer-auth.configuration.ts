@@ -1,6 +1,12 @@
-import { AuthConfiguration, AuthError } from '@nestjs-mod-fullstack/auth';
+import {
+  AuthConfiguration,
+  AuthError,
+  AuthRequest,
+  AuthUser,
+} from '@nestjs-mod-fullstack/auth';
 import { AuthorizerService } from '@nestjs-mod/authorizer';
-import { Injectable, Logger } from '@nestjs/common';
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
 @Injectable()
 export class AuthorizerAuthConfiguration implements AuthConfiguration {
   private logger = new Logger(AuthorizerAuthConfiguration.name);
@@ -10,6 +16,22 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
   extraHeaders = {
     'x-authorizer-url': `http://localhost:${process.env.SERVER_AUTHORIZER_EXTERNAL_CLIENT_PORT}`,
   };
+
+  async checkAccessValidator(
+    authUser?: AuthUser | null,
+    ctx?: ExecutionContext
+  ) {
+    const req: AuthRequest = ctx && getRequestFromExecutionContext(ctx);
+
+    if (
+      typeof ctx?.getClass === 'function' &&
+      typeof ctx?.getHandler === 'function' &&
+      ctx?.getClass().name === 'TerminusHealthCheckController' &&
+      ctx?.getHandler().name === 'check'
+    ) {
+      req.skipEmptyAuthUser = true;
+    }
+  }
 
   async createAdmin(user: {
     username?: string;

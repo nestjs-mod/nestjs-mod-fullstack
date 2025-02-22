@@ -15,12 +15,12 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import {
   SupabaseConfiguration,
   defaultSupabaseCheckAccessValidator,
-} from '../supabase/supabase.configuration';
+} from '../../supabase/supabase.configuration';
 import {
   CheckAccessOptions,
   SupabaseRequest,
   SupabaseUser,
-} from '../supabase/supabase.types';
+} from '../../supabase/supabase.types';
 
 @Injectable()
 export class WebhookWithAuthSupabaseConfiguration

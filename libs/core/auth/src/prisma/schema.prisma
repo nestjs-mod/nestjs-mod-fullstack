@@ -12,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  classValidation                 = "true"
-  prettier                        = "true"
   dtoSuffix                       = "Dto"
-  updateDtoPrefix                 = "Update"
-  entityPrefix                    = ""
-  annotateAllDtoProperties        = "true"
-  createDtoPrefix                 = "Create"
-  fileNamingStyle                 = "kebab"
-  flatResourceStructure           = "false"
+  prettier                        = "true"
   exportRelationModifierClasses   = "true"
   definiteAssignmentAssertion     = "true"
-  reExport                        = "false"
-  entitySuffix                    = ""
+  annotateAllDtoProperties        = "true"
+  updateDtoPrefix                 = "Update"
   outputToNestJsResourceStructure = "false"
+  fileNamingStyle                 = "kebab"
+  reExport                        = "false"
+  entityPrefix                    = ""
+  flatResourceStructure           = "false"
   noDependencies                  = "false"
+  classValidation                 = "true"
+  createDtoPrefix                 = "Create"
+  entitySuffix                    = ""
 }
 
 model AuthUser {
@@ -45,8 +45,8 @@ model AuthUser {
   @@index([userRole], map: "IDX_AUTH_USER__USER_ROLE")
 }
 
-model migrations {
-  installed_rank Int      @id(map: "__migrations_pk")
+model migrations_auth {
+  installed_rank Int      @id(map: "__migrations_auth_pk")
   version        String?  @db.VarChar(50)
   description    String   @db.VarChar(200)
   type           String   @db.VarChar(20)
@@ -57,8 +57,8 @@ model migrations {
   execution_time Int
   success        Boolean
 
-  @@index([success], map: "__migrations_s_idx")
-  @@map("__migrations")
+  @@index([success], map: "__migrations_auth_s_idx")
+  @@map("__migrations_auth")
 }
 
 enum AuthRole {

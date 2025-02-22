@@ -12,13 +12,13 @@ export class SupabaseEnvironments {
     description: 'Supabase URL',
   })
   @IsNotEmpty()
-  supabaseURL!: string;
+  url!: string;
 
   @EnvModelProperty({
     description: 'Supabase key',
   })
   @IsNotEmpty()
-  supabaseKey!: string;
+  key!: string;
 
   @EnvModelProperty({
     description:

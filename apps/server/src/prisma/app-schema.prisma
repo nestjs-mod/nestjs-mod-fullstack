@@ -12,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../app/generated/rest/dto"
-  classValidation                 = "true"
-  flatResourceStructure           = "false"
-  prettier                        = "true"
-  annotateAllDtoProperties        = "true"
-  dtoSuffix                       = "Dto"
-  fileNamingStyle                 = "kebab"
-  reExport                        = "false"
   exportRelationModifierClasses   = "true"
+  dtoSuffix                       = "Dto"
+  createDtoPrefix                 = "Create"
+  annotateAllDtoProperties        = "true"
+  entitySuffix                    = ""
+  updateDtoPrefix                 = "Update"
   definiteAssignmentAssertion     = "true"
   outputToNestJsResourceStructure = "false"
-  createDtoPrefix                 = "Create"
   noDependencies                  = "false"
-  entitySuffix                    = ""
+  classValidation                 = "true"
+  fileNamingStyle                 = "kebab"
+  flatResourceStructure           = "false"
+  reExport                        = "false"
+  prettier                        = "true"
   entityPrefix                    = ""
-  updateDtoPrefix                 = "Update"
 }
 
 model AppDemo {
@@ -40,8 +40,8 @@ model AppDemo {
   updatedAt DateTime @default(now()) @db.Timestamp(6)
 }
 
-model migrations {
-  installed_rank Int      @id(map: "__migrations_pk")
+model migrations_server {
+  installed_rank Int      @id(map: "__migrations_server_pk")
   version        String?  @db.VarChar(50)
   description    String   @db.VarChar(200)
   type           String   @db.VarChar(20)
@@ -52,6 +52,6 @@ model migrations {
   execution_time Int
   success        Boolean
 
-  @@index([success], map: "__migrations_s_idx")
-  @@map("__migrations")
+  @@index([success], map: "__migrations_server_s_idx")
+  @@map("__migrations_server")
 }

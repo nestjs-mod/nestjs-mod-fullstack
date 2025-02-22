@@ -12,12 +12,12 @@ import {
 } from '@nestjs/common';
 
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
+import { AllowEmptyUser } from '@nestjs-mod/authorizer';
 import { KeyvService } from '@nestjs-mod/keyv';
-import { CACHE_KEY } from '../app.constants';
-import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
-import { AppHandlerLog } from '../types/app-handler-log';
+import { CACHE_KEY } from '../../app.constants';
+import { AppHandlerLog } from '../../types/app-handler-log';
 
-@AllowEmptySupabaseUser()
+@AllowEmptyUser()
 @AllowEmptyAuthUser()
 @Controller('fake-endpoint')
 export class FakeEndpointController {

@@ -28,8 +28,8 @@ export class SupabaseService implements OnModuleInit {
 
   onModuleInit() {
     this.supabaseClient = new SupabaseClient(
-      this.supabaseEnvironments.supabaseURL,
-      this.supabaseEnvironments.supabaseKey
+      this.supabaseEnvironments.url,
+      this.supabaseEnvironments.key
     );
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FindManyArgs } from '@nestjs-mod-fullstack/common';
 import { ConfigModel } from '@nestjs-mod/common';
 import { Logger } from '@nestjs/common';
@@ -7,6 +8,13 @@ import {
   DATABASE_ERROR_ENUM_TITLES,
   DatabaseErrorEnum,
 } from './prisma-tools.errors';
+
+const ERROR_CODE_P2002 = 'P2002';
+const ERROR_CODE_P2025 = 'P2025';
+const ERROR_SUBSTRING_RECORD_NOT_FOUND = 'NotFoundError';
+const ERROR_SUBSTRING_DELETE_RECORD_NOT_FOUND =
+  'Record to delete does not exist';
+const ERROR_SUBSTRING_UPDATE_RECORD_NOT_FOUND = 'Record to update not found';
 
 @ConfigModel()
 export class PrismaToolsService {
@@ -119,5 +127,60 @@ export class PrismaToolsService {
     const skip = +curPage === 1 ? 0 : +perPage * +curPage - +perPage;
 
     return { take: perPage, skip, curPage, perPage };
+  }
+
+  isErrorOfRecordNotFound(err: Error): boolean {
+    return (
+      String(err).includes(ERROR_SUBSTRING_RECORD_NOT_FOUND) ||
+      String(err).includes(ERROR_CODE_P2025) ||
+      String(err).includes(ERROR_SUBSTRING_DELETE_RECORD_NOT_FOUND) ||
+      String(err).includes(ERROR_SUBSTRING_UPDATE_RECORD_NOT_FOUND)
+    );
+  }
+
+  isErrorOfUniqueField<T>(
+    prismaError: { code: string; meta: { target: string[] } },
+    field: keyof T,
+    error: any,
+    defaultError: any = null
+  ) {
+    return prismaError.code === ERROR_CODE_P2002 &&
+      prismaError.meta?.target.includes(field as string)
+      ? error
+      : defaultError;
+  }
+
+  isErrorOfUniqueFields<T>(
+    prismaError: { code: string; meta: { target: string[] } },
+    fields: (keyof T)[],
+    error: any,
+    defaultError: any = null
+  ) {
+    return prismaError.code === ERROR_CODE_P2002 &&
+      fields.filter((field) =>
+        prismaError.meta?.target.includes(field as string)
+      ).length === fields.length
+      ? error
+      : defaultError;
+  }
+
+  isErrorsOfUniqueField<T>(
+    prismaError: { code: string; meta: { target: string[] } },
+    errors: {
+      field: keyof T;
+      error: any;
+    }[]
+  ) {
+    const firstError = errors.find((error) =>
+      this.isErrorOfUniqueField<T>(prismaError, error.field, true)
+    );
+
+    return firstError
+      ? this.isErrorOfUniqueField<T>(
+          prismaError,
+          firstError.field,
+          firstError.error
+        )
+      : prismaError;
   }
 }

@@ -1,6 +1,10 @@
-import { NestModuleCategory, createNestModule } from '@nestjs-mod/common';
+import {
+  NestModuleCategory,
+  createNestModule,
+  getFeatureDotEnvPropertyNameFormatter,
+} from '@nestjs-mod/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { SUPABASE_MODULE } from './supabase.constants';
+import { SUPABASE_FEATURE, SUPABASE_MODULE } from './supabase.constants';
 import { SupabaseEnvironments } from './supabase.environments';
 import { SupabaseGuard } from './supabase.guard';
 import { SupabaseService } from './supabase.service';
@@ -12,10 +16,25 @@ export const { SupabaseModule } = createNestModule({
   moduleCategory: NestModuleCategory.core,
   moduleDescription: 'Universal javaScript SDK for Supabase API',
   configurationModel: SupabaseConfiguration,
-  environmentsModel: SupabaseEnvironments,
+  staticEnvironmentsModel: SupabaseEnvironments,
   sharedProviders: [SupabaseService],
   providers: [
     { provide: APP_GUARD, useClass: SupabaseGuard },
     { provide: APP_FILTER, useClass: SupabaseExceptionsFilter },
   ],
+  wrapForRootAsync: (asyncModuleOptions) => {
+    if (!asyncModuleOptions) {
+      asyncModuleOptions = {};
+    }
+    const FomatterClass =
+      getFeatureDotEnvPropertyNameFormatter(SUPABASE_FEATURE);
+    Object.assign(asyncModuleOptions, {
+      environmentsOptions: {
+        propertyNameFormatters: [new FomatterClass()],
+        name: SUPABASE_FEATURE,
+      },
+    });
+
+    return { asyncModuleOptions };
+  },
 });

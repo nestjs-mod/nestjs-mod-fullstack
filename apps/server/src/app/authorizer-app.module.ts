@@ -20,13 +20,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE } from './app.constants';
-import { AppController } from './controllers/authorizer-app.controller';
-import { FakeEndpointController } from './controllers/authorizer-fake-endoint.controller';
-import { TimeController } from './controllers/authorizer-time.controller';
-import { AuthorizerController } from './controllers/authorizer.controller';
-import { AuthorizerAuthConfiguration } from './integrations/authorizer-auth.configuration';
-import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer-with-minio-files.configuration';
-import { WebhookWithAuthAuthorizerConfiguration } from './integrations/webhook-with-auth-authorizer.configuration';
+import { AppController } from './controllers/authorizer/authorizer-app.controller';
+import { FakeEndpointController } from './controllers/authorizer/authorizer-fake-endoint.controller';
+import { TimeController } from './controllers/authorizer/authorizer-time.controller';
+import { AuthorizerController } from './controllers/authorizer/authorizer.controller';
+import { AuthorizerAuthConfiguration } from './integrations/authorizer/authorizer-auth.configuration';
+import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer/authorizer-with-minio-files.configuration';
+import { WebhookWithAuthAuthorizerConfiguration } from './integrations/authorizer/webhook-with-auth-authorizer.configuration';
 import { AppService } from './services/app.service';
 
 export const { AppModule: AuthorizerAppModule } = createNestModule({

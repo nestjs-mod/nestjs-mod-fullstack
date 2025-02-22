@@ -12,21 +12,21 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  entityPrefix                    = ""
-  prettier                        = "true"
-  reExport                        = "false"
-  exportRelationModifierClasses   = "true"
-  classValidation                 = "true"
   definiteAssignmentAssertion     = "true"
-  annotateAllDtoProperties        = "true"
+  entityPrefix                    = ""
   dtoSuffix                       = "Dto"
-  fileNamingStyle                 = "kebab"
-  createDtoPrefix                 = "Create"
   flatResourceStructure           = "false"
-  outputToNestJsResourceStructure = "false"
+  prettier                        = "true"
+  exportRelationModifierClasses   = "true"
+  annotateAllDtoProperties        = "true"
+  createDtoPrefix                 = "Create"
+  classValidation                 = "true"
   updateDtoPrefix                 = "Update"
-  noDependencies                  = "false"
+  reExport                        = "false"
   entitySuffix                    = ""
+  outputToNestJsResourceStructure = "false"
+  fileNamingStyle                 = "kebab"
+  noDependencies                  = "false"
 }
 
 model Webhook {
@@ -103,8 +103,8 @@ model WebhookUser {
   @@index([externalTenantId, userRole], map: "IDX_WEBHOOK_USER__USER_ROLE")
 }
 
-model migrations {
-  installed_rank Int      @id(map: "__migrations_pk")
+model migrations_webhook {
+  installed_rank Int      @id(map: "__migrations_webhook_pk")
   version        String?  @db.VarChar(50)
   description    String   @db.VarChar(200)
   type           String   @db.VarChar(20)
@@ -115,8 +115,8 @@ model migrations {
   execution_time Int
   success        Boolean
 
-  @@index([success], map: "__migrations_s_idx")
-  @@map("__migrations")
+  @@index([success], map: "__migrations_webhook_s_idx")
+  @@map("__migrations_webhook")
 }
 
 enum WebhookRole {

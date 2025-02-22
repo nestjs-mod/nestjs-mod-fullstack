@@ -9,6 +9,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
+import { AuthConfiguration } from './auth.configuration';
 import { AUTH_ADMIN_ROLE, AUTH_FEATURE } from './auth.constants';
 import {
   AllowEmptyAuthUser,
@@ -30,6 +31,7 @@ export class AuthGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly authCacheService: AuthCacheService,
     private readonly authEnvironments: AuthEnvironments,
+    private readonly authConfiguration: AuthConfiguration,
     private readonly translatesStorage: TranslatesStorage
   ) {}
 
@@ -47,6 +49,14 @@ export class AuthGuard implements CanActivate {
       }
 
       const req: AuthRequest = this.getRequestFromExecutionContext(context);
+
+      // check access by custom logic
+      if (this.authConfiguration.checkAccessValidator) {
+        await this.authConfiguration.checkAccessValidator(
+          req.authUser,
+          context
+        );
+      }
 
       if (allowEmptyUserMetadata) {
         req.skipEmptyAuthUser = true;

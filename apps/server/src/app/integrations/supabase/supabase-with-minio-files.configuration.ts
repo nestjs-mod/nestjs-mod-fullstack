@@ -5,7 +5,7 @@ import {
 } from '@nestjs-mod-fullstack/files';
 import { MinioFilesService } from '@nestjs-mod/minio';
 import { Injectable } from '@nestjs/common';
-import { SupabaseService } from '../supabase/supabase.service';
+import { SupabaseService } from '../../supabase/supabase.service';
 
 @Injectable()
 export class SupabaseWithMinioFilesConfiguration implements FilesConfiguration {
