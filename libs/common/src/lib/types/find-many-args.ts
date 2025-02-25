@@ -16,8 +16,10 @@ export class FindManyArgs {
   perPage?: number;
 
   @ApiPropertyOptional({ type: String })
+  @IsOptional()
   searchText?: string;
 
   @ApiPropertyOptional({ type: String })
+  @IsOptional()
   sort?: string;
 }
