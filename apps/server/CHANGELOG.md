@@ -1,3 +1,9 @@
+## [1.15.6](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.5...server-v1.15.6) (2025-02-25)
+
+### Bug Fixes
+
+- update dto for generate correct swagger spec ([e76615e](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/e76615e985dc243f09026418f36a48d339965e53))
+
 ## [1.15.5](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.4...server-v1.15.5) (2025-02-22)
 
 ### Bug Fixes
