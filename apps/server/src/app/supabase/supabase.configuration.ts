@@ -1,14 +1,6 @@
-import {
-  ConfigModel,
-  ConfigModelProperty,
-  getRequestFromExecutionContext,
-} from '@nestjs-mod/common';
+import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
 import { ExecutionContext } from '@nestjs/common';
-import {
-  CheckAccessOptions,
-  SupabaseRequest,
-  SupabaseUser,
-} from './supabase.types';
+import { CheckAccessOptions, SupabaseUser } from './supabase.types';
 
 export const defaultSupabaseCheckAccessValidator = async (
   supabaseUser?: SupabaseUser,
@@ -32,12 +24,6 @@ export class SupabaseConfiguration {
     description: 'Extra headers',
   })
   extraHeaders?: Record<string, string> | undefined;
-
-  @ConfigModelProperty({
-    description: 'Function for resolve request from execution context',
-    default: getRequestFromExecutionContext,
-  })
-  getRequestFromContext?: (ctx: ExecutionContext) => SupabaseRequest;
 
   @ConfigModelProperty({
     description: 'External function for validate permissions',

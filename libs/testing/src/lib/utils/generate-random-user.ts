@@ -4,6 +4,7 @@ export interface GenerateRandomUserResult {
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   num: any;
+  username: string;
   phone: string;
   uniqId: string;
   email: string;
@@ -64,10 +65,11 @@ export async function generateRandomUser(
     `${prefix}pA$$w0rd${num}${faker.internet.password({
       length: 5,
     })}`;
-
+  const createdAt = new Date();
   return {
     ...options,
     id: faker.string.uuid(),
+    username: `${prefix}${+createdAt}${num}`,
     num,
     phone,
     uniqId,
@@ -79,7 +81,7 @@ export async function generateRandomUser(
     password,
     newPassword: `${password}new`,
     otp: '1234',
-    createdAt: new Date(),
+    createdAt,
     dateOfBirth: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }),
     country: 'USA',
     company: faker.company.name(),

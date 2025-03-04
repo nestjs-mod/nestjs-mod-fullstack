@@ -1,4 +1,7 @@
-import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import {
+  getRequestFromExecutionContext,
+  prepareHeaders,
+} from '@nestjs-mod/common';
 import {
   CanActivate,
   createParamDecorator,
@@ -11,6 +14,7 @@ import { AuthRole } from '@prisma/auth-client';
 import { AuthRequest } from './types/auth-request';
 
 import { applyDecorators } from '@nestjs/common';
+import { URL } from 'node:url';
 import { AuthGuard } from './auth.guard';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 
@@ -42,14 +46,33 @@ function AddHandleConnection() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ...args: any[]
       ) {
-        const authorizationHeader = args[0]?.headers.authorization;
-        const queryToken = args[0]?.url?.split('token=')?.[1];
+        const url = args[0]?.url
+          ? new URL(`http://localhost${args[0]?.url}`)
+          : null;
+
+        const queryToken = url?.searchParams.get('token');
+        const queryClientId = url?.searchParams.get('clientId');
+
+        const headers = prepareHeaders(args[0]?.headers);
+
+        const authorizationHeader = headers.authorization;
+        const xClientIdHeader = headers['x-client-id'];
+
         client.headers = {
-          authorization: authorizationHeader
-            ? authorizationHeader
-            : queryToken
-            ? `Bearer ${queryToken}`
-            : '',
+          ...(authorizationHeader || queryToken
+            ? {
+                authorization: authorizationHeader
+                  ? authorizationHeader
+                  : queryToken
+                  ? `Bearer ${queryToken}`
+                  : '',
+              }
+            : {}),
+          ...(xClientIdHeader
+            ? {
+                'x-client-id': xClientIdHeader || queryClientId,
+              }
+            : {}),
         };
       };
     }

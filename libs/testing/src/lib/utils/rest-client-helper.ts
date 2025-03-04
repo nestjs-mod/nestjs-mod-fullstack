@@ -24,7 +24,7 @@ import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
 import { TestingSupabaseService } from './supabase.service';
 
-export class RestClientHelper {
+export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   private authorizerClientID!: string;
 
   authorizationTokens?: AuthToken;
@@ -53,7 +53,9 @@ export class RestClientHelper {
   private authApiAxios?: AxiosInstance;
   private fakeEndpointApiAxios?: AxiosInstance;
 
-  randomUser?: GenerateRandomUserResult;
+  randomUser: T extends 'strict'
+    ? GenerateRandomUserResult
+    : GenerateRandomUserResult | undefined;
 
   constructor(
     private readonly options?: {
@@ -63,9 +65,11 @@ export class RestClientHelper {
       supabaseKey?: string;
       randomUser?: GenerateRandomUserResult;
       activeLang?: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      headers?: any;
     }
   ) {
-    this.randomUser = options?.randomUser;
+    this.randomUser = options?.randomUser as GenerateRandomUserResult;
     this.createApiClients();
     this.setAuthorizationHeadersFromAuthorizationTokens();
   }
@@ -236,6 +240,7 @@ export class RestClientHelper {
     if (!this.randomUser || options) {
       this.randomUser = await generateRandomUser(undefined, options);
     }
+
     return this;
   }
 
@@ -258,6 +263,7 @@ export class RestClientHelper {
 
       this.authData = signUpResult.data;
     }
+
     if (authorizerClient) {
       this.authorizationTokens = (
         await authorizerClient.signup({
@@ -267,6 +273,7 @@ export class RestClientHelper {
         })
       ).data;
     }
+
     this.setAuthorizationHeadersFromAuthorizationTokens();
 
     await this.loadProfile();
@@ -275,7 +282,9 @@ export class RestClientHelper {
   }
 
   async login(
-    options?: Partial<Pick<GenerateRandomUserResult, 'email' | 'password'>>
+    options?: Partial<
+      Pick<GenerateRandomUserResult, 'id' | 'email' | 'password'>
+    >
   ) {
     if (!this.randomUser) {
       this.randomUser = await generateRandomUser();
@@ -283,15 +292,17 @@ export class RestClientHelper {
     const loginOptions = {
       email: options?.email || this.randomUser.email,
       password: options?.password || this.randomUser.password,
+      id: options?.id || this.randomUser.id,
     };
 
     const supabaseClient = await this.getSupabaseClient();
     const authorizerClient = await this.getAuthorizerClient();
 
     if (supabaseClient) {
-      const loginResult = await supabaseClient.auth.signInWithPassword(
-        loginOptions
-      );
+      const loginResult = await supabaseClient.auth.signInWithPassword({
+        email: loginOptions.email,
+        password: loginOptions.password,
+      });
 
       if (loginResult.error) {
         throw new Error(loginResult.error.message);
@@ -307,7 +318,10 @@ export class RestClientHelper {
     }
 
     if (authorizerClient) {
-      const loginResult = await authorizerClient.login(loginOptions);
+      const loginResult = await authorizerClient.login({
+        email: loginOptions.email,
+        password: loginOptions.password,
+      });
 
       if (loginResult.errors.length) {
         throw new Error(loginResult.errors[0].message);
@@ -321,6 +335,7 @@ export class RestClientHelper {
 
       return this;
     }
+
     throw new Error('Fatal');
   }
 
@@ -384,27 +399,40 @@ export class RestClientHelper {
   async logout() {
     const supabaseClient = await this.getSupabaseClient();
     const authorizerClient = await this.getAuthorizerClient();
+
     if (supabaseClient) {
       await supabaseClient.auth.signOut({ scope: 'local' });
     }
+
     if (authorizerClient) {
-      await authorizerClient.logout({
-        Authorization: this.getAuthorizationHeaders().Authorization,
-      });
+      await authorizerClient.logout(
+        this.getAuthorizationHeaders().Authorization
+          ? {
+              Authorization: this.getAuthorizationHeaders().Authorization,
+            }
+          : {}
+      );
     }
+
     return this;
   }
 
   getAuthorizationHeaders() {
+    const accessToken = this.getAccessToken();
     return {
-      Authorization: `Bearer ${
-        this.authData?.session?.access_token ||
-        this.authorizationTokens?.access_token
-      }`,
+      ...this.options?.headers,
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...(this.options?.activeLang
         ? { ['Accept-Language']: this.options?.activeLang }
         : {}),
     };
+  }
+
+  getAccessToken() {
+    return (
+      this.authData?.session?.access_token ||
+      this.authorizationTokens?.access_token
+    );
   }
 
   private createApiClients() {

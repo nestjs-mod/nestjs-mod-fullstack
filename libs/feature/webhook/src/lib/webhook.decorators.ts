@@ -5,7 +5,6 @@ import { WebhookRole } from '@prisma/webhook-client';
 import { WebhookRequest } from './types/webhook-request';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
 
-export const SkipWebhookGuard = Reflector.createDecorator<true>();
 export const CheckWebhookRole = Reflector.createDecorator<WebhookRole[]>();
 
 export const CurrentWebhookRequest = createParamDecorator(

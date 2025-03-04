@@ -49,7 +49,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
       const last3ChangeTimeEvents = await lastValueFrom(
         restClientHelper
           .webSocket<string>({
-            path: `/ws/time?token=${restClientHelper.authData?.session?.access_token}`,
+            path: `/ws/time?token=${restClientHelper.getAccessToken()}`,
             eventName: 'ChangeTimeStream',
           })
           .pipe(take(3), toArray())
@@ -64,7 +64,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
       const newLast3ChangeTimeEvents = await lastValueFrom(
         restClientHelper
           .webSocket<string>({
-            path: `/ws/time?token=${restClientHelper.authData?.session?.access_token}`,
+            path: `/ws/time?token=${restClientHelper.getAccessToken()}`,
             eventName: 'ChangeTimeStream',
           })
           .pipe(take(3), toArray())

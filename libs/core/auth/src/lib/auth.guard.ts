@@ -36,49 +36,82 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (!this.authStaticEnvironments.useGuards) {
-      return true;
-    }
+    const req = this.getRequestFromExecutionContext(context);
 
-    try {
-      const { skipAuthGuard, checkAuthRole, allowEmptyUserMetadata } =
-        this.getHandlersReflectMetadata(context);
-
-      if (skipAuthGuard) {
+    const func = async () => {
+      if (!this.authStaticEnvironments.useGuards) {
         return true;
       }
 
-      const req: AuthRequest = this.getRequestFromExecutionContext(context);
+      try {
+        const { skipAuthGuard, checkAuthRole, allowEmptyUserMetadata } =
+          this.getHandlersReflectMetadata(context);
 
-      // check access by custom logic
-      if (this.authConfiguration.checkAccessValidator) {
-        await this.authConfiguration.checkAccessValidator(
-          req.authUser,
-          context
-        );
+        if (skipAuthGuard) {
+          return true;
+        }
+
+        // check access by custom logic
+        if (this.authConfiguration.checkAccessValidator) {
+          await this.authConfiguration.checkAccessValidator(
+            req.authUser,
+            context
+          );
+        }
+
+        if (allowEmptyUserMetadata) {
+          req.skipEmptyAuthUser = true;
+        }
+
+        if (req.externalUserId) {
+          await this.tryGetOrCreateCurrentUserWithExternalUserId(
+            req,
+            req.externalUserId
+          );
+        }
+
+        this.throwErrorIfCurrentUserNotSet(req);
+
+        this.pathAdminRoles(req);
+
+        this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
+      } catch (err) {
+        this.logger.error(err, (err as Error).stack);
+        throw err;
       }
+      return true;
+    };
 
-      if (allowEmptyUserMetadata) {
-        req.skipEmptyAuthUser = true;
-      }
+    try {
+      const result = await func();
 
-      if (req.externalUserId) {
-        await this.tryGetOrCreateCurrentUserWithExternalUserId(
-          req,
+      this.logger.debug(
+        `${context.getClass().name}.${
+          context.getHandler().name
+        }: ${result}, authUser: ${JSON.stringify(
+          req.authUser
+        )}, externalUser: ${JSON.stringify(
+          req.externalUser
+        )}, externalUserId: ${JSON.stringify(
           req.externalUserId
-        );
-      }
+        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`
+      );
 
-      this.throwErrorIfCurrentUserNotSet(req);
-
-      this.pathAdminRoles(req);
-
-      this.throwErrorIfCurrentUserNotHaveNeededRoles(checkAuthRole, req);
+      return result;
     } catch (err) {
-      this.logger.error(err, (err as Error).stack);
+      this.logger.debug(
+        `${context.getClass().name}.${context.getHandler().name}: ${String(
+          err
+        )}, authUser: ${JSON.stringify(
+          req.authUser
+        )}, externalUser: ${JSON.stringify(
+          req.externalUser
+        )}, externalUserId: ${JSON.stringify(
+          req.externalUserId
+        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`
+      );
       throw err;
     }
-    return true;
   }
 
   private pathAdminRoles(req: AuthRequest) {
@@ -86,7 +119,7 @@ export class AuthGuard implements CanActivate {
       this.authStaticEnvironments.adminEmail &&
       req.externalUser?.email === this.authStaticEnvironments.adminEmail
     ) {
-      req.externalUser.role = AUTH_ADMIN_ROLE;
+      req.externalUser.roles = [AUTH_ADMIN_ROLE];
     }
   }
 
@@ -122,7 +155,14 @@ export class AuthGuard implements CanActivate {
       req.authUser =
         authUser ||
         (await this.prismaClient.authUser.create({
-          data: { externalUserId, userRole: 'User' },
+          data: {
+            externalUserId,
+            userRole: req.externalUser?.roles
+              .map((s) => s.toLowerCase())
+              .includes(AuthRole.Admin.toLowerCase())
+              ? AuthRole.Admin
+              : AuthRole.User,
+          },
         }));
 
       if (req.authUser.lang) {

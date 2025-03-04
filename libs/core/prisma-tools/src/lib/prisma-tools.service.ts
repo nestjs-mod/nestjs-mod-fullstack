@@ -60,10 +60,12 @@ export class PrismaToolsService {
             };
           }
           const relatedTable = exception.meta?.['cause'].split(`'`)[1];
-          this.logger.debug({
-            modelName: exception.meta?.['modelName'],
-            relatedTable,
-          });
+          if (relatedTable && exception.meta?.['modelName']) {
+            this.logger.debug({
+              modelName: exception.meta?.['modelName'],
+              relatedTable,
+            });
+          }
 
           return {
             message:

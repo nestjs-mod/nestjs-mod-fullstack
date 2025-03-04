@@ -13,7 +13,7 @@ import { WebhookCacheService } from './services/webhook-cache.service';
 import { WebhookRequest } from './types/webhook-request';
 import { WebhookStaticConfiguration } from './webhook.configuration';
 import { WEBHOOK_FEATURE } from './webhook.constants';
-import { CheckWebhookRole, SkipWebhookGuard } from './webhook.decorators';
+import { CheckWebhookRole } from './webhook.decorators';
 import { WebhookStaticEnvironments } from './webhook.environments';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
 
@@ -32,12 +32,7 @@ export class WebhookGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
-      const { skipWebhookGuard, checkWebhookRole } =
-        this.getHandlersReflectMetadata(context);
-
-      if (skipWebhookGuard) {
-        return true;
-      }
+      const { checkWebhookRole } = this.getHandlersReflectMetadata(context);
 
       const req = this.getRequestFromExecutionContext(context);
       const externalUserId = this.getExternalUserIdFromRequest(req);
@@ -172,19 +167,12 @@ export class WebhookGuard implements CanActivate {
   }
 
   private getHandlersReflectMetadata(context: ExecutionContext) {
-    const skipWebhookGuard =
-      (typeof context.getHandler === 'function' &&
-        this.reflector.get(SkipWebhookGuard, context.getHandler())) ||
-      (typeof context.getClass === 'function' &&
-        this.reflector.get(SkipWebhookGuard, context.getClass())) ||
-      undefined;
-
     const checkWebhookRole =
       (typeof context.getHandler === 'function' &&
         this.reflector.get(CheckWebhookRole, context.getHandler())) ||
       (typeof context.getClass === 'function' &&
         this.reflector.get(CheckWebhookRole, context.getClass())) ||
       undefined;
-    return { skipWebhookGuard, checkWebhookRole };
+    return { checkWebhookRole };
   }
 }

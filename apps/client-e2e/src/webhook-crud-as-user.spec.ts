@@ -206,6 +206,12 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
 
     await setTimeout(4000);
 
+    await page.locator('nz-input-group').locator('input').click();
+    await page.keyboard.press('Control+A', { delay: 100 });
+    await page.keyboard.type(user.site, { delay: 100 });
+
+    await setTimeout(4000);
+
     webhookId = (
       await page.locator('webhook-grid').locator('td').nth(0).textContent()
     )?.trim();
@@ -253,13 +259,19 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('webhook-form')
       .locator('[placeholder=endpoint]')
       .click();
-    await page.keyboard.press('Control+a');
+    await page.keyboard.press('Control+A', { delay: 100 });
     await page.keyboard.type(`${user.site}/new`, { delay: 100 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=endpoint]').first()
     ).toHaveValue(`${user.site}/new`);
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
+
+    await setTimeout(4000);
+
+    await page.locator('nz-input-group').locator('input').click();
+    await page.keyboard.press('Control+A', { delay: 100 });
+    await page.keyboard.type(`${user.site}/new`, { delay: 100 });
 
     await setTimeout(4000);
 

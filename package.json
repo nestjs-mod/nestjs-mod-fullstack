@@ -86,7 +86,7 @@
     "rucken": "rucken",
     "translates": "./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false",
     "wait-on": "./node_modules/.bin/wait-on --timeout=240000 --interval=1000 --window",
-    "prepare": "npx -y husky install"
+    "prepare": "npx -y husky"
   },
   "private": true,
   "devDependencies": {
@@ -405,7 +405,7 @@
     "minio": "^8.0.2",
     "nestjs-minio": "^2.6.2",
     "nestjs-pino": "^4.1.0",
-    "nestjs-translates": "^2.1.1",
+    "nestjs-translates": "^2.1.2",
     "ng-zorro-antd": "^19.0.0",
     "pino-http": "^10.3.0",
     "pino-pretty": "^13.0.0",

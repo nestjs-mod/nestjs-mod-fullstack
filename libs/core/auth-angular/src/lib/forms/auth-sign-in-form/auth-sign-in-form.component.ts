@@ -104,7 +104,9 @@ export class AuthSignInFormComponent implements OnInit {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
-            this.nzMessageService.error(err.message);
+            this.nzMessageService.error(
+              this.translocoService.translate(err.error?.message || err.message)
+            );
             return of(null);
           }),
           untilDestroyed(this)

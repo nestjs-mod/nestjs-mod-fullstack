@@ -8,7 +8,6 @@ import { KeyvModule } from '@nestjs-mod/keyv';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TranslatesModule } from 'nestjs-translates';
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE, AUTH_MODULE } from './auth.constants';
 import { AuthStaticEnvironments } from './auth.environments';
@@ -21,6 +20,7 @@ import { AuthTimezonePipe } from './pipes/auth-timezone.pipe';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthDefaultDataBootstrapService } from './services/auth-default-data-bootstrap.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
+import { AuthAsyncLocalStorageContext } from './types/auth-async-local-storage-data';
 
 export const { AuthModule } = createNestModule({
   moduleName: AUTH_MODULE,
@@ -51,10 +51,7 @@ export const { AuthModule } = createNestModule({
     }),
   ],
   sharedProviders: [
-    {
-      provide: AsyncLocalStorage,
-      useValue: new AsyncLocalStorage(),
-    },
+    AuthAsyncLocalStorageContext,
     AuthTimezoneService,
     AuthCacheService,
   ],

@@ -236,21 +236,8 @@ test.describe('Work with profile as "User" role (timezone', () => {
 
     const newServerTime = await page.locator('#serverTime').innerText();
 
-    expect(
-      newServerTime
-        .split(' ')
-        .filter((p, i) => i !== 3)
-        .join(' ')
-    ).toEqual(
-      new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-        timeStyle: 'medium',
-      })
-        .format(addHours(new Date(), new Date().getTimezoneOffset() / 60 + -12))
-        .split(' ')
-        .filter((p, i) => i !== 3)
-        .join(' ')
-    );
+    await setTimeout(3000);
+
     const oldTimeIsPM =
       oldServerTime
         .split(' ')

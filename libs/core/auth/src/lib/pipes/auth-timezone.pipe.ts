@@ -1,14 +1,13 @@
 import { SERVER_TIMEZONE_OFFSET } from '@nestjs-mod-fullstack/common';
 import { Injectable, PipeTransform } from '@nestjs/common';
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { AuthStaticEnvironments } from '../auth.environments';
 import { AuthTimezoneService } from '../services/auth-timezone.service';
-import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-data';
+import { AuthAsyncLocalStorageContext } from '../types/auth-async-local-storage-data';
 
 @Injectable()
 export class AuthTimezonePipe implements PipeTransform {
   constructor(
-    private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>,
+    private readonly asyncLocalStorage: AuthAsyncLocalStorageContext,
     private readonly authTimezoneService: AuthTimezoneService,
     private readonly authStaticEnvironments: AuthStaticEnvironments
   ) {}
@@ -17,11 +16,13 @@ export class AuthTimezonePipe implements PipeTransform {
     if (!this.authStaticEnvironments.usePipes) {
       return value;
     }
+
     const result = this.authTimezoneService.convertObject(
       value,
-      -1 * (this.asyncLocalStorage.getStore()?.authTimezone || 0) -
+      -1 * (this.asyncLocalStorage.get()?.authTimezone || 0) -
         SERVER_TIMEZONE_OFFSET
     );
-    return result;
+
+    return this.authTimezoneService.convertDatesInObjectToDateStrings(result);
   }
 }

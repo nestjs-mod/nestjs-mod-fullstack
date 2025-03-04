@@ -1,3 +1,4 @@
+import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import {
   ExecutionContext,
   Injectable,
@@ -117,7 +118,7 @@ export class SupabaseService implements OnModuleInit {
     if (!req.supabaseUser?.id) {
       const token = req.headers?.authorization?.split(' ')[1];
 
-      if (token) {
+      if (token && token !== 'undefined') {
         // check user in supabase
         try {
           const getProfileResult = await this.supabaseClient.auth.getUser(
@@ -185,7 +186,9 @@ export class SupabaseService implements OnModuleInit {
   }
 
   private getRequestFromExecutionContext(ctx: ExecutionContext) {
-    return this.supabaseConfiguration.getRequestFromContext?.(ctx) || {};
+    const req = getRequestFromExecutionContext(ctx) as SupabaseRequest;
+    req.headers = req.headers || {};
+    return req;
   }
 
   private getHandlersReflectMetadata(ctx: ExecutionContext) {

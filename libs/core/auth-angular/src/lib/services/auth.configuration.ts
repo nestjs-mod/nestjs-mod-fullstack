@@ -19,7 +19,7 @@ export class AuthConfiguration {
   }
   logout!: () => Observable<void | null>;
   getProfile!: () => Observable<AuthUser | undefined>;
-  refreshToken!: () => Observable<AuthUserAndTokens>;
+  refreshToken!: () => Observable<AuthUserAndTokens | undefined>;
   signup!: (data: AuthSignupInput) => Observable<AuthUserAndTokens>;
   login!: (data: AuthLoginInput) => Observable<AuthUserAndTokens>;
   updateProfile!: (data: AuthUpdateProfileInput) => Observable<void | null>;

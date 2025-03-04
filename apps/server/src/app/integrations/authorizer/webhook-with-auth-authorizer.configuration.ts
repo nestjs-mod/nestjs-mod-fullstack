@@ -1,9 +1,9 @@
 import {
   AUTH_ADMIN_ROLE,
-  AuthStaticEnvironments,
   AuthError,
   AuthErrorEnum,
   AuthRequest,
+  AuthStaticEnvironments,
 } from '@nestjs-mod-fullstack/auth';
 import { FilesRequest, FilesRole } from '@nestjs-mod-fullstack/files';
 import {
@@ -88,7 +88,7 @@ export class WebhookWithAuthAuthorizerConfiguration
       if (authorizerUser?.email && authorizerUser?.roles) {
         req.externalUser = {
           email: authorizerUser?.email,
-          role: authorizerUser?.roles[0],
+          roles: authorizerUser?.roles,
         };
       }
     }

@@ -22,14 +22,24 @@ export class AuthGuardService implements CanActivate {
       const authGuardDataRoles = (authGuardData.roles || []).map((role) =>
         role.toLowerCase()
       );
-      return of(
-        Boolean(
-          (authUser &&
-            authGuardDataRoles.length > 0 &&
-            authGuardDataRoles.some((r) => authUser.roles?.includes(r))) ||
-            (authGuardDataRoles.length === 0 && !authUser?.roles)
-        )
+      const result = Boolean(
+        (authUser &&
+          authGuardDataRoles.length > 0 &&
+          authGuardDataRoles.some((r) => authUser.roles?.includes(r))) ||
+          (authGuardDataRoles.length === 0 && !authUser?.roles)
       );
+      if (!result) {
+        console.log(result, [
+          [
+            authUser,
+            authGuardDataRoles.length > 0,
+            authUser &&
+              authGuardDataRoles.some((r) => authUser.roles?.includes(r)),
+          ],
+          [authGuardDataRoles.length === 0, !authUser?.roles],
+        ]);
+      }
+      return of(result);
     }
     return of(true);
   }

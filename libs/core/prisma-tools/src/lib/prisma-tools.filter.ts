@@ -33,8 +33,15 @@ export class PrismaToolsExceptionsFilter extends BaseExceptionFilter {
         host
       );
     } else {
-      this.logger.error(exception, exception.stack);
-      super.catch(exception, host);
+      try {
+        this.logger.error(exception, exception.stack);
+        super.catch(exception, host);
+      } catch (err) {
+        super.catch(
+          new HttpException(exception.message, HttpStatus.BAD_REQUEST),
+          host
+        );
+      }
     }
   }
 }
