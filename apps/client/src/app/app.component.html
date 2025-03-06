@@ -6,14 +6,6 @@
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLink="/home" transloco="Home"></li>
       <li nz-menu-item routerLink="/demo" transloco="Demo"></li>
-      <a
-        nz-menu-item
-        href="https://github.com/nestjs-mod/nestjs-mod-fullstack"
-        target="__blank"
-      >
-        <nz-icon nzType="github" nzTheme="outline" />
-        {{ 'Source code' | transloco }}
-      </a>
       @if (authUser$|async; as authUser) {
       <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
       <li
@@ -40,6 +32,14 @@
         transloco="Sign-in"
       ></li>
       }
+      <a
+        nz-menu-item
+        href="https://github.com/nestjs-mod/nestjs-mod-fullstack"
+        target="__blank"
+      >
+        <nz-icon nzType="github" nzTheme="outline" />
+        {{ 'Source code' | transloco }}
+      </a>
       <li
         nz-submenu
         [nzTitle]="lang$ | async | transloco"

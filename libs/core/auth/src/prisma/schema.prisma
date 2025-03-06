@@ -12,24 +12,25 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  dtoSuffix                       = "Dto"
-  prettier                        = "true"
-  exportRelationModifierClasses   = "true"
-  definiteAssignmentAssertion     = "true"
-  annotateAllDtoProperties        = "true"
-  updateDtoPrefix                 = "Update"
-  outputToNestJsResourceStructure = "false"
-  fileNamingStyle                 = "kebab"
-  reExport                        = "false"
-  entityPrefix                    = ""
   flatResourceStructure           = "false"
-  noDependencies                  = "false"
+  reExport                        = "false"
   classValidation                 = "true"
   createDtoPrefix                 = "Create"
   entitySuffix                    = ""
+  dtoSuffix                       = "Dto"
+  exportRelationModifierClasses   = "true"
+  updateDtoPrefix                 = "Update"
+  definiteAssignmentAssertion     = "true"
+  prettier                        = "true"
+  entityPrefix                    = ""
+  noDependencies                  = "false"
+  fileNamingStyle                 = "kebab"
+  annotateAllDtoProperties        = "true"
+  outputToNestJsResourceStructure = "false"
 }
 
 model AuthUser {
+  /// @DtoCreateHidden
   id             String   @id(map: "PK_AUTH_USER") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   externalUserId String   @unique(map: "UQ_AUTH_USER") @db.Uuid
   userRole       AuthRole

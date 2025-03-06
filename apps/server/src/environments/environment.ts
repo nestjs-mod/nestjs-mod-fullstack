@@ -1,4 +1,8 @@
 process.env.TZ = 'UTC';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
 
 import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
 import { isInfrastructureMode, PACKAGE_JSON_FILE } from '@nestjs-mod/common';

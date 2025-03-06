@@ -12,24 +12,25 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../lib/generated/rest/dto"
-  definiteAssignmentAssertion     = "true"
-  entityPrefix                    = ""
-  dtoSuffix                       = "Dto"
   flatResourceStructure           = "false"
-  prettier                        = "true"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  updateDtoPrefix                 = "Update"
+  noDependencies                  = "false"
+  reExport                        = "false"
   exportRelationModifierClasses   = "true"
+  definiteAssignmentAssertion     = "true"
+  dtoSuffix                       = "Dto"
   annotateAllDtoProperties        = "true"
+  prettier                        = "true"
   createDtoPrefix                 = "Create"
   classValidation                 = "true"
-  updateDtoPrefix                 = "Update"
-  reExport                        = "false"
-  entitySuffix                    = ""
-  outputToNestJsResourceStructure = "false"
   fileNamingStyle                 = "kebab"
-  noDependencies                  = "false"
+  outputToNestJsResourceStructure = "false"
 }
 
 model Webhook {
+  /// @DtoCreateHidden
   id                                         String       @id(map: "PK_WEBHOOK") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   eventName                                  String       @db.VarChar(512)
   endpoint                                   String       @db.VarChar(512)
@@ -62,6 +63,7 @@ model Webhook {
 }
 
 model WebhookLog {
+  /// @DtoCreateHidden
   id               String        @id(map: "PK_WEBHOOK_LOG") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   request          Json
   responseStatus   String        @db.VarChar(20)
@@ -85,6 +87,7 @@ model WebhookLog {
 }
 
 model WebhookUser {
+  /// @DtoCreateHidden
   id                                     String      @id(map: "PK_WEBHOOK_USER") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   externalTenantId                       String      @db.Uuid
   externalUserId                         String      @db.Uuid

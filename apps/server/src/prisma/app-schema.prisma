@@ -12,24 +12,25 @@ datasource db {
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"
   output                          = "../app/generated/rest/dto"
-  exportRelationModifierClasses   = "true"
-  dtoSuffix                       = "Dto"
-  createDtoPrefix                 = "Create"
-  annotateAllDtoProperties        = "true"
-  entitySuffix                    = ""
-  updateDtoPrefix                 = "Update"
-  definiteAssignmentAssertion     = "true"
-  outputToNestJsResourceStructure = "false"
   noDependencies                  = "false"
-  classValidation                 = "true"
-  fileNamingStyle                 = "kebab"
-  flatResourceStructure           = "false"
-  reExport                        = "false"
-  prettier                        = "true"
   entityPrefix                    = ""
+  fileNamingStyle                 = "kebab"
+  prettier                        = "true"
+  definiteAssignmentAssertion     = "true"
+  classValidation                 = "true"
+  entitySuffix                    = ""
+  createDtoPrefix                 = "Create"
+  outputToNestJsResourceStructure = "false"
+  flatResourceStructure           = "false"
+  annotateAllDtoProperties        = "true"
+  exportRelationModifierClasses   = "true"
+  reExport                        = "false"
+  dtoSuffix                       = "Dto"
+  updateDtoPrefix                 = "Update"
 }
 
 model AppDemo {
+  /// @DtoCreateHidden
   id        String   @id(map: "PK_APP_DEMO") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name      String   @unique(map: "UQ_APP_DEMO") @db.VarChar(128)
   /// @DtoCreateHidden

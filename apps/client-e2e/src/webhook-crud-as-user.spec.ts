@@ -124,7 +124,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').last()
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
     ).toContainText(`Sign-in`);
   });
 
@@ -348,7 +348,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').last()
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
     ).toContainText(`Sign-in`);
   });
 });
