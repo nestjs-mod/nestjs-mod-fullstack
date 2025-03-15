@@ -1,3 +1,9 @@
+## [1.15.4](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.3...client-v1.15.4) (2025-03-15)
+
+### Bug Fixes
+
+- sync with sso project (2025-03-15) ([2cd44c9](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/2cd44c98d86bb08523b926c7081f5c66c2e03011))
+
 ## [1.15.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.2...client-v1.15.3) (2025-03-06)
 
 ### Bug Fixes
