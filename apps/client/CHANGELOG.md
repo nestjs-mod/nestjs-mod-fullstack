@@ -1,3 +1,9 @@
+## [1.15.5](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.4...client-v1.15.5) (2025-03-15)
+
+### Bug Fixes
+
+- update check roles in nav menu ([34010af](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/34010afac0c818c4dae5a4aa33e542b48c9b8f26))
+
 ## [1.15.4](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.3...client-v1.15.4) (2025-03-15)
 
 ### Bug Fixes
