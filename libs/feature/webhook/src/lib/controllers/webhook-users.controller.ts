@@ -99,7 +99,9 @@ export class WebhookUsersController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
+              webhookUser.userRole === WebhookRole.Admin
+                ? undefined
+                : externalTenantId
             ),
           },
           take,
@@ -119,7 +121,9 @@ export class WebhookUsersController {
               : {}),
             ...this.webhookToolsService.externalTenantIdQuery(
               webhookUser,
-              webhookUser.userRole === 'Admin' ? undefined : externalTenantId
+              webhookUser.userRole === WebhookRole.Admin
+                ? undefined
+                : externalTenantId
             ),
           },
         }),
@@ -149,7 +153,9 @@ export class WebhookUsersController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
+          webhookUser.userRole === WebhookRole.Admin
+            ? undefined
+            : externalTenantId
         ),
       },
     });
@@ -172,7 +178,9 @@ export class WebhookUsersController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
+          webhookUser.userRole === WebhookRole.Admin
+            ? undefined
+            : externalTenantId
         ),
       },
     });
@@ -192,7 +200,9 @@ export class WebhookUsersController {
         id,
         ...this.webhookToolsService.externalTenantIdQuery(
           webhookUser,
-          webhookUser.userRole === 'Admin' ? undefined : externalTenantId
+          webhookUser.userRole === WebhookRole.Admin
+            ? undefined
+            : externalTenantId
         ),
       },
     });

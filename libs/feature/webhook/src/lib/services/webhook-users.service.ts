@@ -1,6 +1,6 @@
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/webhook-client';
+import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import omit from 'lodash/fp/omit';
 import { randomUUID } from 'node:crypto';
 import { CreateWebhookUserDto } from '../generated/rest/dto/create-webhook-user.dto';
@@ -16,7 +16,7 @@ export class WebhookUsersService {
   async createUserIfNotExists(user: Omit<CreateWebhookUserDto, 'id'>) {
     const data = {
       externalTenantId: randomUUID(),
-      userRole: 'User',
+      userRole: WebhookRole.User,
       ...omit(
         [
           'id',

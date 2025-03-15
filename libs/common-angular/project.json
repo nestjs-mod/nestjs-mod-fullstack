@@ -6,7 +6,7 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
+    "build-skip": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {

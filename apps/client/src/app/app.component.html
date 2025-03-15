@@ -6,11 +6,13 @@
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLink="/home" transloco="Home"></li>
       <li nz-menu-item routerLink="/demo" transloco="Demo"></li>
-      @if (authUser$|async; as authUser) {
+      @if ([AuthRoleInterface.User]|checkUserRoles|async) {
       <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
       <li
         nz-submenu
-        [nzTitle]="'You are logged in as {{email}}' | transloco : authUser"
+        [nzTitle]="
+          'You are logged in as {{email}}' | transloco : ({} | user | async)
+        "
         [style]="{ float: 'right' }"
       >
         <ul>
@@ -18,7 +20,7 @@
           <li nz-menu-item (click)="signOut()" transloco="Sign-out"></li>
         </ul>
       </li>
-      } @else {
+      } @if ([]|checkUserRoles|async){
       <li
         nz-menu-item
         routerLink="/sign-up"

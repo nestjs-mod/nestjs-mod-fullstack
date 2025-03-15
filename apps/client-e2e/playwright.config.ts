@@ -1,9 +1,7 @@
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { defineConfig, devices } from '@playwright/test';
 import { config } from 'dotenv';
-
-// For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
+import { join } from 'path';
 
 /**
  * Read environment variables from file.
@@ -11,7 +9,21 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
  */
 // require('dotenv').config();
 
-config();
+const parsed = config(
+  process.env['ENV_FILE']
+    ? {
+        path: join(__dirname, '..', '..', process.env['ENV_FILE']),
+        override: true,
+      }
+    : { path: join(__dirname, '..', '..', '.env'), override: true }
+);
+
+if (parsed.error) {
+  throw parsed.error;
+}
+
+// For CI, you may want to set BASE_URL to the deployed application.
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 
 /**
  * See https://playwright.dev/docs/test-configuration.

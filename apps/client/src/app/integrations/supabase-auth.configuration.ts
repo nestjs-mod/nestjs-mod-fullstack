@@ -1,7 +1,10 @@
 import { Inject, InjectionToken, Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
-import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import {
+  AuthRestService,
+  AuthRoleInterface,
+} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
@@ -122,7 +125,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           email: result.user.email,
           id: result.user.id,
           preferred_username: 'empty',
-          roles: ['user'],
+          roles: [AuthRoleInterface.User],
           picture: result.user?.user_metadata['picture'],
         };
       })
@@ -159,7 +162,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
             email: result.user?.email || '',
             id: result.user?.id || '',
             preferred_username: 'empty',
-            roles: ['user'],
+            roles: [AuthRoleInterface.User],
             picture: result.user?.user_metadata['picture'],
           }))
         );
@@ -210,7 +213,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
             email: result.user.email,
             id: result.user.id,
             preferred_username: 'empty',
-            roles: ['user'],
+            roles: [AuthRoleInterface.User],
             picture: result.user.user_metadata['picture'],
           },
         };
@@ -250,7 +253,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           email: result.user.email,
           id: result.user.id,
           preferred_username: 'empty',
-          roles: ['user'],
+          roles: [AuthRoleInterface.User],
           picture: result.user.user_metadata['picture'],
         };
         return { tokens, user };
@@ -293,7 +296,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           updated_at: result.user.updated_at
             ? +new Date(result.user.updated_at)
             : 0,
-          roles: ['user'],
+          roles: [AuthRoleInterface.User],
           picture: result.user.user_metadata['picture'],
         };
         return { tokens, user };

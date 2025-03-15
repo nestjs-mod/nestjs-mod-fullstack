@@ -13,7 +13,7 @@
   },
   "tags": [],
   "targets": {
-    "build": {
+    "build-skip": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {

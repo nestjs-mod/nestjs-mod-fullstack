@@ -15,6 +15,7 @@ import {
 import { SupabaseStaticEnvironments } from './supabase.environments';
 import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 import { SupabaseRequest, SupabaseUser } from './supabase.types';
+import { AuthRole } from '@prisma/auth-client';
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
@@ -134,7 +135,7 @@ export class SupabaseService implements OnModuleInit {
               updated_at: getProfileResult.data.user.updated_at
                 ? (+new Date(getProfileResult.data.user.updated_at)).toString()
                 : '0',
-              role: 'user',
+              role: AuthRole.User,
               picture: getProfileResult.data.user.user_metadata['picture'],
             };
           } else {

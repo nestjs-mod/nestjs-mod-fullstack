@@ -7,6 +7,7 @@ import {
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { SupabaseService } from '../../supabase/supabase.service';
+import { AuthRole } from '@prisma/auth-client';
 
 @Injectable()
 export class SupabaseAuthConfiguration implements AuthConfiguration {
@@ -41,7 +42,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
         options: {
           data: {
             nickname: user.username,
-            roles: ['admin'],
+            roles: [AuthRole.Admin.toLowerCase()],
           },
         },
       });

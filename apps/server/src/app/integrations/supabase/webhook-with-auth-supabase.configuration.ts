@@ -1,9 +1,8 @@
 import {
-  AUTH_ADMIN_ROLE,
-  AuthStaticEnvironments,
   AuthError,
   AuthErrorEnum,
   AuthRequest,
+  AuthStaticEnvironments,
 } from '@nestjs-mod-fullstack/auth';
 import { FilesRequest, FilesRole } from '@nestjs-mod-fullstack/files';
 import {
@@ -12,6 +11,8 @@ import {
 } from '@nestjs-mod-fullstack/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { ExecutionContext, Injectable } from '@nestjs/common';
+import { AuthRole } from '@prisma/auth-client';
+import { WebhookRole } from '@prisma/webhook-client';
 import {
   SupabaseConfiguration,
   defaultSupabaseCheckAccessValidator,
@@ -60,11 +61,14 @@ export class WebhookWithAuthSupabaseConfiguration
       req.webhookUser = await this.webhookUsersService.createUserIfNotExists({
         externalUserId: req?.supabaseUser?.id,
         externalTenantId: req?.supabaseUser?.id,
-        userRole: req.authUser?.userRole === 'Admin' ? 'Admin' : 'User',
+        userRole:
+          req.authUser?.userRole === AuthRole.Admin
+            ? WebhookRole.Admin
+            : WebhookRole.User,
       });
 
-      if (req.authUser?.userRole === 'Admin') {
-        req.webhookUser.userRole = 'Admin';
+      if (req.authUser?.userRole === AuthRole.Admin) {
+        req.webhookUser.userRole = WebhookRole.Admin;
       }
 
       if (req.webhookUser) {
@@ -75,15 +79,15 @@ export class WebhookWithAuthSupabaseConfiguration
         this.authStaticEnvironments.adminEmail &&
         req.supabaseUser?.email === this.authStaticEnvironments.adminEmail
       ) {
-        req.webhookUser.userRole = 'Admin';
+        req.webhookUser.userRole = WebhookRole.Admin;
 
-        req.supabaseUser.role = AUTH_ADMIN_ROLE;
+        req.supabaseUser.role = AuthRole.Admin.toLowerCase();
       }
 
       // files
       req.filesUser = {
         userRole:
-          req.webhookUser?.userRole === 'Admin'
+          req.webhookUser?.userRole === WebhookRole.Admin
             ? FilesRole.Admin
             : FilesRole.User,
       };

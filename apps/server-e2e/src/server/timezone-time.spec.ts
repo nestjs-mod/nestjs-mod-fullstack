@@ -1,7 +1,7 @@
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 import { isDateString } from 'class-validator';
 import { get } from 'env-var';
-import { lastValueFrom, take, toArray } from 'rxjs';
+import { lastValueFrom, take, timeout, toArray } from 'rxjs';
 
 describe('Get server time from rest api and ws (timezone)', () => {
   jest.setTimeout(60000);
@@ -52,7 +52,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
             path: `/ws/time?token=${restClientHelper.getAccessToken()}`,
             eventName: 'ChangeTimeStream',
           })
-          .pipe(take(3), toArray())
+          .pipe(timeout(30000), take(3), toArray())
       );
 
       expect(last3ChangeTimeEvents).toHaveLength(3);

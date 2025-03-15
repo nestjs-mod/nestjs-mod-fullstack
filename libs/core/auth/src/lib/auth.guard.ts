@@ -10,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
 import { AuthConfiguration } from './auth.configuration';
-import { AUTH_ADMIN_ROLE, AUTH_FEATURE } from './auth.constants';
+import { AUTH_FEATURE } from './auth.constants';
 import {
   AllowEmptyAuthUser,
   CheckAuthRole,
@@ -119,7 +119,7 @@ export class AuthGuard implements CanActivate {
       this.authStaticEnvironments.adminEmail &&
       req.externalUser?.email === this.authStaticEnvironments.adminEmail
     ) {
-      req.externalUser.roles = [AUTH_ADMIN_ROLE];
+      req.externalUser.roles = [AuthRole.Admin];
     }
   }
 

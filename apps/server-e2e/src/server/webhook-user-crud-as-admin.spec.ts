@@ -1,4 +1,7 @@
-import { WebhookErrorEnum } from '@nestjs-mod-fullstack/app-rest-sdk';
+import {
+  WebhookErrorEnum,
+  WebhookRole,
+} from '@nestjs-mod-fullstack/app-rest-sdk';
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 import { get } from 'env-var';
 
@@ -49,9 +52,9 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
       .getWebhookApi()
       .webhookControllerProfile();
     await expect(
-      user1
-        .getWebhookApi()
-        .webhookUsersControllerUpdateOne(userProfile.id, { userRole: 'Admin' })
+      user1.getWebhookApi().webhookUsersControllerUpdateOne(userProfile.id, {
+        userRole: WebhookRole.Admin,
+      })
     ).rejects.toHaveProperty('response.data', {
       code: WebhookErrorEnum.Webhook001,
       message: 'Forbidden',
@@ -64,9 +67,11 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
       .webhookControllerProfile();
     const { data: newWebhook } = await admin
       .getWebhookApi()
-      .webhookUsersControllerUpdateOne(userProfile.id, { userRole: 'Admin' });
+      .webhookUsersControllerUpdateOne(userProfile.id, {
+        userRole: WebhookRole.Admin,
+      });
     expect(newWebhook).toMatchObject({
-      userRole: 'Admin',
+      userRole: WebhookRole.Admin,
     });
   });
 
@@ -80,7 +85,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
         (u) => u.externalUserId === user1.getWebhookProfile()?.externalUserId
       )[0]
     ).toMatchObject({
-      userRole: 'Admin',
+      userRole: WebhookRole.Admin,
     });
   });
 });

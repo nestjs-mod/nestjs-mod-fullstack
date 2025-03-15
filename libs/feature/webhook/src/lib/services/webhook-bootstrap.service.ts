@@ -6,7 +6,7 @@ import {
   OnApplicationBootstrap,
   OnModuleDestroy,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/webhook-client';
+import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { randomUUID } from 'crypto';
 import { concatMap, Subscription } from 'rxjs';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
@@ -64,7 +64,7 @@ export class WebhookServiceBootstrap
           where: {
             externalUserId:
               this.webhookStaticEnvironments.superAdminExternalUserId,
-            userRole: 'Admin',
+            userRole: WebhookRole.Admin,
           },
         });
         if (!existsUser) {
@@ -73,7 +73,7 @@ export class WebhookServiceBootstrap
               externalTenantId: randomUUID(),
               externalUserId:
                 this.webhookStaticEnvironments.superAdminExternalUserId,
-              userRole: 'Admin',
+              userRole: WebhookRole.Admin,
             },
           });
         }

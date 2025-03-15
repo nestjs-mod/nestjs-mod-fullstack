@@ -101,7 +101,11 @@ export class WebhookGuard implements CanActivate {
 
         if (!req.webhookUser) {
           await this.prismaClient.webhookUser.create({
-            data: { externalTenantId, externalUserId, userRole: 'User' },
+            data: {
+              externalTenantId,
+              externalUserId,
+              userRole: WebhookRole.User,
+            },
           });
         }
       }

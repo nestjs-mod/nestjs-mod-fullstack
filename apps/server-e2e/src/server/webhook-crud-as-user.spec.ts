@@ -1,4 +1,4 @@
-import { AuthErrorEnum } from '@nestjs-mod-fullstack/app-rest-sdk';
+import { AuthErrorEnum, WebhookRole } from '@nestjs-mod-fullstack/app-rest-sdk';
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 
 describe('CRUD operations with Webhook as "User" role', () => {
@@ -59,7 +59,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       .getWebhookApi()
       .webhookControllerProfile();
     expect(profile).toMatchObject({
-      userRole: 'User',
+      userRole: WebhookRole.User,
     });
   });
 
@@ -70,7 +70,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       .getWebhookApi()
       .webhookControllerProfile();
     expect(profile).toMatchObject({
-      userRole: 'User',
+      userRole: WebhookRole.User,
     });
   });
 

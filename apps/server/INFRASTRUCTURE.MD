@@ -1,5 +1,5 @@
 # server
-> Version: 1.15.7
+> Version: 1.15.8
 
 Boilerplate for creating application on NestJS and Angular
 ## System modules
@@ -78,7 +78,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -95,7 +95,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -112,7 +112,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -134,7 +134,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -151,7 +151,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -168,7 +168,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -190,7 +190,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(webhook)
@@ -207,7 +207,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Environments(app)
@@ -224,7 +224,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x``` ]|
+|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
 ### KeyvModule
 Simple key-value storage with support for multiple backends, and a consistent interface for NestJS-mod (Wrapper for https://www.npmjs.com/package/keyv)

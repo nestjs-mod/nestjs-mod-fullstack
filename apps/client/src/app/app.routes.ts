@@ -10,6 +10,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { WebhooksComponent } from './pages/webhooks/webhooks.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AuthRoleInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 
 export const appRoutes: Route[] = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,7 +22,7 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuardService],
     data: {
       [AUTH_GUARD_DATA_ROUTE_KEY]: new AuthGuardData({
-        roles: ['Admin', 'User'],
+        roles: [AuthRoleInterface.Admin, AuthRoleInterface.User],
       }),
     },
   },
@@ -31,7 +32,7 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuardService],
     data: {
       [AUTH_GUARD_DATA_ROUTE_KEY]: new AuthGuardData({
-        roles: ['Admin', 'User'],
+        roles: [AuthRoleInterface.Admin, AuthRoleInterface.User],
       }),
     },
   },

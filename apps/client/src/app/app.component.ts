@@ -10,14 +10,16 @@ import {
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
+  AuthRoleInterface,
   AppRestService,
   TimeRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AuthActiveLangService,
   AuthService,
-  AuthUser,
   TokensService,
+  CheckUserRolesPipe,
+  UserPipe,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
   BROWSER_TIMEZONE_OFFSET,
@@ -30,15 +32,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import {
-  BehaviorSubject,
-  map,
-  merge,
-  mergeMap,
-  Observable,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, map, merge, mergeMap, switchMap, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +48,8 @@ import {
     TranslocoPipe,
     TranslocoDirective,
     TranslocoDatePipe,
+    CheckUserRolesPipe,
+    UserPipe,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -63,9 +59,9 @@ export class AppComponent implements OnInit {
   title = marker('client');
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject<Date>(new Date());
-  authUser$?: Observable<AuthUser | undefined>;
   lang$ = new BehaviorSubject<string>('');
   availableLangs$ = new BehaviorSubject<LangDefinition[]>([]);
+  AuthRoleInterface = AuthRoleInterface;
 
   constructor(
     private readonly timeRestService: TimeRestService,
@@ -78,7 +74,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.subscribeToProfile();
     this.loadAvailableLangs();
     this.subscribeToLangChanges();
 
@@ -117,10 +112,6 @@ export class AppComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
-  }
-
-  private subscribeToProfile() {
-    this.authUser$ = this.authService.profile$.asObservable();
   }
 
   private fillServerTime() {

@@ -7,6 +7,7 @@ import {
 import { AuthorizerService } from '@nestjs-mod/authorizer';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
+import { AuthRole } from '@prisma/auth-client';
 @Injectable()
 export class AuthorizerAuthConfiguration implements AuthConfiguration {
   private logger = new Logger(AuthorizerAuthConfiguration.name);
@@ -43,7 +44,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
       password: user.password,
       confirm_password: user.password,
       email: user.email.toLowerCase(),
-      roles: ['admin'],
+      roles: [AuthRole.Admin.toLowerCase()],
     });
     if (signupUserResult.errors.length > 0) {
       this.logger.error(
