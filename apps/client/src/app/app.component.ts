@@ -10,15 +10,15 @@ import {
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
-  AuthRoleInterface,
   AppRestService,
+  AuthRoleInterface,
   TimeRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AuthActiveLangService,
   AuthService,
-  TokensService,
   CheckUserRolesPipe,
+  TokensService,
   UserPipe,
 } from '@nestjs-mod-fullstack/auth-angular';
 import {
@@ -75,10 +75,27 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.loadAvailableLangs();
+
+    this.subscribeToRefreshActiveLang();
     this.subscribeToLangChanges();
 
     this.fillServerMessage().pipe(untilDestroyed(this)).subscribe();
     this.fillServerTime().pipe(untilDestroyed(this)).subscribe();
+  }
+
+  private subscribeToRefreshActiveLang() {
+    this.authService.profile$
+      .asObservable()
+      .pipe(
+        mergeMap((profile) => {
+          if (!profile) {
+            this.authActiveLangService.clearLocalStorage();
+          }
+          return this.authActiveLangService.refreshActiveLang();
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   setActiveLang(lang: string) {

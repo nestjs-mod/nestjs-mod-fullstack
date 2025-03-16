@@ -10,7 +10,7 @@ import {
   AuthRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
-import { catchError, map, of, tap, throwError } from 'rxjs';
+import { catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
 import { TokensService } from './tokens.service';
 
 const AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY = 'activeLang';
@@ -26,17 +26,31 @@ export class AuthActiveLangService {
     private readonly tokensService: TokensService
   ) {}
 
+  refreshActiveLang(loadDictionaries?: boolean) {
+    return this.getActiveLang().pipe(
+      mergeMap((lang) => this.localSetActiveLang(lang, loadDictionaries))
+    );
+  }
+
+  clearLocalStorage() {
+    localStorage.removeItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY);
+  }
+
+  localGetActiveLang() {
+    return of(
+      localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
+        this.translocoService.getDefaultLang()
+    );
+  }
+
   getActiveLang() {
     if (!this.tokensService.getAccessToken()) {
-      return of(
-        localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
-          this.translocoService.getDefaultLang()
-      );
+      return this.localGetActiveLang();
     }
 
     return this.authRestService.authControllerProfile().pipe(
-      map((profile) => {
-        return profile.lang || this.translocoService.getDefaultLang();
+      mergeMap((profile) => {
+        return profile.lang ? of(profile.lang) : this.localGetActiveLang();
       }),
       catchError((err) => {
         if (
@@ -44,32 +58,42 @@ export class AuthActiveLangService {
           (err.error as AuthErrorInterface).code ===
             AuthErrorEnumInterface.AUTH_001
         ) {
-          return of(
-            localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
-              this.translocoService.getDefaultLang()
-          );
+          return this.localGetActiveLang();
         }
         return throwError(() => err);
       })
     );
   }
 
-  setActiveLang(lang: string) {
+  localSetActiveLang(lang: string, loadDictionaries?: boolean) {
+    localStorage.setItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY, lang);
+
+    if (loadDictionaries) {
+      return this.translocoService.load(lang).pipe(
+        tap(() => {
+          this.activeLangService.applyActiveLang(lang);
+        }),
+        map(() => null)
+      );
+    }
+    this.activeLangService.applyActiveLang(lang);
+    return of(null);
+  }
+
+  setActiveLang(lang: string, loadDictionaries?: boolean) {
+    if (!this.tokensService.getAccessToken()) {
+      return this.localSetActiveLang(lang, loadDictionaries);
+    }
+
     return this.authRestService.authControllerUpdateProfile({ lang }).pipe(
-      tap(() => {
-        this.activeLangService.applyActiveLang(lang);
-      }),
+      mergeMap(() => this.localSetActiveLang(lang, loadDictionaries)),
       catchError((err) => {
         if (
           'error' in err &&
           (err.error as AuthErrorInterface).code ===
             AuthErrorEnumInterface.AUTH_001
         ) {
-          localStorage.setItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY, lang);
-
-          this.activeLangService.applyActiveLang(lang);
-
-          return of(null);
+          return this.localSetActiveLang(lang, loadDictionaries);
         }
         return throwError(() => err);
       })
