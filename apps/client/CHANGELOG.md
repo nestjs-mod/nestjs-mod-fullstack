@@ -1,3 +1,9 @@
+## [1.15.6](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.5...client-v1.15.6) (2025-03-16)
+
+### Bug Fixes
+
+- update logic for detect and switch user and guest locale ([68b6772](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/68b6772ee18b97037714b5dab94b96bda68a073c))
+
 ## [1.15.5](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.4...client-v1.15.5) (2025-03-15)
 
 ### Bug Fixes
