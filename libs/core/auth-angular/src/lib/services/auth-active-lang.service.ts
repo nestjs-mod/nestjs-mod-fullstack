@@ -13,7 +13,8 @@ import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
 import { catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
 import { TokensService } from './tokens.service';
 
-const AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY = 'activeLang';
+const AUTH_ACTIVE_USER_LANG_LOCAL_STORAGE_KEY = 'activeUserLang';
+const AUTH_ACTIVE_GUEST_LANG_LOCAL_STORAGE_KEY = 'activeGuestLang';
 
 @Injectable({ providedIn: 'root' })
 export class AuthActiveLangService {
@@ -33,12 +34,13 @@ export class AuthActiveLangService {
   }
 
   clearLocalStorage() {
-    localStorage.removeItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(AUTH_ACTIVE_USER_LANG_LOCAL_STORAGE_KEY);
   }
 
   localGetActiveLang() {
     return of(
-      localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) ||
+      localStorage.getItem(AUTH_ACTIVE_USER_LANG_LOCAL_STORAGE_KEY) ||
+        localStorage.getItem(AUTH_ACTIVE_GUEST_LANG_LOCAL_STORAGE_KEY) ||
         this.translocoService.getDefaultLang()
     );
   }
@@ -66,7 +68,8 @@ export class AuthActiveLangService {
   }
 
   localSetActiveLang(lang: string, loadDictionaries?: boolean) {
-    localStorage.setItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY, lang);
+    localStorage.setItem(AUTH_ACTIVE_USER_LANG_LOCAL_STORAGE_KEY, lang);
+    localStorage.setItem(AUTH_ACTIVE_GUEST_LANG_LOCAL_STORAGE_KEY, lang);
 
     if (loadDictionaries) {
       return this.translocoService.load(lang).pipe(
