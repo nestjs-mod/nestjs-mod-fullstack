@@ -1,3 +1,9 @@
+## [1.15.9](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.8...client-v1.15.9) (2025-03-20)
+
+### Bug Fixes
+
+- change path to weebhook libs ([342f57a](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/342f57ac601184e837beda170cbd39ca0a0239ad))
+
 ## [1.15.8](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.7...client-v1.15.8) (2025-03-20)
 
 ### Bug Fixes
