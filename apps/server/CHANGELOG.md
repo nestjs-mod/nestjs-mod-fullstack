@@ -1,3 +1,9 @@
+## [1.15.12](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.11...server-v1.15.12) (2025-03-20)
+
+### Bug Fixes
+
+- change path to weebhook libs ([342f57a](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/342f57ac601184e837beda170cbd39ca0a0239ad))
+
 ## [1.15.11](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.10...server-v1.15.11) (2025-03-20)
 
 ### Bug Fixes
