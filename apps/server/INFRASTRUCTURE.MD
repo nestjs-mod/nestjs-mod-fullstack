@@ -1,5 +1,5 @@
 # server
-> Version: 1.15.9
+> Version: 1.15.10
 
 Boilerplate for creating application on NestJS and Angular
 ## System modules

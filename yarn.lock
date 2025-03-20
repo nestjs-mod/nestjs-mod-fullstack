@@ -13174,13 +13174,12 @@ nestjs-pino@^4.1.0:
   resolved "https://registry.yarnpkg.com/nestjs-pino/-/nestjs-pino-4.3.0.tgz#6056027b3477ebe6237da799326ffebe43203240"
   integrity sha512-u/FRi+eRH+ER6cccyr9BBNaHg71qxLgWwDT7a0eGbSVZrSUzQ04O5zTNqydgzihNNHfuam6TBTz1wWdapOWYnQ==
 
-nestjs-translates@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/nestjs-translates/-/nestjs-translates-2.1.2.tgz#eaf976473b36fb9ad36fee083962c11497207501"
-  integrity sha512-Fr67CfhMMM7jhDI2b+pcqhuBmvXK+6wAgy+BAu8eyFjdhMUPPKmyCH606cciscjrG+DOUI5fjd602Qzcbs56bw==
+nestjs-translates@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/nestjs-translates/-/nestjs-translates-2.2.5.tgz#364a30aa9b3439c2b3d556a6a5e84ac6e1da69a2"
+  integrity sha512-FQ4a8FJ6jogR1XStbyS/GH0IzZNFBmrZhLSNv//ELkZb7bKJ3PfW/KzVU+xBmMvgEQO6olF2FyNYI8WdYv562w==
   dependencies:
     mustache "4.2.0"
-    rxjs "7.1.0"
     tslib "^2.0.0"
 
 netmask@^2.0.2:
