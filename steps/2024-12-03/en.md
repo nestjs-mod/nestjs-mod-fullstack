@@ -525,7 +525,7 @@ export class AppController {
 
 **Using the translation service (translatesService: TranslatesService)**
 
-Sample file _libs/feature/webhook/src/lib/controllers/webhook.controller.ts_
+Sample file _libs/core/webhook/src/lib/controllers/webhook.controller.ts_
 
 ```typescript
 // ...

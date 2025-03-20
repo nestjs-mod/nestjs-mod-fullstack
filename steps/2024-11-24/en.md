@@ -18,7 +18,7 @@ We delete the old generated code and create a new one.
 _Commands_
 
 ```bash
-rm -rf libs/feature/webhook/src/lib/generated
+rm -rf libs/core/webhook/src/lib/generated
 rm -rf apps/server/src/app/generated
 npm run prisma:generate
 ```
@@ -373,7 +373,7 @@ An example of a server response with errors:
 }
 ```
 
-Updating the file _libs/feature/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
+Updating the file _libs/core/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
 
 ```typescript
 import {

@@ -30,7 +30,7 @@ _Commands_
 npm run flyway:create:webhook --args=AddFieldWorkUntilDateToAuthUser
 ```
 
-Updating the file _libs/feature/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
+Updating the file _libs/core/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
 
 ```sql
 DO $$
@@ -61,7 +61,7 @@ npm run generate
 
 After completing these steps, all relevant `DTO`s will have a new field `workUntilDate`.
 
-Example of updating `DTO` file _libs/feature/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
+Example of updating `DTO` file _libs/core/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
 
 ```typescript
 import { Prisma } from '../../../../../../../../node_modules/@prisma/webhook-client';
@@ -79,7 +79,7 @@ export class WebhookDto {
 }
 ```
 
-Example of updating a `Prisma` schema _libs/feature/webhook/src/prisma/schema.prisma_
+Example of updating a `Prisma` schema _libs/core/webhook/src/prisma/schema.prisma_
 
 ```prisma
 generator client {
@@ -447,7 +447,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 
 The new form field can function as a standard `type=input` element with the `props.type=datetime-local` type, or as a custom `type=date-input` field.
 
-Updating the file _libs/feature/webhook-angular/src/lib/services/webhook-form.service.ts_
+Updating the file _libs/core/webhook-angular/src/lib/services/webhook-form.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -569,7 +569,7 @@ To convert incoming and outgoing data on the client side, you will need to creat
 
 Considering the possible offset of the user's browser time zone, when converting a string with a date received from the server into a browser date object, it is necessary to take into account the offset of the browser time zone.
 
-Create a file _libs/feature/webhook-angular/src/lib/services/webhook-mapper.service.ts_
+Create a file _libs/core/webhook-angular/src/lib/services/webhook-mapper.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';

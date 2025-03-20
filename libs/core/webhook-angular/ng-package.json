@@ -1,6 +1,6 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../../dist/libs/feature/webhook-angular",
+  "dest": "../../../dist/libs/core/webhook-angular",
   "lib": {
     "entryFile": "src/index.ts"
   }

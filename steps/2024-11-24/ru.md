@@ -20,7 +20,7 @@ npm uninstall --save-dev prisma-class-generator
 _Команды_
 
 ```bash
-rm -rf libs/feature/webhook/src/lib/generated
+rm -rf libs/core/webhook/src/lib/generated
 rm -rf apps/server/src/app/generated
 npm run prisma:generate
 ```
@@ -375,7 +375,7 @@ npm run manual:prepare
 }
 ```
 
-Обновляем файл _libs/feature/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
+Обновляем файл _libs/core/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
 
 ```typescript
 import {

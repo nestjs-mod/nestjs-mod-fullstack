@@ -10,36 +10,36 @@ _Commands_
 
 ```bash
 # Create Angular library
-./node_modules/.bin/nx g @nx/angular:library webhook-angular --buildable --publishable --directory=libs/feature/webhook-angular --simpleName=true --projectNameAndRootFormat=as-provided --strict=true --prefix= --standalone=true --selector= --changeDetection=OnPush --importPath=@nestjs-mod-fullstack/webhook-angular
+./node_modules/.bin/nx g @nx/angular:library webhook-angular --buildable --publishable --directory=libs/core/webhook-angular --simpleName=true --projectNameAndRootFormat=as-provided --strict=true --prefix= --standalone=true --selector= --changeDetection=OnPush --importPath=@nestjs-mod-fullstack/webhook-angular
 
 # Change file with test options
-rm -rf libs/feature/webhook-angular/src/test-setup.ts
-cp apps/client/src/test-setup.ts libs/feature/webhook-angular/src/test-setup.ts
+rm -rf libs/core/webhook-angular/src/test-setup.ts
+cp apps/client/src/test-setup.ts libs/core/webhook-angular/src/test-setup.ts
 ```
 
 {% spoiler Console output %}
 
 ```bash
-$ ./node_modules/.bin/nx g @nx/angular:library webhook-angular --buildable --publishable --directory=libs/feature/webhook-angular --simpleName=true --projectNameAndRootFormat=as-provided --strict=true --prefix= --standalone=true --selector= --changeDetection=OnPush --importPath=@nestjs-mod-fullstack/webhook-angular
+$ ./node_modules/.bin/nx g @nx/angular:library webhook-angular --buildable --publishable --directory=libs/core/webhook-angular --simpleName=true --projectNameAndRootFormat=as-provided --strict=true --prefix= --standalone=true --selector= --changeDetection=OnPush --importPath=@nestjs-mod-fullstack/webhook-angular
 
  NX  Generating @nx/angular:library
 
-CREATE libs/feature/webhook-angular/project.json
-CREATE libs/feature/webhook-angular/README.md
-CREATE libs/feature/webhook-angular/ng-package.json
-CREATE libs/feature/webhook-angular/package.json
-CREATE libs/feature/webhook-angular/tsconfig.json
-CREATE libs/feature/webhook-angular/tsconfig.lib.json
-CREATE libs/feature/webhook-angular/tsconfig.lib.prod.json
-CREATE libs/feature/webhook-angular/src/index.ts
-CREATE libs/feature/webhook-angular/jest.config.ts
-CREATE libs/feature/webhook-angular/src/test-setup.ts
-CREATE libs/feature/webhook-angular/tsconfig.spec.json
-CREATE libs/feature/webhook-angular/src/lib/webhook-angular/webhook-angular.component.css
-CREATE libs/feature/webhook-angular/src/lib/webhook-angular/webhook-angular.component.html
-CREATE libs/feature/webhook-angular/src/lib/webhook-angular/webhook-angular.component.spec.ts
-CREATE libs/feature/webhook-angular/src/lib/webhook-angular/webhook-angular.component.ts
-CREATE libs/feature/webhook-angular/.eslintrc.json
+CREATE libs/core/webhook-angular/project.json
+CREATE libs/core/webhook-angular/README.md
+CREATE libs/core/webhook-angular/ng-package.json
+CREATE libs/core/webhook-angular/package.json
+CREATE libs/core/webhook-angular/tsconfig.json
+CREATE libs/core/webhook-angular/tsconfig.lib.json
+CREATE libs/core/webhook-angular/tsconfig.lib.prod.json
+CREATE libs/core/webhook-angular/src/index.ts
+CREATE libs/core/webhook-angular/jest.config.ts
+CREATE libs/core/webhook-angular/src/test-setup.ts
+CREATE libs/core/webhook-angular/tsconfig.spec.json
+CREATE libs/core/webhook-angular/src/lib/webhook-angular/webhook-angular.component.css
+CREATE libs/core/webhook-angular/src/lib/webhook-angular/webhook-angular.component.html
+CREATE libs/core/webhook-angular/src/lib/webhook-angular/webhook-angular.component.spec.ts
+CREATE libs/core/webhook-angular/src/lib/webhook-angular/webhook-angular.component.ts
+CREATE libs/core/webhook-angular/.eslintrc.json
 UPDATE package.json
 UPDATE tsconfig.base.json
 
@@ -163,7 +163,7 @@ The administrator ID is passed from the environment variables `CI/CD`.
 
 To protect the pages, we will create a special `Guard`.
 
-Creating a service _libs/feature/webhook-angular/src/lib/services/webhook-auth.service.ts_
+Creating a service _libs/core/webhook-angular/src/lib/services/webhook-auth.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -226,7 +226,7 @@ In addition to the login button, there are also two more buttons on the form:
 1. Fill in the user data - substitutes the `xExternalUserId` and `xExternalTenantId` with the hidden random `uuid` identifiers;
 2. Fill in the administrator data - inserts the user ID with the role `Admin` into the `xExternalUserId`, the backend creates this user at startup, and the ID is inserted into the frontend when it is assembled into `CI\CD`.
 
-Creating a file _libs/feature/webhook-angular/src/lib/forms/webhook-auth-form/webhook-auth-form.component.ts_
+Creating a file _libs/core/webhook-angular/src/lib/forms/webhook-auth-form/webhook-auth-form.component.ts_
 
 ```typescript
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -355,7 +355,7 @@ export class WebhookAuthFormComponent implements OnInit {
 }
 ```
 
-Creating a file _libs/feature/webhook-angular/src/lib/forms/webhook-auth-form/webhook-auth-form.component.html_
+Creating a file _libs/core/webhook-angular/src/lib/forms/webhook-auth-form/webhook-auth-form.component.html_
 
 ```html
 @if (formlyFields$ | async; as formlyFields) {
@@ -467,7 +467,7 @@ Creating a file _apps/client/src/app/pages/sign-in/sign-in.component.html_
 
 The authorization page should be available only when the user has not entered the authorization data, for this we will write `Guard` and close our pages with it.
 
-Creating a file _libs/feature/webhook-angular/src/lib/services/webhook-guard.service.ts_
+Creating a file _libs/core/webhook-angular/src/lib/services/webhook-guard.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -542,7 +542,7 @@ export const appRoutes: Route[] = [
 
 Since the method for working with the `Webhook` entity requires authorization data, we connect the `WebhookAuthService` to the service for working with the backend of the `Webhook` entity.
 
-Creating a service _libs/feature/webhook-angular/src/lib/services/webhook.service.ts_
+Creating a service _libs/core/webhook-angular/src/lib/services/webhook.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -591,7 +591,7 @@ The purpose of this post is to create a simple example of `CRUD` on `Angular`, t
 
 In future articles, additional custom control types will be created for `formly` with their own transformation logics.
 
-Creating a form class _libs/feature/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
+Creating a form class _libs/core/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.ts_
 
 ```typescript
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -819,7 +819,7 @@ export class WebhookFormComponent implements OnInit {
 
 The form markup has the ability to display it as an `inline` on a page with embedded buttons, and it can also be displayed in a modal window that has its own markup for buttons.
 
-Creating the layout of the form _libs/feature/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.html_
+Creating the layout of the form _libs/core/webhook-angular/src/lib/forms/webhook-form/webhook-form.component.html_
 
 ```html
 @if (formlyFields$ | async; as formlyFields) {
@@ -844,7 +844,7 @@ The creation and editing of records takes place in a modal window with a form.
 
 When deleting an entry, a modal window is displayed confirming the action.
 
-Creating a table class _libs/feature/webhook-angular/src/lib/grids/webhook-grid/webhook-grid.component.ts_
+Creating a table class _libs/core/webhook-angular/src/lib/grids/webhook-grid/webhook-grid.component.ts_
 
 ```typescript
 import { CommonModule } from '@angular/common';
@@ -1018,7 +1018,7 @@ export class WebhookGridComponent implements OnInit {
 }
 ```
 
-Creating a table layout _libs/feature/webhook-angular/src/lib/grids/webhook-grid/webhook-grid.component.html_
+Creating a table layout _libs/core/webhook-angular/src/lib/grids/webhook-grid/webhook-grid.component.html_
 
 ```html
 <div class="table-operations" nz-row nzJustify="space-between">

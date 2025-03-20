@@ -2,7 +2,7 @@ export default {
   displayName: 'webhook-angular',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/feature/webhook-angular',
+  coverageDirectory: '../../../coverage/libs/core/webhook-angular',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

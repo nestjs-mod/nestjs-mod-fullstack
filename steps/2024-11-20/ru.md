@@ -358,7 +358,7 @@ export class WebhookUsersController {
 
 Подключаем сервис кэшировнаия в модуль `WebhookModule`.
 
-Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
+Обновляем файл _libs/core/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 //...

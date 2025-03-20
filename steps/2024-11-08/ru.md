@@ -420,7 +420,7 @@ export const { AuthModule } = createNestModule({
 
 Метод создания нового пользователя вынесем в отдельный сервис, который будет доступен при импорте модуля как фича `WebhookModule.forFeature()`.
 
-Создаем файл _libs/feature/webhook/src/lib/services/webhook-users.service.ts_
+Создаем файл _libs/core/webhook/src/lib/services/webhook-users.service.ts_
 
 ```typescript
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
@@ -462,7 +462,7 @@ export class WebhookUsersService {
 
 Экспортируем новый сервис из модуля и призма модуль который он использует.
 
-Обновляем файл _libs/feature/webhook/src/lib/webhook.module.ts_
+Обновляем файл _libs/core/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';

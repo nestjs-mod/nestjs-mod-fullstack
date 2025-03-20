@@ -418,7 +418,7 @@ Since the authorization guard is triggered automatically when calling any method
 
 We will move the method for creating a new user to a separate service, which will be available when importing the module as a feature `WebhookModule.forFeature()`.
 
-Create a file _libs/feature/webhook/src/lib/services/webhook-users.service.ts_
+Create a file _libs/core/webhook/src/lib/services/webhook-users.service.ts_
 
 ```typescript
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
@@ -460,7 +460,7 @@ export class WebhookUsersService {
 
 Export the new service from the module and the prism module it uses.
 
-Update the file _libs/feature/webhook/src/lib/webhook.module.ts_
+Update the file _libs/core/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';

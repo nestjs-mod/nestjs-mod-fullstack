@@ -29,7 +29,7 @@ import { WebhookCacheService } from './services/webhook-cache.service';
 
 export const { WebhookModule } = createNestModule({
   moduleName: WEBHOOK_MODULE,
-  moduleCategory: NestModuleCategory.feature,
+  moduleCategory: NestModuleCategory.core,
   staticEnvironmentsModel: WebhookStaticEnvironments,
   staticConfigurationModel: WebhookStaticConfiguration,
   configurationModel: WebhookConfiguration,

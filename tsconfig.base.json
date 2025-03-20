@@ -46,9 +46,9 @@
       ],
       "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"],
       "@nestjs-mod-fullstack/validation": ["libs/core/validation/src/index.ts"],
-      "@nestjs-mod-fullstack/webhook": ["libs/feature/webhook/src/index.ts"],
+      "@nestjs-mod-fullstack/webhook": ["libs/core/webhook/src/index.ts"],
       "@nestjs-mod-fullstack/webhook-angular": [
-        "libs/feature/webhook-angular/src/index.ts"
+        "libs/core/webhook-angular/src/index.ts"
       ]
     }
   },

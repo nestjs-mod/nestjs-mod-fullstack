@@ -1,7 +1,7 @@
 {
   "name": "webhook-angular",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/feature/webhook-angular/src",
+  "sourceRoot": "libs/core/webhook-angular/src",
   "prefix": "",
   "projectType": "library",
   "tags": [],
@@ -10,14 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/feature/webhook-angular/ng-package.json"
+        "project": "libs/core/webhook-angular/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/feature/webhook-angular/tsconfig.lib.prod.json"
+          "tsConfig": "libs/core/webhook-angular/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/feature/webhook-angular/tsconfig.lib.json"
+          "tsConfig": "libs/core/webhook-angular/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -26,7 +26,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/feature/webhook-angular/jest.config.ts"
+        "jestConfig": "libs/core/webhook-angular/jest.config.ts"
       }
     },
     "lint": {

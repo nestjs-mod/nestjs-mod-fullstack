@@ -32,7 +32,7 @@ _Команды_
 npm run flyway:create:webhook --args=AddFieldWorkUntilDateToAuthUser
 ```
 
-Обновляем файл _libs/feature/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
+Обновляем файл _libs/core/webhook/src/migrations/V202412200905\_\_AddFieldWorkUntilDateToAuthUser.sql_
 
 ```sql
 DO $$
@@ -63,7 +63,7 @@ npm run generate
 
 После выполнения этих шагов, во всех соответствующих `DTO` появится новое поле `workUntilDate`.
 
-Пример обновления `DTO`-файла _libs/feature/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
+Пример обновления `DTO`-файла _libs/core/webhook/src/lib/generated/rest/dto/webhook.dto.ts_
 
 ```typescript
 import { Prisma } from '../../../../../../../../node_modules/@prisma/webhook-client';
@@ -81,7 +81,7 @@ export class WebhookDto {
 }
 ```
 
-Пример обновления `Prisma`-схемы _libs/feature/webhook/src/prisma/schema.prisma_
+Пример обновления `Prisma`-схемы _libs/core/webhook/src/prisma/schema.prisma_
 
 ```prisma
 generator client {
@@ -449,7 +449,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
 
 Новое поле формы может функционировать как в виде стандартного элемента `type=input` с типом `props.type=datetime-local`, так и в виде кастомного поля `type=date-input`.
 
-Обновляем файл _libs/feature/webhook-angular/src/lib/services/webhook-form.service.ts_
+Обновляем файл _libs/core/webhook-angular/src/lib/services/webhook-form.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -571,7 +571,7 @@ export class WebhookFormService {
 
 Учитывая возможное смещение временной зоны браузера пользователя, при преобразовании строки с датой, полученной с сервера, в объект даты браузера, необходимо учитывать смещение временной зоны браузера.
 
-Создаем файл _libs/feature/webhook-angular/src/lib/services/webhook-mapper.service.ts_
+Создаем файл _libs/core/webhook-angular/src/lib/services/webhook-mapper.service.ts_
 
 ```typescript
 import { Injectable } from '@angular/core';

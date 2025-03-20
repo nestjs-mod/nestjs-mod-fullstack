@@ -356,7 +356,7 @@ export class WebhookUsersController {
 
 Connect the caching service to the `WebhookModule`.
 
-Updating the file _libs/feature/webhook/src/lib/webhook.module.ts_
+Updating the file _libs/core/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 //...

@@ -184,30 +184,30 @@ Now we are creating a business model.
 _Commands_
 
 ```bash
-./node_modules/.bin/nx g @nestjs-mod/schematics:library webhook --buildable --publishable --directory=libs/feature/webhook --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
+./node_modules/.bin/nx g @nestjs-mod/schematics:library webhook --buildable --publishable --directory=libs/core/webhook --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
 ```
 
 {% spoiler Console output %}
 
 ```bash
-$ ./node_modules/.bin/nx g @nestjs-mod/schematics:library webhook --buildable --publishable --directory=libs/feature/webhook --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
+$ ./node_modules/.bin/nx g @nestjs-mod/schematics:library webhook --buildable --publishable --directory=libs/core/webhook --simpleName=true --projectNameAndRootFormat=as-provided --strict=true
 
  NX  Generating @nestjs-mod/schematics:library
 
-CREATE libs/feature/webhook/tsconfig.json
-CREATE libs/feature/webhook/src/index.ts
-CREATE libs/feature/webhook/tsconfig.lib.json
-CREATE libs/feature/webhook/README.md
-CREATE libs/feature/webhook/package.json
-CREATE libs/feature/webhook/project.json
-CREATE libs/feature/webhook/.eslintrc.json
-CREATE libs/feature/webhook/jest.config.ts
-CREATE libs/feature/webhook/tsconfig.spec.json
+CREATE libs/core/webhook/tsconfig.json
+CREATE libs/core/webhook/src/index.ts
+CREATE libs/core/webhook/tsconfig.lib.json
+CREATE libs/core/webhook/README.md
+CREATE libs/core/webhook/package.json
+CREATE libs/core/webhook/project.json
+CREATE libs/core/webhook/.eslintrc.json
+CREATE libs/core/webhook/jest.config.ts
+CREATE libs/core/webhook/tsconfig.spec.json
 UPDATE tsconfig.base.json
-CREATE libs/feature/webhook/src/lib/webhook.configuration.ts
-CREATE libs/feature/webhook/src/lib/webhook.constants.ts
-CREATE libs/feature/webhook/src/lib/webhook.environments.ts
-CREATE libs/feature/webhook/src/lib/webhook.module.ts
+CREATE libs/core/webhook/src/lib/webhook.configuration.ts
+CREATE libs/core/webhook/src/lib/webhook.constants.ts
+CREATE libs/core/webhook/src/lib/webhook.environments.ts
+CREATE libs/core/webhook/src/lib/webhook.module.ts
 ```
 
 {% endspoiler %}
@@ -632,15 +632,15 @@ _Commands_
 
 ```bash
 # create migrations folder
-mkdir ./libs/feature/webhook/src/migrations
+mkdir ./libs/core/webhook/src/migrations
 npm run flyway:create:webhook
 ```
 
 {% spoiler Console output %}
 
 ```bash
-$ mkdir ./libs/feature/webhook/src/migrations
-npm rumkdir ./libs/feature/webhook/src/migrations
+$ mkdir ./libs/core/webhook/src/migrations
+npm rumkdir ./libs/core/webhook/src/migrations
 
 $ npm run flyway:create:webhook
 
@@ -650,7 +650,7 @@ $ npm run flyway:create:webhook
 
 > nx run webhook:flyway-create-migration
 
-> echo 'select 1;' > ./libs/feature/webhook/src/migrations/V`date +%Y%m%d%H%M`__NewMigration.sql
+> echo 'select 1;' > ./libs/core/webhook/src/migrations/V`date +%Y%m%d%H%M`__NewMigration.sql
 
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -931,7 +931,7 @@ WARN[0000] /home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/docke
 
 ### 7. Let's recreate the Prisma schema using the new database
 
-We update the `libs/feature/webhook/src/prisma/schema.prisma` scheme previously created by the Prisma generator, and add an additional dto file generator.
+We update the `libs/core/webhook/src/prisma/schema.prisma` scheme previously created by the Prisma generator, and add an additional dto file generator.
 
 ```prisma
 generator client {
@@ -984,7 +984,7 @@ $ npm run prisma:pull
 
 {% endspoiler %}
 
-Checking the contents of the updated schema `libs/feature/webhook/src/prisma/schema.prisma`
+Checking the contents of the updated schema `libs/core/webhook/src/prisma/schema.prisma`
 
 ```prisma
 generator client {
@@ -1098,7 +1098,7 @@ _Commands_
 
 ```bash
 npm run prisma:generate
-ls libs/feature/webhook/src/lib/generated/rest/dto
+ls libs/core/webhook/src/lib/generated/rest/dto
 ```
 
 {% spoiler Console output %}
@@ -1117,7 +1117,7 @@ npm run prisma:generate
 
  NX   Successfully ran target prisma-generate for 2 projects (2s)
 
- $ ls libs/feature/webhook/src/lib/generated/rest/dto
+ $ ls libs/core/webhook/src/lib/generated/rest/dto
 migrations.ts  webhook_log.ts  webhook.ts  webhook_user.ts
 ```
 
@@ -1707,7 +1707,7 @@ Example of environment variables:
 | `skipGuardErrors`          | Skip any guard errors.                 | `obj['skipGuardErrors']`, `process.env['SERVER_WEBHOOK_SKIP_GUARD_ERRORS']`                     | **optional** | `false` | `false`                                |
 | `superAdminExternalUserId` | User ID with super admin role.         | `obj['superAdminExternalUserId']`, `process.env['SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID']` | **optional** | -       | `248ec37f-628d-43f0-8de2-f58da037dd0f` |
 
-Updating the file _libs/feature/webhook/src/lib/webhook.environments.ts_
+Updating the file _libs/core/webhook/src/lib/webhook.environments.ts_
 
 ```typescript
 import { BooleanTransformer, EnvModel, EnvModelProperty } from '@nestjs-mod/common';
@@ -1767,7 +1767,7 @@ Environment variables can be changed from stand to stand, but there are also set
 
 These settings include the types of events that can be sent as webhooks, as well as the names of the header keys to identify the current user or the current company.
 
-Updating the file _libs/feature/webhook/src/lib/webhook.configuration.ts_
+Updating the file _libs/core/webhook/src/lib/webhook.configuration.ts_
 
 ```typescript
 import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
@@ -1800,7 +1800,7 @@ Since at this stage the project is being developed as a `REST` backend, which is
 
 In order for the error description to be more detailed, it uses decorators that add meta information that will be output to the `Swagger` schema.
 
-Creating a file _libs/feature/webhook/src/lib/webhook.errors.ts_
+Creating a file _libs/core/webhook/src/lib/webhook.errors.ts_
 
 ```typescript
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -1866,7 +1866,7 @@ All available types of events that will be sent via webhooks should be described
 
 In the `example` property, you need to pass an example of an object that we will send via webhook.
 
-Creating a file _libs/feature/webhook/src/lib/types/webhook-event-object.ts_
+Creating a file _libs/core/webhook/src/lib/types/webhook-event-object.ts_
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -1887,7 +1887,7 @@ Information about all sent events is recorded in the `WebhookLog` table, its gen
 
 We also create a `DTO` to form a response to the `CRUD` operation of reading many records.
 
-Creating a file _libs/feature/webhook/src/lib/types/webhook-log-object.ts_
+Creating a file _libs/core/webhook/src/lib/types/webhook-log-object.ts_
 
 ```typescript
 import { FindManyResponseMeta } from '@nestjs-mod-fullstack/common';
@@ -1907,7 +1907,7 @@ export class FindManyWebhookLogResponse {
 
 Some of the fields for the `Webhook` entity are exposed and checked on the backend. therefore, we create new `DTO` for interaction with the front based on the `DTO` generated from the database.
 
-Creating a file _libs/feature/webhook/src/lib/types/webhook-object.ts_
+Creating a file _libs/core/webhook/src/lib/types/webhook-object.ts_
 
 ```typescript
 import { FindManyResponseMeta } from '@nestjs-mod-fullstack/common';
@@ -1931,7 +1931,7 @@ export class FindManyWebhookResponse {
 
 The `WebhookUser` entity, which is editable by admins, also needs to be limited by available fields.
 
-Creating a file _libs/feature/webhook/src/lib/types/webhook-user-object.ts_
+Creating a file _libs/core/webhook/src/lib/types/webhook-user-object.ts_
 
 ```typescript
 import { FindManyResponseMeta } from '@nestjs-mod-fullstack/common';
@@ -1955,7 +1955,7 @@ The module has its own `Guard` that checks for the presence of the user and comp
 
 The feature modules that I create always have a table with users, since they can be moved to a separate microservice and a separate database at any time.
 
-Creating a file _libs/feature/webhook/src/lib/types/webhook-request.ts_
+Creating a file _libs/core/webhook/src/lib/types/webhook-request.ts_
 
 ```typescript
 import { WebhookUser } from '../generated/rest/dto/webhook_user';
@@ -1976,7 +1976,7 @@ The `CheckWebhookRole` decorator starts checking the user's role availability.
 
 The decorators `CurrentWebhookRequest` and `CurrentWebhookUser` are used to get information from the Request.
 
-Creating a file _libs/feature/webhook/src/lib/webhook.decorators.ts_
+Creating a file _libs/core/webhook/src/lib/webhook.decorators.ts_
 
 ```typescript
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
@@ -2007,7 +2007,7 @@ The controller also has a `findManyLogs` method that returns the history of sent
 
 The controller is available to the `Admin` and `User` roles, users with the `Admin` role can see and modify the webhooks of all companies, users with the `User` role can only see their own webhooks.
 
-Creating a file _libs/feature/webhook/src/lib/controllers/webhook.controller.ts_
+Creating a file _libs/core/webhook/src/lib/controllers/webhook.controller.ts_
 
 ```typescript
 import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
@@ -2239,7 +2239,7 @@ export class WebhookController {
 
 The `WebhookUsersController` controller is only available to the `Admin` role, this controller has `CRUD` methods for displaying all users and methods for updating and deleting module users.
 
-Creating a file _libs/feature/webhook/src/lib/controllers/webhook-users.controller.ts_
+Creating a file _libs/core/webhook/src/lib/controllers/webhook-users.controller.ts_
 
 ```typescript
 import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
@@ -2359,7 +2359,7 @@ export class WebhookUsersController {
 
 Events are sent from the code using the `sendEvent` method of the `WebhookService` service.
 
-Creating a file _libs/feature/webhook/src/lib/services/webhook.service.ts_
+Creating a file _libs/core/webhook/src/lib/services/webhook.service.ts_
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -2388,7 +2388,7 @@ export class WebhookService<TEventName extends string = string, TEventBody = obj
 
 The module also has a service with additional utilities, the service is available only within the services and controllers of this module.
 
-Creating a file _libs/feature/webhook/src/lib/services/webhook-tools.service.ts_
+Creating a file _libs/core/webhook/src/lib/services/webhook-tools.service.ts_
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -2420,7 +2420,7 @@ export class WebhookToolsService {
 
 Event processing occurs asynchronously in the `WebhookServiceBootstrap` service, listening for new events starts after the application starts, various module parameters are also created in this service at startup.
 
-Creating a file _libs/feature/webhook/src/lib/services/webhook-bootstrap.service.ts_
+Creating a file _libs/core/webhook/src/lib/services/webhook-bootstrap.service.ts_
 
 ```typescript
 import { isInfrastructureMode } from '@nestjs-mod/common';
@@ -2578,7 +2578,7 @@ export class WebhookServiceBootstrap implements OnApplicationBootstrap, OnModule
 
 To convert module errors to an `Http` error, create a `WebhookExceptionsFilter`.
 
-Creating a file _libs/feature/webhook/src/lib/webhook.filter.ts_
+Creating a file _libs/core/webhook/src/lib/webhook.filter.ts_
 
 ```typescript
 import { ArgumentsHost, Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
@@ -2614,7 +2614,7 @@ export class WebhookExceptionsFilter extends BaseExceptionFilter {
 
 The verification and creation of users takes place in `WebhookGuard`, in addition, the roles of the module users are also checked here.
 
-Creating a file _libs/feature/webhook/src/lib/webhook.guard.ts_
+Creating a file _libs/core/webhook/src/lib/webhook.guard.ts_
 
 ```typescript
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
@@ -2769,7 +2769,7 @@ Unlike `PrismaToolsModule` (example: SERVER_USE_FILTERS), the environment variab
 
 Turning off the `Guard` and `Filter` on the controllers occurs by wrapping them in special decorators when the module is connected.
 
-Creating a file _libs/feature/webhook/src/lib/webhook.module.ts_
+Creating a file _libs/core/webhook/src/lib/webhook.module.ts_
 
 ```typescript
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
