@@ -1,3 +1,9 @@
+## [1.15.13](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.12...server-v1.15.13) (2025-03-22)
+
+### Bug Fixes
+
+- sync with sso project (2025-03-22) ([3894cf5](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/3894cf5521919627e5f38cf499c2e545bec24e15))
+
 ## [1.15.12](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.11...server-v1.15.12) (2025-03-20)
 
 ### Bug Fixes
