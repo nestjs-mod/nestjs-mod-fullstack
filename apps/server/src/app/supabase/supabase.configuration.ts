@@ -1,13 +1,14 @@
 import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
 import { ExecutionContext } from '@nestjs/common';
 import { CheckAccessOptions, SupabaseUser } from './supabase.types';
+import { searchIn } from '@nestjs-mod-fullstack/common';
 
 export const defaultSupabaseCheckAccessValidator = async (
   supabaseUser?: SupabaseUser,
   options?: CheckAccessOptions
 ) => {
   return Boolean(
-    supabaseUser?.role && options?.roles?.includes(supabaseUser?.role)
+    supabaseUser?.role && searchIn(supabaseUser?.role, options?.roles)
   );
 };
 

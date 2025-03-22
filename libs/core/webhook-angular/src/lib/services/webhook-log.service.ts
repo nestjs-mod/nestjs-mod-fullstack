@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { WebhookRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { RequestMeta } from '@nestjs-mod-fullstack/common-angular';
-import { WebhookAuthService } from './webhook-auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class WebhookLogService {
-  constructor(
-    private readonly webhookAuthService: WebhookAuthService,
-    private readonly webhookRestService: WebhookRestService
-  ) {}
+  constructor(private readonly webhookRestService: WebhookRestService) {}
 
   findMany({
     filters,
@@ -19,8 +15,6 @@ export class WebhookLogService {
   }) {
     return this.webhookRestService.webhookControllerFindManyLogs(
       filters['webhookId'],
-      this.webhookAuthService.getWebhookAuthCredentials().xExternalUserId,
-      this.webhookAuthService.getWebhookAuthCredentials().xExternalTenantId,
       meta?.curPage,
       meta?.perPage,
       filters['search'],

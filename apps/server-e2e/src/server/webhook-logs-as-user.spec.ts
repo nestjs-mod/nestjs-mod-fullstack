@@ -31,7 +31,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
 
     const { data: webhooks } = await admin
       .getWebhookApi()
-      .webhookControllerFindMany(undefined, undefined, 1, 1000);
+      .webhookControllerFindMany(1, 1000);
     for (const webhook of webhooks.webhooks) {
       if (webhook.enabled) {
         await admin

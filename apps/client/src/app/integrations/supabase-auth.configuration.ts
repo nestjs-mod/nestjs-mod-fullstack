@@ -185,13 +185,10 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
 
   refreshToken(): Observable<AuthUserAndTokens> {
     const refreshToken = this.tokensService.getRefreshToken();
-    if (!refreshToken) {
-      return of({});
-    }
     return from(
-      this.supabaseClient.auth.refreshSession({
-        refresh_token: refreshToken,
-      })
+      this.supabaseClient.auth.refreshSession(
+        refreshToken ? { refresh_token: refreshToken } : undefined
+      )
     ).pipe(
       mapAuthResponse(),
       map((result) => {
@@ -217,7 +214,8 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
             picture: result.user.user_metadata['picture'],
           },
         };
-      })
+      }),
+      catchError(() => of({}))
     );
   }
 

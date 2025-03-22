@@ -22,6 +22,7 @@ import {
   SupabaseRequest,
   SupabaseUser,
 } from '../../supabase/supabase.types';
+import { splitIn } from '@nestjs-mod-fullstack/common';
 
 @Injectable()
 export class WebhookWithAuthSupabaseConfiguration
@@ -95,7 +96,7 @@ export class WebhookWithAuthSupabaseConfiguration
       if (supabaseUser?.email && supabaseUser?.role) {
         req.externalUser = {
           email: supabaseUser?.email,
-          roles: supabaseUser?.role.split(','),
+          roles: splitIn(supabaseUser?.role),
         };
       }
     }

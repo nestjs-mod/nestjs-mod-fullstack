@@ -31,12 +31,20 @@ export class WebhookStaticEnvironments {
   autoCreateUser?: boolean;
 
   @EnvModelProperty({
-    description: 'Search tenantId and userId in headers',
+    description: 'Search tenantId in headers',
     transform: new BooleanTransformer(),
     default: true,
     hidden: true,
   })
-  checkHeaders?: boolean;
+  searchTenantIdInHeaders?: boolean;
+
+  @EnvModelProperty({
+    description: 'Search userId in headers',
+    transform: new BooleanTransformer(),
+    default: true,
+    hidden: true,
+  })
+  searchUserIdInHeaders?: boolean;
 
   @EnvModelProperty({
     description: 'Skip any guard errors',

@@ -8,12 +8,12 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ValidationConfiguration } from './validation.configuration';
 import { VALIDATION_FEATURE, VALIDATION_MODULE } from './validation.constants';
 import { ValidationStaticEnvironments } from './validation.environments';
-import { ValidationExceptionsFilter } from './validation.filter';
 import { ValidationError, ValidationErrorEnum } from './validation.errors';
+import { ValidationExceptionsFilter } from './validation.filter';
 
 export const { ValidationModule } = createNestModule({
   moduleName: VALIDATION_MODULE,
-  moduleCategory: NestModuleCategory.feature,
+  moduleCategory: NestModuleCategory.core,
   configurationModel: ValidationConfiguration,
   staticEnvironmentsModel: ValidationStaticEnvironments,
   providers: ({ staticEnvironments }) => {

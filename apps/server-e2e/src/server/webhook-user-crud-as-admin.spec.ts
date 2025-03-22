@@ -78,7 +78,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
   it('should read webhook users as user', async () => {
     const webhookUsersControllerFindManyResult = await user1
       .getWebhookApi()
-      .webhookUsersControllerFindMany(undefined, undefined, 1, 10000);
+      .webhookUsersControllerFindMany(1, 10000);
 
     expect(
       webhookUsersControllerFindManyResult.data.webhookUsers.filter(

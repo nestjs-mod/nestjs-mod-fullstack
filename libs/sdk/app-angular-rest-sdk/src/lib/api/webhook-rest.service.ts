@@ -138,15 +138,11 @@ export class WebhookRestService {
 
   /**
    * @param createWebhookDtoInterface
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerCreateOne(
     createWebhookDtoInterface: CreateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -157,8 +153,6 @@ export class WebhookRestService {
   ): Observable<WebhookInterface>;
   public webhookControllerCreateOne(
     createWebhookDtoInterface: CreateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -169,8 +163,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<WebhookInterface>>;
   public webhookControllerCreateOne(
     createWebhookDtoInterface: CreateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -181,8 +173,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<WebhookInterface>>;
   public webhookControllerCreateOne(
     createWebhookDtoInterface: CreateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -201,18 +191,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -284,15 +262,11 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -303,8 +277,6 @@ export class WebhookRestService {
   ): Observable<StatusResponseInterface>;
   public webhookControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -315,8 +287,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<StatusResponseInterface>>;
   public webhookControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -327,8 +297,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<StatusResponseInterface>>;
   public webhookControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -344,18 +312,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -422,14 +378,10 @@ export class WebhookRestService {
   }
 
   /**
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -439,8 +391,6 @@ export class WebhookRestService {
     }
   ): Observable<Array<WebhookEventInterface>>;
   public webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -450,8 +400,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpResponse<Array<WebhookEventInterface>>>;
   public webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -461,8 +409,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpEvent<Array<WebhookEventInterface>>>;
   public webhookControllerEvents(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -472,18 +418,6 @@ export class WebhookRestService {
     }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -542,8 +476,6 @@ export class WebhookRestService {
   }
 
   /**
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param curPage
    * @param perPage
    * @param searchText
@@ -552,8 +484,6 @@ export class WebhookRestService {
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -567,8 +497,6 @@ export class WebhookRestService {
     }
   ): Observable<FindManyWebhookResponseInterface>;
   public webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -582,8 +510,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpResponse<FindManyWebhookResponseInterface>>;
   public webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -597,8 +523,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpEvent<FindManyWebhookResponseInterface>>;
   public webhookControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -642,18 +566,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -714,8 +626,6 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param curPage
    * @param perPage
    * @param searchText
@@ -725,8 +635,6 @@ export class WebhookRestService {
    */
   public webhookControllerFindManyLogs(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -741,8 +649,6 @@ export class WebhookRestService {
   ): Observable<FindManyWebhookLogResponseInterface>;
   public webhookControllerFindManyLogs(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -757,8 +663,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<FindManyWebhookLogResponseInterface>>;
   public webhookControllerFindManyLogs(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -773,8 +677,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<FindManyWebhookLogResponseInterface>>;
   public webhookControllerFindManyLogs(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -824,18 +726,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -904,15 +794,11 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -923,8 +809,6 @@ export class WebhookRestService {
   ): Observable<WebhookInterface>;
   public webhookControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -935,8 +819,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<WebhookInterface>>;
   public webhookControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -947,8 +829,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<WebhookInterface>>;
   public webhookControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -964,18 +844,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1042,14 +910,10 @@ export class WebhookRestService {
   }
 
   /**
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1059,8 +923,6 @@ export class WebhookRestService {
     }
   ): Observable<WebhookUserInterface>;
   public webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1070,8 +932,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpResponse<WebhookUserInterface>>;
   public webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1081,8 +941,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpEvent<WebhookUserInterface>>;
   public webhookControllerProfile(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1092,18 +950,6 @@ export class WebhookRestService {
     }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1164,16 +1010,12 @@ export class WebhookRestService {
   /**
    * @param id
    * @param updateWebhookDtoInterface
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookControllerUpdateOne(
     id: string,
     updateWebhookDtoInterface: UpdateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1185,8 +1027,6 @@ export class WebhookRestService {
   public webhookControllerUpdateOne(
     id: string,
     updateWebhookDtoInterface: UpdateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1198,8 +1038,6 @@ export class WebhookRestService {
   public webhookControllerUpdateOne(
     id: string,
     updateWebhookDtoInterface: UpdateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1211,8 +1049,6 @@ export class WebhookRestService {
   public webhookControllerUpdateOne(
     id: string,
     updateWebhookDtoInterface: UpdateWebhookDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1236,18 +1072,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1327,15 +1151,11 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookUsersControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1346,8 +1166,6 @@ export class WebhookRestService {
   ): Observable<StatusResponseInterface>;
   public webhookUsersControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1358,8 +1176,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<StatusResponseInterface>>;
   public webhookUsersControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1370,8 +1186,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<StatusResponseInterface>>;
   public webhookUsersControllerDeleteOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1387,18 +1201,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1465,8 +1267,6 @@ export class WebhookRestService {
   }
 
   /**
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param curPage
    * @param perPage
    * @param searchText
@@ -1475,8 +1275,6 @@ export class WebhookRestService {
    * @param reportProgress flag to report request and response progress.
    */
   public webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1490,8 +1288,6 @@ export class WebhookRestService {
     }
   ): Observable<FindManyWebhookUserResponseInterface>;
   public webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1505,8 +1301,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpResponse<FindManyWebhookUserResponseInterface>>;
   public webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1520,8 +1314,6 @@ export class WebhookRestService {
     }
   ): Observable<HttpEvent<FindManyWebhookUserResponseInterface>>;
   public webhookUsersControllerFindMany(
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1565,18 +1357,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1637,15 +1417,11 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookUsersControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1656,8 +1432,6 @@ export class WebhookRestService {
   ): Observable<WebhookUserInterface>;
   public webhookUsersControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1668,8 +1442,6 @@ export class WebhookRestService {
   ): Observable<HttpResponse<WebhookUserInterface>>;
   public webhookUsersControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1680,8 +1452,6 @@ export class WebhookRestService {
   ): Observable<HttpEvent<WebhookUserInterface>>;
   public webhookUsersControllerFindOne(
     id: string,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1697,18 +1467,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;
@@ -1777,16 +1535,12 @@ export class WebhookRestService {
   /**
    * @param id
    * @param updateWebhookUserDtoInterface
-   * @param xExternalUserId
-   * @param xExternalTenantId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public webhookUsersControllerUpdateOne(
     id: string,
     updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -1798,8 +1552,6 @@ export class WebhookRestService {
   public webhookUsersControllerUpdateOne(
     id: string,
     updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -1811,8 +1563,6 @@ export class WebhookRestService {
   public webhookUsersControllerUpdateOne(
     id: string,
     updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -1824,8 +1574,6 @@ export class WebhookRestService {
   public webhookUsersControllerUpdateOne(
     id: string,
     updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    xExternalUserId?: string,
-    xExternalTenantId?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -1849,18 +1597,6 @@ export class WebhookRestService {
     }
 
     let localVarHeaders = this.defaultHeaders;
-    if (xExternalUserId !== undefined && xExternalUserId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-user-id',
-        String(xExternalUserId)
-      );
-    }
-    if (xExternalTenantId !== undefined && xExternalTenantId !== null) {
-      localVarHeaders = localVarHeaders.set(
-        'x-external-tenant-id',
-        String(xExternalTenantId)
-      );
-    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
       options && options.httpHeaderAccept;

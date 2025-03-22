@@ -10,7 +10,7 @@ import { FilesStaticEnvironments } from './files.environments';
 
 export const { FilesModule } = createNestModule({
   moduleName: FILES_MODULE,
-  moduleCategory: NestModuleCategory.feature,
+  moduleCategory: NestModuleCategory.core,
   configurationModel: FilesConfiguration,
   staticEnvironmentsModel: FilesStaticEnvironments,
   controllers: [FilesController],

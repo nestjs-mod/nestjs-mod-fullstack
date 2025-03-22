@@ -7,7 +7,6 @@ import {
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { HttpModule } from '@nestjs/axios';
 import { UseFilters, UseGuards } from '@nestjs/common';
-import { ApiHeaders } from '@nestjs/swagger';
 import { WebhookUsersController } from './controllers/webhook-users.controller';
 import { WebhookController } from './controllers/webhook.controller';
 import { WebhookServiceBootstrap } from './services/webhook-bootstrap.service';
@@ -78,7 +77,6 @@ export const { WebhookModule } = createNestModule({
   },
   preWrapApplication: async ({ current }) => {
     const staticEnvironments = current.staticEnvironments;
-    const staticConfiguration = current.staticConfiguration;
 
     for (const ctrl of [WebhookController, WebhookUsersController]) {
       if (staticEnvironments?.useFilters) {
@@ -86,21 +84,6 @@ export const { WebhookModule } = createNestModule({
       }
       if (staticEnvironments?.useGuards) {
         UseGuards(WebhookGuard)(ctrl);
-      }
-      if (
-        staticConfiguration?.externalUserIdHeaderName &&
-        staticConfiguration?.externalTenantIdHeaderName
-      ) {
-        ApiHeaders([
-          {
-            name: staticConfiguration.externalUserIdHeaderName,
-            allowEmptyValue: true,
-          },
-          {
-            name: staticConfiguration.externalTenantIdHeaderName,
-            allowEmptyValue: true,
-          },
-        ])(ctrl);
       }
     }
   },

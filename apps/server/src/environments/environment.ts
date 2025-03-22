@@ -75,7 +75,10 @@ export const MainKeyvModule = KeyvModule.forRoot({
 export const MainMinioModule = MinioModule.forRoot();
 
 export const MainWebhookModule = WebhookModule.forRootAsync({
-  staticEnvironments: { checkHeaders: false },
+  staticEnvironments: {
+    searchUserIdInHeaders: false,
+    searchTenantIdInHeaders: false,
+  },
   configuration: {
     syncMode: false,
     events: [

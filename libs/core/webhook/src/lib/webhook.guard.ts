@@ -1,3 +1,4 @@
+import { searchIn } from '@nestjs-mod-fullstack/common';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
@@ -71,7 +72,7 @@ export class WebhookGuard implements CanActivate {
     if (
       checkWebhookRole &&
       req.webhookUser &&
-      !checkWebhookRole?.includes(req.webhookUser.userRole)
+      !searchIn(req.webhookUser.userRole, checkWebhookRole)
     ) {
       throw new WebhookError(WebhookErrorEnum.FORBIDDEN);
     }
@@ -90,7 +91,7 @@ export class WebhookGuard implements CanActivate {
   ) {
     if (!req.webhookUser) {
       if (!externalTenantId || !isUUID(externalTenantId)) {
-        throw new WebhookError(WebhookErrorEnum.EXTERNAL_TENANT_ID_NOT_SET);
+        throw new WebhookError(WebhookErrorEnum.FORBIDDEN);
       }
       if (this.webhookStaticEnvironments.autoCreateUser) {
         req.webhookUser =
@@ -134,7 +135,8 @@ export class WebhookGuard implements CanActivate {
 
   private getExternalTenantIdFromRequest(req: WebhookRequest) {
     const externalTenantId =
-      req.externalTenantId || this.webhookStaticEnvironments.checkHeaders
+      req.externalTenantId ||
+      this.webhookStaticEnvironments.searchTenantIdInHeaders
         ? this.webhookStaticConfiguration.externalTenantIdHeaderName &&
           req.headers?.[
             this.webhookStaticConfiguration.externalTenantIdHeaderName
@@ -148,7 +150,7 @@ export class WebhookGuard implements CanActivate {
 
   private getExternalUserIdFromRequest(req: WebhookRequest) {
     const externalUserId =
-      req.externalUserId || this.webhookStaticEnvironments.checkHeaders
+      req.externalUserId || this.webhookStaticEnvironments.searchUserIdInHeaders
         ? this.webhookStaticConfiguration.externalUserIdHeaderName &&
           req.headers?.[
             this.webhookStaticConfiguration.externalUserIdHeaderName
@@ -159,7 +161,7 @@ export class WebhookGuard implements CanActivate {
     }
 
     if (!req.externalUserId || !isUUID(req.externalUserId)) {
-      throw new WebhookError(WebhookErrorEnum.EXTERNAL_USER_ID_NOT_SET);
+      throw new WebhookError(WebhookErrorEnum.FORBIDDEN);
     }
     return req.externalUserId;
   }

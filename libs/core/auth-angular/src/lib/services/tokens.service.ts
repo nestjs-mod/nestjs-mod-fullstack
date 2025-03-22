@@ -7,15 +7,11 @@ export class TokensService {
   private tokens$ = new BehaviorSubject<AuthTokens | undefined>(undefined);
 
   getRefreshToken() {
-    return (
-      this.tokens$.value?.refresh_token || localStorage.getItem('refreshToken')
-    );
+    return ''; //this.tokens$.value?.refresh_token || localStorage.getItem('refreshToken')
   }
 
   getAccessToken() {
-    return (
-      this.tokens$.value?.access_token || localStorage.getItem('accessToken')
-    );
+    return this.tokens$.value?.access_token;
   }
 
   setTokens(tokens: AuthTokens | undefined) {

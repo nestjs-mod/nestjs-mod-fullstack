@@ -20,6 +20,7 @@ import { AuthStaticEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
+import { searchIn } from '@nestjs-mod-fullstack/common';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -131,7 +132,7 @@ export class AuthGuard implements CanActivate {
       !req.skipEmptyAuthUser &&
       checkAuthRole &&
       req.authUser &&
-      !checkAuthRole?.includes(req.authUser.userRole)
+      !searchIn(req.authUser.userRole, checkAuthRole)
     ) {
       throw new AuthError(AuthErrorEnum.FORBIDDEN);
     }
@@ -157,9 +158,7 @@ export class AuthGuard implements CanActivate {
         (await this.prismaClient.authUser.create({
           data: {
             externalUserId,
-            userRole: req.externalUser?.roles
-              .map((s) => s.toLowerCase())
-              .includes(AuthRole.Admin.toLowerCase())
+            userRole: searchIn(AuthRole.Admin, req.externalUser?.roles)
               ? AuthRole.Admin
               : AuthRole.User,
           },

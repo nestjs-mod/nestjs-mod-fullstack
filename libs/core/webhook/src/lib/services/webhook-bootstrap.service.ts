@@ -5,6 +5,7 @@ import {
   Logger,
   OnApplicationBootstrap,
   OnModuleDestroy,
+  OnModuleInit,
 } from '@nestjs/common';
 import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { randomUUID } from 'crypto';
@@ -15,7 +16,7 @@ import { WebhookService } from './webhook.service';
 
 @Injectable()
 export class WebhookServiceBootstrap
-  implements OnApplicationBootstrap, OnModuleDestroy
+  implements OnApplicationBootstrap, OnModuleInit, OnModuleDestroy
 {
   private readonly logger = new Logger(WebhookServiceBootstrap.name);
   private eventsRef?: Subscription;
@@ -27,6 +28,16 @@ export class WebhookServiceBootstrap
     private readonly webhookService: WebhookService
   ) {}
 
+  async onModuleInit() {
+    this.logger.debug('onModuleInit');
+
+    if (isInfrastructureMode()) {
+      return;
+    }
+
+    await this.createDefaultUsers();
+  }
+
   onModuleDestroy() {
     if (this.eventsRef) {
       this.eventsRef.unsubscribe();
@@ -35,11 +46,11 @@ export class WebhookServiceBootstrap
   }
 
   async onApplicationBootstrap() {
+    this.logger.debug('onApplicationBootstrap');
+
     if (isInfrastructureMode()) {
       return;
     }
-
-    await this.createDefaultUsers();
 
     this.subscribeToEvents();
   }
