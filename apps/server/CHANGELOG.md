@@ -1,3 +1,9 @@
+## [1.15.14](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.13...server-v1.15.14) (2025-03-22)
+
+### Bug Fixes
+
+- fake update for full rebuid [skip cache] ([9cb8db7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/9cb8db7f2ce1aae2cace974a4d24fc9d711f6fad))
+
 ## [1.15.13](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.12...server-v1.15.13) (2025-03-22)
 
 ### Bug Fixes
