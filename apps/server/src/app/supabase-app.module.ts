@@ -15,7 +15,7 @@ import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ExecutionContext } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { TranslatesModule } from 'nestjs-translates';
+import { getText, TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE, APP_MODULE } from './app.constants';
 import { AuthorizerController } from './controllers/supabase/authorizer.controller';
@@ -55,6 +55,40 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
     }),
     WebhookModule.forFeature({
       featureModuleName: APP_FEATURE,
+      featureConfiguration: {
+        events: [
+          {
+            eventName: 'app-demo.create',
+            description: getText('Event that will be triggered after creation'),
+            example: {
+              id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+              name: 'demo name',
+              createdAt: '2024-10-02T18:49:07.992Z',
+              updatedAt: '2024-10-02T18:49:07.992Z',
+            },
+          },
+          {
+            eventName: 'app-demo.update',
+            description: getText('Event that will trigger after the update'),
+            example: {
+              id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+              name: 'demo name',
+              createdAt: '2024-10-02T18:49:07.992Z',
+              updatedAt: '2024-10-02T18:49:07.992Z',
+            },
+          },
+          {
+            eventName: 'app-demo.delete',
+            description: getText('Event that will fire after deletion'),
+            example: {
+              id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
+              name: 'demo name',
+              createdAt: '2024-10-02T18:49:07.992Z',
+              updatedAt: '2024-10-02T18:49:07.992Z',
+            },
+          },
+        ],
+      },
     }),
     PrismaModule.forFeature({
       contextName: APP_FEATURE,

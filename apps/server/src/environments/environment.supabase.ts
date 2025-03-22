@@ -73,38 +73,6 @@ export const MainWebhookModule = WebhookModule.forRootAsync({
   },
   configuration: {
     syncMode: true,
-    events: [
-      {
-        eventName: 'app-demo.create',
-        description: getText('Event that will be triggered after creation'),
-        example: {
-          id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-          name: 'demo name',
-          createdAt: '2024-10-02T18:49:07.992Z',
-          updatedAt: '2024-10-02T18:49:07.992Z',
-        },
-      },
-      {
-        eventName: 'app-demo.update',
-        description: getText('Event that will trigger after the update'),
-        example: {
-          id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-          name: 'demo name',
-          createdAt: '2024-10-02T18:49:07.992Z',
-          updatedAt: '2024-10-02T18:49:07.992Z',
-        },
-      },
-      {
-        eventName: 'app-demo.delete',
-        description: getText('Event that will fire after deletion'),
-        example: {
-          id: 'e4be9194-8c41-4058-bf70-f52a30bccbeb',
-          name: 'demo name',
-          createdAt: '2024-10-02T18:49:07.992Z',
-          updatedAt: '2024-10-02T18:49:07.992Z',
-        },
-      },
-    ],
   },
 });
 

@@ -15,7 +15,6 @@ import {
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { ActiveLangService } from '@nestjs-mod-fullstack/common-angular';
 import { catchError, merge, mergeMap, of, Subscription, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -33,14 +32,13 @@ export class AppInitializer {
     private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
-    private readonly authActiveLangService: AuthActiveLangService,
-    private readonly activeLangService: ActiveLangService
+    private readonly authActiveLangService: AuthActiveLangService
   ) {}
 
   resolve() {
     this.subscribeToTokenUpdates();
     return this.authService.refreshToken().pipe(
-      mergeMap(() => this.authActiveLangService.refreshActiveLang()),
+      mergeMap(() => this.authActiveLangService.refreshActiveLang(true)),
       catchError((err) => {
         console.error(err);
         return of(true);
@@ -53,33 +51,36 @@ export class AppInitializer {
       this.subscribeToTokenUpdatesSubscription.unsubscribe();
       this.subscribeToTokenUpdatesSubscription = undefined;
     }
+    this.updateHeaders();
     this.subscribeToTokenUpdatesSubscription = merge(
       this.tokensService.getStream(),
       this.translocoService.langChanges$
     )
-      .pipe(
-        tap(() => {
-          const authorizationHeaders =
-            this.authConfiguration.getAuthorizationHeaders?.();
-          if (authorizationHeaders) {
-            this.appRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.webhookRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.filesRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.timeRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-            this.authRestService.defaultHeaders = new HttpHeaders(
-              authorizationHeaders
-            );
-          }
-        })
-      )
+      .pipe(tap(() => this.updateHeaders()))
       .subscribe();
+  }
+
+  private updateHeaders() {
+    if (this.authConfiguration.getAuthorizationHeaders) {
+      const authorizationHeaders =
+        this.authConfiguration.getAuthorizationHeaders();
+      if (authorizationHeaders) {
+        this.appRestService.defaultHeaders = new HttpHeaders(
+          authorizationHeaders
+        );
+        this.webhookRestService.defaultHeaders = new HttpHeaders(
+          authorizationHeaders
+        );
+        this.filesRestService.defaultHeaders = new HttpHeaders(
+          authorizationHeaders
+        );
+        this.timeRestService.defaultHeaders = new HttpHeaders(
+          authorizationHeaders
+        );
+        this.authRestService.defaultHeaders = new HttpHeaders(
+          authorizationHeaders
+        );
+      }
+    }
   }
 }

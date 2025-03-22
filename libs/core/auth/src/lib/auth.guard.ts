@@ -21,6 +21,8 @@ import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
 import { searchIn } from '@nestjs-mod-fullstack/common';
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { AuthWebhookEvent } from './types/auth-webhooks';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -33,7 +35,8 @@ export class AuthGuard implements CanActivate {
     private readonly authCacheService: AuthCacheService,
     private readonly authStaticEnvironments: AuthStaticEnvironments,
     private readonly authConfiguration: AuthConfiguration,
-    private readonly translatesStorage: TranslatesStorage
+    private readonly translatesStorage: TranslatesStorage,
+    private readonly webhookService: WebhookService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -153,16 +156,23 @@ export class AuthGuard implements CanActivate {
         await this.authCacheService.getCachedUserByExternalUserId(
           externalUserId
         );
-      req.authUser =
-        authUser ||
-        (await this.prismaClient.authUser.create({
+      req.authUser = authUser;
+
+      if (!req.authUser) {
+        req.authUser = await this.prismaClient.authUser.create({
           data: {
             externalUserId,
             userRole: searchIn(AuthRole.Admin, req.externalUser?.roles)
               ? AuthRole.Admin
               : AuthRole.User,
           },
-        }));
+        });
+        await this.webhookService.sendEvent({
+          eventName: AuthWebhookEvent['auth.user-create'],
+          eventBody: req.authUser,
+          eventHeaders: { externalUserId },
+        });
+      }
 
       if (req.authUser.lang) {
         req.headers[ACCEPT_LANGUAGE] = req.authUser.lang;

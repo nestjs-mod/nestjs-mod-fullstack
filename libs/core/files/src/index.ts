@@ -8,3 +8,4 @@ export * from './lib/controllers/files.controller';
 export * from './lib/types/dto';
 export * from './lib/types/files-request';
 export * from './lib/types/files-role';
+export * from './lib/types/files-webhooks';

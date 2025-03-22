@@ -60,7 +60,7 @@ export class WebhookServiceBootstrap
       this.eventsRef.unsubscribe();
       this.eventsRef = undefined;
     }
-    this.eventsRef = this.webhookService.events$
+    this.eventsRef = this.webhookService.eventsStream$
       .asObservable()
       .pipe(
         concatMap(async (options) => this.webhookService.sendSyncEvent(options))

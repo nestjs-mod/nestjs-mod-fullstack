@@ -1,11 +1,17 @@
+import { InjectableFeatureConfigurationType } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/webhook-client';
 import { AxiosHeaders } from 'axios';
 import { firstValueFrom, Subject, timeout, TimeoutError } from 'rxjs';
-import { WebhookConfiguration } from '../webhook.configuration';
+import { WebhookEvent } from '../types/webhook-event';
+import {
+  WebhookConfiguration,
+  WebhookFeatureConfiguration,
+} from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
+import { InjectWebhookFeatures } from '../webhook.decorators';
 import { WebhookError, WebhookErrorEnum } from '../webhook.errors';
 
 @Injectable()
@@ -16,7 +22,7 @@ export class WebhookService<
 > {
   private readonly logger = new Logger(WebhookService.name);
 
-  events$ = new Subject<{
+  eventsStream$ = new Subject<{
     eventName: TEventName;
     eventBody: TEventBody;
     eventHeaders: TEventHeaders;
@@ -25,6 +31,8 @@ export class WebhookService<
   constructor(
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
+    @InjectWebhookFeatures()
+    private readonly webhookFeatureConfigurations: InjectableFeatureConfigurationType<WebhookFeatureConfiguration>[],
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly httpService: HttpService
   ) {}
@@ -62,13 +70,20 @@ export class WebhookService<
     eventBody: TEventBody;
     eventHeaders: TEventHeaders;
   }) {
-    const event = this.webhookConfiguration.events.find(
-      (e) => e.eventName === eventName
-    );
+    const event = this.getAllEvents().find((e) => e.eventName === eventName);
     if (!event) {
       throw new WebhookError(WebhookErrorEnum.EVENT_NOT_FOUND);
     }
-    this.events$.next({ eventName, eventBody, eventHeaders });
+    this.eventsStream$.next({ eventName, eventBody, eventHeaders });
+  }
+
+  getAllEvents() {
+    return [
+      ...(this.webhookConfiguration.events || []),
+      ...this.webhookFeatureConfigurations
+        .map(({ featureConfiguration }) => featureConfiguration.events)
+        .flat(),
+    ] as WebhookEvent[];
   }
 
   async sendSyncEvent({

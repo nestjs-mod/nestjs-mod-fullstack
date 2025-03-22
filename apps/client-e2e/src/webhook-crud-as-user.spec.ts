@@ -180,6 +180,10 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .locator('webhook-form')
       .locator('[placeholder=eventName]')
       .click();
+    await page.keyboard.press('ArrowDown', { delay: 100 });
+    await page.keyboard.press('ArrowDown', { delay: 100 });
+    await page.keyboard.press('ArrowDown', { delay: 100 });
+    await page.keyboard.press('ArrowDown', { delay: 100 });
     await page.keyboard.press('Enter', { delay: 100 });
     await expect(
       page.locator('webhook-form').locator('[placeholder=eventName]')

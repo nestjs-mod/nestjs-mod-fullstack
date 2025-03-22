@@ -24,17 +24,21 @@ import {
 } from '@nestjs/swagger';
 import { Prisma, PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
-import { CurrentLocale, TranslatesService } from 'nestjs-translates';
+import {
+  CurrentLocale,
+  TranslatesService,
+  TranslatesStorage,
+} from 'nestjs-translates';
 import { CreateWebhookDto } from '../generated/rest/dto/create-webhook.dto';
 import { UpdateWebhookDto } from '../generated/rest/dto/update-webhook.dto';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 import { Webhook } from '../generated/rest/dto/webhook.entity';
 import { WebhookToolsService } from '../services/webhook-tools.service';
+import { WebhookService } from '../services/webhook.service';
 import { FindManyWebhookLogResponse } from '../types/find-many-webhook-log-response';
 import { FindManyWebhookResponse } from '../types/find-many-webhook-response';
 import { WebhookEntities } from '../types/webhook-entities';
 import { WebhookEvent } from '../types/webhook-event';
-import { WebhookConfiguration } from '../webhook.configuration';
 import { WEBHOOK_FEATURE } from '../webhook.constants';
 import {
   CheckWebhookRole,
@@ -54,10 +58,11 @@ export class WebhookController {
   constructor(
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly webhookConfiguration: WebhookConfiguration,
     private readonly prismaToolsService: PrismaToolsService,
     private readonly webhookToolsService: WebhookToolsService,
-    private readonly translatesService: TranslatesService
+    private readonly webhookService: WebhookService,
+    private readonly translatesService: TranslatesService,
+    private readonly translatesStorage: TranslatesStorage
   ) {}
 
   @Get('profile')
@@ -69,9 +74,18 @@ export class WebhookController {
   @Get('events')
   @ApiOkResponse({ type: WebhookEvent, isArray: true })
   async events() {
-    return this.webhookConfiguration.events.map((e) => ({
+    return this.webhookService.getAllEvents().map((e) => ({
       ...e,
-      descriptionLocale: { en: e.description },
+      descriptionLocale: {
+        ...Object.fromEntries(
+          this.translatesStorage.locales.map((locale) => [
+            locale,
+            e.descriptionLocale?.[locale] ||
+              this.translatesService.translate(e.description, locale),
+          ])
+        ),
+        en: e.description,
+      },
     }));
   }
 

@@ -24,8 +24,13 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
       .getWebhookApi()
       .webhookControllerEvents();
     createEventName =
-      events.find((e) => e.eventName.includes('create'))?.eventName || 'create';
+      events.find((e) => e.eventName.includes('app-demo.create'))?.eventName ||
+      'create';
     expect(events.map((e) => e.eventName)).toEqual([
+      'auth.user-create',
+      'auth.user-update',
+      'auth.user-delete',
+      'files.delete',
       'app-demo.create',
       'app-demo.update',
       'app-demo.delete',

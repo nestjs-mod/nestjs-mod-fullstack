@@ -1,9 +1,18 @@
-import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import {
+  getNestModuleDecorators,
+  getRequestFromExecutionContext,
+} from '@nestjs-mod/common';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { WebhookRole } from '@prisma/webhook-client';
 import { WebhookRequest } from './types/webhook-request';
+import { WEBHOOK_MODULE } from './webhook.constants';
 import { WebhookError, WebhookErrorEnum } from './webhook.errors';
+
+export const { InjectFeatures: InjectWebhookFeatures } =
+  getNestModuleDecorators({
+    moduleName: WEBHOOK_MODULE,
+  });
 
 export const CheckWebhookRole = Reflector.createDecorator<WebhookRole[]>();
 

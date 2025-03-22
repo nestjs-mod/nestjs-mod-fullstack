@@ -59,13 +59,20 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookControllerEvents();
     createEventName =
-      events.find((e) => e.eventName.includes('create'))?.eventName || 'create';
+      events.find((e) => e.eventName.includes('app-demo.create'))?.eventName ||
+      'create';
     updateEventName =
-      events.find((e) => e.eventName.includes('update'))?.eventName || 'update';
+      events.find((e) => e.eventName.includes('app-demo.update'))?.eventName ||
+      'update';
     deleteEventName =
-      events.find((e) => e.eventName.includes('delete'))?.eventName || 'delete';
+      events.find((e) => e.eventName.includes('app-demo.delete'))?.eventName ||
+      'delete';
 
     expect(events.map((e) => e.eventName)).toEqual([
+      'auth.user-create',
+      'auth.user-update',
+      'auth.user-delete',
+      'files.delete',
       'app-demo.create',
       'app-demo.update',
       'app-demo.delete',

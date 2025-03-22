@@ -27,4 +27,5 @@ export * from './lib/types/auth-async-local-storage-data';
 export * from './lib/types/auth-entities';
 export * from './lib/types/auth-profile.dto';
 export * from './lib/types/auth-request';
+export * from './lib/types/auth-webhooks';
 export * from './lib/types/find-many-auth-user-response';

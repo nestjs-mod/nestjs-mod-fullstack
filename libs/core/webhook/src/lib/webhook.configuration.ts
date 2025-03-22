@@ -6,7 +6,7 @@ export class WebhookConfiguration {
   @ConfigModelProperty({
     description: 'List of available events',
   })
-  events!: WebhookEvent[];
+  events?: WebhookEvent[];
 
   @ConfigModelProperty({
     description: 'TTL for cached data',
@@ -20,6 +20,14 @@ export class WebhookConfiguration {
     default: false,
   })
   syncMode?: boolean;
+}
+
+@ConfigModel()
+export class WebhookFeatureConfiguration {
+  @ConfigModelProperty({
+    description: 'List of available events',
+  })
+  events?: WebhookEvent[];
 }
 
 @ConfigModel()

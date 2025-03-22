@@ -30,6 +30,8 @@ import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { UpdateAuthUserDto } from '../generated/rest/dto/update-auth-user.dto';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { FindManyAuthUserResponse } from '../types/find-many-auth-user-response';
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { AuthWebhookEvent } from '../types/auth-webhooks';
 
 @ApiExtraModels(AuthError, ValidationError)
 @ApiBadRequestResponse({
@@ -43,7 +45,8 @@ export class AuthUsersController {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly prismaToolsService: PrismaToolsService,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
+    private readonly webhookService: WebhookService
   ) {}
 
   @Get()
@@ -131,6 +134,11 @@ export class AuthUsersController {
     await this.authCacheService.clearCacheByExternalUserId(
       authUser.externalUserId
     );
+    await this.webhookService.sendEvent({
+      eventName: AuthWebhookEvent['auth.user-update'],
+      eventBody: result,
+      eventHeaders: { externalUserId: authUser.externalUserId },
+    });
     return result;
   }
 
@@ -141,12 +149,22 @@ export class AuthUsersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @InjectTranslateFunction() getText: TranslateFunction
   ) {
-    await this.prismaClient.authUser.delete({
+    const user = await this.prismaClient.authUser.findFirstOrThrow({
       where: {
         id,
       },
     });
+    await this.prismaClient.authUser.delete({
+      where: {
+        id: user.id,
+      },
+    });
     await this.authCacheService.clearCacheByExternalUserId(id);
+    await this.webhookService.sendEvent({
+      eventName: AuthWebhookEvent['auth.user-delete'],
+      eventBody: user,
+      eventHeaders: { externalUserId: authUser.externalUserId },
+    });
     return { message: getText('ok') };
   }
 

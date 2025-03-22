@@ -32,6 +32,8 @@ import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthEntities } from '../types/auth-entities';
 import { AuthProfileDto } from '../types/auth-profile.dto';
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { AuthWebhookEvent } from '../types/auth-webhooks';
 
 @ApiExtraModels(AuthError, AuthEntities, ValidationError)
 @ApiBadRequestResponse({
@@ -45,7 +47,8 @@ export class AuthController {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly authCacheService: AuthCacheService,
-    private readonly translatesStorage: TranslatesStorage
+    private readonly translatesStorage: TranslatesStorage,
+    private readonly webhookService: WebhookService
   ) {}
 
   @Get('profile')
@@ -81,7 +84,7 @@ export class AuthController {
         },
       ]);
     }
-    await this.prismaClient.authUser.update({
+    const user = await this.prismaClient.authUser.update({
       where: { id: authUser.id },
       data: {
         ...(args.lang === undefined
@@ -100,6 +103,11 @@ export class AuthController {
     await this.authCacheService.clearCacheByExternalUserId(
       authUser.externalUserId
     );
+    await this.webhookService.sendEvent({
+      eventName: AuthWebhookEvent['auth.user-update'],
+      eventBody: user,
+      eventHeaders: { externalUserId: authUser.externalUserId },
+    });
     return { message: getText('ok') };
   }
 }
