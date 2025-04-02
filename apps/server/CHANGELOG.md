@@ -1,3 +1,9 @@
+# [1.16.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.15...server-v1.16.0) (2025-04-02)
+
+### Features
+
+- update version of nestjs-mod libs to 2.17.5 ([3c4d1e1](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/3c4d1e1554b9ddd8f330dfb1ec0a7385a1a5adf3))
+
 ## [1.15.15](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.15.14...server-v1.15.15) (2025-03-22)
 
 ### Bug Fixes
