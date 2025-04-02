@@ -86,7 +86,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/rucken postgres --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTH_DATABASE_URL}"
+          "./node_modules/.bin/pg-create-db --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTH_DATABASE_URL}"
         ],
         "parallel": false,
         "envFile": "./.env",

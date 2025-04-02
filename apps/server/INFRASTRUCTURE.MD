@@ -1,5 +1,5 @@
 # server
-> Version: 1.15.14
+> Version: 1.15.15
 
 Boilerplate for creating application on NestJS and Angular
 ## System modules
@@ -74,7 +74,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -91,7 +91,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -108,7 +108,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -130,7 +130,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -147,7 +147,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -164,7 +164,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -186,7 +186,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -203,7 +203,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
@@ -220,7 +220,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**isNotEmpty** (prismaModule should not be empty)|Promise|
+|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|

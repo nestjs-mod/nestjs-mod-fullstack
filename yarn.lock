@@ -3004,20 +3004,20 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/common@2.17.4":
-  version "2.17.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/common/-/common-2.17.4.tgz#d1297dc83e1ffc635ad2f5ae7e62e7efc6deda55"
-  integrity sha512-rE8jFaIGnaXKGDdhzDTPQVsBCFZcYIM68U07NIc9ap1logzR1WtMaxgb97PICKgzqVFU3qdhec+OdFRRbG+OMA==
+"@nestjs-mod/common@2.17.5":
+  version "2.17.5"
+  resolved "https://registry.npmjs.org/@nestjs-mod/common/-/common-2.17.5.tgz#e94706abc2efc1c3231b7d98d405515f539b2656"
+  integrity sha512-Mc0YnqNtCTtdbX8x0r/cyS/giv04qSTfUZ75UN0NcLHLblsphcWnIva/zB85nShwpATT87z0U4LK6l2n14H0PA==
   dependencies:
     case-anything "2.1.13"
     dotenv ">=16.3.1"
     fast-glob "3.3.2"
     tslib "^2.3.0"
 
-"@nestjs-mod/docker-compose@^1.17.3":
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/docker-compose/-/docker-compose-1.17.3.tgz#2f5467ce29a00b7d61749195b0ae6dd44988d7f1"
-  integrity sha512-yJnDY5uxFATKIAVEEaOTRcvcasIgSvUoDmpD+b8cWSSisEwQRJTG1mgYDIqxOIHeWAwmEOx/FMhYCNh91ub7cQ==
+"@nestjs-mod/docker-compose@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.npmjs.org/@nestjs-mod/docker-compose/-/docker-compose-1.18.0.tgz#810cbc2f80da3fa748b17c3fdd1ac9efec2ffa3e"
+  integrity sha512-6FwqrQW1l5DcQew0GFTOSBoOtepNSkR8Aq62YJQxR46S3HglfruTfxRHNZZjo49P+AXN+9ci1nKJIPsZbOqo+w==
   dependencies:
     case-anything "2.1.13"
     compose-spec-schema "1.0.0"
@@ -3025,10 +3025,10 @@
     tslib "^2.3.0"
     yaml "2.3.4"
 
-"@nestjs-mod/keyv@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/keyv/-/keyv-1.1.2.tgz#f7b21d044804e66ad34eaedb0ba61ca2bb8be5d4"
-  integrity sha512-X/IvdRvhPlVAAjvBRCh52pro9VdkQXr4Xb9FGdY1+rUyAsnKE9VIRQciYQ7isoEnS6XaZORqhBBla+mPPtBpEg==
+"@nestjs-mod/keyv@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/@nestjs-mod/keyv/-/keyv-1.1.3.tgz#4fd06eb2dd606ebf1066d9079f35bb8f5beacfd8"
+  integrity sha512-W4zLSXNiK4g4KFo1Erg8Jn1K8r29afkvz0mbXWtOpneuWPVoP+5iEf58BvAPAfAaC1hwH0Y0AXUB55ZwC8HwgA==
   dependencies:
     tslib "^2.3.0"
 
@@ -3062,29 +3062,29 @@
     pm2 "5.3.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/prisma@^1.11.4":
-  version "1.11.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/prisma/-/prisma-1.11.4.tgz#9c00f51705722066638b3552ab77e702abd94198"
-  integrity sha512-eQnu4DJGixXIptUkBhgDKlvvcZQcEree7aKSIqYEav90/GkJASp8E/t2IBTaDkmupwxhBhB5/k8UQs1VHaI6bQ==
+"@nestjs-mod/prisma@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.npmjs.org/@nestjs-mod/prisma/-/prisma-1.12.0.tgz#b28ca30682f685c87f280c506586845ad2e4e14b"
+  integrity sha512-38OM3wPjTwsdTf6KYiO/J8F/Qqr0m+A2GesPr4Bcw54MUfX18VeSLPk1FOoX3JmqkM0aPn9oeJN45j0O9ASuHg==
   dependencies:
     case-anything "2.1.13"
     connection-string "4.3.5"
     tslib "^2.3.0"
 
-"@nestjs-mod/reports@2.17.4":
-  version "2.17.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/reports/-/reports-2.17.4.tgz#eb58677cf3ab052c176e033caebfb5fb65e19dd8"
-  integrity sha512-d8pkXEd4xYPH0YDkTkpPE0J+EbhjF686wZbOVxj9qzqm7asOrW5CftDl6cEnQlF4CqFRrIm3QHpZNe/Sls5NyQ==
+"@nestjs-mod/reports@2.17.5":
+  version "2.17.5"
+  resolved "https://registry.npmjs.org/@nestjs-mod/reports/-/reports-2.17.5.tgz#38e3fa44ec81be4621e476afa484c1bfb0f8b29f"
+  integrity sha512-u9B6OR68Z7kf8hUG+9LMLHlS87DenXhpARSWQxt4PYmix0IyrGWNdsq0GvA+Tn5GmyfvAh/IXf0x/fLtRXL0zg==
   dependencies:
     case-anything "2.1.13"
     fast-glob "3.3.2"
     markdown-it "^14.0.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/schematics@^2.12.5":
-  version "2.12.5"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/schematics/-/schematics-2.12.5.tgz#6a6ed55408f046b0e32702417db1b148b601194f"
-  integrity sha512-7NxPJByJHa7FfrkaWC5PTNCXukHRu2cuekWeOPxPTpuD6PQe2LZupux7ygIV2dgOCQu3zWwFKdUKeljCKYAChQ==
+"@nestjs-mod/schematics@^2.12.6":
+  version "2.12.6"
+  resolved "https://registry.npmjs.org/@nestjs-mod/schematics/-/schematics-2.12.6.tgz#6e4d4e320b1014f3f489d12364d06b567413a667"
+  integrity sha512-NTz4BPkzqK17gtgND4l5C8C0eWBEJtkz6s0KHlKZplnmsSFj8uBk+UM1znr/i6yRVE9arUst2YlnIqnaWB/yqg==
   dependencies:
     "@nx/devkit" "20.3.0"
     "@nx/eslint" "20.3.0"
@@ -3101,10 +3101,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/testing@2.17.4":
-  version "2.17.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.17.4.tgz#1ca73b8f4eb649e084a93a2664c8c71a268b5cea"
-  integrity sha512-0DhMQh538NiW85Wf0gxOKFbW0NDTqLrA1qi6WlHH+2tJ5eaApiy9s+8vlplPlq9HTiPvRm1pWnjPcUUNSiWHSQ==
+"@nestjs-mod/testing@2.17.5":
+  version "2.17.5"
+  resolved "https://registry.npmjs.org/@nestjs-mod/testing/-/testing-2.17.5.tgz#9ecf39d5c38b6de8ce1944cbb0739701f9864db3"
+  integrity sha512-FcZTguykKU7ZCsL84y1LFxgSEKUCFQ414SzEN9F95G8W1uPKX9HjCI9b2bGT8SDjmIrsa36Q+jR2x2PtyKIB9Q==
   dependencies:
     tslib "^2.3.0"
 
@@ -14379,13 +14379,27 @@ pg-connection-string@^2.5.0, pg-connection-string@^2.7.0:
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.7.0.tgz#f1d3489e427c62ece022dba98d5262efcb168b37"
   integrity sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==
 
-pg-flyway@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/pg-flyway/-/pg-flyway-1.0.2.tgz#982c1d2a6b01b306752d8940c2f43781a349cfeb"
-  integrity sha512-twpYVEPg28hwU/glFyfZbcw08BZ4BS0+sLBEmRWrOWDHbeggJPYLx8naqdwiraTeJ85MGSLSoPpMzA5NsVJ/yw==
+pg-create-db@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/pg-create-db/-/pg-create-db-1.1.1.tgz#226e3c561a96376bca8a22b2d054984dcd58c4d3"
+  integrity sha512-WVvvYJ7oP0ttECpfQ5nI3FpKyyq7I25V5f0ccoj4jNSBaWOt4lYIFHnZzONrLTjqt1G1FFz9VFrY+woq3wWnfg==
+  dependencies:
+    commander "13.0.0"
+    connection-string "4.3.5"
+    cosmiconfig "9.0.0"
+    log4js "6.9.1"
+    pg "8.13.1"
+    pg-promise "10.12.0"
+    tslib "^2.3.0"
+
+pg-flyway@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/pg-flyway/-/pg-flyway-1.2.1.tgz#fbec2ce87e464ff42d22ef339676649d9fcc7d86"
+  integrity sha512-zd4bwqMnVszBHI8LGdUr4y9EKzRxzf1u00cRqbjcCtEKiQVVdP3Lk04G6zcuuBO0gvccr2v0nE+REUGkm0ZuVQ==
   dependencies:
     commander "13.0.0"
     console-table-printer "2.12.1"
+    cosmiconfig "9.0.0"
     crc-32 "1.2.2"
     cross-path-sort "1.0.0"
     date-fns "4.1.0"
@@ -15903,10 +15917,10 @@ rollup@^4.20.0, rollup@^4.24.0:
     "@rollup/rollup-win32-x64-msvc" "4.31.0"
     fsevents "~2.3.2"
 
-rucken@^4.15.0:
-  version "4.15.0"
-  resolved "https://registry.yarnpkg.com/rucken/-/rucken-4.15.0.tgz#7dd38988b4fe90590b4f894eb5b58933fe6c90dc"
-  integrity sha512-G6pZ21fz22YEyK8y1m9gKQjPMEzM4w2+I8zaClTlgEWz4yBrj4qt0GQwXdHoMriou9lZQmORDnf8nISfb1zfPg==
+rucken@^4.16.0:
+  version "4.16.0"
+  resolved "https://registry.npmjs.org/rucken/-/rucken-4.16.0.tgz#8020cf15332c1ed44fe5e26a215fc6a46d105f35"
+  integrity sha512-+KnQORvqMX0vQgLOEChfkJ7looWZWZtiFNbgHJGL6mhlI+q8cALH0dxffL67AFeCNaxqlHoFb56OGYuRXlCozw==
   dependencies:
     "@nestjs/common" "9.0.0"
     "@nestjs/core" "9.0.0"
@@ -15914,7 +15928,6 @@ rucken@^4.15.0:
     "@ngneat/transloco-scoped-libs" "3.0.4"
     case-anything "2.1.10"
     commander "11.0.0"
-    connection-string "4.3.5"
     fast-deep-equal "3.1.3"
     gettext-converter "1.3.0"
     gettext-extractor "3.8.0"
