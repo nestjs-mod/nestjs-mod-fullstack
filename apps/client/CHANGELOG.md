@@ -1,3 +1,9 @@
+# [1.17.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.16.0...client-v1.17.0) (2025-04-03)
+
+### Features
+
+- update version nx to 20.7.1 ([f120017](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/f1200176aae4921bba2755e28ae0d65de305ead8))
+
 # [1.16.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.15.11...client-v1.16.0) (2025-04-02)
 
 ### Features
