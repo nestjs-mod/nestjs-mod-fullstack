@@ -7,7 +7,6 @@ import {
   TranslocoPipe,
   TranslocoService,
 } from '@jsverse/transloco';
-import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
   AppRestService,
@@ -30,9 +29,11 @@ import { addHours } from 'date-fns';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
+import { Title } from '@angular/platform-browser';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BehaviorSubject, map, merge, mergeMap, switchMap, tap } from 'rxjs';
+import { APP_TITLE } from './app.constants';
 
 @UntilDestroy()
 @Component({
@@ -56,7 +57,7 @@ import { BehaviorSubject, map, merge, mergeMap, switchMap, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  title = marker('client');
+  title!: string;
   serverMessage$ = new BehaviorSubject('');
   serverTime$ = new BehaviorSubject<Date>(new Date());
   lang$ = new BehaviorSubject<string>('');
@@ -70,12 +71,15 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
-    private readonly authActiveLangService: AuthActiveLangService
-  ) {}
+    private readonly authActiveLangService: AuthActiveLangService,
+    private readonly titleService: Title
+  ) {
+    this.title = this.translocoService.translate(APP_TITLE);
+    this.titleService.setTitle(this.title);
+  }
 
   ngOnInit() {
     this.loadAvailableLangs();
-
     this.subscribeToChangeProfile();
     this.subscribeToLangChanges();
 
@@ -124,7 +128,9 @@ export class AppComponent implements OnInit {
   private subscribeToLangChanges() {
     this.translocoService.langChanges$
       .pipe(
-        tap((lang) => this.lang$.next(lang)),
+        tap((lang) => {
+          this.lang$.next(lang);
+        }),
         mergeMap(() => this.fillServerMessage()),
         untilDestroyed(this)
       )

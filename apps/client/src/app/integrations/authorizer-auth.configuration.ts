@@ -1,20 +1,37 @@
 import { Inject, InjectionToken, Provider } from '@angular/core';
-import { Authorizer, ConfigType } from '@authorizerdev/authorizer-js';
+import {
+  Authorizer,
+  AuthToken,
+  ConfigType,
+  User,
+} from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
+  AuthCompleteForgotPasswordInput,
+  AuthCompleteSignUpInput,
   AuthConfiguration,
+  AuthForgotPasswordInput,
   AuthLoginInput,
   AuthSignupInput,
   AuthUpdateProfileInput,
   AuthUser,
   AuthUserAndTokens,
+  OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
-import { catchError, from, map, mergeMap, Observable, of } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 
 export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 
@@ -41,17 +58,56 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
     } as ConfigType);
   }
 
+  oAuthVerification({ verificationCode }: OAuthVerificationInput) {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  oAuthProviders() {
+    return of([]);
+  }
+
   logout(): Observable<void | null> {
     return from(this.authorizer.logout(this.getAuthorizationHeaders())).pipe(
       mapGraphqlErrors(),
-      map(() => null)
+      map(() => {
+        this.tokensService.setTokens({});
+        return null;
+      })
     );
   }
 
   getProfile(): Observable<AuthUser | undefined> {
     return from(
       this.authorizer.getProfile(this.getAuthorizationHeaders())
-    ).pipe(mapGraphqlErrors());
+    ).pipe(
+      mapGraphqlErrors(),
+      map((result) => (result ? this.mapToAuthUser(result) : undefined))
+    );
+  }
+
+  private mapToAuthTokens(tokens: AuthToken) {
+    return {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
+  }
+
+  private mapToAuthUser(result: User): {
+    phoneNumber: string | null;
+    email: string;
+    id: string;
+    preferredUsername: string;
+    roles: string[];
+    picture: string | null;
+  } {
+    return {
+      phoneNumber: result.phone_number || null,
+      email: result.email,
+      id: result.id,
+      preferredUsername: result.preferred_username || '',
+      roles: result.roles ? result.roles : [],
+      picture: result.picture || null,
+    };
   }
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
@@ -73,19 +129,19 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
         }
         return this.authorizer.updateProfile(
           {
-            old_password: data.old_password,
-            new_password: data.new_password,
-            confirm_new_password: data.confirm_new_password,
+            old_password: data.oldPassword,
+            new_password: data.newPassword,
+            confirm_new_password: data.confirmNewPassword,
             email: data.email,
-            given_name: data.given_name,
-            family_name: data.family_name,
-            middle_name: data.middle_name,
+            given_name: data.givenName,
+            family_name: data.familyName,
+            middle_name: data.middleName,
             nickname: data.nickname,
             gender: data.gender,
             birthdate: data.birthdate,
-            phone_number: data.phone_number,
+            phone_number: data.phoneNumber,
             picture: data.picture,
-            app_data: data.app_data,
+            app_data: data.appData,
           },
           this.getAuthorizationHeaders()
         );
@@ -110,41 +166,93 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
     );
   }
 
-  refreshToken(): Observable<AuthUserAndTokens> {
+  refreshToken(): Observable<AuthUserAndTokens | undefined> {
     return from(this.authorizer.browserLogin()).pipe(
       mapGraphqlErrors(),
-      map((result) => ({ tokens: result, user: result?.user }))
+      map((result) =>
+        !result
+          ? undefined
+          : {
+              tokens: this.mapToAuthTokens(result),
+              user: result.user ? this.mapToAuthUser(result.user) : undefined,
+            }
+      )
     );
   }
 
   signup(data: AuthSignupInput): Observable<AuthUserAndTokens> {
-    return from(this.authorizer.signup(data)).pipe(
+    return from(
+      this.authorizer.signup({
+        email: data.email,
+        password: data.password,
+        confirm_password: data.confirmPassword,
+        given_name: data.givenName,
+        family_name: data.familyName,
+        middle_name: data.middleName,
+        nickname: data.nickname,
+        picture: data.picture,
+        gender: data.gender,
+        birthdate: data.birthdate,
+        phone_number: data.phoneNumber,
+        roles: data.roles,
+        redirect_uri: data.redirectUri,
+        app_data: data.appData,
+      })
+    ).pipe(
       mapGraphqlErrors(),
-      map((result) => ({ tokens: result, user: result?.user }))
+      map((result) => {
+        if (result?.message && !result.access_token) {
+          throw new Error(result?.message);
+        }
+        return {
+          tokens: result ? this.mapToAuthTokens(result) : undefined,
+          user: result?.user ? this.mapToAuthUser(result.user) : undefined,
+        };
+      })
     );
   }
 
   login(data: AuthLoginInput): Observable<AuthUserAndTokens> {
     return from(this.authorizer.login(data)).pipe(
       mapGraphqlErrors(),
-      map((result) => ({ tokens: result, user: result?.user }))
+      map((result) => {
+        if (result?.message && !result.access_token) {
+          throw new Error(result?.message);
+        }
+        return {
+          tokens: result ? this.mapToAuthTokens(result) : undefined,
+          user: result?.user ? this.mapToAuthUser(result.user) : undefined,
+        };
+      })
     );
   }
 
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
-
-    if (!this.tokensService.getAccessToken()) {
+    const accessToken = this.tokensService.getAccessToken();
+    if (!accessToken) {
       return {
         'Accept-language': lang,
       };
     }
     return {
-      ...(this.tokensService.getAccessToken()
-        ? { Authorization: `Bearer ${this.tokensService.getAccessToken()}` }
-        : {}),
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       'Accept-language': lang,
     };
+  }
+
+  completeSignUp(data: AuthCompleteSignUpInput): Observable<AuthUserAndTokens> {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  completeForgotPassword(
+    data: AuthCompleteForgotPasswordInput
+  ): Observable<AuthUserAndTokens> {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  forgotPassword(data: AuthForgotPasswordInput): Observable<true> {
+    return throwError(() => new Error('not implemented'));
   }
 }
 

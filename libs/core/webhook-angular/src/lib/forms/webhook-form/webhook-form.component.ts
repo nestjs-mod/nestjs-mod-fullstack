@@ -205,9 +205,7 @@ export class WebhookFormComponent implements OnInit {
     );
   }
 
-  private setFormlyFields(options?: {
-    errors?: ValidationErrorMetadataInterface[];
-  }) {
+  setFormlyFields(options?: { errors?: ValidationErrorMetadataInterface[] }) {
     this.formlyFields$.next(this.webhookFormService.getFormlyFields(options));
   }
 }

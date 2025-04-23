@@ -21,3 +21,6 @@ msgstr "Удалить файлы могут только те, кто их за
 
 msgid "Uploading files with extension \"{{ext}}\" is not supported"
 msgstr "Загрузка файлов с расширением \"{{ext}}\" не поддерживается."
+
+msgid "Event that fires after a file is deleted"
+msgstr "Событие которое срабатывает после удаления файла"

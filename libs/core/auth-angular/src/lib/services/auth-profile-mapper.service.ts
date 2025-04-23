@@ -5,18 +5,18 @@ import { AuthUpdateProfileInput } from './auth.types';
 export class AuthProfileMapperService {
   toModel(data: AuthUpdateProfileInput) {
     return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
+      oldPassword: data['oldPassword'],
+      newPassword: data['newPassword'],
+      confirmNewPassword: data['confirmNewPassword'],
       picture: data['picture'],
     };
   }
 
   toJson(data: AuthUpdateProfileInput) {
     return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
+      oldPassword: data['oldPassword'],
+      newPassword: data['newPassword'],
+      confirmNewPassword: data['confirmNewPassword'],
       picture: data['picture'],
     };
   }

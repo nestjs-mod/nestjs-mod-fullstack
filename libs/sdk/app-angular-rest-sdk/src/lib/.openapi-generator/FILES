@@ -34,7 +34,6 @@ model/find-many-auth-user-response.interface.ts
 model/find-many-response-meta.interface.ts
 model/find-many-webhook-log-response.interface.ts
 model/find-many-webhook-response.interface.ts
-model/find-many-webhook-user-response.interface.ts
 model/models.ts
 model/status-response.interface.ts
 model/terminus-health-check-controller-check200-response-info-value.interface.ts
@@ -42,7 +41,6 @@ model/terminus-health-check-controller-check200-response.interface.ts
 model/terminus-health-check-controller-check503-response.interface.ts
 model/update-auth-user-dto.interface.ts
 model/update-webhook-dto.interface.ts
-model/update-webhook-user-dto.interface.ts
 model/validation-error-enum.interface.ts
 model/validation-error-metadata-constraint.interface.ts
 model/validation-error-metadata.interface.ts
@@ -53,12 +51,13 @@ model/webhook-error.interface.ts
 model/webhook-event.interface.ts
 model/webhook-log-scalar-field-enum.interface.ts
 model/webhook-log.interface.ts
+model/webhook-logs-controller-find-many-logs400-response.interface.ts
 model/webhook-role.interface.ts
 model/webhook-scalar-field-enum.interface.ts
 model/webhook-status.interface.ts
+model/webhook-test-request-response.interface.ts
 model/webhook-user-scalar-field-enum.interface.ts
 model/webhook-user.interface.ts
-model/webhook-users-controller-find-many400-response.interface.ts
 model/webhook.interface.ts
 param.ts
 variables.ts

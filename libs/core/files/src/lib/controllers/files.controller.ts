@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 
 import { StatusResponse } from '@nestjs-mod-fullstack/common';
-import { ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { randomUUID } from 'node:crypto';
 import { FilesConfiguration } from '../files.configuration';
@@ -23,7 +23,6 @@ import {
 import { FilesRequest } from '../types/files-request';
 import { FilesRole } from '../types/files-role';
 
-@ApiExtraModels(FilesError)
 @Controller()
 export class FilesController {
   constructor(

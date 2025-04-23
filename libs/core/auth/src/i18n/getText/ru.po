@@ -24,3 +24,12 @@ msgstr "lang должен иметь одно из значений: {{values}}"
 
 msgid "Unauthorized"
 msgstr "Неавторизован"
+
+msgid "Event that fires after user create"
+msgstr "Событие, которое возникает после создания пользователя"
+
+msgid "Event that fires after user delete"
+msgstr "Событие, которое возникает после удаления пользователя"
+
+msgid "Event that fires after user update"
+msgstr "Событие, которое возникает после обновления информации о пользователе"

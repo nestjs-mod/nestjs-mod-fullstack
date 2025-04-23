@@ -28,6 +28,8 @@ import { AuthorizerAuthConfiguration } from './integrations/authorizer/authorize
 import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer/authorizer-with-minio-files.configuration';
 import { WebhookWithAuthAuthorizerConfiguration } from './integrations/authorizer/webhook-with-auth-authorizer.configuration';
 import { AppService } from './services/app.service';
+import { AppExceptionsFilter } from './app.filter';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 export const { AppModule: AuthorizerAppModule } = createNestModule({
   moduleName: 'AppModule',
@@ -114,13 +116,27 @@ export const { AppModule: AuthorizerAppModule } = createNestModule({
           target: false,
           value: false,
         },
-        exceptionFactory: (errors) =>
-          new ValidationError(ValidationErrorEnum.COMMON, undefined, errors),
+        exceptionFactory: (errors) => {
+          console.log(errors);
+          return new ValidationError(
+            ValidationErrorEnum.COMMON,
+            undefined,
+            errors
+          );
+        },
       },
       usePipes: true,
       useInterceptors: true,
     }),
     KeyvModule.forFeature({ featureModuleName: APP_FEATURE }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          limit: 50,
+          ttl: 24 * 60 * 60 * 1000,
+        },
+      ],
+    }),
     ...(process.env.DISABLE_SERVE_STATIC
       ? []
       : [
@@ -138,6 +154,7 @@ export const { AppModule: AuthorizerAppModule } = createNestModule({
   providers: [
     { provide: APP_GUARD, useClass: AuthorizerGuard },
     { provide: APP_FILTER, useClass: AuthExceptionsFilter },
+    { provide: APP_FILTER, useClass: AppExceptionsFilter },
     AppService,
     TimeController,
   ],

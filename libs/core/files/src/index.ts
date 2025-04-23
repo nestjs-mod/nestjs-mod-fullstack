@@ -1,3 +1,4 @@
+export * from './lib/files-extra-models';
 export * from './lib/files.configuration';
 export * from './lib/files.constants';
 export * from './lib/files.decorators';

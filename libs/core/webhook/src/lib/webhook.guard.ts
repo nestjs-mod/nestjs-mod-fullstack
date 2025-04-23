@@ -12,7 +12,6 @@ import { PrismaClient, WebhookRole } from '@prisma/webhook-client';
 import { isUUID } from 'class-validator';
 import { WebhookCacheService } from './services/webhook-cache.service';
 import { WebhookRequest } from './types/webhook-request';
-import { WebhookStaticConfiguration } from './webhook.configuration';
 import { WEBHOOK_FEATURE } from './webhook.constants';
 import { CheckWebhookRole } from './webhook.decorators';
 import { WebhookStaticEnvironments } from './webhook.environments';
@@ -27,7 +26,6 @@ export class WebhookGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly webhookStaticEnvironments: WebhookStaticEnvironments,
-    private readonly webhookStaticConfiguration: WebhookStaticConfiguration,
     private readonly webhookCacheService: WebhookCacheService
   ) {}
 
@@ -39,10 +37,6 @@ export class WebhookGuard implements CanActivate {
       const externalUserId = this.getExternalUserIdFromRequest(req);
       const externalTenantId = this.getExternalTenantIdFromRequest(req);
 
-      await this.tryGetCurrentSuperAdminUserWithExternalUserId(
-        req,
-        externalUserId
-      );
       await this.tryGetOrCreateCurrentUserWithExternalUserId(
         req,
         externalTenantId,
@@ -118,48 +112,11 @@ export class WebhookGuard implements CanActivate {
     }
   }
 
-  private async tryGetCurrentSuperAdminUserWithExternalUserId(
-    req: WebhookRequest,
-    externalUserId: string
-  ) {
-    if (
-      !req.webhookUser &&
-      this.webhookStaticEnvironments.superAdminExternalUserId === externalUserId
-    ) {
-      req.webhookUser =
-        await this.webhookCacheService.getCachedUserByExternalUserId(
-          externalUserId
-        );
-    }
-  }
-
   private getExternalTenantIdFromRequest(req: WebhookRequest) {
-    const externalTenantId =
-      req.externalTenantId ||
-      this.webhookStaticEnvironments.searchTenantIdInHeaders
-        ? this.webhookStaticConfiguration.externalTenantIdHeaderName &&
-          req.headers?.[
-            this.webhookStaticConfiguration.externalTenantIdHeaderName
-          ]
-        : undefined;
-    if (externalTenantId) {
-      req.externalTenantId = externalTenantId;
-    }
     return req.externalTenantId;
   }
 
   private getExternalUserIdFromRequest(req: WebhookRequest) {
-    const externalUserId =
-      req.externalUserId || this.webhookStaticEnvironments.searchUserIdInHeaders
-        ? this.webhookStaticConfiguration.externalUserIdHeaderName &&
-          req.headers?.[
-            this.webhookStaticConfiguration.externalUserIdHeaderName
-          ]
-        : undefined;
-    if (externalUserId) {
-      req.externalUserId = externalUserId;
-    }
-
     if (!req.externalUserId || !isUUID(req.externalUserId)) {
       throw new WebhookError(WebhookErrorEnum.FORBIDDEN);
     }

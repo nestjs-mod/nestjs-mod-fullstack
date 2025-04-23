@@ -93,7 +93,7 @@ export class AuthGuard implements CanActivate {
         `${context.getClass().name}.${
           context.getHandler().name
         }: ${result}, authUser: ${JSON.stringify(
-          req.authUser
+          req.authUser?.id
         )}, externalUser: ${JSON.stringify(
           req.externalUser
         )}, externalUserId: ${JSON.stringify(
@@ -107,7 +107,7 @@ export class AuthGuard implements CanActivate {
         `${context.getClass().name}.${context.getHandler().name}: ${String(
           err
         )}, authUser: ${JSON.stringify(
-          req.authUser
+          req.authUser?.id
         )}, externalUser: ${JSON.stringify(
           req.externalUser
         )}, externalUserId: ${JSON.stringify(

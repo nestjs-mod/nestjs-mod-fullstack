@@ -7,11 +7,26 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
+msgid "Sign-up"
+msgstr "Зарегистрироваться"
+
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
 msgid "Sign-in"
 msgstr "Войти"
 
-msgid "Sign-up"
-msgstr "Зарегистрироваться"
+msgid "or"
+msgstr "или"
+
+msgid "Sign in with Google"
+msgstr "Вход через Google"
+
+msgid "Reset password"
+msgstr "Сбросить пароль"
+
+msgid "Change password"
+msgstr "Изменить пароль"
 
 msgid "auth.sign-up-form.fields.email"
 msgstr "Email"
@@ -40,6 +55,21 @@ msgstr "Новый пароль"
 msgid "auth.profile-form.fields.confirm-new-password"
 msgstr "Новый пароль (еще раз)"
 
+msgid "auth.forgot-password-form.fields.email"
+msgstr "Email"
+
+msgid "Successful login using external single sign-on system"
+msgstr "Успешный вход с использованием внешней единой системы идентификации"
+
+msgid "Email address successfully verified"
+msgstr "Адрес электронной почты успешно подтвержден"
+
+msgid "auth.complete-forgot-password-form.fields.password"
+msgstr "Пароль"
+
+msgid "auth.complete-forgot-password-form.fields.confirm-password"
+msgstr "Пароль (еще раз)"
+
 msgid "Success"
 msgstr "Успешно"
 
@@ -51,6 +81,17 @@ msgstr "Данные профиля успешно обновлены!"
 
 msgid "Update"
 msgstr "Изменить"
+
+msgid ""
+"To complete the password change process, click the link in the email. If "
+"you haven't received the email, check your spam folder or try again."
+msgstr ""
+"Чтобы завершить процесс смены пароля, нажмите на ссылку в электронном "
+"письме. Если вы не получили письмо, проверьте папку со спамом или повторите "
+"попытку."
+
+msgid "Your password has been successfully changed!"
+msgstr "Ваш пароль успешно изменён!"
 
 msgid "field \"{{label}}\""
 msgstr "поле \"{{label}}\""

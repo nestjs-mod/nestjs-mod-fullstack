@@ -91,6 +91,7 @@ export class AuthProfileFormComponent implements OnInit {
 
   ngOnInit(): void {
     Object.assign(this, this.nzModalData);
+
     merge(
       this.authProfileFormService.init(),
       this.translocoService.langChanges$
@@ -159,6 +160,7 @@ export class AuthProfileFormComponent implements OnInit {
   }
 
   private fillFromProfile() {
+    this.formlyFields$.next(this.formlyFields$.value);
     this.setFieldsAndModel(
       this.authService.profile$.value as AuthUpdateProfileInput
     );

@@ -1,4 +1,5 @@
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
+import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,
@@ -21,7 +22,6 @@ import { AuthCacheService } from './services/auth-cache.service';
 import { AuthDefaultDataBootstrapService } from './services/auth-default-data-bootstrap.service';
 import { AuthTimezoneService } from './services/auth-timezone.service';
 import { AuthAsyncLocalStorageContext } from './types/auth-async-local-storage-data';
-import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { AUTH_WEBHOOK_EVENTS } from './types/auth-webhooks';
 
 export const { AuthModule } = createNestModule({

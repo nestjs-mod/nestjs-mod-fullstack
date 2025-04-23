@@ -8,16 +8,7 @@
   </formly-form>
   @if (!hideButtons) {
   <nz-form-control>
-    <div class="flex justify-between">
-      <div>
-        <button
-          nz-button
-          nzType="default"
-          type="button"
-          [routerLink]="'/sign-in'"
-          transloco="Sign-in"
-        ></button>
-      </div>
+    <div class="flex flex-col justify-center">
       <button
         nz-button
         nzType="primary"
@@ -25,6 +16,20 @@
         [disabled]="!form.valid"
         transloco="Sign-up"
       ></button>
+      <div class="flex justify-center">
+        <a
+          nz-button
+          nzType="link"
+          [routerLink]="'/forgot-password'"
+          transloco="Forgot password?"
+        ></a>
+        <a
+          nz-button
+          nzType="link"
+          [routerLink]="'/sign-in'"
+          transloco="Sign-in"
+        ></a>
+      </div>
     </div>
   </nz-form-control>
   }

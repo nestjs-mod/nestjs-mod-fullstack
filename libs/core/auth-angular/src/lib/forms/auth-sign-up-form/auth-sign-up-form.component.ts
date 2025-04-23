@@ -44,6 +44,13 @@ import { AuthSignupInput, AuthUserAndTokens } from '../../services/auth.types';
     RouterModule,
     TranslocoDirective,
   ],
+  styles: [
+    `
+      :host {
+        width: 400px;
+      }
+    `,
+  ],
   selector: 'auth-sign-up-form',
   templateUrl: './auth-sign-up-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,11 +80,21 @@ export class AuthSignUpFormComponent implements OnInit {
 
   ngOnInit(): void {
     Object.assign(this, this.nzModalData);
-    this.setFieldsAndModel({ password: '', confirm_password: '' });
+
+    this.translocoService.langChanges$
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          this.formlyFields$.next(this.formlyFields$.value);
+        })
+      )
+      .subscribe();
+
+    this.setFieldsAndModel({ password: '', confirmPassword: '' });
   }
 
   setFieldsAndModel(
-    data: AuthSignupInput = { password: '', confirm_password: '' }
+    data: AuthSignupInput = { password: '', confirmPassword: '' }
   ) {
     const model = this.authSignUpMapperService.toModel(data);
     this.setFormlyFields({ data: model });

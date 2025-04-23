@@ -23,3 +23,12 @@ msgstr "lang must have one of the values: {{values}}"
 
 msgid "Unauthorized"
 msgstr "Unauthorized"
+
+msgid "Event that fires after user create"
+msgstr "Event that fires after user create"
+
+msgid "Event that fires after user delete"
+msgstr "Event that fires after user delete"
+
+msgid "Event that fires after user update"
+msgstr "Event that fires after user update"

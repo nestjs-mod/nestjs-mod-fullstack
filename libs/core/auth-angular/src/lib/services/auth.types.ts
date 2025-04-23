@@ -6,42 +6,42 @@ export interface AuthTokens {
 export interface AuthUser {
   id: string;
   email: string;
-  preferred_username: string;
-  given_name?: string | null;
-  family_name?: string | null;
-  middle_name?: string | null;
+  preferredUsername: string;
+  givenName?: string | null;
+  familyName?: string | null;
+  middleName?: string | null;
   nickname?: string | null;
   picture?: string | null;
   gender?: string | null;
   birthdate?: string | null;
-  phone_number?: string | null;
+  phoneNumber?: string | null;
   roles?: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app_data?: Record<string, any>;
+  appData?: Record<string, any>;
 }
 
 export interface AuthLoginInput {
   email?: string;
-  phone_number?: string;
+  phoneNumber?: string;
   password: string;
 }
 
 export interface AuthSignupInput {
   email?: string;
   password: string;
-  confirm_password: string;
-  given_name?: string;
-  family_name?: string;
-  middle_name?: string;
+  confirmPassword: string;
+  givenName?: string;
+  familyName?: string;
+  middleName?: string;
   nickname?: string;
   picture?: string;
   gender?: string;
   birthdate?: string;
-  phone_number?: string;
+  phoneNumber?: string;
   roles?: string[];
-  redirect_uri?: string;
+  redirectUri?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app_data?: Record<string, any>;
+  appData?: Record<string, any>;
 }
 
 export interface AuthUserAndTokens {
@@ -50,33 +50,43 @@ export interface AuthUserAndTokens {
 }
 
 export interface AuthUpdateProfileInput {
-  old_password?: string;
-  new_password?: string;
-  confirm_new_password?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  confirmNewPassword?: string;
   email?: string;
-  given_name?: string;
-  family_name?: string;
-  middle_name?: string;
+  givenName?: string;
+  familyName?: string;
+  middleName?: string;
   nickname?: string;
   gender?: string;
   birthdate?: string;
-  phone_number?: string;
+  phoneNumber?: string;
   picture?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app_data?: Record<string, any>;
+  appData?: Record<string, any>;
+}
+
+export interface AuthCompleteSignUpInput {
+  code: string;
 }
 
 export interface AuthForgotPasswordInput {
-  email?: string;
-  phone_number?: string;
-  state?: string;
-  redirect_uri?: string;
+  email: string;
+  redirectUri?: string;
 }
 
-export interface AuthResetPasswordInput {
-  token?: string;
-  otp?: string;
-  phone_number?: string;
+export interface AuthCompleteForgotPasswordInput {
+  code: string;
   password: string;
-  confirm_password: string;
+  confirmPassword: string;
+}
+
+export type OAuthProvider = {
+  name: string;
+  url: string;
+};
+
+export interface OAuthVerificationInput {
+  verificationCode: string;
+  clientId: string | undefined;
 }

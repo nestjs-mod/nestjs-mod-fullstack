@@ -2,7 +2,7 @@ import { InjectableFeatureConfigurationType } from '@nestjs-mod/common';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaClient } from '@prisma/webhook-client';
+import { PrismaClient, WebhookStatus } from '@prisma/webhook-client';
 import { AxiosHeaders } from 'axios';
 import { firstValueFrom, Subject, timeout, TimeoutError } from 'rxjs';
 import { WebhookEvent } from '../types/webhook-event';
@@ -123,77 +123,44 @@ export class WebhookService<
             webhookId: webhook.id,
           },
         });
+
+        await this.prismaClient.webhookLog.update({
+          where: { id: webhookLog.id },
+          data: {
+            webhookStatus: 'Process',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+
         try {
-          await this.prismaClient.webhookLog.update({
-            where: { id: webhookLog.id },
-            data: { webhookStatus: 'Process', updatedAt: new Date() },
-          });
+          const { response, responseStatus, webhookStatus } =
+            await this.httpRequest({
+              endpoint: webhook.endpoint,
+              eventBody,
+              headers,
+              requestTimeout: webhook.requestTimeout || 5000,
+            });
 
-          const request = await this.httpRequest({
-            endpoint: webhook.endpoint,
-            eventBody,
-            headers,
-            requestTimeout: webhook.requestTimeout || 5000,
-          });
-
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          let response: any, responseStatus: string;
-          try {
-            response = request.data;
-            responseStatus = request.statusText;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } catch (err: any) {
-            this.logger.error(err, (err as Error).stack);
-            response = String(err.message);
-            responseStatus = 'unhandled';
-          }
           await this.prismaClient.webhookLog.update({
             where: { id: webhookLog.id },
             data: {
               responseStatus,
               response,
-              webhookStatus: 'Success',
+              webhookStatus,
               updatedAt: new Date(),
             },
           });
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
+          this.logger.debug({
+            where: { id: webhookLog.id },
+            data: {
+              webhookStatus: err instanceof TimeoutError ? 'Timeout' : 'Error',
+              updatedAt: new Date(),
+            },
+          });
           this.logger.error(err, (err as Error).stack);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          let response: any, responseStatus: string;
-          try {
-            response = err.response?.data || String(err.message);
-            responseStatus = err.response?.statusText;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } catch (err2: any) {
-            this.logger.error(err2, (err2 as Error).stack);
-            response = String(err2.message);
-            responseStatus = 'unhandled';
-          }
-          try {
-            await this.prismaClient.webhookLog.update({
-              where: { id: webhookLog.id },
-              data: {
-                responseStatus,
-                response,
-                webhookStatus:
-                  err instanceof TimeoutError ? 'Timeout' : 'Error',
-                updatedAt: new Date(),
-              },
-            });
-          } catch (err) {
-            this.logger.debug({
-              where: { id: webhookLog.id },
-              data: {
-                responseStatus,
-                response,
-                webhookStatus:
-                  err instanceof TimeoutError ? 'Timeout' : 'Error',
-                updatedAt: new Date(),
-              },
-            });
-            this.logger.error(err, (err as Error).stack);
-          }
         }
       }
     }
@@ -203,7 +170,7 @@ export class WebhookService<
     return await this.prismaClient.$queryRaw<[{ now: Date }]>`SELECT NOW();`;
   }
 
-  private async httpRequest({
+  async httpRequest({
     endpoint,
     eventBody,
     headers,
@@ -216,14 +183,58 @@ export class WebhookService<
     headers: any;
     requestTimeout: number;
   }) {
-    return await firstValueFrom(
-      this.httpService
-        .post(endpoint, eventBody, {
-          ...(Object.keys(headers)
-            ? { headers: new AxiosHeaders({ ...headers }) }
-            : {}),
-        })
-        .pipe(timeout(requestTimeout))
-    );
+    let webhookStatus: WebhookStatus = WebhookStatus.Process;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let response: any, responseStatus: string;
+    try {
+      const request = await firstValueFrom(
+        this.httpService
+          .post(endpoint, eventBody, {
+            ...(Object.keys(headers || {})
+              ? { headers: new AxiosHeaders({ ...headers }) }
+              : {}),
+          })
+          .pipe(timeout(requestTimeout))
+      );
+
+      try {
+        response = request.data;
+        responseStatus = `${request.status} ${request.statusText}`;
+        webhookStatus = WebhookStatus.Success;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        this.logger.error(err, (err as Error).stack);
+        response = String(err.message);
+        responseStatus = 'unhandled';
+        webhookStatus = WebhookStatus.Error;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      this.logger.error(err, (err as Error).stack);
+      try {
+        response = err.response?.data || String(err.message);
+        responseStatus = err.response?.statusText;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err2: any) {
+        this.logger.error(err2, (err2 as Error).stack);
+        response = String(err2.message);
+        responseStatus = 'unhandled';
+      }
+      webhookStatus =
+        err instanceof TimeoutError
+          ? WebhookStatus.Timeout
+          : WebhookStatus.Error;
+    }
+    return {
+      response,
+      responseStatus,
+      webhookStatus,
+      request: {
+        url: endpoint,
+        body: eventBody,
+        headers,
+      },
+    };
   }
 }

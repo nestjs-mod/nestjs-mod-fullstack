@@ -8,9 +8,9 @@ import {
 export class CustomAuthProfileMapperService extends AuthProfileMapperService {
   override toModel(data: AuthUpdateProfileInput) {
     return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
+      oldPassword: data['oldPassword'],
+      newPassword: data['newPassword'],
+      confirmNewPassword: data['confirmNewPassword'],
       picture: data['picture'],
       timezone: data['timezone'],
     };
@@ -18,9 +18,9 @@ export class CustomAuthProfileMapperService extends AuthProfileMapperService {
 
   override toJson(data: AuthUpdateProfileInput) {
     return {
-      old_password: data['old_password'],
-      new_password: data['new_password'],
-      confirm_new_password: data['confirm_new_password'],
+      oldPassword: data['oldPassword'],
+      newPassword: data['newPassword'],
+      confirmNewPassword: data['confirmNewPassword'],
       picture: data['picture'],
       timezone: data['timezone'],
     };

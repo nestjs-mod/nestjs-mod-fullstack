@@ -7,12 +7,16 @@ import {
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
+  AuthCompleteForgotPasswordInput,
+  AuthCompleteSignUpInput,
   AuthConfiguration,
+  AuthForgotPasswordInput,
   AuthLoginInput,
   AuthSignupInput,
   AuthUpdateProfileInput,
   AuthUser,
   AuthUserAndTokens,
+  OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
@@ -20,7 +24,9 @@ import {
   AuthError,
   AuthResponse,
   AuthTokenResponsePassword,
+  Session,
   SupabaseClient,
+  User,
   UserResponse,
 } from '@supabase/supabase-js';
 import {
@@ -104,10 +110,21 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     this.supabaseClient = new SupabaseClient(supabaseUrl, supabaseKey);
   }
 
+  oAuthVerification({ verificationCode }: OAuthVerificationInput) {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  oAuthProviders() {
+    return of([]);
+  }
+
   logout(): Observable<void | null> {
     return from(this.supabaseClient.auth.signOut({ scope: 'local' })).pipe(
       mapAuthError(),
-      map(() => null)
+      map(() => {
+        this.tokensService.setTokens({});
+        return null;
+      })
     );
   }
 
@@ -115,21 +132,36 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     return from(this.supabaseClient.auth.getUser()).pipe(
       mapUserResponse(),
       map((result) => {
-        if (!result.user) {
-          throw new Error('result.user not set');
-        }
-        if (!result.user.email) {
-          throw new Error('result.user.email not set');
-        }
-        return {
-          email: result.user.email,
-          id: result.user.id,
-          preferred_username: 'empty',
-          roles: [AuthRoleInterface.User],
-          picture: result.user?.user_metadata['picture'],
-        };
+        return result.user ? this.mapToAuthUser(result.user) : undefined;
       })
     );
+  }
+
+  private mapToAuthTokens(tokens: Session) {
+    return {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
+  }
+
+  private mapToAuthUser(result: User): {
+    phoneNumber: string | null;
+    email: string;
+    id: string;
+    preferredUsername: string;
+    roles: string[];
+    picture: string | null;
+  } {
+    return {
+      phoneNumber: result.phone || null,
+      email: result.email || '',
+      id: result.id,
+      preferredUsername: 'empty',
+      roles: result.role?.toLowerCase().includes('admin')
+        ? [AuthRoleInterface.Admin]
+        : [AuthRoleInterface.User],
+      picture: result.user_metadata['picture'],
+    };
   }
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
@@ -151,20 +183,16 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
         }
         return from(
           this.supabaseClient.auth.updateUser({
-            data: { ...data.app_data, picture: data.picture },
+            data: { ...data.appData, picture: data.picture },
             email: data.email,
-            password: data.new_password,
-            phone: data.phone_number,
+            password: data.newPassword,
+            phone: data.phoneNumber,
           })
         ).pipe(
           mapUserResponse(),
-          map((result) => ({
-            email: result.user?.email || '',
-            id: result.user?.id || '',
-            preferred_username: 'empty',
-            roles: [AuthRoleInterface.User],
-            picture: result.user?.user_metadata['picture'],
-          }))
+          map((result) =>
+            result.user ? this.mapToAuthUser(result.user) : undefined
+          )
         );
       }),
       mergeMap((newData) => {
@@ -183,7 +211,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     );
   }
 
-  refreshToken(): Observable<AuthUserAndTokens> {
+  refreshToken(): Observable<AuthUserAndTokens | undefined> {
     const refreshToken = this.tokensService.getRefreshToken();
     return from(
       this.supabaseClient.auth.refreshSession(
@@ -202,17 +230,8 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           throw new Error('result.user.email not set');
         }
         return {
-          tokens: {
-            access_token: result.session.access_token,
-            refresh_token: result.session.refresh_token,
-          },
-          user: {
-            email: result.user.email,
-            id: result.user.id,
-            preferred_username: 'empty',
-            roles: [AuthRoleInterface.User],
-            picture: result.user.user_metadata['picture'],
-          },
+          tokens: this.mapToAuthTokens(result.session),
+          user: this.mapToAuthUser(result.user),
         };
       }),
       catchError(() => of({}))
@@ -220,12 +239,19 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   }
 
   signup(data: AuthSignupInput): Observable<AuthUserAndTokens> {
-    if (!data.email) {
-      return throwError(() => new Error('data.email not set'));
+    const { confirmPassword, password, email, nickname } = data;
+    if (!email) {
+      throw new Error('email not set');
+    }
+    if (!confirmPassword) {
+      throw new Error('confirmPassword not set');
+    }
+    if (!password) {
+      throw new Error('password not set');
     }
     return from(
       this.supabaseClient.auth.signUp({
-        email: data.email.toLowerCase(),
+        email: email.toLowerCase(),
         password: data.password,
         options: {
           emailRedirectTo: window.location.origin,
@@ -233,89 +259,62 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       })
     ).pipe(
       mapAuthResponse(),
-      map((result) => {
-        if (!result.session) {
-          throw new Error('result.session not set');
-        }
-        if (!result.user) {
-          throw new Error('result.user not set');
-        }
-        if (!result.user.email) {
-          throw new Error('result.user.email not set');
-        }
-        const tokens = {
-          access_token: result.session.access_token,
-          refresh_token: result.session.refresh_token,
-        };
-        const user = {
-          email: result.user.email,
-          id: result.user.id,
-          preferred_username: 'empty',
-          roles: [AuthRoleInterface.User],
-          picture: result.user.user_metadata['picture'],
-        };
-        return { tokens, user };
-      })
+      map((result) => ({
+        tokens: result.session
+          ? this.mapToAuthTokens(result.session)
+          : undefined,
+        user: result.user ? this.mapToAuthUser(result.user) : undefined,
+      }))
     );
   }
 
   login(data: AuthLoginInput): Observable<AuthUserAndTokens> {
-    if (!data.email) {
-      return throwError(() => new Error('data.email not set'));
+    const { password, email } = data;
+    if (!email) {
+      throw new Error('email not set');
     }
     return from(
       this.supabaseClient.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
+        email,
+        password,
       })
     ).pipe(
       mapAuthTokenResponsePassword(),
-      map((result) => {
-        if (!result.session) {
-          throw new Error('result.session not set');
-        }
-        if (!result.user) {
-          throw new Error('result.user not set');
-        }
-        if (!result.user.email) {
-          throw new Error('result.user.email not set');
-        }
-        const tokens = {
-          access_token: result.session.access_token,
-          refresh_token: result.session.refresh_token,
-        };
-        const user = {
-          email: result.user.email,
-          email_verified: true,
-          id: result.user.id,
-          preferred_username: 'empty',
-          signup_methods: 'empty',
-          created_at: +new Date(result.user.created_at),
-          updated_at: result.user.updated_at
-            ? +new Date(result.user.updated_at)
-            : 0,
-          roles: [AuthRoleInterface.User],
-          picture: result.user.user_metadata['picture'],
-        };
-        return { tokens, user };
-      })
+      map((result) => ({
+        tokens: result.session
+          ? this.mapToAuthTokens(result.session)
+          : undefined,
+        user: result.user ? this.mapToAuthUser(result.user) : undefined,
+      }))
     );
   }
 
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
-
-    if (!this.tokensService.getAccessToken()) {
+    const accessToken = this.tokensService.getAccessToken();
+    if (!accessToken) {
       return {
         'Accept-language': lang,
       };
     }
     return {
-      ...(this.tokensService.getAccessToken()
-        ? { Authorization: `Bearer ${this.tokensService.getAccessToken()}` }
-        : {}),
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       'Accept-language': lang,
     };
+  }
+
+  completeSignUp(data: AuthCompleteSignUpInput): Observable<AuthUserAndTokens> {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  completeForgotPassword(
+    data: AuthCompleteForgotPasswordInput
+  ): Observable<AuthUserAndTokens> {
+    return throwError(() => new Error('not implemented'));
+  }
+
+  forgotPassword(data: AuthForgotPasswordInput): Observable<true> {
+    return throwError(() => new Error('not implemented'));
   }
 }
 

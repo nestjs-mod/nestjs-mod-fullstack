@@ -39,20 +39,6 @@ export class WebhookFormService {
     return this.validationService.appendServerErrorsAsValidatorsToFields(
       [
         {
-          key: WebhookScalarFieldEnumInterface.enabled,
-          type: 'checkbox',
-          validation: {
-            show: true,
-          },
-          props: {
-            label: this.translocoService.translate(
-              `webhook.form.fields.enabled`
-            ),
-            placeholder: 'enabled',
-            required: true,
-          },
-        },
-        {
           key: WebhookScalarFieldEnumInterface.endpoint,
           type: 'input',
           validation: {
@@ -82,6 +68,12 @@ export class WebhookFormService {
               value: e.eventName,
               label: `${e.eventName} - ${e.description}`,
             })),
+            change: (field, eventName) => {
+              const event = this.events.find((e) => e.eventName === eventName);
+              field.form
+                ?.get('example')
+                ?.setValue(JSON.stringify(event?.example, null, 4));
+            },
           },
         },
         {
@@ -98,33 +90,70 @@ export class WebhookFormService {
           },
         },
         {
-          key: WebhookScalarFieldEnumInterface.requestTimeout,
-          type: 'input',
-          validation: {
-            show: true,
-          },
-          props: {
-            type: 'number',
-            label: this.translocoService.translate(
-              `webhook.form.fields.request-timeout`
-            ),
-            placeholder: 'requestTimeout',
-            required: false,
-          },
+          fieldGroupClassName: 'flex justify-between',
+          fieldGroup: [
+            {
+              fieldGroupClassName: 'flex-1',
+              key: WebhookScalarFieldEnumInterface.enabled,
+              type: 'checkbox',
+              validation: {
+                show: true,
+              },
+              props: {
+                label: this.translocoService.translate(
+                  `webhook.form.fields.enabled`
+                ),
+                placeholder: 'enabled',
+                required: true,
+              },
+            },
+            {
+              fieldGroupClassName: 'flex-1',
+              key: WebhookScalarFieldEnumInterface.requestTimeout,
+              type: 'input',
+              validation: {
+                show: true,
+              },
+              props: {
+                type: 'number',
+                label: this.translocoService.translate(
+                  `webhook.form.fields.request-timeout`
+                ),
+                placeholder: 'requestTimeout',
+                required: false,
+              },
+            },
+            {
+              fieldGroupClassName: 'flex-1',
+              key: WebhookScalarFieldEnumInterface.workUntilDate,
+              type: 'date-input',
+              validation: {
+                show: true,
+              },
+              props: {
+                type: 'datetime-local',
+                label: this.translocoService.translate(
+                  `webhook.form.fields.work-until-date`
+                ),
+                placeholder: 'workUntilDate',
+                required: false,
+              },
+            },
+          ],
         },
         {
-          key: WebhookScalarFieldEnumInterface.workUntilDate,
-          type: 'date-input',
+          key: 'example',
+          type: 'textarea',
           validation: {
             show: true,
           },
           props: {
-            type: 'datetime-local',
-            label: this.translocoService.translate(
-              `webhook.form.fields.work-until-date`
-            ),
-            placeholder: 'workUntilDate',
-            required: false,
+            label: this.translocoService.translate(`Example of payload`),
+            placeholder: 'example of payload',
+            readonly: true,
+          },
+          templateOptions: {
+            rows: 15,
           },
         },
       ],

@@ -31,10 +31,6 @@ test.describe('Validation with store lang in db (ru)', () => {
       timeout: 7000,
     });
     await page.evaluate(
-      (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_URL').asString() || ''
-    );
-    await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
       get('SERVER_MINIO_URL').required().asString()
     );
@@ -74,15 +70,13 @@ test.describe('Validation with store lang in db (ru)', () => {
 
     await page
       .locator('auth-sign-up-form')
-      .locator('[placeholder=confirm_password]')
+      .locator('[placeholder=confirmPassword]')
       .click();
     await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
-      page
-        .locator('auth-sign-up-form')
-        .locator('[placeholder=confirm_password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
     ).toHaveValue(user.password);
 
     await expect(
@@ -129,13 +123,13 @@ test.describe('Validation with store lang in db (ru)', () => {
   });
 
   test('change lang to en in localStorage', async () => {
-    await page.evaluate(() => localStorage.setItem('activeLang', 'en'));
+    await page.evaluate(() => localStorage.setItem('activeUserLang', 'en'));
 
-    const activeLang = await page.evaluate(() =>
-      localStorage.getItem('activeLang')
+    const activeUserLang = await page.evaluate(() =>
+      localStorage.getItem('activeUserLang')
     );
 
-    expect(activeLang).toEqual('en');
+    expect(activeUserLang).toEqual('en');
   });
 
   test('should catch error on create new webhook', async () => {
@@ -148,10 +142,10 @@ test.describe('Validation with store lang in db (ru)', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(1)
+      page.locator('webhook-form').locator('formly-validation-message').nth(0)
     ).toContainText('поле "адрес" не может быть пустым');
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').last()
+      page.locator('webhook-form').locator('formly-validation-message').nth(1)
     ).toContainText('поле "событие" не может быть пустым');
   });
 });

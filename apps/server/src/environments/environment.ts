@@ -18,7 +18,6 @@ import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { existsSync } from 'fs';
-import { getText } from 'nestjs-translates';
 import { createClient } from 'redis';
 import { AuthorizerAppModule } from '../app/authorizer-app.module';
 
@@ -75,10 +74,6 @@ export const MainKeyvModule = KeyvModule.forRoot({
 export const MainMinioModule = MinioModule.forRoot();
 
 export const MainWebhookModule = WebhookModule.forRootAsync({
-  staticEnvironments: {
-    searchUserIdInHeaders: false,
-    searchTenantIdInHeaders: false,
-  },
   configuration: {
     syncMode: false,
   },

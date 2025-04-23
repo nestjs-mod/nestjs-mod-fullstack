@@ -7,17 +7,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-msgid "Source code"
-msgstr "Исходный код"
-
 msgid "You are logged in as {{email}}"
 msgstr "Вы вошли в систему как {{email}}"
 
+msgid "Source code"
+msgstr "Исходный код"
+
 msgid "Home"
 msgstr "Домашняя страница"
-
-msgid "Demo"
-msgstr "Демо"
 
 msgid "Webhooks"
 msgstr "Вебхуки"
@@ -83,6 +80,12 @@ msgstr "Подготовка"
 msgid "Hello Static"
 msgstr "Привет Статика"
 
+msgid "Password recovery"
+msgstr "Восстановление пароля"
+
+msgid "Demo"
+msgstr "Демо"
+
 msgid "Create new"
 msgstr "Создать"
 
@@ -101,6 +104,18 @@ msgstr "Сохранить"
 msgid "Create"
 msgstr "Создать"
 
+msgid "Complete sign up"
+msgstr "Завершить регистрацию"
+
+msgid "Continue"
+msgstr "Продолжить"
+
+msgid "Completing registration"
+msgstr "Завершение регистрации"
+
+msgid "Сomplete forgot password"
+msgstr "Завершить восстановление пароля"
+
 msgid "en"
 msgstr "EN"
 
@@ -113,8 +128,11 @@ msgstr "RU"
 msgid "app.locale.name.russian"
 msgstr "Русский"
 
-msgid "client"
-msgstr "клиент"
+msgid "Complete OAuth sign up"
+msgstr "Завершить регистрацию через OAuth"
+
+msgid "Fullstack"
+msgstr "Фуллстэк"
 
 msgid "Update demo"
 msgstr "Обновить демо"
@@ -283,3 +301,6 @@ msgstr "UTC+13:00: Самоа, Тонга"
 
 msgid "UTC+14:00: Date Line (east)"
 msgstr "UTC+14:00: Линия перемены дат (восток)"
+
+msgid "client"
+msgstr "клиент"

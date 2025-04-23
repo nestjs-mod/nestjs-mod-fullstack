@@ -20,3 +20,6 @@ msgstr "Only those who uploaded files can delete them"
 
 msgid "Uploading files with extension \"{{ext}}\" is not supported"
 msgstr "Uploading files with extension \"{{ext}}\" is not supported"
+
+msgid "Event that fires after a file is deleted"
+msgstr "Event that fires after a file is deleted"

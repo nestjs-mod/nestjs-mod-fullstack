@@ -4,7 +4,6 @@ import { isInfrastructureMode, PACKAGE_JSON_FILE } from '@nestjs-mod/common';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { existsSync } from 'fs';
-import { getText } from 'nestjs-translates';
 import { join } from 'path';
 import { SupabaseAppModule } from '../app/supabase-app.module';
 
@@ -67,10 +66,6 @@ export const MainMinioModule = MinioModule.forRoot({
 });
 
 export const MainWebhookModule = WebhookModule.forRootAsync({
-  staticEnvironments: {
-    searchUserIdInHeaders: false,
-    searchTenantIdInHeaders: false,
-  },
   configuration: {
     syncMode: true,
   },

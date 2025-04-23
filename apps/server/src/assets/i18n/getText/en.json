@@ -5,5 +5,6 @@
     "Hello API": "Hello API",
     "Forbidden": "Forbidden",
     "Supabase error": "Supabase error",
-    "Unauthorized": "Unauthorized"
+    "Unauthorized": "Unauthorized",
+    "Too Many Requests": "Too Many Requests"
 }

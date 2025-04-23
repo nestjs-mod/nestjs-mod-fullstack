@@ -4,5 +4,8 @@
     "User not found": "Пользователь не найден",
     "ok": "ок",
     "lang must have one of the values: {{values}}": "lang должен иметь одно из значений: {{values}}",
-    "Unauthorized": "Неавторизован"
+    "Unauthorized": "Неавторизован",
+    "Event that fires after user create": "Событие, которое возникает после создания пользователя",
+    "Event that fires after user delete": "Событие, которое возникает после удаления пользователя",
+    "Event that fires after user update": "Событие, которое возникает после обновления информации о пользователе"
 }

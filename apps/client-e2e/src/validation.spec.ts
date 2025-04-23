@@ -74,15 +74,13 @@ test.describe('Validation', () => {
 
     await page
       .locator('auth-sign-up-form')
-      .locator('[placeholder=confirm_password]')
+      .locator('[placeholder=confirmPassword]')
       .click();
     await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
-      page
-        .locator('auth-sign-up-form')
-        .locator('[placeholder=confirm_password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
     ).toHaveValue(user.password);
 
     await expect(
@@ -111,10 +109,10 @@ test.describe('Validation', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(1)
+      page.locator('webhook-form').locator('formly-validation-message').nth(0)
     ).toContainText('field "endpoint" should not be empty');
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').last()
+      page.locator('webhook-form').locator('formly-validation-message').nth(1)
     ).toContainText('field "event name" should not be empty');
   });
 });

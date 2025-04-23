@@ -14,10 +14,13 @@ import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { ExecutionContext } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { getText, TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
 import { APP_FEATURE, APP_MODULE } from './app.constants';
+import { AppExceptionsFilter } from './app.filter';
 import { AuthorizerController } from './controllers/supabase/authorizer.controller';
 import { AppController } from './controllers/supabase/supabase-app.controller';
 import { FakeEndpointController } from './controllers/supabase/supabase-fake-endoint.controller';
@@ -140,6 +143,14 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
       useInterceptors: true,
     }),
     KeyvModule.forFeature({ featureModuleName: APP_FEATURE }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          limit: 50,
+          ttl: 24 * 60 * 60 * 1000,
+        },
+      ],
+    }),
     ...(process.env.DISABLE_SERVE_STATIC
       ? []
       : [
@@ -159,5 +170,9 @@ export const { AppModule: SupabaseAppModule } = createNestModule({
     FakeEndpointController,
     AuthorizerController,
   ],
-  providers: [AppService, TimeController],
+  providers: [
+    AppService,
+    TimeController,
+    { provide: APP_FILTER, useClass: AppExceptionsFilter },
+  ],
 });

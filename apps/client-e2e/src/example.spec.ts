@@ -32,7 +32,7 @@ test.describe('basic usage', () => {
 
     await setTimeout(4000);
 
-    expect(await page.locator('.logo').innerText()).toContain('client');
+    expect(await page.locator('.logo').innerText()).toContain('Fullstack');
   });
 
   test('has serverMessage', async () => {

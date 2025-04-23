@@ -1,6 +1,7 @@
 export * from './lib/constants/browser-timezone-offset';
 export * from './lib/constants/date-input-formats';
 export * from './lib/form-utils/ng-changes';
+export * from './lib/formly/button-input.component';
 export * from './lib/formly/date-input.component';
 export * from './lib/formly/formly-fields';
 export * from './lib/grid-utils/get-query-meta-by-params';

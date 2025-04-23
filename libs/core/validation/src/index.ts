@@ -1,3 +1,4 @@
+export * from './lib/validation-extra-models';
 export * from './lib/validation.configuration';
 export * from './lib/validation.constants';
 export * from './lib/validation.environments';

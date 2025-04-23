@@ -29,21 +29,21 @@ import { FindManyWebhookLogResponseInterface } from '../model/find-many-webhook-
 // @ts-ignore
 import { FindManyWebhookResponseInterface } from '../model/find-many-webhook-response.interface';
 // @ts-ignore
-import { FindManyWebhookUserResponseInterface } from '../model/find-many-webhook-user-response.interface';
-// @ts-ignore
 import { StatusResponseInterface } from '../model/status-response.interface';
 // @ts-ignore
 import { UpdateWebhookDtoInterface } from '../model/update-webhook-dto.interface';
-// @ts-ignore
-import { UpdateWebhookUserDtoInterface } from '../model/update-webhook-user-dto.interface';
 // @ts-ignore
 import { WebhookEventInterface } from '../model/webhook-event.interface';
 // @ts-ignore
 import { WebhookInterface } from '../model/webhook.interface';
 // @ts-ignore
-import { WebhookUserInterface } from '../model/webhook-user.interface';
+import { WebhookLogInterface } from '../model/webhook-log.interface';
 // @ts-ignore
-import { WebhookUsersControllerFindMany400ResponseInterface } from '../model/webhook-users-controller-find-many400-response.interface';
+import { WebhookLogsControllerFindManyLogs400ResponseInterface } from '../model/webhook-logs-controller-find-many-logs400-response.interface';
+// @ts-ignore
+import { WebhookTestRequestResponseInterface } from '../model/webhook-test-request-response.interface';
+// @ts-ignore
+import { WebhookUserInterface } from '../model/webhook-user.interface';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -626,174 +626,6 @@ export class WebhookRestService {
 
   /**
    * @param id
-   * @param curPage
-   * @param perPage
-   * @param searchText
-   * @param sort
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public webhookControllerFindManyLogs(
-    id: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<FindManyWebhookLogResponseInterface>;
-  public webhookControllerFindManyLogs(
-    id: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<FindManyWebhookLogResponseInterface>>;
-  public webhookControllerFindManyLogs(
-    id: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<FindManyWebhookLogResponseInterface>>;
-  public webhookControllerFindManyLogs(
-    id: string,
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any> {
-    if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling webhookControllerFindManyLogs.'
-      );
-    }
-
-    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
-    if (curPage !== undefined && curPage !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>curPage,
-        'curPage'
-      );
-    }
-    if (perPage !== undefined && perPage !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>perPage,
-        'perPage'
-      );
-    }
-    if (searchText !== undefined && searchText !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>searchText,
-        'searchText'
-      );
-    }
-    if (sort !== undefined && sort !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>sort,
-        'sort'
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (localVarHttpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    }
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
-    }
-
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
-    if (localVarHttpContext === undefined) {
-      localVarHttpContext = new HttpContext();
-    }
-
-    let localVarTransferCache: boolean | undefined =
-      options && options.transferCache;
-    if (localVarTransferCache === undefined) {
-      localVarTransferCache = true;
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (
-        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
-      ) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/webhook/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}/logs`;
-    return this.httpClient.request<FindManyWebhookLogResponseInterface>(
-      'get',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * @param id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -1008,6 +840,130 @@ export class WebhookRestService {
   }
 
   /**
+   * @param createWebhookDtoInterface
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public webhookControllerTestRequest(
+    createWebhookDtoInterface: CreateWebhookDtoInterface,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<WebhookTestRequestResponseInterface>;
+  public webhookControllerTestRequest(
+    createWebhookDtoInterface: CreateWebhookDtoInterface,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpResponse<WebhookTestRequestResponseInterface>>;
+  public webhookControllerTestRequest(
+    createWebhookDtoInterface: CreateWebhookDtoInterface,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpEvent<WebhookTestRequestResponseInterface>>;
+  public webhookControllerTestRequest(
+    createWebhookDtoInterface: CreateWebhookDtoInterface,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<any> {
+    if (
+      createWebhookDtoInterface === null ||
+      createWebhookDtoInterface === undefined
+    ) {
+      throw new Error(
+        'Required parameter createWebhookDtoInterface was null or undefined when calling webhookControllerTestRequest.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/json'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined =
+      options && options.transferCache;
+    if (localVarTransferCache === undefined) {
+      localVarTransferCache = true;
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/webhook/test-request`;
+    return this.httpClient.request<WebhookTestRequestResponseInterface>(
+      'post',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: createWebhookDtoInterface,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
    * @param id
    * @param updateWebhookDtoInterface
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1154,7 +1110,7 @@ export class WebhookRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public webhookUsersControllerDeleteOne(
+  public webhookLogsControllerDeleteOne(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
@@ -1164,7 +1120,7 @@ export class WebhookRestService {
       transferCache?: boolean;
     }
   ): Observable<StatusResponseInterface>;
-  public webhookUsersControllerDeleteOne(
+  public webhookLogsControllerDeleteOne(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
@@ -1174,7 +1130,7 @@ export class WebhookRestService {
       transferCache?: boolean;
     }
   ): Observable<HttpResponse<StatusResponseInterface>>;
-  public webhookUsersControllerDeleteOne(
+  public webhookLogsControllerDeleteOne(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
@@ -1184,7 +1140,7 @@ export class WebhookRestService {
       transferCache?: boolean;
     }
   ): Observable<HttpEvent<StatusResponseInterface>>;
-  public webhookUsersControllerDeleteOne(
+  public webhookLogsControllerDeleteOne(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -1196,7 +1152,7 @@ export class WebhookRestService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling webhookUsersControllerDeleteOne.'
+        'Required parameter id was null or undefined when calling webhookLogsControllerDeleteOne.'
       );
     }
 
@@ -1242,7 +1198,7 @@ export class WebhookRestService {
       }
     }
 
-    let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
+    let localVarPath = `/api/webhook/logs/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
@@ -1267,6 +1223,7 @@ export class WebhookRestService {
   }
 
   /**
+   * @param webhookId
    * @param curPage
    * @param perPage
    * @param searchText
@@ -1274,7 +1231,8 @@ export class WebhookRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public webhookUsersControllerFindMany(
+  public webhookLogsControllerFindManyLogs(
+    webhookId: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1286,8 +1244,9 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<FindManyWebhookUserResponseInterface>;
-  public webhookUsersControllerFindMany(
+  ): Observable<FindManyWebhookLogResponseInterface>;
+  public webhookLogsControllerFindManyLogs(
+    webhookId: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1299,8 +1258,9 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<FindManyWebhookUserResponseInterface>>;
-  public webhookUsersControllerFindMany(
+  ): Observable<HttpResponse<FindManyWebhookLogResponseInterface>>;
+  public webhookLogsControllerFindManyLogs(
+    webhookId: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1312,8 +1272,9 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<FindManyWebhookUserResponseInterface>>;
-  public webhookUsersControllerFindMany(
+  ): Observable<HttpEvent<FindManyWebhookLogResponseInterface>>;
+  public webhookLogsControllerFindManyLogs(
+    webhookId: string,
     curPage?: number,
     perPage?: number,
     searchText?: string,
@@ -1326,6 +1287,12 @@ export class WebhookRestService {
       transferCache?: boolean;
     }
   ): Observable<any> {
+    if (webhookId === null || webhookId === undefined) {
+      throw new Error(
+        'Required parameter webhookId was null or undefined when calling webhookLogsControllerFindManyLogs.'
+      );
+    }
+
     let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
     if (curPage !== undefined && curPage !== null) {
       localVarQueryParameters = this.addToHttpParams(
@@ -1355,6 +1322,13 @@ export class WebhookRestService {
         'sort'
       );
     }
+    if (webhookId !== undefined && webhookId !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>webhookId,
+        'webhookId'
+      );
+    }
 
     let localVarHeaders = this.defaultHeaders;
 
@@ -1398,8 +1372,8 @@ export class WebhookRestService {
       }
     }
 
-    let localVarPath = `/api/webhook/users`;
-    return this.httpClient.request<FindManyWebhookUserResponseInterface>(
+    let localVarPath = `/api/webhook/logs`;
+    return this.httpClient.request<FindManyWebhookLogResponseInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {
@@ -1420,7 +1394,7 @@ export class WebhookRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public webhookUsersControllerFindOne(
+  public webhookLogsControllerFindOne(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
@@ -1429,8 +1403,8 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<WebhookUserInterface>;
-  public webhookUsersControllerFindOne(
+  ): Observable<WebhookLogInterface>;
+  public webhookLogsControllerFindOne(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
@@ -1439,8 +1413,8 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<WebhookUserInterface>>;
-  public webhookUsersControllerFindOne(
+  ): Observable<HttpResponse<WebhookLogInterface>>;
+  public webhookLogsControllerFindOne(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
@@ -1449,8 +1423,8 @@ export class WebhookRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<WebhookUserInterface>>;
-  public webhookUsersControllerFindOne(
+  ): Observable<HttpEvent<WebhookLogInterface>>;
+  public webhookLogsControllerFindOne(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -1462,7 +1436,7 @@ export class WebhookRestService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling webhookUsersControllerFindOne.'
+        'Required parameter id was null or undefined when calling webhookLogsControllerFindOne.'
       );
     }
 
@@ -1508,7 +1482,7 @@ export class WebhookRestService {
       }
     }
 
-    let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
+    let localVarPath = `/api/webhook/logs/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
@@ -1517,153 +1491,11 @@ export class WebhookRestService {
       dataType: 'string',
       dataFormat: undefined,
     })}`;
-    return this.httpClient.request<WebhookUserInterface>(
+    return this.httpClient.request<WebhookLogInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * @param id
-   * @param updateWebhookUserDtoInterface
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<WebhookUserInterface>;
-  public webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<WebhookUserInterface>>;
-  public webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<WebhookUserInterface>>;
-  public webhookUsersControllerUpdateOne(
-    id: string,
-    updateWebhookUserDtoInterface: UpdateWebhookUserDtoInterface,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any> {
-    if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling webhookUsersControllerUpdateOne.'
-      );
-    }
-    if (
-      updateWebhookUserDtoInterface === null ||
-      updateWebhookUserDtoInterface === undefined
-    ) {
-      throw new Error(
-        'Required parameter updateWebhookUserDtoInterface was null or undefined when calling webhookUsersControllerUpdateOne.'
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (localVarHttpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    }
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
-    }
-
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
-    if (localVarHttpContext === undefined) {
-      localVarHttpContext = new HttpContext();
-    }
-
-    let localVarTransferCache: boolean | undefined =
-      options && options.transferCache;
-    if (localVarTransferCache === undefined) {
-      localVarTransferCache = true;
-    }
-
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Content-Type',
-        httpContentTypeSelected
-      );
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (
-        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
-      ) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/webhook/users/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
-    return this.httpClient.request<WebhookUserInterface>(
-      'put',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        body: updateWebhookUserDtoInterface,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,

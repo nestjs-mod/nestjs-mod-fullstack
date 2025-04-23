@@ -7,7 +7,7 @@ export class AuthSignUpMapperService {
     return {
       email: data['email'],
       password: data['password'],
-      confirm_password: data['confirm_password'],
+      confirmPassword: data['confirmPassword'],
     };
   }
 
@@ -15,7 +15,7 @@ export class AuthSignUpMapperService {
     return {
       email: data['email'],
       password: data['password'],
-      confirm_password: data['confirm_password'],
+      confirmPassword: data['confirmPassword'],
     };
   }
 }

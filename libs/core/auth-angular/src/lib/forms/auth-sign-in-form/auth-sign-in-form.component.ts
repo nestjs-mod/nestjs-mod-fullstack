@@ -15,13 +15,18 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import {
+  TranslocoDirective,
+  TranslocoPipe,
+  TranslocoService,
+} from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
@@ -29,8 +34,11 @@ import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { AuthSignInFormService } from '../../services/auth-sign-in-form.service';
 import { AuthSignInMapperService } from '../../services/auth-sign-in-mapper.service';
 import { AuthService } from '../../services/auth.service';
-import { AuthLoginInput, AuthUserAndTokens } from '../../services/auth.types';
-
+import {
+  AuthLoginInput,
+  AuthUserAndTokens,
+  OAuthProvider,
+} from '../../services/auth.types';
 @UntilDestroy()
 @Component({
   imports: [
@@ -42,10 +50,19 @@ import { AuthLoginInput, AuthUserAndTokens } from '../../services/auth.types';
     ReactiveFormsModule,
     AsyncPipe,
     RouterModule,
+    TranslocoPipe,
     TranslocoDirective,
+    NzIconModule,
   ],
   selector: 'auth-sign-in-form',
   templateUrl: './auth-sign-in-form.component.html',
+  styles: [
+    `
+      :host {
+        width: 400px;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthSignInFormComponent implements OnInit {
@@ -58,6 +75,7 @@ export class AuthSignInFormComponent implements OnInit {
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+  oAuthProviders$ = new BehaviorSubject<OAuthProvider[] | null>(null);
 
   constructor(
     @Optional()
@@ -73,7 +91,33 @@ export class AuthSignInFormComponent implements OnInit {
 
   ngOnInit(): void {
     Object.assign(this, this.nzModalData);
+
+    this.loadOAuthProviders();
+
+    this.translocoService.langChanges$
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          this.formlyFields$.next(this.formlyFields$.value);
+        })
+      )
+      .subscribe();
+
     this.setFieldsAndModel({ password: '' });
+  }
+
+  private loadOAuthProviders() {
+    this.authService
+      .getOAuthProviders()
+      .pipe(
+        tap((oAuthProviders) =>
+          this.oAuthProviders$.next(
+            oAuthProviders.length === 0 ? null : oAuthProviders
+          )
+        ),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   setFieldsAndModel(data: AuthLoginInput = { password: '' }) {

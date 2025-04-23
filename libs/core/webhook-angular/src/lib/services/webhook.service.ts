@@ -2,22 +2,25 @@ import { Injectable } from '@angular/core';
 import {
   CreateWebhookDtoInterface,
   UpdateWebhookDtoInterface,
+  WebhookLogInterface,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { RequestMeta } from '@nestjs-mod-fullstack/common-angular';
 import { map } from 'rxjs';
+import { WebhookLogMapperService } from './webhook-log-mapper.service';
 import { WebhookMapperService } from './webhook-mapper.service';
 @Injectable({ providedIn: 'root' })
 export class WebhookService {
   constructor(
     private readonly webhookRestService: WebhookRestService,
-    private readonly webhookMapperService: WebhookMapperService
+    private readonly webhookMapperService: WebhookMapperService,
+    private readonly webhookLogMapperService: WebhookLogMapperService
   ) {}
 
   findOne(id: string) {
     return this.webhookRestService
       .webhookControllerFindOne(id)
-      .pipe(map(this.webhookMapperService.toModel));
+      .pipe(map((w) => this.webhookMapperService.toModel(w)));
   }
 
   findMany({
@@ -41,7 +44,7 @@ export class WebhookService {
       .pipe(
         map(({ meta, webhooks }) => ({
           meta,
-          webhooks: webhooks.map(this.webhookMapperService.toModel),
+          webhooks: webhooks.map((w) => this.webhookMapperService.toModel(w)),
         }))
       );
   }
@@ -49,7 +52,7 @@ export class WebhookService {
   updateOne(id: string, data: UpdateWebhookDtoInterface) {
     return this.webhookRestService
       .webhookControllerUpdateOne(id, data)
-      .pipe(map(this.webhookMapperService.toModel));
+      .pipe(map((w) => this.webhookMapperService.toModel(w)));
   }
 
   deleteOne(id: string) {
@@ -59,6 +62,16 @@ export class WebhookService {
   createOne(data: CreateWebhookDtoInterface) {
     return this.webhookRestService
       .webhookControllerCreateOne(data)
-      .pipe(map(this.webhookMapperService.toModel));
+      .pipe(map((w) => this.webhookMapperService.toModel(w)));
+  }
+
+  testRequest(data: CreateWebhookDtoInterface) {
+    return this.webhookRestService
+      .webhookControllerTestRequest(data)
+      .pipe(
+        map((result) =>
+          this.webhookLogMapperService.toModel(result as WebhookLogInterface)
+        )
+      );
   }
 }

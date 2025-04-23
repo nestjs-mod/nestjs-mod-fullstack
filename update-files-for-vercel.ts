@@ -50,11 +50,6 @@ parsedEnvs.DISABLE_SERVE_STATIC = 'true';
 parsedEnvs.SERVER_PORT = '3000';
 
 // check real process envs
-parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
-  process.env.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID ||
-  '248ec37f-628d-43f0-8de2-f58da037dd0f';
-parsedEnvs.CLIENT_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID =
-  parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID;
 parsedEnvs.SERVER_AUTH_ADMIN_EMAIL =
   process.env.SERVER_AUTH_ADMIN_EMAIL || 'nestjs-mod-fullstack@site15.ru';
 parsedEnvs.SERVER_AUTH_ADMIN_PASSWORD =
@@ -67,8 +62,6 @@ parsedEnvs.CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:4200';
 writeFileSync(
   join(__dirname, 'apps/client/src/environments/environment.supabase-prod.ts'),
   `export const serverUrl = '';
-export const webhookSuperAdminExternalUserId =
-  '${parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}';
 export const authorizerURL = '';
 export const minioURL =
   'https://${supabaseName}.supabase.co/storage/v1/s3';
@@ -80,8 +73,6 @@ export const supabaseKey =
 writeFileSync(
   join(__dirname, 'apps/client/src/environments/environment.supabase.ts'),
   `export const serverUrl = 'http://localhost:3000';
-export const webhookSuperAdminExternalUserId =
-  '${parsedEnvs.SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID}';
 export const authorizerURL = '';
 export const minioURL =
   'https://${supabaseName}.supabase.co/storage/v1/s3';

@@ -11,7 +11,8 @@ import {
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, TitleStrategy } from '@angular/router';
+import { GithubFill } from '@ant-design/icons-angular/icons';
 import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
@@ -29,18 +30,13 @@ import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
-import {
-  WEBHOOK_CONFIGURATION_TOKEN,
-  WebhookConfiguration,
-} from '@nestjs-mod-fullstack/webhook-angular';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
-import {
-  serverUrl,
-  webhookSuperAdminExternalUserId,
-} from '../environments/environment';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import { serverUrl } from '../environments/environment';
 import { AppInitializer } from './app-initializer';
+import { AppTitleStrategy } from './app-title.strategy';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import {
@@ -51,8 +47,6 @@ import { CustomAuthProfileFormService } from './integrations/custom-auth-profile
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
-import { provideNzIcons } from 'ng-zorro-antd/icon';
-import { GithubFill } from '@ant-design/icons-angular/icons';
 
 export const authorizerAppConfig = ({
   authorizerURL,
@@ -69,10 +63,6 @@ export const authorizerAppConfig = ({
       provideRouter(appRoutes),
       provideHttpClient(),
       provideNzI18n(en_US),
-      {
-        provide: WEBHOOK_CONFIGURATION_TOKEN,
-        useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
-      },
       importProvidersFrom(
         BrowserAnimationsModule,
         RestClientApiModule.forRoot(
@@ -138,6 +128,10 @@ export const authorizerAppConfig = ({
         )(inject(AppInitializer));
         return initializerFn();
       }),
+      {
+        provide: TitleStrategy,
+        useClass: AppTitleStrategy,
+      },
       {
         provide: AuthProfileMapperService,
         useClass: CustomAuthProfileMapperService,

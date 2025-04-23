@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, TitleStrategy } from '@angular/router';
 import { GithubFill } from '@ant-design/icons-angular/icons';
 import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
@@ -30,18 +30,11 @@ import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
-import {
-  WEBHOOK_CONFIGURATION_TOKEN,
-  WebhookConfiguration,
-} from '@nestjs-mod-fullstack/webhook-angular';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
-import {
-  serverUrl,
-  webhookSuperAdminExternalUserId,
-} from '../environments/environment';
+import { serverUrl } from '../environments/environment';
 import { AppInitializer } from './app-initializer';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
@@ -54,6 +47,7 @@ import {
   provideSupabaseAuthConfiguration,
 } from './integrations/supabase-auth.configuration';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { AppTitleStrategy } from './app-title.strategy';
 
 export const supabaseAppConfig = ({
   supabaseURL,
@@ -72,10 +66,6 @@ export const supabaseAppConfig = ({
       provideRouter(appRoutes),
       provideHttpClient(),
       provideNzI18n(en_US),
-      {
-        provide: WEBHOOK_CONFIGURATION_TOKEN,
-        useValue: new WebhookConfiguration({ webhookSuperAdminExternalUserId }),
-      },
       importProvidersFrom(
         BrowserAnimationsModule,
         RestClientApiModule.forRoot(
@@ -145,6 +135,10 @@ export const supabaseAppConfig = ({
         )(inject(AppInitializer));
         return initializerFn();
       }),
+      {
+        provide: TitleStrategy,
+        useClass: AppTitleStrategy,
+      },
       {
         provide: AuthProfileMapperService,
         useClass: CustomAuthProfileMapperService,

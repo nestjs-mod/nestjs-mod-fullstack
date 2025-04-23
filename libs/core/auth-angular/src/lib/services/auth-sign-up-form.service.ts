@@ -56,7 +56,7 @@ export class AuthSignUpFormService {
           },
         },
         {
-          key: 'confirm_password',
+          key: 'confirmPassword',
           type: 'input',
           validation: {
             show: true,
@@ -65,7 +65,7 @@ export class AuthSignUpFormService {
             label: this.translocoService.translate(
               `auth.sign-up-form.fields.confirm-password`
             ),
-            placeholder: 'confirm_password',
+            placeholder: 'confirmPassword',
             required: true,
             type: 'password',
           },

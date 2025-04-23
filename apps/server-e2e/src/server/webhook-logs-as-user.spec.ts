@@ -231,7 +231,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .webhookControllerFindMany();
     const { data: manyWebhookLogs } = await user1
       .getWebhookApi()
-      .webhookControllerFindManyLogs(
+      .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id
       );
@@ -246,7 +246,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     }).toMatchObject({
       webhookLogs: [
         {
-          responseStatus: 'OK',
+          responseStatus: '200 OK',
           webhookStatus: 'Success',
           webhookId: manyWebhooks.webhooks.find(
             (w) => w.eventName === createEventName
@@ -262,7 +262,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .webhookControllerFindMany();
     const { data: manyWebhookLogs } = await user1
       .getWebhookApi()
-      .webhookControllerFindManyLogs(
+      .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         manyWebhooks.webhooks.find((w) => w.eventName === deleteEventName)!.id
       );
@@ -294,7 +294,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .webhookControllerFindMany();
     const { data: manyWebhookLogs } = await user1
       .getWebhookApi()
-      .webhookControllerFindManyLogs(
+      .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         manyWebhooks.webhooks.find((w) => w.eventName === updateEventName)!.id
       );
@@ -309,7 +309,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
     }).toMatchObject({
       webhookLogs: [
         {
-          responseStatus: 'OK',
+          responseStatus: '200 OK',
           webhookStatus: 'Success',
           webhookId: manyWebhooks.webhooks.find(
             (w) => w.eventName === updateEventName

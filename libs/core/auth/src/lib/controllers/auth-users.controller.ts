@@ -3,6 +3,7 @@ import { AuthRole, Prisma, PrismaClient } from '@prisma/auth-client';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationError } from '@nestjs-mod-fullstack/validation';
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
@@ -16,7 +17,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiExtraModels,
   ApiOkResponse,
   ApiTags,
   refs,
@@ -29,11 +29,9 @@ import { AuthError } from '../auth.errors';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { UpdateAuthUserDto } from '../generated/rest/dto/update-auth-user.dto';
 import { AuthCacheService } from '../services/auth-cache.service';
-import { FindManyAuthUserResponse } from '../types/find-many-auth-user-response';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { AuthWebhookEvent } from '../types/auth-webhooks';
+import { FindManyAuthUserResponse } from '../types/find-many-auth-user-response';
 
-@ApiExtraModels(AuthError, ValidationError)
 @ApiBadRequestResponse({
   schema: { allOf: refs(AuthError, ValidationError) },
 })

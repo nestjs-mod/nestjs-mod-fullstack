@@ -5,10 +5,12 @@
     </div>
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLink="/home" transloco="Home"></li>
-      <li nz-menu-item routerLink="/demo" transloco="Demo"></li>
+
       @if
       ([AuthRoleInterface.User,AuthRoleInterface.Admin]|checkUserRoles|async) {
       <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
+      } @if
+      ([AuthRoleInterface.User,AuthRoleInterface.Admin]|checkUserRoles|async) {
       <li
         nz-submenu
         [nzTitle]="

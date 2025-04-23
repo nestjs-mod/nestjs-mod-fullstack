@@ -1,3 +1,4 @@
+export * from './lib/auth-extra-models';
 export * from './lib/auth.configuration';
 export * from './lib/auth.constants';
 export * from './lib/auth.decorators';
@@ -24,7 +25,6 @@ export * from './lib/services/auth-cache.service';
 export * from './lib/services/auth-default-data-bootstrap.service';
 export * from './lib/services/auth-timezone.service';
 export * from './lib/types/auth-async-local-storage-data';
-export * from './lib/types/auth-entities';
 export * from './lib/types/auth-profile.dto';
 export * from './lib/types/auth-request';
 export * from './lib/types/auth-webhooks';

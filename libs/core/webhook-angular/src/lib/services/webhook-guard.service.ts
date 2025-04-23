@@ -18,8 +18,12 @@ export class WebhookGuardData {
 export class WebhookGuardService implements CanActivate {
   constructor(private readonly webhookAuthService: WebhookAuthService) {}
   canActivate(route: ActivatedRouteSnapshot) {
-    if (route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY] instanceof WebhookGuardData) {
-      const webhookGuardData = route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY];
+    const webhookGuardData =
+      route.data &&
+      route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY] instanceof WebhookGuardData
+        ? route.data[WEBHOOK_GUARD_DATA_ROUTE_KEY]
+        : null;
+    if (webhookGuardData) {
       const webhookGuardDataRoles = webhookGuardData.roles || [];
       return this.webhookAuthService.loadWebhookUser().pipe(
         map((webhookUser) => {

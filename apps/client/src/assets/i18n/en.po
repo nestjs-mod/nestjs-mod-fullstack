@@ -6,17 +6,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-msgid "Source code"
-msgstr "Source code"
-
 msgid "You are logged in as {{email}}"
 msgstr "You are logged in as {{email}}"
 
+msgid "Source code"
+msgstr "Source code"
+
 msgid "Home"
 msgstr "Home"
-
-msgid "Demo"
-msgstr "Demo"
 
 msgid "Webhooks"
 msgstr "Webhooks"
@@ -82,6 +79,12 @@ msgstr "Prepare"
 msgid "Hello Static"
 msgstr "Hello Static"
 
+msgid "Password recovery"
+msgstr "Password recovery"
+
+msgid "Demo"
+msgstr "Demo"
+
 msgid "Create new"
 msgstr "Create new"
 
@@ -100,6 +103,18 @@ msgstr "Save"
 msgid "Create"
 msgstr "Create"
 
+msgid "Complete sign up"
+msgstr "Complete sign up"
+
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Completing registration"
+msgstr "Completing registration"
+
+msgid "Сomplete forgot password"
+msgstr "Сomplete forgot password"
+
 msgid "en"
 msgstr "EN"
 
@@ -112,8 +127,11 @@ msgstr "RU"
 msgid "app.locale.name.russian"
 msgstr "Russian"
 
-msgid "client"
-msgstr "client"
+msgid "Complete OAuth sign up"
+msgstr "Complete OAuth sign up"
+
+msgid "Fullstack"
+msgstr "Fullstack"
 
 msgid "Update demo"
 msgstr "Update demo"
@@ -282,3 +300,6 @@ msgstr "UTC+13:00: Samoa, Tonga"
 
 msgid "UTC+14:00: Date Line (east)"
 msgstr "UTC+14:00: Date Line (east)"
+
+msgid "client"
+msgstr "client"

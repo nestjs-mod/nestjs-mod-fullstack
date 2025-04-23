@@ -52,6 +52,7 @@
         [transloco]="columns[key]"
       ></th>
       }
+      <th transloco="Action"></th>
     </tr>
   </thead>
   @if (selectedIds$ | async; as selectedIds) {
@@ -75,6 +76,11 @@
         {{ data[key] }}
       </td>
       } }
+      <td>
+        <a (click)="showCreateOrUpdateModal(data.id)" transloco="View"></a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="showDeleteModal(data.id)" transloco="Delete"></a>
+      </td>
     </tr>
     }
   </tbody>

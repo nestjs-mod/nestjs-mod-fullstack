@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
@@ -9,9 +9,7 @@ import {
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
-  AUTH_CONFIGURATION_TOKEN,
   AuthActiveLangService,
-  AuthConfiguration,
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
@@ -22,8 +20,6 @@ export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
-    @Inject(AUTH_CONFIGURATION_TOKEN)
-    private readonly authConfiguration: AuthConfiguration,
     private readonly appRestService: AppRestService,
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
@@ -53,6 +49,7 @@ export class AppInitializer {
     }
     this.updateHeaders();
     this.subscribeToTokenUpdatesSubscription = merge(
+      this.authService.updateHeaders$.asObservable(),
       this.tokensService.getStream(),
       this.translocoService.langChanges$
     )
@@ -61,26 +58,23 @@ export class AppInitializer {
   }
 
   private updateHeaders() {
-    if (this.authConfiguration.getAuthorizationHeaders) {
-      const authorizationHeaders =
-        this.authConfiguration.getAuthorizationHeaders();
-      if (authorizationHeaders) {
-        this.appRestService.defaultHeaders = new HttpHeaders(
-          authorizationHeaders
-        );
-        this.webhookRestService.defaultHeaders = new HttpHeaders(
-          authorizationHeaders
-        );
-        this.filesRestService.defaultHeaders = new HttpHeaders(
-          authorizationHeaders
-        );
-        this.timeRestService.defaultHeaders = new HttpHeaders(
-          authorizationHeaders
-        );
-        this.authRestService.defaultHeaders = new HttpHeaders(
-          authorizationHeaders
-        );
-      }
+    const authorizationHeaders = this.authService.getAuthorizationHeaders();
+    if (authorizationHeaders) {
+      this.appRestService.defaultHeaders = new HttpHeaders(
+        authorizationHeaders
+      );
+      this.webhookRestService.defaultHeaders = new HttpHeaders(
+        authorizationHeaders
+      );
+      this.filesRestService.defaultHeaders = new HttpHeaders(
+        authorizationHeaders
+      );
+      this.timeRestService.defaultHeaders = new HttpHeaders(
+        authorizationHeaders
+      );
+      this.authRestService.defaultHeaders = new HttpHeaders(
+        authorizationHeaders
+      );
     }
   }
 }

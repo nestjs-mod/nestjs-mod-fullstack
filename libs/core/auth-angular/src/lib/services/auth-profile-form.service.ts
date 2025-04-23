@@ -40,7 +40,7 @@ export class AuthProfileFormService {
           },
         },
         {
-          key: 'old_password',
+          key: 'oldPassword',
           type: 'input',
           validation: {
             show: true,
@@ -49,12 +49,12 @@ export class AuthProfileFormService {
             label: this.translocoService.translate(
               `auth.profile-form.fields.old-password`
             ),
-            placeholder: 'old_password',
+            placeholder: 'oldPassword',
             type: 'password',
           },
         },
         {
-          key: 'new_password',
+          key: 'newPassword',
           type: 'input',
           validation: {
             show: true,
@@ -63,12 +63,12 @@ export class AuthProfileFormService {
             label: this.translocoService.translate(
               `auth.profile-form.fields.new-password`
             ),
-            placeholder: 'new_password',
+            placeholder: 'newPassword',
             type: 'password',
           },
         },
         {
-          key: 'confirm_new_password',
+          key: 'confirmNewPassword',
           type: 'input',
           validation: {
             show: true,
@@ -77,7 +77,7 @@ export class AuthProfileFormService {
             label: this.translocoService.translate(
               `auth.profile-form.fields.confirm-new-password`
             ),
-            placeholder: 'confirm_new_password',
+            placeholder: 'confirmNewPassword',
             type: 'password',
           },
         },

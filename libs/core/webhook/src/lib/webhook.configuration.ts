@@ -29,19 +29,3 @@ export class WebhookFeatureConfiguration {
   })
   events?: WebhookEvent[];
 }
-
-@ConfigModel()
-export class WebhookStaticConfiguration {
-  @ConfigModelProperty({
-    description: 'The name of the header key that stores the external user ID',
-    default: 'x-external-user-id',
-  })
-  externalUserIdHeaderName?: string;
-
-  @ConfigModelProperty({
-    description:
-      'The name of the header key that stores the external tenant ID',
-    default: 'x-external-tenant-id',
-  })
-  externalTenantIdHeaderName?: string;
-}

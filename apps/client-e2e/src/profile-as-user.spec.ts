@@ -74,15 +74,13 @@ test.describe('Work with profile as "User" role', () => {
 
     await page
       .locator('auth-sign-up-form')
-      .locator('[placeholder=confirm_password]')
+      .locator('[placeholder=confirmPassword]')
       .click();
     await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
-      page
-        .locator('auth-sign-up-form')
-        .locator('[placeholder=confirm_password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
     ).toHaveValue(user.password);
 
     await expect(
@@ -193,29 +191,29 @@ test.describe('Work with profile as "User" role', () => {
     //
     await page
       .locator('auth-profile-form')
-      .locator('[placeholder=old_password]')
+      .locator('[placeholder=oldPassword]')
       .click();
     await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
-      page.locator('auth-profile-form').locator('[placeholder=old_password]')
+      page.locator('auth-profile-form').locator('[placeholder=oldPassword]')
     ).toHaveValue(user.password);
 
     await page
       .locator('auth-profile-form')
-      .locator('[placeholder=new_password]')
+      .locator('[placeholder=newPassword]')
       .click();
     await page.keyboard.type(user.password + user.password, {
       delay: 50,
     });
     await expect(
-      page.locator('auth-profile-form').locator('[placeholder=new_password]')
+      page.locator('auth-profile-form').locator('[placeholder=newPassword]')
     ).toHaveValue(user.password + user.password);
 
     await page
       .locator('auth-profile-form')
-      .locator('[placeholder=confirm_new_password]')
+      .locator('[placeholder=confirmNewPassword]')
       .click();
     await page.keyboard.type(user.password + user.password, {
       delay: 50,
@@ -223,7 +221,7 @@ test.describe('Work with profile as "User" role', () => {
     await expect(
       page
         .locator('auth-profile-form')
-        .locator('[placeholder=confirm_new_password]')
+        .locator('[placeholder=confirmNewPassword]')
     ).toHaveValue(user.password + user.password);
 
     const fileChooserPromise = page.waitForEvent('filechooser');

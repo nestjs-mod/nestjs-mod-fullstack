@@ -101,15 +101,13 @@ test.describe('Validation (ru)', () => {
 
     await page
       .locator('auth-sign-up-form')
-      .locator('[placeholder=confirm_password]')
+      .locator('[placeholder=confirmPassword]')
       .click();
     await page.keyboard.type(user.password, {
       delay: 50,
     });
     await expect(
-      page
-        .locator('auth-sign-up-form')
-        .locator('[placeholder=confirm_password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
     ).toHaveValue(user.password);
 
     await expect(
@@ -138,10 +136,10 @@ test.describe('Validation (ru)', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(1)
+      page.locator('webhook-form').locator('formly-validation-message').nth(0)
     ).toContainText('поле "адрес" не может быть пустым');
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').last()
+      page.locator('webhook-form').locator('formly-validation-message').nth(1)
     ).toContainText('поле "событие" не может быть пустым');
   });
 });

@@ -7,31 +7,15 @@ import {
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
 
-export type WebhookAuthCredentials = {
-  xExternalUserId?: string;
-  xExternalTenantId?: string;
-};
-
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class WebhookAuthService {
-  private webhookAuthCredentials$ = new BehaviorSubject<WebhookAuthCredentials>(
-    {}
-  );
   private webhookUser$ = new BehaviorSubject<WebhookUserInterface | null>(null);
 
   constructor(private readonly webhookRestService: WebhookRestService) {}
 
-  getWebhookAuthCredentials() {
-    return this.webhookAuthCredentials$.value;
-  }
-
   getWebhookUser() {
     return this.webhookUser$.value;
-  }
-
-  setWebhookAuthCredentials(webhookAuthCredentials: WebhookAuthCredentials) {
-    this.webhookAuthCredentials$.next(webhookAuthCredentials);
   }
 
   loadWebhookUser() {
@@ -44,10 +28,6 @@ export class WebhookAuthService {
         return throwError(() => err);
       })
     );
-  }
-
-  webhookAuthCredentialsUpdates() {
-    return this.webhookAuthCredentials$.asObservable();
   }
 
   webhookUserUpdates() {

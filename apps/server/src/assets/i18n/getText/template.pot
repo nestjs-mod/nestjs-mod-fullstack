@@ -26,3 +26,6 @@ msgstr "Supabase error"
 
 msgid "Unauthorized"
 msgstr "Unauthorized"
+
+msgid "Too Many Requests"
+msgstr "Too Many Requests"

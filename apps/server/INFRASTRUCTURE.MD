@@ -1,5 +1,5 @@
 # server
-> Version: 1.16.0
+> Version: 1.17.0
 
 Boilerplate for creating application on NestJS and Angular
 ## System modules
@@ -28,6 +28,11 @@ Default NestJS application initializer.
 | ------ | ----------- | ----- |
 |`bufferLogs`|**optional**|```true```|
 
+## Feature modules
+
+### NestjsPinoLoggerModule
+Pino logger for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-pino)
+
 ### TerminusHealthCheckModule
 Terminus integration provides readiness/liveness health checks for NestJS-mod (Wrapper for https://www.npmjs.com/package/@nestjs/terminus)
 
@@ -42,8 +47,6 @@ Terminus integration provides readiness/liveness health checks for NestJS-mod (W
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`standardHealthIndicators`|**optional**|[ ```{"name":"memory_heap"}```, ```{"name":"database_app"}```, ```{"name":"database_auth"}```, ```{"name":"database_webhook"}``` ]|
-
-## Core modules
 
 ### PrismaToolsModule
 #### Shared providers
@@ -269,8 +272,6 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 |`usePipes`|`obj['usePipes']`, `process.env['SERVER_VALIDATION_USE_PIPES']`|**optional**|```false```|
 |`useFilters`|`obj['useFilters']`, `process.env['SERVER_VALIDATION_USE_FILTERS']`|**optional**|```true```|
 
-## Feature modules
-
 ### AppModule
 ### WebhookModule
 #### Shared providers
@@ -286,10 +287,7 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 |`useGuards`|`obj['useGuards']`, `process.env['SERVER_WEBHOOK_USE_GUARDS']`|**optional**|```true```|
 |`useFilters`|`obj['useFilters']`, `process.env['SERVER_WEBHOOK_USE_FILTERS']`|**optional**|```true```|
 |`autoCreateUser`|`obj['autoCreateUser']`, `process.env['SERVER_WEBHOOK_AUTO_CREATE_USER']`|**optional**|```true```|
-|`searchTenantIdInHeaders`|`obj['searchTenantIdInHeaders']`, `process.env['SERVER_WEBHOOK_SEARCH_TENANT_ID_IN_HEADERS']`|**optional**|```false```|
-|`searchUserIdInHeaders`|`obj['searchUserIdInHeaders']`, `process.env['SERVER_WEBHOOK_SEARCH_USER_ID_IN_HEADERS']`|**optional**|```false```|
 |`skipGuardErrors`|`obj['skipGuardErrors']`, `process.env['SERVER_WEBHOOK_SKIP_GUARD_ERRORS']`|**optional**|```false```|
-|`superAdminExternalUserId`|`obj['superAdminExternalUserId']`, `process.env['SERVER_WEBHOOK_SUPER_ADMIN_EXTERNAL_USER_ID']`|**optional**|```248ec37f-628d-43f0-8de2-f58da037dd0f```|
 
 #### Modules that use feature configuration
 ##### Feature module name: auth
@@ -389,6 +387,14 @@ Docker Compose is a tool for defining and running multi-container applications. 
 |`services`|**optional**|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{"MINIO_ROOT_USER":"FWGmrAGaeMKM","MINIO_ROOT_PASSWORD":"QatVJuLoZRARlJguoZMpoKvZMJHzvuOR"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|**optional**|```{"server-minio-volume":{"name":"server-minio-volume"}}```|
+
+#### Modules that use feature configuration
+##### Feature module name: SERVER_MAILDEV
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`services`|**optional**|```{"server-maildev":{"image":"maildev/maildev:2.2.1","container_name":"server-maildev","ports":["1025:1025","1080:1080"],"networks":["server-network"],"environment":{"MAILDEV_SMTP_PORT":1025,"MAILDEV_WEB_PORT":1080},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","smtpPort","webPort"],"healthcheck":{"test":"wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1","interval":"10s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 
 ### PgFlyway
 PgFlyway - utility for working with database migrations (site: https://www.npmjs.com/package/pg-flyway, preview version only for Postgres)
@@ -619,3 +625,34 @@ MinIO is a high-performance, S3 compatible object storage. (Generator for minio 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`image`|**optional**|```bitnami/minio:2024.11.7```|
+
+### DockerComposeMaildev
+MailDev is a simple way to test your projects generated email during development, with an easy to use web interface that runs on your machine. (Generator for maildev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`maildevMailDirectory`|`obj['maildevMailDirectory']`, `process.env['SERVER_MAILDEV_MAIL_DIRECTORY']`|**optional**|-|
+|`maildevHttps`|`obj['maildevHttps']`, `process.env['SERVER_MAILDEV_HTTPS']`|**optional**|-|
+|`maildevHttpsKey`|`obj['maildevHttpsKey']`, `process.env['SERVER_MAILDEV_HTTPS_KEY']`|**optional**|-|
+|`maildevHttpsCert`|`obj['maildevHttpsCert']`, `process.env['SERVER_MAILDEV_HTTPS_CERT']`|**optional**|-|
+|`maildevIp`|`obj['maildevIp']`, `process.env['SERVER_MAILDEV_IP']`|**optional**|-|
+|`maildevOutgoingHost`|`obj['maildevOutgoingHost']`, `process.env['SERVER_MAILDEV_OUTGOING_HOST']`|**optional**|-|
+|`maildevOutgoingPort`|`obj['maildevOutgoingPort']`, `process.env['SERVER_MAILDEV_OUTGOING_PORT']`|**optional**|-|
+|`maildevOutgoingUser`|`obj['maildevOutgoingUser']`, `process.env['SERVER_MAILDEV_OUTGOING_USER']`|**optional**|-|
+|`maildevOutgoingPass`|`obj['maildevOutgoingPass']`, `process.env['SERVER_MAILDEV_OUTGOING_PASS']`|**optional**|**hidden**|
+|`maildevOutgoingSecure`|`obj['maildevOutgoingSecure']`, `process.env['SERVER_MAILDEV_OUTGOING_SECURE']`|**optional**|-|
+|`maildevAutoRelay`|`obj['maildevAutoRelay']`, `process.env['SERVER_MAILDEV_AUTO_RELAY']`|**optional**|-|
+|`maildevAutoRelayRules`|`obj['maildevAutoRelayRules']`, `process.env['SERVER_MAILDEV_AUTO_RELAY_RULES']`|**optional**|-|
+|`maildevIncomingUser`|`obj['maildevIncomingUser']`, `process.env['SERVER_MAILDEV_INCOMING_USER']`|**optional**|-|
+|`maildevIncomingPass`|`obj['maildevIncomingPass']`, `process.env['SERVER_MAILDEV_INCOMING_PASS']`|**optional**|**hidden**|
+|`maildevIncomingSecure`|`obj['maildevIncomingSecure']`, `process.env['SERVER_MAILDEV_INCOMING_SECURE']`|**optional**|-|
+|`maildevIncomingCert`|`obj['maildevIncomingCert']`, `process.env['SERVER_MAILDEV_INCOMING_CERT']`|**optional**|-|
+|`maildevIncomingKey`|`obj['maildevIncomingKey']`, `process.env['SERVER_MAILDEV_INCOMING_KEY']`|**optional**|-|
+|`maildevWebIp`|`obj['maildevWebIp']`, `process.env['SERVER_MAILDEV_WEB_IP']`|**optional**|-|
+|`maildevWebUser`|`obj['maildevWebUser']`, `process.env['SERVER_MAILDEV_WEB_USER']`|**optional**|-|
+|`maildevWebPass`|`obj['maildevWebPass']`, `process.env['SERVER_MAILDEV_WEB_PASS']`|**optional**|**hidden**|
+|`maildevBasePathname`|`obj['maildevBasePathname']`, `process.env['SERVER_MAILDEV_BASE_PATHNAME']`|**optional**|-|
+|`maildevDisableWeb`|`obj['maildevDisableWeb']`, `process.env['SERVER_MAILDEV_DISABLE_WEB']`|**optional**|-|
+|`maildevHideExtensions`|`obj['maildevHideExtensions']`, `process.env['SERVER_MAILDEV_HIDE_EXTENSIONS']`|**optional**|-|

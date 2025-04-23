@@ -6,11 +6,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "Sign-up"
+msgstr "Sign-up"
+
+msgid "Forgot password?"
+msgstr "Forgot password?"
+
 msgid "Sign-in"
 msgstr "Sign-in"
 
-msgid "Sign-up"
-msgstr "Sign-up"
+msgid "or"
+msgstr "or"
+
+msgid "Sign in with Google"
+msgstr "Sign in with Google"
+
+msgid "Reset password"
+msgstr "Reset password"
+
+msgid "Change password"
+msgstr "Change password"
 
 msgid "auth.sign-up-form.fields.email"
 msgstr "Email"
@@ -39,6 +54,21 @@ msgstr "New password"
 msgid "auth.profile-form.fields.confirm-new-password"
 msgstr "Confirm new password"
 
+msgid "auth.forgot-password-form.fields.email"
+msgstr "Email"
+
+msgid "Successful login using external single sign-on system"
+msgstr "Successful login using external single sign-on system"
+
+msgid "Email address successfully verified"
+msgstr "Email address successfully verified"
+
+msgid "auth.complete-forgot-password-form.fields.password"
+msgstr "Password"
+
+msgid "auth.complete-forgot-password-form.fields.confirm-password"
+msgstr "Confirm password"
+
 msgid "Success"
 msgstr "Success"
 
@@ -50,6 +80,16 @@ msgstr "Profile data updated successfully!"
 
 msgid "Update"
 msgstr "Update"
+
+msgid ""
+"To complete the password change process, click the link in the email. If "
+"you haven't received the email, check your spam folder or try again."
+msgstr ""
+"To complete the password change process, click the link in the email. If "
+"you haven't received the email, check your spam folder or try again."
+
+msgid "Your password has been successfully changed!"
+msgstr "Your password has been successfully changed!"
 
 msgid "field \"{{label}}\""
 msgstr "field \"{{label}}\""

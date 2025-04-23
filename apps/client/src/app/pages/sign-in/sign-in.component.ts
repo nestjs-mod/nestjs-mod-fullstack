@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { AuthSignInFormComponent } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AuthService,
+  AuthSignInFormComponent,
+} from '@nestjs-mod-fullstack/auth-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({
@@ -11,8 +14,18 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent {
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
   onAfterSignIn() {
-    this.router.navigate(['/webhooks']);
+    if (
+      this.authService.profile$.value?.roles?.includes('admin') ||
+      this.authService.profile$.value?.roles?.includes('user')
+    ) {
+      this.router.navigate(['/webhooks']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 }

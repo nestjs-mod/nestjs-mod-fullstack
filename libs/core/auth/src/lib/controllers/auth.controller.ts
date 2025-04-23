@@ -3,6 +3,7 @@ import {
   ValidationError,
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
@@ -14,7 +15,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiExtraModels,
   ApiOkResponse,
   ApiTags,
   refs,
@@ -30,12 +30,9 @@ import { CheckAuthRole, CurrentAuthUser } from '../auth.decorators';
 import { AuthError } from '../auth.errors';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { AuthCacheService } from '../services/auth-cache.service';
-import { AuthEntities } from '../types/auth-entities';
 import { AuthProfileDto } from '../types/auth-profile.dto';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { AuthWebhookEvent } from '../types/auth-webhooks';
 
-@ApiExtraModels(AuthError, AuthEntities, ValidationError)
 @ApiBadRequestResponse({
   schema: { allOf: refs(AuthError, ValidationError) },
 })

@@ -31,31 +31,10 @@ export class WebhookStaticEnvironments {
   autoCreateUser?: boolean;
 
   @EnvModelProperty({
-    description: 'Search tenantId in headers',
-    transform: new BooleanTransformer(),
-    default: true,
-    hidden: true,
-  })
-  searchTenantIdInHeaders?: boolean;
-
-  @EnvModelProperty({
-    description: 'Search userId in headers',
-    transform: new BooleanTransformer(),
-    default: true,
-    hidden: true,
-  })
-  searchUserIdInHeaders?: boolean;
-
-  @EnvModelProperty({
     description: 'Skip any guard errors',
     transform: new BooleanTransformer(),
     default: false,
     hidden: true,
   })
   skipGuardErrors?: boolean;
-
-  @EnvModelProperty({
-    description: 'User ID with super admin role',
-  })
-  superAdminExternalUserId?: string;
 }
