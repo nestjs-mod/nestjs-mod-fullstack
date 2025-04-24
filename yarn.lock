@@ -15004,10 +15004,10 @@ pg-connection-string@^2.5.0, pg-connection-string@^2.7.0:
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.7.0.tgz#f1d3489e427c62ece022dba98d5262efcb168b37"
   integrity sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==
 
-pg-create-db@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.npmjs.org/pg-create-db/-/pg-create-db-1.1.5.tgz#f99e46796747fb08fb2cc0d7c19a982a8393dded"
-  integrity sha512-EU3E6wyx00zf52VdIwrY0IQ37NDqS5qjJM9B7JWgVm8Ru8ZhcqWxqap2S5OM0CwdPKzDeG1V+FaQIP5pVLakvw==
+pg-create-db@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/pg-create-db/-/pg-create-db-1.1.6.tgz#c892f6334062e29de12b1c6c5cb8f23d6d1c214f"
+  integrity sha512-s3zXDV/F4BdlPrU1T0wAPxXbtnBo+FllOq8tfGdvi5d90tnsNSNFdym3hmGy0XnpcqWvTUw3JhSoqf6Gpo/e2g==
   dependencies:
     commander "13.0.0"
     connection-string "4.3.5"
@@ -15017,12 +15017,13 @@ pg-create-db@^1.1.5:
     pg-promise "10.12.0"
     tslib "^2.3.0"
 
-pg-flyway@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.npmjs.org/pg-flyway/-/pg-flyway-1.2.5.tgz#1d00807b304a10661b7118f2f9334721bf0670a3"
-  integrity sha512-VL6q+q8kTAr0GgutE2HKozUWo1hx5gkMjO2WEJwLNYfFSetO7s27PjhJa/OkQyDqeSi8U8XII+u3OqxK/bpUTg==
+pg-flyway@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.npmjs.org/pg-flyway/-/pg-flyway-1.2.6.tgz#92e77663d873419a79ba481d021783db6a6e5b47"
+  integrity sha512-QeIY5CxQKsGc0lXr6F7txJermPtIdZ2wz8k9HhCnqTXHdOX5W7pg2UDgwlxSO91O7UfVxjZoJtjYHz3+Zp/yZw==
   dependencies:
     commander "13.0.0"
+    connection-string "4.3.5"
     console-table-printer "2.12.1"
     cosmiconfig "9.0.0"
     crc-32 "1.2.2"
