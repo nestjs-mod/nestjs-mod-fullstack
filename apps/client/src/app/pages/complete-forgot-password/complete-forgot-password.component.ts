@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { AuthRoleInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AuthCompleteForgotPasswordFormComponent,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { searchIn } from '@nestjs-mod-fullstack/common-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({
@@ -34,8 +36,10 @@ export class CompleteForgotPasswordComponent {
   onAfterCompleteForgotPassword() {
     if (!this.redirectUri) {
       if (
-        this.authService.profile$.value?.roles?.includes('admin') ||
-        this.authService.profile$.value?.roles?.includes('user')
+        searchIn(
+          [AuthRoleInterface.Admin, AuthRoleInterface.User],
+          this.authService.profile$.value?.roles
+        )
       ) {
         this.router.navigate(['/webhooks']);
       } else {

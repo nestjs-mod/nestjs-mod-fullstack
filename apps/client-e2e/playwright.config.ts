@@ -30,8 +30,8 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
  */
 export default defineConfig({
   workers: 1,
-  maxFailures: 1,
-  timeout: 240 * 1000,
+  maxFailures: 2,
+  timeout: 120 * 1000,
   ...nxE2EPreset(__filename, { testDir: './src' }),
   reporter: [['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

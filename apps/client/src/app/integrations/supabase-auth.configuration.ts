@@ -19,6 +19,7 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { searchIn } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
 import {
   AuthError,
@@ -157,7 +158,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       email: result.email || '',
       id: result.id,
       preferredUsername: 'empty',
-      roles: result.role?.toLowerCase().includes('admin')
+      roles: searchIn(AuthRoleInterface.Admin, result.role)
         ? [AuthRoleInterface.Admin]
         : [AuthRoleInterface.User],
       picture: result.user_metadata['picture'],

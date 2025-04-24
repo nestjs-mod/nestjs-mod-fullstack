@@ -21,6 +21,7 @@ import { CompleteForgotPasswordComponent } from './pages/complete-forgot-passwor
 import { CompleteInviteComponent } from './pages/complete-invite/complete-invite.component';
 import { CompleteSignUpComponent } from './pages/complete-sign-up/complete-sign-up.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { searchIn } from '@nestjs-mod-fullstack/common-angular';
 
 export const appRoutes: Route[] = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -117,8 +118,10 @@ export const appRoutes: Route[] = [
           if (!redirectUri) {
             if (options.authService && options.router) {
               if (
-                options.authService.profile$.value?.roles?.includes('admin') ||
-                options.authService.profile$.value?.roles?.includes('user')
+                searchIn(
+                  [AuthRoleInterface.Admin, AuthRoleInterface.User],
+                  options.authService.profile$.value?.roles
+                )
               ) {
                 options.router.navigate(['/webhooks']);
               } else {
@@ -152,8 +155,10 @@ export const appRoutes: Route[] = [
           if (!redirectUri) {
             if (options.authService && options.router) {
               if (
-                options.authService.profile$.value?.roles?.includes('admin') ||
-                options.authService.profile$.value?.roles?.includes('user')
+                searchIn(
+                  [AuthRoleInterface.Admin, AuthRoleInterface.User],
+                  options.authService.profile$.value?.roles
+                )
               ) {
                 options.router.navigate(['/webhooks']);
               } else {
