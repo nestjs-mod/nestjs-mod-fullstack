@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-mod-fullstack/source",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "license": "MIT",
   "scripts": {
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
