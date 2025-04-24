@@ -1,3 +1,9 @@
+## [1.17.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.17.2...client-v1.17.3) (2025-04-24)
+
+### Bug Fixes
+
+- update deps ([00705fa](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/00705fabc795adaf84c49948acf22fc517fa15a7))
+
 ## [1.17.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.17.1...client-v1.17.2) (2025-04-24)
 
 ### Bug Fixes
