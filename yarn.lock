@@ -3488,6 +3488,15 @@
   dependencies:
     tslib "^2.3.0"
 
+"@nestjs-mod/misc@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@nestjs-mod/misc/-/misc-1.4.0.tgz#c9bcea459228c1dc70eae87c282cb8f308ef1e36"
+  integrity sha512-8yR2F895nIsmKpZmaYr2kNDzPOAu/1Q5Qib492swbTFLBY+p0xNRBR1MB0fPE5k4pgrBusXNgn43XMhL0KxZQQ==
+  dependencies:
+    lodash.map "4.6.0"
+    lodash.reduce "4.6.0"
+    tslib "^2.3.0"
+
 "@nestjs-mod/pg-flyway@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@nestjs-mod/pg-flyway/-/pg-flyway-1.0.5.tgz#0fe25cdf70c3a3bf3d5ee71f6dc9ac07dc8c1c9d"
@@ -12978,6 +12987,11 @@ lodash.kebabcase@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.kebabcase/-/lodash.kebabcase-4.1.1.tgz#8489b1cb0d29ff88195cceca448ff6d6cc295c36"
   integrity sha512-N8XRTIMMqqDgSy4VLKPnJ/+hpGZN+PHQiJnSenYqPaVV/NCqEogTnAdZLQiGKhxX+JCs8waWq2t1XHWKOmlY8g==
 
+lodash.map@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
+  integrity sha512-worNHGKLDetmcEYDvh2stPCrrQRkP20E4l0iIS7F8EvzMqBBi7ltvFN5m1HvTf1P7Jk1txKhvFcmYsCr8O2F1Q==
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -12992,6 +13006,11 @@ lodash.mergewith@4.6.2, lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
+
+lodash.reduce@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
+  integrity sha512-6raRe2vxCYBhpBu+B+TtNGUzah+hQjVdu3E17wfusjyrXBka2nBS8OH/gjVZ5PvHOhWmIZTYri09Z6n/QfnNMw==
 
 lodash.snakecase@^4.1.1:
   version "4.1.1"

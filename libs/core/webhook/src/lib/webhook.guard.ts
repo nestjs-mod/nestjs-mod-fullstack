@@ -1,5 +1,5 @@
-import { searchIn } from '@nestjs-mod-fullstack/common';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { searchIn } from '@nestjs-mod/misc';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   CanActivate,

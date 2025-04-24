@@ -1,1 +1,4 @@
+cp ./example.env ./.env
+npm run docs:infrastructure
+git add ./apps/server/INFRASTRUCTURE.MD
 npx lint-staged

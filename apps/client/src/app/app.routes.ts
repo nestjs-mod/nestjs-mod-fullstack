@@ -21,7 +21,7 @@ import { CompleteForgotPasswordComponent } from './pages/complete-forgot-passwor
 import { CompleteInviteComponent } from './pages/complete-invite/complete-invite.component';
 import { CompleteSignUpComponent } from './pages/complete-sign-up/complete-sign-up.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { searchIn } from '@nestjs-mod-fullstack/common-angular';
+import { searchIn } from '@nestjs-mod/misc';
 
 export const appRoutes: Route[] = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

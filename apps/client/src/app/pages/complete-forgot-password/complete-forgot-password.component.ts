@@ -6,7 +6,7 @@ import {
   AuthCompleteForgotPasswordFormComponent,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { searchIn } from '@nestjs-mod-fullstack/common-angular';
+import { searchIn } from '@nestjs-mod/misc';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({

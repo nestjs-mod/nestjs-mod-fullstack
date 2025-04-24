@@ -22,7 +22,7 @@ import {
   SupabaseRequest,
   SupabaseUser,
 } from '../../supabase/supabase.types';
-import { splitIn } from '@nestjs-mod-fullstack/common';
+import { splitIn } from '@nestjs-mod/misc';
 
 @Injectable()
 export class WebhookWithAuthSupabaseConfiguration

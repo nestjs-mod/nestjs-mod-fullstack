@@ -19,8 +19,8 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { searchIn } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
+import { searchIn } from '@nestjs-mod/misc';
 import {
   AuthError,
   AuthResponse,

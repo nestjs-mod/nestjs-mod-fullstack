@@ -1,4 +1,6 @@
+import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { searchIn } from '@nestjs-mod/misc';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   CanActivate,
@@ -20,8 +22,6 @@ import { AuthStaticEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
-import { searchIn } from '@nestjs-mod-fullstack/common';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { AuthWebhookEvent } from './types/auth-webhooks';
 
 @Injectable()
