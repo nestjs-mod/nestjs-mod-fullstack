@@ -344,7 +344,7 @@
     }
   },
   "dependencies": {
-    "@nestjs-mod/misc": "1.4.0",
+    "@nestjs-mod/misc": "1.4.1",
     "pg-create-db": "^1.1.6",
     "pg-flyway": "1.2.6",
     "cookie-parser": "1.4.7",

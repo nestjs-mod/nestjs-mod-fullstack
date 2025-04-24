@@ -3453,20 +3453,20 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/common@2.17.5":
-  version "2.17.5"
-  resolved "https://registry.npmjs.org/@nestjs-mod/common/-/common-2.17.5.tgz#e94706abc2efc1c3231b7d98d405515f539b2656"
-  integrity sha512-Mc0YnqNtCTtdbX8x0r/cyS/giv04qSTfUZ75UN0NcLHLblsphcWnIva/zB85nShwpATT87z0U4LK6l2n14H0PA==
+"@nestjs-mod/common@2.17.6":
+  version "2.17.6"
+  resolved "https://registry.npmjs.org/@nestjs-mod/common/-/common-2.17.6.tgz#bcba91d17e2b208a02dd3a1d79d8f2185be956b5"
+  integrity sha512-QjdQ+3BLuvTiA34XLXbhn3x6bSZU82np3C1cZt3iWLr8ykpMNQDjUD6zz0FNTvF9Ge3PZYLSKjfyQnprwEEPSw==
   dependencies:
     case-anything "2.1.13"
     dotenv ">=16.3.1"
     fast-glob "3.3.2"
     tslib "^2.3.0"
 
-"@nestjs-mod/docker-compose@^1.18.1":
-  version "1.18.1"
-  resolved "https://registry.npmjs.org/@nestjs-mod/docker-compose/-/docker-compose-1.18.1.tgz#9c8047b05802f97abc360db61268aadd5a4c2c51"
-  integrity sha512-pJOtsIUMEa6UVVyapKTbI5CRLEL8r7v8PC6B1C2/m8xlQtat5+ZFLsCCQYTnt2P7q+tF1+uGKgRGl+8CE7ylFA==
+"@nestjs-mod/docker-compose@^1.18.2":
+  version "1.18.2"
+  resolved "https://registry.npmjs.org/@nestjs-mod/docker-compose/-/docker-compose-1.18.2.tgz#737a6ff60bba45f1bf85649f277b8e9858e3fad5"
+  integrity sha512-AtOautgz6DLUDn40TCOjPN6B4ZREMaK22Vb8tuIO5nVHvZ7qE6kEXztAQHW9qn7Las9J1r4WcKyNLBO5aZHYzg==
   dependencies:
     case-anything "2.1.13"
     compose-spec-schema "1.0.0"
@@ -3488,11 +3488,12 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/misc@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/@nestjs-mod/misc/-/misc-1.4.0.tgz#c9bcea459228c1dc70eae87c282cb8f308ef1e36"
-  integrity sha512-8yR2F895nIsmKpZmaYr2kNDzPOAu/1Q5Qib492swbTFLBY+p0xNRBR1MB0fPE5k4pgrBusXNgn43XMhL0KxZQQ==
+"@nestjs-mod/misc@1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@nestjs-mod/misc/-/misc-1.4.1.tgz#593af558a2990595b00e93626801d57bbe96cd3d"
+  integrity sha512-DZna1R4ZPVJfZXZrt2sDPprs5nKYdyTgPb/eDlC14IgazJmnD4IuTpa5CDw7svZNzwrFktEBYc3xLm8oFL4kqw==
   dependencies:
+    lodash.isequal "4.5.0"
     lodash.map "4.6.0"
     lodash.reduce "4.6.0"
     tslib "^2.3.0"
@@ -3529,10 +3530,10 @@
     connection-string "4.3.5"
     tslib "^2.3.0"
 
-"@nestjs-mod/reports@2.17.5":
-  version "2.17.5"
-  resolved "https://registry.npmjs.org/@nestjs-mod/reports/-/reports-2.17.5.tgz#38e3fa44ec81be4621e476afa484c1bfb0f8b29f"
-  integrity sha512-u9B6OR68Z7kf8hUG+9LMLHlS87DenXhpARSWQxt4PYmix0IyrGWNdsq0GvA+Tn5GmyfvAh/IXf0x/fLtRXL0zg==
+"@nestjs-mod/reports@2.17.6":
+  version "2.17.6"
+  resolved "https://registry.npmjs.org/@nestjs-mod/reports/-/reports-2.17.6.tgz#b8b0d4373b5ad797b09800c2f4efb4dd8f76d7e0"
+  integrity sha512-Q8Vb5PbP0S/8fPlYlkiKcgO7SQ5PkwsRtZyh2h7++9UMwS+QoFfp4nMTJfab5xpolnoIZ5cVb9mxnddu3rx0Xw==
   dependencies:
     case-anything "2.1.13"
     fast-glob "3.3.2"
@@ -3559,10 +3560,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/testing@2.17.5":
-  version "2.17.5"
-  resolved "https://registry.npmjs.org/@nestjs-mod/testing/-/testing-2.17.5.tgz#9ecf39d5c38b6de8ce1944cbb0739701f9864db3"
-  integrity sha512-FcZTguykKU7ZCsL84y1LFxgSEKUCFQ414SzEN9F95G8W1uPKX9HjCI9b2bGT8SDjmIrsa36Q+jR2x2PtyKIB9Q==
+"@nestjs-mod/testing@2.17.6":
+  version "2.17.6"
+  resolved "https://registry.npmjs.org/@nestjs-mod/testing/-/testing-2.17.6.tgz#f1f0534a7a9cc5ac5425c1da83f22cf101634cac"
+  integrity sha512-rEe2aPLNLN/JvOf/Hud+FYbaUsngXFLY4O+wtEEe2HkFG2hQ9RSdNNu5gcxPxrPsQ9KNneAkzIw0pYs98PJ+Rg==
   dependencies:
     tslib "^2.3.0"
 
@@ -12961,6 +12962,11 @@ lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
+
+lodash.isequal@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
 
 lodash.isfinite@^3.3.2:
   version "3.3.2"
