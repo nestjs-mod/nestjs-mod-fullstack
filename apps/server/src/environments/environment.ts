@@ -159,7 +159,7 @@ export const infrastructuresModules = [
       disableStrongPassword: 'true',
       disableEmailVerification: 'true',
       featureName: AUTHORIZER_ENV_PREFIX,
-      organizationName: 'NestJSModSSO',
+      organizationName: 'Fullstack',
       dependsOnServiceNames: {
         'postgre-sql': 'service_healthy',
       },
