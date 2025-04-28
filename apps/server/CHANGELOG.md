@@ -1,3 +1,9 @@
+# [1.20.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.19.0...server-v1.20.0) (2025-04-28)
+
+### Features
+
+- update deps ([6f7109f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6f7109fee685f762fca8bc0164c514bb4fcddbb8))
+
 # [1.19.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.18.0...server-v1.19.0) (2025-04-28)
 
 ### Features
