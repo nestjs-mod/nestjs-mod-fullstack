@@ -1,3 +1,13 @@
+# [1.18.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.17.3...server-v1.18.0) (2025-04-28)
+
+### Bug Fixes
+
+- update description of project ([5e2b52f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/5e2b52f4af3b49f0cedb77ba33f04770e97d8d15))
+
+### Features
+
+- add example of main.ts for run as typical nestjs application ([6c622e3](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6c622e3ae0e00a1b8f194ed1655c6b7c80fe103c))
+
 ## [1.17.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.17.2...server-v1.17.3) (2025-04-24)
 
 ### Bug Fixes
