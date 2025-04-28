@@ -1,7 +1,7 @@
 {
   "name": "@nestjs-mod-fullstack/source",
   "description": "Boilerplate for creating application on NestJS and Angular",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "license": "MIT",
   "scripts": {
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
@@ -103,7 +103,7 @@
     "@brakebein/prisma-generator-nestjs-dto": "^1.24.0-beta5",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@nestjs-mod/schematics": "^2.12.7",
+    "@nestjs-mod/schematics": "^2.12.8",
     "@nestjs-mod/testing": "2.17.7",
     "@nestjs/schematics": "^10.2.3",
     "@nestjs/testing": "^10.4.15",
