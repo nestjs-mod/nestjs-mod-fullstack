@@ -1,3 +1,9 @@
+## [1.20.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.20.2...server-v1.20.3) (2025-04-28)
+
+### Bug Fixes
+
+- update deps [skip cache] ([c6f6a10](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/c6f6a105c7c2ba052154cf4269e5ab9832152630))
+
 ## [1.20.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.20.1...server-v1.20.2) (2025-04-28)
 
 ### Bug Fixes
