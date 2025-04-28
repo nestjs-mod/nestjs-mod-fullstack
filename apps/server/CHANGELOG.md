@@ -1,3 +1,9 @@
+## [1.20.4](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.20.3...server-v1.20.4) (2025-04-28)
+
+### Bug Fixes
+
+- update work with envs for nestjs version ([a63d07d](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a63d07d12ecbafa61426f03e72d1d9cd468b9285))
+
 ## [1.20.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/server-v1.20.2...server-v1.20.3) (2025-04-28)
 
 ### Bug Fixes
