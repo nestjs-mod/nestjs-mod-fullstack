@@ -1,5 +1,5 @@
 # server
-> Version: 1.20.2
+> Version: 1.20.3
 
 Boilerplate for creating application on NestJS and Angular
 ## System modules
@@ -14,10 +14,10 @@ Utilities for setting global application parameters, such as project name, descr
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`applicationPackageJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/package.json```|
-|`packageJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/package.json```|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/project.json```|
-|`envFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/.env```|
+|`applicationPackageJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/package.json```|
+|`packageJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/package.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/project.json```|
+|`envFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/.env```|
 
 ### DefaultNestApplicationInitializer
 Default NestJS application initializer.
@@ -71,7 +71,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(webhook)
 
@@ -79,16 +79,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/project.json```|
 
 #### Environments(auth)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(auth)
 
@@ -96,16 +96,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(app)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(app)
 
@@ -113,7 +113,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
@@ -127,7 +127,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(webhook)
 
@@ -135,16 +135,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/project.json```|
 
 #### Environments(auth)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(auth)
 
@@ -152,16 +152,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(app)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(app)
 
@@ -169,7 +169,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
@@ -183,7 +183,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(webhook)
 
@@ -191,16 +191,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/project.json```|
 
 #### Environments(auth)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(auth)
 
@@ -208,16 +208,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Environments(app)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration(app)
 
@@ -225,7 +225,7 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 | ------ | ----------- | ----- |
 |`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
+|`schemaFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
 |`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
 
@@ -239,7 +239,7 @@ Simple key-value storage with support for multiple backends, and a consistent in
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`url`|`obj['url']`, `process.env['SERVER_KEYV_URL']`|**optional**|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
+|`url`|`obj['url']`, `process.env['SERVER_KEYV_URL']`|**optional**|-|
 
 #### Static configuration
 
@@ -257,10 +257,10 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`minioServerHost`|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|```localhost```|
+|`minioServerHost`|`obj['minioServerHost']`, `process.env['SERVER_MINIO_SERVER_HOST']`|**isNotEmpty** (minioServerHost should not be empty)|-|
 |`minioServerPort`|`obj['minioServerPort']`, `process.env['SERVER_MINIO_SERVER_PORT']`|**optional**|```9000```|
-|`minioAccessKey`|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|```FWGmrAGaeMKM```|
-|`minioSecretKey`|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
+|`minioAccessKey`|`obj['minioAccessKey']`, `process.env['SERVER_MINIO_ACCESS_KEY']`|**isNotEmpty** (minioAccessKey should not be empty)|-|
+|`minioSecretKey`|`obj['minioSecretKey']`, `process.env['SERVER_MINIO_SECRET_KEY']`|**isNotEmpty** (minioSecretKey should not be empty)|-|
 |`minioUseSSL`|`obj['minioUseSSL']`, `process.env['SERVER_MINIO_USE_SSL']`|**optional**|```false```|
 |`minioDefaultUserId`|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|
 
@@ -338,7 +338,7 @@ Production process manager for Node.JS applications with a built-in load balance
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`ecosystemConfigFile`|**isNotEmpty** (ecosystemConfigFile should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/ecosystem.config.json```|
+|`ecosystemConfigFile`|**isNotEmpty** (ecosystemConfigFile should not be empty)|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/ecosystem.config.json```|
 |`applicationScriptFile`|**isNotEmpty** (applicationScriptFile should not be empty)|```dist/apps/server/main.js```|
 
 ### DockerCompose
@@ -351,7 +351,7 @@ Docker Compose is a tool for defining and running multi-container applications. 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`dockerComposeFile`|**isNotEmpty** (dockerComposeFile should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/docker-compose.yml```|
+|`dockerComposeFile`|**isNotEmpty** (dockerComposeFile should not be empty)|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/docker-compose.yml```|
 
 #### Modules that use feature configuration
 ##### Feature module name: SERVER_POSTGRE_SQL
@@ -367,7 +367,7 @@ Docker Compose is a tool for defining and running multi-container applications. 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`services`|**optional**|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@server-postgre-sql:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"Fullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
+|`services`|**optional**|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"Fullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 
 #### Modules that use feature configuration
@@ -375,7 +375,7 @@ Docker Compose is a tool for defining and running multi-container applications. 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`services`|**optional**|```{"server-redis":{"image":"bitnami/redis:7.4.1","container_name":"server-redis","volumes":["server-redis-volume:/bitnami/redis/data"],"ports":["6379:6379"],"networks":["server-network"],"environment":{"REDIS_DATABASE":"0","REDIS_PASSWORD":"CHmeOQrZWUHwgahrfzsrzuREOxgAENsC","REDIS_DISABLE_COMMANDS":"FLUSHDB,FLUSHALL","REDIS_IO_THREADS":2,"REDIS_IO_THREADS_DO_READS":"yes"},"keysOfEnvironmentsWithStaticValue":["disableCommands","featureName","image","ioThreads","ioThreadsDoReads","networks"],"healthcheck":{"test":["CMD-SHELL","redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`services`|**optional**|```{"server-redis":{"image":"bitnami/redis:7.4.1","container_name":"server-redis","volumes":["server-redis-volume:/bitnami/redis/data"],"ports":["6379:6379"],"networks":["server-network"],"environment":{"REDIS_DISABLE_COMMANDS":"FLUSHDB,FLUSHALL","REDIS_IO_THREADS":2,"REDIS_IO_THREADS_DO_READS":"yes"},"keysOfEnvironmentsWithStaticValue":["disableCommands","featureName","image","ioThreads","ioThreadsDoReads","networks"],"healthcheck":{"test":["CMD-SHELL","redis-cli ping | grep PONG"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|**optional**|```{"server-redis-volume":{"name":"server-redis-volume"}}```|
 
@@ -384,7 +384,7 @@ Docker Compose is a tool for defining and running multi-container applications. 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`services`|**optional**|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{"MINIO_ROOT_USER":"FWGmrAGaeMKM","MINIO_ROOT_PASSWORD":"QatVJuLoZRARlJguoZMpoKvZMJHzvuOR"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`services`|**optional**|```{"server-minio":{"image":"bitnami/minio:2024.11.7","container_name":"server-minio","volumes":["server-minio-volume:/bitnami/minio/data"],"ports":["9000:9000","9001:9001"],"networks":["server-network"],"environment":{},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","nginxBucketsLocations","nginxConfigContent","nginxConfigFolder","nginxLogsFolder"],"healthcheck":{"test":["CMD-SHELL","mc","ready","local"],"interval":"5s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 |`volumes`|**optional**|```{"server-minio-volume":{"name":"server-minio-volume"}}```|
 
@@ -403,14 +403,14 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`featureName`|**optional**|```app```|
-|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/migrations```|
 
 ### PgFlyway
 PgFlyway - utility for working with database migrations (site: https://www.npmjs.com/package/pg-flyway, preview version only for Postgres)
@@ -419,14 +419,14 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`featureName`|**optional**|```app```|
-|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/migrations```|
 
 ### PgFlyway
 PgFlyway - utility for working with database migrations (site: https://www.npmjs.com/package/pg-flyway, preview version only for Postgres)
@@ -435,14 +435,14 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Static configuration
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`featureName`|**optional**|```app```|
-|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/src/migrations```|
+|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/src/migrations```|
 
 ### InfrastructureMarkdownReportGenerator
 Infrastructure markdown report generator.
@@ -454,7 +454,7 @@ Infrastructure markdown report generator.
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`markdownFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server/INFRASTRUCTURE.MD```|
+|`markdownFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/apps/server/INFRASTRUCTURE.MD```|
 |`skipEmptySettings`|**optional**|```true```|
 |`style`|**optional**|```pretty```|
 
@@ -465,7 +465,7 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`rootDatabaseUrl`|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|```postgres://postgres:postgres_password@localhost:5432/postgres?schema=public```|
+|`rootDatabaseUrl`|`obj['rootDatabaseUrl']`, `process.env['SERVER_ROOT_DATABASE_URL']`|**isNotEmpty** (rootDatabaseUrl should not be empty)|-|
 
 #### Feature environments
 
@@ -478,42 +478,42 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/webhook/project.json```|
 
 #### Modules that use feature configuration
 ##### Feature module name: auth
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/runner/work/nestjs-mod-fullstack/nestjs-mod-fullstack/libs/core/auth/project.json```|
 
 #### Modules that use feature environments
 ##### Feature module name: authorizer
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@server-postgre-sql:5432/authorizer```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Modules that use feature environments
 ##### Feature module name: app
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Modules that use feature environments
 ##### Feature module name: webhook
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 #### Modules that use feature environments
 ##### Feature module name: auth
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 
 ### DockerComposeAuthorizer
 Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
@@ -522,9 +522,9 @@ Authorizer is an open-source authentication and authorization solution for your 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`adminSecret`|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|```VfKSfPPljhHBXCEohnitursmgDxfAyiD```|
-|`databaseType`|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|```postgres```|
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@server-postgre-sql:5432/authorizer```|
+|`adminSecret`|`obj['adminSecret']`, `process.env['SERVER_AUTHORIZER_ADMIN_SECRET']`|**isNotEmpty** (adminSecret should not be empty)|-|
+|`databaseType`|`obj['databaseType']`, `process.env['SERVER_AUTHORIZER_DATABASE_TYPE']`|**isNotEmpty** (databaseType should not be empty)|-|
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|-|
 |`databaseName`|`obj['databaseName']`, `process.env['SERVER_AUTHORIZER_DATABASE_NAME']`|**optional**|```authorizer```|
 |`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_AUTHORIZER_REDIS_URL']`|**optional**|-|
 |`databasePort`|`obj['databasePort']`, `process.env['SERVER_AUTHORIZER_DATABASE_PORT']`|**optional**|-|
@@ -602,7 +602,7 @@ The open-source, in-memory data store used by millions of developers as a cache,
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
+|`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|-|
 
 #### Static configuration
 
@@ -617,8 +617,8 @@ MinIO is a high-performance, S3 compatible object storage. (Generator for minio 
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
-|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|```FWGmrAGaeMKM```|
-|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
+|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|-|
+|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|-|
 
 #### Static configuration
 
