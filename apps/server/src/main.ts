@@ -80,7 +80,10 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
         app.flushLogs();
       }
 
-      await app.listen(3000);
+      if (!process.env['PORT']) {
+        throw Error('port not set');
+      }
+      await app.listen(process.env['PORT']);
     }
   })();
 } else {
