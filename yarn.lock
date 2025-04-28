@@ -3453,10 +3453,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/common@2.17.6":
-  version "2.17.6"
-  resolved "https://registry.npmjs.org/@nestjs-mod/common/-/common-2.17.6.tgz#bcba91d17e2b208a02dd3a1d79d8f2185be956b5"
-  integrity sha512-QjdQ+3BLuvTiA34XLXbhn3x6bSZU82np3C1cZt3iWLr8ykpMNQDjUD6zz0FNTvF9Ge3PZYLSKjfyQnprwEEPSw==
+"@nestjs-mod/common@2.17.7":
+  version "2.17.7"
+  resolved "https://registry.npmjs.org/@nestjs-mod/common/-/common-2.17.7.tgz#098ecaf792cdf902a8cc19d291fa68de600e689a"
+  integrity sha512-d/kmAfAwypRmIjvw5SChaxkiRM/i0tHnkVLDlvMVwsGfBHdHxBT5OhDJB7TlNpFW4s+UESIZbuBVrLDLoJSumg==
   dependencies:
     case-anything "2.1.13"
     dotenv ">=16.3.1"
@@ -3530,20 +3530,20 @@
     connection-string "4.3.5"
     tslib "^2.3.0"
 
-"@nestjs-mod/reports@2.17.6":
-  version "2.17.6"
-  resolved "https://registry.npmjs.org/@nestjs-mod/reports/-/reports-2.17.6.tgz#b8b0d4373b5ad797b09800c2f4efb4dd8f76d7e0"
-  integrity sha512-Q8Vb5PbP0S/8fPlYlkiKcgO7SQ5PkwsRtZyh2h7++9UMwS+QoFfp4nMTJfab5xpolnoIZ5cVb9mxnddu3rx0Xw==
+"@nestjs-mod/reports@2.17.7":
+  version "2.17.7"
+  resolved "https://registry.npmjs.org/@nestjs-mod/reports/-/reports-2.17.7.tgz#8e74b0d7c92875d77f5226b4da513b75d5c94a6b"
+  integrity sha512-B8tIMUr1Q0S6xMvs1c5xSinkLwHlRSLF9Gd33rvkS3ghkuO/hSU+tL8jsaYiUBxJGtSInksaTfIjAYjjziTKow==
   dependencies:
     case-anything "2.1.13"
     fast-glob "3.3.2"
     markdown-it "^14.0.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/schematics@^2.12.6":
-  version "2.12.6"
-  resolved "https://registry.npmjs.org/@nestjs-mod/schematics/-/schematics-2.12.6.tgz#6e4d4e320b1014f3f489d12364d06b567413a667"
-  integrity sha512-NTz4BPkzqK17gtgND4l5C8C0eWBEJtkz6s0KHlKZplnmsSFj8uBk+UM1znr/i6yRVE9arUst2YlnIqnaWB/yqg==
+"@nestjs-mod/schematics@^2.12.7":
+  version "2.12.7"
+  resolved "https://registry.npmjs.org/@nestjs-mod/schematics/-/schematics-2.12.7.tgz#afc0c9a2552f366ff955de90056ca2c4f3cad23d"
+  integrity sha512-Uc+0G4VGs21cEAjIyctJ6NUerbkiOIPAbBCtA2q8l7hdeWiv0Eqz42HmUIvy5YkUFZXvxNB3ORKXj4XtSG4hXg==
   dependencies:
     "@nx/devkit" "20.3.0"
     "@nx/eslint" "20.3.0"
@@ -3560,10 +3560,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/testing@2.17.6":
-  version "2.17.6"
-  resolved "https://registry.npmjs.org/@nestjs-mod/testing/-/testing-2.17.6.tgz#f1f0534a7a9cc5ac5425c1da83f22cf101634cac"
-  integrity sha512-rEe2aPLNLN/JvOf/Hud+FYbaUsngXFLY4O+wtEEe2HkFG2hQ9RSdNNu5gcxPxrPsQ9KNneAkzIw0pYs98PJ+Rg==
+"@nestjs-mod/testing@2.17.7":
+  version "2.17.7"
+  resolved "https://registry.npmjs.org/@nestjs-mod/testing/-/testing-2.17.7.tgz#cb42740eaac0d31564766256932f1d7b03e56121"
+  integrity sha512-lWjcQeYqP4xduE32H0wWzfX6J+6NHzsJf57+d3YrEYknC36ubp3Dr9lbHfczr/vILbIoDaf3+rBtiwU5YR7+GQ==
   dependencies:
     tslib "^2.3.0"
 
