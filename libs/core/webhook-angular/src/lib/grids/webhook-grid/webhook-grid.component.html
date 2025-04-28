@@ -72,8 +72,7 @@
       [class.selected]="selectedIds[0] === data.id"
     >
       @for (key of keys; track $index) { @if (data[key] &&
-      [WebhookScalarFieldEnumInterface.createdAt,WebhookScalarFieldEnumInterface.updatedAt,WebhookScalarFieldEnumInterface.workUntilDate
-      ].includes(key)) {
+      ['createdAt','updatedAt','workUntilDate' ].includes(key)) {
       <td>
         {{
           +data[key]

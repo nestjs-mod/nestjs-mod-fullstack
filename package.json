@@ -27,6 +27,7 @@
     "_____prod infra_____": "_____prod infra_____",
     "start": "./node_modules/.bin/nx run-many --all -t=start",
     "build:prod": "npm run generate && chmod -R augo+rw libs apps dist && ./node_modules/.bin/nx run-many -p app-rest-sdk server client -t=build --configuration=production --parallel=1",
+    "build:prod:no-cache": "export NX_DAEMON=false && export NX_PARALLEL=1 && export NX_SKIP_NX_CACHE=true && npm run build:prod",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
     "pm2:start": "./node_modules/.bin/pm2 start ./ecosystem-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
     "pm2:stop": "./node_modules/.bin/pm2 delete all",
@@ -204,6 +205,7 @@
     "build:prod": [
       "Building a NestJS application in prod mode"
     ],
+    "build:prod:no-cache": [],
     "pm2:start": [
       "Launch all applications in PM2 mode"
     ],
