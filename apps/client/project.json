@@ -13,6 +13,7 @@
       ],
       "options": {
         "allowedCommonJsDependencies": [
+          "@nestjs-mod/misc",
           "@jsverse/transloco-messageformat",
           "@jsverse/transloco-keys-manager/marker",
           "lodash/fp/isEqual",

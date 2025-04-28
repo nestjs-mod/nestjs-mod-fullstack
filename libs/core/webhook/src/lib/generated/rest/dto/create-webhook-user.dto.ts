@@ -1,6 +1,6 @@
 import { WebhookRole } from '../../../../../../../../node_modules/@prisma/webhook-client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateWebhookUserDto {
   @ApiProperty({
@@ -20,5 +20,6 @@ export class CreateWebhookUserDto {
     enumName: 'WebhookRole',
   })
   @IsNotEmpty()
+  @IsEnum(WebhookRole)
   userRole!: WebhookRole;
 }

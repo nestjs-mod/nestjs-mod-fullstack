@@ -5,7 +5,6 @@ export class ConnectAppDemoDto {
   @ApiProperty({
     type: 'string',
     required: false,
-    nullable: true,
   })
   @IsOptional()
   @IsString()
@@ -13,7 +12,6 @@ export class ConnectAppDemoDto {
   @ApiProperty({
     type: 'string',
     required: false,
-    nullable: true,
   })
   @IsOptional()
   @IsString()

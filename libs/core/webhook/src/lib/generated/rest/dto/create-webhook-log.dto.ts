@@ -3,7 +3,7 @@ import {
   WebhookStatus,
 } from '../../../../../../../../node_modules/@prisma/webhook-client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateWebhookLogDto {
   @ApiProperty({
@@ -29,5 +29,6 @@ export class CreateWebhookLogDto {
     enumName: 'WebhookStatus',
   })
   @IsNotEmpty()
+  @IsEnum(WebhookStatus)
   webhookStatus!: WebhookStatus;
 }

@@ -1,6 +1,12 @@
 import { AuthRole } from '../../../../../../../../node_modules/@prisma/auth-client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateAuthUserDto {
   @ApiProperty({
@@ -14,6 +20,7 @@ export class CreateAuthUserDto {
     enumName: 'AuthRole',
   })
   @IsNotEmpty()
+  @IsEnum(AuthRole)
   userRole!: AuthRole;
   @ApiProperty({
     type: 'number',

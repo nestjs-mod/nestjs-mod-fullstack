@@ -3,7 +3,7 @@ import {
   WebhookStatus,
 } from '../../../../../../../../node_modules/@prisma/webhook-client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class UpdateWebhookLogDto {
   @ApiProperty({
@@ -32,5 +32,6 @@ export class UpdateWebhookLogDto {
     required: false,
   })
   @IsOptional()
+  @IsEnum(WebhookStatus)
   webhookStatus?: WebhookStatus;
 }

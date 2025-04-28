@@ -1,6 +1,6 @@
 import { AuthRole } from '../../../../../../../../node_modules/@prisma/auth-client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateAuthUserDto {
   @ApiProperty({
@@ -16,6 +16,7 @@ export class UpdateAuthUserDto {
     required: false,
   })
   @IsOptional()
+  @IsEnum(AuthRole)
   userRole?: AuthRole;
   @ApiProperty({
     type: 'number',
