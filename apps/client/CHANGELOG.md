@@ -1,3 +1,9 @@
+# [1.18.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.17.3...client-v1.18.0) (2025-04-28)
+
+### Features
+
+- update deps ([66d4d4e](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/66d4d4e3a4dea17ee901cc060078470eac22629c))
+
 ## [1.17.3](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/client-v1.17.2...client-v1.17.3) (2025-04-24)
 
 ### Bug Fixes
