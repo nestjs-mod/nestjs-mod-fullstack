@@ -27,7 +27,7 @@ import { appFolder, rootFolder } from './environments/environment';
 import { FEATURE_MODULE_IMPORTS, FeatureModule } from './feature.module';
 import { INFRASTRUCTURE_MODULE_IMPORTS } from './infrastructure.module';
 
-if (process.env.APP_TYPE !== 'nestjs-mod') {
+if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
   /**
    * NestJS way for run application
    */
