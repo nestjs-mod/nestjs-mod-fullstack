@@ -455,45 +455,47 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
-      - name: Deploy infrastructure
-        if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip infrastructure]') }}
-        env:
-          SERVER_APP_DATABASE_NAME: ${{ secrets.SERVER_APP_DATABASE_NAME }}
-          SERVER_APP_DATABASE_PASSWORD: ${{ secrets.SERVER_APP_DATABASE_PASSWORD }}
-          SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME }}
-          SERVER_WEBHOOK_DATABASE_NAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_NAME }}
-          SERVER_WEBHOOK_DATABASE_PASSWORD: ${{ secrets.SERVER_WEBHOOK_DATABASE_PASSWORD }}
-          SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME }}
-          SERVER_AUTH_DATABASE_NAME: ${{ secrets.SERVER_AUTH_DATABASE_NAME }}
-          SERVER_AUTH_DATABASE_PASSWORD: ${{ secrets.SERVER_AUTH_DATABASE_PASSWORD }}
-          SERVER_AUTH_DATABASE_USERNAME: ${{ secrets.SERVER_AUTH_DATABASE_USERNAME }}
-          SERVER_AUTHORIZER_ADMIN_SECRET: ${{ secrets.SERVER_AUTHORIZER_ADMIN_SECRET }}
-          SERVER_AUTH_ADMIN_PASSWORD: ${{ secrets.SERVER_AUTH_ADMIN_PASSWORD }}
-          SERVER_MINIO_MINIO_ROOT_USER: ${{ secrets.SERVER_MINIO_MINIO_ROOT_USER }}
-          SERVER_MINIO_MINIO_ROOT_PASSWORD: ${{ secrets.SERVER_MINIO_MINIO_ROOT_PASSWORD }}
-          SERVER_REDIS_REDIS_PASSWORD: ${{ secrets.SERVER_REDIS_REDIS_PASSWORD }}
-        run: |
-          rm -rf ./.kubernetes/generated
-          . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
-          docker compose -f ./.kubernetes/generated/docker-compose-infra.yml --compatibility down || echo 'docker-compose-infra not started'
-          docker compose -f ./.kubernetes/generated/docker-compose-infra.yml --compatibility up -d
+      # WE DO NOT LAUNCH IT BECAUSE THE SERVER IS THE SAME AS IN THE REPOSITORY https://github.com/nestjs-mod/nestjs-mod-sso
+      # THIS COMMAND WAS ALREADY LAUNCHED
+      # - name: Deploy infrastructure
+      #   if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip infrastructure]') }}
+      #   env:
+      #     SERVER_APP_DATABASE_NAME: ${{ secrets.SERVER_APP_DATABASE_NAME }}
+      #     SERVER_APP_DATABASE_PASSWORD: ${{ secrets.SERVER_APP_DATABASE_PASSWORD }}
+      #     SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
+      #     SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.ROOT_POSTGRES_DATABASE }}
+      #     SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.ROOT_POSTGRES_PASSWORD }}
+      #     SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.ROOT_POSTGRES_USER }}
+      #     SERVER_WEBHOOK_DATABASE_NAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_NAME }}
+      #     SERVER_WEBHOOK_DATABASE_PASSWORD: ${{ secrets.SERVER_WEBHOOK_DATABASE_PASSWORD }}
+      #     SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME }}
+      #     SERVER_AUTH_DATABASE_NAME: ${{ secrets.SERVER_AUTH_DATABASE_NAME }}
+      #     SERVER_AUTH_DATABASE_PASSWORD: ${{ secrets.SERVER_AUTH_DATABASE_PASSWORD }}
+      #     SERVER_AUTH_DATABASE_USERNAME: ${{ secrets.SERVER_AUTH_DATABASE_USERNAME }}
+      #     SERVER_AUTHORIZER_ADMIN_SECRET: ${{ secrets.SERVER_AUTHORIZER_ADMIN_SECRET }}
+      #     SERVER_AUTH_ADMIN_PASSWORD: ${{ secrets.SERVER_AUTH_ADMIN_PASSWORD }}
+      #     SERVER_MINIO_MINIO_ROOT_USER: ${{ secrets.SERVER_MINIO_MINIO_ROOT_USER }}
+      #     SERVER_MINIO_MINIO_ROOT_PASSWORD: ${{ secrets.SERVER_MINIO_MINIO_ROOT_PASSWORD }}
+      #     SERVER_REDIS_REDIS_PASSWORD: ${{ secrets.SERVER_REDIS_REDIS_PASSWORD }}
+      #   run: |
+      #     rm -rf ./.kubernetes/generated
+      #     . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
+      #     docker compose -f ./.kubernetes/generated/docker-compose-infra.yml --compatibility down || echo 'docker-compose-infra not started'
+      #     docker compose -f ./.kubernetes/generated/docker-compose-infra.yml --compatibility up -d
 
       - name: Deploy applications
         # if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip applications]') }}
         env:
           DOCKER_SERVER: ${{ env.REGISTRY }}
           DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_PASSWORD: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
           SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
           SERVER_APP_DATABASE_NAME: ${{ secrets.SERVER_APP_DATABASE_NAME }}
           SERVER_APP_DATABASE_PASSWORD: ${{ secrets.SERVER_APP_DATABASE_PASSWORD }}
           SERVER_APP_DATABASE_USERNAME: ${{ secrets.SERVER_APP_DATABASE_USERNAME }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD }}
-          SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE: ${{ secrets.ROOT_POSTGRES_DATABASE }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD: ${{ secrets.ROOT_POSTGRES_PASSWORD }}
+          SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME: ${{ secrets.ROOT_POSTGRES_USER }}
           SERVER_WEBHOOK_DATABASE_NAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_NAME }}
           SERVER_WEBHOOK_DATABASE_PASSWORD: ${{ secrets.SERVER_WEBHOOK_DATABASE_PASSWORD }}
           SERVER_WEBHOOK_DATABASE_USERNAME: ${{ secrets.SERVER_WEBHOOK_DATABASE_USERNAME }}
@@ -505,18 +507,11 @@ jobs:
           SERVER_MINIO_MINIO_ROOT_USER: ${{ secrets.SERVER_MINIO_MINIO_ROOT_USER }}
           SERVER_MINIO_MINIO_ROOT_PASSWORD: ${{ secrets.SERVER_MINIO_MINIO_ROOT_PASSWORD }}
           SERVER_REDIS_REDIS_PASSWORD: ${{ secrets.SERVER_REDIS_REDIS_PASSWORD }}
-        # since the server is very slow, it may freeze, and therefore you have to restart MicroK8s
         run: |
           echo 'Start'
           rm -rf ./.kubernetes/generated
           . .kubernetes/set-env.sh && npx -y rucken copy-paste --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true
           echo 'Check k8s'
-          sudo microk8s status --wait-ready | echo 'Skip error'
-          echo 'Stop k8s'
-          sudo microk8s stop
-          sudo microk8s status --wait-ready | echo 'Skip error'
-          echo 'Start k8s'
-          sudo microk8s start
           sudo microk8s status --wait-ready | echo 'Skip error'
           echo 'Start apply k8s'
           chmod +x .kubernetes/generated/install.sh
