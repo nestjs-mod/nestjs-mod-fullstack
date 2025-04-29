@@ -59,7 +59,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') }}
         id: check-exists
         run: |
-          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BUILDER_IMAGE_NAME}}:pull" | jq -r .token)
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.BUILDER_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.BUILDER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
@@ -85,7 +85,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: check-exists
         run: |
-          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.MIGRATIONS_IMAGE_NAME}}:pull" | jq -r .token)
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.MIGRATIONS_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.MIGRATIONS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
@@ -111,7 +111,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip server cache]') }}
         id: check-exists
         run: |
-          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.SERVER_IMAGE_NAME}}:pull" | jq -r .token)
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.SERVER_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.SERVER_IMAGE_NAME}}/manifests/${{ steps.version.outputs.server_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
@@ -138,7 +138,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip nginx cache]') }}
         id: check-exists
         run: |
-          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.NGINX_IMAGE_NAME}}:pull" | jq -r .token)
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.NGINX_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.NGINX_IMAGE_NAME}}/manifests/${{ steps.version.outputs.client_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
@@ -164,7 +164,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip cache]') && !contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: check-exists
         run: |
-          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.E2E_TESTS_IMAGE_NAME}}:pull" | jq -r .token)
+          export TOKEN=$(curl -u ${{ github.actor }}:${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }} https://${{ env.REGISTRY }}/token\?scope\="repository:${{ env.E2E_TESTS_IMAGE_NAME}}:pull" | jq -r .token)
           curl --head --fail -H "Authorization: Bearer $TOKEN" https://${{ env.REGISTRY }}/v2/${{ env.E2E_TESTS_IMAGE_NAME}}/manifests/${{ steps.version.outputs.root_version }}
       - name: Store result of check exists docker image
         id: store-check-exists
@@ -197,7 +197,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Build and push Docker image
         if: ${{ needs.check-base-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: push
@@ -241,7 +241,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Build Docker image
         if: ${{ needs.check-migrations-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip migrations cache]') }}
         id: push
@@ -285,7 +285,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Build Docker image
         if: ${{ needs.check-builder-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') }}
         id: push
@@ -335,7 +335,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Generate and build production code
         if: ${{ needs.check-server-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip server cache]') }}
         run: |
@@ -386,7 +386,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Generate and build production code
         if: ${{ needs.check-nginx-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip nginx cache]') }}
         run: |
@@ -435,7 +435,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
       - name: Build and push Docker image
         if: ${{ needs.check-e2e-tests-image.outputs.result != 'success' || contains(github.event.head_commit.message, '[skip cache]') || contains(github.event.head_commit.message, '[skip e2e cache]') }}
         id: push
