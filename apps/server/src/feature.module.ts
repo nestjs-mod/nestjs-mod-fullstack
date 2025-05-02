@@ -1,7 +1,11 @@
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
 import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationModule } from '@nestjs-mod-fullstack/validation';
-import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod-fullstack/webhook';
+import {
+  WEBHOOK_FEATURE,
+  WEBHOOK_FOLDER,
+  WebhookModule,
+} from '@nestjs-mod-fullstack/webhook';
 import {
   createNestModule,
   isInfrastructureMode,
@@ -9,22 +13,23 @@ import {
 } from '@nestjs-mod/common';
 import { NestjsPinoLoggerModule } from '@nestjs-mod/pino';
 import { PRISMA_SCHEMA_FILE, PrismaModule } from '@nestjs-mod/prisma';
+import { TerminusHealthCheckModule } from '@nestjs-mod/terminus';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
 import {
   appFolder,
-  AppModule,
-  coreModules,
+  MainAppModule,
   MainKeyvModule,
   MainMinioModule,
-  MainTerminusHealthCheckModule,
-  MainWebhookModule,
   rootFolder,
 } from './environments/environment';
+import { terminusHealthCheckModuleForRootAsyncOptions } from './integrations/terminus-health-check-integration.configuration';
 
 export const FEATURE_MODULE_IMPORTS = [
   NestjsPinoLoggerModule.forRoot(),
-  MainTerminusHealthCheckModule,
+  TerminusHealthCheckModule.forRootAsync(
+    terminusHealthCheckModuleForRootAsyncOptions()
+  ),
   PrismaToolsModule.forRoot(),
   PrismaModule.forRoot({
     contextName: APP_FEATURE,
@@ -40,12 +45,15 @@ export const FEATURE_MODULE_IMPORTS = [
         ? import(`@nestjs-mod/prisma`)
         : import(`@prisma/app-client`),
       addMigrationScripts: false,
-      binaryTargets: [
-        'native',
-        'rhel-openssl-3.0.x',
-        'linux-musl-openssl-3.0.x',
-        'linux-musl',
-      ],
+      binaryTargets:
+        process.env.PRISMA_TARGETS !== 'shorts'
+          ? [
+              'native',
+              'rhel-openssl-3.0.x',
+              'linux-musl-openssl-3.0.x',
+              'linux-musl',
+            ]
+          : ['native', 'rhel-openssl-3.0.x'],
     },
   }),
   PrismaModule.forRoot({
@@ -65,12 +73,15 @@ export const FEATURE_MODULE_IMPORTS = [
       addMigrationScripts: false,
       nxProjectJsonFile: join(rootFolder, WEBHOOK_FOLDER, PROJECT_JSON_FILE),
 
-      binaryTargets: [
-        'native',
-        'rhel-openssl-3.0.x',
-        'linux-musl-openssl-3.0.x',
-        'linux-musl',
-      ],
+      binaryTargets:
+        process.env.PRISMA_TARGETS !== 'shorts'
+          ? [
+              'native',
+              'rhel-openssl-3.0.x',
+              'linux-musl-openssl-3.0.x',
+              'linux-musl',
+            ]
+          : ['native', 'rhel-openssl-3.0.x'],
     },
   }),
   PrismaModule.forRoot({
@@ -90,20 +101,26 @@ export const FEATURE_MODULE_IMPORTS = [
       addMigrationScripts: false,
       nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
 
-      binaryTargets: [
-        'native',
-        'rhel-openssl-3.0.x',
-        'linux-musl-openssl-3.0.x',
-        'linux-musl',
-      ],
+      binaryTargets:
+        process.env.PRISMA_TARGETS !== 'shorts'
+          ? [
+              'native',
+              'rhel-openssl-3.0.x',
+              'linux-musl-openssl-3.0.x',
+              'linux-musl',
+            ]
+          : ['native', 'rhel-openssl-3.0.x'],
     },
   }),
-  ...coreModules,
   MainKeyvModule,
   MainMinioModule,
   ValidationModule.forRoot({ staticEnvironments: { usePipes: false } }),
-  AppModule.forRoot(),
-  MainWebhookModule,
+  MainAppModule,
+  WebhookModule.forRootAsync({
+    configuration: {
+      syncMode: true,
+    },
+  }),
 ];
 
 export const { FeatureModule } = createNestModule({

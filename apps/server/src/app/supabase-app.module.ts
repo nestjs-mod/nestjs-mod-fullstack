@@ -31,7 +31,7 @@ import { WebhookWithAuthSupabaseConfiguration } from './integrations/supabase/we
 import { AppService } from './services/app.service';
 import { SupabaseModule } from './supabase/supabase.module';
 
-export const { AppModule: SupabaseAppModule } = createNestModule({
+export const { AppModule } = createNestModule({
   moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
   imports: [

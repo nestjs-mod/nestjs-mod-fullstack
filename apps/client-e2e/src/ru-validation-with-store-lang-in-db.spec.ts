@@ -88,7 +88,9 @@ test.describe('Validation with store lang in db (ru)', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(7000);
+    await page.waitForSelector(
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+    );
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()

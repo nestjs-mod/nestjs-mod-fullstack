@@ -18,7 +18,7 @@ import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
 import {
   appFolder,
-  infrastructuresModules,
+  MAIN_INFRASTRUCTURE_MODULES,
   rootFolder,
 } from './environments/environment';
 
@@ -46,7 +46,6 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
   DockerComposePostgreSQL.forFeature({
     featureModuleName: APP_FEATURE,
   }),
-  ...infrastructuresModules,
   DockerComposeRedis.forRoot({
     staticConfiguration: { image: 'bitnami/redis:7.4.1' },
   }),
@@ -87,4 +86,5 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
   }),
   // maildev
   DockerComposeMaildev.forRoot(),
+  ...MAIN_INFRASTRUCTURE_MODULES,
 ];

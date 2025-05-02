@@ -95,7 +95,9 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(7000);
+    await page.waitForSelector(
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+    );
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -164,7 +166,9 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(7000);
+    await page.waitForSelector(
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+    );
 
     await expect(
       page.locator('nz-header').locator('[nz-submenu]').first()
@@ -228,7 +232,9 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .locator('button[type=submit]')
       .click();
 
-    await setTimeout(10000);
+    await page.waitForSelector(
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+    );
 
     await page.reload({ waitUntil: 'networkidle' });
 

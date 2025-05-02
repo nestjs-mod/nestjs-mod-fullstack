@@ -31,7 +31,7 @@ import { AppService } from './services/app.service';
 import { AppExceptionsFilter } from './app.filter';
 import { ThrottlerModule } from '@nestjs/throttler';
 
-export const { AppModule: AuthorizerAppModule } = createNestModule({
+export const { AppModule } = createNestModule({
   moduleName: 'AppModule',
   moduleCategory: NestModuleCategory.feature,
   imports: [

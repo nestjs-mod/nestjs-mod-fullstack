@@ -264,6 +264,12 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 |`minioUseSSL`|`obj['minioUseSSL']`, `process.env['SERVER_MINIO_USE_SSL']`|**optional**|```false```|
 |`minioDefaultUserId`|`obj['minioDefaultUserId']`, `process.env['SERVER_MINIO_DEFAULT_USER_ID']`|**optional**|```default```|
 
+#### Static configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`region`|**optional**|```eu-central-1```|
+
 ### ValidationModule
 #### Static environments
 
@@ -279,6 +285,12 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 
 #### Shared imports
 `HttpModule`, `PrismaModule`
+
+#### Configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`syncMode`|**optional**|```true```|
 
 #### Static environments
 
@@ -363,14 +375,6 @@ Docker Compose is a tool for defining and running multi-container applications. 
 |`volumes`|**optional**|```{"server-postgre-sql-volume":{"name":"server-postgre-sql-volume"}}```|
 
 #### Modules that use feature configuration
-##### Feature module name: SERVER_AUTHORIZER
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`services`|**optional**|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@server-postgre-sql:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"Fullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
-|`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
-
-#### Modules that use feature configuration
 ##### Feature module name: SERVER_REDIS
 
 | Key    | Constraints | Value |
@@ -394,6 +398,14 @@ Docker Compose is a tool for defining and running multi-container applications. 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`services`|**optional**|```{"server-maildev":{"image":"maildev/maildev:2.2.1","container_name":"server-maildev","ports":["1025:1025","1080:1080"],"networks":["server-network"],"environment":{"MAILDEV_SMTP_PORT":1025,"MAILDEV_WEB_PORT":1080},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","smtpPort","webPort"],"healthcheck":{"test":"wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1","interval":"10s","timeout":"5s","retries":5},"tty":true,"restart":"always"}}```|
+|`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
+
+#### Modules that use feature configuration
+##### Feature module name: SERVER_AUTHORIZER
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`services`|**optional**|```{"server-authorizer":{"image":"lakhansamani/authorizer:1.4.4","container_name":"server-authorizer","ports":["8080:8080"],"networks":["server-network"],"environment":{"ADMIN_SECRET":"VfKSfPPljhHBXCEohnitursmgDxfAyiD","DATABASE_TYPE":"postgres","DATABASE_URL":"postgres://Yk42KA4sOb:B7Ep2MwlRR6fAx0frXGWVTGP850qAxM6@server-postgre-sql:5432/authorizer","DATABASE_NAME":"authorizer","PORT":8080,"AUTHORIZER_URL":"http://localhost:8080","COOKIE_NAME":"authorizer","DISABLE_PLAYGROUND":true,"ACCESS_TOKEN_EXPIRY_TIME":"30m","IMAGE":"lakhansamani/authorizer:1.4.4","DISABLE_STRONG_PASSWORD":"true","DISABLE_EMAIL_VERIFICATION":"true","FEATURE_NAME":"authorizer","ORGANIZATION_NAME":"NestJSModFullstack","DEPENDS_ON_SERVICE_NAMES":{"postgre-sql":"service_healthy"},"IS_EMAIL_SERVICE_ENABLED":"true","IS_SMS_SERVICE_ENABLED":"false","ENV":"development","EXTERNAL_CLIENT_PORT":8080,"RESET_PASSWORD_URL":"/reset-password","ROLES":"user,admin","DEFAULT_ROLES":"user","JWT_ROLE_CLAIM":"role","ORGANIZATION_LOGO":"Authorizer Logo","COUCHBASE_BUCKET":"authorizer","COUCHBASE_BUCKET_RAM_QUOTA":1000,"COUCHBASE_SCOPE":"_default"},"keysOfEnvironmentsWithStaticValue":["featureName","image","networks","dependsOnServiceNames","env"],"tty":true,"restart":"always","depends_on":{"server-postgre-sql":{"condition":"service_healthy"}}}}```|
 |`networks`|**optional**|```{"server-network":{"driver":"bridge"}}```|
 
 ### PgFlyway
@@ -515,6 +527,68 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 | ------ | ------- | ----------- | ----- |
 |`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
 
+### DockerComposeRedis
+The open-source, in-memory data store used by millions of developers as a cache, vector database, document database, streaming engine, and message broker. (Generator for redis in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
+
+#### Static configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`image`|**optional**|```bitnami/redis:7.4.1```|
+
+### DockerComposeMinio
+MinIO is a high-performance, S3 compatible object storage. (Generator for minio in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|```FWGmrAGaeMKM```|
+|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
+
+#### Static configuration
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`image`|**optional**|```bitnami/minio:2024.11.7```|
+
+### DockerComposeMaildev
+MailDev is a simple way to test your projects generated email during development, with an easy to use web interface that runs on your machine. (Generator for maildev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
+
+#### Static environments
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`maildevMailDirectory`|`obj['maildevMailDirectory']`, `process.env['SERVER_MAILDEV_MAIL_DIRECTORY']`|**optional**|-|
+|`maildevHttps`|`obj['maildevHttps']`, `process.env['SERVER_MAILDEV_HTTPS']`|**optional**|-|
+|`maildevHttpsKey`|`obj['maildevHttpsKey']`, `process.env['SERVER_MAILDEV_HTTPS_KEY']`|**optional**|-|
+|`maildevHttpsCert`|`obj['maildevHttpsCert']`, `process.env['SERVER_MAILDEV_HTTPS_CERT']`|**optional**|-|
+|`maildevIp`|`obj['maildevIp']`, `process.env['SERVER_MAILDEV_IP']`|**optional**|-|
+|`maildevOutgoingHost`|`obj['maildevOutgoingHost']`, `process.env['SERVER_MAILDEV_OUTGOING_HOST']`|**optional**|-|
+|`maildevOutgoingPort`|`obj['maildevOutgoingPort']`, `process.env['SERVER_MAILDEV_OUTGOING_PORT']`|**optional**|-|
+|`maildevOutgoingUser`|`obj['maildevOutgoingUser']`, `process.env['SERVER_MAILDEV_OUTGOING_USER']`|**optional**|-|
+|`maildevOutgoingPass`|`obj['maildevOutgoingPass']`, `process.env['SERVER_MAILDEV_OUTGOING_PASS']`|**optional**|**hidden**|
+|`maildevOutgoingSecure`|`obj['maildevOutgoingSecure']`, `process.env['SERVER_MAILDEV_OUTGOING_SECURE']`|**optional**|-|
+|`maildevAutoRelay`|`obj['maildevAutoRelay']`, `process.env['SERVER_MAILDEV_AUTO_RELAY']`|**optional**|-|
+|`maildevAutoRelayRules`|`obj['maildevAutoRelayRules']`, `process.env['SERVER_MAILDEV_AUTO_RELAY_RULES']`|**optional**|-|
+|`maildevIncomingUser`|`obj['maildevIncomingUser']`, `process.env['SERVER_MAILDEV_INCOMING_USER']`|**optional**|-|
+|`maildevIncomingPass`|`obj['maildevIncomingPass']`, `process.env['SERVER_MAILDEV_INCOMING_PASS']`|**optional**|**hidden**|
+|`maildevIncomingSecure`|`obj['maildevIncomingSecure']`, `process.env['SERVER_MAILDEV_INCOMING_SECURE']`|**optional**|-|
+|`maildevIncomingCert`|`obj['maildevIncomingCert']`, `process.env['SERVER_MAILDEV_INCOMING_CERT']`|**optional**|-|
+|`maildevIncomingKey`|`obj['maildevIncomingKey']`, `process.env['SERVER_MAILDEV_INCOMING_KEY']`|**optional**|-|
+|`maildevWebIp`|`obj['maildevWebIp']`, `process.env['SERVER_MAILDEV_WEB_IP']`|**optional**|-|
+|`maildevWebUser`|`obj['maildevWebUser']`, `process.env['SERVER_MAILDEV_WEB_USER']`|**optional**|-|
+|`maildevWebPass`|`obj['maildevWebPass']`, `process.env['SERVER_MAILDEV_WEB_PASS']`|**optional**|**hidden**|
+|`maildevBasePathname`|`obj['maildevBasePathname']`, `process.env['SERVER_MAILDEV_BASE_PATHNAME']`|**optional**|-|
+|`maildevDisableWeb`|`obj['maildevDisableWeb']`, `process.env['SERVER_MAILDEV_DISABLE_WEB']`|**optional**|-|
+|`maildevHideExtensions`|`obj['maildevHideExtensions']`, `process.env['SERVER_MAILDEV_HIDE_EXTENSIONS']`|**optional**|-|
+
 ### DockerComposeAuthorizer
 Authorizer is an open-source authentication and authorization solution for your applications. Bring your database and have complete control over the user information. You can self-host authorizer instances and connect to supported databases. (Generator for https://authorizer.dev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
 
@@ -590,69 +664,7 @@ Authorizer is an open-source authentication and authorization solution for your 
 |`dependsOnServiceNames`|**optional**|```{"postgre-sql":"service_healthy"}```|
 |`env`|**optional**|```development```|
 |`disableEmailVerification`|**optional**|```true```|
-|`organizationName`|**optional**|```Fullstack```|
+|`organizationName`|**optional**|```NestJSModFullstack```|
 |`isEmailServiceEnabled`|**optional**|```true```|
 |`isSmsServiceEnabled`|**optional**|```false```|
 |`disableStrongPassword`|**optional**|```true```|
-
-### DockerComposeRedis
-The open-source, in-memory data store used by millions of developers as a cache, vector database, document database, streaming engine, and message broker. (Generator for redis in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
-
-#### Static environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`redisUrl`|`obj['redisUrl']`, `process.env['SERVER_REDIS_URL']`|**isNotEmpty** (redisUrl should not be empty)|```redis://:CHmeOQrZWUHwgahrfzsrzuREOxgAENsC@localhost:6379```|
-
-#### Static configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`image`|**optional**|```bitnami/redis:7.4.1```|
-
-### DockerComposeMinio
-MinIO is a high-performance, S3 compatible object storage. (Generator for minio in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
-
-#### Static environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`minioRootUser`|`obj['minioRootUser']`, `process.env['SERVER_MINIO_ROOT_USER']`|**isNotEmpty** (minioRootUser should not be empty)|```FWGmrAGaeMKM```|
-|`minioRootPassword`|`obj['minioRootPassword']`, `process.env['SERVER_MINIO_ROOT_PASSWORD']`|**isNotEmpty** (minioRootPassword should not be empty)|```QatVJuLoZRARlJguoZMpoKvZMJHzvuOR```|
-
-#### Static configuration
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`image`|**optional**|```bitnami/minio:2024.11.7```|
-
-### DockerComposeMaildev
-MailDev is a simple way to test your projects generated email during development, with an easy to use web interface that runs on your machine. (Generator for maildev in docker-compose.yml for https://www.npmjs.com/package/@nestjs-mod/docker-compose)
-
-#### Static environments
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`maildevMailDirectory`|`obj['maildevMailDirectory']`, `process.env['SERVER_MAILDEV_MAIL_DIRECTORY']`|**optional**|-|
-|`maildevHttps`|`obj['maildevHttps']`, `process.env['SERVER_MAILDEV_HTTPS']`|**optional**|-|
-|`maildevHttpsKey`|`obj['maildevHttpsKey']`, `process.env['SERVER_MAILDEV_HTTPS_KEY']`|**optional**|-|
-|`maildevHttpsCert`|`obj['maildevHttpsCert']`, `process.env['SERVER_MAILDEV_HTTPS_CERT']`|**optional**|-|
-|`maildevIp`|`obj['maildevIp']`, `process.env['SERVER_MAILDEV_IP']`|**optional**|-|
-|`maildevOutgoingHost`|`obj['maildevOutgoingHost']`, `process.env['SERVER_MAILDEV_OUTGOING_HOST']`|**optional**|-|
-|`maildevOutgoingPort`|`obj['maildevOutgoingPort']`, `process.env['SERVER_MAILDEV_OUTGOING_PORT']`|**optional**|-|
-|`maildevOutgoingUser`|`obj['maildevOutgoingUser']`, `process.env['SERVER_MAILDEV_OUTGOING_USER']`|**optional**|-|
-|`maildevOutgoingPass`|`obj['maildevOutgoingPass']`, `process.env['SERVER_MAILDEV_OUTGOING_PASS']`|**optional**|**hidden**|
-|`maildevOutgoingSecure`|`obj['maildevOutgoingSecure']`, `process.env['SERVER_MAILDEV_OUTGOING_SECURE']`|**optional**|-|
-|`maildevAutoRelay`|`obj['maildevAutoRelay']`, `process.env['SERVER_MAILDEV_AUTO_RELAY']`|**optional**|-|
-|`maildevAutoRelayRules`|`obj['maildevAutoRelayRules']`, `process.env['SERVER_MAILDEV_AUTO_RELAY_RULES']`|**optional**|-|
-|`maildevIncomingUser`|`obj['maildevIncomingUser']`, `process.env['SERVER_MAILDEV_INCOMING_USER']`|**optional**|-|
-|`maildevIncomingPass`|`obj['maildevIncomingPass']`, `process.env['SERVER_MAILDEV_INCOMING_PASS']`|**optional**|**hidden**|
-|`maildevIncomingSecure`|`obj['maildevIncomingSecure']`, `process.env['SERVER_MAILDEV_INCOMING_SECURE']`|**optional**|-|
-|`maildevIncomingCert`|`obj['maildevIncomingCert']`, `process.env['SERVER_MAILDEV_INCOMING_CERT']`|**optional**|-|
-|`maildevIncomingKey`|`obj['maildevIncomingKey']`, `process.env['SERVER_MAILDEV_INCOMING_KEY']`|**optional**|-|
-|`maildevWebIp`|`obj['maildevWebIp']`, `process.env['SERVER_MAILDEV_WEB_IP']`|**optional**|-|
-|`maildevWebUser`|`obj['maildevWebUser']`, `process.env['SERVER_MAILDEV_WEB_USER']`|**optional**|-|
-|`maildevWebPass`|`obj['maildevWebPass']`, `process.env['SERVER_MAILDEV_WEB_PASS']`|**optional**|**hidden**|
-|`maildevBasePathname`|`obj['maildevBasePathname']`, `process.env['SERVER_MAILDEV_BASE_PATHNAME']`|**optional**|-|
-|`maildevDisableWeb`|`obj['maildevDisableWeb']`, `process.env['SERVER_MAILDEV_DISABLE_WEB']`|**optional**|-|
-|`maildevHideExtensions`|`obj['maildevHideExtensions']`, `process.env['SERVER_MAILDEV_HIDE_EXTENSIONS']`|**optional**|-|

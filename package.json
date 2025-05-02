@@ -57,7 +57,7 @@
     "vercel:pull-environment:production": "vercel pull --yes --environment=production && cp -r .vercel/.env.production.local .env && npx --yes tsx update-files-for-vercel.ts",
     "_____supabase_____": "_____supabase_____",
     "build-supabase": "./node_modules/.bin/nx run-many -p client -t=build --configuration=supabase-prod && ./node_modules/.bin/nx run-many -p app-rest-sdk server -t=build --configuration=supabase",
-    "manual-supabase-build": "npm run pg-flyway:migrate && npm run prisma:generate && npm run build-supabase && npm run test",
+    "manual-supabase-build": "npm run pg-flyway:migrate && npm run prisma:shorts:generate && npm run build-supabase && npm run test",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
@@ -67,6 +67,7 @@
     "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
     "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull --skip-nx-cache=true",
     "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate --parallel=1",
+    "prisma:shorts:generate": "export PRISMA_TARGETS=shorts && npm run prisma:generate && npm run docs:infrastructure && npm run prisma:generate",
     "prisma:pull:webhook": "./node_modules/.bin/nx run webhook:prisma-pull",
     "prisma:pull:auth": "./node_modules/.bin/nx run auth:prisma-pull",
     "_____pg-flyway_____": "_____pg-flyway_____",
@@ -277,6 +278,7 @@
     "prisma:generate": [
       "Generation of client prisma schema of all applications and modules"
     ],
+    "prisma:shorts:generate": [],
     "prisma:pull:webhook": [
       "Generating a prisma schema based on a database for webhook"
     ],
