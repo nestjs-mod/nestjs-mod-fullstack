@@ -1,5 +1,5 @@
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
-import { RestSdkService, SsoUserDto } from '@nestjs-mod/sso-rest-sdk';
+import { SsoRestSdkService, SsoUserDto } from '@nestjs-mod/sso-rest-sdk';
 import {
   ExecutionContext,
   Injectable,
@@ -16,8 +16,8 @@ import { SsoRequest } from './sso.types';
 @Injectable()
 export class SsoService implements OnModuleInit {
   private logger = new Logger(SsoService.name);
-  private restSdkService!: RestSdkService;
-  private adminRestSdkService!: RestSdkService;
+  private ssoRestSdkService!: SsoRestSdkService;
+  private adminSsoRestSdkService!: SsoRestSdkService;
 
   constructor(
     private readonly reflector: Reflector,
@@ -26,10 +26,10 @@ export class SsoService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.restSdkService = new RestSdkService({
+    this.ssoRestSdkService = new SsoRestSdkService({
       serverUrl: this.ssoStaticEnvironments.url,
     });
-    this.adminRestSdkService = new RestSdkService({
+    this.adminSsoRestSdkService = new SsoRestSdkService({
       serverUrl: this.ssoStaticEnvironments.url,
       headers: {
         ['x-admin-secret']: this.ssoStaticEnvironments.adminSecret,
@@ -39,9 +39,9 @@ export class SsoService implements OnModuleInit {
 
   getSsoClient(isAdmin?: boolean) {
     if (isAdmin) {
-      return this.adminRestSdkService;
+      return this.adminSsoRestSdkService;
     }
-    return this.restSdkService;
+    return this.ssoRestSdkService;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,7 +118,7 @@ export class SsoService implements OnModuleInit {
       if (token && token !== 'undefined') {
         // check user in sso
         try {
-          const getProfileResult = await this.restSdkService
+          const getProfileResult = await this.ssoRestSdkService
             .getSsoApi()
             .ssoControllerProfile({
               headers: { authorization: req.headers['authorization'] },

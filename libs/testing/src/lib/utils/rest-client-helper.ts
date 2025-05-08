@@ -20,7 +20,7 @@ import {
 } from './generate-random-user';
 import { getUrls } from './get-urls';
 
-import { RestSdkService, TokensResponse } from '@nestjs-mod/sso-rest-sdk';
+import { SsoRestSdkService, TokensResponse } from '@nestjs-mod/sso-rest-sdk';
 import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
 import { TestingSupabaseService } from './supabase.service';
@@ -39,7 +39,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
 
   private testingSupabaseService?: TestingSupabaseService;
 
-  private ssoApi?: RestSdkService;
+  private ssoApi?: SsoRestSdkService;
   private webhookApi?: WebhookApi;
   private appApi?: AppApi;
   private authorizerApi?: AuthorizerApi;
@@ -185,7 +185,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   async getSsoClient() {
     const ssoUrl = this.getSsoUrl();
     if (!this.ssoApi && ssoUrl) {
-      this.ssoApi = new RestSdkService({
+      this.ssoApi = new SsoRestSdkService({
         serverUrl: ssoUrl,
         headers: {
           'x-skip-throttle': process.env['SERVER_SSO_ADMIN_SECRET'] || '',

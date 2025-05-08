@@ -17,7 +17,7 @@ import {
 } from '@nestjs-mod-fullstack/auth-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
 import {
-  RestSdkAngularService,
+  SsoRestSdkAngularService,
   SsoUserDtoInterface,
   TokensResponseInterface,
 } from '@nestjs-mod/sso-rest-sdk-angular';
@@ -35,7 +35,7 @@ import {
 export class SsoAuthConfiguration implements AuthConfiguration {
   constructor(
     private readonly authRestService: AuthRestService,
-    private readonly restSdkAngularService: RestSdkAngularService,
+    private readonly ssoRestSdkAngularService: SsoRestSdkAngularService,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
@@ -45,7 +45,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
       .getStream()
       .pipe(
         tap(() =>
-          restSdkAngularService.updateHeaders(this.getAuthorizationHeaders())
+          ssoRestSdkAngularService.updateHeaders(this.getAuthorizationHeaders())
         )
       )
       .subscribe();
@@ -61,7 +61,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
 
   logout(): Observable<void | null> {
     const refreshToken = this.tokensService.getRefreshToken();
-    return this.restSdkAngularService
+    return this.ssoRestSdkAngularService
       .getSsoApi()
       .ssoControllerSignOut(
         refreshToken
@@ -78,7 +78,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
   }
 
   getProfile(): Observable<AuthUser | undefined> {
-    return this.restSdkAngularService
+    return this.ssoRestSdkAngularService
       .getSsoApi()
       .ssoControllerProfile()
       .pipe(
@@ -135,7 +135,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
           .pipe(map((profile) => ({ ...profile, picture })))
       ),
       mergeMap(({ picture }) => {
-        return this.restSdkAngularService
+        return this.ssoRestSdkAngularService
           .getSsoApi()
           .ssoControllerUpdateProfile({
             birthdate: data.birthdate,
@@ -149,7 +149,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
           });
       }),
       mergeMap(() =>
-        this.restSdkAngularService.getSsoApi().ssoControllerProfile()
+        this.ssoRestSdkAngularService.getSsoApi().ssoControllerProfile()
       ),
       mergeMap((newData) => {
         if (
@@ -171,7 +171,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
     const refreshToken = this.tokensService.getRefreshToken();
     return this.getFingerprint().pipe(
       mergeMap((fingerprint) =>
-        this.restSdkAngularService
+        this.ssoRestSdkAngularService
           .getSsoApi()
           .ssoControllerRefreshTokens({
             ...(refreshToken
@@ -204,7 +204,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
     }
     return this.getFingerprint().pipe(
       mergeMap((fingerprint) =>
-        this.restSdkAngularService
+        this.ssoRestSdkAngularService
           .getSsoApi()
           .ssoControllerSignUp({
             email,
@@ -230,7 +230,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
     }
     return this.getFingerprint().pipe(
       mergeMap((fingerprint) =>
-        this.restSdkAngularService
+        this.ssoRestSdkAngularService
           .getSsoApi()
           .ssoControllerSignIn({
             email,
@@ -286,7 +286,7 @@ export function provideSsoAuthConfiguration(): Provider {
     useClass: SsoAuthConfiguration,
     deps: [
       AuthRestService,
-      RestSdkAngularService,
+      SsoRestSdkAngularService,
       FilesService,
       TranslocoService,
       TokensService,

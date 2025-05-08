@@ -358,8 +358,8 @@
     }
   },
   "dependencies": {
-    "@nestjs-mod/sso-rest-sdk-angular": "1.0.3",
-    "@nestjs-mod/sso-rest-sdk": "1.0.4",
+    "@nestjs-mod/sso-rest-sdk-angular": "1.0.4",
+    "@nestjs-mod/sso-rest-sdk": "1.0.5",
     "@nestjs-mod/misc": "1.4.1",
     "pg-create-db": "^1.1.6",
     "pg-flyway": "1.2.6",
