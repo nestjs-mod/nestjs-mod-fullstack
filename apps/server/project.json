@@ -94,8 +94,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/pg-create-db --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}",
-          "./node_modules/.bin/pg-create-db --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_AUTHORIZER_DATABASE_URL}"
+          "./node_modules/.bin/pg-create-db --root-database-url=${SERVER_ROOT_DATABASE_URL} --app-database-url=${SERVER_APP_DATABASE_URL}"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -108,7 +107,6 @@
         "commands": [
           "./node_modules/.bin/prisma generate --schema=./apps/server/src/prisma/app-schema.prisma",
           "./node_modules/.bin/rucken make-ts-list",
-          "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server --watch=false --inspect=false --skip-nx-cache=true",
           "rm -rf ./libs/sdk/app-angular-rest-sdk/src/lib && mkdir ./libs/sdk/app-angular-rest-sdk/src/lib && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-angular -o ./libs/sdk/app-angular-rest-sdk/src/lib  --additional-properties=apiModulePrefix=RestClient,configurationPrefix=RestClient,fileNaming=kebab-case,modelFileSuffix=.interface,modelSuffix=Interface,enumNameSuffix=Type,enumPropertyNaming=original,serviceFileSuffix=-rest.service,serviceSuffix=RestService",
           "rm -rf ./libs/sdk/app-rest-sdk/src/lib && mkdir ./libs/sdk/app-rest-sdk/src/lib && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-axios -o ./libs/sdk/app-rest-sdk/src/lib"
         ],

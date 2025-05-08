@@ -10,7 +10,7 @@ import {
 } from '@nestjs-mod-fullstack/auth-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import omit from 'lodash/fp/omit';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of } from 'rxjs';
 
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
@@ -45,7 +45,9 @@ export class CustomAuthService extends AuthService {
       mergeMap((result) =>
         this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
           map(() => {
-            return result ? { ...result, timezone, lang } : result;
+            const profile = result ? { ...result, timezone, lang } : result;
+
+            return super.setProfile(profile) as unknown as AuthUser;
           })
         )
       )

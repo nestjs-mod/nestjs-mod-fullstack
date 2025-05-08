@@ -56,7 +56,7 @@ parsedEnvs.SERVER_AUTH_ADMIN_PASSWORD =
   process.env.SERVER_AUTH_ADMIN_PASSWORD || 'SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA';
 parsedEnvs.SERVER_AUTH_ADMIN_USERNAME =
   process.env.SERVER_AUTH_ADMIN_USERNAME || 'admin';
-parsedEnvs.SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000/api';
+parsedEnvs.SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
 parsedEnvs.CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:4200';
 
 writeFileSync(

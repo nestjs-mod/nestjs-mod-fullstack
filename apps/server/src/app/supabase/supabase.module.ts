@@ -14,7 +14,7 @@ import { SupabaseExceptionsFilter } from './supabase.filter';
 export const { SupabaseModule } = createNestModule({
   moduleName: SUPABASE_MODULE,
   moduleCategory: NestModuleCategory.core,
-  moduleDescription: 'Universal javaScript SDK for Supabase API',
+  moduleDescription: 'Universal javascript SDK for Supabase API',
   configurationModel: SupabaseConfiguration,
   staticEnvironmentsModel: SupabaseStaticEnvironments,
   sharedProviders: [SupabaseService],

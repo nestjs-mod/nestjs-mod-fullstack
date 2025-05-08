@@ -20,6 +20,7 @@ import {
 } from './generate-random-user';
 import { getUrls } from './get-urls';
 
+import { RestSdkService, TokensResponse } from '@nestjs-mod/sso-rest-sdk';
 import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
 import { TestingSupabaseService } from './supabase.service';
@@ -27,6 +28,7 @@ import { TestingSupabaseService } from './supabase.service';
 export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   private authorizerClientID!: string;
 
+  ssoTokens?: TokensResponse;
   authorizationTokens?: AuthToken;
   authData?: AuthResponse['data'];
 
@@ -37,6 +39,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
 
   private testingSupabaseService?: TestingSupabaseService;
 
+  private ssoApi?: RestSdkService;
   private webhookApi?: WebhookApi;
   private appApi?: AppApi;
   private authorizerApi?: AuthorizerApi;
@@ -60,6 +63,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   constructor(
     private readonly options?: {
       serverUrl?: string;
+      ssoUrl?: string;
       authorizerURL?: string;
       supabaseUrl?: string;
       supabaseKey?: string;
@@ -178,6 +182,19 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
     return this.authApi;
   }
 
+  async getSsoClient() {
+    const ssoUrl = this.getSsoUrl();
+    if (!this.ssoApi && ssoUrl) {
+      this.ssoApi = new RestSdkService({
+        serverUrl: ssoUrl,
+        headers: {
+          'x-skip-throttle': process.env['SERVER_SSO_ADMIN_SECRET'] || '',
+        },
+      });
+    }
+    return this.ssoApi;
+  }
+
   async getAuthorizerClient() {
     const authorizerURL = this.getAuthorizerUrl();
     if (!this.authorizerClientID && this.authorizerApi && authorizerURL) {
@@ -250,6 +267,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
     }
     const supabaseClient = await this.getSupabaseClient();
     const authorizerClient = await this.getAuthorizerClient();
+    const ssoClient = await this.getSsoClient();
 
     if (supabaseClient) {
       const signUpResult = await supabaseClient.auth.signUp({
@@ -270,6 +288,17 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
           email: this.randomUser.email,
           confirm_password: this.randomUser.password,
           password: this.randomUser.password,
+        })
+      ).data;
+    }
+
+    if (ssoClient) {
+      this.ssoTokens = (
+        await ssoClient.getSsoApi().ssoControllerSignUp({
+          email: this.randomUser.email,
+          confirmPassword: this.randomUser.password,
+          password: this.randomUser.password,
+          fingerprint: 'fingerprint',
         })
       ).data;
     }
@@ -297,6 +326,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
 
     const supabaseClient = await this.getSupabaseClient();
     const authorizerClient = await this.getAuthorizerClient();
+    const ssoClient = await this.getSsoClient();
 
     if (supabaseClient) {
       const loginResult = await supabaseClient.auth.signInWithPassword({
@@ -328,6 +358,22 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
       }
 
       this.authorizationTokens = loginResult.data;
+
+      this.setAuthorizationHeadersFromAuthorizationTokens();
+
+      await this.loadProfile();
+
+      return this;
+    }
+
+    if (ssoClient) {
+      const loginResult = await ssoClient.getSsoApi().ssoControllerSignIn({
+        email: loginOptions.email,
+        password: loginOptions.password,
+        fingerprint: 'fingerprint',
+      });
+
+      this.ssoTokens = loginResult.data;
 
       this.setAuthorizationHeadersFromAuthorizationTokens();
 
@@ -431,7 +477,8 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   getAccessToken() {
     return (
       this.authData?.session?.access_token ||
-      this.authorizationTokens?.access_token
+      this.authorizationTokens?.access_token ||
+      this.ssoTokens?.accessToken
     );
   }
 
@@ -508,6 +555,10 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
 
   private getServerUrl(): string {
     return this.options?.serverUrl || getUrls().serverUrl;
+  }
+
+  private getSsoUrl() {
+    return this.options?.ssoUrl || getUrls().ssoUrl;
   }
 
   private getAuthorizerUrl() {

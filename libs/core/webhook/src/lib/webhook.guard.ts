@@ -30,25 +30,55 @@ export class WebhookGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req = this.getRequestFromExecutionContext(context);
+
+    const func = async () => {
+      try {
+        const { checkWebhookRole } = this.getHandlersReflectMetadata(context);
+
+        const externalUserId = this.getExternalUserIdFromRequest(req);
+        const externalTenantId = this.getExternalTenantIdFromRequest(req);
+
+        await this.tryGetOrCreateCurrentUserWithExternalUserId(
+          req,
+          externalTenantId,
+          externalUserId
+        );
+
+        this.throwErrorIfCurrentUserNotSet(req);
+        this.throwErrorIfCurrentUserNotHaveNeededRoles(checkWebhookRole, req);
+      } catch (err) {
+        this.throwAllGuardErrorsIfItNeeded(err);
+      }
+      return true;
+    };
+
     try {
-      const { checkWebhookRole } = this.getHandlersReflectMetadata(context);
+      const result = await func();
 
-      const req = this.getRequestFromExecutionContext(context);
-      const externalUserId = this.getExternalUserIdFromRequest(req);
-      const externalTenantId = this.getExternalTenantIdFromRequest(req);
-
-      await this.tryGetOrCreateCurrentUserWithExternalUserId(
-        req,
-        externalTenantId,
-        externalUserId
+      this.logger.debug(
+        `${context.getClass().name}.${
+          context.getHandler().name
+        }: ${result}, webhookUser: ${JSON.stringify(
+          req.webhookUser
+        )}, externalUserId: ${JSON.stringify(
+          req.externalUserId
+        )}, externalTenantId: ${JSON.stringify(req.externalTenantId)}`
       );
 
-      this.throwErrorIfCurrentUserNotSet(req);
-      this.throwErrorIfCurrentUserNotHaveNeededRoles(checkWebhookRole, req);
+      return result;
     } catch (err) {
-      this.throwAllGuardErrorsIfItNeeded(err);
+      this.logger.debug(
+        `${context.getClass().name}.${context.getHandler().name}: ${String(
+          err
+        )}, webhookUser: ${JSON.stringify(
+          req.webhookUser
+        )}, externalUserId: ${JSON.stringify(
+          req.externalUserId
+        )}, externalTenantId: ${JSON.stringify(req.externalTenantId)}`
+      );
+      throw err;
     }
-    return true;
   }
 
   private throwAllGuardErrorsIfItNeeded(err: unknown) {

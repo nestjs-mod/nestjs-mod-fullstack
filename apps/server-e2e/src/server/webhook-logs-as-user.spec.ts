@@ -26,7 +26,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
     });
 
-    endpoint = getUrls().serverUrl + '/fake-endpoint';
+    endpoint = getUrls().serverUrl + '/api/fake-endpoint';
     wrongEndpoint = 'http://localhost:17351/wrong-endpoint';
 
     const { data: webhooks } = await admin

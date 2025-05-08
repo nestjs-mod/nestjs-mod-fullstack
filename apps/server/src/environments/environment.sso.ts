@@ -1,16 +1,11 @@
 import KeyvRedis from '@keyv/redis';
-import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
 import { isInfrastructureMode, PACKAGE_JSON_FILE } from '@nestjs-mod/common';
-import {
-  DockerComposeAuthorizer,
-  DockerComposePostgreSQL,
-} from '@nestjs-mod/docker-compose';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { createClient } from 'redis';
-import { AppModule } from '../app/authorizer-app.module';
+import { AppModule } from '../app/sso-app.module';
 
 let rootFolder = join(__dirname, '..', '..', '..');
 
@@ -55,23 +50,4 @@ export const MainMinioModule = MinioModule.forRoot({
   },
 });
 
-export const MAIN_INFRASTRUCTURE_MODULES = [
-  DockerComposePostgreSQL.forFeature({
-    featureModuleName: AUTHORIZER_ENV_PREFIX,
-  }),
-  DockerComposeAuthorizer.forRoot({
-    staticConfiguration: {
-      image: 'lakhansamani/authorizer:1.4.4',
-      disableStrongPassword: 'true',
-      disableEmailVerification: 'true',
-      featureName: AUTHORIZER_ENV_PREFIX,
-      organizationName: 'NestJSModFullstack',
-      dependsOnServiceNames: {
-        'postgre-sql': 'service_healthy',
-      },
-      isEmailServiceEnabled: 'true',
-      isSmsServiceEnabled: 'false',
-      env: 'development',
-    },
-  }),
-];
+export const MAIN_INFRASTRUCTURE_MODULES = [];

@@ -26,7 +26,7 @@ import {
 import { terminusHealthCheckModuleForRootAsyncOptions } from './integrations/terminus-health-check-integration.configuration';
 
 export const FEATURE_MODULE_IMPORTS = [
-  NestjsPinoLoggerModule.forRoot(),
+  // NestjsPinoLoggerModule.forRoot(),
   TerminusHealthCheckModule.forRootAsync(
     terminusHealthCheckModuleForRootAsyncOptions()
   ),

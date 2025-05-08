@@ -27,7 +27,7 @@ import { appFolder, rootFolder } from './environments/environment';
 import { FEATURE_MODULE_IMPORTS, FeatureModule } from './feature.module';
 import { INFRASTRUCTURE_MODULE_IMPORTS } from './infrastructure.module';
 
-if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
+if (process.env.APP_TYPE !== 'nestjs-mod') {
   /**
    * NestJS way for run application
    */
@@ -74,11 +74,11 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
         JSON.stringify(document)
       );
     } else {
-      const logger = app.get(Logger);
-      if (logger) {
-        app.useLogger(logger);
-        app.flushLogs();
-      }
+      // const logger = app.get(Logger);
+      // if (logger) {
+      //   app.useLogger(logger);
+      //   app.flushLogs();
+      // }
 
       if (!process.env['PORT']) {
         throw Error('port not set');

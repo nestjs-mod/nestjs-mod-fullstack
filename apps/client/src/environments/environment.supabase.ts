@@ -1,5 +1,6 @@
 export const serverUrl = 'http://localhost:3000';
 export const authorizerURL = '';
+export const ssoURL = '';
 export const minioURL =
   'https://gustcjgbrmmipkizqzso.supabase.co/storage/v1/s3';
 export const supabaseURL = 'https://gustcjgbrmmipkizqzso.supabase.co';
