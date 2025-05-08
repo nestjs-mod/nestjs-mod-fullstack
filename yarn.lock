@@ -3483,6 +3483,20 @@
     tslib "^2.3.0"
     typescript "5.6.3"
 
+"@nestjs-mod/sso-rest-sdk-angular@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk-angular/-/sso-rest-sdk-angular-1.0.3.tgz#faa60afc34647ea60e167b5eee7994e6aff74f4b"
+  integrity sha512-+O7pAcxjDLAAYwNvHWWc48Gjk1U1gxlSWwOMXShqDx/uVF99Uhax1aqCUBiA9nRU76xm7qGBT9i8Kkh/2bVn0w==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nestjs-mod/sso-rest-sdk@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk/-/sso-rest-sdk-1.0.4.tgz#7b7488a0c60d1ca8dd400d94b91224a295e3a8bc"
+  integrity sha512-80tGPMT9K/T/rsxNGXrSAQqu18kmyOcOjl4bAW0/j9mHMu2hI4BjmMZKBon1xPXIW+s44z7cfRgG23MTT749Mw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@nestjs-mod/terminus@1.14.2":
   version "1.14.2"
   resolved "https://registry.npmjs.org/@nestjs-mod/terminus/-/terminus-1.14.2.tgz#9aacafcc44f77e21ea52bf6330231212f8eabcd2"
