@@ -116,6 +116,27 @@
             }
           ]
         },
+        "sso": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "600kb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client/src/environments/environment.ts",
+              "with": "apps/client/src/environments/environment.sso.ts"
+            }
+          ]
+        },
         "development": {
           "buildOptimizer": false,
           "optimization": false,
@@ -141,6 +162,9 @@
         },
         "supabase-prod": {
           "buildTarget": "client:build:supabase-prod"
+        },
+        "sso": {
+          "buildTarget": "client:build:sso"
         }
       },
       "defaultConfiguration": "development"

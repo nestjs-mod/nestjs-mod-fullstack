@@ -37,6 +37,14 @@
               "with": "apps/server/src/environments/environment.supabase.ts"
             }
           ]
+        },
+        "sso": {
+          "fileReplacements": [
+            {
+              "replace": "apps/server/src/environments/environment.ts",
+              "with": "apps/server/src/environments/environment.sso.ts"
+            }
+          ]
         }
       }
     },
@@ -55,6 +63,9 @@
         },
         "supabase": {
           "buildTarget": "server:build:supabase"
+        },
+        "sso": {
+          "buildTarget": "server:build:sso"
         }
       }
     },
