@@ -3,20 +3,22 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/server-authorizer/src",
   "projectType": "application",
-  "tags": [],
+  "tags": [
+    "authorizer"
+  ],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "webpack-cli build",
         "args": [
-          "node-env=production"
+          "--mode=production"
         ]
       },
       "configurations": {
         "development": {
           "args": [
-            "node-env=development"
+            "--mode=development"
           ]
         }
       }

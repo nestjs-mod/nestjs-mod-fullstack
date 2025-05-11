@@ -50,8 +50,8 @@ npm run test:server-supabase
 |`npm run pm2-full:prod:test:e2e`|Running E2E tests for all applications in PM2 prod mode|
 |**prod infra**|
 |`npm run start`|Launching a built NestJS application (you must first build it using the build command)|
-|`npm run build:prod`|Building a NestJS application in prod mode|
-|`npm run build:prod:no-cache`||
+|`npm run pm2-full:prod:build`|Building a NestJS application in prod mode|
+|`npm run pm2-full:prod:build:no-cache`||
 |`npm run build`|Building a NestJS application|
 |`npm run start:prod:server-authorizer`|Launching a built server-authorizer (you must first build it using the build command)|
 |`npm run start:prod:server-supabase`|Launching a built server-supabase (you must first build it using the build command)|

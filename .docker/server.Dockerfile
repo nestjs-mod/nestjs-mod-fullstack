@@ -17,7 +17,7 @@ COPY --chown=node:node ./dist ./dist
 COPY --chown=node:node ./apps ./apps
 COPY --chown=node:node ./libs ./libs
 # Copy the application's package.json file to use its information at runtime.
-COPY --chown=node:node ./apps/server/package.json ./dist/apps/server/package.json
+COPY --chown=node:node ./apps/server-authorizer/package.json ./dist/apps/server-authorizer/package.json
 
 # Generating additional code
 RUN npm run prisma:generate -- --verbose
@@ -52,4 +52,4 @@ COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
 EXPOSE 8080
 
 # Run server
-CMD ["dumb-init","node", "dist/apps/server/main.js"]
+CMD ["dumb-init","node", "dist/apps/server-authorizer/main.js"]

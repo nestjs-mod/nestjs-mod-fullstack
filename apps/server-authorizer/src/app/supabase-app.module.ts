@@ -170,7 +170,7 @@ export const { AppModule } = createNestModule({
       : [
           ServeStaticModule.forRoot({
             rootPath: join(
-              join(process.cwd(), 'dist', 'apps', 'server-authorizer'),
+              join(process.cwd(), 'dist', 'apps-supabase', 'server-authorizer'),
               '..',
               'client',
               'browser'

@@ -1,5 +1,5 @@
 # server-authorizer
-> Version: 0.0.34
+> Version: 0.0.1
 
 Boilerplate for creating application on NestJS and Angular
 ## Running the app in watch mode

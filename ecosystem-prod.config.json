@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "name": "nestjs-mod-fullstack",
-      "script": "node dist/apps/server/main.js",
+      "name": "nestjs-mod-fullstack-authorizer",
+      "script": "node dist/apps/server-authorizer/main.js",
       "node_args": "-r dotenv/config"
     }
   ]

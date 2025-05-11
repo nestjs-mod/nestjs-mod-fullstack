@@ -9,11 +9,11 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "webpack-cli build",
-        "args": ["node-env=production"]
+        "args": ["--mode=production"]
       },
       "configurations": {
         "development": {
-          "args": ["node-env=development"]
+          "args": ["--mode=development"]
         }
       }
     },

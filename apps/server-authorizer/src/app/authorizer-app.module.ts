@@ -141,7 +141,7 @@ export const { AppModule } = createNestModule({
       ? []
       : [
           ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client', 'browser'),
+            rootPath: join(__dirname, '..', 'client-authorizer', 'browser'),
           }),
         ]),
   ],

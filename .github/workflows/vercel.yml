@@ -61,7 +61,7 @@ jobs:
 
       - name: Installing utilities to generate additional files
         if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
-        run: yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 tslib -D
+        run: yarn add nx@20.8.0 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 tslib -D
 
       - name: Generate prisma clients
         if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
