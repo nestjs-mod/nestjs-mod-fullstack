@@ -1,0 +1,146 @@
+{
+  "name": "client-supabase",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/client-supabase/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/client-supabase/browser",
+        "index": "apps/client-supabase/src/index.html",
+        "main": "apps/client-supabase/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/client-supabase/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/client-supabase/public"
+          }
+        ],
+        "styles": ["apps/client-supabase/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "client-supabase:build:production"
+        },
+        "development": {
+          "buildTarget": "client-supabase:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "client-supabase:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/client-supabase/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "client-supabase:build",
+        "port": 4200,
+        "spa": true
+      }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/apps/client-supabase/server",
+        "main": "apps/client-supabase/src/server.ts",
+        "tsConfig": "apps/client-supabase/tsconfig.server.json",
+        "inlineStyleLanguage": "scss"
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false,
+          "vendorChunk": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@angular-devkit/build-angular:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "client-supabase:build:development",
+          "serverTarget": "client-supabase:server:development"
+        },
+        "production": {
+          "browserTarget": "client-supabase:build:production",
+          "serverTarget": "client-supabase:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@angular-devkit/build-angular:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "client-supabase:build:development",
+          "serverTarget": "client-supabase:server:development"
+        },
+        "production": {
+          "browserTarget": "client-supabase:build:production",
+          "serverTarget": "client-supabase:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

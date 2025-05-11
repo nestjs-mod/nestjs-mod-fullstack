@@ -1,0 +1,9 @@
+{
+  "name": "client-authorizer-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/client-authorizer-e2e/src",
+  "implicitDependencies": ["client-authorizer"],
+  "// targets": "to see all targets run: nx show project client-authorizer-e2e --web",
+  "targets": {}
+}

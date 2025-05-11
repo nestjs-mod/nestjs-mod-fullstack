@@ -50,7 +50,8 @@
       "@nestjs-mod-fullstack/webhook-angular": [
         "libs/core/webhook-angular/src/index.ts"
       ]
-    }
+    },
+    "allowJs": true
   },
   "exclude": ["node_modules", "tmp"]
 }

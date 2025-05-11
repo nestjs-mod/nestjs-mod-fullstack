@@ -9,6 +9,16 @@
       "name": "client",
       "script": "./node_modules/.bin/nx serve client --skip-nx-cache=true",
       "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "server-authorizer",
+      "script": "node ./dist/apps/server-authorizer/main.js",
+      "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "server-supabase",
+      "script": "node ./dist/apps/server-supabase/main.js",
+      "node_args": "-r dotenv/config"
     }
   ]
 }

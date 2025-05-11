@@ -1,0 +1,19 @@
+{
+  "name": "server-supabase",
+  "scripts": {},
+  "dependencies": {
+    "pm2": ">=5.3.0",
+    "dotenv": ">=16.3.1"
+  },
+  "devScripts": [
+    "manual:prepare",
+    "serve:dev:server-supabase"
+  ],
+  "prodScripts": [
+    "manual:prepare",
+    "start:prod:server-supabase"
+  ],
+  "testsScripts": [
+    "test:server-supabase"
+  ]
+}

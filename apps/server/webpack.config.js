@@ -11,7 +11,7 @@ module.exports = composePlugins(
     // e.g. `config.plugins.push(new MyPlugin())`
 
     config.module.rules = [
-      ...config.module.rules,
+      ...(config.module.rules || []),
       {
         test: /\.(ts)$/,
         loader: 'string-replace-loader',
