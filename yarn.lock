@@ -3388,20 +3388,20 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/common@2.17.8":
-  version "2.17.8"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/common/-/common-2.17.8.tgz#23478e2d03ffdcd3a21ac3007931d052fc9f5fab"
-  integrity sha512-srcErTJJssVkKMa5Gk9y17jE8RjJ/7scsk6RU/IC1Nkh2D/zNaHBZ+RMNkGtmuXFlD4go/s1YY+M682QKgvjmw==
+"@nestjs-mod/common@2.17.9":
+  version "2.17.9"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/common/-/common-2.17.9.tgz#5adb07beb3a54b934a2ee162c7b297812f8fa6d1"
+  integrity sha512-ZCA41JecugD4N/irEUM/w01VB6A/Jo5uSDMSmpKqrKJakyo4iLULvTd8Se3bfcPdC3GfooGq+ZQ3t5Nhjmvo1Q==
   dependencies:
     case-anything "2.1.13"
     dotenv ">=16.3.1"
     fast-glob "3.3.2"
     tslib "^2.3.0"
 
-"@nestjs-mod/docker-compose@^1.19.1":
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/docker-compose/-/docker-compose-1.19.1.tgz#e571b4966d93620d281f7d61aa0f21107a73d1b9"
-  integrity sha512-OoB9Op6h4Tc5jQFDTK9tKChbQoIZ2c4UGQV7hvy+o4MLjWJvGLP0NwtyAYV3elt7D3r3G4Gn9KK5Lu/qNsXK8A==
+"@nestjs-mod/docker-compose@^1.19.2":
+  version "1.19.2"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/docker-compose/-/docker-compose-1.19.2.tgz#53c287c75a15e9a6773cb2dcc52e5f74ff491f3d"
+  integrity sha512-Xb3LjC3U7RV9HVwad/K441t1MfalEbf+8Vo6AWVVz4i85GvtUIqa7UXMx9mBs+Koyti1fkI7eWPEbLk7vumwMw==
   dependencies:
     case-anything "2.1.13"
     compose-spec-schema "1.0.0"
@@ -3466,10 +3466,10 @@
     connection-string "4.3.5"
     tslib "^2.3.0"
 
-"@nestjs-mod/reports@2.17.8":
-  version "2.17.8"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/reports/-/reports-2.17.8.tgz#32757d23839821594548dbf5732a9a35568870d9"
-  integrity sha512-88wdYlagsIMMSYebGnZjfTuwHzp+XB0VciOnOoJ0K0zh4Rz7FZm/B4zrbNdxYLJmMGAZ+3IvAkFyo3bTNWCnFg==
+"@nestjs-mod/reports@2.17.9":
+  version "2.17.9"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/reports/-/reports-2.17.9.tgz#73be7846f82796c5fed2b5096b0bdd11426dde2c"
+  integrity sha512-J4JnhrSQ/c8PPPOMqCGQNL2aoLTVfB812FQ1YCHj10B8EJi668h3uGBfIqUhOHZ806hCO85nc8+7bq4mlfcRiw==
   dependencies:
     case-anything "2.1.13"
     fast-glob "3.3.2"
@@ -3496,10 +3496,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/testing@2.17.8":
-  version "2.17.8"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.17.8.tgz#7c216e4ed371e881322f7ab2831553a81489fa79"
-  integrity sha512-/yc9czpAiH+dHUxOxRgN3hMXZI+Cogda84wuIEvDWRRK7Ia/Wbbx8aAFRY3cB7ZzjWBVc0FmZ9r+CQfi1lyUnQ==
+"@nestjs-mod/testing@2.17.9":
+  version "2.17.9"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.17.9.tgz#048e58d583b29ee14ddc8aa3116d16ef6644107c"
+  integrity sha512-bcY5TA7CqdLFhUdLyt53zfdt3/iQzbnERhgvS0Qf4kGJmOdnkNY92yN9aosdOeeVyHn7jIBufwnHX6w4KYqdBw==
   dependencies:
     tslib "^2.3.0"
 

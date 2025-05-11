@@ -42,7 +42,7 @@
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["node dist/apps/server-supabase/main.js"],
+        "commands": ["node dist/apps/server-authorizer/main.js"],
         "parallel": false
       }
     }

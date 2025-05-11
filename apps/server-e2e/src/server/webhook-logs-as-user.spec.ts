@@ -22,11 +22,13 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
   beforeAll(async () => {
     await user1.createAndLoginAsUser();
     await admin.login({
-      email: get('SERVER_AUTH_ADMIN_EMAIL').required().asString(),
-      password: get('SERVER_AUTH_ADMIN_PASSWORD').required().asString(),
+      email: get('SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL').required().asString(),
+      password: get('SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD')
+        .required()
+        .asString(),
     });
 
-    endpoint = getUrls().serverUrl + '/fake-endpoint';
+    endpoint = getUrls().serverUrl + '/api/fake-endpoint';
     wrongEndpoint = 'http://localhost:17351/wrong-endpoint';
 
     const { data: webhooks } = await admin

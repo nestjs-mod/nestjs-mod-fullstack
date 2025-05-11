@@ -33,15 +33,13 @@ services:
     networks:
       - "server-network"
     environment:
-      REDIS_DATABASE: "${SERVER_REDIS_REDIS_DATABASE}"
-      REDIS_PASSWORD: "${SERVER_REDIS_REDIS_PASSWORD}"
       REDIS_DISABLE_COMMANDS: "${SERVER_REDIS_REDIS_DISABLE_COMMANDS}"
       REDIS_IO_THREADS: "${SERVER_REDIS_REDIS_IO_THREADS}"
       REDIS_IO_THREADS_DO_READS: "${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}"
     healthcheck:
       test:
         - "CMD-SHELL"
-        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
+        - "redis-cli ping | grep PONG"
       interval: "5s"
       timeout: "5s"
       retries: 5
@@ -57,9 +55,7 @@ services:
       - "9001:9001"
     networks:
       - "server-network"
-    environment:
-      MINIO_ROOT_USER: "${SERVER_MINIO_MINIO_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${SERVER_MINIO_MINIO_ROOT_PASSWORD}"
+    environment: {}
     healthcheck:
       test:
         - "CMD-SHELL"
@@ -93,16 +89,13 @@ services:
     image: "lakhansamani/authorizer:1.4.4"
     container_name: "server-authorizer"
     ports:
-      - "8080:8080"
+      - "8080:3000"
     networks:
       - "server-network"
     environment:
-      ADMIN_SECRET: "${SERVER_AUTHORIZER_ADMIN_SECRET}"
-      DATABASE_TYPE: "${SERVER_AUTHORIZER_DATABASE_TYPE}"
-      DATABASE_URL: "${SERVER_AUTHORIZER_DATABASE_URL}"
       DATABASE_NAME: "${SERVER_AUTHORIZER_DATABASE_NAME}"
+      REDIS_URL: "${SERVER_AUTHORIZER_REDIS_URL}"
       PORT: "${SERVER_AUTHORIZER_PORT}"
-      AUTHORIZER_URL: "${SERVER_AUTHORIZER_AUTHORIZER_URL}"
       COOKIE_NAME: "${SERVER_AUTHORIZER_COOKIE_NAME}"
       DISABLE_PLAYGROUND: "${SERVER_AUTHORIZER_DISABLE_PLAYGROUND}"
       ACCESS_TOKEN_EXPIRY_TIME: "${SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}"

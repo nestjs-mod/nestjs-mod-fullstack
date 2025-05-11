@@ -52,4 +52,5 @@ docker-compose-prod.env
 access.log
 
 apps/client-e2e/src/video
+apps/client-authorizer-e2e/src/video
 .vercel

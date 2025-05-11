@@ -8,21 +8,48 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
+        "allowedCommonJsDependencies": [
+          "@nestjs-mod/misc",
+          "@jsverse/transloco-messageformat",
+          "@jsverse/transloco-keys-manager/marker",
+          "lodash/fp/isEqual",
+          "lodash/fp/omit",
+          "cross-fetch",
+          "ws",
+          "@messageformat/core"
+        ],
         "outputPath": "dist/apps/client-authorizer/browser",
         "index": "apps/client-authorizer/src/index.html",
         "main": "apps/client-authorizer/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/client-authorizer/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/client-authorizer/src/assets",
           {
             "glob": "**/*",
             "input": "apps/client-authorizer/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+            "output": "/assets/"
+          },
+          {
+            "glob": "**/package.json",
+            "input": "./apps/client-authorizer/",
+            "output": "./"
           }
         ],
-        "styles": ["apps/client-authorizer/src/styles.scss"],
+        "styles": [
+          "apps/client-authorizer/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -75,7 +102,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/client-authorizer/jest.config.ts"
       }
@@ -89,7 +118,9 @@
       }
     },
     "server": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/client-authorizer/server",
@@ -128,7 +159,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "routes": [
+          "/"
+        ]
       },
       "configurations": {
         "development": {

@@ -12,12 +12,12 @@
     },
     {
       "name": "server-authorizer",
-      "script": "node ./dist/apps/server-authorizer/main.js",
+      "script": "./node_modules/.bin/nx serve server-authorizer --skip-nx-cache=true",
       "node_args": "-r dotenv/config"
     },
     {
       "name": "server-supabase",
-      "script": "node ./dist/apps/server-supabase/main.js",
+      "script": "./node_modules/.bin/nx serve server-supabase --skip-nx-cache=true",
       "node_args": "-r dotenv/config"
     }
   ]

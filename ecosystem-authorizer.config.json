@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "client-authorizer",
+      "script": "./node_modules/.bin/nx serve client-authorizer --skip-nx-cache=true",
+      "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "server-authorizer",
+      "script": "./node_modules/.bin/nx serve server-authorizer --skip-nx-cache=true",
+      "node_args": "-r dotenv/config"
+    }
+  ]
+}
