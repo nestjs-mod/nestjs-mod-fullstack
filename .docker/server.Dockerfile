@@ -41,7 +41,7 @@ RUN apk update \
   && apk add --no-cache openssl
 
 # Set server port
-ENV SERVER_PORT=8080
+ENV SERVER_AUTHORIZER_PORT=8080
 
 # Copy all project files
 COPY --from=builder /usr/src/app/ /usr/src/app/

@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 # Set server port
-ENV SERVER_PORT=8080
+ENV SERVER_AUTHORIZER_PORT=8080
 # Set nginx port
 ENV NGINX_PORT=8080
 

@@ -57,16 +57,22 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "1mb",
+              "maximumWarning": "600kb",
               "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "10kb",
-              "maximumError": "50kb"
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client-authorizer/src/environments/environment.ts",
+              "with": "apps/client-authorizer/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "buildOptimizer": false,
