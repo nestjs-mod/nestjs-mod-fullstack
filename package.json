@@ -9,15 +9,10 @@
     "serve:dev:client": "./node_modules/.bin/nx serve client --skip-nx-cache=true",
     "serve:dev:server-authorizer": "./node_modules/.bin/nx serve server-authorizer --host=0.0.0.0",
     "serve:dev:server-supabase": "./node_modules/.bin/nx serve server-supabase --host=0.0.0.0",
-    "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
-    "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run prisma:generate && npm run pm2-supabase:dev:start",
-    "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
-    "pm2-supabase-full:dev:test:e2e": "npm run test:e2e",
-    "pm2-supabase:dev:start": "./node_modules/.bin/pm2 start ./ecosystem-supabase.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:4200",
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
     "pm2-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server-authorizer && npm run db:create-and-fill && npm run pm2:dev:start",
     "pm2-full:dev:stop": "npm run docker-compose:stop-prod:server-authorizer && npm run pm2:dev:stop",
-    "pm2-full:dev:test:e2e": "export CI=true && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "pm2-full:dev:test:e2e": "export CI=true && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "_____pm2 dev infra_____": "_____pm2 dev infra_____",
     "pm2:dev:docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server-authorizer --watch=false --inspect=false",
     "pm2:dev:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json && npm run wait-on -- --log http://localhost:3000/api/health",
@@ -25,7 +20,7 @@
     "_____pm2-full prod infra_____": "_____pm2-full prod infra_____",
     "pm2-full:prod:start": "npm run pm2-full:prod:build && npm run docker-compose:start-prod:server-authorizer && npm run db:create-and-fill && npm run pm2:start",
     "pm2-full:prod:stop": "npm run docker-compose:stop-prod:server-authorizer && npm run pm2:stop",
-    "pm2-full:prod:test:e2e": "export CI=true && export E2E_CLIENT_URL=http://localhost:3000 && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "pm2-full:prod:test:e2e": "export CI=true && export E2E_CLIENT_URL=http://localhost:3000 && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "pm2-full:prod:build": "npm run generate && chmod -R augo+rw libs apps dist | echo 'skip chmod' && ./node_modules/.bin/nx run-many -t=build --projects=tag:authorizer,app-rest-sdk --configuration=production --parallel=1",
     "pm2-full:prod:build:no-cache": "export NX_DAEMON=false && export NX_PARALLEL=1 && export NX_SKIP_NX_CACHE=true && npm run pm2-full:prod:build",
     "_____pm2 prod infra_____": "_____pm2 prod infra_____",
@@ -39,7 +34,13 @@
     "docker-compose-full:prod:stop": ". .docker/set-env.sh && docker compose -f ./.docker/docker-compose-full.yml --env-file ./.docker/docker-compose-full.env --compatibility down",
     "docker-compose-full:prod:only-start": ". .docker/set-env.sh && docker compose -f ./.docker/docker-compose-full.yml --env-file ./.docker/docker-compose-full.env --compatibility up -d",
     "docker-compose-full:prod:build": ". .docker/set-env.sh && .docker/build-images.sh",
-    "docker-compose-full:prod:test:e2e": ". .docker/set-env.sh && export E2E_SERVER_URL=http://localhost:8080 && export E2E_CLIENT_URL=http://localhost:8080 && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "docker-compose-full:prod:test:e2e": "export CI=true && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
+    "docker-compose-full:prod:test:e2e:local": "export CI=true && export E2E_INTERNAL_SERVER_URL=http://localhost:8080 && export E2E_SERVER_URL=http://localhost:9090 && export E2E_CLIENT_URL=http://localhost:9090 && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:authorizer --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
+    "pm2-supabase-full:dev:start": "npm run pg-flyway:migrate && npm run prisma:generate && npm run pm2-supabase:dev:start",
+    "pm2-supabase-full:dev:stop": "npm run pm2:dev:stop",
+    "pm2-supabase-full:dev:test:e2e": "npm run test:e2e",
+    "pm2-supabase:dev:start": "./node_modules/.bin/pm2 start ./ecosystem-supabase.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:4200",
     "_____docs_____": "_____docs_____",
     "docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx run-many --exclude=client* --all -t=serve --parallel=1 -- --watch=false --inspect=false",
     "_____docker-compose infra_____": "_____docker-compose infra_____",
@@ -54,7 +55,6 @@
     "docker-compose:stop-prod:server-authorizer": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-authorizer/docker-compose-prod.yml --env-file ./apps/server-authorizer/docker-compose-prod.env down",
     "_____tests_____": "_____tests_____",
     "test": "export CI=true && ./node_modules/.bin/nx run-many --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
-    "test:e2e": "export CI=true && ./node_modules/.bin/nx run-many --all -t=e2e --skip-nx-cache=true --output-style=stream-without-prefixes",
     "test:server-authorizer": "./node_modules/.bin/nx test server-authorizer --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
     "test:server-supabase": "./node_modules/.bin/nx test server-supabase --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
     "_____lint_____": "_____lint_____",
@@ -279,9 +279,6 @@
     ],
     "test": [
       "Running tests across the entire project"
-    ],
-    "test:e2e": [
-      "Running E2E tests for all applications"
     ],
     "test:server-authorizer": [
       "Running tests for server-authorizer"

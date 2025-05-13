@@ -28,7 +28,9 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         .asString(),
     });
 
-    endpoint = getUrls().serverUrl + '/api/fake-endpoint';
+    endpoint =
+      (getUrls().internalServerUrl || getUrls().serverUrl) +
+      '/api/fake-endpoint';
     wrongEndpoint = 'http://localhost:17351/wrong-endpoint';
 
     const { data: webhooks } = await admin
