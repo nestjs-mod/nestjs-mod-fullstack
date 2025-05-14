@@ -14,7 +14,7 @@ import { MinioModule } from '@nestjs-mod/minio';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { createClient } from 'redis';
-import { AppModule } from '../app/authorizer-app.module';
+import { AppModule } from '../app/app.module';
 
 let rootFolder = join(__dirname, '..', '..', '..');
 

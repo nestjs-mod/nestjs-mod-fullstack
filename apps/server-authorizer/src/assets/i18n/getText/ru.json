@@ -4,7 +4,6 @@
     "Event that will trigger after the update": "Событие, которое произойдет после обновления",
     "Hello API": "Привет АПИ",
     "Forbidden": "Нет доступа",
-    "Supabase error": "Ошибка Supabase",
     "Unauthorized": "Неавторизован",
     "Too Many Requests": "Слишком много запросов"
 }

@@ -67,13 +67,6 @@ msgstr ""
 "Режим Docker-compose prod: инфраструктура и приложения, встроенные в образы "
 "Docker, запускаются с помощью docker-compose"
 
-msgid ""
-"Supabase Dev/Watch mode: the infrastructure is running on Supabase, "
-"applications are launched in watch pm2 mode"
-msgstr ""
-"Режим Dev/Watch Supabase: инфраструктура работает на Supabase, приложения "
-"запускаются в режиме watch pm2"
-
 msgid "Prepare"
 msgstr "Подготовка"
 

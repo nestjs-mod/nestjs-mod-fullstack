@@ -3,24 +3,32 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/server-supabase/src",
   "projectType": "application",
-  "tags": [],
+  "tags": [
+    "supabase"
+  ],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "webpack-cli build",
-        "args": ["--mode=production"]
+        "args": [
+          "--mode=production"
+        ]
       },
       "configurations": {
         "development": {
-          "args": ["--mode=development"]
+          "args": [
+            "--mode=development"
+          ]
         }
       }
     },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "buildTarget": "server-supabase:build",
         "runBuildTargetDependencies": false
@@ -42,7 +50,9 @@
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["node dist/apps/server-authorizer/main.js"],
+        "commands": [
+          "node dist/apps/server-supabase/main.js"
+        ],
         "parallel": false
       }
     }

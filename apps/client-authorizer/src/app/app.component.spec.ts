@@ -13,8 +13,8 @@ import { authorizerURL, minioURL } from '../environments/environment';
 import { AppComponent } from './app.component';
 import {
   AUTHORIZER_URL,
-  provideAuthorizerAuthConfiguration,
-} from './integrations/authorizer-auth.configuration';
+  provideAuthIntegrationConfiguration,
+} from './integrations/auth-integration.configuration';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -54,7 +54,7 @@ describe('AppComponent', () => {
         provideTranslocoMessageformat({
           locales: ['en-US', 'ru-RU'],
         }),
-        provideAuthorizerAuthConfiguration(),
+        provideAuthIntegrationConfiguration(),
         {
           provide: MINIO_URL,
           useValue: minioURL,

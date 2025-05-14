@@ -66,13 +66,6 @@ msgstr ""
 "Docker-compose prod mode: the infrastructure and applications built into "
 "Docker images are run using docker-compose"
 
-msgid ""
-"Supabase Dev/Watch mode: the infrastructure is running on Supabase, "
-"applications are launched in watch pm2 mode"
-msgstr ""
-"Supabase Dev/Watch mode: the infrastructure is running on Supabase, "
-"applications are launched in watch pm2 mode"
-
 msgid "Prepare"
 msgstr "Prepare"
 

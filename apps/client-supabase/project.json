@@ -4,25 +4,52 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/client-supabase/src",
-  "tags": [],
+  "tags": ["supabase"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
+        "allowedCommonJsDependencies": [
+          "@nestjs-mod/misc",
+          "@jsverse/transloco-messageformat",
+          "@jsverse/transloco-keys-manager/marker",
+          "lodash/fp/isEqual",
+          "lodash/fp/omit",
+          "cross-fetch",
+          "ws",
+          "@messageformat/core"
+        ],
         "outputPath": "dist/apps/client-supabase/browser",
         "index": "apps/client-supabase/src/index.html",
         "main": "apps/client-supabase/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/client-supabase/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/client-supabase/src/assets",
           {
             "glob": "**/*",
             "input": "apps/client-supabase/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+            "output": "/assets/"
+          },
+          {
+            "glob": "**/package.json",
+            "input": "./apps/client-supabase/",
+            "output": "./"
           }
         ],
-        "styles": ["apps/client-supabase/src/styles.scss"],
+        "styles": [
+          "apps/client-supabase/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -30,16 +57,22 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "1mb",
+              "maximumWarning": "600kb",
               "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "10kb",
-              "maximumError": "50kb"
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client-supabase/src/environments/environment.ts",
+              "with": "apps/client-supabase/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "buildOptimizer": false,
@@ -75,7 +108,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/client-supabase/jest.config.ts"
       }
@@ -89,7 +124,9 @@
       }
     },
     "server": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/client-supabase/server",
@@ -128,7 +165,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "routes": [
+          "/"
+        ]
       },
       "configurations": {
         "development": {

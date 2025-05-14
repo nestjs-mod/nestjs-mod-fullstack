@@ -15,7 +15,6 @@
     "Stop": "Stop",
     "Prod mode: the infrastructure is running using docker-compose, built applications are launched using pm2": "Prod mode: the infrastructure is running using docker-compose, built applications are launched using pm2",
     "Docker-compose prod mode: the infrastructure and applications built into Docker images are run using docker-compose": "Docker-compose prod mode: the infrastructure and applications built into Docker images are run using docker-compose",
-    "Supabase Dev/Watch mode: the infrastructure is running on Supabase, applications are launched in watch pm2 mode": "Supabase Dev/Watch mode: the infrastructure is running on Supabase, applications are launched in watch pm2 mode",
     "Prepare": "Prepare",
     "Hello Static": "Hello Static",
     "Password recovery": "Password recovery",
