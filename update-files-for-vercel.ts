@@ -26,41 +26,45 @@ if (!supabaseAnonKey) {
   throw new Error('SUPABASE_ANON_KEY not set');
 }
 
-if (!parsedEnvs.SERVER_AUTHORIZER_MINIO_ACCESS_KEY) {
-  throw new Error('SERVER_AUTHORIZER_MINIO_ACCESS_KEY not set');
+if (!parsedEnvs.SERVER_SUPABASE_MINIO_ACCESS_KEY) {
+  throw new Error('SERVER_SUPABASE_MINIO_ACCESS_KEY not set');
 }
 
-if (!parsedEnvs.SERVER_AUTHORIZER_MINIO_SECRET_KEY) {
-  throw new Error('SERVER_AUTHORIZER_MINIO_SECRET_KEY not set');
+if (!parsedEnvs.SERVER_SUPABASE_MINIO_SECRET_KEY) {
+  throw new Error('SERVER_SUPABASE_MINIO_SECRET_KEY not set');
 }
 
-parsedEnvs.SERVER_AUTHORIZER_ROOT_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_SUPABASE_ROOT_DATABASE_URL = postgresUrl;
+
+parsedEnvs.SERVER_SUPABASE_AUTH_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_SUPABASE_APP_DATABASE_URL = postgresUrl;
+parsedEnvs.SERVER_SUPABASE_WEBHOOK_DATABASE_URL = postgresUrl;
+
+// need for migrations
 parsedEnvs.SERVER_AUTHORIZER_AUTH_DATABASE_URL = postgresUrl;
 parsedEnvs.SERVER_AUTHORIZER_APP_DATABASE_URL = postgresUrl;
 parsedEnvs.SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL = postgresUrl;
-parsedEnvs.SERVER_AUTHORIZER_KEYV_URL = postgresUrl.replace(
-  '?schema=public',
-  ''
-);
+
+parsedEnvs.SERVER_SUPABASE_KEYV_URL = postgresUrl.replace('?schema=public', '');
 
 parsedEnvs.CLIENT_MINIO_URL = `https://${supabaseName}.supabase.co/storage/v1/s3`;
-parsedEnvs.SERVER_AUTHORIZER_MINIO_URL = `https://${supabaseName}.supabase.co/storage/v1/s3`;
-parsedEnvs.SERVER_AUTHORIZER_MINIO_SERVER_HOST = `${supabaseName}.supabase.co`;
-parsedEnvs.SERVER_AUTHORIZER_SUPABASE_URL = `https://${supabaseName}.supabase.co`;
+parsedEnvs.SERVER_SUPABASE_MINIO_URL = `https://${supabaseName}.supabase.co/storage/v1/s3`;
+parsedEnvs.SERVER_SUPABASE_MINIO_SERVER_HOST = `${supabaseName}.supabase.co`;
+parsedEnvs.SERVER_SUPABASE_SUPABASE_URL = `https://${supabaseName}.supabase.co`;
 
-parsedEnvs.SERVER_AUTHORIZER_SUPABASE_KEY = supabaseAnonKey;
+parsedEnvs.SERVER_SUPABASE_SUPABASE_KEY = supabaseAnonKey;
 parsedEnvs.DISABLE_SERVE_STATIC = 'true';
-parsedEnvs.SERVER_AUTHORIZER_PORT = '3000';
+parsedEnvs.SERVER_SUPABASE_PORT = '3000';
 
 // check real process envs
-parsedEnvs.SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL =
-  process.env.SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL ||
+parsedEnvs.SERVER_SUPABASE_AUTH_ADMIN_EMAIL =
+  process.env.SERVER_SUPABASE_AUTH_ADMIN_EMAIL ||
   'nestjs-mod-fullstack@site15.ru';
-parsedEnvs.SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD =
-  process.env.SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD ||
+parsedEnvs.SERVER_SUPABASE_AUTH_ADMIN_PASSWORD =
+  process.env.SERVER_SUPABASE_AUTH_ADMIN_PASSWORD ||
   'SbxcbII7RUvCOe9TDXnKhfRrLJW5cGDA';
-parsedEnvs.SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME =
-  process.env.SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME || 'admin';
+parsedEnvs.SERVER_SUPABASE_AUTH_ADMIN_USERNAME =
+  process.env.SERVER_SUPABASE_AUTH_ADMIN_USERNAME || 'admin';
 
 parsedEnvs.E2E_CLIENT_URL =
   parsedEnvs.E2E_CLIENT_URL || 'http://localhost:4200';
@@ -68,9 +72,8 @@ parsedEnvs.E2E_SERVER_URL =
   parsedEnvs.E2E_SERVER_URL || 'http://localhost:3000';
 
 writeFileSync(
-  join(__dirname, 'apps/client/src/environments/environment.supabase-prod.ts'),
+  join(__dirname, 'apps/client-supabase/src/environments/environment.prod.ts'),
   `export const serverUrl = '';
-export const authorizerURL = '';
 export const minioURL =
   'https://${supabaseName}.supabase.co/storage/v1/s3';
 export const supabaseURL = 'https://${supabaseName}.supabase.co';
@@ -79,9 +82,8 @@ export const supabaseKey =
 `
 );
 writeFileSync(
-  join(__dirname, 'apps/client/src/environments/environment.supabase.ts'),
+  join(__dirname, 'apps/client-supabase/src/environments/environment.ts'),
   `export const serverUrl = 'http://localhost:3000';
-export const authorizerURL = '';
 export const minioURL =
   'https://${supabaseName}.supabase.co/storage/v1/s3';
 export const supabaseURL = 'https://${supabaseName}.supabase.co';

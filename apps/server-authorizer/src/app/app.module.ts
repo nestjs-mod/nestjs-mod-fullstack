@@ -29,7 +29,7 @@ import { FakeEndpointController } from './controllers/fake-endoint.controller';
 import { TimeController } from './controllers/time.controller';
 import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer-with-minio-files.configuration';
 import { WebhookWithAuthAuthorizerConfiguration } from './integrations/webhook-with-auth-authorizer.configuration';
-import { AuthIntegrationConfiguration } from './integrations/auth-integration.configuration';
+import { AuthorizerAuthConfiguration } from './integrations/authorizer-auth.configuration';
 
 export const { AppModule } = createNestModule({
   moduleName: 'AppModule',
@@ -48,7 +48,7 @@ export const { AppModule } = createNestModule({
     }),
     AuthModule.forRootAsync({
       imports: [AuthorizerModule.forFeature()],
-      configurationClass: AuthIntegrationConfiguration,
+      configurationClass: AuthorizerAuthConfiguration,
     }),
     AuthorizerModule.forFeature({
       featureModuleName: APP_FEATURE,
@@ -137,7 +137,7 @@ export const { AppModule } = createNestModule({
         },
       ],
     }),
-    ...(process.env.DISABLE_SERVE_STATIC
+    ...(process.env.DISABLE_SERVE_STATIC === 'true'
       ? []
       : [
           ServeStaticModule.forRoot({

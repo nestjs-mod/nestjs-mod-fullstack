@@ -21,7 +21,6 @@ import {
   MAIN_INFRASTRUCTURE_MODULES,
   rootFolder,
 } from './environments/environment';
-import { AUTHORIZER_ENV_PREFIX } from '@nestjs-mod/authorizer';
 
 export const INFRASTRUCTURE_MODULE_IMPORTS = [
   InfrastructureMarkdownReportGenerator.forRoot({
@@ -34,7 +33,7 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
   Pm2.forRoot({
     configuration: {
       ecosystemConfigFile: join(rootFolder, ECOSYSTEM_CONFIG_FILE),
-      applicationScriptFile: join('dist/apps/server-authorizer/main.js'),
+      applicationScriptFile: join('dist/apps/server-supabase/main.js'),
     },
   }),
   DockerCompose.forRoot({
@@ -44,19 +43,6 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
     },
   }),
   DockerComposePostgreSQL.forRoot(),
-  DockerComposeRedis.forRoot({
-    staticConfiguration: { image: 'bitnami/redis:7.4.1' },
-  }),
-  DockerComposeMinio.forRoot({
-    staticConfiguration: { image: 'bitnami/minio:2024.11.7' },
-  }),
-  //
-  DockerComposePostgreSQL.forFeatureAsync({
-    featureModuleName: AUTHORIZER_ENV_PREFIX,
-    featureConfiguration: {
-      nxProjectJsonFile: join(appFolder, PROJECT_JSON_FILE),
-    },
-  }),
   //
   DockerComposePostgreSQL.forFeatureAsync({
     featureModuleName: APP_FEATURE,
@@ -98,7 +84,5 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
       nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
     },
   }),
-  // maildev
-  DockerComposeMaildev.forRoot(),
   ...MAIN_INFRASTRUCTURE_MODULES,
 ];

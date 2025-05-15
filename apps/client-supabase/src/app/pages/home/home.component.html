@@ -18,7 +18,7 @@
         nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env"
+cp ./example.env ./.env"
       >
         {{ 'Init' | transloco }}
       </h6>
@@ -30,7 +30,7 @@ cp ./example-authorizer.env ./.env"
 git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env</textarea
+cp ./example.env ./.env</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:dev:start">
         {{ 'Start' | transloco }}
@@ -85,7 +85,7 @@ npm run pm2-full:dev:stop</textarea
         nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env"
+cp ./example.env ./.env"
       >
         {{ 'Init' | transloco }}
       </h6>
@@ -97,7 +97,7 @@ cp ./example-authorizer.env ./.env"
 git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env</textarea
+cp ./example.env ./.env</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
         {{ 'Start' | transloco }}
@@ -152,7 +152,7 @@ npm run pm2-full:prod:stop</textarea
         nzCopyText="git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env"
+cp ./example.env ./.env"
       >
         {{ 'Init' | transloco }}
       </h6>
@@ -164,7 +164,7 @@ cp ./example-authorizer.env ./.env"
 git clone git&#64;github.com:nestjs-mod/nestjs-mod-fullstack.git
 cd nestjs-mod-fullstack
 npm i
-cp ./example-authorizer.env ./.env</textarea
+cp ./example.env ./.env</textarea
       >
       <h6 nz-typography nzCopyable nzCopyText="npm run pm2-full:prod:start">
         {{ 'Start' | transloco }}
@@ -259,9 +259,9 @@ cp ./example-supabase.env ./.env</textarea
    # https://supabase.com/dashboard/project/XXX/settings/api - API Settings - Project API Keys - anon public
    SUPABASE_ANON_KEY=empty_value
    # https://supabase.com/dashboard/project/gustcjgbrmmipkizqzso/settings/storage - S3 Access Keys - New access key - Access key ID
-   SERVER_MINIO_ACCESS_KEY=empty_value
+   SERVER_SUPABASE_MINIO_ACCESS_KEY=empty_value
    # https://supabase.com/dashboard/project/gustcjgbrmmipkizqzso/settings/storage - S3 Access Keys - New access key - Secret access key
-   SERVER_MINIO_SECRET_KEY=empty_value
+   SERVER_SUPABASE_MINIO_SECRET_KEY=empty_value
    ```
 
 5. Create and fill all need new env keys

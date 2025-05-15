@@ -49,7 +49,7 @@ import {
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
 import { AppTitleStrategy } from './app-title.strategy';
 
-export const supabaseAppConfig = ({
+export const appConfig = ({
   supabaseURL,
   supabaseKey,
   minioURL,

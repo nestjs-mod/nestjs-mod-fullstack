@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import {
   AUTHORIZER_URL,
   provideAuthIntegrationConfiguration,
-} from './integrations/auth-integration.configuration';
+} from './integrations/authorizer-auth.configuration';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

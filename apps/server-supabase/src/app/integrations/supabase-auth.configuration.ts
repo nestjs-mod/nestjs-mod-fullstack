@@ -6,8 +6,8 @@ import {
 } from '@nestjs-mod-fullstack/auth';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { SupabaseService } from '../../supabase/supabase.service';
 import { AuthRole } from '@prisma/auth-client';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class SupabaseAuthConfiguration implements AuthConfiguration {

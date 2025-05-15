@@ -1,56 +1,55 @@
-import { createNestModule, NestModuleCategory } from '@nestjs-mod/common';
-
-import {
-  AUTH_FEATURE,
-  AuthExceptionsFilter,
-  AuthModule,
-} from '@nestjs-mod-fullstack/auth';
+import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
 import { FilesModule } from '@nestjs-mod-fullstack/files';
 import {
   ValidationError,
   ValidationErrorEnum,
 } from '@nestjs-mod-fullstack/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
-import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
+import {
+  createNestModule,
+  getRequestFromExecutionContext,
+  NestModuleCategory,
+} from '@nestjs-mod/common';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { ExecutionContext } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { getText, TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
-import { APP_FEATURE } from './app.constants';
-import { AppController } from './controllers/authorizer/authorizer-app.controller';
-import { FakeEndpointController } from './controllers/authorizer/authorizer-fake-endoint.controller';
-import { TimeController } from './controllers/authorizer/authorizer-time.controller';
-import { AuthorizerController } from './controllers/authorizer/authorizer.controller';
-import { AuthorizerAuthConfiguration } from './integrations/authorizer/authorizer-auth.configuration';
-import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer/authorizer-with-minio-files.configuration';
-import { WebhookWithAuthAuthorizerConfiguration } from './integrations/authorizer/webhook-with-auth-authorizer.configuration';
-import { AppService } from './services/app.service';
+import { APP_FEATURE, APP_MODULE } from './app.constants';
 import { AppExceptionsFilter } from './app.filter';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { AppController } from './controllers/app.controller';
+import { FakeEndpointController } from './controllers/fake-endoint.controller';
+import { TimeController } from './controllers/time.controller';
+import { SupabaseAuthConfiguration } from './integrations/supabase-auth.configuration';
+import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-with-minio-files.configuration';
+import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
+import { AppService } from './services/app.service';
+import { SupabaseModule } from './supabase/supabase.module';
 
 export const { AppModule } = createNestModule({
-  moduleName: 'AppModule',
+  moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
   imports: [
-    AuthorizerModule.forRootAsync({
+    SupabaseModule.forRootAsync({
       imports: [
         WebhookModule.forFeature({ featureModuleName: AUTH_FEATURE }),
         AuthModule.forFeature({ featureModuleName: AUTH_FEATURE }),
       ],
-      configurationClass: WebhookWithAuthAuthorizerConfiguration,
+      configurationClass: WebhookWithAuthSupabaseConfiguration,
     }),
     FilesModule.forRootAsync({
-      imports: [AuthorizerModule.forFeature(), MinioModule.forFeature()],
-      configurationClass: AuthorizerWithMinioFilesConfiguration,
+      imports: [SupabaseModule.forFeature(), MinioModule.forFeature()],
+      configurationClass: SupabaseWithMinioFilesConfiguration,
     }),
     AuthModule.forRootAsync({
-      imports: [AuthorizerModule.forFeature()],
-      configurationClass: AuthorizerAuthConfiguration,
+      imports: [SupabaseModule.forFeature()],
+      configurationClass: SupabaseAuthConfiguration,
     }),
-    AuthorizerModule.forFeature({
+    SupabaseModule.forFeature({
       featureModuleName: APP_FEATURE,
     }),
     AuthModule.forFeature({
@@ -103,11 +102,45 @@ export const { AppModule } = createNestModule({
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
-        join(__dirname, 'assets', 'i18n'),
-        join(__dirname, 'assets', 'i18n', 'getText'),
-        join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server-supabase',
+          'assets',
+          'i18n'
+        ),
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server-supabase',
+          'assets',
+          'i18n',
+          'getText'
+        ),
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server-supabase',
+          'assets',
+          'i18n',
+          'class-validator-messages'
+        ),
       ],
-      vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
+      vendorLocalePaths: [
+        join(
+          process.cwd(),
+          'dist',
+          'apps',
+          'server-supabase',
+          'assets',
+          'i18n'
+        ),
+      ],
+      contextRequestDetector: (ctx: ExecutionContext) =>
+        getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
       validationPipeOptions: {
         transform: true,
@@ -116,14 +149,8 @@ export const { AppModule } = createNestModule({
           target: false,
           value: false,
         },
-        exceptionFactory: (errors) => {
-          console.log(errors);
-          return new ValidationError(
-            ValidationErrorEnum.COMMON,
-            undefined,
-            errors
-          );
-        },
+        exceptionFactory: (errors) =>
+          new ValidationError(ValidationErrorEnum.COMMON, undefined, errors),
       },
       usePipes: true,
       useInterceptors: true,
@@ -137,25 +164,23 @@ export const { AppModule } = createNestModule({
         },
       ],
     }),
-    ...(process.env.DISABLE_SERVE_STATIC
+    ...(process.env.DISABLE_SERVE_STATIC === 'true'
       ? []
       : [
           ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client-authorizer', 'browser'),
+            rootPath: join(
+              join(process.cwd(), 'dist', 'apps', 'server-supabase'),
+              '..',
+              'client-supabase',
+              'browser'
+            ),
           }),
         ]),
   ],
-  controllers: [
-    AppController,
-    TimeController,
-    FakeEndpointController,
-    AuthorizerController,
-  ],
+  controllers: [AppController, TimeController, FakeEndpointController],
   providers: [
-    { provide: APP_GUARD, useClass: AuthorizerGuard },
-    { provide: APP_FILTER, useClass: AuthExceptionsFilter },
-    { provide: APP_FILTER, useClass: AppExceptionsFilter },
     AppService,
     TimeController,
+    { provide: APP_FILTER, useClass: AppExceptionsFilter },
   ],
 });

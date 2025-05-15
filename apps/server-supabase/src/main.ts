@@ -32,8 +32,9 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
    * NestJS way for run application
    */
   (async function bootstrap() {
+    console.log(process.env);
     // copy nestjs-mod environments to nestjs environments, without prefix "SERVER_"
-    const dm = 'SERVER_AUTHORIZER_';
+    const dm = 'SERVER_SUPABASE_';
     for (const key of Object.keys(process.env)) {
       const arr = key.split(dm);
       if (arr.length > 0 && !arr[0]) {
@@ -92,7 +93,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
    */
   bootstrapNestApplication({
     project: {
-      name: 'server-authorizer',
+      name: 'server-supabase',
       description: 'Boilerplate for creating application on NestJS and Angular',
     },
     modules: {

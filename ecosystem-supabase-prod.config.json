@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "name": "nestjs-mod-fullstack-authorizer",
-      "script": "node dist/apps/server-authorizer/main.js",
+      "name": "nestjs-mod-fullstack-supabase",
+      "script": "node dist/apps/server-supabase/main.js",
       "node_args": "-r dotenv/config",
       "env": {
         "DISABLE_SERVE_STATIC": "false"

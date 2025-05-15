@@ -9,21 +9,24 @@ import {
   WebhookRequest,
   WebhookUsersService,
 } from '@nestjs-mod-fullstack/webhook';
-import {
-  AuthorizerConfiguration,
-  AuthorizerRequest,
-  AuthorizerUser,
-  CheckAccessOptions,
-  defaultAuthorizerCheckAccessValidator,
-} from '@nestjs-mod/authorizer';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { splitIn } from '@nestjs-mod/misc';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthRole } from '@prisma/auth-client';
 import { WebhookRole } from '@prisma/webhook-client';
+import {
+  SupabaseConfiguration,
+  defaultSupabaseCheckAccessValidator,
+} from '../supabase/supabase.configuration';
+import {
+  CheckAccessOptions,
+  SupabaseRequest,
+  SupabaseUser,
+} from '../supabase/supabase.types';
 
 @Injectable()
-export class WebhookWithAuthAuthorizerConfiguration
-  implements AuthorizerConfiguration
+export class WebhookWithAuthSupabaseConfiguration
+  implements SupabaseConfiguration
 {
   constructor(
     private readonly webhookUsersService: WebhookUsersService,
@@ -31,11 +34,11 @@ export class WebhookWithAuthAuthorizerConfiguration
   ) {}
 
   async checkAccessValidator(
-    authorizerUser?: AuthorizerUser,
+    supabaseUser?: SupabaseUser,
     options?: CheckAccessOptions,
     ctx?: ExecutionContext
   ) {
-    const req: WebhookRequest & FilesRequest & AuthRequest & AuthorizerRequest =
+    const req: WebhookRequest & FilesRequest & AuthRequest & SupabaseRequest =
       ctx && getRequestFromExecutionContext(ctx);
 
     if (
@@ -45,25 +48,26 @@ export class WebhookWithAuthAuthorizerConfiguration
       ctx?.getHandler().name === 'check'
     ) {
       req.skipEmptyAuthUser = true;
-      req.skipEmptyAuthorizerUser = true;
+      req.skipEmptySupabaseUser = true;
       return true;
     }
 
-    const result = await defaultAuthorizerCheckAccessValidator(
-      authorizerUser,
+    const result = await defaultSupabaseCheckAccessValidator(
+      supabaseUser,
       options
     );
 
-    if (req?.authorizerUser?.id) {
+    if (req?.supabaseUser?.id) {
       // webhook
       req.webhookUser = await this.webhookUsersService.createUserIfNotExists({
-        externalUserId: req?.authorizerUser?.id,
-        externalTenantId: req?.authorizerUser?.id,
+        externalUserId: req?.supabaseUser?.id,
+        externalTenantId: req?.supabaseUser?.id,
         userRole:
           req.authUser?.userRole === AuthRole.Admin
             ? WebhookRole.Admin
             : WebhookRole.User,
       });
+
       if (req.authUser?.userRole === AuthRole.Admin) {
         req.webhookUser.userRole = WebhookRole.Admin;
       }
@@ -74,11 +78,11 @@ export class WebhookWithAuthAuthorizerConfiguration
 
       if (
         this.authStaticEnvironments.adminEmail &&
-        req.authorizerUser?.email === this.authStaticEnvironments.adminEmail
+        req.supabaseUser?.email === this.authStaticEnvironments.adminEmail
       ) {
         req.webhookUser.userRole = WebhookRole.Admin;
 
-        req.authorizerUser.roles = [AuthRole.Admin.toLowerCase()];
+        req.supabaseUser.role = AuthRole.Admin.toLowerCase();
       }
 
       // files
@@ -89,25 +93,25 @@ export class WebhookWithAuthAuthorizerConfiguration
             : FilesRole.User,
       };
 
-      if (authorizerUser?.email && authorizerUser?.roles) {
+      if (supabaseUser?.email && supabaseUser?.role) {
         req.externalUser = {
-          email: authorizerUser?.email,
-          roles: authorizerUser?.roles,
+          email: supabaseUser?.email,
+          roles: splitIn(supabaseUser?.role),
         };
       }
     }
 
     if (result) {
       req.skipEmptyAuthUser = true;
-      req.skipEmptyAuthorizerUser = true;
+      req.skipEmptySupabaseUser = true;
       return true;
     }
 
     if (
       !req.skipEmptyAuthUser &&
-      !req.skipEmptyAuthorizerUser &&
+      !req.skipEmptySupabaseUser &&
       !result &&
-      !req.authorizerUser?.id
+      !req.supabaseUser?.id
     ) {
       throw new AuthError(AuthErrorEnum.UNAUTHORIZED);
     }
