@@ -6,6 +6,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { AuthRole } from '@prisma/auth-client';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseConfiguration } from './supabase.configuration';
 import {
@@ -15,7 +16,6 @@ import {
 import { SupabaseStaticEnvironments } from './supabase.environments';
 import { SupabaseError, SupabaseErrorEnum } from './supabase.errors';
 import { SupabaseRequest, SupabaseUser } from './supabase.types';
-import { AuthRole } from '@prisma/auth-client';
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
@@ -31,7 +31,17 @@ export class SupabaseService implements OnModuleInit {
   onModuleInit() {
     this.supabaseClient = new SupabaseClient(
       this.supabaseStaticEnvironments.url,
-      this.supabaseStaticEnvironments.key
+      this.supabaseStaticEnvironments.key,
+      {
+        ...this.supabaseConfiguration.clientOptions,
+        global: {
+          ...this.supabaseConfiguration.clientOptions,
+          headers: {
+            ...this.supabaseConfiguration.extraHeaders,
+            ...this.supabaseConfiguration.clientOptions?.global?.headers,
+          },
+        },
+      }
     );
   }
 

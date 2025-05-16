@@ -23,6 +23,7 @@ import {
 } from '@nestjs-mod-fullstack/auth-angular';
 import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   catchError,
   from,
@@ -44,7 +45,8 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
     @Inject(AUTHORIZER_URL)
-    private readonly authorizerURL: string
+    private readonly authorizerURL: string,
+    private readonly nzMessageService: NzMessageService
   ) {
     this.authorizer = new Authorizer({
       authorizerURL:
@@ -117,16 +119,14 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
         : of('')
     ).pipe(
-      mergeMap((picture) =>
-        this.authRestService
-          .authControllerProfile()
-          .pipe(map((profile) => ({ ...profile, picture })))
-      ),
-      catchError(() => of(null)),
-      mergeMap((profile) => {
-        if (data && profile) {
-          data = { ...data, ...profile };
-        }
+      catchError((err) => {
+        console.error(err);
+        this.nzMessageService.error(
+          this.translocoService.translate('Error while saving image')
+        );
+        return of(undefined);
+      }),
+      mergeMap((picture) => {
         return this.authorizer.updateProfile(
           {
             old_password: data.oldPassword,
@@ -140,7 +140,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
             gender: data.gender,
             birthdate: data.birthdate,
             phone_number: data.phoneNumber,
-            picture: data.picture,
+            picture,
             app_data: data.appData,
           },
           this.getAuthorizationHeaders()
@@ -266,6 +266,7 @@ export function provideAuthIntegrationConfiguration(): Provider {
       TranslocoService,
       TokensService,
       AUTHORIZER_URL,
+      NzMessageService,
     ],
   };
 }

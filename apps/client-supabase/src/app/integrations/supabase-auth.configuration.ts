@@ -30,6 +30,7 @@ import {
   User,
   UserResponse,
 } from '@supabase/supabase-js';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   catchError,
   from,
@@ -106,7 +107,8 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     private readonly authRestService: AuthRestService,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
+    private readonly nzMessageService: NzMessageService
   ) {
     this.supabaseClient = new SupabaseClient(supabaseUrl, supabaseKey);
   }
@@ -172,19 +174,17 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
         ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
         : of('')
     ).pipe(
-      mergeMap((picture) =>
-        this.authRestService
-          .authControllerProfile()
-          .pipe(map((profile) => ({ ...profile, picture })))
-      ),
-      catchError(() => of(null)),
-      mergeMap((profile) => {
-        if (data && profile) {
-          data = { ...data, ...profile };
-        }
+      catchError((err) => {
+        console.error(err);
+        this.nzMessageService.error(
+          this.translocoService.translate('Error while saving image')
+        );
+        return of(undefined);
+      }),
+      mergeMap((picture) => {
         return from(
           this.supabaseClient.auth.updateUser({
-            data: { ...data.appData, picture: data.picture },
+            data: { ...data.appData, picture },
             email: data.email,
             password: data.newPassword,
             phone: data.phoneNumber,
@@ -330,6 +330,7 @@ export function provideSupabaseAuthConfiguration(): Provider {
       FilesService,
       TranslocoService,
       TokensService,
+      NzMessageService,
     ],
   };
 }

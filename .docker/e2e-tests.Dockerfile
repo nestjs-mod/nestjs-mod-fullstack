@@ -8,6 +8,7 @@ ENV BASE_URL=http://localhost:8080
 
 ENV NX_PARALLEL=1
 ENV NX_SKIP_NX_CACHE=true
+ENV PLAYWRIGHT_BROWSERS_PATH=0
 
 # Copy all files in repository to image
 COPY --chown=node:node . .

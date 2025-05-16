@@ -32,7 +32,7 @@ test.describe('Work with profile as "User" role', () => {
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_URL').asString() || ''
+      get('SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL').asString() || ''
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),

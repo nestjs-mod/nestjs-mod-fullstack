@@ -42,7 +42,7 @@ import { appRoutes } from './app.routes';
 import {
   AUTHORIZER_URL,
   provideAuthIntegrationConfiguration,
-} from './integrations/authorizer-auth.configuration';
+} from './integrations/auth-integration.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';

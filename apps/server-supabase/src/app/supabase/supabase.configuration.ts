@@ -2,6 +2,7 @@ import { ConfigModel, ConfigModelProperty } from '@nestjs-mod/common';
 import { searchIn } from '@nestjs-mod/misc';
 import { ExecutionContext } from '@nestjs/common';
 import { CheckAccessOptions, SupabaseUser } from './supabase.types';
+import { SupabaseClientOptions } from '@supabase/supabase-js';
 
 export const defaultSupabaseCheckAccessValidator = async (
   supabaseUser?: SupabaseUser,
@@ -59,4 +60,9 @@ export class SupabaseConfiguration {
     externalAppId?: string,
     ctx?: ExecutionContext
   ) => Promise<SupabaseUser>;
+
+  @ConfigModelProperty({
+    description: 'Supabase client options',
+  })
+  clientOptions?: SupabaseClientOptions<'public'>;
 }

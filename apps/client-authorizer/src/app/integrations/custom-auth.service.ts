@@ -45,7 +45,9 @@ export class CustomAuthService extends AuthService {
       mergeMap((result) =>
         this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
           map(() => {
-            return result ? { ...result, timezone, lang } : result;
+            const profile = result ? { ...result, timezone, lang } : result;
+
+            return super.setProfile(profile) as unknown as AuthUser;
           })
         )
       )

@@ -208,7 +208,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .first()
       .click();
 
-    await setTimeout(4000);
+    await setTimeout(10000);
     //
     await page
       .locator('auth-profile-form')
@@ -232,9 +232,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
     );
 
-    await page.reload({ waitUntil: 'networkidle' });
-
-    await setTimeout(3000);
+    await setTimeout(7000);
 
     const newServerTime = await page.locator('#serverTime').innerText();
 

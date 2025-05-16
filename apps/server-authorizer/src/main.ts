@@ -26,6 +26,7 @@ import { join } from 'path';
 import { appFolder, rootFolder } from './environments/environment';
 import { FEATURE_MODULE_IMPORTS, FeatureModule } from './feature.module';
 import { INFRASTRUCTURE_MODULE_IMPORTS } from './infrastructure.module';
+import { replaceEnvs } from './replace-envs';
 
 if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
   /**
@@ -74,6 +75,8 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
         JSON.stringify(document)
       );
     } else {
+      await replaceEnvs();
+
       const logger = app.get(Logger);
       if (logger) {
         app.useLogger(logger);
@@ -141,6 +144,8 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
                     join(rootFolder, 'app-swagger.json'),
                     JSON.stringify(document)
                   );
+                } else {
+                  await replaceEnvs();
                 }
               }
             },

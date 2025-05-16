@@ -11,7 +11,9 @@
       }
     }
   },
-  "tags": [],
+  "tags": [
+    "library"
+  ],
   "targets": {
     "build-skip": {
       "executor": "@nx/js:tsc",
