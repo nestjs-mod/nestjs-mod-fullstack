@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: "master"
-  name: master-server-config
-data:
-  NODE_TLS_REJECT_UNAUTHORIZED: "0"
-  SERVER_APP_DATABASE_URL: 'postgres://master_app:app_password@10.0.1.1:5432/master_app?schema=public'
-  SERVER_PORT: '9191'
