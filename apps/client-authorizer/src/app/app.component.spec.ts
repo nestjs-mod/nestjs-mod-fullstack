@@ -9,12 +9,12 @@ import {
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { MINIO_URL } from '@nestjs-mod-fullstack/files-angular';
-import { authorizerURL, minioURL } from '../environments/environment';
-import { AppComponent } from './app.component';
 import {
   AUTHORIZER_URL,
   provideAuthIntegrationConfiguration,
-} from './integrations/authorizer-auth.configuration';
+} from '../app/integrations/auth-integration.configuration';
+import { authorizerURL, minioURL } from '../environments/environment';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
