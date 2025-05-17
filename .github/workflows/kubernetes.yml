@@ -5,12 +5,12 @@ on:
     branches: ['master']
 env:
   REGISTRY: ghcr.io
-  BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-base-server
-  BUILDER_IMAGE_NAME: ${{ github.repository }}-builder
-  MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-migrations
-  SERVER_IMAGE_NAME: ${{ github.repository }}-server
-  NGINX_IMAGE_NAME: ${{ github.repository }}-nginx
-  E2E_TESTS_IMAGE_NAME: ${{ github.repository }}-e2e-tests
+  BASE_SERVER_IMAGE_NAME: ${{ github.repository }}-authorizer-base-server
+  BUILDER_IMAGE_NAME: ${{ github.repository }}-authorizer-builder
+  MIGRATIONS_IMAGE_NAME: ${{ github.repository }}-authorizer-migrations
+  SERVER_IMAGE_NAME: ${{ github.repository }}-authorizer-server
+  NGINX_IMAGE_NAME: ${{ github.repository }}-authorizer-nginx
+  E2E_TESTS_IMAGE_NAME: ${{ github.repository }}-authorizer-e2e-tests
   COMPOSE_INTERACTIVE_NO_CLI: 1
   NX_DAEMON: false
   NX_PARALLEL: 1
@@ -31,7 +31,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
       - run: echo '' > .env && npm run generate -- --verbose
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
-      - run: npm run nx -- run-many --target=semantic-release -p server client --parallel=1 --excludeTaskDependencies=true
+      - run: npm run nx -- run-many --target=semantic-release -p server-authorizer client-authorizer --parallel=1 --excludeTaskDependencies=true
         if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
         env:
           GITHUB_TOKEN: ${{ secrets.NESTJS_MOD_ACCESS_TOKEN_DOCKER }}
@@ -44,12 +44,12 @@ jobs:
         id: server_version
         run: |
           git fetch
-          echo "server_version="$(cd ./apps/server && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "server_version="$(cd ./apps/server-authorizer && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
       - name: Set client_version
         id: client_version
         run: |
           git fetch
-          echo "client_version="$(cd ./apps/client && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
+          echo "client_version="$(cd ./apps/client-authorizer && npm pkg get version --workspaces=false | tr -d \") >> "$GITHUB_OUTPUT"
     outputs:
       root_version: ${{ steps.root_version.outputs.root_version }}
       server_version: ${{ steps.server_version.outputs.server_version }}
@@ -555,4 +555,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: e2e-tests-videos
-          path: apps/client-e2e/src/video/
+          path: apps/client-authorizer-e2e/src/video/

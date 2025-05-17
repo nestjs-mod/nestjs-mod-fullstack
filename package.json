@@ -75,7 +75,7 @@
     "_____vercel_____": "_____vercel_____",
     "vercel:pull-environment:production": "vercel pull --yes --environment=production && cp -r .vercel/.env.production.local .env && npx --yes tsx update-files-for-vercel.ts",
     "_____supabase_____": "_____supabase_____",
-    "build-supabase": "./node_modules/.bin/nx run-many -p client -t=build --configuration=supabase-prod && ./node_modules/.bin/nx run-many -p app-rest-sdk server -t=build --configuration=supabase",
+    "build-supabase": "./node_modules/.bin/nx run-many --projects=client-supabase -t=build --configuration=production && ./node_modules/.bin/nx run-many --projects=server-supabase,app-rest-sdk -t=build",
     "manual-supabase-build": "npm run pg-flyway:migrate && npm run prisma:shorts:generate && npm run build-supabase && npm run test",
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
