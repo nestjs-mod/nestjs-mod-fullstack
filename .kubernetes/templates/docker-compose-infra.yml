@@ -26,7 +26,7 @@ services:
     volumes:
       - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
   nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:%ROOT_VERSION%'
+    image: 'ghcr.io/%MIGRATIONS_IMAGE_NAME%'
     container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
     networks:
       - 'nestjs-mod-fullstack-network'

@@ -4,7 +4,7 @@ networks:
     driver: 'bridge'
 services:
   nestjs-mod-fullstack-e2e-tests:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:%ROOT_VERSION%'
+    image: 'ghcr.io/%E2E_TESTS_IMAGE_NAME%'
     container_name: 'nestjs-mod-fullstack-e2e-tests'
     networks:
       - 'nestjs-mod-fullstack-network'

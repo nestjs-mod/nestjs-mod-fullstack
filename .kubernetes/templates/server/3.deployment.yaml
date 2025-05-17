@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: %NAMESPACE%-server
-          image: ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:%SERVER_VERSION%
+          image: ghcr.io/%SERVER_IMAGE_NAME%
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: %SERVER_PORT%
