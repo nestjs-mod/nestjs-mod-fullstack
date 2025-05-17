@@ -1,6 +1,7 @@
 import { UseAuthInterceptorsAndGuards } from '@nestjs-mod-fullstack/auth';
 import { Controller, Get } from '@nestjs/common';
 
+import { AllowEmptySupabaseUser, SupabaseGuard } from '@nestjs-mod/supabase';
 import { ApiOkResponse } from '@nestjs/swagger';
 import {
   SubscribeMessage,
@@ -8,8 +9,6 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 import { interval, map, Observable } from 'rxjs';
-import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
-import { SupabaseGuard } from '../supabase/supabase.guard';
 import { ChangeTimeStream } from '../app.constants';
 
 @UseAuthInterceptorsAndGuards({

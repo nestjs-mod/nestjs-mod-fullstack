@@ -3381,10 +3381,10 @@
     "@emnapi/runtime" "^1.4.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs-mod/authorizer@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.5.5.tgz#5323214c62209a113791d605508609b85aa5b297"
-  integrity sha512-Lg0ODJDdRQuAa5AhOSasf3yisWGEm6rSyfR+bb7LB8iix4FlFA1TFUy2FaxO2a2Y2Rw7727QWsLzyStEyfq1rw==
+"@nestjs-mod/authorizer@^1.5.6":
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.5.6.tgz#07b3ff960c978c57fe7ebb5d53568cbc7d088396"
+  integrity sha512-jRXy2iwjel/QmnGlz7GgW0orDgMVOeG7g1G+0a7upuriQlhHHmTw+8ZYHtC12+TeyraY8CMGcKjg/jvnjFzmAg==
   dependencies:
     tslib "^2.3.0"
 
@@ -3488,6 +3488,13 @@
     case-anything "2.1.13"
     tslib "^2.3.0"
     typescript "5.6.3"
+
+"@nestjs-mod/supabase@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/supabase/-/supabase-1.0.0.tgz#bd758bfda5c4a6678341d8feb264ae442d124c1a"
+  integrity sha512-N//x9ALJKUqb36jFAZfx+E1ULld9llXwboK+mXFgY7txuXp/1s9I97+MzPtdQksbFvqhjlUuEwdj8JCrXn5kQA==
+  dependencies:
+    tslib "^2.3.0"
 
 "@nestjs-mod/terminus@1.14.2":
   version "1.14.2"

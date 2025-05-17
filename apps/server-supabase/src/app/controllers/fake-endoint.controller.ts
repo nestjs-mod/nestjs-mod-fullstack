@@ -13,8 +13,8 @@ import {
 
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 import { KeyvService } from '@nestjs-mod/keyv';
+import { AllowEmptySupabaseUser } from '@nestjs-mod/supabase';
 import { CACHE_KEY } from '../app.constants';
-import { AllowEmptySupabaseUser } from '../supabase/supabase.decorators';
 import { AppHandlerLog } from '../types/app-handler-log';
 
 @AllowEmptySupabaseUser()

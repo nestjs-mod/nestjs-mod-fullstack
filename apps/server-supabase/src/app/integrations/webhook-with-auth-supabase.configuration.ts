@@ -11,18 +11,16 @@ import {
 } from '@nestjs-mod-fullstack/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { splitIn } from '@nestjs-mod/misc';
+import {
+  CheckAccessOptions,
+  SupabaseConfiguration,
+  SupabaseRequest,
+  SupabaseUser,
+  defaultSupabaseCheckAccessValidator,
+} from '@nestjs-mod/supabase';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthRole } from '@prisma/auth-client';
 import { WebhookRole } from '@prisma/webhook-client';
-import {
-  SupabaseConfiguration,
-  defaultSupabaseCheckAccessValidator,
-} from '../supabase/supabase.configuration';
-import {
-  CheckAccessOptions,
-  SupabaseRequest,
-  SupabaseUser,
-} from '../supabase/supabase.types';
 
 @Injectable()
 export class WebhookWithAuthSupabaseConfiguration

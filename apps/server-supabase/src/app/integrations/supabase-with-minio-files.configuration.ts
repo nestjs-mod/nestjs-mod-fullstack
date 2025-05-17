@@ -4,8 +4,8 @@ import {
   FilesPresignedUrls,
 } from '@nestjs-mod-fullstack/files';
 import { MinioFilesService } from '@nestjs-mod/minio';
+import { SupabaseService } from '@nestjs-mod/supabase';
 import { Injectable } from '@nestjs/common';
-import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class SupabaseWithMinioFilesConfiguration implements FilesConfiguration {

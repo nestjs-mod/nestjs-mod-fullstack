@@ -28,7 +28,7 @@ import { SupabaseAuthConfiguration } from './integrations/supabase-auth.configur
 import { SupabaseWithMinioFilesConfiguration } from './integrations/supabase-with-minio-files.configuration';
 import { WebhookWithAuthSupabaseConfiguration } from './integrations/webhook-with-auth-supabase.configuration';
 import { AppService } from './services/app.service';
-import { SupabaseModule } from './supabase/supabase.module';
+import { SupabaseModule } from '@nestjs-mod/supabase';
 
 export const { AppModule } = createNestModule({
   moduleName: APP_MODULE,

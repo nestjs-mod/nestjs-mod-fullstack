@@ -11,6 +11,10 @@ import {
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import {
+  AllowEmptySupabaseUser,
+  CurrentSupabaseUser,
+} from '@nestjs-mod/supabase';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
@@ -18,10 +22,6 @@ import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { APP_FEATURE } from '../app.constants';
 import { AppDemo } from '../generated/rest/dto/app-demo.entity';
 import { AppService } from '../services/app.service';
-import {
-  AllowEmptySupabaseUser,
-  CurrentSupabaseUser,
-} from '../supabase/supabase.decorators';
 import { AppData } from '../types/app-data';
 import { AppDemoEventName } from '../types/app-demo-event-name';
 
