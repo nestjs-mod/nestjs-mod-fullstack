@@ -242,7 +242,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-    environment:
+    environment: 
       SERVER_AUTHORIZER_PORT: '${SERVER_AUTHORIZER_PORT}'
       NGINX_PORT: '${NGINX_PORT}'
       CLIENT_AUTHORIZER_URL: '${CLIENT_AUTHORIZER_URL}'
@@ -252,12 +252,12 @@ services:
       server-authorizer-server:
         condition: service_healthy
     ports:
-      - '${NGINX_PORT}:${NGINX_PORT}'
+      - '${NGINX_PORT}:${NGINX_PORT}' 
   server-authorizer-e2e-tests:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:${ROOT_VERSION}'
     container_name: 'server-authorizer-e2e-tests'
     networks:
-      - 'server-authorizer-network'
+      - 'server-authorizer-network' 
     environment:
       IS_DOCKER_COMPOSE: 'true'
       SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL: 'http://server-authorizer-authorizer:8080'

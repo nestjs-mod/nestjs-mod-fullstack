@@ -2,118 +2,197 @@
   <a href="https://github.com/nestjs-mod/" target="blank"><img src="https://avatars.githubusercontent.com/u/155752954?s=200&v=4" width="120" alt="NestJS-mod Logo" /></a>
 </p>
 
-  <p align="center">A collection of utilities for unifying <a href="https://nestjs.com/" target="_blank">NestJS</a> applications and modules.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs-mod/common.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs-mod/common.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/org/nestjs-mod" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs-mod/common.svg" alt="NPM Downloads" /></a>
-<a href="https://github.com/nestjs-mod/nestjs-mod/actions/workflows/release.yml" target="_blank"><img src="https://github.com/nestjs-mod/nestjs-mod/actions/workflows/release.yml/badge.svg" alt="Release to NPM" /></a>
-<a href="https://t.me/nestjs_mod" target="_blank"><img src="https://img.shields.io/badge/group-telegram-blue.svg?maxAge=2592000" alt="Telegram Group"/></a>
-<a href="https://discord.gg/meY7UXaG" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-</p>
+  <p align="center">Boilerplate for creating a fullstack application on NestJS and Angular</p>
 
-## Description
+## Demo
 
-NestJS is a great framework and you can do great things with it, but often when developing a large number of applications within the same organization, we end up with different application architectures, file structures, and a lot of duplicate code.
+https://fullstack.nestjs-mod.com - live demo on Kubernetes
 
-The NestJS-mod collection of utilities are designed to unify applications and modules, and also introduce new logical options for dividing responsibilities between modules (Core, Feature, Integration, System, Infrastructure).
+https://nestjs-mod-fullstack.vercel.app - live demo on Vercel
 
-Since all parts of the application are unified, you can create a report on the entire project infrastructure.
+## Dev/Watch mode
 
-## Getting started
+Infrastructure is running using docker-compose, applications are launched in watch pm2 mode.
 
-### Create new application
+### Init
 
-Commands for create empty NestJS-mod application
-
-```bash
-# Create empty nx project
-npx --yes create-nx-workspace@20.3.0 --name=project-name --preset=apps --interactive=false --ci=skip
-
-# Go to created project
-cd project-name
-
-# Install all need main dev-dependencies
-npm install --save-dev @nestjs-mod/schematics@latest
-
-# Create NestJS-mod application
-./node_modules/.bin/nx g @nestjs-mod/schematics:application --linter=eslint --unitTestRunner=jest --directory=apps/app-name --name=app-name --strict=true
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
+cp ./example.env ./.env
 ```
 
-Start created application
+### Start
 
-```bash
-# Prepare all files
-npm run manual:prepare
-
-# Start application in dev mode
-npm run serve:dev:app-name
-
-# Build and start application in prod mode
-
-## Build
-npm run build:prod:app-name
-
-## Start
-npm run start:prod:app-name
+```sh
+npm run pm2-full:dev:start
 ```
 
-### Create new library
+### Open in browser
 
-Commands for create empty NestJS-mod library
+http://localhost:4200
 
-```bash
-# Create NestJS-mod library
-./node_modules/.bin/nx g @nestjs-mod/schematics:library --linter=eslint --unitTestRunner=jest --buildable --publishable --directory=libs/feature-name --simpleName=true --strict=true
+### Testing
+
+```sh
+npm run pm2-full:dev:test:e2e
 ```
 
-Add created library to `apps/app-name/src/main.ts`
+### Stop
 
-```ts
-
-// Example without options
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot()],
-  }
-});
-
-// Example with options
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot({
-      configuration: { optionsName: 'options name' },
-    })],
-  }
-});
-
-
-// By default, in the example, the application looks for env by the key `APP_NAME_ENV_NAME`, but you can override it, for example:
-bootstrapNestApplication({
-  ...
-  modules: {
-    feature: [FeatureName.forRoot({
-      environments: { envName: 'env name' },
-    })],
-  }
-});
+```sh
+npm run pm2-full:dev:stop
 ```
 
-### Create an infrastructure report
+## Prod mode
 
-You can generate a report for all modules and their configurations.
+Infrastructure is running using docker-compose, built applications are launched using pm2.
 
-```bash
-# Generate markdown report
-npm run docs:infrastructure
+### Init
+
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
+cp ./example.env ./.env
 ```
 
-After which the file `INFRASTRUCTURE.MD` appear in the application folder `apps/app-name`.
+### Start
+
+```sh
+npm run pm2-full:prod:start
+```
+
+### Open in browser
+
+http://localhost:3000
+
+### Testing
+
+```sh
+npm run pm2-full:prod:test:e2e
+```
+
+### Stop
+
+```sh
+npm run pm2-full:prod:stop
+```
+
+## Docker-compose prod mode
+
+Infrastructure and applications built into Docker images are run using docker-compose.
+
+### Init
+
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
+cp ./example.env ./.env
+```
+
+### Start
+
+```sh
+npm run docker-compose-full:prod:start
+```
+
+### Open in browser
+
+http://localhost:8080
+
+### Testing
+
+```sh
+npm run docker-compose-full:prod:test:e2e
+```
+
+### Stop
+
+```sh
+npm run docker-compose-full:prod:stop
+```
+
+## Supabase Dev/Watch mode
+
+Infrastructure is running on [Supabase](https://supabase.com/), applications are launched in watch pm2 mode.
+
+### Init
+
+```sh
+git clone git@github.com:nestjs-mod/nestjs-mod-fullstack.git
+cd nestjs-mod-fullstack
+npm i
+cp ./example-supabase.env ./.env
+```
+
+### Prepare
+
+1. Create organization and project on [Supabase](https://supabase.com/)
+2. Create bucket "images" in storage (example link: https://supabase.com/dashboard/project/XXX/storage/buckets)
+3. Create new "S3 Access Keys" with "Access key ID" and "Secret access key" (example link: https://supabase.com/dashboard/project/gustcjgbrmmipkizqzso/settings/storage)
+4. Open `.env` and fill empty_value's
+
+   ```sh
+
+   ```
+
+# https://supabase.com/dashboard/project/XXX/settings/api - API Settings - Project URL - URL
+
+SUPABASE_URL=empty_value
+
+# https://supabase.com/dashboard/project/XXX/settings/database?showConnect=true - Connection String - Direct connection
+
+POSTGRES_URL=empty_value
+
+# https://supabase.com/dashboard/project/XXX/settings/api - API Settings - Project API Keys - anon public
+
+SUPABASE_ANON_KEY=empty_value
+
+# https://supabase.com/dashboard/project/gustcjgbrmmipkizqzso/settings/storage - S3 Access Keys - New access key - Access key ID
+
+SERVER_SUPABASE_MINIO_ACCESS_KEY=empty_value
+
+# https://supabase.com/dashboard/project/gustcjgbrmmipkizqzso/settings/storage - S3 Access Keys - New access key - Secret access key
+
+SERVER_SUPABASE_MINIO_SECRET_KEY=empty_value
+
+````
+
+5. Create and fill all need new env keys
+
+```sh
+npx --yes tsx update-files-for-vercel.ts
+````
+
+### Start
+
+```sh
+npm run pm2-supabase-full:dev:start
+```
+
+### Open in browser
+
+http://localhost:4200
+
+### Testing
+
+```sh
+npm run pm2-supabase-full:dev:test:e2e
+```
+
+### Stop
+
+```sh
+npm run pm2-supabase-full:dev:stop
+```
 
 ## Links
 
+- https://fullstack.nestjs-mod.com - live demo on Kubernetes
+- https://nestjs-mod-fullstack.vercel.app - live demo on Vercel
 - https://github.com/nestjs-mod/nestjs-mod - A collection of utilities for unifying NestJS applications and modules
 - https://github.com/nestjs-mod/nestjs-mod-contrib - Contrib repository for the NestJS-mod
 - https://github.com/nestjs-mod/nestjs-mod-example - Example application built with [@nestjs-mod/schematics](https://github.com/nestjs-mod/nestjs-mod/tree/master/libs/schematics)
@@ -124,7 +203,7 @@ After which the file `INFRASTRUCTURE.MD` appear in the application folder `apps/
 
 ## Questions
 
-For questions and support please use the official [Telegram group](https://t.me/nestjs_mod) or [Discord](https://discord.gg/meY7UXaG). The issue list of this repo is **exclusively** for bug reports and feature requests.
+For questions and support please use the official [Telegram group](https://t.me/nestjs_mod). The issue list of this repo is **exclusively** for bug reports and feature requests.
 
 ## Stay in touch
 
@@ -132,4 +211,4 @@ For questions and support please use the official [Telegram group](https://t.me/
 
 ## License
 
-MIT
+[MIT licensed](LICENSE).
