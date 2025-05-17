@@ -9,6 +9,7 @@
     "serve:dev:client": "./node_modules/.bin/nx serve client --skip-nx-cache=true",
     "serve:dev:server-authorizer": "./node_modules/.bin/nx serve server-authorizer --host=0.0.0.0",
     "serve:dev:server-supabase": "./node_modules/.bin/nx serve server-supabase --host=0.0.0.0",
+    "serve:dev:server-sso": "./node_modules/.bin/nx serve server-sso --host=0.0.0.0",
     "_____pm2-full dev infra_____": "_____pm2-full dev infra_____",
     "pm2-full:dev:start": "npm run generate && npm run docker-compose:start-prod:server-authorizer && npm run db:create-and-fill && npm run pm2:dev:start",
     "pm2-full:dev:stop": "npm run docker-compose:stop-prod:server-authorizer && npm run pm2:dev:stop",
@@ -45,6 +46,9 @@
     "_____prod infra_____": "_____prod infra_____",
     "start:prod:server-authorizer": "./node_modules/.bin/nx start server-authorizer",
     "start:prod:server-supabase": "./node_modules/.bin/nx start server-supabase",
+    "start": "./node_modules/.bin/nx run-many --all -t=start",
+    "build": "npm run generate && npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=build --parallel=false",
+    "start:prod:server-sso": "./node_modules/.bin/nx start server-sso",
     "_____docker-compose-full prod infra_____": "_____docker-compose-full prod infra_____",
     "docker-compose-full:prod:start": "npm run docker-compose-full:prod:build && npm run docker-compose-full:prod:only-start",
     "docker-compose-full:prod:stop": ". .docker/set-env.sh && docker compose -f ./.docker/docker-compose-full.yml --env-file ./.docker/docker-compose-full.env --compatibility down",
@@ -68,6 +72,7 @@
     "test": "export CI=true && ./node_modules/.bin/nx run-many --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "test:server-authorizer": "./node_modules/.bin/nx test server-authorizer --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
     "test:server-supabase": "./node_modules/.bin/nx test server-supabase --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
+    "test:server-sso": "./node_modules/.bin/nx test server-sso --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
     "_____lint_____": "_____lint_____",
     "lint": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1",
     "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1 --fix",
@@ -202,6 +207,9 @@
     "serve:dev:server-supabase": [
       "Running server-supabase source code in watch mode"
     ],
+    "serve:dev:server-sso": [
+      "Running server-sso source code in watch mode"
+    ],
     "pm2-full:dev:start": [
       "Launching infrastructure and all applications in watch mode via PM2"
     ],
@@ -255,6 +263,15 @@
     "start:prod:server-supabase": [
       "Launching a built server-supabase (you must first build it using the build command)"
     ],
+    "start": [
+      "Launching a built NestJS application (you must first build it using the build command)"
+    ],
+    "build": [
+      "Building a NestJS application"
+    ],
+    "start:prod:server-sso": [
+      "Launching a built server-sso (you must first build it using the build command)"
+    ],
     "docker-compose-full:prod:start": [
       "Build and launching Docker Compose infrastructure with a backend in the form of a Docker container and frontend statics transmitted via Nginx"
     ],
@@ -306,6 +323,9 @@
     ],
     "test:server-supabase": [
       "Running tests for server-supabase"
+    ],
+    "test:server-sso": [
+      "Running tests for server-sso"
     ],
     "lint": [
       "Checking the typescript code for the entire project"
