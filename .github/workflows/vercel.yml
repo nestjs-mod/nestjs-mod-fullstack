@@ -121,7 +121,7 @@ jobs:
           cp -r .vercel/.env.production.local .env
           npx --yes tsx update-files-for-vercel.ts
           npx playwright install chromium --with-deps
-          npm run test:e2e
+          ./node_modules/.bin/nx run-many -t=e2e --projects=tag:supabase --skip-nx-cache=true --output-style=stream-without-prefixes
       - uses: actions/upload-artifact@v4
         if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         with:
