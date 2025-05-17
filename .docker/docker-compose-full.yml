@@ -1,13 +1,17 @@
 version: '3'
 networks:
-  nestjs-mod-fullstack-network:
+  server-authorizer-network:
     driver: 'bridge'
 services:
-  nestjs-mod-fullstack-postgre-sql:
+  server-authorizer-postgre-sql:
     image: 'bitnami/postgresql:15.5.0'
-    container_name: 'nestjs-mod-fullstack-postgre-sql'
+    container_name: 'server-authorizer-postgre-sql'
+    volumes:
+      - 'server-authorizer-postgre-sql-volume:/bitnami/postgresql'
+    ports:
+      - '5432:5432'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -18,65 +22,46 @@ services:
     tty: true
     restart: 'always'
     environment:
-      POSTGRESQL_USERNAME: '${SERVER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
-      POSTGRESQL_PASSWORD: '${SERVER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
-      POSTGRESQL_DATABASE: '${SERVER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+      POSTGRESQL_USERNAME: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
+      POSTGRESQL_PASSWORD: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
+      POSTGRESQL_DATABASE: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+  server-authorizer-redis:
+    image: 'bitnami/redis:7.4.1'
+    container_name: 'server-authorizer-redis'
     volumes:
-      - 'nestjs-mod-fullstack-postgre-sql-volume:/bitnami/postgresql'
-  nestjs-mod-fullstack-authorizer:
-    image: 'lakhansamani/authorizer:1.4.4'
-    container_name: 'nestjs-mod-fullstack-authorizer'
+      - 'server-authorizer-redis-volume:/bitnami/redis/data'
     ports:
-      - '8000:8080'
+      - '6379:6379'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     environment:
-      DATABASE_URL: '${SERVER_AUTHORIZER_DATABASE_URL}'
-      DATABASE_TYPE: '${SERVER_AUTHORIZER_DATABASE_TYPE}'
-      DATABASE_NAME: '${SERVER_AUTHORIZER_DATABASE_NAME}'
-      ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
-      PORT: '${SERVER_AUTHORIZER_PORT}'
-      AUTHORIZER_URL: 'http://localhost:${SERVER_AUTHORIZER_PORT}'
-      COOKIE_NAME: '${SERVER_AUTHORIZER_COOKIE_NAME}'
-      SMTP_HOST: '${SERVER_AUTHORIZER_SMTP_HOST}'
-      SMTP_PORT: '${SERVER_AUTHORIZER_SMTP_PORT}'
-      SMTP_USERNAME: '${SERVER_AUTHORIZER_SMTP_USERNAME}'
-      SMTP_PASSWORD: '${SERVER_AUTHORIZER_SMTP_PASSWORD}'
-      SENDER_EMAIL: '${SERVER_AUTHORIZER_SENDER_EMAIL}'
-      SENDER_NAME: '${SERVER_AUTHORIZER_SENDER_NAME}'
-      DISABLE_PLAYGROUND: '${SERVER_AUTHORIZER_DISABLE_PLAYGROUND}'
-      ACCESS_TOKEN_EXPIRY_TIME: '${SERVER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}'
-      DISABLE_STRONG_PASSWORD: '${SERVER_AUTHORIZER_DISABLE_STRONG_PASSWORD}'
-      DISABLE_EMAIL_VERIFICATION: '${SERVER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION}'
-      ORGANIZATION_NAME: '${SERVER_AUTHORIZER_ORGANIZATION_NAME}'
-      IS_SMS_SERVICE_ENABLED: '${SERVER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
-      IS_EMAIL_SERVICE_ENABLED: '${SERVER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
-      ENV: '${SERVER_AUTHORIZER_ENV}'
-      RESET_PASSWORD_URL: '${SERVER_AUTHORIZER_RESET_PASSWORD_URL}'
-      ROLES: '${SERVER_AUTHORIZER_ROLES}'
-      DEFAULT_ROLES: '${SERVER_AUTHORIZER_DEFAULT_ROLES}'
-      JWT_ROLE_CLAIM: '${SERVER_AUTHORIZER_JWT_ROLE_CLAIM}'
-      ORGANIZATION_LOGO: '${SERVER_AUTHORIZER_ORGANIZATION_LOGO}'
+      REDIS_DATABASE: '${SERVER_AUTHORIZER_REDIS_REDIS_DATABASE}'
+      REDIS_PASSWORD: '${SERVER_AUTHORIZER_REDIS_REDIS_PASSWORD}'
+      REDIS_DISABLE_COMMANDS: '${SERVER_AUTHORIZER_REDIS_REDIS_DISABLE_COMMANDS}'
+      REDIS_IO_THREADS: '${SERVER_AUTHORIZER_REDIS_REDIS_IO_THREADS}'
+      REDIS_IO_THREADS_DO_READS: '${SERVER_AUTHORIZER_REDIS_REDIS_IO_THREADS_DO_READS}'
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+      interval: '5s'
+      timeout: '5s'
+      retries: 5
     tty: true
     restart: 'always'
-    depends_on:
-      nestjs-mod-fullstack-postgre-sql:
-        condition: service_healthy
-      nestjs-mod-fullstack-postgre-sql-migrations:
-        condition: service_completed_successfully
-  nestjs-mod-fullstack-minio:
+  server-authorizer-minio:
     image: 'bitnami/minio:2024.11.7'
-    container_name: 'nestjs-mod-fullstack-minio'
+    container_name: 'server-authorizer-minio'
     volumes:
-      - 'nestjs-mod-fullstack-minio-volume:/bitnami/minio/data'
+      - 'server-authorizer-minio-volume:/bitnami/minio/data'
     ports:
       - '9000:9000'
       - '9001:9001'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     environment:
-      MINIO_ROOT_USER: '${SERVER_MINIO_MINIO_ROOT_USER}'
-      MINIO_ROOT_PASSWORD: '${SERVER_MINIO_MINIO_ROOT_PASSWORD}'
+      MINIO_ROOT_USER: '${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_USER}'
+      MINIO_ROOT_PASSWORD: '${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_PASSWORD}'
     healthcheck:
       test:
         - 'CMD-SHELL'
@@ -88,62 +73,97 @@ services:
       retries: 5
     tty: true
     restart: 'always'
-  nestjs-mod-fullstack-redis:
-    image: 'bitnami/redis:7.4.1'
-    container_name: 'nestjs-mod-fullstack-redis'
-    volumes:
-      - 'nestjs-mod-fullstack-redis-volume:/bitnami/redis/data'
+  server-authorizer-maildev:
+    image: 'maildev/maildev:2.2.1'
+    container_name: 'server-authorizer-maildev'
     ports:
-      - '6379:6379'
+      - '1025:1025'
+      - '1080:1080'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     environment:
-      REDIS_DATABASE: '${SERVER_REDIS_REDIS_DATABASE}'
-      REDIS_PASSWORD: '${SERVER_REDIS_REDIS_PASSWORD}'
-      REDIS_DISABLE_COMMANDS: '${SERVER_REDIS_REDIS_DISABLE_COMMANDS}'
-      REDIS_IO_THREADS: '${SERVER_REDIS_REDIS_IO_THREADS}'
-      REDIS_IO_THREADS_DO_READS: '${SERVER_REDIS_REDIS_IO_THREADS_DO_READS}'
+      MAILDEV_SMTP_PORT: '${SERVER_AUTHORIZER_MAILDEV_MAILDEV_SMTP_PORT}'
+      MAILDEV_WEB_PORT: '${SERVER_AUTHORIZER_MAILDEV_MAILDEV_WEB_PORT}'
     healthcheck:
-      test:
-        - 'CMD-SHELL'
-        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
-      interval: '5s'
+      test: 'wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1'
+      interval: '10s'
       timeout: '5s'
       retries: 5
     tty: true
     restart: 'always'
-  nestjs-mod-fullstack-postgre-sql-migrations:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
-    container_name: 'nestjs-mod-fullstack-postgre-sql-migrations'
+  server-authorizer-authorizer:
+    image: 'lakhansamani/authorizer:1.4.4'
+    container_name: 'server-authorizer-authorizer'
+    ports:
+      - '8080:8080'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
+    environment:
+      ADMIN_SECRET: '${SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET}'
+      DATABASE_TYPE: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_TYPE}'
+      DATABASE_URL: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL}'
+      DATABASE_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_NAME}'
+      REDIS_URL: '${SERVER_AUTHORIZER_AUTHORIZER_REDIS_URL}'
+      PORT: '${SERVER_AUTHORIZER_AUTHORIZER_PORT}'
+      AUTHORIZER_URL: 'http://localhost:${SERVER_AUTHORIZER_AUTHORIZER_PORT}'
+      COOKIE_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_COOKIE_NAME}'
+      DISABLE_PLAYGROUND: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_PLAYGROUND}'
+      ACCESS_TOKEN_EXPIRY_TIME: '${SERVER_AUTHORIZER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}'
+      IMAGE: '${SERVER_AUTHORIZER_AUTHORIZER_IMAGE}'
+      DISABLE_STRONG_PASSWORD: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_STRONG_PASSWORD}'
+      DISABLE_EMAIL_VERIFICATION: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION}'
+      FEATURE_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_FEATURE_NAME}'
+      ORGANIZATION_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_NAME}'
+      DEPENDS_ON_SERVICE_NAMES: '${SERVER_AUTHORIZER_AUTHORIZER_DEPENDS_ON_SERVICE_NAMES}'
+      IS_EMAIL_SERVICE_ENABLED: '${SERVER_AUTHORIZER_AUTHORIZER_IS_EMAIL_SERVICE_ENABLED}'
+      IS_SMS_SERVICE_ENABLED: '${SERVER_AUTHORIZER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
+      ENV: '${SERVER_AUTHORIZER_AUTHORIZER_ENV}'
+      EXTERNAL_CLIENT_PORT: '${SERVER_AUTHORIZER_AUTHORIZER_EXTERNAL_CLIENT_PORT}'
+      RESET_PASSWORD_URL: '${SERVER_AUTHORIZER_AUTHORIZER_RESET_PASSWORD_URL}'
+      ROLES: '${SERVER_AUTHORIZER_AUTHORIZER_ROLES}'
+      DEFAULT_ROLES: '${SERVER_AUTHORIZER_AUTHORIZER_DEFAULT_ROLES}'
+      JWT_ROLE_CLAIM: '${SERVER_AUTHORIZER_AUTHORIZER_JWT_ROLE_CLAIM}'
+      ORGANIZATION_LOGO: '${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_LOGO}'
+      COUCHBASE_BUCKET: '${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_BUCKET}'
+      COUCHBASE_BUCKET_RAM_QUOTA: '${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_BUCKET_RAM_QUOTA}'
+      COUCHBASE_SCOPE: '${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_SCOPE}'
+    tty: true
+    restart: 'always'
+    depends_on:
+      server-authorizer-postgre-sql:
+        condition: 'service_healthy'
+  server-authorizer-postgre-sql-migrations:
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-migrations:${ROOT_VERSION}'
+    container_name: 'server-authorizer-postgre-sql-migrations'
+    networks:
+      - 'server-authorizer-network'
     tty: true
     environment:
       NX_SKIP_NX_CACHE: 'true'
-      SERVER_ROOT_DATABASE_URL: '${SERVER_ROOT_DATABASE_URL}'
-      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
-      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
-      SERVER_AUTH_DATABASE_URL: '${SERVER_AUTH_DATABASE_URL}'
-      SERVER_AUTHORIZER_DATABASE_URL: '${SERVER_AUTHORIZER_DATABASE_URL}'
+      SERVER_AUTHORIZER_ROOT_DATABASE_URL: '${SERVER_AUTHORIZER_ROOT_DATABASE_URL}'
+      SERVER_AUTHORIZER_APP_DATABASE_URL: '${SERVER_AUTHORIZER_APP_DATABASE_URL}'
+      SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL: '${SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL}'
+      SERVER_AUTHORIZER_AUTH_DATABASE_URL: '${SERVER_AUTHORIZER_AUTH_DATABASE_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL}'
     depends_on:
-      nestjs-mod-fullstack-postgre-sql:
+      server-authorizer-postgre-sql:
         condition: 'service_healthy'
     working_dir: '/usr/src/app'
     volumes:
       - './../apps:/usr/src/app/apps'
       - './../libs:/usr/src/app/libs'
-  nestjs-mod-fullstack-server:
+  server-authorizer-server:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-server:${SERVER_VERSION}'
-    container_name: 'nestjs-mod-fullstack-server'
+    container_name: 'server-authorizer-server'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     healthcheck:
       test:
         [
           'CMD-SHELL',
-          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${SERVER_PORT}/api/health',
+          'npx -y wait-on --timeout= --interval=1000 --window --verbose --log http://localhost:${SERVER_AUTHORIZER_PORT}/api/health',
         ]
       interval: 30s
       timeout: 10s
@@ -151,38 +171,68 @@ services:
     tty: true
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: '0'
-      SERVER_PORT: '${SERVER_PORT}'
-      SERVER_APP_DATABASE_URL: '${SERVER_APP_DATABASE_URL}'
-      SERVER_WEBHOOK_DATABASE_URL: '${SERVER_WEBHOOK_DATABASE_URL}'
-      SERVER_AUTH_DATABASE_URL: '${SERVER_AUTH_DATABASE_URL}'
-      SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
-      SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
-      SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'
-      SERVER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_URL}'
-      SERVER_AUTHORIZER_REDIRECT_URL: '${SERVER_AUTHORIZER_REDIRECT_URL}'
-      SERVER_AUTHORIZER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_AUTHORIZER_URL}'
-      SERVER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
-      SERVER_MINIO_SERVER_HOST: '${SERVER_MINIO_SERVER_HOST}'
-      SERVER_MINIO_ACCESS_KEY: '${SERVER_MINIO_ACCESS_KEY}'
-      SERVER_MINIO_SECRET_KEY: '${SERVER_MINIO_SECRET_KEY}'
-      SERVER_KEYV_URL: '${SERVER_KEYV_URL}'
+      SERVER_AUTHORIZER_MINIO_SERVER_HOST: '${SERVER_AUTHORIZER_MINIO_SERVER_HOST}'
+      SERVER_AUTHORIZER_MINIO_ACCESS_KEY: '${SERVER_AUTHORIZER_MINIO_ACCESS_KEY}'
+      SERVER_AUTHORIZER_MINIO_SECRET_KEY: '${SERVER_AUTHORIZER_MINIO_SECRET_KEY}'
+      SERVER_AUTHORIZER_ROOT_DATABASE_URL: '${SERVER_AUTHORIZER_ROOT_DATABASE_URL}'
+      SERVER_AUTHORIZER_APP_DATABASE_URL: '${SERVER_AUTHORIZER_APP_DATABASE_URL}'
+      SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL: '${SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL}'
+      SERVER_AUTHORIZER_AUTH_DATABASE_URL: '${SERVER_AUTHORIZER_AUTH_DATABASE_URL}'
+      SERVER_AUTHORIZER_REDIS_URL: '${SERVER_AUTHORIZER_REDIS_URL}'
+      SERVER_AUTHORIZER_MINIO_ROOT_USER: '${SERVER_AUTHORIZER_MINIO_ROOT_USER}'
+      SERVER_AUTHORIZER_MINIO_ROOT_PASSWORD: '${SERVER_AUTHORIZER_MINIO_ROOT_PASSWORD}'
+      SERVER_AUTHORIZER_PORT: '${SERVER_AUTHORIZER_PORT}'
+      SERVER_AUTHORIZER_KEYV_URL: '${SERVER_AUTHORIZER_KEYV_URL}'
+      SERVER_AUTHORIZER_MINIO_URL: '${SERVER_AUTHORIZER_MINIO_URL}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL: '${SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME: '${SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME}'
+      SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_USERNAME: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_USERNAME}'
+      SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_PASSWORD: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
+      SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_DATABASE: '${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_DATABASE}'
+      SERVER_AUTHORIZER_REDIS_REDIS_DATABASE: '${SERVER_AUTHORIZER_REDIS_REDIS_DATABASE}'
+      SERVER_AUTHORIZER_REDIS_REDIS_PASSWORD: '${SERVER_AUTHORIZER_REDIS_REDIS_PASSWORD}'
+      SERVER_AUTHORIZER_MINIO_MINIO_ROOT_USER: '${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_USER}'
+      SERVER_AUTHORIZER_MINIO_MINIO_ROOT_PASSWORD: '${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_PASSWORD}'
+      SERVER_AUTHORIZER_AUTHORIZER_REDIRECT_URL: '${SERVER_AUTHORIZER_AUTHORIZER_REDIRECT_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET}'
+      SERVER_AUTHORIZER_AUTHORIZER_DATABASE_TYPE: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_TYPE}'
+      SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_DATABASE_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_NAME}'
+      SERVER_AUTHORIZER_AUTHORIZER_REDIS_URL: '${SERVER_AUTHORIZER_AUTHORIZER_REDIS_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_PORT: '${SERVER_AUTHORIZER_AUTHORIZER_PORT}'
+      SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL: '${SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_COOKIE_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_COOKIE_NAME}'
+      SERVER_AUTHORIZER_AUTHORIZER_DISABLE_PLAYGROUND: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_PLAYGROUND}'
+      SERVER_AUTHORIZER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME: '${SERVER_AUTHORIZER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}'
+      SERVER_AUTHORIZER_AUTHORIZER_DISABLE_STRONG_PASSWORD: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_STRONG_PASSWORD}'
+      SERVER_AUTHORIZER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION: '${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION}'
+      SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_NAME: '${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_NAME}'
+      SERVER_AUTHORIZER_AUTHORIZER_IS_EMAIL_SERVICE_ENABLED: '${SERVER_AUTHORIZER_AUTHORIZER_IS_EMAIL_SERVICE_ENABLED}'
+      SERVER_AUTHORIZER_AUTHORIZER_IS_SMS_SERVICE_ENABLED: '${SERVER_AUTHORIZER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}'
+      SERVER_AUTHORIZER_AUTHORIZER_EXTERNAL_CLIENT_PORT: '${SERVER_AUTHORIZER_AUTHORIZER_EXTERNAL_CLIENT_PORT}'
+      SERVER_AUTHORIZER_AUTHORIZER_RESET_PASSWORD_URL: '${SERVER_AUTHORIZER_AUTHORIZER_RESET_PASSWORD_URL}'
+      SERVER_AUTHORIZER_AUTHORIZER_ROLES: '${SERVER_AUTHORIZER_AUTHORIZER_ROLES}'
+      SERVER_AUTHORIZER_AUTHORIZER_DEFAULT_ROLES: '${SERVER_AUTHORIZER_AUTHORIZER_DEFAULT_ROLES}'
+      SERVER_AUTHORIZER_AUTHORIZER_JWT_ROLE_CLAIM: '${SERVER_AUTHORIZER_AUTHORIZER_JWT_ROLE_CLAIM}'
+      SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_LOGO: '${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_LOGO}'
     restart: 'always'
     depends_on:
-      nestjs-mod-fullstack-authorizer:
+      server-authorizer-authorizer:
         condition: 'service_started'
-      nestjs-mod-fullstack-minio:
+      server-authorizer-minio:
         condition: 'service_started'
-      nestjs-mod-fullstack-redis:
+      server-authorizer-redis:
         condition: 'service_healthy'
-      nestjs-mod-fullstack-postgre-sql:
+      server-authorizer-postgre-sql:
         condition: service_healthy
-      nestjs-mod-fullstack-postgre-sql-migrations:
+      server-authorizer-postgre-sql-migrations:
         condition: service_completed_successfully
-  nestjs-mod-fullstack-nginx:
+  server-authorizer-nginx:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-nginx:${CLIENT_VERSION}'
-    container_name: 'nestjs-mod-fullstack-nginx'
+    container_name: 'server-authorizer-nginx'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     healthcheck:
       test:
         [
@@ -193,64 +243,64 @@ services:
       timeout: 10s
       retries: 10
     environment:
-      SERVER_PORT: '${SERVER_PORT}'
+      SERVER_AUTHORIZER_PORT: '${SERVER_AUTHORIZER_PORT}'
       NGINX_PORT: '${NGINX_PORT}'
       CLIENT_AUTHORIZER_URL: '${CLIENT_AUTHORIZER_URL}'
       CLIENT_MINIO_URL: '${CLIENT_MINIO_URL}'
     restart: 'always'
     depends_on:
-      nestjs-mod-fullstack-server:
+      server-authorizer-server:
         condition: service_healthy
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
-  nestjs-mod-fullstack-e2e-tests:
+  server-authorizer-e2e-tests:
     image: 'ghcr.io/nestjs-mod/nestjs-mod-fullstack-e2e-tests:${ROOT_VERSION}'
-    container_name: 'nestjs-mod-fullstack-e2e-tests'
+    container_name: 'server-authorizer-e2e-tests'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     environment:
       IS_DOCKER_COMPOSE: 'true'
-      BASE_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
-      SERVER_AUTHORIZER_URL: 'http://nestjs-mod-fullstack-authorizer:8080'
-      SERVER_MINIO_URL: 'http://nestjs-mod-fullstack-minio:9000'
-      CLIENT_URL: 'http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
-      SERVER_URL: 'http://localhost:9090/api'
-      SERVER_AUTH_ADMIN_EMAIL: '${SERVER_AUTH_ADMIN_EMAIL}'
-      SERVER_AUTH_ADMIN_USERNAME: '${SERVER_AUTH_ADMIN_USERNAME}'
-      SERVER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTH_ADMIN_PASSWORD}'
-      SERVER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_ADMIN_SECRET}'
+      SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL: 'http://server-authorizer-authorizer:8080'
+      SERVER_AUTHORIZER_MINIO_URL: 'http://server-authorizer-minio:9000'
+      E2E_CLIENT_URL: 'http://server-authorizer-nginx:${NGINX_PORT}'
+      E2E_SERVER_URL: 'http://server-authorizer-nginx:${NGINX_PORT}'
+      E2E_INTERNAL_SERVER_URL: 'http://localhost:${SERVER_AUTHORIZER_PORT}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL: '${SERVER_AUTHORIZER_AUTH_ADMIN_EMAIL}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME: '${SERVER_AUTHORIZER_AUTH_ADMIN_USERNAME}'
+      SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD: '${SERVER_AUTHORIZER_AUTH_ADMIN_PASSWORD}'
+      SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET: '${SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET}'
     depends_on:
-      nestjs-mod-fullstack-nginx:
+      server-authorizer-nginx:
         condition: service_healthy
     working_dir: '/usr/src/app'
     volumes:
       - './../apps:/usr/src/app/apps'
       - './../libs:/usr/src/app/libs'
-  nestjs-mod-fullstack-https-portal:
+  server-authorizer-https-portal:
     image: steveltn/https-portal:1
-    container_name: 'nestjs-mod-fullstack-https-portal'
+    container_name: 'server-authorizer-https-portal'
     networks:
-      - 'nestjs-mod-fullstack-network'
+      - 'server-authorizer-network'
     ports:
       - '80:80'
       - '443:443'
     links:
-      - nestjs-mod-fullstack-nginx
+      - server-authorizer-nginx
     restart: always
     environment:
       STAGE: '${HTTPS_PORTAL_STAGE}'
-      DOMAINS: '${SERVER_DOMAIN} -> http://nestjs-mod-fullstack-nginx:${NGINX_PORT}'
+      DOMAINS: '${SERVER_DOMAIN} -> http://server-authorizer-nginx:${NGINX_PORT}'
     depends_on:
-      nestjs-mod-fullstack-nginx:
+      server-authorizer-nginx:
         condition: service_healthy
     volumes:
-      - nestjs-mod-fullstack-https-portal-volume:/var/lib/https-portal
+      - server-authorizer-https-portal-volume:/var/lib/https-portal
 volumes:
-  nestjs-mod-fullstack-postgre-sql-volume:
-    name: 'nestjs-mod-fullstack-postgre-sql-volume'
-  nestjs-mod-fullstack-https-portal-volume:
-    name: 'nestjs-mod-fullstack-https-portal-volume'
-  nestjs-mod-fullstack-minio-volume:
-    name: 'nestjs-mod-fullstack-minio-volume'
-  nestjs-mod-fullstack-redis-volume:
-    name: 'nestjs-mod-fullstack-redis-volume'
+  server-authorizer-postgre-sql-volume:
+    name: 'server-authorizer-postgre-sql-volume'
+  server-authorizer-https-portal-volume:
+    name: 'server-authorizer-https-portal-volume'
+  server-authorizer-minio-volume:
+    name: 'server-authorizer-minio-volume'
+  server-authorizer-redis-volume:
+    name: 'server-authorizer-redis-volume'

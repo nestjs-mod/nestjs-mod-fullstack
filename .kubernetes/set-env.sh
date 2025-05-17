@@ -38,8 +38,8 @@ if [ -z "${SERVER_DOMAIN}" ]; then
 fi
 
 # server
-if [ -z "${SERVER_PORT}" ]; then
-    export SERVER_PORT=9191
+if [ -z "${SERVER_AUTHORIZER_PORT}" ]; then
+    export SERVER_AUTHORIZER_PORT=9191
 fi
 # server: app database
 if [ -z "${SERVER_APP_DATABASE_PASSWORD}" ]; then

@@ -1,0 +1,299 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+msgid "You are logged in as {{email}}"
+msgstr "Вы вошли в систему как {{email}}"
+
+msgid "Source code"
+msgstr "Исходный код"
+
+msgid "Home"
+msgstr "Домашняя страница"
+
+msgid "Webhooks"
+msgstr "Вебхуки"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "Sign-out"
+msgstr "Выйти"
+
+msgid "Sign-up"
+msgstr "Зарегистрироваться"
+
+msgid "Sign-in"
+msgstr "Войти"
+
+msgid ""
+"Dev/Watch mode: the infrastructure is running using docker-compose, "
+"applications are launched in watch pm2 mode"
+msgstr ""
+"Режим Dev/Watch: инфраструктура работает с использованием docker-compose, "
+"приложения запускаются в режиме watch pm2"
+
+msgid "Init"
+msgstr "Инициализация"
+
+msgid "Start"
+msgstr "Запуск"
+
+msgid "Open in browser"
+msgstr "Откройте браузер"
+
+msgid "Testing"
+msgstr "Тестирование"
+
+msgid "Stop"
+msgstr "Остановка"
+
+msgid ""
+"Prod mode: the infrastructure is running using docker-compose, built "
+"applications are launched using pm2"
+msgstr ""
+"Режим Prod: инфраструктура работает с использованием docker-compose, "
+"собранные приложения запускаются с использованием pm2"
+
+msgid ""
+"Docker-compose prod mode: the infrastructure and applications built into "
+"Docker images are run using docker-compose"
+msgstr ""
+"Режим Docker-compose prod: инфраструктура и приложения, встроенные в образы "
+"Docker, запускаются с помощью docker-compose"
+
+msgid "Prepare"
+msgstr "Подготовка"
+
+msgid "Hello Static"
+msgstr "Привет Статика"
+
+msgid "Password recovery"
+msgstr "Восстановление пароля"
+
+msgid "Demo"
+msgstr "Демо"
+
+msgid "Create new"
+msgstr "Создать"
+
+msgid "Action"
+msgstr "Действия"
+
+msgid "Edit"
+msgstr "Изменить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Complete sign up"
+msgstr "Завершить регистрацию"
+
+msgid "Continue"
+msgstr "Продолжить"
+
+msgid "Completing registration"
+msgstr "Завершение регистрации"
+
+msgid "Сomplete forgot password"
+msgstr "Завершить восстановление пароля"
+
+msgid "en"
+msgstr "EN"
+
+msgid "app.locale.name.english"
+msgstr "Английский"
+
+msgid "ru"
+msgstr "RU"
+
+msgid "app.locale.name.russian"
+msgstr "Русский"
+
+msgid "Complete OAuth sign up"
+msgstr "Завершить регистрацию через OAuth"
+
+msgid "Fullstack"
+msgstr "Фуллстэк"
+
+msgid "Update demo"
+msgstr "Обновить демо"
+
+msgid "Create demo"
+msgstr "Создать демо"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Delete demo #{{id}}"
+msgstr "Удалить демо #{{id}}"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "app-demo.grid.columns.id"
+msgstr "ИД."
+
+msgid "app-demo.grid.columns.name"
+msgstr "Название"
+
+msgid "app-demo.grid.columns.created-at"
+msgstr "Дата создания"
+
+msgid "app-demo.grid.columns.updated-at"
+msgstr "Дата обновления"
+
+msgid "demo.form.fields.name"
+msgstr "Название"
+
+msgid "read-only field, set and updated on the backend"
+msgstr "поле только для чтения, устанавливается и обновляется на бэкэнде"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Validation errors"
+msgstr "Ошибка при проверке данных"
+
+msgid "id not set"
+msgstr "идентификатор не установлен"
+
+msgid "Unauthorized"
+msgstr "Неавторизован"
+
+msgid "auth.sign-in-form.fields.timezone"
+msgstr "Часовой пояс"
+
+msgid "UTC−12:00: Date Line (west)"
+msgstr "UTC−12:00: Линия перемены дат (запад)"
+
+msgid "UTC−11:00: Niue, Samoa"
+msgstr "UTC−11:00: Ниуэ, Самоа"
+
+msgid "UTC−10:00: Hawaii-Aleutian Islands"
+msgstr "UTC−10:00: Гавайи-Алеутские острова"
+
+msgid "UTC−09:30: Marquesas Islands"
+msgstr "UTC−09:30: Маркизские острова"
+
+msgid "UTC−09:00: Alaska"
+msgstr "UTC−09:00: Аляска"
+
+msgid "UTC−08:00: Pacific Time (US & Canada)"
+msgstr "UTC−08:00: Тихоокеанское время (США и Канада)"
+
+msgid "UTC−07:00: Mountain Time (US & Canada)"
+msgstr "UTC−07:00: Горное время (США и Канада)"
+
+msgid "UTC−06:00: Central Time (US & Canada), Mexico"
+msgstr "UTC−06:00: Центральное время (США и Канада), Мексика"
+
+msgid "UTC−05:00: Eastern Time (US & Canada), Bogota, Lima"
+msgstr "UTC−05:00: Восточное время (США и Канада), Богота, Лима"
+
+msgid "UTC−04:00: Atlantic Time (Canada), Caracas, La Paz"
+msgstr "UTC−04:00: Атлантическое время (Канада), Каракас, Ла-Пас"
+
+msgid "UTC−03:30: Newfoundland"
+msgstr "UTC−03:30: Ньюфаундленд"
+
+msgid "UTC−03:00: Brazil, Buenos Aires, Georgetown"
+msgstr "UTC−03:00: Бразилия, Буэнос-Айрес, Джорджтаун"
+
+msgid "UTC−02:00: Mid-Atlantic Time"
+msgstr "UTC−02:00: Среднее атлантическое время"
+
+msgid "UTC−01:00: Azores, Cape Verde Islands"
+msgstr "UTC−01:00: Азорские острова, Острова Зелёного Мыса"
+
+msgid "UTC±00:00: Greenwich Mean Time (GMT), London, Lisbon"
+msgstr "UTC±00:00: Всемирное координированное время (GMT), Лондон, Лиссабон"
+
+msgid "UTC+01:00: Central European Time, West African Time"
+msgstr "UTC+01:00: Центральноевропейское время, Западноафриканское время"
+
+msgid "UTC+02:00: Eastern European Time, Central African Time"
+msgstr "UTC+02:00: Восточноевропейское время, Центральноафриканское время"
+
+msgid "UTC+03:00: Moscow Time, East African Time"
+msgstr "UTC+03:00: Московское время, Восточноафриканское время"
+
+msgid "UTC+03:30: Tehran"
+msgstr "UTC+03:30: Тегеран"
+
+msgid "UTC+04:00: Baku, Yerevan, Samara"
+msgstr "UTC+04:00: Баку, Ереван, Самара"
+
+msgid "UTC+04:30: Afghanistan"
+msgstr "UTC+04:30: Афганистан"
+
+msgid "UTC+05:00: Ekaterinburg, Islamabad, Karachi, Tashkent"
+msgstr "UTC+05:00: Екатеринбург, Исламабад, Карачи, Ташкент"
+
+msgid "UTC+05:30: Mumbai, Kolkata, Madras, New Delhi"
+msgstr "UTC+05:30: Мумбаи, Калькутта, Мадрас, Нью-Дели"
+
+msgid "UTC+05:45: Nepal"
+msgstr "UTC+05:45: Непал"
+
+msgid "UTC+06:00: Almaty, Dhaka, Novosibirsk"
+msgstr "UTC+06:00: Алматы, Дакка, Новосибирск"
+
+msgid "UTC+06:30: Cocos Islands, Myanmar"
+msgstr "UTC+06:30: Кокосовые острова, Мьянма"
+
+msgid "UTC+07:00: Bangkok, Hanoi, Jakarta"
+msgstr "UTC+07:00: Бангкок, Ханой, Джакарта"
+
+msgid "UTC+08:00: Beijing, Perth, Singapore, Hong Kong"
+msgstr "UTC+08:00: Пекин, Перт, Сингапур, Гонконг"
+
+msgid "UTC+08:45: Center and west Australia"
+msgstr "UTC+08:45: Центр и запад Австралии"
+
+msgid "UTC+09:00: Tokyo, Seoul, Yakutsk"
+msgstr "UTC+09:00: Токио, Сеул, Якутск"
+
+msgid "UTC+09:30: Northern Territory, Eucla Adelaide"
+msgstr "UTC+09:30: Северная территория, Евклидова Аделаида"
+
+msgid "UTC+10:00: Eastern Australia, Guam, Vladivostok"
+msgstr "UTC+10:00: Восточная Австралия, Гуам, Владивосток"
+
+msgid "UTC+10:30: Lord Howe Island"
+msgstr "UTC+10:30: остров Лорд-Хау"
+
+msgid "UTC+11:00: Magadan, Solomon Islands, New Caledonia"
+msgstr "UTC+11:00: Магадан, Соломоновы острова, Новая Каледония"
+
+msgid "UTC+11:30: Norfolk Island"
+msgstr "UTC+11:30: остров Норфолк"
+
+msgid "UTC+12:00: Fiji, Kamchatka, Marshall Islands"
+msgstr "UTC+12:00: Фиджи, Камчатка, Маршалловы острова"
+
+msgid "UTC+12:45: Chatham Islands"
+msgstr "UTC+12:45: острова Чатем"
+
+msgid "UTC+13:00: Samoa, Tonga"
+msgstr "UTC+13:00: Самоа, Тонга"
+
+msgid "UTC+14:00: Date Line (east)"
+msgstr "UTC+14:00: Линия перемены дат (восток)"
+
+msgid "client"
+msgstr "клиент"

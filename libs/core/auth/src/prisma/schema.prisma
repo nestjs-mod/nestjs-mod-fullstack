@@ -7,7 +7,7 @@ generator client {
 }
 datasource db {
   provider          = "postgres"
-  url               = env("SERVER_AUTH_DATABASE_URL")
+  url               = env("SERVER_AUTHORIZER_AUTH_DATABASE_URL")
 }
 generator prismaClassGenerator {
   provider                        = "prisma-generator-nestjs-dto"

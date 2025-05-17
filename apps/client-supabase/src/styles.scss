@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~ng-zorro-antd/ng-zorro-antd.min.css';
+/* You can add global styles to this file, and also import other style files */
+
+.layout {
+  min-height: 100vh;
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+  color: #fff;
+}
+
+nz-header {
+  position: fixed !important;
+  width: 100% !important;
+  z-index: 1000;
+}
+
+[nz-menu] {
+  line-height: 64px !important;
+}
+
+nz-content {
+  padding: 0 50px !important;
+  margin-top: 64px !important;
+}
+
+nz-breadcrumb {
+  margin: 16px 0 !important;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 380px;
+}
+
+nz-footer {
+  text-align: center !important;
+}
+
+.table-operations {
+  margin-bottom: 16px;
+}
+
+.table-operations > button {
+  margin-right: 8px;
+}
+
+.inline-inputs {
+  .ant-form-item {
+    margin-bottom: 0px !important;
+  }
+}
+
+tr.selected {
+  td {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+pre {
+  font-size: 9px;
+  line-height: 9px;
+}
+
+.ant-select-item-option-content {
+  white-space: pre-wrap;
+}

@@ -1,14 +1,14 @@
 FROM nginx:alpine
 
 # Set server port
-ENV SERVER_PORT=8080
+ENV SERVER_AUTHORIZER_PORT=8080
 # Set nginx port
 ENV NGINX_PORT=8080
 
 # Copy nginx config
 COPY --chown=node:node ../.docker/nginx /etc/nginx/conf.d
 # Copy frontend
-COPY --chown=node:node ../dist/apps/client/browser /usr/share/nginx/html
+COPY --chown=node:node ../dist/apps/client-authorizer/browser /usr/share/nginx/html
 
 # Install Bash Shell
 RUN apk add --update bash

@@ -13,7 +13,7 @@ RUN echo $(cat package.json | jq 'del(.devDependencies)') > package.json
 # Install deps
 RUN yarn install && rm -rf /var/cache/apk/* && rm -rf /usr/local/share/.cache/yarn/*
 # Installing utilities to generate additional files
-RUN yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 -D
+RUN yarn add nx@20.8.0 webpack-cli@5.1.4 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 -D
 # Some utilities require a ".env" file
 RUN echo '' > .env
 

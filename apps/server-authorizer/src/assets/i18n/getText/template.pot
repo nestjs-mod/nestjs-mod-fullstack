@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Event that will be triggered after creation"
+msgstr "Event that will be triggered after creation"
+
+msgid "Event that will fire after deletion"
+msgstr "Event that will fire after deletion"
+
+msgid "Event that will trigger after the update"
+msgstr "Event that will trigger after the update"
+
+msgid "Hello API"
+msgstr "Hello API"
+
+msgid "Forbidden"
+msgstr "Forbidden"
+
+msgid "Unauthorized"
+msgstr "Unauthorized"
+
+msgid "Too Many Requests"
+msgstr "Too Many Requests"

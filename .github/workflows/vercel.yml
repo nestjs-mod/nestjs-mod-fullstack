@@ -61,7 +61,7 @@ jobs:
 
       - name: Installing utilities to generate additional files
         if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
-        run: yarn add nx@20.1.2 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 tslib -D
+        run: yarn add nx@20.8.0 prisma@5.22.0 @brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 tslib -D
 
       - name: Generate prisma clients
         if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
@@ -116,8 +116,8 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip e2e]') }}
         run: |
           export BASE_URL=https://nestjs-mod-fullstack.vercel.app
-          export CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
-          export SERVER_URL=https://nestjs-mod-fullstack.vercel.app/api
+          export E2E_CLIENT_URL=https://nestjs-mod-fullstack.vercel.app
+          export E2E_SERVER_URL=https://nestjs-mod-fullstack.vercel.app
           cp -r .vercel/.env.production.local .env
           npx --yes tsx update-files-for-vercel.ts
           npx playwright install chromium --with-deps

@@ -1,0 +1,142 @@
+# Do not modify this file, it is generated using the DockerCompose module included with NestJS-mod.
+version: "3"
+services:
+  server-authorizer-postgre-sql:
+    image: "bitnami/postgresql:15.5.0"
+    container_name: "server-authorizer-postgre-sql"
+    volumes:
+      - "server-authorizer-postgre-sql-volume:/bitnami/postgresql"
+    ports:
+      - "5432:5432"
+    networks:
+      - "server-authorizer-network"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "pg_isready -U postgres"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
+    environment:
+      POSTGRESQL_USERNAME: "${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_USERNAME}"
+      POSTGRESQL_PASSWORD: "${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_PASSWORD}"
+      POSTGRESQL_DATABASE: "${SERVER_AUTHORIZER_POSTGRE_SQL_POSTGRESQL_DATABASE}"
+  server-authorizer-redis:
+    image: "bitnami/redis:7.4.1"
+    container_name: "server-authorizer-redis"
+    volumes:
+      - "server-authorizer-redis-volume:/bitnami/redis/data"
+    ports:
+      - "6379:6379"
+    networks:
+      - "server-authorizer-network"
+    environment:
+      REDIS_DATABASE: "${SERVER_AUTHORIZER_REDIS_REDIS_DATABASE}"
+      REDIS_PASSWORD: "${SERVER_AUTHORIZER_REDIS_REDIS_PASSWORD}"
+      REDIS_DISABLE_COMMANDS: "${SERVER_AUTHORIZER_REDIS_REDIS_DISABLE_COMMANDS}"
+      REDIS_IO_THREADS: "${SERVER_AUTHORIZER_REDIS_REDIS_IO_THREADS}"
+      REDIS_IO_THREADS_DO_READS: "${SERVER_AUTHORIZER_REDIS_REDIS_IO_THREADS_DO_READS}"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
+  server-authorizer-minio:
+    image: "bitnami/minio:2024.11.7"
+    container_name: "server-authorizer-minio"
+    volumes:
+      - "server-authorizer-minio-volume:/bitnami/minio/data"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - "server-authorizer-network"
+    environment:
+      MINIO_ROOT_USER: "${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${SERVER_AUTHORIZER_MINIO_MINIO_ROOT_PASSWORD}"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "mc"
+        - "ready"
+        - "local"
+      interval: "5s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
+  server-authorizer-maildev:
+    image: "maildev/maildev:2.2.1"
+    container_name: "server-authorizer-maildev"
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+    networks:
+      - "server-authorizer-network"
+    environment:
+      MAILDEV_SMTP_PORT: "${SERVER_AUTHORIZER_MAILDEV_MAILDEV_SMTP_PORT}"
+      MAILDEV_WEB_PORT: "${SERVER_AUTHORIZER_MAILDEV_MAILDEV_WEB_PORT}"
+    healthcheck:
+      test: "wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1"
+      interval: "10s"
+      timeout: "5s"
+      retries: 5
+    tty: true
+    restart: "always"
+  server-authorizer-authorizer:
+    image: "lakhansamani/authorizer:1.4.4"
+    container_name: "server-authorizer-authorizer"
+    ports:
+      - "8080:8080"
+    networks:
+      - "server-authorizer-network"
+    environment:
+      ADMIN_SECRET: "${SERVER_AUTHORIZER_AUTHORIZER_ADMIN_SECRET}"
+      DATABASE_TYPE: "${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_TYPE}"
+      DATABASE_URL: "${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_URL}"
+      DATABASE_NAME: "${SERVER_AUTHORIZER_AUTHORIZER_DATABASE_NAME}"
+      REDIS_URL: "${SERVER_AUTHORIZER_AUTHORIZER_REDIS_URL}"
+      PORT: "${SERVER_AUTHORIZER_AUTHORIZER_PORT}"
+      AUTHORIZER_URL: "${SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL}"
+      COOKIE_NAME: "${SERVER_AUTHORIZER_AUTHORIZER_COOKIE_NAME}"
+      DISABLE_PLAYGROUND: "${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_PLAYGROUND}"
+      ACCESS_TOKEN_EXPIRY_TIME: "${SERVER_AUTHORIZER_AUTHORIZER_ACCESS_TOKEN_EXPIRY_TIME}"
+      IMAGE: "${SERVER_AUTHORIZER_AUTHORIZER_IMAGE}"
+      DISABLE_STRONG_PASSWORD: "${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_STRONG_PASSWORD}"
+      DISABLE_EMAIL_VERIFICATION: "${SERVER_AUTHORIZER_AUTHORIZER_DISABLE_EMAIL_VERIFICATION}"
+      FEATURE_NAME: "${SERVER_AUTHORIZER_AUTHORIZER_FEATURE_NAME}"
+      ORGANIZATION_NAME: "${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_NAME}"
+      DEPENDS_ON_SERVICE_NAMES: "${SERVER_AUTHORIZER_AUTHORIZER_DEPENDS_ON_SERVICE_NAMES}"
+      IS_EMAIL_SERVICE_ENABLED: "${SERVER_AUTHORIZER_AUTHORIZER_IS_EMAIL_SERVICE_ENABLED}"
+      IS_SMS_SERVICE_ENABLED: "${SERVER_AUTHORIZER_AUTHORIZER_IS_SMS_SERVICE_ENABLED}"
+      ENV: "${SERVER_AUTHORIZER_AUTHORIZER_ENV}"
+      EXTERNAL_CLIENT_PORT: "${SERVER_AUTHORIZER_AUTHORIZER_EXTERNAL_CLIENT_PORT}"
+      RESET_PASSWORD_URL: "${SERVER_AUTHORIZER_AUTHORIZER_RESET_PASSWORD_URL}"
+      ROLES: "${SERVER_AUTHORIZER_AUTHORIZER_ROLES}"
+      DEFAULT_ROLES: "${SERVER_AUTHORIZER_AUTHORIZER_DEFAULT_ROLES}"
+      JWT_ROLE_CLAIM: "${SERVER_AUTHORIZER_AUTHORIZER_JWT_ROLE_CLAIM}"
+      ORGANIZATION_LOGO: "${SERVER_AUTHORIZER_AUTHORIZER_ORGANIZATION_LOGO}"
+      COUCHBASE_BUCKET: "${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_BUCKET}"
+      COUCHBASE_BUCKET_RAM_QUOTA: "${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_BUCKET_RAM_QUOTA}"
+      COUCHBASE_SCOPE: "${SERVER_AUTHORIZER_AUTHORIZER_COUCHBASE_SCOPE}"
+    tty: true
+    restart: "always"
+    depends_on:
+      server-authorizer-postgre-sql:
+        condition: "service_healthy"
+networks:
+  server-authorizer-network:
+    driver: "bridge"
+volumes:
+  server-authorizer-postgre-sql-volume:
+    name: "server-authorizer-postgre-sql-volume"
+  server-authorizer-redis-volume:
+    name: "server-authorizer-redis-volume"
+  server-authorizer-minio-volume:
+    name: "server-authorizer-minio-volume"
