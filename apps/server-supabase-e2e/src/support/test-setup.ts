@@ -25,14 +25,4 @@ module.exports = async function () {
   if (parsed.error) {
     throw parsed.error;
   }
-
-  // Configure axios for tests to use.
-  const host = process.env.HOST ?? 'localhost';
-  const port = process.env.PORT ?? '3000';
-  //process.env.IS_DOCKER_COMPOSE = 'true';
-
-  axios.defaults.baseURL =
-    serverUrl || process.env['E2E_SERVER_URL'] || `http://${host}:${port}`;
-
-  process.env['E2E_SERVER_URL'] = axios.defaults.baseURL;
 };

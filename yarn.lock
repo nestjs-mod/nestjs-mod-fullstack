@@ -3489,6 +3489,27 @@
     tslib "^2.3.0"
     typescript "5.6.3"
 
+"@nestjs-mod/sso-rest-sdk-angular@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk-angular/-/sso-rest-sdk-angular-1.0.5.tgz#ee7951e3b6fe307d5cb7d7067fc03d5487cd37ae"
+  integrity sha512-vNXNSaFzY9U7wy+/EHZ0oWUWOXCSwF70VoZrNnJu3tnRTXehltISLJrgHj8Wdt5baamGvXHSLjYPGmr1L3lhlw==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nestjs-mod/sso-rest-sdk@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk/-/sso-rest-sdk-1.0.6.tgz#0519b74bdc9018546db78f66292ae1072c7225d1"
+  integrity sha512-+a0V7ZimpV0i1n7kF7zxSiXcSrjkqND1URx/7y+1fuRGVtKDgiSRpgfQ/lB5l7UZ4JKkwyQ59XpNzO6hvFfvtg==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nestjs-mod/sso@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso/-/sso-1.0.3.tgz#03d69fd85337a07674cf371dadfadb3d239e3b19"
+  integrity sha512-ohF6m7iN8sV6DMMKGpb+xvUnyBBKuaz28Qfg/sFkaqW516MWtRaKUgpBg4YXgildHSnRNSxhxdLe1KNHrnBSLg==
+  dependencies:
+    tslib "^2.3.0"
+
 "@nestjs-mod/supabase@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@nestjs-mod/supabase/-/supabase-1.0.0.tgz#bd758bfda5c4a6678341d8feb264ae442d124c1a"

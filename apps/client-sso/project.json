@@ -4,25 +4,52 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/client-sso/src",
-  "tags": [],
+  "tags": ["sso"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
+        "allowedCommonJsDependencies": [
+          "@nestjs-mod/misc",
+          "@jsverse/transloco-messageformat",
+          "@jsverse/transloco-keys-manager/marker",
+          "lodash/fp/isEqual",
+          "lodash/fp/omit",
+          "cross-fetch",
+          "ws",
+          "@messageformat/core"
+        ],
         "outputPath": "dist/apps/client-sso/browser",
         "index": "apps/client-sso/src/index.html",
         "main": "apps/client-sso/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/client-sso/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/client-sso/src/assets",
           {
             "glob": "**/*",
             "input": "apps/client-sso/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+            "output": "/assets/"
+          },
+          {
+            "glob": "**/package.json",
+            "input": "./apps/client-sso/",
+            "output": "./"
           }
         ],
-        "styles": ["apps/client-sso/src/styles.scss"],
+        "styles": [
+          "apps/client-sso/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -30,16 +57,22 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "600kb",
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client-sso/src/environments/environment.ts",
+              "with": "apps/client-sso/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "buildOptimizer": false,
@@ -75,7 +108,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/client-sso/jest.config.ts"
       }
@@ -89,7 +124,9 @@
       }
     },
     "server": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/client-sso/server",
@@ -128,7 +165,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "routes": [
+          "/"
+        ]
       },
       "configurations": {
         "development": {

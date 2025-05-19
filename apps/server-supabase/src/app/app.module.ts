@@ -102,43 +102,11 @@ export const { AppModule } = createNestModule({
     }),
     TranslatesModule.forRootDefault({
       localePaths: [
-        join(
-          process.cwd(),
-          'dist',
-          'apps',
-          'server-supabase',
-          'assets',
-          'i18n'
-        ),
-        join(
-          process.cwd(),
-          'dist',
-          'apps',
-          'server-supabase',
-          'assets',
-          'i18n',
-          'getText'
-        ),
-        join(
-          process.cwd(),
-          'dist',
-          'apps',
-          'server-supabase',
-          'assets',
-          'i18n',
-          'class-validator-messages'
-        ),
+        join(__dirname, 'assets', 'i18n'),
+        join(__dirname, 'assets', 'i18n', 'getText'),
+        join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
       ],
-      vendorLocalePaths: [
-        join(
-          process.cwd(),
-          'dist',
-          'apps',
-          'server-supabase',
-          'assets',
-          'i18n'
-        ),
-      ],
+      vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
       contextRequestDetector: (ctx: ExecutionContext) =>
         getRequestFromExecutionContext(ctx),
       locales: ['en', 'ru'],
@@ -168,12 +136,7 @@ export const { AppModule } = createNestModule({
       ? []
       : [
           ServeStaticModule.forRoot({
-            rootPath: join(
-              join(process.cwd(), 'dist', 'apps', 'server-supabase'),
-              '..',
-              'client-supabase',
-              'browser'
-            ),
+            rootPath: join(__dirname, '..', 'client-supabase', 'browser'),
           }),
         ]),
   ],

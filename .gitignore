@@ -53,4 +53,6 @@ access.log
 
 apps/client-authorizer-e2e/src/video
 apps/client-supabase-e2e/src/video
+apps/client-sso-e2e/src/video
 .vercel
+.eslintcache

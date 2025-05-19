@@ -17,22 +17,22 @@ import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { getText, TranslatesModule } from 'nestjs-translates';
 import { join } from 'path';
-import { APP_FEATURE } from './app.constants';
-import { AppService } from './services/app.service';
+import { APP_FEATURE, APP_MODULE } from './app.constants';
 import { AppExceptionsFilter } from './app.filter';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './controllers/app.controller';
 import { AuthorizerController } from './controllers/authorizer.controller';
 import { FakeEndpointController } from './controllers/fake-endoint.controller';
 import { TimeController } from './controllers/time.controller';
+import { AuthorizerAuthConfiguration } from './integrations/authorizer-auth.configuration';
 import { AuthorizerWithMinioFilesConfiguration } from './integrations/authorizer-with-minio-files.configuration';
 import { WebhookWithAuthAuthorizerConfiguration } from './integrations/webhook-with-auth-authorizer.configuration';
-import { AuthorizerAuthConfiguration } from './integrations/authorizer-auth.configuration';
+import { AppService } from './services/app.service';
 
 export const { AppModule } = createNestModule({
-  moduleName: 'AppModule',
+  moduleName: APP_MODULE,
   moduleCategory: NestModuleCategory.feature,
   imports: [
     AuthorizerModule.forRootAsync({

@@ -9,8 +9,10 @@ export function getUrls() {
     ).asString(),
     minioUrl:
       get('SERVER_AUTHORIZER_MINIO_URL').asString() ||
-      get('SERVER_SUPABASE_MINIO_URL').asString(),
+      get('SERVER_SUPABASE_MINIO_URL').asString() ||
+      get('SERVER_SSO_MINIO_URL').asString(),
     supabaseUrl: get('SERVER_SUPABASE_SUPABASE_URL').asString(),
     supabaseKey: get('SERVER_SUPABASE_SUPABASE_KEY').asString(),
+    ssoUrl: get('SERVER_SSO_SSO_URL').asString(),
   };
 }

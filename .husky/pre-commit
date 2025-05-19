@@ -1,4 +1,4 @@
-cp ./example.env ./.env
+cp ./example-authorizer.env ./.env
 npm run pm2:dev:docs:infrastructure
 git add ./apps/server-authorizer/INFRASTRUCTURE.MD
 npx lint-staged

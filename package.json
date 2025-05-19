@@ -18,6 +18,14 @@
     "pm2:dev:docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server-authorizer --watch=false --inspect=false",
     "pm2:dev:start": "./node_modules/.bin/pm2 start ./ecosystem.config.json && npm run wait-on -- --log http://localhost:3000/api/health",
     "pm2:dev:stop": "./node_modules/.bin/pm2 delete all",
+    "_____pm2-sso-full dev infra_____": "_____pm2-sso-full dev infra_____",
+    "pm2-sso-full:dev:start": "npm run generate-sso && npm run docker-compose:start-prod:server-sso && npm run db-sso:create-and-fill && npm run pm2-sso:dev:start",
+    "pm2-sso-full:dev:stop": "npm run docker-compose:stop-prod:server-sso && npm run pm2-sso:dev:stop",
+    "pm2-sso-full:dev:test:e2e": "export CI=true && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:sso --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "_____pm2-sso dev infra_____": "_____pm2-sso dev infra_____",
+    "pm2-sso:dev:docs:infrastructure": "export NESTJS_MODE=infrastructure && ./node_modules/.bin/nx serve server-sso --watch=false --inspect=false",
+    "pm2-sso:dev:start": "./node_modules/.bin/pm2 start ./ecosystem-sso.config.json && npm run wait-on -- --log http://localhost:3000/api/health",
+    "pm2-sso:dev:stop": "./node_modules/.bin/pm2 delete all",
     "_____pm2-supabase-full dev infra_____": "_____pm2-supabase-full dev infra_____",
     "pm2-supabase-full:dev:start": "npm run generate-supabase && npm run pg-flyway:migrate && npm run pm2-supabase:dev:start",
     "pm2-supabase-full:dev:stop": "npm run pm2-supabase:dev:stop",
@@ -25,6 +33,15 @@
     "_____pm2-supabase dev infra_____": "_____pm2-supabase dev infra_____",
     "pm2-supabase:dev:start": "./node_modules/.bin/pm2 start ./ecosystem-supabase.config.json && npm run wait-on -- --log http://localhost:3000/api/health",
     "pm2-supabase:dev:stop": "./node_modules/.bin/pm2 delete all",
+    "_____pm2-sso-full prod infra_____": "_____pm2-sso-full prod infra_____",
+    "pm2-sso-full:prod:start": "npm run pm2-sso-full:prod:build && npm run docker-compose:start-prod:server-sso && npm run db-sso:create-and-fill && npm run pm2-sso:start",
+    "pm2-sso-full:prod:stop": "npm run docker-compose:stop-prod:server-sso && npm run pm2-sso:stop",
+    "pm2-sso-full:prod:test:e2e": "export CI=true && export E2E_CLIENT_URL=http://localhost:3000 && ./node_modules/.bin/nx run-many -t=e2e --projects=tag:sso --skip-nx-cache=true --output-style=stream-without-prefixes",
+    "pm2-sso-full:prod:build": "npm run generate && chmod -R augo+rw libs apps dist | echo 'skip chmod' && ./node_modules/.bin/nx run-many -t=build --projects=tag:sso,app-rest-sdk --configuration=production --parallel=1",
+    "pm2-sso-full:prod:build:no-cache": "export NX_DAEMON=false && export NX_PARALLEL=1 && export NX_SKIP_NX_CACHE=true && npm run pm2-sso-full:prod:build",
+    "_____pm2-sso prod infra_____": "_____pm2-sso prod infra_____",
+    "pm2-sso:start": "./node_modules/.bin/pm2 start ./ecosystem-sso-prod.config.json && npm run wait-on -- --log http://localhost:3000/api/health --log http://localhost:3000",
+    "pm2-sso:stop": "./node_modules/.bin/pm2 delete all",
     "_____pm2-full prod infra_____": "_____pm2-full prod infra_____",
     "pm2-full:prod:start": "npm run pm2-full:prod:build && npm run docker-compose:start-prod:server-authorizer && npm run db:create-and-fill && npm run pm2:start",
     "pm2-full:prod:stop": "npm run docker-compose:stop-prod:server-authorizer && npm run pm2:stop",
@@ -63,11 +80,15 @@
     "docker-compose:stop:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose.yml down",
     "docker-compose:start:server-authorizer": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-authorizer/docker-compose.yml --compatibility up -d",
     "docker-compose:stop:server-authorizer": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-authorizer/docker-compose.yml down",
+    "docker-compose:start:server-sso": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-sso/docker-compose.yml --compatibility up -d",
+    "docker-compose:stop:server-sso": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-sso/docker-compose.yml down",
     "_____docker-compose prod-infra_____": "_____docker-compose prod-infra_____",
     "docker-compose:start-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env --compatibility up -d",
     "docker-compose:stop-prod:server": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server/docker-compose-prod.yml --env-file ./apps/server/docker-compose-prod.env down",
     "docker-compose:start-prod:server-authorizer": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-authorizer/docker-compose-prod.yml --env-file ./apps/server-authorizer/docker-compose-prod.env --compatibility up -d",
     "docker-compose:stop-prod:server-authorizer": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-authorizer/docker-compose-prod.yml --env-file ./apps/server-authorizer/docker-compose-prod.env down",
+    "docker-compose:start-prod:server-sso": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-sso/docker-compose-prod.yml --env-file ./apps/server-sso/docker-compose-prod.env --compatibility up -d",
+    "docker-compose:stop-prod:server-sso": "export COMPOSE_INTERACTIVE_NO_CLI=1 && docker compose -f ./apps/server-sso/docker-compose-prod.yml --env-file ./apps/server-sso/docker-compose-prod.env down",
     "_____tests_____": "_____tests_____",
     "test": "export CI=true && ./node_modules/.bin/nx run-many --all -t=test --skip-nx-cache=true --passWithNoTests --output-style=stream-without-prefixes",
     "test:server-authorizer": "./node_modules/.bin/nx test server-authorizer --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
@@ -85,16 +106,18 @@
     "_____kubernetes_____": "_____kubernetes_____",
     "kubernetes:generate": "rm -rf ./.kubernetes/generated && . .kubernetes/set-env.sh && npm run rucken copy-paste -- --find=templates --replace=generated --replace-plural=generated --path=./.kubernetes/templates --replace-envs=true",
     "_____db_____": "_____db_____",
+    "db:create-and-fill": "./node_modules/.bin/nx run-many -t=db-create --projects=tag:authorizer,tag:library && ./node_modules/.bin/nx run-many -t=pg-flyway-migrate --projects=tag:authorizer,tag:library",
+    "db-sso:create-and-fill": "./node_modules/.bin/nx run-many -t=db-create --projects=tag:sso,tag:library && ./node_modules/.bin/nx run-many -t=pg-flyway-migrate --projects=tag:sso,tag:library",
     "db:create": "./node_modules/.bin/nx run-many -t=db-create",
-    "db:create-and-fill": "npm run db:create && npm run pg-flyway:migrate",
     "_____prisma_____": "_____prisma_____",
     "prisma:pull:server": "./node_modules/.bin/nx run server:prisma-pull",
     "prisma:pull": "./node_modules/.bin/nx run-many -t=prisma-pull --skip-nx-cache=true",
     "prisma:generate": "./node_modules/.bin/nx run-many -t=prisma-generate --parallel=1",
-    "prisma:shorts:generate": "export PRISMA_TARGETS=shorts && npm run prisma:generate && npm run docs:infrastructure && npm run prisma:generate",
+    "prisma:shorts:generate": "export PRISMA_TARGETS=shorts && npm run prisma:generate && npm run pm2:dev:docs:infrastructure && npm run prisma:generate",
     "prisma:pull:webhook": "./node_modules/.bin/nx run webhook:prisma-pull",
     "prisma:pull:auth": "./node_modules/.bin/nx run auth:prisma-pull",
     "prisma:pull:server-authorizer": "./node_modules/.bin/nx run server-authorizer:prisma-pull",
+    "prisma:pull:server-sso": "./node_modules/.bin/nx run server-sso:prisma-pull",
     "_____pg-flyway_____": "_____pg-flyway_____",
     "pg-flyway:create:server": "./node_modules/.bin/nx run server:pg-flyway-create-migration",
     "pg-flyway:migrate:server": "./node_modules/.bin/nx run server:pg-flyway-migrate",
@@ -105,14 +128,18 @@
     "pg-flyway:migrate:auth": "./node_modules/.bin/nx run auth:pg-flyway-migrate",
     "pg-flyway:create:server-authorizer": "./node_modules/.bin/nx run server-authorizer:pg-flyway-create-migration",
     "pg-flyway:migrate:server-authorizer": "./node_modules/.bin/nx run server-authorizer:pg-flyway-migrate",
+    "pg-flyway:create:server-sso": "./node_modules/.bin/nx run server-sso:pg-flyway-create-migration",
+    "pg-flyway:migrate:server-sso": "./node_modules/.bin/nx run server-sso:pg-flyway-migrate",
     "_____utils_____": "_____utils_____",
     "generate": "./node_modules/.bin/nx run-many -t=generate --projects=tag:authorizer,tag:library --parallel=1 && npm run make-ts-list",
+    "generate-sso": "./node_modules/.bin/nx run-many -t=generate --projects=tag:sso,tag:library --parallel=1 && npm run make-ts-list",
     "generate-supabase": "./node_modules/.bin/nx run-many -t=generate --projects=tag:supabase,tag:library --parallel=1 && npm run make-ts-list",
     "tsc": "tsc",
     "nx": "nx",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "make-ts-list": "./node_modules/.bin/rucken make-ts-list",
-    "manual:prepare": "npm run generate && npm run docs:infrastructure && npm run test",
+    "manual-sso:prepare": "npm run generate-sso && npm run pm2-sso:dev:docs:infrastructure && npm run test",
+    "manual:prepare": "npm run generate && npm run pm2:dev:docs:infrastructure && npm run test",
     "update:nestjs-mod-versions": "npx -y npm-check-updates @nestjs-mod/* nestjs-mod rucken pg-flyway pg-create-db class-validator-multi-lang nestjs-translates -u",
     "rucken": "rucken",
     "translates": "./node_modules/.bin/rucken prepare --locales=en,ru --update-package-version=false",
@@ -226,11 +253,24 @@
     "pm2:dev:stop": [
       "Stopping all applications in watch mode via PM2"
     ],
+    "pm2-sso-full:dev:start": [],
+    "pm2-sso-full:dev:stop": [],
+    "pm2-sso-full:dev:test:e2e": [],
+    "pm2-sso:dev:docs:infrastructure": [],
+    "pm2-sso:dev:start": [],
+    "pm2-sso:dev:stop": [],
     "pm2-supabase-full:dev:start": [],
     "pm2-supabase-full:dev:stop": [],
     "pm2-supabase-full:dev:test:e2e": [],
     "pm2-supabase:dev:start": [],
     "pm2-supabase:dev:stop": [],
+    "pm2-sso-full:prod:start": [],
+    "pm2-sso-full:prod:stop": [],
+    "pm2-sso-full:prod:test:e2e": [],
+    "pm2-sso-full:prod:build": [],
+    "pm2-sso-full:prod:build:no-cache": [],
+    "pm2-sso:start": [],
+    "pm2-sso:stop": [],
     "pm2-full:prod:start": [
       "Launching the infrastructure and building all applications, followed by launching them via PM2"
     ],
@@ -303,6 +343,12 @@
     "docker-compose:stop:server-authorizer": [
       "Stopping the docker-compose infrastructure for server-authorizer"
     ],
+    "docker-compose:start:server-sso": [
+      "Running the docker-compose infrastructure for server-sso"
+    ],
+    "docker-compose:stop:server-sso": [
+      "Stopping the docker-compose infrastructure for server-sso"
+    ],
     "docker-compose:start-prod:server": [
       "Running the main docker-compose prod infrastructure for server"
     ],
@@ -314,6 +360,12 @@
     ],
     "docker-compose:stop-prod:server-authorizer": [
       "Stopping the main docker-compose prod infrastructure for server-authorizer"
+    ],
+    "docker-compose:start-prod:server-sso": [
+      "Running the main docker-compose prod infrastructure for server-sso"
+    ],
+    "docker-compose:stop-prod:server-sso": [
+      "Stopping the main docker-compose prod infrastructure for server-sso"
     ],
     "test": [
       "Running tests across the entire project"
@@ -340,11 +392,12 @@
     "build-supabase": [],
     "manual-supabase-build": [],
     "kubernetes:generate": [],
-    "db:create": [
-      "Creation all databases of applications and modules"
-    ],
     "db:create-and-fill": [
       "Create and fill databases"
+    ],
+    "db-sso:create-and-fill": [],
+    "db:create": [
+      "Creation all databases of applications and modules"
     ],
     "prisma:pull:server": [
       "Generating a prisma schema based on a database for server"
@@ -364,6 +417,9 @@
     ],
     "prisma:pull:server-authorizer": [
       "Generating a prisma schema based on a database for server-authorizer"
+    ],
+    "prisma:pull:server-sso": [
+      "Generating a prisma schema based on a database for server-sso"
     ],
     "pg-flyway:create:server": [
       "Command to create new empty migration for server, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
@@ -392,11 +448,18 @@
     "pg-flyway:migrate:server-authorizer": [
       "Applying migrations for server-authorizer"
     ],
+    "pg-flyway:create:server-sso": [
+      "Command to create new empty migration for server-sso, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
+    ],
+    "pg-flyway:migrate:server-sso": [
+      "Applying migrations for server-sso"
+    ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
       "automatically generating an index.ts file for each library",
       "checking the code and trying to fix it"
     ],
+    "generate-sso": [],
     "generate-supabase": [],
     "tsc": [
       "Alias for running the tsc version locally, which is in the project (example: `npm run tsc -- --noEmit -p tsconfig.base.json`),",
@@ -413,6 +476,7 @@
       "Automatically generating an index.ts file for each library,",
       "works only for nx applications created using the `--projectNameAndRootFormat=as-provided` flag"
     ],
+    "manual-sso:prepare": [],
     "manual:prepare": [
       "Preparing code, building code, creating infrastructure documentation",
       "and all the files necessary to raise the infrastructure and running tests (generate, build, docs:infrastructure, test)"
@@ -454,6 +518,9 @@
     "@jsverse/transloco-messageformat": "^7.0.1",
     "@keyv/postgres": "2.0.4",
     "@keyv/redis": "4.2.0",
+    "@nestjs-mod/sso-rest-sdk-angular": "1.0.5",
+    "@nestjs-mod/sso-rest-sdk": "1.0.6",
+    "@nestjs-mod/sso": "1.0.3",
     "@nestjs-mod/supabase": "1.0.0",
     "@nestjs-mod/authorizer": "^1.5.6",
     "@nestjs-mod/common": "2.17.9",

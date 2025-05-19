@@ -1,0 +1,9 @@
+{
+    "Event that will be triggered after creation": "Событие, которое будет вызвано после создания",
+    "Event that will fire after deletion": "Событие, которое сработает после удаления",
+    "Event that will trigger after the update": "Событие, которое произойдет после обновления",
+    "Hello API": "Привет АПИ",
+    "Forbidden": "Нет доступа",
+    "Unauthorized": "Неавторизован",
+    "Too Many Requests": "Слишком много запросов"
+}

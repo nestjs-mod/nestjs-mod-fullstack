@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "client-sso",
+      "script": "./node_modules/.bin/nx serve client-sso --skip-nx-cache=true",
+      "node_args": "-r dotenv/config"
+    },
+    {
+      "name": "server-sso",
+      "script": "./node_modules/.bin/nx serve server-sso --skip-nx-cache=true",
+      "node_args": "-r dotenv/config"
+    }
+  ]
+}
