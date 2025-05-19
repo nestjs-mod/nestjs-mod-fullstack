@@ -433,6 +433,9 @@
     "pg-flyway:migrate": [
       "Applying migrations of all applications and modules"
     ],
+    "pg-flyway:migrate-authorizer": [],
+    "pg-flyway:migrate-sso": [],
+    "pg-flyway:migrate-supabase": [],
     "pg-flyway:create:webhook": [
       "Command to create new empty migration for webhook, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
     ],
