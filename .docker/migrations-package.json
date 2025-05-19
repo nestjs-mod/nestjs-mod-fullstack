@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {
     "_____db_____": "_____db_____",
-    "db:create": "./node_modules/.bin/nx run-many -t=db-create",
+    "db:create": "./node_modules/.bin/nx run-many -t=db-create --projects=tag:authorizer,tag:library",
     "db:create-and-fill": "npm run db:create && npm run pg-flyway:migrate",
     "_____flyway_____": "_____flyway_____",
-    "pg-flyway:migrate": "./node_modules/.bin/nx run-many -t=pg-flyway-migrate"
+    "pg-flyway:migrate": "./node_modules/.bin/nx run-many -t=pg-flyway-migrate --projects=tag:authorizer,tag:library"
   },
   "private": true,
   "devDependencies": {
