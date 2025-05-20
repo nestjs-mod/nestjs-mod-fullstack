@@ -3449,10 +3449,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/pm2@1.13.4":
-  version "1.13.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/pm2/-/pm2-1.13.4.tgz#50e354e6b9976f5b82b9a81f94a89801e61eee91"
-  integrity sha512-3TULaM8d4amxOg1ah7fjB0uFmLCyimxkFzSnElbX1J6allKP4TqfILgfMBX+uNi5nQDn7OG/zxGtAv90z/W+ow==
+"@nestjs-mod/pm2@1.13.5":
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/pm2/-/pm2-1.13.5.tgz#4bc7b4541e6ef2767b217f9078fa5ff626c510a5"
+  integrity sha512-FJ8U8R0F9INrWUe7LGnV7tQtgYe9ywbqIqzUbA1SpC444OeS4B1QgyxeIXJ8TTesnTkZLM63qISOLOF1ioTdAQ==
   dependencies:
     pm2 "5.3.0"
     tslib "^2.3.0"
@@ -3476,10 +3476,10 @@
     markdown-it "^14.0.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/schematics@^2.12.9":
-  version "2.12.9"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/schematics/-/schematics-2.12.9.tgz#331c41dd5e7318e03aeafa0a0a1f7a930061cfea"
-  integrity sha512-AdFJBKyWlDuWLi72yj1LX+/Fk7PPaF1huUZc4mi4NBjBkNT6PDax1NJMX/4lkQdC7PMbza5PdDq2C4X/U18nMQ==
+"@nestjs-mod/schematics@^2.12.11":
+  version "2.12.11"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/schematics/-/schematics-2.12.11.tgz#22fb7fd42650a0bc5c75799abc7984119e653cd3"
+  integrity sha512-RoGFdfvs6Ela7s1bQVKMTsUWtUSqPUawS55zFhtZ+brFY8BZyJo5by95gAwMJfquzZSGNbfGLGCZIJYZ9RYKNQ==
   dependencies:
     "@nx/devkit" "20.3.0"
     "@nx/eslint" "20.3.0"
