@@ -9,15 +9,12 @@ import {
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { MINIO_URL } from '@nestjs-mod-fullstack/files-angular';
-import {
-  RestClientApiModule as SsoRestClientApiModule,
-  RestClientConfiguration as SsoRestClientConfiguration,
-} from '@nestjs-mod/sso-rest-sdk-angular';
+import { SsoRestSdkAngularModule } from '@nestjs-mod/sso-rest-sdk-angular';
 import {
   SSO_URL,
   provideAuthIntegrationConfiguration,
 } from '../app/integrations/auth-integration.configuration';
-import { ssoURL, minioURL } from '../environments/environment';
+import { minioURL, ssoURL } from '../environments/environment';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -78,16 +75,13 @@ describe('AppComponent', () => {
               basePath: 'http://localhost:3000',
             })
         ),
-        SsoRestClientApiModule.forRoot(
-          () =>
-            new SsoRestClientConfiguration({
-              basePath:
-                localStorage.getItem('ssoURL') ||
-                // use from environments
-                ssoURL ||
-                '',
-            })
-        ),
+        SsoRestSdkAngularModule.forRoot({
+          basePath:
+            localStorage.getItem('ssoURL') ||
+            // use from environments
+            ssoURL ||
+            '',
+        }),
       ],
     }).compileComponents();
   });

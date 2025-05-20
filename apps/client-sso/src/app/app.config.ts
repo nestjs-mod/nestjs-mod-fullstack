@@ -30,6 +30,7 @@ import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,
 } from '@nestjs-mod-fullstack/files-angular';
+import { SsoRestSdkAngularModule } from '@nestjs-mod/sso-rest-sdk-angular';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -40,17 +41,13 @@ import { AppTitleStrategy } from './app-title.strategy';
 import { AppErrorHandler } from './app.error-handler';
 import { appRoutes } from './app.routes';
 import {
-  SSO_URL,
   provideAuthIntegrationConfiguration,
+  SSO_URL,
 } from './integrations/auth-integration.configuration';
 import { CustomAuthProfileFormService } from './integrations/custom-auth-profile-form.service';
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
-import {
-  RestClientApiModule as SsoRestClientApiModule,
-  RestClientConfiguration as SsoRestClientConfiguration,
-} from '@nestjs-mod/sso-rest-sdk-angular';
 
 export const appConfig = ({
   ssoURL,
@@ -75,16 +72,13 @@ export const appConfig = ({
               basePath: serverUrl,
             })
         ),
-        SsoRestClientApiModule.forRoot(
-          () =>
-            new SsoRestClientConfiguration({
-              basePath:
-                localStorage.getItem('ssoURL') ||
-                // use from environments
-                ssoURL ||
-                '',
-            })
-        ),
+        SsoRestSdkAngularModule.forRoot({
+          basePath:
+            localStorage.getItem('ssoURL') ||
+            // use from environments
+            ssoURL ||
+            '',
+        }),
         FormlyModule.forRoot({
           types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],
         }),
