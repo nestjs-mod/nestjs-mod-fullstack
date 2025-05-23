@@ -5,7 +5,7 @@ import {
   WebhookLogInterface,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { RequestMeta } from '@nestjs-mod-fullstack/common-angular';
+import { RequestMeta } from '@nestjs-mod/misc';
 import { map } from 'rxjs';
 import { WebhookLogMapperService } from './webhook-log-mapper.service';
 import { WebhookMapperService } from './webhook-mapper.service';

@@ -24,10 +24,20 @@ export class TranslocoHttpLoader implements TranslocoLoader {
             return of({});
           })
         ),
+      nestjsModAfat: this.httpClient
+        .get<Record<string, Translation>>(
+          `./assets/i18n/nestjs-mod-afat/${lang}.json`
+        )
+        .pipe(
+          catchError(() => {
+            return of({});
+          })
+        ),
     }).pipe(
-      map(({ translation, vendors }) => {
+      map(({ translation, vendors, nestjsModAfat }) => {
         const dictionaries: Record<string, string> = {
           ...translation,
+          ...nestjsModAfat,
         };
         for (const [, vendorValue] of Object.entries(vendors)) {
           for (const [key, value] of Object.entries(vendorValue)) {

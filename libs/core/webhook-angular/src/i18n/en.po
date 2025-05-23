@@ -155,6 +155,3 @@ msgstr "Sign-in"
 
 msgid "Validation errors"
 msgstr "Validation errors"
-
-msgid "field \"{{label}}\""
-msgstr "field \"{{label}}\""

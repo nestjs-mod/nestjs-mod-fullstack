@@ -6,7 +6,7 @@ import {
   WebhookEventInterface,
   WebhookScalarFieldEnumInterface,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
+import { ValidationService } from '@nestjs-mod/afat';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { tap } from 'rxjs';

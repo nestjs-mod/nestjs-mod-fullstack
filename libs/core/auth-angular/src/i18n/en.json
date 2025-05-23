@@ -25,6 +25,5 @@
     "Profile data updated successfully!": "Profile data updated successfully!",
     "Update": "Update",
     "To complete the password change process, click the link in the email. If you haven't received the email, check your spam folder or try again.": "To complete the password change process, click the link in the email. If you haven't received the email, check your spam folder or try again.",
-    "Your password has been successfully changed!": "Your password has been successfully changed!",
-    "field \"{{label}}\"": "field \"{{label}}\""
+    "Your password has been successfully changed!": "Your password has been successfully changed!"
 }

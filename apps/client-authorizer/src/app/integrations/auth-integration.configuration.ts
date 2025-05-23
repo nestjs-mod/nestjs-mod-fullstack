@@ -21,8 +21,8 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { mapGraphqlErrors } from '@nestjs-mod-fullstack/common-angular';
 import { FilesService } from '@nestjs-mod-fullstack/files-angular';
+import { mapGraphqlErrors } from '@nestjs-mod/misc';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   catchError,

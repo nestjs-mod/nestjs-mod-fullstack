@@ -92,6 +92,3 @@ msgstr ""
 
 msgid "Your password has been successfully changed!"
 msgstr "Ваш пароль успешно изменён!"
-
-msgid "field \"{{label}}\""
-msgstr "поле \"{{label}}\""

@@ -48,6 +48,5 @@
     "Fill user credentials": "Fill user credentials",
     "Fill admin credentials": "Fill admin credentials",
     "Sign-in": "Sign-in",
-    "Validation errors": "Validation errors",
-    "field \"{{label}}\"": "field \"{{label}}\""
+    "Validation errors": "Validation errors"
 }

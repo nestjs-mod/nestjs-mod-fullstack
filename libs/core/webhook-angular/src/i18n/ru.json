@@ -48,6 +48,5 @@
     "Fill user credentials": "Заполните учетные данные пользователя",
     "Fill admin credentials": "Заполните учетные данные администратора",
     "Sign-in": "Войти",
-    "Validation errors": "Ошибка при проверке данных",
-    "field \"{{label}}\"": "поле \"{{label}}\""
+    "Validation errors": "Ошибка при проверке данных"
 }

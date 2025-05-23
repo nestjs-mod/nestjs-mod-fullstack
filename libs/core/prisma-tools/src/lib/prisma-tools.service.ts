@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FindManyArgs } from '@nestjs-mod-fullstack/common';
+import { FindManyArgs } from '@nestjs-mod/swagger';
 import { ConfigModel } from '@nestjs-mod/common';
 import { Logger } from '@nestjs/common';
 import { basename } from 'path';

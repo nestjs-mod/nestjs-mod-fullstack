@@ -2,7 +2,7 @@
     "name": "@nestjs-mod-fullstack/auth-angular",
     "version": "0.0.1",
     "peerDependencies": {
-        "@nestjs-mod-fullstack/common-angular": "0.0.1",
+        "@nestjs-mod/afat": "0.0.1",
         "@nestjs-mod-fullstack/app-angular-rest-sdk": "0.0.1",
         "@angular/common": "19.0.5",
         "@angular/core": "19.0.5",

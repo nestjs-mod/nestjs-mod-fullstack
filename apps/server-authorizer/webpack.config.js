@@ -44,6 +44,24 @@ module.exports = {
           flags: 'g',
         },
       },
+      {
+        test: /\.(js)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: `class-validator`,
+          replace: `class-validator-multi-lang`,
+          flags: 'g',
+        },
+      },
+      {
+        test: /\.(js)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: 'class-transformer',
+          replace: 'class-transformer-global-storage',
+          flags: 'g',
+        },
+      },
     ],
   },
 };

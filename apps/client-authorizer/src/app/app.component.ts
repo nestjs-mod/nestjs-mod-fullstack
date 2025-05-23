@@ -20,10 +20,7 @@ import {
   TokensService,
   UserPipe,
 } from '@nestjs-mod-fullstack/auth-angular';
-import {
-  BROWSER_TIMEZONE_OFFSET,
-  webSocket,
-} from '@nestjs-mod-fullstack/common-angular';
+import { webSocket } from '@nestjs-mod/afat';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { addHours } from 'date-fns';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -34,7 +31,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BehaviorSubject, map, merge, mergeMap, switchMap, tap } from 'rxjs';
 import { APP_TITLE } from './app.constants';
-
+import { TIMEZONE_OFFSET } from '@nestjs-mod/misc';
 @UntilDestroy()
 @Component({
   imports: [
@@ -158,7 +155,7 @@ export class AppComponent implements OnInit {
     ).pipe(
       tap((result) =>
         this.serverTime$.next(
-          addHours(new Date(result as string), BROWSER_TIMEZONE_OFFSET)
+          addHours(new Date(result as string), TIMEZONE_OFFSET)
         )
       )
     );

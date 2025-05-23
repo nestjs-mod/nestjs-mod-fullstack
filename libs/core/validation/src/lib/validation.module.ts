@@ -28,8 +28,14 @@ export const { ValidationModule } = createNestModule({
             target: false,
             value: false,
           },
-          exceptionFactory: (errors) =>
-            new ValidationError(ValidationErrorEnum.COMMON, undefined, errors),
+          exceptionFactory: (errors) => {
+            console.log(errors);
+            return new ValidationError(
+              ValidationErrorEnum.COMMON,
+              undefined,
+              errors
+            );
+          },
         }),
       });
     }

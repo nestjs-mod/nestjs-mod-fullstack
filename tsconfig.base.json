@@ -33,10 +33,6 @@
       "@nestjs-mod-fullstack/auth-angular": [
         "libs/core/auth-angular/src/index.ts"
       ],
-      "@nestjs-mod-fullstack/common": ["libs/common/src/index.ts"],
-      "@nestjs-mod-fullstack/common-angular": [
-        "libs/common-angular/src/index.ts"
-      ],
       "@nestjs-mod-fullstack/files": ["libs/core/files/src/index.ts"],
       "@nestjs-mod-fullstack/files-angular": [
         "libs/core/files-angular/src/index.ts"

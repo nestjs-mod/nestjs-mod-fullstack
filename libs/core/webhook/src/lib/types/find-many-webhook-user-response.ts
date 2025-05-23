@@ -1,4 +1,4 @@
-import { FindManyResponseMeta } from '@nestjs-mod-fullstack/common';
+import { FindManyResponseMeta } from '@nestjs-mod/swagger';
 import { ApiProperty } from '@nestjs/swagger';
 import { WebhookUser } from '../generated/rest/dto/webhook-user.entity';
 

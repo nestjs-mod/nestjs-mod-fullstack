@@ -1,4 +1,4 @@
-import { FindManyArgs, StatusResponse } from '@nestjs-mod-fullstack/common';
+import { FindManyArgs, StatusResponse } from '@nestjs-mod/swagger';
 import { AuthRole, Prisma, PrismaClient } from '@prisma/auth-client';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';

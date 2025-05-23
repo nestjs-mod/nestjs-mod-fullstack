@@ -1,4 +1,4 @@
-import { StatusResponse } from '@nestjs-mod-fullstack/common';
+import { StatusResponse } from '@nestjs-mod/swagger';
 
 import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
 import { ValidationError } from '@nestjs-mod-fullstack/validation';

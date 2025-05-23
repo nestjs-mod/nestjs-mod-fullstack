@@ -16,10 +16,8 @@ import {
 } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import {
-  BROWSER_TIMEZONE_OFFSET,
-  ValidationService,
-} from '@nestjs-mod-fullstack/common-angular';
+import { ValidationService } from '@nestjs-mod/afat';
+import { TIMEZONE_OFFSET } from '@nestjs-mod/misc';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { addHours } from 'date-fns';
@@ -148,10 +146,7 @@ export class WebhookFormComponent implements OnInit {
               this.afterCreate.next({
                 ...result,
                 workUntilDate: result.workUntilDate
-                  ? addHours(
-                      new Date(result.workUntilDate),
-                      BROWSER_TIMEZONE_OFFSET
-                    )
+                  ? addHours(new Date(result.workUntilDate), TIMEZONE_OFFSET)
                   : null,
               });
             }

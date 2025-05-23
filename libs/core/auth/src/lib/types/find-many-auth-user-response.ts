@@ -1,4 +1,4 @@
-import { FindManyResponseMeta } from '@nestjs-mod-fullstack/common';
+import { FindManyResponseMeta } from '@nestjs-mod/swagger';
 import { ApiProperty } from '@nestjs/swagger';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 

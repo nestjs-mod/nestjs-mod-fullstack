@@ -42,12 +42,11 @@ import {
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
-  getQueryMeta,
   getQueryMetaByParams,
   NgChanges,
   NzTableSortOrderDetectorPipe,
-  RequestMeta,
-} from '@nestjs-mod-fullstack/common-angular';
+} from '@nestjs-mod/afat';
+import { getQueryMeta, RequestMeta } from '@nestjs-mod/misc';
 import { WebhookLogFormComponent } from '../../forms/webhook-log-form/webhook-log-form.component';
 import { WebhookLogService } from '../../services/webhook-log.service';
 

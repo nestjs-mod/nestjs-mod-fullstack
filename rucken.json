@@ -10,7 +10,8 @@
       "*e2e*",
       "*.stories.ts",
       "*.d.ts",
-      "fake"
+      "fake",
+      "*test-setup.ts*"
     ]
   }
 }

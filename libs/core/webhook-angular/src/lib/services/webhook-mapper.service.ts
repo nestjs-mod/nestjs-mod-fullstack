@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebhookInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import {
-  BROWSER_TIMEZONE_OFFSET,
-  safeParseJson,
-} from '@nestjs-mod-fullstack/common-angular';
+import { TIMEZONE_OFFSET, safeParseJson } from '@nestjs-mod/misc';
 import { addHours, format } from 'date-fns';
 
 export interface WebhookModel
@@ -27,13 +24,13 @@ export class WebhookMapperService {
       headers: item?.headers ? JSON.stringify(item.headers) : '',
       requestTimeout: item?.requestTimeout ? +item.requestTimeout : null,
       workUntilDate: item?.workUntilDate
-        ? addHours(new Date(item.workUntilDate), BROWSER_TIMEZONE_OFFSET)
+        ? addHours(new Date(item.workUntilDate), TIMEZONE_OFFSET)
         : null,
       createdAt: item?.createdAt
-        ? addHours(new Date(item.createdAt), BROWSER_TIMEZONE_OFFSET)
+        ? addHours(new Date(item.createdAt), TIMEZONE_OFFSET)
         : null,
       updatedAt: item?.updatedAt
-        ? addHours(new Date(item.updatedAt), BROWSER_TIMEZONE_OFFSET)
+        ? addHours(new Date(item.updatedAt), TIMEZONE_OFFSET)
         : null,
     };
   }

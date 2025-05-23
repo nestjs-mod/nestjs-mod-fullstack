@@ -25,7 +25,7 @@ import {
   AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { COMMON_FORMLY_FIELDS } from '@nestjs-mod-fullstack/common-angular';
+import { COMMON_FORMLY_FIELDS } from '@nestjs-mod/afat';
 import {
   FILES_FORMLY_FIELDS,
   MINIO_URL,

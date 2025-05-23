@@ -90,6 +90,3 @@ msgstr ""
 
 msgid "Your password has been successfully changed!"
 msgstr "Your password has been successfully changed!"
-
-msgid "field \"{{label}}\""
-msgstr "field \"{{label}}\""

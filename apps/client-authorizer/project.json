@@ -4,7 +4,9 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/client-authorizer/src",
-  "tags": ["authorizer"],
+  "tags": [
+    "authorizer"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -13,6 +15,7 @@
       ],
       "options": {
         "allowedCommonJsDependencies": [
+          "util",
           "@nestjs-mod/misc",
           "@jsverse/transloco-messageformat",
           "@jsverse/transloco-keys-manager/marker",
@@ -45,6 +48,11 @@
             "glob": "**/package.json",
             "input": "./apps/client-authorizer/",
             "output": "./"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/@nestjs-mod/afat/i18n/",
+            "output": "/assets/i18n/nestjs-mod-afat/"
           }
         ],
         "styles": [

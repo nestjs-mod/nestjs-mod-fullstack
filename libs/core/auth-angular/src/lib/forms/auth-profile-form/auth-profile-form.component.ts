@@ -15,7 +15,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { ValidationService } from '@nestjs-mod-fullstack/common-angular';
+import { ValidationService } from '@nestjs-mod/afat';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';

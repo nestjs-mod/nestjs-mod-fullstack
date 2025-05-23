@@ -45,6 +45,11 @@
             "glob": "**/package.json",
             "input": "./apps/client-supabase/",
             "output": "./"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "./node_modules/@nestjs-mod/afat/i18n/",
+            "output": "/assets/i18n/nestjs-mod-afat/"
           }
         ],
         "styles": [
