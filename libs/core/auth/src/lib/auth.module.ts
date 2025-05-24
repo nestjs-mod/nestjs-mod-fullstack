@@ -1,4 +1,4 @@
-import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
+import { PrismaToolsModule } from '@nestjs-mod/prisma-tools';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import {
   createNestModule,

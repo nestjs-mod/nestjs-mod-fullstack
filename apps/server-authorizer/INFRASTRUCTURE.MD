@@ -70,6 +70,8 @@ Terminus integration provides readiness/liveness health checks for NestJS-mod (W
 |`standardHealthIndicators`|**optional**|[ ```{"name":"memory_heap"}```, ```{"name":"database_app"}```, ```{"name":"database_auth"}```, ```{"name":"database_webhook"}``` ]|
 
 ### PrismaToolsModule
+Functions and helpers for work with prisma used in NestJS-mod modules
+
 #### Shared providers
 `PrismaToolsService`
 
@@ -292,6 +294,8 @@ Minio client for NestJS-mod (Wrapper for https://www.npmjs.com/package/nestjs-mi
 |`region`|**optional**|```eu-central-1```|
 
 ### ValidationModule
+Validation module with an error filter and a pre-configured validation pipe
+
 #### Static environments
 
 | Key    | Sources | Constraints | Value |

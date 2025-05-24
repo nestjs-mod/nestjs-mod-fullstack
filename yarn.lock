@@ -3464,6 +3464,13 @@
     pm2 "5.3.0"
     tslib "^2.3.0"
 
+"@nestjs-mod/prisma-tools@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/prisma-tools/-/prisma-tools-1.0.0.tgz#deec281c7460401e9aefa9ea52c02cfa0dcd10f4"
+  integrity sha512-l8DpD+PgL9meMA1IvFbgCb/clsC0PSGfoznCX+DS3aQwYdOlkiBd4Cvhnzi/kbzZuh5/HRGbOyJfwUDZVI82Tw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@nestjs-mod/prisma@^1.12.1":
   version "1.12.1"
   resolved "https://registry.npmjs.org/@nestjs-mod/prisma/-/prisma-1.12.1.tgz#83254aeaeedbfd6a5f212e7af4c588a72a5435fa"
@@ -3542,6 +3549,13 @@
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/@nestjs-mod/testing/-/testing-2.18.0.tgz#415fc8e0202f839295652076f9a037664215348f"
   integrity sha512-816B2YZVFCeRnAr5b79w2N4mC0YKV7n7s2XtvmjrjXi43CaEHPqHUmPMPcVWc8T4t7p5/9CYa2VOdgBZ7vwXrA==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nestjs-mod/validation@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/validation/-/validation-1.1.1.tgz#a935f551f482ccd8ac5f4343b5922de0cfc40fb8"
+  integrity sha512-Pkk2ZzH6GmyySpRXDhcqWGNjuu6SmR7GrhoaSTPCwRZj3XfAMY4ry1/xJW5qKB4EL4UTvcd4S38yMtH9v998gw==
   dependencies:
     tslib "^2.3.0"
 

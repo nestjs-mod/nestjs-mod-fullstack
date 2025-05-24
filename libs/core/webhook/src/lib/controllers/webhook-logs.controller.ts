@@ -1,7 +1,7 @@
 import { StatusResponse } from '@nestjs-mod/swagger';
 
-import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
-import { ValidationError } from '@nestjs-mod-fullstack/validation';
+import { PrismaToolsService } from '@nestjs-mod/prisma-tools';
+import { ValidationError } from '@nestjs-mod/validation';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Controller,

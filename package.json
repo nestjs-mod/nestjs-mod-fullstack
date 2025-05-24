@@ -506,6 +506,8 @@
     }
   },
   "dependencies": {
+    "@nestjs-mod/prisma-tools": "1.0.0",
+    "@nestjs-mod/validation": "1.1.1",
     "@nestjs-mod/swagger": "1.1.2",
     "@nestjs-mod/afat": "1.0.1",
     "@angular/animations": "19.0.5",

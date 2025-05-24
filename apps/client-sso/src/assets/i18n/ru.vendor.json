@@ -57,19 +57,6 @@
     "files.image-file.change-file": "Изменить",
     "files.image-file.select-file": "Выбрать"
   },
-  "prisma-tools-getText": {
-    "Common db error": "Ошибка базы данных",
-    "Database query error": "Ошибка запроса к базе данных",
-    "Invalid identifier": "Неверный идентификатор",
-    "Invalid linked table identifier": "Неверный идентификатор связанной таблицы",
-    "Not found error": "Не найдено",
-    "Unhandled error": "Необработанная ошибка",
-    "Unique error": "Ошибка уникальности"
-  },
-  "testing": {},
-  "validation-getText": {
-    "Validation error": "Ошибка проверки"
-  },
   "webhook-getText": {
     "Event not found": "Событие не найдено",
     "Forbidden": "Нет доступа",
@@ -151,18 +138,6 @@
     "Only those who uploaded files can delete them": "Удалить файлы могут только те, кто их загрузил.",
     "Uploading files with extension \"{{ext}}\" is not supported": "Загрузка файлов с расширением \"{{ext}}\" не поддерживается.",
     "Event that fires after a file is deleted": "Событие которое срабатывает после удаления файла"
-  },
-  "prisma-tools": {
-    "Common db error": "Ошибка базы данных",
-    "Database query error": "Ошибка запроса к базе данных",
-    "Invalid identifier": "Неверный идентификатор",
-    "Invalid linked table identifier": "Неверный идентификатор связанной таблицы",
-    "Not found error": "Не найдено",
-    "Unhandled error": "Необработанная ошибка",
-    "Unique error": "Ошибка уникальности"
-  },
-  "validation": {
-    "Validation error": "Ошибка проверки"
   },
   "webhook": {
     "Event not found": "Событие не найдено",

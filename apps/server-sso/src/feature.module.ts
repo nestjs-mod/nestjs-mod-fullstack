@@ -1,6 +1,6 @@
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
-import { PrismaToolsModule } from '@nestjs-mod-fullstack/prisma-tools';
-import { ValidationModule } from '@nestjs-mod-fullstack/validation';
+import { PrismaToolsModule } from '@nestjs-mod/prisma-tools';
+import { ValidationModule } from '@nestjs-mod/validation';
 import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,

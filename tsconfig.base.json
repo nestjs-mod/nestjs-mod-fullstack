@@ -37,11 +37,7 @@
       "@nestjs-mod-fullstack/files-angular": [
         "libs/core/files-angular/src/index.ts"
       ],
-      "@nestjs-mod-fullstack/prisma-tools": [
-        "libs/core/prisma-tools/src/index.ts"
-      ],
       "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"],
-      "@nestjs-mod-fullstack/validation": ["libs/core/validation/src/index.ts"],
       "@nestjs-mod-fullstack/webhook": ["libs/core/webhook/src/index.ts"],
       "@nestjs-mod-fullstack/webhook-angular": [
         "libs/core/webhook-angular/src/index.ts"

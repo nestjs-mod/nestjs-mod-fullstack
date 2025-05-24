@@ -5,7 +5,7 @@ process.env.TZ = 'UTC';
 };
 import { AUTH_EXTRA_MODELS } from '@nestjs-mod-fullstack/auth';
 import { FILES_EXTRA_MODELS } from '@nestjs-mod-fullstack/files';
-import { VALIDATION_EXTRA_MODELS } from '@nestjs-mod-fullstack/validation';
+import { VALIDATION_EXTRA_MODELS } from '@nestjs-mod/validation';
 import { WEBHOOK_EXTRA_MODELS } from '@nestjs-mod-fullstack/webhook';
 import {
   bootstrapNestApplication,

@@ -16,7 +16,17 @@ module.exports = {
         {
           glob: '**/*.json',
           input: '../../node_modules/class-validator-multi-lang/i18n/',
-          output: './assets/i18n/class-validator-multi-lang-messages/',
+          output: './assets/i18n/cv-messages/',
+        },
+        {
+          glob: '**/*.json',
+          input: '../../node_modules/@nestjs-mod/prisma-tools/i18n/',
+          output: './assets/i18n/nestjs-mod-prisma-tools/',
+        },
+        {
+          glob: '**/*.json',
+          input: '../../node_modules/@nestjs-mod/validation/i18n/',
+          output: './assets/i18n/nestjs-mod-validation/',
         },
       ],
       optimization: false,
@@ -37,6 +47,24 @@ module.exports = {
       },
       {
         test: /\.(ts)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: 'class-transformer',
+          replace: 'class-transformer-global-storage',
+          flags: 'g',
+        },
+      },
+      {
+        test: /\.(js)$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: `class-validator`,
+          replace: `class-validator-multi-lang`,
+          flags: 'g',
+        },
+      },
+      {
+        test: /\.(js)$/,
         loader: 'string-replace-loader',
         options: {
           search: 'class-transformer',

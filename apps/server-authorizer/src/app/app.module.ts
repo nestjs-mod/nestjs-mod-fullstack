@@ -6,10 +6,7 @@ import {
   AuthModule,
 } from '@nestjs-mod-fullstack/auth';
 import { FilesModule } from '@nestjs-mod-fullstack/files';
-import {
-  ValidationError,
-  ValidationErrorEnum,
-} from '@nestjs-mod-fullstack/validation';
+import { ValidationError, ValidationErrorEnum } from '@nestjs-mod/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import { AuthorizerGuard, AuthorizerModule } from '@nestjs-mod/authorizer';
 import { KeyvModule } from '@nestjs-mod/keyv';
@@ -105,7 +102,9 @@ export const { AppModule } = createNestModule({
       localePaths: [
         join(__dirname, 'assets', 'i18n'),
         join(__dirname, 'assets', 'i18n', 'getText'),
-        join(__dirname, 'assets', 'i18n', 'class-validator-messages'),
+        join(__dirname, 'assets', 'i18n', 'cv-messages'),
+        join(__dirname, 'assets', 'i18n', 'nestjs-mod-prisma-tools'),
+        join(__dirname, 'assets', 'i18n', 'nestjs-mod-validation'),
       ],
       vendorLocalePaths: [join(__dirname, 'assets', 'i18n')],
       locales: ['en', 'ru'],

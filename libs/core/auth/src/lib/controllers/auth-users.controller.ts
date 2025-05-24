@@ -1,8 +1,8 @@
 import { FindManyArgs, StatusResponse } from '@nestjs-mod/swagger';
 import { AuthRole, Prisma, PrismaClient } from '@prisma/auth-client';
 
-import { PrismaToolsService } from '@nestjs-mod-fullstack/prisma-tools';
-import { ValidationError } from '@nestjs-mod-fullstack/validation';
+import { PrismaToolsService } from '@nestjs-mod/prisma-tools';
+import { ValidationError } from '@nestjs-mod/validation';
 import { WebhookService } from '@nestjs-mod-fullstack/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
