@@ -1493,10 +1493,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@brakebein/prisma-generator-nestjs-dto@^1.24.0-beta5":
-  version "1.27.0"
-  resolved "https://registry.npmjs.org/@brakebein/prisma-generator-nestjs-dto/-/prisma-generator-nestjs-dto-1.27.0.tgz#0394605eee4738c5a1da1405e7852a5d7c86576d"
-  integrity sha512-BYZpJR3oAdw0dMoRrKSbg1uICqxxznVqh2kPMhIBBBI3cGAjHMZPBV3aWgpFjmwv/q5f5Q7AQal40cvhQnW8Pg==
+"@brakebein/prisma-generator-nestjs-dto@^1.28.0":
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/@brakebein/prisma-generator-nestjs-dto/-/prisma-generator-nestjs-dto-1.28.0.tgz#794ec72d0a439462829c39e41b4752565a29f02a"
+  integrity sha512-0Zs9g4NfGDT4hOGGhgso+nFaksi+kReD50U4+R4wYdX1Ku266i0RjV5GKWMJuQfa7n+x9ilmPiziuDGvnMJ78Q==
   dependencies:
     "@prisma/generator-helper" "^6.0.0"
     case "^1.6.3"
@@ -3381,17 +3381,17 @@
     "@emnapi/runtime" "^1.4.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs-mod/afat@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/afat/-/afat-1.0.1.tgz#a92fb32b892938b94b9ffdcfeb85d305cbf3f328"
-  integrity sha512-1Ed7xX/CpulPnUkWueOY5aZvMDXhYPyrnHMJZh2rMYM5zdCcrerXjtqMiInEm6g5dxXbCfIDTUfOwXDRnBoz/A==
+"@nestjs-mod/afat@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/afat/-/afat-1.1.0.tgz#9b35f89caa791a9352bdebb92bbf68d36605df3d"
+  integrity sha512-Kih6hs483TVKuvSuwZwHDa4ZHEGZNbI8z9Lm9U7rqBdyd0LI7joOYLC2VR5TpCodswfu+x/K4fN7dlhyFmyTxQ==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/authorizer@^1.5.7":
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.5.7.tgz#16973048ad178dc1b5998b118a9718d00a1af930"
-  integrity sha512-n5cNI6P75O1Bre2SYUEhY3ePVxyduMmCZUCox/DtDDv7s8AQMZpX1jQF7UE5ko+mI3zWnBoCkYcBSJXsNQb90g==
+"@nestjs-mod/authorizer@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/authorizer/-/authorizer-1.6.0.tgz#7698b96e0d6ce49216b36b64afa9dc91ce359aa7"
+  integrity sha512-Z66rJAL85w3hqZ9GjHPFwFHoyVC07XGKxbFwRf+jv8zg18T4IcYiTw6P/ImqaGNLWIpYerqcJNaCdKF5JFoIww==
   dependencies:
     tslib "^2.3.0"
 
@@ -3405,10 +3405,10 @@
     fast-glob "3.3.2"
     tslib "^2.3.0"
 
-"@nestjs-mod/docker-compose@^1.19.3":
-  version "1.19.3"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/docker-compose/-/docker-compose-1.19.3.tgz#8f87d3e67b9f31b65211af27febd399994737fcf"
-  integrity sha512-Qw4wdt3FBj1tdZFzGEK/P85A1Op/fQMy89mah6Z94BvigsCq7dfongOiM1hR2iMUX3kj4MJULhKj2B7iyAb4Yw==
+"@nestjs-mod/docker-compose@^1.20.0":
+  version "1.20.1"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/docker-compose/-/docker-compose-1.20.1.tgz#410ee2a4375221d635b237aecbbded80fae494cc"
+  integrity sha512-VTWW/hK4xEipoD6smj9ntD1ZrL2hr2RxT9LWPhmWZfOGLLqV+BMQZXslOQcteuHIl0I7Id32yN1Iltn19sv3Gg==
   dependencies:
     case-anything "2.1.13"
     compose-spec-schema "1.0.0"
@@ -3417,17 +3417,17 @@
     tslib "^2.3.0"
     yaml "2.3.4"
 
-"@nestjs-mod/keyv@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@nestjs-mod/keyv/-/keyv-1.1.3.tgz#4fd06eb2dd606ebf1066d9079f35bb8f5beacfd8"
-  integrity sha512-W4zLSXNiK4g4KFo1Erg8Jn1K8r29afkvz0mbXWtOpneuWPVoP+5iEf58BvAPAfAaC1hwH0Y0AXUB55ZwC8HwgA==
+"@nestjs-mod/keyv@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/keyv/-/keyv-1.2.0.tgz#2978a1239fcf786193da920a61d5db41048cef26"
+  integrity sha512-0duYpdd/lmhHzOFJkHnUVb9F3iSKz1ZgCsbXSTwp2SFn6OhHR3zQPm4mvRmU9Q89hAjAmGwSjJY6FlipY8FJxg==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/minio@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.npmjs.org/@nestjs-mod/minio/-/minio-1.4.2.tgz#392f9e93977f4c50ee0bcdc7a74cd2a1a2b6e241"
-  integrity sha512-/gg+2yIt8dUEv1rrnDZFNaqtM5Rf/4hxBqVLbU6kyhYCD1XMt9Z1AC7UcTtS9mRsLkYVz+I+e5MRJJq7TFTJPA==
+"@nestjs-mod/minio@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/minio/-/minio-1.5.0.tgz#0f439de01a56459abca8c7cf3676646503abad50"
+  integrity sha512-725qqAXSbbFMH2rhLPxc5WFIuwBWZEo/v60nZr6TUktwnpu9r8sq+fCb/QVjMl6JXrYNEDMO97qq783Ufl+TUA==
   dependencies:
     tslib "^2.3.0"
 
@@ -3441,40 +3441,40 @@
     lodash.reduce "4.6.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/pg-flyway@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/@nestjs-mod/pg-flyway/-/pg-flyway-1.0.5.tgz#0fe25cdf70c3a3bf3d5ee71f6dc9ac07dc8c1c9d"
-  integrity sha512-t9NZFTAvT6/7FICJP+wDKi78eOOx8Rx7b3AC6+qbXah+USvgeWHhAKt970h1nZbmKi49AOhS+8b0x2yqCp2DLg==
+"@nestjs-mod/pg-flyway@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/pg-flyway/-/pg-flyway-1.1.0.tgz#cb11817c7e97d8562a081bbcca98e8491e99fa83"
+  integrity sha512-rkmFK9TdhTGAtSq3w7Sur3rHz1XChX+CiNZVB+CLKfPy7H9pd03quL+M+3Jpv0EY7YarDVzOstSpgRqOePE0JQ==
   dependencies:
     case-anything "2.1.13"
     tslib "^2.3.0"
 
-"@nestjs-mod/pino@1.15.2":
-  version "1.15.2"
-  resolved "https://registry.npmjs.org/@nestjs-mod/pino/-/pino-1.15.2.tgz#21f58f55f1d1d9de578d20d4241b08f267afd7c7"
-  integrity sha512-S2+m07vtJ9YvUhth2N6X1S29vdT0cD8ngZOFTpUMjm7H+iE2Mx/QrxSueUfIL26xOqiiqETFu9i1b7M5aA+a+Q==
+"@nestjs-mod/pino@1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/pino/-/pino-1.16.0.tgz#e537f48d10b8f58fa54e6c75073ed6caa5558a37"
+  integrity sha512-CDDTY1vfyreE2B8WS9QzwGhKTko9SZYCeWjvLaNsEpzGpueyo3Nd9TeKZh/ve/xf3TBv/48JBlEMMJi00XBVWw==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/pm2@1.13.5":
-  version "1.13.5"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/pm2/-/pm2-1.13.5.tgz#4bc7b4541e6ef2767b217f9078fa5ff626c510a5"
-  integrity sha512-FJ8U8R0F9INrWUe7LGnV7tQtgYe9ywbqIqzUbA1SpC444OeS4B1QgyxeIXJ8TTesnTkZLM63qISOLOF1ioTdAQ==
+"@nestjs-mod/pm2@1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/pm2/-/pm2-1.14.0.tgz#c65e6761abf3d9c57bd9c8487eb81a1c7b1a7d6a"
+  integrity sha512-dczAMWE+Wkm8DlXT1q8zTbZ6EWd+m/UygoEIJ648IBzSU4sdFl3QX8HjVMOP0kSgw28J6dsKTpB/liQc76M/Rg==
   dependencies:
     pm2 "5.3.0"
     tslib "^2.3.0"
 
-"@nestjs-mod/prisma-tools@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/prisma-tools/-/prisma-tools-1.0.0.tgz#deec281c7460401e9aefa9ea52c02cfa0dcd10f4"
-  integrity sha512-l8DpD+PgL9meMA1IvFbgCb/clsC0PSGfoznCX+DS3aQwYdOlkiBd4Cvhnzi/kbzZuh5/HRGbOyJfwUDZVI82Tw==
+"@nestjs-mod/prisma-tools@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/prisma-tools/-/prisma-tools-1.0.1.tgz#1d6d14b3aebaf7e16824183ce06ea3b23990d081"
+  integrity sha512-upn2u1gAy+1llQNZOilFgPjVJnBGFsmyU4H9KkaW/wc/LjHD0m7DUlw+SNac1zCgcfgDXY/vLHfGYn5epjnDJA==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/prisma@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.npmjs.org/@nestjs-mod/prisma/-/prisma-1.12.1.tgz#83254aeaeedbfd6a5f212e7af4c588a72a5435fa"
-  integrity sha512-30kcitgzF4Y1LgvzPvSJay2P9GE0siIaifnMWdDf4FFrd/sBg2wu/x4WyLGBBhpsKUuX4bKDLOJodfOdEf6TuA==
+"@nestjs-mod/prisma@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/prisma/-/prisma-1.13.0.tgz#6b51c860285295dad203bd2b913a12ca994d8087"
+  integrity sha512-DOw134ac1qf3RQtovsFALhT7SQT5UexkU6LdriPboVFUArcChgd/H65eUfmcSN1bgcfZzDaJLbpCuwPde0XKng==
   dependencies:
     case-anything "2.1.13"
     connection-string "4.3.5"
@@ -3503,45 +3503,45 @@
     tslib "^2.3.0"
     typescript "5.6.3"
 
-"@nestjs-mod/sso-rest-sdk-angular@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk-angular/-/sso-rest-sdk-angular-1.2.1.tgz#cb612357535c2b219b0df05fa5486387bbe6498c"
-  integrity sha512-HlLSQgIVJLzYQMyaww1FsHPgOFDw3wIsOlIecuI98UuDf5ricehZG4wbzAgvsNOCEcxWpijGuSRQiI+oppWexg==
+"@nestjs-mod/sso-rest-sdk-angular@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk-angular/-/sso-rest-sdk-angular-1.4.0.tgz#9de5b8c06edbeb4a3f7b507037b5bd57b3763e3b"
+  integrity sha512-E2fRV7ovJjRotru3mYYovKM4ya9VYfWS4YEg41RI8t37GK6C6WQjBZNT4ALxpv+CDNcQZ21McqWJNXWXk+2n+A==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/sso-rest-sdk@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk/-/sso-rest-sdk-1.0.8.tgz#400fa975c4194d49b302e122101a9edead9fa1c1"
-  integrity sha512-EA9q6VKV3VzYaChUv6Ynr7w6hfxYqwG8S3PVPBfopQSOLyUx6egghtWrBfULu3S6h6+PeKat7zIAY4fsVxB1Qg==
+"@nestjs-mod/sso-rest-sdk@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso-rest-sdk/-/sso-rest-sdk-1.2.0.tgz#a3b6d0327c7ee3a8fdd3c61ab35901bad54421bf"
+  integrity sha512-jwbud3SJMPbR6AjQjYPOpUvpCxegppruNLwjTELwlZZbKdUjqTQfWOsO8OFI1Me5OddS03E0cB1CBKBM0xATyQ==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/sso@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso/-/sso-1.0.4.tgz#4df5b0cf0ee63b85abe74955f27a2c02208a64e5"
-  integrity sha512-kbKMRj6E5JsuOxBo2kRqA7xG9C3dAli32NnQJuMYZZTYCmdIKL/xJVCFZ8YBX/yu9fl+famBkgvuXrxwb9A0AQ==
+"@nestjs-mod/sso@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/sso/-/sso-1.1.0.tgz#ba8c2da2593df2cb19785329280799eb03251c50"
+  integrity sha512-FBaMjcWmqucZYTRoAK25Px1NP374XW6kKWctE630wn9fffY9FLt187GldpNfz14vFkb7GWyEd2YTNw0Qo17VSg==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/supabase@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/supabase/-/supabase-1.0.2.tgz#2c4c8fddab697f4094d23eaaa115ab975b3c334b"
-  integrity sha512-NKTgzVb90uK0f67UqX3H+JzJd2nq2dKcc3ziRdIrUphRBQelFGERTmnQd8PbjM+YbwSyywcmGUpodcN1pt6wbw==
+"@nestjs-mod/supabase@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/supabase/-/supabase-1.1.0.tgz#a80fbc50b7157e3f87c688f4f62da8398c0a3969"
+  integrity sha512-KBgFWiN09+/0XRoHnkLCdVyZw/VpaaXqShUZ9315SQCp/X+9BPMGjLkoMGawdTvTjWp0xic1YZUYRwHa2y4ZzA==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/swagger@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/swagger/-/swagger-1.1.2.tgz#c8ce6e42e6ba3c7a11fe35f736b37e5eff413835"
-  integrity sha512-PXvMgzSBWTXgzpBu3yK7+2s1jTSVGEhDmPBoEW2H7zWwGJ+b2Ho1TRiAlJkvVP58qLPgSrpMd3WsjSMnH5xBhQ==
+"@nestjs-mod/swagger@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/swagger/-/swagger-1.2.0.tgz#45f57f9697ac5cb2f794c0802567660196d82884"
+  integrity sha512-p1g0PlZ1gPNRISmndj7sXRs5nz1Xe3CxJZzD+e3W89NsNmTs9lE70QfLXGPjVCQYsvvLafPGWJn4BUVkGGpxGQ==
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/terminus@1.14.2":
-  version "1.14.2"
-  resolved "https://registry.npmjs.org/@nestjs-mod/terminus/-/terminus-1.14.2.tgz#9aacafcc44f77e21ea52bf6330231212f8eabcd2"
-  integrity sha512-Qpn/PBe6PltpW0TC4/oOMZxbTj+bF5hF4q3PQsoP4wO4SpJCScIoJDfEV2yGU56rnB1hb290uLn/yY1cDAMZsQ==
+"@nestjs-mod/terminus@1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/terminus/-/terminus-1.15.0.tgz#86eafb85872bd4928133d528acd2f666f6a1475a"
+  integrity sha512-pibGJyqN4SdwKPxSQGSRkBHfhCH39hreNenuJ08PS4SoFBVqQJC5HhjHFUTT6LjP0U0kYGnLbiPLexYc70fBeQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -5016,49 +5016,56 @@
     "@pnpm/network.ca-file" "^1.0.1"
     config-chain "^1.1.11"
 
-"@prisma/client@^5.22.0":
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-5.22.0.tgz#da1ca9c133fbefe89e0da781c75e1c59da5f8802"
-  integrity sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==
+"@prisma/client@^6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-6.8.2.tgz#f0af46643604cd38341f285483edc3c3ae7e6651"
+  integrity sha512-5II+vbyzv4si6Yunwgkj0qT/iY0zyspttoDrL3R4BYgLdp42/d2C8xdi9vqkrYtKt9H32oFIukvyw3Koz5JoDg==
 
-"@prisma/debug@5.22.0":
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/@prisma/debug/-/debug-5.22.0.tgz#58af56ed7f6f313df9fb1042b6224d3174bbf412"
-  integrity sha512-AUt44v3YJeggO2ZU5BkXI7M4hu9BF2zzH2iF2V5pyXT/lRTyWiElZ7It+bRH1EshoMRxHgpYg4VB6rCM+mG5jQ==
+"@prisma/config@6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/config/-/config-6.8.2.tgz#30459b86f67acbd65e1e6f491215f6da9e0a2e99"
+  integrity sha512-ZJY1fF4qRBPdLQ/60wxNtX+eu89c3AkYEcP7L3jkp0IPXCNphCYxikTg55kPJLDOG6P0X+QG5tCv6CmsBRZWFQ==
+  dependencies:
+    jiti "2.4.2"
 
 "@prisma/debug@6.6.0":
   version "6.6.0"
   resolved "https://registry.npmjs.org/@prisma/debug/-/debug-6.6.0.tgz#150bbbda5e9f665c08eed6c4c394cda38bb70cce"
   integrity sha512-DL6n4IKlW5k2LEXzpN60SQ1kP/F6fqaCgU/McgaYsxSf43GZ8lwtmXLke9efS+L1uGmrhtBUP4npV/QKF8s2ZQ==
 
+"@prisma/debug@6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-6.8.2.tgz#59fb9e0ccb0f431fe7011c36c95f9bfcbe051749"
+  integrity sha512-4muBSSUwJJ9BYth5N8tqts8JtiLT8QI/RSAzEogwEfpbYGFo9mYsInsVo8dqXdPO2+Rm5OG5q0qWDDE3nyUbVg==
+
 "@prisma/dmmf@6.6.0":
   version "6.6.0"
   resolved "https://registry.npmjs.org/@prisma/dmmf/-/dmmf-6.6.0.tgz#20a01a89cb67e751787a28f82ef945371b71535b"
   integrity sha512-2LoSX0ZVwIiKck5wMCVxeGg9K9z6CULB8xyTbLF3YTvuhOp+fQozelUphaGZA9jN4MF58z6TfUXIMMPVwtxjbQ==
 
-"@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2":
-  version "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
-  resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2.tgz#d534dd7235c1ba5a23bacd5b92cc0ca3894c28f4"
-  integrity sha512-2PTmxFR2yHW/eB3uqWtcgRcgAbG1rwG9ZriSvQw+nnb7c4uCr3RAcGMb6/zfE88SKlC1Nj2ziUvc96Z379mHgQ==
+"@prisma/engines-version@6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e":
+  version "6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e.tgz#fd5885f4c502721ec3f81ad13d4d896d709cc34b"
+  integrity sha512-Rkik9lMyHpFNGaLpPF3H5q5TQTkm/aE7DsGM5m92FZTvWQsvmi6Va8On3pWvqLHOt5aPUvFb/FeZTmphI4CPiQ==
 
-"@prisma/engines@5.22.0":
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-5.22.0.tgz#28f3f52a2812c990a8b66eb93a0987816a5b6d84"
-  integrity sha512-UNjfslWhAt06kVL3CjkuYpHAWSO6L4kDCVPegV6itt7nD1kSJavd3vhgAEhjglLJJKEdJ7oIqDJ+yHk6qO8gPA==
+"@prisma/engines@6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-6.8.2.tgz#34ef401027a38455244c23deb298e226914de97c"
+  integrity sha512-XqAJ//LXjqYRQ1RRabs79KOY4+v6gZOGzbcwDQl0D6n9WBKjV7qdrbd042CwSK0v0lM9MSHsbcFnU2Yn7z8Zlw==
   dependencies:
-    "@prisma/debug" "5.22.0"
-    "@prisma/engines-version" "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
-    "@prisma/fetch-engine" "5.22.0"
-    "@prisma/get-platform" "5.22.0"
+    "@prisma/debug" "6.8.2"
+    "@prisma/engines-version" "6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+    "@prisma/fetch-engine" "6.8.2"
+    "@prisma/get-platform" "6.8.2"
 
-"@prisma/fetch-engine@5.22.0":
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/@prisma/fetch-engine/-/fetch-engine-5.22.0.tgz#4fb691b483a450c5548aac2f837b267dd50ef52e"
-  integrity sha512-bkrD/Mc2fSvkQBV5EpoFcZ87AvOgDxbG99488a5cexp5Ccny+UM6MAe/UFkUC0wLYD9+9befNOqGiIJhhq+HbA==
+"@prisma/fetch-engine@6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/fetch-engine/-/fetch-engine-6.8.2.tgz#34dce0efae20199f89e59953a2e9d469746c058f"
+  integrity sha512-lCvikWOgaLOfqXGacEKSNeenvj0n3qR5QvZUOmPE2e1Eh8cMYSobxonCg9rqM6FSdTfbpqp9xwhSAOYfNqSW0g==
   dependencies:
-    "@prisma/debug" "5.22.0"
-    "@prisma/engines-version" "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
-    "@prisma/get-platform" "5.22.0"
+    "@prisma/debug" "6.8.2"
+    "@prisma/engines-version" "6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+    "@prisma/get-platform" "6.8.2"
 
 "@prisma/generator-helper@^6.0.0":
   version "6.6.0"
@@ -5074,12 +5081,12 @@
   resolved "https://registry.npmjs.org/@prisma/generator/-/generator-6.6.0.tgz#6e7e94a824fb8356d318f68fbece09c9aac0cc26"
   integrity sha512-UO1PFYd8Qh0LZoN/9wwAukgoDs8chLqGPho7ZBZejVKv1UpaEJvxgwS+LwlmkQ3Ay0GdsL6mjN8QxEi91xIomQ==
 
-"@prisma/get-platform@5.22.0":
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/@prisma/get-platform/-/get-platform-5.22.0.tgz#fc675bc9d12614ca2dade0506c9c4a77e7dddacd"
-  integrity sha512-pHhpQdr1UPFpt+zFfnPazhulaZYCUqeIcPpJViYoq9R+D/yw4fjE+CtnsnKzPYm0ddUbeXUzjGVGIRVgPDCk4Q==
+"@prisma/get-platform@6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@prisma/get-platform/-/get-platform-6.8.2.tgz#a6509de61ceab4fca80616b7e8d73705b2705a72"
+  integrity sha512-vXSxyUgX3vm1Q70QwzwkjeYfRryIvKno1SXbIqwSptKwqKzskINnDUcx85oX+ys6ooN2ATGSD0xN2UTfg6Zcow==
   dependencies:
-    "@prisma/debug" "5.22.0"
+    "@prisma/debug" "6.8.2"
 
 "@redis/bloom@1.2.0":
   version "1.2.0"
@@ -10566,7 +10573,7 @@ fsevents@2.3.2:
   resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
-fsevents@2.3.3, fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
+fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
   resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
@@ -12322,15 +12329,15 @@ jest@29.7.0:
     import-local "^3.0.2"
     jest-cli "^29.7.0"
 
+jiti@2.4.2, jiti@^2.4.1:
+  version "2.4.2"
+  resolved "https://registry.npmjs.org/jiti/-/jiti-2.4.2.tgz#d19b7732ebb6116b06e2038da74a55366faef560"
+  integrity sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==
+
 jiti@^1.20.0, jiti@^1.21.6:
   version "1.21.7"
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.21.7.tgz#9dd81043424a3d28458b193d965f0d18a2300ba9"
   integrity sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==
-
-jiti@^2.4.1:
-  version "2.4.2"
-  resolved "https://registry.npmjs.org/jiti/-/jiti-2.4.2.tgz#d19b7732ebb6116b06e2038da74a55366faef560"
-  integrity sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==
 
 joi@^17.13.3:
   version "17.13.3"
@@ -15929,14 +15936,13 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
-prisma@^5.22.0:
-  version "5.22.0"
-  resolved "https://registry.npmjs.org/prisma/-/prisma-5.22.0.tgz#1f6717ff487cdef5f5799cc1010459920e2e6197"
-  integrity sha512-vtpjW3XuYCSnMsNVBjLMNkTj6OZbudcPPTPYHqX0CJfpcdWciI1dM8uHETwmDxxiqEwCIE6WvXucWUetJgfu/A==
+prisma@^6.8.2:
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-6.8.2.tgz#5cd9e1635b6ed0e27ea3cf3ef31c648c55115a63"
+  integrity sha512-JNricTXQxzDtRS7lCGGOB4g5DJ91eg3nozdubXze3LpcMl1oWwcFddrj++Up3jnRE6X/3gB/xz3V+ecBk/eEGA==
   dependencies:
-    "@prisma/engines" "5.22.0"
-  optionalDependencies:
-    fsevents "2.3.3"
+    "@prisma/config" "6.8.2"
+    "@prisma/engines" "6.8.2"
 
 proc-log@^2.0.0, proc-log@^2.0.1:
   version "2.0.1"
