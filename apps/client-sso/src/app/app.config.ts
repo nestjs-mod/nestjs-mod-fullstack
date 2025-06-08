@@ -49,6 +49,7 @@ import { CustomAuthProfileFormService } from './integrations/custom-auth-profile
 import { CustomAuthProfileMapperService } from './integrations/custom-auth-profile-mapper.service';
 import { CustomAuthService } from './integrations/custom-auth.service';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 
 export const appConfig = ({
   ssoURL,
@@ -81,6 +82,9 @@ export const appConfig = ({
             '',
         }),
         FilesRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
+        WebhookRestSdkAngularModule.forRoot({
           basePath: serverUrl,
         }),
         FormlyModule.forRoot({

@@ -3,7 +3,7 @@ import { AuthRole, Prisma, PrismaClient } from '@prisma/auth-client';
 
 import { PrismaToolsService } from '@nestjs-mod/prisma-tools';
 import { ValidationError } from '@nestjs-mod/validation';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { WebhookService } from '@nestjs-mod/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,

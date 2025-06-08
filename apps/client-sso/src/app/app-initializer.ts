@@ -5,7 +5,6 @@ import {
   AppRestService,
   AuthRestService,
   TimeRestService,
-  WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import {
   AuthActiveLangService,
@@ -13,6 +12,7 @@ import {
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
 import { FilesRestSdkAngularService } from '@nestjs-mod/files-afat';
+import { WebhookRestSdkAngularService } from '@nestjs-mod/webhook-afat';
 import { catchError, merge, mergeMap, of, Subscription, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,7 @@ export class AppInitializer {
 
   constructor(
     private readonly appRestService: AppRestService,
-    private readonly webhookRestService: WebhookRestService,
+    private readonly webhookRestSdkAngularService: WebhookRestSdkAngularService,
     private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
     private readonly filesRestSdkAngularService: FilesRestSdkAngularService,
@@ -63,15 +63,13 @@ export class AppInitializer {
       this.appRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
-      this.webhookRestService.defaultHeaders = new HttpHeaders(
-        authorizationHeaders
-      );
       this.timeRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
       this.authRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
+      this.webhookRestSdkAngularService.updateHeaders(authorizationHeaders);
       this.filesRestSdkAngularService.updateHeaders(authorizationHeaders);
     }
   }

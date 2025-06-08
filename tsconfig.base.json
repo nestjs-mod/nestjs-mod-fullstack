@@ -33,11 +33,7 @@
       "@nestjs-mod-fullstack/auth-angular": [
         "libs/core/auth-angular/src/index.ts"
       ],
-      "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"],
-      "@nestjs-mod-fullstack/webhook": ["libs/core/webhook/src/index.ts"],
-      "@nestjs-mod-fullstack/webhook-angular": [
-        "libs/core/webhook-angular/src/index.ts"
-      ]
+      "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"]
     },
     "allowJs": true
   },

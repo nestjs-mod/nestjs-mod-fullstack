@@ -7,7 +7,7 @@ import {
 } from '@nestjs-mod-fullstack/auth';
 import { FilesModule } from '@nestjs-mod/files';
 import { ValidationError, ValidationErrorEnum } from '@nestjs-mod/validation';
-import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
+import { WebhookModule } from '@nestjs-mod/webhook';
 import { KeyvModule } from '@nestjs-mod/keyv';
 import { MinioModule } from '@nestjs-mod/minio';
 import { PrismaModule } from '@nestjs-mod/prisma';

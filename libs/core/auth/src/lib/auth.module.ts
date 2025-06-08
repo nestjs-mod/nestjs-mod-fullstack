@@ -1,5 +1,5 @@
 import { PrismaToolsModule } from '@nestjs-mod/prisma-tools';
-import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
+import { WebhookModule } from '@nestjs-mod/webhook';
 import {
   createNestModule,
   getFeatureDotEnvPropertyNameFormatter,

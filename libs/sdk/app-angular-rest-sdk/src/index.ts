@@ -11,7 +11,6 @@ export * from './lib/api/authorizer-rest.service';
 export * from './lib/api/fake-endpoint-rest.service';
 export * from './lib/api/terminus-health-check-rest.service';
 export * from './lib/api/time-rest.service';
-export * from './lib/api/webhook-rest.service';
 export * from './lib/model/app-data.interface';
 export * from './lib/model/app-demo.interface';
 export * from './lib/model/auth-controller-profile400-response.interface';

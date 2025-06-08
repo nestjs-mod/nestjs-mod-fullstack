@@ -1,6 +1,6 @@
 import { StatusResponse } from '@nestjs-mod/swagger';
 import { ValidationError, ValidationErrorEnum } from '@nestjs-mod/validation';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { WebhookService } from '@nestjs-mod/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,

@@ -1,5 +1,5 @@
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
-import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod-fullstack/webhook';
+import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod/webhook';
 import {
   InfrastructureMarkdownReportGenerator,
   PROJECT_JSON_FILE,

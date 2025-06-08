@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { WEBHOOK_FEATURE, WebhookModule } from '@nestjs-mod-fullstack/webhook';
+import { WEBHOOK_FEATURE, WebhookModule } from '@nestjs-mod/webhook';
 import { FakePrismaClient, PrismaModule } from '@nestjs-mod/prisma';
 import { APP_FEATURE } from '../app.constants';
 import { AppService } from '../services/app.service';

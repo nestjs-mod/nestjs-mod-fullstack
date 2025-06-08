@@ -5,10 +5,7 @@ import {
   AuthStaticEnvironments,
 } from '@nestjs-mod-fullstack/auth';
 import { FilesRequest, FilesRole } from '@nestjs-mod/files';
-import {
-  WebhookRequest,
-  WebhookUsersService,
-} from '@nestjs-mod-fullstack/webhook';
+import { WebhookRequest, WebhookUsersService } from '@nestjs-mod/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { splitIn } from '@nestjs-mod/misc';
 import {

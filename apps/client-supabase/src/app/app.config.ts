@@ -49,6 +49,7 @@ import {
   SUPABASE_URL,
 } from './integrations/supabase-auth.configuration';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
+import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 
 export const appConfig = ({
   supabaseURL,
@@ -76,6 +77,9 @@ export const appConfig = ({
             })
         ),
         FilesRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
+        WebhookRestSdkAngularModule.forRoot({
           basePath: serverUrl,
         }),
         FormlyModule.forRoot({

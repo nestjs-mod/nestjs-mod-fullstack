@@ -1,4 +1,4 @@
-import { WebhookEvent } from '@nestjs-mod-fullstack/webhook';
+import { WebhookEvent } from '@nestjs-mod/webhook';
 import { AuthProfileDto } from './auth-profile.dto';
 import { getText } from 'nestjs-translates';
 

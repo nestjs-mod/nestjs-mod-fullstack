@@ -8,11 +8,9 @@ import { AuthorizerRestService } from './authorizer-rest.service';
 import { FakeEndpointRestService } from './fake-endpoint-rest.service';
 import { TerminusHealthCheckRestService } from './terminus-health-check-rest.service';
 import { TimeRestService } from './time-rest.service';
-import { WebhookRestService } from './webhook-rest.service';
 
 export * from './terminus-health-check-rest.service';
 export * from './time-rest.service';
-export * from './webhook-rest.service';
 export const APIS = [
   AppRestService,
   AuthRestService,
@@ -20,5 +18,4 @@ export const APIS = [
   FakeEndpointRestService,
   TerminusHealthCheckRestService,
   TimeRestService,
-  WebhookRestService,
 ];

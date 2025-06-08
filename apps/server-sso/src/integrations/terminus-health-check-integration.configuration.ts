@@ -1,5 +1,5 @@
 import { AUTH_FEATURE } from '@nestjs-mod-fullstack/auth';
-import { WEBHOOK_FEATURE } from '@nestjs-mod-fullstack/webhook';
+import { WEBHOOK_FEATURE } from '@nestjs-mod/webhook';
 import { InjectPrismaClient, PrismaModule } from '@nestjs-mod/prisma';
 import {
   TERMINUS_MODULE_NAME,

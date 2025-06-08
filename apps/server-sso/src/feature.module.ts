@@ -5,7 +5,7 @@ import {
   WEBHOOK_FEATURE,
   WEBHOOK_FOLDER,
   WebhookModule,
-} from '@nestjs-mod-fullstack/webhook';
+} from '@nestjs-mod/webhook';
 import {
   createNestModule,
   isInfrastructureMode,

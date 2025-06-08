@@ -100,12 +100,9 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`provider`|**optional**|```prisma-client```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 #### Environments(auth)
 
@@ -156,12 +153,9 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`provider`|**optional**|```prisma-client```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 #### Environments(auth)
 
@@ -212,12 +206,9 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```webhook```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`provider`|**optional**|```prisma-client```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 #### Environments(auth)
 
@@ -305,6 +296,8 @@ Validation module with an error filter and a pre-configured validation pipe
 
 ### AppModule
 ### WebhookModule
+Webhook module with an error filter, guard, controller, database migrations and rest-sdk for work with module from other nodejs appliaction
+
 #### Shared providers
 `WebhookService`, `WebhookUsersService`
 
@@ -325,6 +318,7 @@ Validation module with an error filter and a pre-configured validation pipe
 |`useFilters`|`obj['useFilters']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_USE_FILTERS']`|**optional**|```true```|
 |`autoCreateUser`|`obj['autoCreateUser']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_AUTO_CREATE_USER']`|**optional**|```true```|
 |`skipGuardErrors`|`obj['skipGuardErrors']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_SKIP_GUARD_ERRORS']`|**optional**|```false```|
+|`cacheTTL`|`obj['cacheTTL']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_CACHE_TTL']`|**optional**|```15000```|
 
 #### Modules that use feature configuration
 ##### Feature module name: auth
@@ -332,6 +326,13 @@ Validation module with an error filter and a pre-configured validation pipe
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`events`|**optional**|[ ```{"eventName":"auth.user-create","description":"Event that fires after user create","example":{"externalUserId":"77af2745-d972-4e1f-994a-fae8ad71d7ab","lang":"en","timezone":5,"userRole":"User"}}```, ```{"eventName":"auth.user-update","description":"Event that fires after user update","example":{"externalUserId":"77af2745-d972-4e1f-994a-fae8ad71d7ab","lang":"en","timezone":5,"userRole":"User"}}```, ```{"eventName":"auth.user-delete","description":"Event that fires after user delete","example":{"externalUserId":"77af2745-d972-4e1f-994a-fae8ad71d7ab"}}``` ]|
+
+#### Modules that use feature configuration
+##### Feature module name: files
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`events`|**optional**|[ ```{"eventName":"files.delete","description":"Event that fires after a file is deleted","example":{"bucketName":"images","downloadUrl":"/files/images-file-id.jpg","objectName":"images-file-id","externalUserId":"77af2745-d972-4e1f-994a-fae8ad71d7ab"}}``` ]|
 
 #### Modules that use feature configuration
 ##### Feature module name: app
@@ -522,7 +523,7 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/webhook/project.json```|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
 
 #### Modules that use feature configuration
 ##### Feature module name: auth

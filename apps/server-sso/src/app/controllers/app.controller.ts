@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { WebhookService } from '@nestjs-mod/webhook';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { AllowEmptySsoUser, CurrentSsoUser } from '@nestjs-mod/sso';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';

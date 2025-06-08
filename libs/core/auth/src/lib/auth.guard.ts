@@ -1,4 +1,4 @@
-import { WebhookService } from '@nestjs-mod-fullstack/webhook';
+import { WebhookService } from '@nestjs-mod/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { searchIn } from '@nestjs-mod/misc';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';

@@ -9,6 +9,7 @@ import {
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
 import { FilesRestSdkAngularModule, MINIO_URL } from '@nestjs-mod/files-afat';
+import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 import {
   AUTHORIZER_URL,
   provideAuthIntegrationConfiguration,
@@ -75,10 +76,13 @@ describe('AppComponent', () => {
         RestClientApiModule.forRoot(
           () =>
             new RestClientConfiguration({
-              basePath: 'http://localhost:3000',
+              basePath: serverUrl,
             })
         ),
         FilesRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
+        WebhookRestSdkAngularModule.forRoot({
           basePath: serverUrl,
         }),
       ],
