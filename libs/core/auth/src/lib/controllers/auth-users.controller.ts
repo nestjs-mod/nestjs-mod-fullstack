@@ -1,10 +1,9 @@
 import { FindManyArgs, StatusResponse } from '@nestjs-mod/swagger';
-import { AuthRole, Prisma, PrismaClient } from '@prisma/auth-client';
 
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { PrismaToolsService } from '@nestjs-mod/prisma-tools';
 import { ValidationError } from '@nestjs-mod/validation';
 import { WebhookService } from '@nestjs-mod/webhook';
-import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
   Controller,
@@ -26,6 +25,8 @@ import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { AUTH_FEATURE } from '../auth.constants';
 import { CheckAuthRole, CurrentAuthUser } from '../auth.decorators';
 import { AuthError } from '../auth.errors';
+import { AuthRole } from '../auth.prisma-sdk';
+import { Prisma, PrismaClient } from '../generated/prisma-client';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { UpdateAuthUserDto } from '../generated/rest/dto/update-auth-user.dto';
 import { AuthCacheService } from '../services/auth-cache.service';

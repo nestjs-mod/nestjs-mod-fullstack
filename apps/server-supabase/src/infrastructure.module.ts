@@ -1,5 +1,4 @@
 import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
-import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod/webhook';
 import {
   InfrastructureMarkdownReportGenerator,
   PROJECT_JSON_FILE,
@@ -7,10 +6,7 @@ import {
 import {
   DOCKER_COMPOSE_FILE,
   DockerCompose,
-  DockerComposeMaildev,
-  DockerComposeMinio,
   DockerComposePostgreSQL,
-  DockerComposeRedis,
 } from '@nestjs-mod/docker-compose';
 import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
@@ -54,20 +50,6 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
     staticConfiguration: {
       featureName: APP_FEATURE,
       migrationsFolder: join(appFolder, 'src', 'migrations'),
-    },
-  }),
-  //
-  DockerComposePostgreSQL.forFeatureAsync({
-    featureModuleName: WEBHOOK_FEATURE,
-    featureConfiguration: {
-      nxProjectJsonFile: join(rootFolder, WEBHOOK_FOLDER, PROJECT_JSON_FILE),
-    },
-  }),
-  PgFlyway.forRoot({
-    staticConfiguration: {
-      featureName: WEBHOOK_FEATURE,
-      migrationsFolder: join(rootFolder, WEBHOOK_FOLDER, 'src', 'migrations'),
-      nxProjectJsonFile: join(rootFolder, WEBHOOK_FOLDER, PROJECT_JSON_FILE),
     },
   }),
   //

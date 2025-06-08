@@ -60,7 +60,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/prisma generate --schema=./apps/server-authorizer/src/prisma/app-schema.prisma"
+          "./node_modules/.bin/prisma generate --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -71,7 +72,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/prisma generate --schema=./apps/server-authorizer/src/prisma/app-schema.prisma"
+          "./node_modules/.bin/prisma generate --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -82,7 +84,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "./node_modules/.bin/prisma db pull --schema=./apps/server-authorizer/src/prisma/app-schema.prisma"
+          "./node_modules/.bin/prisma db pull --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/prisma db pull --schema=./libs/core/auth/src/prisma/schema.prisma"
         ],
         "parallel": false,
         "envFile": "./.env",
@@ -161,6 +164,30 @@
       "options": {
         "commands": [
           "export PG_FLYWAY_DATABASE_URL=${SERVER_AUTHORIZER_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_authorizer && export PG_FLYWAY_LOCATIONS=./apps/server-authorizer/src/migrations && ./node_modules/.bin/pg-flyway repair"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-migrate-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma migrate dev --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/prisma migrate dev --schema=./libs/core/auth/src/prisma/schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-migrate-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma migrate deploy --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
+          "./node_modules/.bin/prisma migrate deploy --schema=./libs/core/auth/src/prisma/schema.prisma"
         ],
         "parallel": false,
         "envFile": "./.env",

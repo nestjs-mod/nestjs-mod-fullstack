@@ -1,7 +1,7 @@
-import { WebhookService } from '@nestjs-mod/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { searchIn } from '@nestjs-mod/misc';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { WebhookService } from '@nestjs-mod/webhook';
 import {
   CanActivate,
   ExecutionContext,
@@ -9,7 +9,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import { ACCEPT_LANGUAGE, TranslatesStorage } from 'nestjs-translates';
 import { AuthConfiguration } from './auth.configuration';
 import { AUTH_FEATURE } from './auth.constants';
@@ -20,6 +19,8 @@ import {
 } from './auth.decorators';
 import { AuthStaticEnvironments } from './auth.environments';
 import { AuthError, AuthErrorEnum } from './auth.errors';
+import { AuthRole } from './auth.prisma-sdk';
+import { PrismaClient } from './generated/prisma-client';
 import { AuthCacheService } from './services/auth-cache.service';
 import { AuthRequest } from './types/auth-request';
 import { AuthWebhookEvent } from './types/auth-webhooks';

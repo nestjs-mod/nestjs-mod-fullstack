@@ -1,5 +1,3 @@
-import { AUTH_FEATURE, AUTH_FOLDER } from '@nestjs-mod-fullstack/auth';
-import { WEBHOOK_FEATURE, WEBHOOK_FOLDER } from '@nestjs-mod/webhook';
 import {
   InfrastructureMarkdownReportGenerator,
   PROJECT_JSON_FILE,
@@ -14,6 +12,7 @@ import {
 } from '@nestjs-mod/docker-compose';
 import { PgFlyway } from '@nestjs-mod/pg-flyway';
 import { ECOSYSTEM_CONFIG_FILE, Pm2 } from '@nestjs-mod/pm2';
+import { SSO_FEATURE } from '@nestjs-mod/sso';
 import { join } from 'path';
 import { APP_FEATURE } from './app/app.constants';
 import {
@@ -21,7 +20,6 @@ import {
   MAIN_INFRASTRUCTURE_MODULES,
   rootFolder,
 } from './environments/environment';
-import { SSO_FEATURE } from '@nestjs-mod/sso';
 
 export const INFRASTRUCTURE_MODULE_IMPORTS = [
   InfrastructureMarkdownReportGenerator.forRoot({

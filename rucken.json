@@ -11,7 +11,9 @@
       "*.stories.ts",
       "*.d.ts",
       "fake",
-      "*test-setup.ts*"
+      "*test-setup.ts*",
+      "*prisma-client*",
+      "*rest-sdk*"
     ]
   }
 }

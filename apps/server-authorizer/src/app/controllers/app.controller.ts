@@ -9,11 +9,10 @@ import {
 } from '@nestjs/common';
 
 import { AllowEmptyAuthUser } from '@nestjs-mod-fullstack/auth';
-import { WebhookService } from '@nestjs-mod/webhook';
 import { AllowEmptyUser, CurrentAuthorizerUser } from '@nestjs-mod/authorizer';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
+import { WebhookService } from '@nestjs-mod/webhook';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
-import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
 import { randomUUID } from 'crypto';
 import { InjectTranslateFunction, TranslateFunction } from 'nestjs-translates';
 import { APP_FEATURE } from '../app.constants';
@@ -21,6 +20,7 @@ import { AppDemo } from '../generated/rest/dto/app-demo.entity';
 import { AppService } from '../services/app.service';
 import { AppData } from '../types/app-data';
 import { AppDemoEventName } from '../types/app-demo-event-name';
+import { AppPrismaSdk } from '../app.prisma-sdk';
 
 @AllowEmptyUser()
 @AllowEmptyAuthUser()
@@ -28,7 +28,7 @@ import { AppDemoEventName } from '../types/app-demo-event-name';
 export class AppController {
   constructor(
     @InjectPrismaClient(APP_FEATURE)
-    private readonly appPrismaClient: AppPrismaClient,
+    private readonly appPrismaClient: AppPrismaSdk.PrismaClient,
     private readonly appService: AppService,
     private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
   ) {}

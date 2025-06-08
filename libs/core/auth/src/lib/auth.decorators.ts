@@ -10,12 +10,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthRole } from '@prisma/auth-client';
 import { AuthRequest } from './types/auth-request';
 
 import { applyDecorators } from '@nestjs/common';
 import { URL } from 'node:url';
 import { AuthGuard } from './auth.guard';
+import { AuthRole } from './auth.prisma-sdk';
 import { AuthTimezoneInterceptor } from './interceptors/auth-timezone.interceptor';
 
 export const AllowEmptyAuthUser = Reflector.createDecorator();

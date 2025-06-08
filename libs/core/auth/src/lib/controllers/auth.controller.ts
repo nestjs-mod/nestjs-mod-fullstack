@@ -1,7 +1,7 @@
+import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { StatusResponse } from '@nestjs-mod/swagger';
 import { ValidationError, ValidationErrorEnum } from '@nestjs-mod/validation';
 import { WebhookService } from '@nestjs-mod/webhook';
-import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import {
   Body,
   Controller,
@@ -16,7 +16,6 @@ import {
   ApiTags,
   refs,
 } from '@nestjs/swagger';
-import { AuthRole, PrismaClient } from '@prisma/auth-client';
 import {
   InjectTranslateFunction,
   TranslateFunction,
@@ -25,6 +24,8 @@ import {
 import { AUTH_FEATURE } from '../auth.constants';
 import { CheckAuthRole, CurrentAuthUser } from '../auth.decorators';
 import { AuthError } from '../auth.errors';
+import { AuthRole } from '../auth.prisma-sdk';
+import { PrismaClient } from '../generated/prisma-client';
 import { AuthUser } from '../generated/rest/dto/auth-user.entity';
 import { AuthCacheService } from '../services/auth-cache.service';
 import { AuthProfileDto } from '../types/auth-profile.dto';

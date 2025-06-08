@@ -118,6 +118,10 @@
     "prisma:pull:auth": "./node_modules/.bin/nx run auth:prisma-pull",
     "prisma:pull:server-authorizer": "./node_modules/.bin/nx run server-authorizer:prisma-pull",
     "prisma:pull:server-sso": "./node_modules/.bin/nx run server-sso:prisma-pull",
+    "prisma:migrate-dev-new:server-authorizer": "./node_modules/.bin/nx run server-authorizer:prisma-migrate-dev --create-only --name=new",
+    "prisma:migrate-dev:server-authorizer": "./node_modules/.bin/nx run server-authorizer:prisma-migrate-dev --create-only",
+    "prisma:migrate-deploy:server-authorizer": "./node_modules/.bin/nx run server-authorizer:prisma-migrate-deploy",
+    "prisma:migrate-deploy": "./node_modules/.bin/nx run-many -t=prisma-migrate-deploy",
     "_____pg-flyway_____": "_____pg-flyway_____",
     "pg-flyway:create:server": "./node_modules/.bin/nx run server:pg-flyway-create-migration",
     "pg-flyway:migrate:server": "./node_modules/.bin/nx run server:pg-flyway-migrate",
@@ -133,10 +137,12 @@
     "pg-flyway:migrate:server-authorizer": "./node_modules/.bin/nx run server-authorizer:pg-flyway-migrate",
     "pg-flyway:create:server-sso": "./node_modules/.bin/nx run server-sso:pg-flyway-create-migration",
     "pg-flyway:migrate:server-sso": "./node_modules/.bin/nx run server-sso:pg-flyway-migrate",
+    "pg-flyway:create:undefined": "./node_modules/.bin/nx run undefined:pg-flyway-create-migration",
+    "pg-flyway:migrate:undefined": "./node_modules/.bin/nx run undefined:pg-flyway-migrate",
     "_____utils_____": "_____utils_____",
-    "generate": "./node_modules/.bin/nx run-many -t=generate --projects=tag:authorizer,tag:library --parallel=1 && npm run make-ts-list",
-    "generate-sso": "./node_modules/.bin/nx run-many -t=generate --projects=tag:sso,tag:library --parallel=1 && npm run make-ts-list",
-    "generate-supabase": "./node_modules/.bin/nx run-many -t=generate --projects=tag:supabase,tag:library --parallel=1 && npm run make-ts-list",
+    "generate": "./node_modules/.bin/nx run-many -t=generate --projects=tag:authorizer,tag:library --parallel=1 && ./node_modules/.bin/ts-node fix-new-clients.ts && npm run make-ts-list",
+    "generate-sso": "./node_modules/.bin/nx run-many -t=generate --projects=tag:sso,tag:library --parallel=1 && ./node_modules/.bin/ts-node fix-new-clients.ts && npm run make-ts-list",
+    "generate-supabase": "./node_modules/.bin/nx run-many -t=generate --projects=tag:supabase,tag:library --parallel=1 && ./node_modules/.bin/ts-node fix-new-clients.ts && npm run make-ts-list",
     "tsc": "tsc",
     "nx": "nx",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
@@ -424,6 +430,18 @@
     "prisma:pull:server-sso": [
       "Generating a prisma schema based on a database for server-sso"
     ],
+    "prisma:migrate-dev-new:server-authorizer": [
+      "Command to create new empty migration for server-authorizer"
+    ],
+    "prisma:migrate-dev:server-authorizer": [
+      "Alias for create new migration for server-authorizer (example: `npm run prisma:migrate-dev:server-authorizer --name=new)`"
+    ],
+    "prisma:migrate-deploy:server-authorizer": [
+      "Applying migrations for server-authorizer"
+    ],
+    "prisma:migrate-deploy": [
+      "Applying migrations of all applications and modules"
+    ],
     "pg-flyway:create:server": [
       "Command to create new empty migration for server, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
     ],
@@ -459,6 +477,12 @@
     ],
     "pg-flyway:migrate:server-sso": [
       "Applying migrations for server-sso"
+    ],
+    "pg-flyway:create:undefined": [
+      "Command to create new empty migration for undefined, for set name pass name to --args, example: npm run pg-flyway:create:appname --args=Init"
+    ],
+    "pg-flyway:migrate:undefined": [
+      "Applying migrations for undefined"
     ],
     "generate": [
       "Running the \"generate\" nx command in applications and libraries which can be customized at your discretion",
@@ -506,15 +530,6 @@
     }
   },
   "dependencies": {
-    "@nestjs-mod/webhook": "1.2.0",
-    "@nestjs-mod/webhook-afat": "1.1.1",
-    "@nestjs-mod/files": "1.2.0",
-    "@nestjs-mod/files-afat": "1.1.1",
-    "@prisma/adapter-pg": "6.9.0",
-    "@nestjs-mod/prisma-tools": "1.1.0",
-    "@nestjs-mod/validation": "1.2.0",
-    "@nestjs-mod/swagger": "1.2.0",
-    "@nestjs-mod/afat": "1.2.0",
     "@angular/animations": "19.0.5",
     "@angular/common": "19.0.5",
     "@angular/compiler": "19.0.5",
@@ -533,13 +548,12 @@
     "@jsverse/transloco-messageformat": "^7.0.1",
     "@keyv/postgres": "2.0.4",
     "@keyv/redis": "4.2.0",
-    "@nestjs-mod/sso-rest-sdk-angular": "1.7.0",
-    "@nestjs-mod/sso-rest-sdk": "1.5.0",
-    "@nestjs-mod/sso": "1.2.0",
-    "@nestjs-mod/supabase": "1.2.0",
+    "@nestjs-mod/afat": "1.2.0",
     "@nestjs-mod/authorizer": "^1.6.0",
     "@nestjs-mod/common": "2.18.1",
     "@nestjs-mod/docker-compose": "^1.20.1",
+    "@nestjs-mod/files": "1.2.1",
+    "@nestjs-mod/files-afat": "1.1.1",
     "@nestjs-mod/keyv": "1.2.0",
     "@nestjs-mod/minio": "^1.5.0",
     "@nestjs-mod/misc": "1.4.2",
@@ -547,8 +561,17 @@
     "@nestjs-mod/pino": "1.16.0",
     "@nestjs-mod/pm2": "1.14.0",
     "@nestjs-mod/prisma": "^1.16.0",
+    "@nestjs-mod/prisma-tools": "1.1.0",
     "@nestjs-mod/reports": "2.18.1",
+    "@nestjs-mod/sso": "1.2.0",
+    "@nestjs-mod/sso-rest-sdk": "1.5.0",
+    "@nestjs-mod/sso-rest-sdk-angular": "1.7.0",
+    "@nestjs-mod/supabase": "1.2.0",
+    "@nestjs-mod/swagger": "1.2.0",
     "@nestjs-mod/terminus": "1.15.0",
+    "@nestjs-mod/validation": "1.2.0",
+    "@nestjs-mod/webhook": "1.2.1",
+    "@nestjs-mod/webhook-afat": "1.1.1",
     "@nestjs/axios": "^3.1.3",
     "@nestjs/common": "^10.4.15",
     "@nestjs/core": "^10.4.15",
@@ -563,7 +586,8 @@
     "@ngneat/until-destroy": "^10.0.0",
     "@ngx-formly/core": "^6.3.12",
     "@ngx-formly/ng-zorro-antd": "^6.3.12",
-    "@prisma/client": "^6.9.0",
+    "@prisma/adapter-pg": "6.9.0",
+    "@prisma/client": "6.9.0",
     "@supabase/supabase-js": "2.47.10",
     "ajv": "^8.17.1",
     "axios": "^1.7.7",

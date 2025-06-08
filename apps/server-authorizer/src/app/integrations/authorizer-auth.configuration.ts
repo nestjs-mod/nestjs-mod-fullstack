@@ -2,12 +2,13 @@ import {
   AuthConfiguration,
   AuthError,
   AuthRequest,
+  AuthRole,
   AuthUser,
 } from '@nestjs-mod-fullstack/auth';
 import { AuthorizerService } from '@nestjs-mod/authorizer';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
-import { AuthRole } from '@prisma/auth-client';
+
 @Injectable()
 export class AuthorizerAuthConfiguration implements AuthConfiguration {
   private logger = new Logger(AuthorizerAuthConfiguration.name);

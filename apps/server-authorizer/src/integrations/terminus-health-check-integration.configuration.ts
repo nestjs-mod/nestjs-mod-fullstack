@@ -1,17 +1,15 @@
-import { AUTH_FEATURE } from '@nestjs-mod-fullstack/auth';
-import { WEBHOOK_FEATURE } from '@nestjs-mod/webhook';
+import { AUTH_FEATURE, AuthPrismaSdk } from '@nestjs-mod-fullstack/auth';
 import { InjectPrismaClient, PrismaModule } from '@nestjs-mod/prisma';
 import {
   TERMINUS_MODULE_NAME,
   TerminusHealthCheckConfiguration,
   TerminusHealthCheckModule,
 } from '@nestjs-mod/terminus';
+import { WEBHOOK_FEATURE, WebhookPrismaSdk } from '@nestjs-mod/webhook';
 import { Injectable } from '@nestjs/common';
 import { MemoryHealthIndicator, PrismaHealthIndicator } from '@nestjs/terminus';
-import { PrismaClient as AppPrismaClient } from '@prisma/app-client';
-import { PrismaClient as AuthPrismaClient } from '@prisma/auth-client';
-import { PrismaClient as WebhookPrismaClient } from '@prisma/webhook-client';
 import { APP_FEATURE } from '../app/app.constants';
+import { AppPrismaSdk } from '../app/app.prisma-sdk';
 
 @Injectable()
 export class PrismaTerminusHealthCheckConfiguration
@@ -56,11 +54,11 @@ export class PrismaTerminusHealthCheckConfiguration
     private readonly memoryHealthIndicator: MemoryHealthIndicator,
     private readonly prismaHealthIndicator: PrismaHealthIndicator,
     @InjectPrismaClient(APP_FEATURE)
-    private readonly appPrismaClient: AppPrismaClient,
+    private readonly appPrismaClient: AppPrismaSdk.PrismaClient,
     @InjectPrismaClient(AUTH_FEATURE)
-    private readonly authPrismaClient: AuthPrismaClient,
+    private readonly authPrismaClient: AuthPrismaSdk.PrismaClient,
     @InjectPrismaClient(WEBHOOK_FEATURE)
-    private readonly webhookPrismaClient: WebhookPrismaClient
+    private readonly webhookPrismaClient: WebhookPrismaSdk.PrismaClient
   ) {}
 }
 

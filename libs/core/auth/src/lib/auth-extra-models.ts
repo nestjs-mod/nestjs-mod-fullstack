@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AuthError } from './auth.errors';
-
-import { Prisma } from '@prisma/auth-client';
+import { Prisma } from './generated/prisma-client';
 
 export const AuthEntities = class {};
 

@@ -3424,10 +3424,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/files@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/files/-/files-1.2.0.tgz#b0e464e243a44f5551d0446077efae9cd08e6f91"
-  integrity sha512-Yt+w8QItElaCc7g9vRYMzjmDe2ivph+eUGJNeSxt6KN0hyzAZyd+MwZRb1FlQ8pzDAQmn4GD6kWZgcFCsTvhLg==
+"@nestjs-mod/files@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/files/-/files-1.2.1.tgz#f0fdab06b15212671bd7f7ab6229082a01f51c02"
+  integrity sha512-l8Kdcie3wHdcyDqaonmQKX6MPiCmlg7jn5zUJiSAhYpxj8TJ4pbEr6yG1jc6bYBic5ZskGw4lz0H25ddOvYc2Q==
   dependencies:
     tslib "^2.3.0"
 
@@ -3580,10 +3580,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@nestjs-mod/webhook@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs-mod/webhook/-/webhook-1.2.0.tgz#a8758ec641136c5dbbb66c5c33f72acf3fd472ac"
-  integrity sha512-MALqcOvoY3wlnbKJ9G/NwUGtDVYFSjVBKD6l4Mm3bPu84DrAnci8fjrVCQ+WP5KXbIUCAJVsVXVOLTAvxl9S0A==
+"@nestjs-mod/webhook@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs-mod/webhook/-/webhook-1.2.1.tgz#24b1789c2e2c385b20f4d3c9a04b2df1060eac45"
+  integrity sha512-WNDF7Krw+FcYQPh6JVB6Kjj9V+1nT0Sj33m3nSBOWBGoHmAD8Z8rBdvVpGC37/FgEsT6pUXJS3KbI2Tc9T5NGQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -5052,7 +5052,7 @@
     "@prisma/driver-adapter-utils" "6.9.0"
     postgres-array "3.0.4"
 
-"@prisma/client@^6.9.0":
+"@prisma/client@6.9.0":
   version "6.9.0"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-6.9.0.tgz#3779ba71a4c9fe8c329506f126dc70b71410c358"
   integrity sha512-Gg7j1hwy3SgF1KHrh0PZsYvAaykeR0PaxusnLXydehS96voYCGt1U5zVR31NIouYc63hWzidcrir1a7AIyCsNQ==

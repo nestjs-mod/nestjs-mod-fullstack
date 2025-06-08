@@ -2,11 +2,11 @@ import {
   AuthError,
   AuthErrorEnum,
   AuthRequest,
+  AuthRole,
   AuthStaticEnvironments,
 } from '@nestjs-mod-fullstack/auth';
-import { FilesRequest, FilesRole } from '@nestjs-mod/files';
-import { WebhookRequest, WebhookUsersService } from '@nestjs-mod/webhook';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
+import { FilesRequest, FilesRole } from '@nestjs-mod/files';
 import { splitIn } from '@nestjs-mod/misc';
 import {
   CheckAccessOptions,
@@ -15,9 +15,12 @@ import {
   SupabaseUser,
   defaultSupabaseCheckAccessValidator,
 } from '@nestjs-mod/supabase';
+import {
+  WebhookRequest,
+  WebhookRole,
+  WebhookUsersService,
+} from '@nestjs-mod/webhook';
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { AuthRole } from '@prisma/auth-client';
-import { WebhookRole } from '@prisma/webhook-client';
 
 @Injectable()
 export class WebhookWithAuthSupabaseConfiguration

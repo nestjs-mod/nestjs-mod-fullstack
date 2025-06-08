@@ -2,13 +2,13 @@ import {
   AuthConfiguration,
   AuthError,
   AuthRequest,
+  AuthRole,
   AuthUser,
 } from '@nestjs-mod-fullstack/auth';
 import { getRequestFromExecutionContext } from '@nestjs-mod/common';
 import { SsoService } from '@nestjs-mod/sso';
 import { SsoErrorEnum } from '@nestjs-mod/sso-rest-sdk';
 import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
-import { AuthRole } from '@prisma/auth-client';
 import { isAxiosError } from 'axios';
 
 @Injectable()

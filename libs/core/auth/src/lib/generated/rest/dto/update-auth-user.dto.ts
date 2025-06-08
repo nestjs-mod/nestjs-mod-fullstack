@@ -1,4 +1,4 @@
-import { AuthRole } from '../../../../../../../../node_modules/@prisma/auth-client';
+import { AuthRole } from '../../prisma-client';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 

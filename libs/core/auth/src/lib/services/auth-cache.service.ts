@@ -1,9 +1,9 @@
 import { KeyvService } from '@nestjs-mod/keyv';
 import { InjectPrismaClient } from '@nestjs-mod/prisma';
 import { Injectable, Logger } from '@nestjs/common';
-import { AuthUser, PrismaClient } from '@prisma/auth-client';
 import { AUTH_FEATURE } from '../auth.constants';
 import { AuthStaticEnvironments } from '../auth.environments';
+import { AuthUser, PrismaClient } from '../generated/prisma-client';
 
 @Injectable()
 export class AuthCacheService {

@@ -7,6 +7,7 @@ export * from './lib/auth.errors';
 export * from './lib/auth.filter';
 export * from './lib/auth.guard';
 export * from './lib/auth.module';
+export * from './lib/auth.prisma-sdk';
 export * from './lib/controllers/auth-users.controller';
 export * from './lib/controllers/auth.controller';
 export * from './lib/generated/rest/dto/auth-user.dto';

@@ -114,12 +114,15 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 #### Environments(app)
 
@@ -131,11 +134,15 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/app/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 ### PrismaModule
 Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
@@ -167,66 +174,16 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```auth```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
-
-#### Environments(app)
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
-
-#### Static configuration(app)
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
-|`featureName`|**optional**|```app```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/prisma/app-schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-
-### PrismaModule
-Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
-
-#### Shared providers
-`PrismaClientFactoryService`, `PrismaClient`
-
-#### Environments(webhook)
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
-
-#### Static configuration(webhook)
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`featureName`|**optional**|```webhook```|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client```|
 |`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
 |`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
-#### Environments(auth)
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
-
-#### Static configuration(auth)
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
-|`featureName`|**optional**|```auth```|
-|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
-|`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
-
 #### Environments(app)
 
 | Key    | Sources | Constraints | Value |
@@ -237,11 +194,15 @@ Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only 
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
-|`prismaModule`|**optional**|Promise|
 |`featureName`|**optional**|```app```|
 |`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/prisma/app-schema.prisma```|
 |`addMigrationScripts`|**optional**|```false```|
-|`binaryTargets`|**optional**|[ ```native```, ```rhel-openssl-3.0.x```, ```linux-musl-openssl-3.0.x```, ```linux-musl``` ]|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/app/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 ### KeyvModule
 Simple key-value storage with support for multiple backends, and a consistent interface for NestJS-mod (Wrapper for https://www.npmjs.com/package/keyv)
@@ -443,6 +404,66 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 |`featureName`|**optional**|```app```|
 |`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/migrations```|
 
+### PrismaModule
+Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
+
+#### Shared providers
+`PrismaClientFactoryService`, `PrismaClient`
+
+#### Environments(webhook)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+
+#### Static configuration(webhook)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`featureName`|**optional**|```webhook```|
+|`provider`|**optional**|```prisma-client```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
+
+#### Environments(auth)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+#### Static configuration(auth)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`featureName`|**optional**|```auth```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
+
+#### Environments(app)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
+
+#### Static configuration(app)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`featureName`|**optional**|```app```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/prisma/app-schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/app/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
+
 ### PgFlyway
 PgFlyway - utility for working with database migrations (site: https://www.npmjs.com/package/pg-flyway, preview version only for Postgres)
 
@@ -459,21 +480,65 @@ PgFlyway - utility for working with database migrations (site: https://www.npmjs
 |`featureName`|**optional**|```app```|
 |`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/migrations```|
 
-### PgFlyway
-PgFlyway - utility for working with database migrations (site: https://www.npmjs.com/package/pg-flyway, preview version only for Postgres)
+### PrismaModule
+Next-generation Node.js and TypeScript ORM for NestJS-mod (preview version only for Postgres)
 
-#### Environments
+#### Shared providers
+`PrismaClientFactoryService`, `PrismaClient`
+
+#### Environments(webhook)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
+
+#### Static configuration(webhook)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`featureName`|**optional**|```webhook```|
+|`provider`|**optional**|```prisma-client```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
+
+#### Environments(auth)
+
+| Key    | Sources | Constraints | Value |
+| ------ | ------- | ----------- | ----- |
+|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_AUTH_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://auth:auth_password@localhost:5432/auth?schema=public```|
+
+#### Static configuration(auth)
+
+| Key    | Constraints | Value |
+| ------ | ----------- | ----- |
+|`featureName`|**optional**|```auth```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
+
+#### Environments(app)
 
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
 |`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
 
-#### Static configuration
+#### Static configuration(app)
 
 | Key    | Constraints | Value |
 | ------ | ----------- | ----- |
 |`featureName`|**optional**|```app```|
-|`migrationsFolder`|**isNotEmpty** (migrationsFolder should not be empty)|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/migrations```|
+|`schemaFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/prisma/app-schema.prisma```|
+|`addMigrationScripts`|**optional**|```false```|
+|`output`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/src/app/generated/prisma-client```|
+|`provider`|**optional**|```prisma-client```|
+|`moduleFormat`|**optional**|```cjs```|
+|`previewFeatures`|**optional**|[ ```queryCompiler```, ```driverAdapters``` ]|
+|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/project.json```|
+|`prismaClientFactory`|**optional**|```prismaClientFactory```|
 
 ### InfrastructureMarkdownReportGenerator
 Infrastructure markdown report generator.
@@ -519,13 +584,6 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 |`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/apps/server-authorizer/project.json```|
 
 #### Modules that use feature configuration
-##### Feature module name: webhook
-
-| Key    | Constraints | Value |
-| ------ | ----------- | ----- |
-|`nxProjectJsonFile`|**optional**|```/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/feature/webhook/project.json```|
-
-#### Modules that use feature configuration
 ##### Feature module name: auth
 
 | Key    | Constraints | Value |
@@ -545,13 +603,6 @@ PostgreSQL (Postgres) is an open source object-relational database known for rel
 | Key    | Sources | Constraints | Value |
 | ------ | ------- | ----------- | ----- |
 |`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_APP_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://app:app_password@localhost:5432/app?schema=public```|
-
-#### Modules that use feature environments
-##### Feature module name: webhook
-
-| Key    | Sources | Constraints | Value |
-| ------ | ------- | ----------- | ----- |
-|`databaseUrl`|`obj['databaseUrl']`, `process.env['SERVER_AUTHORIZER_WEBHOOK_DATABASE_URL']`|**isNotEmpty** (databaseUrl should not be empty)|```postgres://webhook:webhook_password@localhost:5432/webhook?schema=public```|
 
 #### Modules that use feature environments
 ##### Feature module name: auth

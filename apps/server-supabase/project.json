@@ -55,6 +55,117 @@
         ],
         "parallel": false
       }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server-supabase/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma generate --schema=./apps/server-supabase/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "prisma-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/prisma db pull --schema=./apps/server-supabase/src/prisma/app-schema.prisma"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "db-create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "./node_modules/.bin/pg-create-db --force-change-username=true --force-change-password=true --root-database-url=${SERVER_SUPABASE_ROOT_DATABASE_URL} --app-database-url=${SERVER_SUPABASE_APP_DATABASE_URL}",
+          "./node_modules/.bin/pg-create-db --force-change-username=true --force-change-password=true --root-database-url=${SERVER_SUPABASE_ROOT_DATABASE_URL} --app-database-url=${SERVER_SUPABASE_SUPABASE_DATABASE_URL}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway create --name=${npm_config_args:-NewMigration}"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway migrate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-info": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway info"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-baseline": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway baseline"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway validate"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
+    },
+    "pg-flyway-repair": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "export PG_FLYWAY_DATABASE_URL=${SERVER_SUPABASE_APP_DATABASE_URL} && export PG_FLYWAY_HISTORY_TABLE=__migrations_server_supabase && export PG_FLYWAY_LOCATIONS=./apps/server-supabase/src/migrations && ./node_modules/.bin/pg-flyway repair"
+        ],
+        "parallel": false,
+        "envFile": "./.env",
+        "color": true
+      }
     }
   }
 }

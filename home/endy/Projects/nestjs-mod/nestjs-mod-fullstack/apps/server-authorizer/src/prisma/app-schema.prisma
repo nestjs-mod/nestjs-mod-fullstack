@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client"
+  
+  output   = "../../../../../../../../../apps/server-authorizer/src/app/generated/prisma-client"
+  
+  previewFeatures = ["queryCompiler","driverAdapters"]
+  
+  moduleFormat = "cjs"
+  
+  
+}
+datasource db {
+  provider          = "postgres"
+  url               = env("SERVER_AUTHORIZER_APP_DATABASE_URL")
+}
+
+
+model AppUser {
+  id             String   @id(map: "PK_APP_USER") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  externalUserId String   @unique(map: "UQ_APP_USER") @db.Uuid
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  updatedAt      DateTime @default(now()) @db.Timestamp(6)
+}
