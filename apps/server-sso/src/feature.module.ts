@@ -32,6 +32,7 @@ export const FEATURE_MODULE_IMPORTS = [
   PrismaModule.forRoot({
     contextName: APP_FEATURE,
     staticConfiguration: {
+      addMigrationScripts: false,
       featureName: APP_FEATURE,
       schemaFile: join(
         appFolder,
@@ -51,6 +52,7 @@ export const FEATURE_MODULE_IMPORTS = [
   PrismaModule.forRoot({
     contextName: AUTH_FEATURE,
     staticConfiguration: {
+      addMigrationScripts: false,
       featureName: AUTH_FEATURE,
       schemaFile: join(
         rootFolder,
