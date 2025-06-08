@@ -8,12 +8,16 @@ import {
   RestClientApiModule,
   RestClientConfiguration,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
-import { MINIO_URL } from '@nestjs-mod-fullstack/files-angular';
+import { FilesRestSdkAngularModule, MINIO_URL } from '@nestjs-mod/files-afat';
 import {
   AUTHORIZER_URL,
   provideAuthIntegrationConfiguration,
 } from '../app/integrations/auth-integration.configuration';
-import { authorizerURL, minioURL } from '../environments/environment';
+import {
+  authorizerURL,
+  minioURL,
+  serverUrl,
+} from '../environments/environment';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -74,6 +78,9 @@ describe('AppComponent', () => {
               basePath: 'http://localhost:3000',
             })
         ),
+        FilesRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
       ],
     }).compileComponents();
   });

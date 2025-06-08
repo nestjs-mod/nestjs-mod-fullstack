@@ -4,7 +4,7 @@ import {
   AuthRequest,
   AuthStaticEnvironments,
 } from '@nestjs-mod-fullstack/auth';
-import { FilesRequest, FilesRole } from '@nestjs-mod-fullstack/files';
+import { FilesRequest, FilesRole } from '@nestjs-mod/files';
 import {
   WebhookRequest,
   WebhookUsersService,

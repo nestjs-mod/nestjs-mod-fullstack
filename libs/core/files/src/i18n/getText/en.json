@@ -1,8 +1,0 @@
-{
-    "Files error": "Files error",
-    "Forbidden": "Forbidden",
-    "ok": "ok",
-    "Only those who uploaded files can delete them": "Only those who uploaded files can delete them",
-    "Uploading files with extension \"{{ext}}\" is not supported": "Uploading files with extension \"{{ext}}\" is not supported",
-    "Event that fires after a file is deleted": "Event that fires after a file is deleted"
-}

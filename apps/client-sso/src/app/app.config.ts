@@ -28,8 +28,9 @@ import {
 import { COMMON_FORMLY_FIELDS } from '@nestjs-mod/afat';
 import {
   FILES_FORMLY_FIELDS,
+  FilesRestSdkAngularModule,
   MINIO_URL,
-} from '@nestjs-mod-fullstack/files-angular';
+} from '@nestjs-mod/files-afat';
 import { SsoRestSdkAngularModule } from '@nestjs-mod/sso-rest-sdk-angular';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
@@ -78,6 +79,9 @@ export const appConfig = ({
             // use from environments
             ssoURL ||
             '',
+        }),
+        FilesRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
         }),
         FormlyModule.forRoot({
           types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],

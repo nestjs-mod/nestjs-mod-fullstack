@@ -1,8 +1,5 @@
 import { AuthError } from '@nestjs-mod-fullstack/auth';
-import {
-  FilesConfiguration,
-  FilesPresignedUrls,
-} from '@nestjs-mod-fullstack/files';
+import { FilesConfiguration, FilesPresignedUrls } from '@nestjs-mod/files';
 import { MinioFilesService } from '@nestjs-mod/minio';
 import { SupabaseService } from '@nestjs-mod/supabase';
 import { Injectable } from '@nestjs/common';

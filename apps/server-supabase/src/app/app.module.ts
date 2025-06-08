@@ -1,5 +1,5 @@
 import { AUTH_FEATURE, AuthModule } from '@nestjs-mod-fullstack/auth';
-import { FilesModule } from '@nestjs-mod-fullstack/files';
+import { FilesModule } from '@nestjs-mod/files';
 import { ValidationError, ValidationErrorEnum } from '@nestjs-mod/validation';
 import { WebhookModule } from '@nestjs-mod-fullstack/webhook';
 import {

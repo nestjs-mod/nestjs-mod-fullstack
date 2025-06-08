@@ -4,7 +4,6 @@ import { TranslocoService } from '@jsverse/transloco';
 import {
   AppRestService,
   AuthRestService,
-  FilesRestService,
   TimeRestService,
   WebhookRestService,
 } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
@@ -13,6 +12,7 @@ import {
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { FilesRestSdkAngularService } from '@nestjs-mod/files-afat';
 import { catchError, merge, mergeMap, of, Subscription, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class AppInitializer {
     private readonly webhookRestService: WebhookRestService,
     private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
-    private readonly filesRestService: FilesRestService,
+    private readonly filesRestSdkAngularService: FilesRestSdkAngularService,
     private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
@@ -66,15 +66,13 @@ export class AppInitializer {
       this.webhookRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
-      this.filesRestService.defaultHeaders = new HttpHeaders(
-        authorizationHeaders
-      );
       this.timeRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
       this.authRestService.defaultHeaders = new HttpHeaders(
         authorizationHeaders
       );
+      this.filesRestSdkAngularService.updateHeaders(authorizationHeaders);
     }
   }
 }
