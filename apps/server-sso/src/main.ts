@@ -4,9 +4,6 @@ process.env.TZ = 'UTC';
   return this.toString();
 };
 import { AUTH_EXTRA_MODELS } from '@nestjs-mod-fullstack/auth';
-import { FILES_EXTRA_MODELS } from '@nestjs-mod/files';
-import { VALIDATION_EXTRA_MODELS } from '@nestjs-mod/validation';
-import { WEBHOOK_EXTRA_MODELS } from '@nestjs-mod/webhook';
 import {
   bootstrapNestApplication,
   DefaultNestApplicationInitializer,
@@ -16,6 +13,9 @@ import {
   PROJECT_JSON_FILE,
   ProjectUtils,
 } from '@nestjs-mod/common';
+import { FILES_EXTRA_MODELS } from '@nestjs-mod/files';
+import { VALIDATION_EXTRA_MODELS } from '@nestjs-mod/validation';
+import { WEBHOOK_EXTRA_MODELS } from '@nestjs-mod/webhook';
 import { NestFactory } from '@nestjs/core';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -23,10 +23,16 @@ import cookieParser from 'cookie-parser';
 import { writeFileSync } from 'fs';
 import { Logger } from 'nestjs-pino';
 import { join } from 'path';
+import {
+  createAndFillDatabases,
+  fillAllNeedDatabaseEnvsFromOneMain,
+} from './create-and-fill-databases';
 import { appFolder, rootFolder } from './environments/environment';
 import { FEATURE_MODULE_IMPORTS, FeatureModule } from './feature.module';
 import { INFRASTRUCTURE_MODULE_IMPORTS } from './infrastructure.module';
 import { replaceEnvs } from './replace-envs';
+
+fillAllNeedDatabaseEnvsFromOneMain();
 
 if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
   /**
@@ -76,6 +82,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
       );
     } else {
       await replaceEnvs();
+      await createAndFillDatabases();
 
       const logger = app.get(Logger);
       if (logger) {
@@ -146,6 +153,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
                   );
                 } else {
                   await replaceEnvs();
+                  await createAndFillDatabases();
                 }
               }
             },
