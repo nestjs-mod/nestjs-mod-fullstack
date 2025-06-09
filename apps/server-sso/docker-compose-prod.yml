@@ -90,7 +90,7 @@ services:
     tty: true
     restart: "always"
   server-sso-single-sign-on:
-    image: "ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.5.5"
+    image: "ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.14.0"
     container_name: "server-sso-single-sign-on"
     ports:
       - "8080:8080"

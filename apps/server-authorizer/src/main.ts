@@ -34,7 +34,7 @@ import { replaceEnvs } from './replace-envs';
 
 fillAllNeedDatabaseEnvsFromOneMain();
 
-if (!isInfrastructureMode() && process.env.APP_TYPE !== 'nestjs-mod') {
+if (!isInfrastructureMode() && process.env.APP_TYPE === 'nestjs') {
   /**
    * NestJS way for run application
    */
