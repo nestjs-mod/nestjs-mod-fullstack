@@ -1,7 +1,7 @@
 {
   "name": "@nestjs-mod-fullstack/source",
   "description": "Boilerplate for creating application on NestJS and Angular",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "license": "MIT",
   "scripts": {
     "_____dev infra_____": "_____dev infra_____",
