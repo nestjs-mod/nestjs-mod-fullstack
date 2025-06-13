@@ -52,9 +52,6 @@ export class FullstackRestSdkService {
     if (this.appApiAxios) {
       Object.assign(this.appApiAxios.defaults.headers.common, headers);
     }
-    if (this.appApiAxios) {
-      Object.assign(this.appApiAxios.defaults.headers.common, headers);
-    }
     if (this.timeApiAxios) {
       Object.assign(this.timeApiAxios.defaults.headers.common, headers);
     }

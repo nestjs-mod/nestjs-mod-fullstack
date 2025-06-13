@@ -435,12 +435,15 @@ export class FullstackRestClientHelper<
 
   private createApiClients() {
     this.fullstackRestSdkService = new FullstackRestSdkService({
+      ...this.options,
       serverUrl: this.getServerUrl(),
     });
     this.webhookRestSdkService = new WebhookRestSdkService({
+      ...this.options,
       serverUrl: this.getServerUrl(),
     });
     this.filesRestSdkService = new FilesRestSdkService({
+      ...this.options,
       serverUrl: this.getServerUrl(),
     });
 
