@@ -1,16 +1,11 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import {
-  AppRestService,
-  AuthRestService,
-  TimeRestService,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AuthActiveLangService,
   AuthService,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesRestSdkAngularService } from '@nestjs-mod/files-afat';
 import { WebhookRestSdkAngularService } from '@nestjs-mod/webhook-afat';
 import { catchError, merge, mergeMap, of, Subscription, tap } from 'rxjs';
@@ -20,12 +15,10 @@ export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
   constructor(
-    private readonly appRestService: AppRestService,
+    private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     private readonly webhookRestSdkAngularService: WebhookRestSdkAngularService,
-    private readonly timeRestService: TimeRestService,
     private readonly authService: AuthService,
     private readonly filesRestSdkAngularService: FilesRestSdkAngularService,
-    private readonly authRestService: AuthRestService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
     private readonly authActiveLangService: AuthActiveLangService
@@ -59,18 +52,10 @@ export class AppInitializer {
 
   private updateHeaders() {
     const authorizationHeaders = this.authService.getAuthorizationHeaders();
-    if (authorizationHeaders) {
-      this.appRestService.defaultHeaders = new HttpHeaders(
-        authorizationHeaders
-      );
-      this.timeRestService.defaultHeaders = new HttpHeaders(
-        authorizationHeaders
-      );
-      this.authRestService.defaultHeaders = new HttpHeaders(
-        authorizationHeaders
-      );
-      this.webhookRestSdkAngularService.updateHeaders(authorizationHeaders);
-      this.filesRestSdkAngularService.updateHeaders(authorizationHeaders);
-    }
+    this.fullstackRestSdkAngularService.updateHeaders(
+      authorizationHeaders || {}
+    );
+    this.webhookRestSdkAngularService.updateHeaders(authorizationHeaders || {});
+    this.filesRestSdkAngularService.updateHeaders(authorizationHeaders || {});
   }
 }

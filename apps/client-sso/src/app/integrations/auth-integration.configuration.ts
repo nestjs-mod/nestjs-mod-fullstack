@@ -1,6 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { AuthRestService } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthCompleteForgotPasswordInput,
@@ -15,6 +14,7 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesService } from '@nestjs-mod/files-afat';
 import {
   SsoRestSdkAngularService,
@@ -36,7 +36,7 @@ export const SSO_URL = new InjectionToken<string>('SsoURL');
 
 export class AuthIntegrationConfiguration implements AuthConfiguration {
   constructor(
-    private readonly authRestService: AuthRestService,
+    private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
@@ -132,7 +132,8 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         return of(undefined);
       }),
       mergeMap((picture) =>
-        this.authRestService
+        this.fullstackRestSdkAngularService
+          .getAuthApi()
           .authControllerProfile()
           .pipe(map((profile) => ({ ...profile, picture })))
       ),
@@ -287,7 +288,7 @@ export function provideAuthIntegrationConfiguration(): Provider {
     provide: AUTH_CONFIGURATION_TOKEN,
     useClass: AuthIntegrationConfiguration,
     deps: [
-      AuthRestService,
+      FullstackRestSdkAngularService,
       FilesService,
       TranslocoService,
       TokensService,

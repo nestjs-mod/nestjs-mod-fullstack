@@ -23,22 +23,27 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
+import { TerminusHealthCheckControllerCheck200ResponseInterface } from '../model/terminus-health-check-controller-check200-response.interface';
+// @ts-ignore
+import { TerminusHealthCheckControllerCheck503ResponseInterface } from '../model/terminus-health-check-controller-check503-response.interface';
+
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
-import { RestClientConfiguration } from '../configuration';
+import { FullstackRestClientConfiguration } from '../configuration';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FakeEndpointRestService {
+export class TerminusHealthCheckRestService {
   protected basePath = 'http://localhost';
   public defaultHeaders = new HttpHeaders();
-  public configuration = new RestClientConfiguration();
+  public configuration = new FullstackRestClientConfiguration();
   public encoder: HttpParameterCodec;
 
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: RestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -117,38 +122,42 @@ export class FakeEndpointRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public fakeEndpointControllerFakeEndpointHandler(
+  public terminusHealthCheckControllerCheck(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?: undefined;
+      httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<any>;
-  public fakeEndpointControllerFakeEndpointHandler(
+  ): Observable<TerminusHealthCheckControllerCheck200ResponseInterface>;
+  public terminusHealthCheckControllerCheck(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?: undefined;
+      httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<any>>;
-  public fakeEndpointControllerFakeEndpointHandler(
+  ): Observable<
+    HttpResponse<TerminusHealthCheckControllerCheck200ResponseInterface>
+  >;
+  public terminusHealthCheckControllerCheck(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?: undefined;
+      httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<any>>;
-  public fakeEndpointControllerFakeEndpointHandler(
+  ): Observable<
+    HttpEvent<TerminusHealthCheckControllerCheck200ResponseInterface>
+  >;
+  public terminusHealthCheckControllerCheck(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
-      httpHeaderAccept?: undefined;
+      httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
     }
@@ -159,7 +168,7 @@ export class FakeEndpointRestService {
       options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected =
         this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
@@ -195,127 +204,8 @@ export class FakeEndpointRestService {
       }
     }
 
-    let localVarPath = `/api/fake-endpoint`;
-    return this.httpClient.request<any>(
-      'post',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * @param appId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public fakeEndpointControllerFakeEndpointLogs(
-    appId: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: undefined;
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any>;
-  public fakeEndpointControllerFakeEndpointLogs(
-    appId: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: undefined;
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<any>>;
-  public fakeEndpointControllerFakeEndpointLogs(
-    appId: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: undefined;
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<any>>;
-  public fakeEndpointControllerFakeEndpointLogs(
-    appId: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: undefined;
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any> {
-    if (appId === null || appId === undefined) {
-      throw new Error(
-        'Required parameter appId was null or undefined when calling fakeEndpointControllerFakeEndpointLogs.'
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (localVarHttpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = [];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    }
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
-    }
-
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
-    if (localVarHttpContext === undefined) {
-      localVarHttpContext = new HttpContext();
-    }
-
-    let localVarTransferCache: boolean | undefined =
-      options && options.transferCache;
-    if (localVarTransferCache === undefined) {
-      localVarTransferCache = true;
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (
-        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
-      ) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/fake-endpoint/logs/${this.configuration.encodeParam(
-      {
-        name: 'appId',
-        value: appId,
-        in: 'path',
-        style: 'simple',
-        explode: false,
-        dataType: 'string',
-        dataFormat: undefined,
-      }
-    )}`;
-    return this.httpClient.request<any>(
+    let localVarPath = `/api/health`;
+    return this.httpClient.request<TerminusHealthCheckControllerCheck200ResponseInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {

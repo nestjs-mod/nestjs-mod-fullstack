@@ -23,8 +23,8 @@
     "esModuleInterop": true,
     "noImplicitAny": false,
     "paths": {
-      "@nestjs-mod-fullstack/fullstack-angular-rest-sdk": [
-        "libs/sdk/fullstack-angular-rest-sdk/src/index.ts"
+      "@nestjs-mod-fullstack/fullstack-rest-sdk-angular": [
+        "libs/sdk/fullstack-rest-sdk-angular/src/index.ts"
       ],
       "@nestjs-mod-fullstack/fullstack-rest-sdk": [
         "libs/sdk/fullstack-rest-sdk/src/index.ts"

@@ -17,20 +17,18 @@ import { provideTransloco } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import {
-  RestClientApiModule,
-  RestClientConfiguration,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
-import {
   AuthProfileFormService,
   AuthProfileMapperService,
   AuthService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { FullstackRestSdkAngularModule } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { COMMON_FORMLY_FIELDS } from '@nestjs-mod/afat';
 import {
   FILES_FORMLY_FIELDS,
   FilesRestSdkAngularModule,
   MINIO_URL,
 } from '@nestjs-mod/files-afat';
+import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -49,7 +47,6 @@ import {
   SUPABASE_URL,
 } from './integrations/supabase-auth.configuration';
 import { TranslocoHttpLoader } from './integrations/transloco-http.loader';
-import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 
 export const appConfig = ({
   supabaseURL,
@@ -70,12 +67,9 @@ export const appConfig = ({
       provideNzI18n(en_US),
       importProvidersFrom(
         BrowserAnimationsModule,
-        RestClientApiModule.forRoot(
-          () =>
-            new RestClientConfiguration({
-              basePath: serverUrl,
-            })
-        ),
+        FullstackRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
         FilesRestSdkAngularModule.forRoot({
           basePath: serverUrl,
         }),

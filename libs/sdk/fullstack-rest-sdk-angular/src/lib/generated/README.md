@@ -59,12 +59,12 @@ In your Angular project:
 
 ```typescript
 // without configuring providers
-import { RestClientApiModule } from '';
+import { FullstackRestClientApiModule } from '';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    RestClientApiModule,
+    FullstackRestClientApiModule,
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575
     HttpClientModule,
@@ -78,17 +78,17 @@ export class AppModule {}
 
 ```typescript
 // configuring providers
-import { RestClientApiModule, RestClientConfiguration, RestClientConfigurationParameters } from '';
+import { FullstackRestClientApiModule, FullstackRestClientConfiguration, FullstackRestClientConfigurationParameters } from '';
 
-export function apiConfigFactory(): RestClientConfiguration {
-  const params: RestClientConfigurationParameters = {
+export function apiConfigFactory(): FullstackRestClientConfiguration {
+  const params: FullstackRestClientConfigurationParameters = {
     // set configuration parameters here.
   };
-  return new RestClientConfiguration(params);
+  return new FullstackRestClientConfiguration(params);
 }
 
 @NgModule({
-  imports: [RestClientApiModule.forRoot(apiConfigFactory)],
+  imports: [FullstackRestClientApiModule.forRoot(apiConfigFactory)],
   declarations: [AppComponent],
   providers: [],
   bootstrap: [AppComponent],
@@ -98,16 +98,16 @@ export class AppModule {}
 
 ```typescript
 // configuring providers with an authentication service that manages your access tokens
-import { RestClientApiModule, RestClientConfiguration } from '';
+import { FullstackRestClientApiModule, FullstackRestClientConfiguration } from '';
 
 @NgModule({
-  imports: [RestClientApiModule],
+  imports: [FullstackRestClientApiModule],
   declarations: [AppComponent],
   providers: [
     {
-      provide: RestClientConfiguration,
+      provide: FullstackRestClientConfiguration,
       useFactory: (authService: AuthService) =>
-        new RestClientConfiguration({
+        new FullstackRestClientConfiguration({
           basePath: environment.apiUrl,
           accessToken: authService.getAccessToken.bind(authService),
         }),
@@ -128,23 +128,23 @@ export class AppComponent {
 }
 ```
 
-Note: The RestClientApiModule is restricted to being instantiated once app wide.
+Note: The FullstackRestClientApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-### Using multiple OpenAPI files / APIs / RestClientApiModules
+### Using multiple OpenAPI files / APIs / FullstackRestClientApiModules
 
-In order to use multiple `RestClientApiModules` generated from different OpenAPI files,
+In order to use multiple `FullstackRestClientApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 
 ```typescript
-import { RestClientApiModule } from 'my-api-path';
-import { RestClientApiModule as OtherApiModule } from 'my-other-api-path';
+import { FullstackRestClientApiModule } from 'my-api-path';
+import { FullstackRestClientApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    RestClientApiModule,
+    FullstackRestClientApiModule,
     OtherApiModule,
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575

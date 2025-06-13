@@ -9,29 +9,27 @@ import {
 } from '@jsverse/transloco';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
-  AppRestService,
-  AuthRoleInterface,
-  TimeRestService,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
-import {
   AuthActiveLangService,
   AuthService,
   CheckUserRolesPipe,
   TokensService,
   UserPipe,
 } from '@nestjs-mod-fullstack/auth-angular';
-import { webSocket } from '@nestjs-mod/afat';
+import {
+  AuthRoleInterface,
+  FullstackRestSdkAngularService,
+} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { addHours } from 'date-fns';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { Title } from '@angular/platform-browser';
+import { TIMEZONE_OFFSET } from '@nestjs-mod/misc';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BehaviorSubject, map, merge, mergeMap, switchMap, tap } from 'rxjs';
 import { APP_TITLE } from './app.constants';
-import { TIMEZONE_OFFSET } from '@nestjs-mod/misc';
 @UntilDestroy()
 @Component({
   imports: [
@@ -62,8 +60,7 @@ export class AppComponent implements OnInit {
   AuthRoleInterface = AuthRoleInterface;
 
   constructor(
-    private readonly timeRestService: TimeRestService,
-    private readonly appRestService: AppRestService,
+    private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
@@ -136,17 +133,15 @@ export class AppComponent implements OnInit {
 
   private fillServerTime() {
     return merge(
-      this.timeRestService.timeControllerTime(),
+      this.fullstackRestSdkAngularService.getTimeApi().timeControllerTime(),
       this.tokensService
         .getStream()
         .pipe(
           switchMap((token) =>
-            webSocket<string>({
-              address:
-                this.timeRestService.configuration.basePath +
-                (token?.access_token
-                  ? `/ws/time?token=${token?.access_token}`
-                  : '/ws/time'),
+            this.fullstackRestSdkAngularService.webSocket<string>({
+              path: token?.access_token
+                ? `/ws/time?token=${token?.access_token}`
+                : '/ws/time',
               eventName: 'ChangeTimeStream',
             })
           )
@@ -162,7 +157,8 @@ export class AppComponent implements OnInit {
   }
 
   private fillServerMessage() {
-    return this.appRestService
+    return this.fullstackRestSdkAngularService
+      .getAppApi()
       .appControllerGetData()
       .pipe(tap((result) => this.serverMessage$.next(result.message)));
   }

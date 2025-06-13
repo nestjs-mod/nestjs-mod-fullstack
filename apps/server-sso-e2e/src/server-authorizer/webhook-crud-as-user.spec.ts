@@ -2,13 +2,13 @@ import {
   AuthErrorEnum,
   WebhookRole,
 } from '@nestjs-mod-fullstack/fullstack-rest-sdk';
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { FullstackRestClientHelper } from '@nestjs-mod-fullstack/testing';
 
 describe('CRUD operations with Webhook as "User" role', () => {
   jest.setTimeout(60000);
 
-  const user1 = new RestClientHelper();
-  const user2 = new RestClientHelper();
+  const user1 = new FullstackRestClientHelper();
+  const user2 = new FullstackRestClientHelper();
 
   let createEventName: string;
 

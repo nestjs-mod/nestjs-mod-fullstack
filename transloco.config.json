@@ -5,7 +5,7 @@
         "ru"
     ],
     "serverScopedLibs": [
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/sdk/fullstack-rest-sdk",
         "libs/core/auth",
         "libs/core/auth-angular",
@@ -22,7 +22,7 @@
         "packages/bridge/bridge-react-webpack-plugin",
         "libs/testing",
         "libs/sdk/fullstack-rest-sdk",
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/core/webhook-angular",
         "libs/core/webhook",
         "libs/core/validation",
@@ -36,7 +36,7 @@
     ],
     "rootTranslationsPath": "./apps/client/src/assets/i18n/",
     "scopedLibs": [
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/sdk/fullstack-rest-sdk",
         "libs/core/auth",
         "libs/core/auth-angular",
@@ -53,7 +53,7 @@
         "packages/bridge/bridge-react-webpack-plugin",
         "libs/testing",
         "libs/sdk/fullstack-rest-sdk",
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/core/webhook-angular",
         "libs/core/webhook",
         "libs/core/validation",
@@ -67,7 +67,7 @@
     ],
     "clientRootTranslationsPath": "./apps/client/src/assets/i18n/",
     "clientScopedLibs": [
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/sdk/fullstack-rest-sdk",
         "libs/core/auth",
         "libs/core/auth-angular",
@@ -84,7 +84,7 @@
         "packages/bridge/bridge-react-webpack-plugin",
         "libs/testing",
         "libs/sdk/fullstack-rest-sdk",
-        "libs/sdk/fullstack-angular-rest-sdk",
+        "libs/sdk/fullstack-rest-sdk-angular",
         "libs/core/webhook-angular",
         "libs/core/webhook",
         "libs/core/validation",

@@ -1,9 +1,9 @@
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { FullstackRestClientHelper } from '@nestjs-mod-fullstack/testing';
 
 describe('GET /api', () => {
   jest.setTimeout(60000);
 
-  const appApi = new RestClientHelper().getAppApi();
+  const appApi = new FullstackRestClientHelper().getAppApi();
   let newDemoObject: { id: string };
 
   it('should return a message', async () => {

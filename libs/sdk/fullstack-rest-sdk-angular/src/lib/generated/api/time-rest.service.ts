@@ -23,27 +23,22 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { TerminusHealthCheckControllerCheck200ResponseInterface } from '../model/terminus-health-check-controller-check200-response.interface';
-// @ts-ignore
-import { TerminusHealthCheckControllerCheck503ResponseInterface } from '../model/terminus-health-check-controller-check503-response.interface';
-
-// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
-import { RestClientConfiguration } from '../configuration';
+import { FullstackRestClientConfiguration } from '../configuration';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TerminusHealthCheckRestService {
+export class TimeRestService {
   protected basePath = 'http://localhost';
   public defaultHeaders = new HttpHeaders();
-  public configuration = new RestClientConfiguration();
+  public configuration = new FullstackRestClientConfiguration();
   public encoder: HttpParameterCodec;
 
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: RestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -122,7 +117,7 @@ export class TerminusHealthCheckRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public terminusHealthCheckControllerCheck(
+  public timeControllerTime(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -130,8 +125,8 @@ export class TerminusHealthCheckRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<TerminusHealthCheckControllerCheck200ResponseInterface>;
-  public terminusHealthCheckControllerCheck(
+  ): Observable<object>;
+  public timeControllerTime(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -139,10 +134,8 @@ export class TerminusHealthCheckRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<
-    HttpResponse<TerminusHealthCheckControllerCheck200ResponseInterface>
-  >;
-  public terminusHealthCheckControllerCheck(
+  ): Observable<HttpResponse<object>>;
+  public timeControllerTime(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -150,10 +143,8 @@ export class TerminusHealthCheckRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<
-    HttpEvent<TerminusHealthCheckControllerCheck200ResponseInterface>
-  >;
-  public terminusHealthCheckControllerCheck(
+  ): Observable<HttpEvent<object>>;
+  public timeControllerTime(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -204,8 +195,8 @@ export class TerminusHealthCheckRestService {
       }
     }
 
-    let localVarPath = `/api/health`;
-    return this.httpClient.request<TerminusHealthCheckControllerCheck200ResponseInterface>(
+    let localVarPath = `/api/time`;
+    return this.httpClient.request<object>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {

@@ -1,5 +1,5 @@
 {
-    "name": "@nestjs-mod-fullstack/fullstack-angular-rest-sdk",
+    "name": "@nestjs-mod-fullstack/fullstack-rest-sdk-angular",
     "version": "0.0.1",
     "private": true,
     "peerDependencies": {
@@ -10,7 +10,7 @@
     "sideEffects": false,
     "i18n": [
         {
-            "scope": "fullstack-angular-rest-sdk",
+            "scope": "fullstack-rest-sdk-angular",
             "path": "src/i18n",
             "strategy": "join"
         }

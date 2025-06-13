@@ -61,7 +61,9 @@
       "options": {
         "commands": [
           "./node_modules/.bin/prisma generate --schema=./apps/server-authorizer/src/prisma/app-schema.prisma",
-          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma"
+          "./node_modules/.bin/prisma generate --schema=./libs/core/auth/src/prisma/schema.prisma",
+          "rm -rf ./libs/sdk/fullstack-rest-sdk-angular/src/lib/generated && mkdir -p ./libs/sdk/fullstack-rest-sdk-angular/src/lib/generated && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-angular -o ./libs/sdk/fullstack-rest-sdk-angular/src/lib/generated --skip-validate-spec --additional-properties=apiModulePrefix=FullstackRestClient,configurationPrefix=FullstackRestClient,fileNaming=kebab-case,modelFileSuffix=.interface,modelSuffix=Interface,enumNameSuffix=Type,enumPropertyNaming=original,serviceFileSuffix=-rest.service,serviceSuffix=RestService",
+          "rm -rf ./libs/sdk/fullstack-rest-sdk/src/lib/generated && mkdir -p ./libs/sdk/fullstack-rest-sdk/src/lib/generated && ./node_modules/.bin/openapi-generator-cli generate -i ./app-swagger.json -g typescript-axios -o ./libs/sdk/fullstack-rest-sdk/src/lib/generated"
         ],
         "parallel": false,
         "envFile": "./.env",

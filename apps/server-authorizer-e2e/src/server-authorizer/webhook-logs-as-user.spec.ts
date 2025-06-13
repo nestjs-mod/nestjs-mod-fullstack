@@ -1,4 +1,7 @@
-import { getUrls, RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import {
+  getUrls,
+  FullstackRestClientHelper,
+} from '@nestjs-mod-fullstack/testing';
 import { randomUUID } from 'crypto';
 import { get } from 'env-var';
 
@@ -12,8 +15,8 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
   let endpoint: string;
   let wrongEndpoint: string;
 
-  const user1 = new RestClientHelper();
-  const admin = new RestClientHelper();
+  const user1 = new FullstackRestClientHelper();
+  const admin = new FullstackRestClientHelper();
 
   let createEventName: string;
   let updateEventName: string;

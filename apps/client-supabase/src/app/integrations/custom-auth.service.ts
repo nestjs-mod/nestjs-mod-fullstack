@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
-import { AuthRestService } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
+import {
+  AuthRestService,
+  FullstackRestSdkAngularService,
+} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,
@@ -16,7 +19,7 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class CustomAuthService extends AuthService {
   constructor(
-    protected readonly authRestService: AuthRestService,
+    protected readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     protected override readonly tokensService: TokensService,
     @Inject(AUTH_CONFIGURATION_TOKEN)
     protected override readonly authConfiguration: AuthConfiguration
@@ -25,15 +28,18 @@ export class CustomAuthService extends AuthService {
   }
 
   override setProfile(result: AuthUser | undefined) {
-    return this.authRestService.authControllerProfile().pipe(
-      catchError(() => of(null)),
-      mergeMap((profile) => {
-        if (result && profile) {
-          result = { ...result, ...profile };
-        }
-        return super.setProfile(result);
-      })
-    );
+    return this.fullstackRestSdkAngularService
+      .getAuthApi()
+      .authControllerProfile()
+      .pipe(
+        catchError(() => of(null)),
+        mergeMap((profile) => {
+          if (result && profile) {
+            result = { ...result, ...profile };
+          }
+          return super.setProfile(result);
+        })
+      );
   }
 
   override updateProfile(
@@ -43,13 +49,16 @@ export class CustomAuthService extends AuthService {
     const profile = omit(['timezone', 'lang'], { ...data });
     return super.updateProfile(profile).pipe(
       mergeMap((result) =>
-        this.authRestService.authControllerUpdateProfile({ timezone }).pipe(
-          map(() => {
-            const profile = result ? { ...result, timezone, lang } : result;
+        this.fullstackRestSdkAngularService
+          .getAuthApi()
+          .authControllerUpdateProfile({ timezone })
+          .pipe(
+            map(() => {
+              const profile = result ? { ...result, timezone, lang } : result;
 
-            return super.setProfile(profile) as unknown as AuthUser;
-          })
-        )
+              return super.setProfile(profile) as unknown as AuthUser;
+            })
+          )
       )
     );
   }

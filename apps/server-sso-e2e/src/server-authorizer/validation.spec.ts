@@ -1,10 +1,13 @@
-import { getUrls, RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import {
+  getUrls,
+  FullstackRestClientHelper,
+} from '@nestjs-mod-fullstack/testing';
 import { AxiosError } from 'axios';
 
 describe('Validation', () => {
   jest.setTimeout(60000);
 
-  const user1 = new RestClientHelper();
+  const user1 = new FullstackRestClientHelper();
 
   beforeAll(async () => {
     await user1.createAndLoginAsUser();

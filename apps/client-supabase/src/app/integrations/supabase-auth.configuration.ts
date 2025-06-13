@@ -2,10 +2,6 @@ import { Inject, InjectionToken, Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
-  AuthRestService,
-  AuthRoleInterface,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
-import {
   AUTH_CONFIGURATION_TOKEN,
   AuthCompleteForgotPasswordInput,
   AuthCompleteSignUpInput,
@@ -19,6 +15,10 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import {
+  AuthRoleInterface,
+  FullstackRestSdkAngularService,
+} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesService } from '@nestjs-mod/files-afat';
 import { searchIn } from '@nestjs-mod/misc';
 import {
@@ -104,7 +104,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     private readonly supabaseUrl: string,
     @Inject(SUPABASE_KEY)
     private readonly supabaseKey: string,
-    private readonly authRestService: AuthRestService,
+    private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
@@ -326,7 +326,7 @@ export function provideSupabaseAuthConfiguration(): Provider {
     deps: [
       SUPABASE_URL,
       SUPABASE_KEY,
-      AuthRestService,
+      FullstackRestSdkAngularService,
       FilesService,
       TranslocoService,
       TokensService,

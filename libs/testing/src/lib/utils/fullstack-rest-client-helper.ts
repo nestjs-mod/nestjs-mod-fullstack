@@ -1,18 +1,14 @@
 import { AuthToken, Authorizer } from '@authorizerdev/authorizer-js';
 import {
-  AppApi,
-  AuthApi,
   AuthProfileDto,
   AuthRole,
   AuthorizerApi,
   Configuration,
   FakeEndpointApi,
-  FilesApi,
-  TimeApi,
-  WebhookApi,
+  FullstackRestSdkService,
   WebhookUser,
 } from '@nestjs-mod-fullstack/fullstack-rest-sdk';
-import axios, { AxiosInstance, isAxiosError } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Observable, finalize } from 'rxjs';
 import {
   GenerateRandomUserResult,
@@ -24,8 +20,12 @@ import { SsoRestSdkService, TokensResponse } from '@nestjs-mod/sso-rest-sdk';
 import { AuthResponse } from '@supabase/supabase-js';
 import WebSocket from 'ws';
 import { TestingSupabaseService } from './supabase.service';
+import { WebhookRestSdkService } from '@nestjs-mod/webhook';
+import { FilesRestSdkService } from '@nestjs-mod/files';
 
-export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
+export class FullstackRestClientHelper<
+  T extends 'strict' | 'no_strict' = 'strict'
+> {
   private authorizerClientID!: string;
 
   ssoTokens?: TokensResponse;
@@ -40,21 +40,15 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   private testingSupabaseService?: TestingSupabaseService;
 
   private ssoApi?: SsoRestSdkService;
-  private webhookApi?: WebhookApi;
-  private appApi?: AppApi;
   private authorizerApi?: AuthorizerApi;
-  private filesApi?: FilesApi;
-  private timeApi?: TimeApi;
-  private authApi?: AuthApi;
   private fakeEndpointApi?: FakeEndpointApi;
 
-  private webhookApiAxios?: AxiosInstance;
-  private appApiAxios?: AxiosInstance;
   private authorizerApiAxios?: AxiosInstance;
-  private filesApiAxios?: AxiosInstance;
-  private timeApiAxios?: AxiosInstance;
-  private authApiAxios?: AxiosInstance;
   private fakeEndpointApiAxios?: AxiosInstance;
+
+  private fullstackRestSdkService!: FullstackRestSdkService;
+  private webhookRestSdkService!: WebhookRestSdkService;
+  private filesRestSdkService!: FilesRestSdkService;
 
   randomUser: T extends 'strict'
     ? GenerateRandomUserResult
@@ -147,39 +141,24 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
     return this.authorizerApi;
   }
 
-  getWebhookApi() {
-    if (!this.webhookApi) {
-      throw new Error('webhookApi not set');
-    }
-    return this.webhookApi;
-  }
-
   getAppApi() {
-    if (!this.appApi) {
-      throw new Error('appApi not set');
-    }
-    return this.appApi;
-  }
-
-  getFilesApi() {
-    if (!this.filesApi) {
-      throw new Error('filesApi not set');
-    }
-    return this.filesApi;
+    return this.fullstackRestSdkService.getAppApi();
   }
 
   getTimeApi() {
-    if (!this.timeApi) {
-      throw new Error('timeApi not set');
-    }
-    return this.timeApi;
+    return this.fullstackRestSdkService.getTimeApi();
   }
 
   getAuthApi() {
-    if (!this.authApi) {
-      throw new Error('authApi not set');
-    }
-    return this.authApi;
+    return this.fullstackRestSdkService.getAuthApi();
+  }
+
+  getWebhookApi() {
+    return this.webhookRestSdkService.getWebhookApi();
+  }
+
+  getFilesApi() {
+    return this.filesRestSdkService.getFilesApi();
   }
 
   async getSsoClient() {
@@ -386,51 +365,23 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   }
 
   private async loadProfile() {
-    if (this.webhookApi) {
-      this.webhookProfile = (
-        await this.getWebhookApi().webhookControllerProfile()
-      ).data;
-    }
+    this.webhookProfile = (
+      await this.webhookRestSdkService
+        .getWebhookApi()
+        .webhookControllerProfile()
+    ).data;
 
-    if (this.authApi) {
-      this.authProfile = (await this.getAuthApi().authControllerProfile()).data;
-    }
+    this.authProfile = (await this.getAuthApi().authControllerProfile()).data;
   }
 
   private setAuthorizationHeadersFromAuthorizationTokens() {
-    if (this.webhookApiAxios) {
-      Object.assign(
-        this.webhookApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
-      );
-    }
-    if (this.appApiAxios) {
-      Object.assign(
-        this.appApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
-      );
-    }
+    this.fullstackRestSdkService.updateHeaders(this.getAuthorizationHeaders());
+    this.webhookRestSdkService.updateHeaders(this.getAuthorizationHeaders());
+    this.filesRestSdkService.updateHeaders(this.getAuthorizationHeaders());
+
     if (this.authorizerApiAxios) {
       Object.assign(
         this.authorizerApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
-      );
-    }
-    if (this.filesApiAxios) {
-      Object.assign(
-        this.filesApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
-      );
-    }
-    if (this.authApiAxios) {
-      Object.assign(
-        this.authApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
-      );
-    }
-    if (this.timeApiAxios) {
-      Object.assign(
-        this.timeApiAxios.defaults.headers.common,
         this.getAuthorizationHeaders()
       );
     }
@@ -483,6 +434,18 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
   }
 
   private createApiClients() {
+    this.fullstackRestSdkService = new FullstackRestSdkService({
+      serverUrl: this.getServerUrl(),
+    });
+    this.webhookRestSdkService = new WebhookRestSdkService({
+      serverUrl: this.getServerUrl(),
+    });
+    this.filesRestSdkService = new FilesRestSdkService({
+      serverUrl: this.getServerUrl(),
+    });
+
+    //
+
     this.authorizerApiAxios = axios.create();
     this.authorizerApi = new AuthorizerApi(
       new Configuration({
@@ -491,56 +454,7 @@ export class RestClientHelper<T extends 'strict' | 'no_strict' = 'strict'> {
       undefined,
       this.authorizerApiAxios
     );
-    //
 
-    this.webhookApiAxios = axios.create();
-    this.webhookApi = new WebhookApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.webhookApiAxios
-    );
-    //
-
-    this.appApiAxios = axios.create();
-    this.appApi = new AppApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.appApiAxios
-    );
-    //
-
-    this.filesApiAxios = axios.create();
-    this.filesApi = new FilesApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.filesApiAxios
-    );
-    //
-
-    this.timeApiAxios = axios.create();
-    this.timeApi = new TimeApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.timeApiAxios
-    );
-    //
-
-    this.authApiAxios = axios.create();
-    this.authApi = new AuthApi(
-      new Configuration({
-        basePath: this.getServerUrl(),
-      }),
-      undefined,
-      this.authApiAxios
-    );
     //
 
     this.fakeEndpointApiAxios = axios.create();

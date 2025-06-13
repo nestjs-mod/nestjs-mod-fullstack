@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppDemoInterface } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
+import { AppDemoInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { TIMEZONE_OFFSET } from '@nestjs-mod/misc';
 import { addHours } from 'date-fns';
 

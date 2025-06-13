@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "peerDependencies": {
         "@nestjs-mod/afat": "0.0.1",
-        "@nestjs-mod-fullstack/fullstack-angular-rest-sdk": "0.0.1",
+        "@nestjs-mod-fullstack/fullstack-rest-sdk-angular": "0.0.1",
         "@angular/common": "19.0.5",
         "@angular/core": "19.0.5",
         "@angular/forms": "19.0.5",

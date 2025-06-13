@@ -6,7 +6,6 @@ import {
   User,
 } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
-import { AuthRestService } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthCompleteForgotPasswordInput,
@@ -21,6 +20,7 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-angular';
+import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesService } from '@nestjs-mod/files-afat';
 import { mapGraphqlErrors } from '@nestjs-mod/misc';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -40,7 +40,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   private authorizer: Authorizer;
 
   constructor(
-    private readonly authRestService: AuthRestService,
+    private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
@@ -261,7 +261,7 @@ export function provideAuthIntegrationConfiguration(): Provider {
     provide: AUTH_CONFIGURATION_TOKEN,
     useClass: AuthIntegrationConfiguration,
     deps: [
-      AuthRestService,
+      FullstackRestSdkAngularService,
       FilesService,
       TranslocoService,
       TokensService,

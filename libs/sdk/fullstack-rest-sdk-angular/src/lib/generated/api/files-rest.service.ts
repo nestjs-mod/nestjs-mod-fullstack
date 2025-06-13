@@ -23,22 +23,27 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
+import { FilesPresignedUrlsInterface } from '../model/files-presigned-urls.interface';
+// @ts-ignore
+import { StatusResponseInterface } from '../model/status-response.interface';
+
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
-import { RestClientConfiguration } from '../configuration';
+import { FullstackRestClientConfiguration } from '../configuration';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TimeRestService {
+export class FilesRestService {
   protected basePath = 'http://localhost';
   public defaultHeaders = new HttpHeaders();
-  public configuration = new RestClientConfiguration();
+  public configuration = new FullstackRestClientConfiguration();
   public encoder: HttpParameterCodec;
 
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: RestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -114,10 +119,12 @@ export class TimeRestService {
   }
 
   /**
+   * @param downloadUrl
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public timeControllerTime(
+  public filesControllerDeleteFile(
+    downloadUrl: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -125,8 +132,9 @@ export class TimeRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<object>;
-  public timeControllerTime(
+  ): Observable<StatusResponseInterface>;
+  public filesControllerDeleteFile(
+    downloadUrl: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -134,8 +142,9 @@ export class TimeRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<object>>;
-  public timeControllerTime(
+  ): Observable<HttpResponse<StatusResponseInterface>>;
+  public filesControllerDeleteFile(
+    downloadUrl: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -143,8 +152,9 @@ export class TimeRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<object>>;
-  public timeControllerTime(
+  ): Observable<HttpEvent<StatusResponseInterface>>;
+  public filesControllerDeleteFile(
+    downloadUrl: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -153,6 +163,21 @@ export class TimeRestService {
       transferCache?: boolean;
     }
   ): Observable<any> {
+    if (downloadUrl === null || downloadUrl === undefined) {
+      throw new Error(
+        'Required parameter downloadUrl was null or undefined when calling filesControllerDeleteFile.'
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (downloadUrl !== undefined && downloadUrl !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>downloadUrl,
+        'downloadUrl'
+      );
+    }
+
     let localVarHeaders = this.defaultHeaders;
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
@@ -195,12 +220,132 @@ export class TimeRestService {
       }
     }
 
-    let localVarPath = `/api/time`;
-    return this.httpClient.request<object>(
+    let localVarPath = `/api/files/delete-file`;
+    return this.httpClient.request<StatusResponseInterface>(
+      'post',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param ext
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public filesControllerGetPresignedUrl(
+    ext: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<FilesPresignedUrlsInterface>;
+  public filesControllerGetPresignedUrl(
+    ext: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpResponse<FilesPresignedUrlsInterface>>;
+  public filesControllerGetPresignedUrl(
+    ext: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpEvent<FilesPresignedUrlsInterface>>;
+  public filesControllerGetPresignedUrl(
+    ext: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<any> {
+    if (ext === null || ext === undefined) {
+      throw new Error(
+        'Required parameter ext was null or undefined when calling filesControllerGetPresignedUrl.'
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (ext !== undefined && ext !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>ext,
+        'ext'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/json'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined =
+      options && options.transferCache;
+    if (localVarTransferCache === undefined) {
+      localVarTransferCache = true;
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/files/get-presigned-url`;
+    return this.httpClient.request<FilesPresignedUrlsInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
+        params: localVarQueryParameters,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,

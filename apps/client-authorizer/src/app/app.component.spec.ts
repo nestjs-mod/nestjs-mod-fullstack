@@ -4,10 +4,7 @@ import { RouterModule } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
-import {
-  RestClientApiModule,
-  RestClientConfiguration,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
+import { FullstackRestSdkAngularModule } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesRestSdkAngularModule, MINIO_URL } from '@nestjs-mod/files-afat';
 import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 import {
@@ -73,12 +70,9 @@ describe('AppComponent', () => {
         AppComponent,
         RouterModule.forRoot([]),
         HttpClientModule,
-        RestClientApiModule.forRoot(
-          () =>
-            new RestClientConfiguration({
-              basePath: serverUrl,
-            })
-        ),
+        FullstackRestSdkAngularModule.forRoot({
+          basePath: serverUrl,
+        }),
         FilesRestSdkAngularModule.forRoot({
           basePath: serverUrl,
         }),

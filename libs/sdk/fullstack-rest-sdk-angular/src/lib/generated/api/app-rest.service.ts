@@ -23,35 +23,27 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { AuthControllerProfile400ResponseInterface } from '../model/auth-controller-profile400-response.interface';
+import { AppDataInterface } from '../model/app-data.interface';
 // @ts-ignore
-import { AuthProfileDtoInterface } from '../model/auth-profile-dto.interface';
-// @ts-ignore
-import { AuthUserInterface } from '../model/auth-user.interface';
-// @ts-ignore
-import { FindManyAuthUserResponseInterface } from '../model/find-many-auth-user-response.interface';
-// @ts-ignore
-import { StatusResponseInterface } from '../model/status-response.interface';
-// @ts-ignore
-import { UpdateAuthUserDtoInterface } from '../model/update-auth-user-dto.interface';
+import { AppDemoInterface } from '../model/app-demo.interface';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
-import { RestClientConfiguration } from '../configuration';
+import { FullstackRestClientConfiguration } from '../configuration';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthRestService {
+export class AppRestService {
   protected basePath = 'http://localhost';
   public defaultHeaders = new HttpHeaders();
-  public configuration = new RestClientConfiguration();
+  public configuration = new FullstackRestClientConfiguration();
   public encoder: HttpParameterCodec;
 
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: RestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -130,7 +122,7 @@ export class AuthRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public authControllerProfile(
+  public appControllerDemoCreateOne(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -138,8 +130,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<AuthProfileDtoInterface>;
-  public authControllerProfile(
+  ): Observable<AppDemoInterface>;
+  public appControllerDemoCreateOne(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -147,8 +139,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<AuthProfileDtoInterface>>;
-  public authControllerProfile(
+  ): Observable<HttpResponse<AppDemoInterface>>;
+  public appControllerDemoCreateOne(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -156,8 +148,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<AuthProfileDtoInterface>>;
-  public authControllerProfile(
+  ): Observable<HttpEvent<AppDemoInterface>>;
+  public appControllerDemoCreateOne(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -208,136 +200,12 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/profile`;
-    return this.httpClient.request<AuthProfileDtoInterface>(
-      'get',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * @param authProfileDtoInterface
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public authControllerUpdateProfile(
-    authProfileDtoInterface: AuthProfileDtoInterface,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<StatusResponseInterface>;
-  public authControllerUpdateProfile(
-    authProfileDtoInterface: AuthProfileDtoInterface,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<StatusResponseInterface>>;
-  public authControllerUpdateProfile(
-    authProfileDtoInterface: AuthProfileDtoInterface,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<StatusResponseInterface>>;
-  public authControllerUpdateProfile(
-    authProfileDtoInterface: AuthProfileDtoInterface,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any> {
-    if (
-      authProfileDtoInterface === null ||
-      authProfileDtoInterface === undefined
-    ) {
-      throw new Error(
-        'Required parameter authProfileDtoInterface was null or undefined when calling authControllerUpdateProfile.'
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (localVarHttpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    }
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
-    }
-
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
-    if (localVarHttpContext === undefined) {
-      localVarHttpContext = new HttpContext();
-    }
-
-    let localVarTransferCache: boolean | undefined =
-      options && options.transferCache;
-    if (localVarTransferCache === undefined) {
-      localVarTransferCache = true;
-    }
-
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Content-Type',
-        httpContentTypeSelected
-      );
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (
-        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
-      ) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/auth/update-profile`;
-    return this.httpClient.request<StatusResponseInterface>(
+    let localVarPath = `/api/demo`;
+    return this.httpClient.request<AppDemoInterface>(
       'post',
       `${this.configuration.basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
-        body: authProfileDtoInterface,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,
@@ -353,7 +221,7 @@ export class AuthRestService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public authUsersControllerDeleteOne(
+  public appControllerDemoDeleteOne(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
@@ -362,8 +230,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<StatusResponseInterface>;
-  public authUsersControllerDeleteOne(
+  ): Observable<AppDemoInterface>;
+  public appControllerDemoDeleteOne(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
@@ -372,8 +240,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<StatusResponseInterface>>;
-  public authUsersControllerDeleteOne(
+  ): Observable<HttpResponse<AppDemoInterface>>;
+  public appControllerDemoDeleteOne(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
@@ -382,8 +250,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<StatusResponseInterface>>;
-  public authUsersControllerDeleteOne(
+  ): Observable<HttpEvent<AppDemoInterface>>;
+  public appControllerDemoDeleteOne(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -395,7 +263,7 @@ export class AuthRestService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerDeleteOne.'
+        'Required parameter id was null or undefined when calling appControllerDemoDeleteOne.'
       );
     }
 
@@ -441,7 +309,7 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
@@ -450,7 +318,7 @@ export class AuthRestService {
       dataType: 'string',
       dataFormat: undefined,
     })}`;
-    return this.httpClient.request<StatusResponseInterface>(
+    return this.httpClient.request<AppDemoInterface>(
       'delete',
       `${this.configuration.basePath}${localVarPath}`,
       {
@@ -466,18 +334,10 @@ export class AuthRestService {
   }
 
   /**
-   * @param curPage
-   * @param perPage
-   * @param searchText
-   * @param sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
+  public appControllerDemoFindMany(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -485,12 +345,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<FindManyAuthUserResponseInterface>;
-  public authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
+  ): Observable<Array<AppDemoInterface>>;
+  public appControllerDemoFindMany(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -498,12 +354,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<FindManyAuthUserResponseInterface>>;
-  public authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
+  ): Observable<HttpResponse<Array<AppDemoInterface>>>;
+  public appControllerDemoFindMany(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -511,12 +363,8 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<FindManyAuthUserResponseInterface>>;
-  public authUsersControllerFindMany(
-    curPage?: number,
-    perPage?: number,
-    searchText?: string,
-    sort?: string,
+  ): Observable<HttpEvent<Array<AppDemoInterface>>>;
+  public appControllerDemoFindMany(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -525,36 +373,6 @@ export class AuthRestService {
       transferCache?: boolean;
     }
   ): Observable<any> {
-    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
-    if (curPage !== undefined && curPage !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>curPage,
-        'curPage'
-      );
-    }
-    if (perPage !== undefined && perPage !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>perPage,
-        'perPage'
-      );
-    }
-    if (searchText !== undefined && searchText !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>searchText,
-        'searchText'
-      );
-    }
-    if (sort !== undefined && sort !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>sort,
-        'sort'
-      );
-    }
-
     let localVarHeaders = this.defaultHeaders;
 
     let localVarHttpHeaderAcceptSelected: string | undefined =
@@ -597,126 +415,8 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users`;
-    return this.httpClient.request<FindManyAuthUserResponseInterface>(
-      'get',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
-  }
-
-  /**
-   * @param id
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public authUsersControllerFindOne(
-    id: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<AuthUserInterface>;
-  public authUsersControllerFindOne(
-    id: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<AuthUserInterface>>;
-  public authUsersControllerFindOne(
-    id: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<AuthUserInterface>>;
-  public authUsersControllerFindOne(
-    id: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<any> {
-    if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerFindOne.'
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (localVarHttpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    }
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
-    }
-
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
-    if (localVarHttpContext === undefined) {
-      localVarHttpContext = new HttpContext();
-    }
-
-    let localVarTransferCache: boolean | undefined =
-      options && options.transferCache;
-    if (localVarTransferCache === undefined) {
-      localVarTransferCache = true;
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (
-        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
-      ) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
-    return this.httpClient.request<AuthUserInterface>(
+    let localVarPath = `/api/demo`;
+    return this.httpClient.request<Array<AppDemoInterface>>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
       {
@@ -733,13 +433,11 @@ export class AuthRestService {
 
   /**
    * @param id
-   * @param updateAuthUserDtoInterface
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public authUsersControllerUpdateOne(
+  public appControllerDemoFindOne(
     id: string,
-    updateAuthUserDtoInterface: UpdateAuthUserDtoInterface,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -747,10 +445,9 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<AuthUserInterface>;
-  public authUsersControllerUpdateOne(
+  ): Observable<AppDemoInterface>;
+  public appControllerDemoFindOne(
     id: string,
-    updateAuthUserDtoInterface: UpdateAuthUserDtoInterface,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -758,10 +455,9 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<AuthUserInterface>>;
-  public authUsersControllerUpdateOne(
+  ): Observable<HttpResponse<AppDemoInterface>>;
+  public appControllerDemoFindOne(
     id: string,
-    updateAuthUserDtoInterface: UpdateAuthUserDtoInterface,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -769,10 +465,9 @@ export class AuthRestService {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<AuthUserInterface>>;
-  public authUsersControllerUpdateOne(
+  ): Observable<HttpEvent<AppDemoInterface>>;
+  public appControllerDemoFindOne(
     id: string,
-    updateAuthUserDtoInterface: UpdateAuthUserDtoInterface,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -783,15 +478,7 @@ export class AuthRestService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerUpdateOne.'
-      );
-    }
-    if (
-      updateAuthUserDtoInterface === null ||
-      updateAuthUserDtoInterface === undefined
-    ) {
-      throw new Error(
-        'Required parameter updateAuthUserDtoInterface was null or undefined when calling authUsersControllerUpdateOne.'
+        'Required parameter id was null or undefined when calling appControllerDemoFindOne.'
       );
     }
 
@@ -824,15 +511,121 @@ export class AuthRestService {
       localVarTransferCache = true;
     }
 
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Content-Type',
-        httpContentTypeSelected
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({
+      name: 'id',
+      value: id,
+      in: 'path',
+      style: 'simple',
+      explode: false,
+      dataType: 'string',
+      dataFormat: undefined,
+    })}`;
+    return this.httpClient.request<AppDemoInterface>(
+      'get',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public appControllerDemoUpdateOne(
+    id: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<AppDemoInterface>;
+  public appControllerDemoUpdateOne(
+    id: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpResponse<AppDemoInterface>>;
+  public appControllerDemoUpdateOne(
+    id: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpEvent<AppDemoInterface>>;
+  public appControllerDemoUpdateOne(
+    id: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling appControllerDemoUpdateOne.'
       );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/json'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined =
+      options && options.transferCache;
+    if (localVarTransferCache === undefined) {
+      localVarTransferCache = true;
     }
 
     let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -848,7 +641,7 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
@@ -857,12 +650,109 @@ export class AuthRestService {
       dataType: 'string',
       dataFormat: undefined,
     })}`;
-    return this.httpClient.request<AuthUserInterface>(
+    return this.httpClient.request<AppDemoInterface>(
       'put',
       `${this.configuration.basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
-        body: updateAuthUserDtoInterface,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public appControllerGetData(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<AppDataInterface>;
+  public appControllerGetData(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpResponse<AppDataInterface>>;
+  public appControllerGetData(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpEvent<AppDataInterface>>;
+  public appControllerGetData(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/json'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined =
+      options && options.transferCache;
+    if (localVarTransferCache === undefined) {
+      localVarTransferCache = true;
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/get-data`;
+    return this.httpClient.request<AppDataInterface>(
+      'get',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,

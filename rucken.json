@@ -12,8 +12,7 @@
       "*.d.ts",
       "fake",
       "*test-setup.ts*",
-      "*prisma-client*",
-      "*rest-sdk*"
+      "*prisma-client*"
     ]
   }
 }

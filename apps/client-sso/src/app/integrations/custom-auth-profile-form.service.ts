@@ -4,7 +4,7 @@ import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
   AuthUserScalarFieldEnumInterface,
   ValidationErrorMetadataInterface,
-} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
+} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import {
   AuthLoginInput,
   AuthProfileFormService,
