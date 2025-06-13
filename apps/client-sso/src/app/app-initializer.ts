@@ -4,7 +4,7 @@ import {
   AuthActiveLangService,
   AuthService,
   TokensService,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesRestSdkAngularService } from '@nestjs-mod/files-afat';
 import { WebhookRestSdkAngularService } from '@nestjs-mod/webhook-afat';

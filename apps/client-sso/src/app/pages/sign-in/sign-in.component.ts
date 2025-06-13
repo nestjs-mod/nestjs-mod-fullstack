@@ -5,7 +5,7 @@ import { AuthRoleInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angu
 import {
   AuthService,
   AuthSignInFormComponent,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { searchIn } from '@nestjs-mod/misc';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 

@@ -1,5 +1,5 @@
 {
-    "name": "@nestjs-mod-fullstack/auth-angular",
+    "name": "@nestjs-mod-fullstack/auth-afat",
     "version": "0.0.1",
     "peerDependencies": {
         "@nestjs-mod/afat": "0.0.1",
@@ -18,7 +18,7 @@
     "sideEffects": false,
     "i18n": [
         {
-            "scope": "auth-angular",
+            "scope": "auth-afat",
             "path": "src/i18n",
             "strategy": "join"
         }

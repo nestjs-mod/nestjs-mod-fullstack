@@ -10,7 +10,7 @@ import {
   AuthGuardService,
   CompleteSignUpOptions,
   OnActivateOptions,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';

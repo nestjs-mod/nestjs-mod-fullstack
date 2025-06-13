@@ -14,7 +14,7 @@ import {
   CheckUserRolesPipe,
   TokensService,
   UserPipe,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import {
   AuthRoleInterface,
   FullstackRestSdkAngularService,

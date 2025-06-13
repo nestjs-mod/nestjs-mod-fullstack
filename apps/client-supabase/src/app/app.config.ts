@@ -20,7 +20,7 @@ import {
   AuthProfileFormService,
   AuthProfileMapperService,
   AuthService,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { FullstackRestSdkAngularModule } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { COMMON_FORMLY_FIELDS } from '@nestjs-mod/afat';
 import {

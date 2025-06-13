@@ -12,7 +12,7 @@
     "Event that fires after user delete": "Event that fires after user delete",
     "Event that fires after user update": "Event that fires after user update"
   },
-  "auth-angular": {
+  "auth-afat": {
     "Sign-up": "Sign-up",
     "Forgot password?": "Forgot password?",
     "Sign-in": "Sign-in",

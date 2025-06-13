@@ -30,8 +30,8 @@
         "libs/sdk/fullstack-rest-sdk/src/index.ts"
       ],
       "@nestjs-mod-fullstack/auth": ["libs/core/auth/src/index.ts"],
-      "@nestjs-mod-fullstack/auth-angular": [
-        "libs/core/auth-angular/src/index.ts"
+      "@nestjs-mod-fullstack/auth-afat": [
+        "libs/core/auth-afat/src/index.ts"
       ],
       "@nestjs-mod-fullstack/testing": ["libs/testing/src/index.ts"]
     },

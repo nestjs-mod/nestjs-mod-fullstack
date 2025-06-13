@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { AuthProfileFormComponent } from '@nestjs-mod-fullstack/auth-angular';
+import { AuthProfileFormComponent } from '@nestjs-mod-fullstack/auth-afat';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 

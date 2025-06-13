@@ -12,7 +12,7 @@
     "Event that fires after user delete": "Событие, которое возникает после удаления пользователя",
     "Event that fires after user update": "Событие, которое возникает после обновления информации о пользователе"
   },
-  "auth-angular": {
+  "auth-afat": {
     "Sign-up": "Зарегистрироваться",
     "Forgot password?": "Забыли пароль?",
     "Sign-in": "Войти",

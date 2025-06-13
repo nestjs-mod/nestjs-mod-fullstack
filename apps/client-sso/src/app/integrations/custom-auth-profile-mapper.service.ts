@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   AuthProfileMapperService,
   AuthUpdateProfileInput,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 
 @Injectable({ providedIn: 'root' })
 export class CustomAuthProfileMapperService extends AuthProfileMapperService {

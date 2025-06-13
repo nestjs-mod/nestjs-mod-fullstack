@@ -10,7 +10,7 @@ import {
   AuthUpdateProfileInput,
   AuthUser,
   TokensService,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import omit from 'lodash/fp/omit';
 import { catchError, map, mergeMap, of } from 'rxjs';

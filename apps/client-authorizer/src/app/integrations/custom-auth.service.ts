@@ -6,7 +6,7 @@ import {
   AuthUpdateProfileInput,
   AuthUser,
   TokensService,
-} from '@nestjs-mod-fullstack/auth-angular';
+} from '@nestjs-mod-fullstack/auth-afat';
 import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import omit from 'lodash/fp/omit';
