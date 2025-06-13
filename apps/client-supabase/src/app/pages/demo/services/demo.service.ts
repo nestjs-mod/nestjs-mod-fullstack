@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AppRestService } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import { map } from 'rxjs';
 import { DemoMapperService } from './demo-mapper.service';
 

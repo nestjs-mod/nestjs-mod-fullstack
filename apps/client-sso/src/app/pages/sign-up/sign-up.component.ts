@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { AuthRoleInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthRoleInterface } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AuthService,
   AuthSignUpFormComponent,

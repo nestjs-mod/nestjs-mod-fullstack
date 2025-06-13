@@ -1,7 +1,7 @@
 {
-  "name": "app-rest-sdk",
+  "name": "fullstack-rest-sdk",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/sdk/app-rest-sdk/src",
+  "sourceRoot": "libs/sdk/fullstack-rest-sdk/src",
   "projectType": "library",
   "release": {
     "version": {
@@ -17,11 +17,11 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/sdk/app-rest-sdk",
-        "tsConfig": "libs/sdk/app-rest-sdk/tsconfig.lib.json",
-        "packageJson": "libs/sdk/app-rest-sdk/package.json",
-        "main": "libs/sdk/app-rest-sdk/src/index.ts",
-        "assets": ["libs/sdk/app-rest-sdk/*.md"]
+        "outputPath": "dist/libs/sdk/fullstack-rest-sdk",
+        "tsConfig": "libs/sdk/fullstack-rest-sdk/tsconfig.lib.json",
+        "packageJson": "libs/sdk/fullstack-rest-sdk/package.json",
+        "main": "libs/sdk/fullstack-rest-sdk/src/index.ts",
+        "assets": ["libs/sdk/fullstack-rest-sdk/*.md"]
       }
     },
     "nx-release-publish": {
@@ -33,14 +33,14 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/sdk/app-rest-sdk/jest.config.ts"
+        "jestConfig": "libs/sdk/fullstack-rest-sdk/jest.config.ts"
       }
     },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
         "buildTarget": "${PROJECT_NAME}:build",
-        "outputPath": "dist/libs/sdk/app-rest-sdk"
+        "outputPath": "dist/libs/sdk/fullstack-rest-sdk"
       }
     }
   }

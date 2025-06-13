@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { AuthRestService } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthRestService } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthConfiguration,

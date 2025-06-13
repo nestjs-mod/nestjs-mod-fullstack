@@ -23,11 +23,11 @@
     "esModuleInterop": true,
     "noImplicitAny": false,
     "paths": {
-      "@nestjs-mod-fullstack/app-angular-rest-sdk": [
-        "libs/sdk/app-angular-rest-sdk/src/index.ts"
+      "@nestjs-mod-fullstack/fullstack-angular-rest-sdk": [
+        "libs/sdk/fullstack-angular-rest-sdk/src/index.ts"
       ],
-      "@nestjs-mod-fullstack/app-rest-sdk": [
-        "libs/sdk/app-rest-sdk/src/index.ts"
+      "@nestjs-mod-fullstack/fullstack-rest-sdk": [
+        "libs/sdk/fullstack-rest-sdk/src/index.ts"
       ],
       "@nestjs-mod-fullstack/auth": ["libs/core/auth/src/index.ts"],
       "@nestjs-mod-fullstack/auth-angular": [

@@ -12,7 +12,7 @@ import {
   AppRestService,
   AuthRoleInterface,
   TimeRestService,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AuthActiveLangService,
   AuthService,

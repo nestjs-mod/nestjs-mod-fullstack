@@ -19,7 +19,7 @@ import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import {
   RestClientApiModule,
   RestClientConfiguration,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AuthProfileFormService,
   AuthProfileMapperService,

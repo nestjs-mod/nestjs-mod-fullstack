@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-angular-rest-sdk',
+  displayName: 'fullstack-angular-rest-sdk',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/sdk/app-angular-rest-sdk',
+  coverageDirectory: '../../../coverage/libs/sdk/fullstack-angular-rest-sdk',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

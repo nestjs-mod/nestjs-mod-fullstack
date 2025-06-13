@@ -4,7 +4,7 @@ import { marker } from '@jsverse/transloco-keys-manager/marker';
 import {
   AuthRestService,
   AuthRoleInterface,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AUTH_CONFIGURATION_TOKEN,
   AuthCompleteForgotPasswordInput,

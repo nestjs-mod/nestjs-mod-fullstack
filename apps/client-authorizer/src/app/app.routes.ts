@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
-import { AuthRoleInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { AuthRoleInterface } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import {
   AUTH_COMPLETE_GUARD_DATA_ROUTE_KEY,
   AUTH_GUARD_DATA_ROUTE_KEY,

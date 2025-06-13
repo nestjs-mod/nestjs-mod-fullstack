@@ -1,28 +1,28 @@
-## [1.3.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.3.1...app-rest-sdk-v1.3.2) (2024-11-15)
+## [1.3.2](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.3.1...fullstack-rest-sdk-v1.3.2) (2024-11-15)
 
 ### Bug Fixes
 
 - update nx version ([7a485f7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/7a485f72661d8252937fd7b6190f0191aa90dc92))
 
-## [1.3.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.3.0...app-rest-sdk-v1.3.1) (2024-11-15)
+## [1.3.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.3.0...fullstack-rest-sdk-v1.3.1) (2024-11-15)
 
 ### Bug Fixes
 
 - bump nestjs libraries version ([4ff301f](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/4ff301f694a3849f72cdd1d9cf0338926817abdc))
 
-# [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.2.1...app-rest-sdk-v1.3.0) (2024-11-15)
+# [1.3.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.2.1...fullstack-rest-sdk-v1.3.0) (2024-11-15)
 
 ### Features
 
 - Integrating an external file server https://min.io into a full-stack application on NestJS and Angular (2024-11-115) ([#9](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/9)) ([41d8b55](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/41d8b555923e3d6343dc2ac1304443d3df60d5e8))
 
-## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.2.0...app-rest-sdk-v1.2.1) (2024-11-08)
+## [1.2.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.2.0...fullstack-rest-sdk-v1.2.1) (2024-11-08)
 
 ### Bug Fixes
 
 - update dependencies ([6aad935](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/6aad935d8470e92ff77858e9bb6cd58b9c51f1af))
 
-# [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.1.1...app-rest-sdk-v1.2.0) (2024-11-07)
+# [1.2.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.1.1...fullstack-rest-sdk-v1.2.0) (2024-11-07)
 
 ### Bug Fixes
 
@@ -34,13 +34,13 @@
 - Creating a user interface for the Webhook module using Angular (2024-10-25) ([a3b54d6](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/a3b54d6d7febda6d508127b637461f742816a18a))
 - Integration of external authorization server https://authorizer.dev into a full-stack application on NestJS and Angular (2024-10-29) ([#8](https://github.com/nestjs-mod/nestjs-mod-fullstack/issues/8)) ([038fea7](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/038fea7238f5459ff4f917fd0a963b82d1656978))
 
-## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.1.0...app-rest-sdk-v1.1.1) (2024-09-17)
+## [1.1.1](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.1.0...fullstack-rest-sdk-v1.1.1) (2024-09-17)
 
 ### Bug Fixes
 
 - add strict rules to tsconfig.base.json ([934c872](https://github.com/nestjs-mod/nestjs-mod-fullstack/commit/934c8727c51a73dab6d7373bacd3e4014583df0e))
 
-# [1.1.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/app-rest-sdk-v1.0.0...app-rest-sdk-v1.1.0) (2024-09-17)
+# [1.1.0](https://github.com/nestjs-mod/nestjs-mod-fullstack/compare/fullstack-rest-sdk-v1.0.0...fullstack-rest-sdk-v1.1.0) (2024-09-17)
 
 ### Bug Fixes
 

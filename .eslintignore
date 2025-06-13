@@ -3,5 +3,5 @@ node_modules
 apps/server/src/app/generated/rest/dto
 libs/core/webhook/src/lib/generated/rest/dto
 libs/core/auth/src/lib/generated/rest/dto
-libs/sdk/app-rest-sdk/src/lib
-libs/sdk/app-angular-rest-sdk/src/lib
+libs/sdk/fullstack-rest-sdk/src/lib
+libs/sdk/fullstack-angular-rest-sdk/src/lib

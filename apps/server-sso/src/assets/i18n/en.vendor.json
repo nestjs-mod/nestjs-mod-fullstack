@@ -1,6 +1,6 @@
 {
-  "app-angular-rest-sdk": {},
-  "app-rest-sdk": {},
+  "fullstack-angular-rest-sdk": {},
+  "fullstack-rest-sdk": {},
   "auth-getText": {
     "Auth error": "Auth error",
     "Forbidden": "Forbidden",

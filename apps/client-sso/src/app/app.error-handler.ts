@@ -1,6 +1,6 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { WebhookErrorInterface } from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+import { WebhookErrorInterface } from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()

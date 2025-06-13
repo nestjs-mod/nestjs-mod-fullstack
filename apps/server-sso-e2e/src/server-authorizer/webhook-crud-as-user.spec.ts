@@ -1,4 +1,7 @@
-import { AuthErrorEnum, WebhookRole } from '@nestjs-mod-fullstack/app-rest-sdk';
+import {
+  AuthErrorEnum,
+  WebhookRole,
+} from '@nestjs-mod-fullstack/fullstack-rest-sdk';
 import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
 
 describe('CRUD operations with Webhook as "User" role', () => {

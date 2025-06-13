@@ -7,7 +7,7 @@ import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat'
 import {
   RestClientApiModule,
   RestClientConfiguration,
-} from '@nestjs-mod-fullstack/app-angular-rest-sdk';
+} from '@nestjs-mod-fullstack/fullstack-angular-rest-sdk';
 import { FilesRestSdkAngularModule, MINIO_URL } from '@nestjs-mod/files-afat';
 import { WebhookRestSdkAngularModule } from '@nestjs-mod/webhook-afat';
 import {
