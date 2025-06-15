@@ -38,7 +38,7 @@ export class TimeRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -61,7 +61,7 @@ export class TimeRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -74,7 +74,7 @@ export class TimeRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -84,13 +84,13 @@ export class TimeRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -101,8 +101,8 @@ export class TimeRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -124,7 +124,7 @@ export class TimeRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<object>;
   public timeControllerTime(
     observe?: 'response',
@@ -133,7 +133,7 @@ export class TimeRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<object>>;
   public timeControllerTime(
     observe?: 'events',
@@ -142,7 +142,7 @@ export class TimeRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<object>>;
   public timeControllerTime(
     observe: any = 'body',
@@ -151,7 +151,7 @@ export class TimeRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -166,7 +166,7 @@ export class TimeRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -207,7 +207,7 @@ export class TimeRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }

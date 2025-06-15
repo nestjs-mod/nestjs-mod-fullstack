@@ -43,7 +43,7 @@ export class AppRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -66,7 +66,7 @@ export class AppRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -79,7 +79,7 @@ export class AppRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -89,13 +89,13 @@ export class AppRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -106,8 +106,8 @@ export class AppRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -129,7 +129,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AppDemoInterface>;
   public appControllerDemoCreateOne(
     observe?: 'response',
@@ -138,7 +138,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AppDemoInterface>>;
   public appControllerDemoCreateOne(
     observe?: 'events',
@@ -147,7 +147,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AppDemoInterface>>;
   public appControllerDemoCreateOne(
     observe: any = 'body',
@@ -156,7 +156,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -171,7 +171,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -212,7 +212,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -229,7 +229,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AppDemoInterface>;
   public appControllerDemoDeleteOne(
     id: string,
@@ -239,7 +239,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AppDemoInterface>>;
   public appControllerDemoDeleteOne(
     id: string,
@@ -249,7 +249,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AppDemoInterface>>;
   public appControllerDemoDeleteOne(
     id: string,
@@ -259,11 +259,11 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling appControllerDemoDeleteOne.'
+        'Required parameter id was null or undefined when calling appControllerDemoDeleteOne.',
       );
     }
 
@@ -280,7 +280,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -309,15 +309,7 @@ export class AppRestService {
       }
     }
 
-    let localVarPath = `/api/demo/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<AppDemoInterface>(
       'delete',
       `${this.configuration.basePath}${localVarPath}`,
@@ -329,7 +321,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -344,7 +336,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<Array<AppDemoInterface>>;
   public appControllerDemoFindMany(
     observe?: 'response',
@@ -353,7 +345,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<Array<AppDemoInterface>>>;
   public appControllerDemoFindMany(
     observe?: 'events',
@@ -362,7 +354,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<Array<AppDemoInterface>>>;
   public appControllerDemoFindMany(
     observe: any = 'body',
@@ -371,7 +363,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -386,7 +378,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -427,7 +419,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -444,7 +436,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AppDemoInterface>;
   public appControllerDemoFindOne(
     id: string,
@@ -454,7 +446,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AppDemoInterface>>;
   public appControllerDemoFindOne(
     id: string,
@@ -464,7 +456,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AppDemoInterface>>;
   public appControllerDemoFindOne(
     id: string,
@@ -474,11 +466,11 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling appControllerDemoFindOne.'
+        'Required parameter id was null or undefined when calling appControllerDemoFindOne.',
       );
     }
 
@@ -495,7 +487,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -524,15 +516,7 @@ export class AppRestService {
       }
     }
 
-    let localVarPath = `/api/demo/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<AppDemoInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
@@ -544,7 +528,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -561,7 +545,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AppDemoInterface>;
   public appControllerDemoUpdateOne(
     id: string,
@@ -571,7 +555,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AppDemoInterface>>;
   public appControllerDemoUpdateOne(
     id: string,
@@ -581,7 +565,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AppDemoInterface>>;
   public appControllerDemoUpdateOne(
     id: string,
@@ -591,11 +575,11 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling appControllerDemoUpdateOne.'
+        'Required parameter id was null or undefined when calling appControllerDemoUpdateOne.',
       );
     }
 
@@ -612,7 +596,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -641,15 +625,7 @@ export class AppRestService {
       }
     }
 
-    let localVarPath = `/api/demo/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/demo/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<AppDemoInterface>(
       'put',
       `${this.configuration.basePath}${localVarPath}`,
@@ -661,7 +637,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -676,7 +652,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AppDataInterface>;
   public appControllerGetData(
     observe?: 'response',
@@ -685,7 +661,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AppDataInterface>>;
   public appControllerGetData(
     observe?: 'events',
@@ -694,7 +670,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AppDataInterface>>;
   public appControllerGetData(
     observe: any = 'body',
@@ -703,7 +679,7 @@ export class AppRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -718,7 +694,7 @@ export class AppRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -759,7 +735,7 @@ export class AppRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }

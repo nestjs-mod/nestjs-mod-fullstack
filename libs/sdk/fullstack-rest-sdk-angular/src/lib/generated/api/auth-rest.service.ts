@@ -51,7 +51,7 @@ export class AuthRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -74,7 +74,7 @@ export class AuthRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -87,7 +87,7 @@ export class AuthRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -97,13 +97,13 @@ export class AuthRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -114,8 +114,8 @@ export class AuthRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -137,7 +137,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AuthProfileDtoInterface>;
   public authControllerProfile(
     observe?: 'response',
@@ -146,7 +146,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AuthProfileDtoInterface>>;
   public authControllerProfile(
     observe?: 'events',
@@ -155,7 +155,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AuthProfileDtoInterface>>;
   public authControllerProfile(
     observe: any = 'body',
@@ -164,7 +164,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -179,7 +179,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -220,7 +220,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -237,7 +237,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<StatusResponseInterface>;
   public authControllerUpdateProfile(
     authProfileDtoInterface: AuthProfileDtoInterface,
@@ -247,7 +247,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<StatusResponseInterface>>;
   public authControllerUpdateProfile(
     authProfileDtoInterface: AuthProfileDtoInterface,
@@ -257,7 +257,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<StatusResponseInterface>>;
   public authControllerUpdateProfile(
     authProfileDtoInterface: AuthProfileDtoInterface,
@@ -267,14 +267,14 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (
       authProfileDtoInterface === null ||
       authProfileDtoInterface === undefined
     ) {
       throw new Error(
-        'Required parameter authProfileDtoInterface was null or undefined when calling authControllerUpdateProfile.'
+        'Required parameter authProfileDtoInterface was null or undefined when calling authControllerUpdateProfile.',
       );
     }
 
@@ -291,7 +291,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -314,7 +314,7 @@ export class AuthRestService {
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Content-Type',
-        httpContentTypeSelected
+        httpContentTypeSelected,
       );
     }
 
@@ -344,7 +344,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -361,7 +361,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<StatusResponseInterface>;
   public authUsersControllerDeleteOne(
     id: string,
@@ -371,7 +371,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<StatusResponseInterface>>;
   public authUsersControllerDeleteOne(
     id: string,
@@ -381,7 +381,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<StatusResponseInterface>>;
   public authUsersControllerDeleteOne(
     id: string,
@@ -391,11 +391,11 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerDeleteOne.'
+        'Required parameter id was null or undefined when calling authUsersControllerDeleteOne.',
       );
     }
 
@@ -412,7 +412,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -441,15 +441,7 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<StatusResponseInterface>(
       'delete',
       `${this.configuration.basePath}${localVarPath}`,
@@ -461,7 +453,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -484,7 +476,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<FindManyAuthUserResponseInterface>;
   public authUsersControllerFindMany(
     curPage?: number,
@@ -497,7 +489,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<FindManyAuthUserResponseInterface>>;
   public authUsersControllerFindMany(
     curPage?: number,
@@ -510,7 +502,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<FindManyAuthUserResponseInterface>>;
   public authUsersControllerFindMany(
     curPage?: number,
@@ -523,35 +515,35 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
     if (curPage !== undefined && curPage !== null) {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>curPage,
-        'curPage'
+        'curPage',
       );
     }
     if (perPage !== undefined && perPage !== null) {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>perPage,
-        'perPage'
+        'perPage',
       );
     }
     if (searchText !== undefined && searchText !== null) {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>searchText,
-        'searchText'
+        'searchText',
       );
     }
     if (sort !== undefined && sort !== null) {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>sort,
-        'sort'
+        'sort',
       );
     }
 
@@ -568,7 +560,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -610,7 +602,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -627,7 +619,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AuthUserInterface>;
   public authUsersControllerFindOne(
     id: string,
@@ -637,7 +629,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AuthUserInterface>>;
   public authUsersControllerFindOne(
     id: string,
@@ -647,7 +639,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AuthUserInterface>>;
   public authUsersControllerFindOne(
     id: string,
@@ -657,11 +649,11 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerFindOne.'
+        'Required parameter id was null or undefined when calling authUsersControllerFindOne.',
       );
     }
 
@@ -678,7 +670,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -707,15 +699,7 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<AuthUserInterface>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
@@ -727,7 +711,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -746,7 +730,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<AuthUserInterface>;
   public authUsersControllerUpdateOne(
     id: string,
@@ -757,7 +741,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<AuthUserInterface>>;
   public authUsersControllerUpdateOne(
     id: string,
@@ -768,7 +752,7 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<AuthUserInterface>>;
   public authUsersControllerUpdateOne(
     id: string,
@@ -779,11 +763,11 @@ export class AuthRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling authUsersControllerUpdateOne.'
+        'Required parameter id was null or undefined when calling authUsersControllerUpdateOne.',
       );
     }
     if (
@@ -791,7 +775,7 @@ export class AuthRestService {
       updateAuthUserDtoInterface === undefined
     ) {
       throw new Error(
-        'Required parameter updateAuthUserDtoInterface was null or undefined when calling authUsersControllerUpdateOne.'
+        'Required parameter updateAuthUserDtoInterface was null or undefined when calling authUsersControllerUpdateOne.',
       );
     }
 
@@ -808,7 +792,7 @@ export class AuthRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -831,7 +815,7 @@ export class AuthRestService {
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Content-Type',
-        httpContentTypeSelected
+        httpContentTypeSelected,
       );
     }
 
@@ -848,15 +832,7 @@ export class AuthRestService {
       }
     }
 
-    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({
-      name: 'id',
-      value: id,
-      in: 'path',
-      style: 'simple',
-      explode: false,
-      dataType: 'string',
-      dataFormat: undefined,
-    })}`;
+    let localVarPath = `/api/auth/users/${this.configuration.encodeParam({ name: 'id', value: id, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<AuthUserInterface>(
       'put',
       `${this.configuration.basePath}${localVarPath}`,
@@ -869,7 +845,7 @@ export class AuthRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }

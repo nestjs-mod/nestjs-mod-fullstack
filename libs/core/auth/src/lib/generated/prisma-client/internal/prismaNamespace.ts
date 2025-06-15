@@ -90,12 +90,12 @@ export type Args<T, F extends runtime.Operation> = runtime.Types.Public.Args<
 >;
 export type Payload<
   T,
-  F extends runtime.Operation = never
+  F extends runtime.Operation = never,
 > = runtime.Types.Public.Payload<T, F>;
 export type Result<
   T,
   A,
-  F extends runtime.Operation
+  F extends runtime.Operation,
 > = runtime.Types.Public.Result<T, A, F>;
 export type Exact<A, W> = runtime.Types.Public.Exact<A, W>;
 
@@ -126,13 +126,13 @@ export type InputJsonValue = runtime.InputJsonValue;
 
 export const NullTypes = {
   DbNull: runtime.objectEnumValues.classes.DbNull as new (
-    secret: never
+    secret: never,
   ) => typeof runtime.objectEnumValues.instances.DbNull,
   JsonNull: runtime.objectEnumValues.classes.JsonNull as new (
-    secret: never
+    secret: never,
   ) => typeof runtime.objectEnumValues.instances.JsonNull,
   AnyNull: runtime.objectEnumValues.classes.AnyNull as new (
-    secret: never
+    secret: never,
   ) => typeof runtime.objectEnumValues.instances.AnyNull,
 };
 
@@ -194,8 +194,8 @@ export type SelectSubset<T, U> = {
 } & (T extends SelectAndInclude
   ? 'Please either choose `select` or `include`.'
   : T extends SelectAndOmit
-  ? 'Please either choose `select` or `omit`.'
-  : {});
+    ? 'Please either choose `select` or `omit`.'
+    : {});
 
 /**
  * Subset + Intersection
@@ -220,17 +220,18 @@ export type XOR<T, U> = T extends object
 /**
  * Is T a Record?
  */
-type IsObject<T extends any> = T extends Array<any>
-  ? False
-  : T extends Date
-  ? False
-  : T extends Uint8Array
-  ? False
-  : T extends BigInt
-  ? False
-  : T extends object
-  ? True
-  : False;
+type IsObject<T extends any> =
+  T extends Array<any>
+    ? False
+    : T extends Date
+      ? False
+      : T extends Uint8Array
+        ? False
+        : T extends BigInt
+          ? False
+          : T extends object
+            ? True
+            : False;
 
 /**
  * If it's T[], return T
@@ -259,7 +260,7 @@ type _Either<O extends object, K extends Key, strict extends Boolean> = {
 export type Either<
   O extends object,
   K extends Key,
-  strict extends Boolean = 1
+  strict extends Boolean = 1,
 > = O extends unknown ? _Either<O, K, strict> : never;
 
 export type Union = any;
@@ -347,8 +348,8 @@ export type Not<B extends Boolean> = {
 export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
   ? 0 // anything `never` is false
   : A1 extends A2
-  ? 1
-  : 0;
+    ? 1
+    : 0;
 
 export type Has<U extends Union, U1 extends Union> = Not<
   Extends<Exclude<U1, U>, U1>
@@ -373,10 +374,8 @@ export type GetScalarType<T, O> = O extends object
     }
   : never;
 
-type FieldPaths<
-  T,
-  U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>
-> = IsObject<T> extends True ? U : T;
+type FieldPaths<T, U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>> =
+  IsObject<T> extends True ? U : T;
 
 export type GetHavingFields<T> = {
   [K in keyof T]: Or<
@@ -392,8 +391,8 @@ export type GetHavingFields<T> = {
         >
       : never
     : {} extends FieldPaths<T[K]>
-    ? never
-    : K;
+      ? never
+      : K;
 }[keyof T];
 
 /**
@@ -408,7 +407,7 @@ export type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T;
  */
 export type PickEnumerable<
   T,
-  K extends Enumerable<keyof T> | keyof T
+  K extends Enumerable<keyof T> | keyof T,
 > = Prisma__Pick<T, MaybeTupleToUnion<K>>;
 
 /**
@@ -443,8 +442,9 @@ export interface TypeMapCb<ClientOptions = {}>
 }
 
 export type TypeMap<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > = {
   globalOmitOptions: {
     omit: GlobalOmitOptions;
@@ -887,9 +887,10 @@ export type GetLogType<T extends LogLevel | LogDefinition> =
       ? T['level']
       : never
     : never;
-export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition>
-  ? GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-  : never;
+export type GetEvents<T extends any> =
+  T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never;
 
 export type QueryEvent = {
   timestamp: Date;
@@ -945,7 +946,7 @@ export type MiddlewareParams = {
  */
 export type Middleware<T = any> = (
   params: MiddlewareParams,
-  next: (params: MiddlewareParams) => runtime.Types.Utils.JsPromise<T>
+  next: (params: MiddlewareParams) => runtime.Types.Utils.JsPromise<T>,
 ) => runtime.Types.Utils.JsPromise<T>;
 
 /**

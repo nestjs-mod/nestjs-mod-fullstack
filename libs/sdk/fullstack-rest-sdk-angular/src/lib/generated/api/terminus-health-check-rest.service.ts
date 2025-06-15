@@ -43,7 +43,7 @@ export class TerminusHealthCheckRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -66,7 +66,7 @@ export class TerminusHealthCheckRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -79,7 +79,7 @@ export class TerminusHealthCheckRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -89,13 +89,13 @@ export class TerminusHealthCheckRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -106,8 +106,8 @@ export class TerminusHealthCheckRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -129,7 +129,7 @@ export class TerminusHealthCheckRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<TerminusHealthCheckControllerCheck200ResponseInterface>;
   public terminusHealthCheckControllerCheck(
     observe?: 'response',
@@ -138,7 +138,7 @@ export class TerminusHealthCheckRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<
     HttpResponse<TerminusHealthCheckControllerCheck200ResponseInterface>
   >;
@@ -149,7 +149,7 @@ export class TerminusHealthCheckRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<
     HttpEvent<TerminusHealthCheckControllerCheck200ResponseInterface>
   >;
@@ -160,7 +160,7 @@ export class TerminusHealthCheckRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -175,7 +175,7 @@ export class TerminusHealthCheckRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -216,7 +216,7 @@ export class TerminusHealthCheckRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }

@@ -104,7 +104,8 @@ export type AuthUserCountAggregateInputType = {
 };
 
 export type AuthUserAggregateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which AuthUser to aggregate.
@@ -177,7 +178,8 @@ export type GetAuthUserAggregateType<T extends AuthUserAggregateArgs> = {
 };
 
 export type AuthUserGroupByArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.AuthUserWhereInput;
   orderBy?:
@@ -431,7 +433,8 @@ export type NullableStringFieldUpdateOperationsInput = {
 };
 
 export type AuthUserSelect<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -446,7 +449,8 @@ export type AuthUserSelect<
 >;
 
 export type AuthUserSelectCreateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -461,7 +465,8 @@ export type AuthUserSelectCreateManyAndReturn<
 >;
 
 export type AuthUserSelectUpdateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -486,7 +491,8 @@ export type AuthUserSelectScalar = {
 };
 
 export type AuthUserOmit<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
   | 'id'
   | 'externalUserId'
@@ -499,7 +505,8 @@ export type AuthUserOmit<
 >;
 
 export type $AuthUserPayload<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   name: 'AuthUser';
   objects: {};
@@ -530,18 +537,20 @@ export type $AuthUserPayload<
 };
 
 export type AuthUserGetPayload<
-  S extends boolean | null | undefined | AuthUserDefaultArgs
+  S extends boolean | null | undefined | AuthUserDefaultArgs,
 > = runtime.Types.Result.GetResult<Prisma.$AuthUserPayload, S>;
 
 export type AuthUserCountArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = Omit<AuthUserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
   select?: AuthUserCountAggregateInputType | true;
 };
 
 export interface AuthUserDelegate<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > {
   [K: symbol]: {
     types: Prisma.TypeMap<ExtArgs>['model']['AuthUser'];
@@ -559,7 +568,7 @@ export interface AuthUserDelegate<
    * })
    */
   findUnique<T extends AuthUserFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, AuthUserFindUniqueArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserFindUniqueArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -585,7 +594,7 @@ export interface AuthUserDelegate<
    * })
    */
   findUniqueOrThrow<T extends AuthUserFindUniqueOrThrowArgs>(
-    args: Prisma.SelectSubset<T, AuthUserFindUniqueOrThrowArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserFindUniqueOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -612,7 +621,7 @@ export interface AuthUserDelegate<
    * })
    */
   findFirst<T extends AuthUserFindFirstArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserFindFirstArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserFindFirstArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -640,7 +649,7 @@ export interface AuthUserDelegate<
    * })
    */
   findFirstOrThrow<T extends AuthUserFindFirstOrThrowArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserFindFirstOrThrowArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserFindFirstOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -670,7 +679,7 @@ export interface AuthUserDelegate<
    *
    */
   findMany<T extends AuthUserFindManyArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserFindManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserFindManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -693,7 +702,7 @@ export interface AuthUserDelegate<
    *
    */
   create<T extends AuthUserCreateArgs>(
-    args: Prisma.SelectSubset<T, AuthUserCreateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserCreateArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -719,7 +728,7 @@ export interface AuthUserDelegate<
    *
    */
   createMany<T extends AuthUserCreateManyArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserCreateManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserCreateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -745,7 +754,7 @@ export interface AuthUserDelegate<
    *
    */
   createManyAndReturn<T extends AuthUserCreateManyAndReturnArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserCreateManyAndReturnArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserCreateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -768,7 +777,7 @@ export interface AuthUserDelegate<
    *
    */
   delete<T extends AuthUserDeleteArgs>(
-    args: Prisma.SelectSubset<T, AuthUserDeleteArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserDeleteArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -797,7 +806,7 @@ export interface AuthUserDelegate<
    *
    */
   update<T extends AuthUserUpdateArgs>(
-    args: Prisma.SelectSubset<T, AuthUserUpdateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserUpdateArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -823,7 +832,7 @@ export interface AuthUserDelegate<
    *
    */
   deleteMany<T extends AuthUserDeleteManyArgs>(
-    args?: Prisma.SelectSubset<T, AuthUserDeleteManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AuthUserDeleteManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -844,7 +853,7 @@ export interface AuthUserDelegate<
    *
    */
   updateMany<T extends AuthUserUpdateManyArgs>(
-    args: Prisma.SelectSubset<T, AuthUserUpdateManyArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserUpdateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -876,7 +885,7 @@ export interface AuthUserDelegate<
    *
    */
   updateManyAndReturn<T extends AuthUserUpdateManyAndReturnArgs>(
-    args: Prisma.SelectSubset<T, AuthUserUpdateManyAndReturnArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserUpdateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -904,7 +913,7 @@ export interface AuthUserDelegate<
    * })
    */
   upsert<T extends AuthUserUpsertArgs>(
-    args: Prisma.SelectSubset<T, AuthUserUpsertArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AuthUserUpsertArgs<ExtArgs>>,
   ): Prisma.Prisma__AuthUserClient<
     runtime.Types.Result.GetResult<
       Prisma.$AuthUserPayload<ExtArgs>,
@@ -931,7 +940,7 @@ export interface AuthUserDelegate<
    * })
    **/
   count<T extends AuthUserCountArgs>(
-    args?: Prisma.Subset<T, AuthUserCountArgs>
+    args?: Prisma.Subset<T, AuthUserCountArgs>,
   ): Prisma.PrismaPromise<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
@@ -965,7 +974,7 @@ export interface AuthUserDelegate<
    * })
    **/
   aggregate<T extends AuthUserAggregateArgs>(
-    args: Prisma.Subset<T, AuthUserAggregateArgs>
+    args: Prisma.Subset<T, AuthUserAggregateArgs>,
   ): Prisma.PrismaPromise<GetAuthUserAggregateType<T>>;
 
   /**
@@ -1006,43 +1015,48 @@ export interface AuthUserDelegate<
     InputErrors extends ByEmpty extends Prisma.True
       ? `Error: "by" must not be empty.`
       : HavingValid extends Prisma.False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
-        }[HavingFields]
-      : 'take' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends Prisma.True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-        }[OrderFields]
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                    Error,
+                    'Field ',
+                    P,
+                    ` in "having" needs to be provided in "by"`,
+                  ];
+          }[HavingFields]
+        : 'take' extends Prisma.Keys<T>
+          ? 'orderBy' extends Prisma.Keys<T>
+            ? ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields]
+            : 'Error: If you provide "take", you also need to provide "orderBy"'
+          : 'skip' extends Prisma.Keys<T>
+            ? 'orderBy' extends Prisma.Keys<T>
+              ? ByValid extends Prisma.True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "skip", you also need to provide "orderBy"'
+            : ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields],
   >(
     args: Prisma.SubsetIntersection<T, AuthUserGroupByArgs, OrderByArg> &
-      InputErrors
+      InputErrors,
   ): {} extends InputErrors
     ? GetAuthUserGroupByPayload<T>
     : Prisma.PrismaPromise<InputErrors>;
@@ -1061,8 +1075,9 @@ export interface AuthUserDelegate<
 export interface Prisma__AuthUserClient<
   T,
   Null = never,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
   /**
@@ -1079,7 +1094,7 @@ export interface Prisma__AuthUserClient<
     onrejected?:
       | ((reason: any) => TResult2 | PromiseLike<TResult2>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
   /**
    * Attaches a callback for only the rejection of the Promise.
@@ -1090,7 +1105,7 @@ export interface Prisma__AuthUserClient<
     onrejected?:
       | ((reason: any) => TResult | PromiseLike<TResult>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<T | TResult>;
   /**
    * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -1099,7 +1114,7 @@ export interface Prisma__AuthUserClient<
    * @returns A Promise for the completion of the callback.
    */
   finally(
-    onfinally?: (() => void) | undefined | null
+    onfinally?: (() => void) | undefined | null,
   ): runtime.Types.Utils.JsPromise<T>;
 }
 
@@ -1121,7 +1136,8 @@ export interface AuthUserFieldRefs {
  * AuthUser findUnique
  */
 export type AuthUserFindUniqueArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1141,7 +1157,8 @@ export type AuthUserFindUniqueArgs<
  * AuthUser findUniqueOrThrow
  */
 export type AuthUserFindUniqueOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1161,7 +1178,8 @@ export type AuthUserFindUniqueOrThrowArgs<
  * AuthUser findFirst
  */
 export type AuthUserFindFirstArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1213,7 +1231,8 @@ export type AuthUserFindFirstArgs<
  * AuthUser findFirstOrThrow
  */
 export type AuthUserFindFirstOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1265,7 +1284,8 @@ export type AuthUserFindFirstOrThrowArgs<
  * AuthUser findMany
  */
 export type AuthUserFindManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1312,7 +1332,8 @@ export type AuthUserFindManyArgs<
  * AuthUser create
  */
 export type AuthUserCreateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1335,7 +1356,8 @@ export type AuthUserCreateArgs<
  * AuthUser createMany
  */
 export type AuthUserCreateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to create many AuthUsers.
@@ -1348,7 +1370,8 @@ export type AuthUserCreateManyArgs<
  * AuthUser createManyAndReturn
  */
 export type AuthUserCreateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1369,7 +1392,8 @@ export type AuthUserCreateManyAndReturnArgs<
  * AuthUser update
  */
 export type AuthUserUpdateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1396,7 +1420,8 @@ export type AuthUserUpdateArgs<
  * AuthUser updateMany
  */
 export type AuthUserUpdateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to update AuthUsers.
@@ -1419,7 +1444,8 @@ export type AuthUserUpdateManyArgs<
  * AuthUser updateManyAndReturn
  */
 export type AuthUserUpdateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1450,7 +1476,8 @@ export type AuthUserUpdateManyAndReturnArgs<
  * AuthUser upsert
  */
 export type AuthUserUpsertArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1484,7 +1511,8 @@ export type AuthUserUpsertArgs<
  * AuthUser delete
  */
 export type AuthUserDeleteArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser
@@ -1504,7 +1532,8 @@ export type AuthUserDeleteArgs<
  * AuthUser deleteMany
  */
 export type AuthUserDeleteManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which AuthUsers to delete
@@ -1520,7 +1549,8 @@ export type AuthUserDeleteManyArgs<
  * AuthUser without action
  */
 export type AuthUserDefaultArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AuthUser

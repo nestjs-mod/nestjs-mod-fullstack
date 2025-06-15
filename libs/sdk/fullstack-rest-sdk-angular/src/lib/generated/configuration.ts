@@ -67,7 +67,7 @@ export class FullstackRestClientConfiguration {
   credentials: { [key: string]: string | (() => string | undefined) };
 
   constructor(
-    configurationParameters: FullstackRestClientConfigurationParameters = {}
+    configurationParameters: FullstackRestClientConfigurationParameters = {},
   ) {
     this.apiKeys = configurationParameters.apiKeys;
     this.username = configurationParameters.username;
@@ -147,8 +147,8 @@ export class FullstackRestClientConfiguration {
    */
   public isJsonMime(mime: string): boolean {
     const jsonMime: RegExp = new RegExp(
-      '^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$',
-      'i'
+      '^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$',
+      'i',
     );
     return (
       mime !== null &&

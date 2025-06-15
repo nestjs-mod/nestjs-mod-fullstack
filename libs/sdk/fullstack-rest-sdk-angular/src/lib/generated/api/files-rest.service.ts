@@ -43,7 +43,7 @@ export class FilesRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -66,7 +66,7 @@ export class FilesRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -79,7 +79,7 @@ export class FilesRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -89,13 +89,13 @@ export class FilesRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -106,8 +106,8 @@ export class FilesRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -131,7 +131,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<StatusResponseInterface>;
   public filesControllerDeleteFile(
     downloadUrl: string,
@@ -141,7 +141,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<StatusResponseInterface>>;
   public filesControllerDeleteFile(
     downloadUrl: string,
@@ -151,7 +151,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<StatusResponseInterface>>;
   public filesControllerDeleteFile(
     downloadUrl: string,
@@ -161,11 +161,11 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (downloadUrl === null || downloadUrl === undefined) {
       throw new Error(
-        'Required parameter downloadUrl was null or undefined when calling filesControllerDeleteFile.'
+        'Required parameter downloadUrl was null or undefined when calling filesControllerDeleteFile.',
       );
     }
 
@@ -174,7 +174,7 @@ export class FilesRestService {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>downloadUrl,
-        'downloadUrl'
+        'downloadUrl',
       );
     }
 
@@ -191,7 +191,7 @@ export class FilesRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -233,7 +233,7 @@ export class FilesRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -250,7 +250,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<FilesPresignedUrlsInterface>;
   public filesControllerGetPresignedUrl(
     ext: string,
@@ -260,7 +260,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<FilesPresignedUrlsInterface>>;
   public filesControllerGetPresignedUrl(
     ext: string,
@@ -270,7 +270,7 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<FilesPresignedUrlsInterface>>;
   public filesControllerGetPresignedUrl(
     ext: string,
@@ -280,11 +280,11 @@ export class FilesRestService {
       httpHeaderAccept?: 'application/json';
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (ext === null || ext === undefined) {
       throw new Error(
-        'Required parameter ext was null or undefined when calling filesControllerGetPresignedUrl.'
+        'Required parameter ext was null or undefined when calling filesControllerGetPresignedUrl.',
       );
     }
 
@@ -293,7 +293,7 @@ export class FilesRestService {
       localVarQueryParameters = this.addToHttpParams(
         localVarQueryParameters,
         <any>ext,
-        'ext'
+        'ext',
       );
     }
 
@@ -310,7 +310,7 @@ export class FilesRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -352,7 +352,7 @@ export class FilesRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }

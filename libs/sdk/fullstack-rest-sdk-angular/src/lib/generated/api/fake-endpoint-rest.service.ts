@@ -38,7 +38,7 @@ export class FakeEndpointRestService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
-    @Optional() configuration: FullstackRestClientConfiguration
+    @Optional() configuration: FullstackRestClientConfiguration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -61,7 +61,7 @@ export class FakeEndpointRestService {
   private addToHttpParams(
     httpParams: HttpParams,
     value: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -74,7 +74,7 @@ export class FakeEndpointRestService {
   private addToHttpParamsRecursive(
     httpParams: HttpParams,
     value?: any,
-    key?: string
+    key?: string,
   ): HttpParams {
     if (value == null) {
       return httpParams;
@@ -84,13 +84,13 @@ export class FakeEndpointRestService {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
           (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substring(0, 10)
+            (value as Date).toISOString().substring(0, 10),
           );
         } else {
           throw Error('key may not be null if value is Date');
@@ -101,8 +101,8 @@ export class FakeEndpointRestService {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -124,7 +124,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any>;
   public fakeEndpointControllerFakeEndpointHandler(
     observe?: 'response',
@@ -133,7 +133,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<any>>;
   public fakeEndpointControllerFakeEndpointHandler(
     observe?: 'events',
@@ -142,7 +142,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<any>>;
   public fakeEndpointControllerFakeEndpointHandler(
     observe: any = 'body',
@@ -151,7 +151,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
@@ -166,7 +166,7 @@ export class FakeEndpointRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -207,7 +207,7 @@ export class FakeEndpointRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -224,7 +224,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any>;
   public fakeEndpointControllerFakeEndpointLogs(
     appId: string,
@@ -234,7 +234,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpResponse<any>>;
   public fakeEndpointControllerFakeEndpointLogs(
     appId: string,
@@ -244,7 +244,7 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<HttpEvent<any>>;
   public fakeEndpointControllerFakeEndpointLogs(
     appId: string,
@@ -254,11 +254,11 @@ export class FakeEndpointRestService {
       httpHeaderAccept?: undefined;
       context?: HttpContext;
       transferCache?: boolean;
-    }
+    },
   ): Observable<any> {
     if (appId === null || appId === undefined) {
       throw new Error(
-        'Required parameter appId was null or undefined when calling fakeEndpointControllerFakeEndpointLogs.'
+        'Required parameter appId was null or undefined when calling fakeEndpointControllerFakeEndpointLogs.',
       );
     }
 
@@ -275,7 +275,7 @@ export class FakeEndpointRestService {
     if (localVarHttpHeaderAcceptSelected !== undefined) {
       localVarHeaders = localVarHeaders.set(
         'Accept',
-        localVarHttpHeaderAcceptSelected
+        localVarHttpHeaderAcceptSelected,
       );
     }
 
@@ -304,17 +304,7 @@ export class FakeEndpointRestService {
       }
     }
 
-    let localVarPath = `/api/fake-endpoint/logs/${this.configuration.encodeParam(
-      {
-        name: 'appId',
-        value: appId,
-        in: 'path',
-        style: 'simple',
-        explode: false,
-        dataType: 'string',
-        dataFormat: undefined,
-      }
-    )}`;
+    let localVarPath = `/api/fake-endpoint/logs/${this.configuration.encodeParam({ name: 'appId', value: appId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     return this.httpClient.request<any>(
       'get',
       `${this.configuration.basePath}${localVarPath}`,
@@ -326,7 +316,7 @@ export class FakeEndpointRestService {
         observe: observe,
         transferCache: localVarTransferCache,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }
