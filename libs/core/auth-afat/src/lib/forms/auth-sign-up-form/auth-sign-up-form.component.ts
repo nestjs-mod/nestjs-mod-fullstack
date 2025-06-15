@@ -75,7 +75,7 @@ export class AuthSignUpFormComponent implements OnInit {
     private readonly translocoService: TranslocoService,
     private readonly authSignUpFormService: AuthSignUpFormService,
     private readonly authSignUpMapperService: AuthSignUpMapperService,
-    private readonly validationService: ValidationService
+    private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class AuthSignUpFormComponent implements OnInit {
         untilDestroyed(this),
         tap(() => {
           this.formlyFields$.next(this.formlyFields$.value);
-        })
+        }),
       )
       .subscribe();
 
@@ -94,7 +94,7 @@ export class AuthSignUpFormComponent implements OnInit {
   }
 
   setFieldsAndModel(
-    data: AuthSignupInput = { password: '', confirmPassword: '' }
+    data: AuthSignupInput = { password: '', confirmPassword: '' },
   ) {
     const model = this.authSignUpMapperService.toModel(data);
     this.setFormlyFields({ data: model });
@@ -111,30 +111,32 @@ export class AuthSignUpFormComponent implements OnInit {
             if (result.tokens) {
               this.afterSignUp.next(result);
               this.nzMessageService.success(
-                this.translocoService.translate('Success')
+                this.translocoService.translate('Success'),
               );
             }
           }),
           catchError((err) =>
             this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options)
-            )
+              this.setFormlyFields(options),
+            ),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
             this.nzMessageService.error(
-              this.translocoService.translate(err.error?.message || err.message)
+              this.translocoService.translate(
+                err.error?.message || err.message,
+              ),
             );
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
       console.log(this.form.controls);
       this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors')
+        this.translocoService.translate('Validation errors'),
       );
     }
   }
@@ -144,7 +146,7 @@ export class AuthSignUpFormComponent implements OnInit {
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(
-      this.authSignUpFormService.getFormlyFields(options)
+      this.authSignUpFormService.getFormlyFields(options),
     );
   }
 }

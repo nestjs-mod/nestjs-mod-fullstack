@@ -45,14 +45,14 @@ export class AuthUsersController {
     private readonly prismaClient: PrismaClient,
     private readonly prismaToolsService: PrismaToolsService,
     private readonly authCacheService: AuthCacheService,
-    private readonly webhookService: WebhookService
+    private readonly webhookService: WebhookService,
   ) {}
 
   @Get()
   @ApiOkResponse({ type: FindManyAuthUserResponse })
   async findMany(
     @CurrentAuthUser() authUser: AuthUser,
-    @Query() args: FindManyArgs
+    @Query() args: FindManyArgs,
   ) {
     const { take, skip, curPage, perPage } =
       this.prismaToolsService.getFirstSkipFromCurPerPage({
@@ -73,7 +73,7 @@ export class AuthUsersController {
               }
             : {}),
         }),
-        {}
+        {},
       );
 
     const result = await this.prismaClient.$transaction(async (prisma) => {
@@ -122,7 +122,7 @@ export class AuthUsersController {
   async updateOne(
     @CurrentAuthUser() authUser: AuthUser,
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() args: UpdateAuthUserDto
+    @Body() args: UpdateAuthUserDto,
   ) {
     const result = await this.prismaClient.authUser.update({
       data: { ...args, updatedAt: new Date() },
@@ -131,7 +131,7 @@ export class AuthUsersController {
       },
     });
     await this.authCacheService.clearCacheByExternalUserId(
-      authUser.externalUserId
+      authUser.externalUserId,
     );
     await this.webhookService.sendEvent({
       eventName: AuthWebhookEvent['auth.user-update'],
@@ -146,7 +146,7 @@ export class AuthUsersController {
   async deleteOne(
     @CurrentAuthUser() authUser: AuthUser,
     @Param('id', new ParseUUIDPipe()) id: string,
-    @InjectTranslateFunction() getText: TranslateFunction
+    @InjectTranslateFunction() getText: TranslateFunction,
   ) {
     const user = await this.prismaClient.authUser.findFirstOrThrow({
       where: {
@@ -171,7 +171,7 @@ export class AuthUsersController {
   @ApiOkResponse({ type: AuthUser })
   async findOne(
     @CurrentAuthUser() authUser: AuthUser,
-    @Param('id', new ParseUUIDPipe()) id: string
+    @Param('id', new ParseUUIDPipe()) id: string,
   ) {
     return await this.prismaClient.authUser.findFirstOrThrow({
       where: {

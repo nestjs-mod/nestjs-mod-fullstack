@@ -32,11 +32,11 @@ test.describe('Validation (ru)', () => {
     });
     await page.evaluate(
       (authorizerURL) => localStorage.setItem('authorizerURL', authorizerURL),
-      get('SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL').asString() || ''
+      get('SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL').asString() || '',
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
-      get('SERVER_AUTHORIZER_MINIO_URL').required().asString()
+      get('SERVER_AUTHORIZER_MINIO_URL').required().asString(),
     );
   });
 
@@ -47,7 +47,7 @@ test.describe('Validation (ru)', () => {
 
   test('should change language to RU', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]'),
     ).toContainText(`EN`);
     await page.locator('nz-header').locator('[nz-submenu]').last().click();
 
@@ -55,7 +55,7 @@ test.describe('Validation (ru)', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Russian`);
 
     await page
@@ -68,7 +68,7 @@ test.describe('Validation (ru)', () => {
     //
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]'),
     ).toContainText(`RU`);
   });
 
@@ -85,7 +85,7 @@ test.describe('Validation (ru)', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+      page.locator('auth-sign-up-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -96,7 +96,7 @@ test.describe('Validation (ru)', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await page
@@ -107,11 +107,13 @@ test.describe('Validation (ru)', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
+      page
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirmPassword]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-up-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]'),
     ).toHaveText('Зарегистрироваться');
 
     await page
@@ -120,11 +122,11 @@ test.describe('Validation (ru)', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`Вы вошли в систему как ${user.email.toLowerCase()}`);
   });
 
@@ -138,10 +140,10 @@ test.describe('Validation (ru)', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(0)
+      page.locator('webhook-form').locator('formly-validation-message').nth(0),
     ).toContainText('поле "адрес" не может быть пустым');
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(1)
+      page.locator('webhook-form').locator('formly-validation-message').nth(1),
     ).toContainText('поле "событие" не может быть пустым');
   });
 });

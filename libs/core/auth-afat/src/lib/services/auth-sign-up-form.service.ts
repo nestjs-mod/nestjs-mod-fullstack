@@ -12,7 +12,7 @@ import { AuthSignupInput } from './auth.types';
 export class AuthSignUpFormService {
   constructor(
     protected readonly translocoService: TranslocoService,
-    protected readonly validationService: ValidationService
+    protected readonly validationService: ValidationService,
   ) {}
 
   init() {
@@ -34,7 +34,7 @@ export class AuthSignUpFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-up-form.fields.email`
+              `auth.sign-up-form.fields.email`,
             ),
             placeholder: 'email',
             required: true,
@@ -48,7 +48,7 @@ export class AuthSignUpFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-up-form.fields.password`
+              `auth.sign-up-form.fields.password`,
             ),
             placeholder: 'password',
             required: true,
@@ -63,7 +63,7 @@ export class AuthSignUpFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-up-form.fields.confirm-password`
+              `auth.sign-up-form.fields.confirm-password`,
             ),
             placeholder: 'confirmPassword',
             required: true,
@@ -71,7 +71,7 @@ export class AuthSignUpFormService {
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 }

@@ -7,36 +7,44 @@
       <li nz-menu-item routerLink="/home" transloco="Home"></li>
       <li nz-menu-item routerLink="/demo" transloco="Demo"></li>
 
-      @if
-      ([AuthRoleInterface.User,AuthRoleInterface.Admin]|checkUserRoles|async) {
-      <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
-      } @if
-      ([AuthRoleInterface.User,AuthRoleInterface.Admin]|checkUserRoles|async) {
-      <li
-        nz-submenu
-        [nzTitle]="
-          'You are logged in as {{email}}' | transloco : ({} | user | async)
-        "
-        [style]="{ float: 'right' }"
-      >
-        <ul>
-          <li nz-menu-item routerLink="/profile" transloco="Profile"></li>
-          <li nz-menu-item (click)="signOut()" transloco="Sign-out"></li>
-        </ul>
-      </li>
-      } @if ([]|checkUserRoles|async){
-      <li
-        nz-menu-item
-        routerLink="/sign-up"
-        [style]="{ float: 'right' }"
-        transloco="Sign-up"
-      ></li>
-      <li
-        nz-menu-item
-        routerLink="/sign-in"
-        [style]="{ float: 'right' }"
-        transloco="Sign-in"
-      ></li>
+      @if (
+        [AuthRoleInterface.User, AuthRoleInterface.Admin]
+          | checkUserRoles
+          | async
+      ) {
+        <li nz-menu-item routerLink="/webhooks" transloco="Webhooks"></li>
+      }
+      @if (
+        [AuthRoleInterface.User, AuthRoleInterface.Admin]
+          | checkUserRoles
+          | async
+      ) {
+        <li
+          nz-submenu
+          [nzTitle]="
+            'You are logged in as {{email}}' | transloco: ({} | user | async)
+          "
+          [style]="{ float: 'right' }"
+        >
+          <ul>
+            <li nz-menu-item routerLink="/profile" transloco="Profile"></li>
+            <li nz-menu-item (click)="signOut()" transloco="Sign-out"></li>
+          </ul>
+        </li>
+      }
+      @if ([] | checkUserRoles | async) {
+        <li
+          nz-menu-item
+          routerLink="/sign-up"
+          [style]="{ float: 'right' }"
+          transloco="Sign-up"
+        ></li>
+        <li
+          nz-menu-item
+          routerLink="/sign-in"
+          [style]="{ float: 'right' }"
+          transloco="Sign-in"
+        ></li>
       }
       <a
         nz-menu-item
@@ -71,7 +79,7 @@
     <div id="serverTime">
       {{
         (serverTime$ | async)!
-          | translocoDate : { dateStyle: 'medium', timeStyle: 'medium' }
+          | translocoDate: { dateStyle: 'medium', timeStyle: 'medium' }
       }}
     </div>
   </nz-footer>

@@ -27,13 +27,13 @@ export class WebhookWithAuthAuthorizerConfiguration
 {
   constructor(
     private readonly webhookUsersService: WebhookUsersService,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   async checkAccessValidator(
     authorizerUser?: AuthorizerUser,
     options?: CheckAccessOptions,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: WebhookRequest & FilesRequest & AuthRequest & AuthorizerRequest =
       ctx && getRequestFromExecutionContext(ctx);
@@ -51,7 +51,7 @@ export class WebhookWithAuthAuthorizerConfiguration
 
     const result = await defaultAuthorizerCheckAccessValidator(
       authorizerUser,
-      options
+      options,
     );
 
     if (req?.authorizerUser?.id) {

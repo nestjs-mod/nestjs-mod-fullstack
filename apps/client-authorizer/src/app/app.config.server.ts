@@ -10,5 +10,5 @@ const serverConfig: ApplicationConfig = {
 
 export const config = mergeApplicationConfig(
   appConfig({ authorizerURL, minioURL }),
-  serverConfig
+  serverConfig,
 );

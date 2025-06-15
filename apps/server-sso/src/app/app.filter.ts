@@ -22,9 +22,9 @@ export class AppExceptionsFilter extends BaseExceptionFilter {
             code: 'THROTTLER-001',
             message: getText('Too Many Requests'),
           },
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         ),
-        host
+        host,
       );
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

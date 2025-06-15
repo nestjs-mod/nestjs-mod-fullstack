@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
     private readonly authActiveLangService: AuthActiveLangService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
   ) {
     this.title = this.translocoService.translate(APP_TITLE);
     this.titleService.setTitle(this.title);
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
           }
           return this.authActiveLangService.refreshActiveLang();
         }),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -109,14 +109,14 @@ export class AppComponent implements OnInit {
       .signOut()
       .pipe(
         tap(() => this.router.navigate(['/home'])),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
 
   private loadAvailableLangs() {
     this.availableLangs$.next(
-      this.translocoService.getAvailableLangs() as LangDefinition[]
+      this.translocoService.getAvailableLangs() as LangDefinition[],
     );
   }
 
@@ -127,7 +127,7 @@ export class AppComponent implements OnInit {
           this.lang$.next(lang);
         }),
         mergeMap(() => this.fillServerMessage()),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -144,16 +144,16 @@ export class AppComponent implements OnInit {
                 ? `/ws/time?token=${token?.access_token}`
                 : '/ws/time',
               eventName: 'ChangeTimeStream',
-            })
-          )
+            }),
+          ),
         )
-        .pipe(map((result) => result.data))
+        .pipe(map((result) => result.data)),
     ).pipe(
       tap((result) =>
         this.serverTime$.next(
-          addHours(new Date(result as string), TIMEZONE_OFFSET)
-        )
-      )
+          addHours(new Date(result as string), TIMEZONE_OFFSET),
+        ),
+      ),
     );
   }
 

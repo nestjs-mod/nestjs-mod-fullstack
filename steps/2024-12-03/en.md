@@ -59,7 +59,7 @@ module.exports = composePlugins(
       },
     ];
     return config;
-  }
+  },
 );
 ```
 
@@ -127,12 +127,12 @@ export class TranslocoHttpLoader implements TranslocoLoader {
       translation: this.httpClient.get<Translation>(`./assets/i18n/${lang}.json`).pipe(
         catchError(() => {
           return of({});
-        })
+        }),
       ),
       vendor: this.httpClient.get(`./assets/i18n/${lang}.vendor.json`).pipe(
         catchError(() => {
           return of({});
-        })
+        }),
       ),
     }).pipe(
       map(({ translation, vendor }) => {
@@ -150,7 +150,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
           }
         }
         return dictionaries;
-      })
+      }),
     );
   }
 }
@@ -175,7 +175,7 @@ export class AppInitializer {
   constructor(
     // ..
     private readonly translocoService: TranslocoService,
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
   ) {}
 
   resolve() {
@@ -187,7 +187,7 @@ export class AppInitializer {
             map(({ clientID }) => {
               this.authService.setAuthorizerClientID(clientID);
               return null;
-            })
+            }),
           )
     ).pipe(
       // ..
@@ -198,7 +198,7 @@ export class AppInitializer {
         localStorage.setItem('activeLang', lang);
 
         return this.translocoService.load(lang);
-      })
+      }),
       // ..
     );
   }
@@ -212,7 +212,7 @@ export class AppInitializer {
       .pipe(
         tap(() => {
           // ..
-        })
+        }),
       )
       .subscribe();
   }
@@ -248,7 +248,7 @@ export class AppComponent implements OnInit {
   constructor(
     // ...
     private readonly appRestService: AppRestService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
   ) {}
 
   ngOnInit() {
@@ -273,7 +273,7 @@ export class AppComponent implements OnInit {
       .pipe(
         tap((lang) => this.lang$.next(lang)),
         mergeMap(() => this.fillServerMessage()),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -308,15 +308,15 @@ import { TranslocoDirective } from '@jsverse/transloco';
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
       <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
       @if (!hideButtons) {
-      <nz-form-control>
-        <div class="flex justify-between">
-          <div></div>
-          <button nz-button nzType="primary" type="submit" [disabled]="!form.valid" transloco="Update"></button>
-        </div>
-      </nz-form-control>
+        <nz-form-control>
+          <div class="flex justify-between">
+            <div></div>
+            <button nz-button nzType="primary" type="submit" [disabled]="!form.valid" transloco="Update"></button>
+          </div>
+        </nz-form-control>
       }
     </form>
-    } `,
+  } `,
 })
 export class AuthProfileFormComponent implements OnInit {}
 ```
@@ -358,7 +358,7 @@ export class AuthSignInFormComponent implements OnInit {
     private readonly nzModalData: AuthSignInFormComponent,
     private readonly authService: AuthService,
     private readonly nzMessageService: NzMessageService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
   ) {}
 
   ngOnInit(): void {
@@ -536,7 +536,7 @@ import { CurrentLocale, TranslatesService } from 'nestjs-translates';
 export class WebhookController {
   constructor(
     // ...
-    private readonly translatesService: TranslatesService
+    private readonly translatesService: TranslatesService,
   ) {}
 
   // ...
@@ -545,7 +545,7 @@ export class WebhookController {
   @ApiOkResponse({ type: StatusResponse })
   async deleteOne(
     // ...
-    @CurrentLocale() locale: string
+    @CurrentLocale() locale: string,
   ) {
     // ...
     return { message: this.translatesService.translate('ok', locale) };

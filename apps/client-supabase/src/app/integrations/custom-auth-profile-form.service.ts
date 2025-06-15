@@ -177,7 +177,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
 
   constructor(
     protected override readonly translocoService: TranslocoService,
-    protected override readonly validationService: ValidationService
+    protected override readonly validationService: ValidationService,
   ) {
     super(translocoService, validationService);
   }
@@ -198,7 +198,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-in-form.fields.timezone`
+              `auth.sign-in-form.fields.timezone`,
             ),
             placeholder: 'timezone',
             required: false,
@@ -209,7 +209,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 }

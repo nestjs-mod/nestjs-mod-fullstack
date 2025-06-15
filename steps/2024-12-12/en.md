@@ -313,7 +313,7 @@ export class AuthCacheService {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly cacheManagerService: CacheManagerService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authEnvironments: AuthEnvironments,
   ) {}
 
   async clearCacheByExternalUserId(externalUserId: string) {
@@ -329,7 +329,7 @@ export class AuthCacheService {
     const cached = await this.cacheManagerService.get<AuthUser | null>(
       this.getUserCacheKey({
         externalUserId,
-      })
+      }),
     );
     if (cached) {
       return cached;
@@ -385,7 +385,7 @@ export class AuthController {
   constructor(
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
-    private readonly authCacheService: AuthCacheService
+    private readonly authCacheService: AuthCacheService,
   ) {}
 
   @Get('profile')
@@ -495,7 +495,11 @@ import { AuthEnvironments } from '../auth.environments';
 
 @Injectable()
 export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
-  constructor(private readonly authTimezoneService: AuthTimezoneService, private readonly authCacheService: AuthCacheService, private readonly authEnvironments: AuthEnvironments) {}
+  constructor(
+    private readonly authTimezoneService: AuthTimezoneService,
+    private readonly authCacheService: AuthCacheService,
+    private readonly authEnvironments: AuthEnvironments,
+  ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
     const result = next.handle();
@@ -516,7 +520,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
         concatMap(async (data) => {
           const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
           return this.authTimezoneService.convertObject(data, user?.timezone);
-        })
+        }),
       );
     }
     if (result instanceof Promise && typeof result?.then === 'function') {
@@ -526,7 +530,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
             concatMap(async (data) => {
               const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
               return this.authTimezoneService.convertObject(data, user?.timezone);
-            })
+            }),
           );
         } else {
           const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
@@ -570,7 +574,7 @@ export class AuthGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly authCacheService: AuthCacheService,
-    private readonly authEnvironments: AuthEnvironments
+    private readonly authEnvironments: AuthEnvironments,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -800,7 +804,7 @@ export class TimeController {
       map(() => ({
         data: new Date(),
         event: ChangeTimeStream,
-      }))
+      })),
     );
   }
 }
@@ -857,7 +861,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
           path: `/ws/time?token=${restClientHelper.authorizationTokens?.access_token}`,
           eventName: 'ChangeTimeStream',
         })
-        .pipe(take(3), toArray())
+        .pipe(take(3), toArray()),
     );
 
     expect(last3ChangeTimeEvents).toHaveLength(3);
@@ -870,7 +874,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
           path: `/ws/time?token=${restClientHelper.authorizationTokens?.access_token}`,
           eventName: 'ChangeTimeStream',
         })
-        .pipe(take(3), toArray())
+        .pipe(take(3), toArray()),
     );
 
     expect(newLast3ChangeTimeEvents).toHaveLength(3);
@@ -915,7 +919,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     // ...
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
   ) {}
 
   // ...
@@ -929,10 +933,10 @@ export class AppComponent implements OnInit {
             webSocket<string>({
               address: this.timeRestService.configuration.basePath + (token?.access_token ? `/ws/time?token=${token?.access_token}` : '/ws/time'),
               eventName: 'ChangeTimeStream',
-            })
-          )
+            }),
+          ),
         )
-        .pipe(map((result) => result.data))
+        .pipe(map((result) => result.data)),
     ).pipe(tap((result) => this.serverTime$.next(result as string)));
   }
 }
@@ -999,7 +1003,7 @@ export class CustomAuthProfileFormService extends AuthProfileFormService {
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 
@@ -1046,7 +1050,7 @@ export class CustomAuthService extends AuthService {
     protected override readonly tokensService: TokensService,
     @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration?: AuthConfiguration
+    protected override readonly authConfiguration?: AuthConfiguration,
   ) {
     super(authorizerService, tokensService, authConfiguration);
   }
@@ -1059,7 +1063,7 @@ export class CustomAuthService extends AuthService {
           Object.assign(result, profile);
         }
         return super.setProfile(result);
-      })
+      }),
     );
   }
 
@@ -1073,9 +1077,9 @@ export class CustomAuthService extends AuthService {
               Object.assign(result, { timezone });
             }
             return result;
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 }

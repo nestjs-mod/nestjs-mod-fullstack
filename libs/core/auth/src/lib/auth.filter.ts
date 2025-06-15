@@ -30,9 +30,9 @@ export class AuthExceptionsFilter extends BaseExceptionFilter {
             code: AuthErrorEnum.FORBIDDEN,
             message: exception.message,
           },
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         ),
-        host
+        host,
       );
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

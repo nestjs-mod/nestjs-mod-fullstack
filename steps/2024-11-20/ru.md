@@ -191,7 +191,7 @@ export class WebhookCacheService {
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly webhookConfiguration: WebhookConfiguration,
-    private readonly cacheManagerService: CacheManagerService
+    private readonly cacheManagerService: CacheManagerService,
   ) {}
 
   async clearCacheByExternalUserId(externalUserId: string) {
@@ -208,7 +208,7 @@ export class WebhookCacheService {
       this.getUserCacheKey({
         externalUserId,
         externalTenantId,
-      })
+      }),
     );
     if (cached) {
       return cached;
@@ -271,7 +271,7 @@ export class WebhookGuard implements CanActivate {
 
   constructor(
     //...
-    private readonly webhookCacheService: WebhookCacheService
+    private readonly webhookCacheService: WebhookCacheService,
   ) {}
 
   //...
@@ -321,7 +321,7 @@ import { WebhookCacheService } from '../services/webhook-cache.service';
 export class WebhookUsersController {
   constructor(
     //...
-    private readonly webhookCacheService: WebhookCacheService
+    private readonly webhookCacheService: WebhookCacheService,
   ) {}
 
   //...

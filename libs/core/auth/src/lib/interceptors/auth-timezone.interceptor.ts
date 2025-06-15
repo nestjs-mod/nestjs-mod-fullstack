@@ -19,7 +19,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
     private readonly authTimezoneService: AuthTimezoneService,
     private readonly authCacheService: AuthCacheService,
     private readonly authStaticEnvironments: AuthStaticEnvironments,
-    private readonly asyncLocalStorage: AuthAsyncLocalStorageContext
+    private readonly asyncLocalStorage: AuthAsyncLocalStorageContext,
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
@@ -36,7 +36,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
     const store = { authTimezone: req.authUser?.timezone || 0 };
     const wrapObservableForWorkWithAsyncLocalStorage = (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      observable: Observable<any>
+      observable: Observable<any>,
     ) =>
       new Observable((observer) => {
         this.asyncLocalStorage.runWith(store, () => {
@@ -58,11 +58,11 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
               await this.authCacheService.getCachedUserByExternalUserId(userId);
             const newData = this.authTimezoneService.convertObject(
               data,
-              user?.timezone
+              user?.timezone,
             );
 
             return newData;
-          })
+          }),
         );
       }
       if (result instanceof Promise && typeof result?.then === 'function') {
@@ -72,13 +72,13 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
               concatMap(async (data) => {
                 const user =
                   await this.authCacheService.getCachedUserByExternalUserId(
-                    userId
+                    userId,
                   );
                 return this.authTimezoneService.convertObject(
                   data,
-                  user?.timezone
+                  user?.timezone,
                 );
-              })
+              }),
             );
           } else {
             const user =
@@ -86,7 +86,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
             // need for correct map types with base method of NestInterceptor
             return this.authTimezoneService.convertObject(
               data,
-              user?.timezone
+              user?.timezone,
             ) as Observable<TData>;
           }
         });
@@ -94,7 +94,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
       // need for correct map types with base method of NestInterceptor
       return this.authTimezoneService.convertObject(
         result,
-        req.authUser?.timezone
+        req.authUser?.timezone,
       ) as Observable<TData>;
     };
 

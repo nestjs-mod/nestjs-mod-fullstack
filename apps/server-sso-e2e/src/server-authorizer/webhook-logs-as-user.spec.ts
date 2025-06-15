@@ -147,7 +147,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       (l) =>
         l.headers['event-name'] === createEventName &&
         l.headers['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
     );
     expect(data).toMatchObject({
       ...my[0].body,
@@ -187,7 +187,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       (l) =>
         l.headers['event-name'] === updateEventName &&
         l.headers['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
     );
 
     expect(my).toHaveLength(1);
@@ -218,7 +218,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       (l) =>
         l.headers['event-name'] === deleteEventName &&
         l.headers['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
     );
 
     expect(my).toHaveLength(0);
@@ -237,7 +237,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id
+        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       );
 
     expect({
@@ -245,7 +245,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -253,7 +253,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           responseStatus: '200 OK',
           webhookStatus: 'Success',
           webhookId: manyWebhooks.webhooks.find(
-            (w) => w.eventName === createEventName
+            (w) => w.eventName === createEventName,
           )?.id,
         },
       ],
@@ -268,7 +268,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        manyWebhooks.webhooks.find((w) => w.eventName === deleteEventName)!.id
+        manyWebhooks.webhooks.find((w) => w.eventName === deleteEventName)!.id,
       );
 
     expect({
@@ -276,7 +276,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -285,7 +285,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           responseStatus: '',
           webhookStatus: 'Error',
           webhookId: manyWebhooks.webhooks.find(
-            (w) => w.eventName === deleteEventName
+            (w) => w.eventName === deleteEventName,
           )?.id,
         },
       ],
@@ -300,7 +300,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       .getWebhookApi()
       .webhookLogsControllerFindManyLogs(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        manyWebhooks.webhooks.find((w) => w.eventName === updateEventName)!.id
+        manyWebhooks.webhooks.find((w) => w.eventName === updateEventName)!.id,
       );
 
     expect({
@@ -308,7 +308,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       webhookLogs: manyWebhookLogs.webhookLogs.filter(
         (l) =>
           l.request?.['headers']?.['external-user-id'] ===
-          user1.getWebhookProfile()?.externalUserId
+          user1.getWebhookProfile()?.externalUserId,
       ),
     }).toMatchObject({
       webhookLogs: [
@@ -316,7 +316,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           responseStatus: '200 OK',
           webhookStatus: 'Success',
           webhookId: manyWebhooks.webhooks.find(
-            (w) => w.eventName === updateEventName
+            (w) => w.eventName === updateEventName,
           )?.id,
         },
       ],

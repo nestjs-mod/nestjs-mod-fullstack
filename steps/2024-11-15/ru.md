@@ -210,7 +210,10 @@ export class DeleteFileArgs {
 @ApiExtraModels(FilesError)
 @Controller()
 export class FilesController {
-  constructor(private readonly minioConfiguration: MinioConfiguration, private readonly minioFilesService: MinioFilesService) {}
+  constructor(
+    private readonly minioConfiguration: MinioConfiguration,
+    private readonly minioFilesService: MinioFilesService,
+  ) {}
 
   @Get('/files/get-presigned-url')
   @ApiOkResponse({ type: PresignedUrls })
@@ -333,7 +336,7 @@ export class FilesService {
   constructor(
     @Inject(MINIO_URL)
     private readonly minioURL: string,
-    private readonly filesRestService: FilesRestService
+    private readonly filesRestService: FilesRestService,
   ) {}
 
   getPresignedUrlAndUploadFile(file: null | undefined | string | File) {
@@ -346,9 +349,9 @@ export class FilesService {
           this.uploadFile({
             file,
             presignedUrls,
-          })
+          }),
         ),
-        map((presignedUrls) => presignedUrls.downloadUrl.replace(this.minioURL, ''))
+        map((presignedUrls) => presignedUrls.downloadUrl.replace(this.minioURL, '')),
       );
     }
     return of(file.replace(this.minioURL, ''));
@@ -433,7 +436,7 @@ export class ImageFileComponent extends FieldType<FieldTypeConfig> implements On
 
   constructor(
     @Inject(MINIO_URL)
-    private readonly minioURL: string
+    private readonly minioURL: string,
   ) {
     super();
   }
@@ -546,15 +549,15 @@ import { AuthService } from '../../services/auth.service';
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
       <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
       @if (!hideButtons) {
-      <nz-form-control>
-        <div class="flex justify-between">
-          <div></div>
-          <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Update</button>
-        </div>
-      </nz-form-control>
+        <nz-form-control>
+          <div class="flex justify-between">
+            <div></div>
+            <button nz-button nzType="primary" type="submit" [disabled]="!form.valid">Update</button>
+          </div>
+        </nz-form-control>
       }
     </form>
-    } `,
+  } `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthProfileFormComponent implements OnInit {
@@ -570,7 +573,7 @@ export class AuthProfileFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: AuthProfileFormComponent,
     private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -647,7 +650,7 @@ export class AuthProfileFormComponent implements OnInit {
             this.nzMessageService.error(err.message);
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
@@ -732,7 +735,7 @@ export class AuthService {
     private readonly authorizerService: AuthorizerService,
     @Optional()
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    private readonly authConfiguration?: AuthConfiguration
+    private readonly authConfiguration?: AuthConfiguration,
   ) {}
 
   // ..
@@ -744,8 +747,8 @@ export class AuthService {
         from(
           this.authorizerService.updateProfile({
             ...data,
-          })
-        )
+          }),
+        ),
       ),
       mapGraphqlErrors(),
       mergeMap(() => this.authorizerService.getProfile()),
@@ -759,8 +762,8 @@ export class AuthService {
             })
           : of({
               new: updatedProfile,
-            })
-      )
+            }),
+      ),
     );
   }
   // ..
@@ -789,7 +792,7 @@ export class AppAuthConfiguration implements AuthConfiguration {
             ...data,
             picture,
           };
-        })
+        }),
       );
     }
     return of({ ...data, picture: '' });

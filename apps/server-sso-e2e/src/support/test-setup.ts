@@ -15,11 +15,11 @@ module.exports = async function () {
             '..',
             '..',
             '..',
-            process.env['ENV_FILE']
+            process.env['ENV_FILE'],
           ),
           override: true,
         }
-      : { override: true }
+      : { override: true },
   );
 
   if (parsed.error) {

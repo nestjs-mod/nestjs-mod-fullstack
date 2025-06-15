@@ -19,7 +19,7 @@ export class CustomAuthService extends AuthService {
     protected readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
     protected override readonly tokensService: TokensService,
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected override readonly authConfiguration: AuthConfiguration
+    protected override readonly authConfiguration: AuthConfiguration,
   ) {
     super(tokensService, authConfiguration);
   }
@@ -35,12 +35,12 @@ export class CustomAuthService extends AuthService {
             result = { ...result, ...profile };
           }
           return super.setProfile(result);
-        })
+        }),
       );
   }
 
   override updateProfile(
-    data: AuthUpdateProfileInput & { timezone: number; lang: string }
+    data: AuthUpdateProfileInput & { timezone: number; lang: string },
   ) {
     const { timezone, lang } = { ...data };
     const profile = omit(['timezone', 'lang'], { ...data });
@@ -54,9 +54,9 @@ export class CustomAuthService extends AuthService {
               const profile = result ? { ...result, timezone, lang } : result;
 
               return super.setProfile(profile) as unknown as AuthUser;
-            })
-          )
-      )
+            }),
+          ),
+      ),
     );
   }
 }

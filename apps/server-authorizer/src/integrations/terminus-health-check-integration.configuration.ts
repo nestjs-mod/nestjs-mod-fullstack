@@ -27,7 +27,7 @@ export class PrismaTerminusHealthCheckConfiguration
         this.prismaHealthIndicator.pingCheck(
           `database_${APP_FEATURE}`,
           this.appPrismaClient,
-          { timeout: 60 * 1000 }
+          { timeout: 60 * 1000 },
         ),
     },
     {
@@ -36,7 +36,7 @@ export class PrismaTerminusHealthCheckConfiguration
         this.prismaHealthIndicator.pingCheck(
           `database_${AUTH_FEATURE}`,
           this.authPrismaClient,
-          { timeout: 60 * 1000 }
+          { timeout: 60 * 1000 },
         ),
     },
     {
@@ -45,7 +45,7 @@ export class PrismaTerminusHealthCheckConfiguration
         this.prismaHealthIndicator.pingCheck(
           `database_${WEBHOOK_FEATURE}`,
           this.webhookPrismaClient,
-          { timeout: 60 * 1000 }
+          { timeout: 60 * 1000 },
         ),
     },
   ];
@@ -58,7 +58,7 @@ export class PrismaTerminusHealthCheckConfiguration
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly authPrismaClient: AuthPrismaSdk.PrismaClient,
     @InjectPrismaClient(WEBHOOK_FEATURE)
-    private readonly webhookPrismaClient: WebhookPrismaSdk.PrismaClient
+    private readonly webhookPrismaClient: WebhookPrismaSdk.PrismaClient,
   ) {}
 }
 

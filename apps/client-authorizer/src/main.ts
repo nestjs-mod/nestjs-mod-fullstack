@@ -5,5 +5,5 @@ import { authorizerURL, minioURL } from './environments/environment';
 
 bootstrapApplication(
   AppComponent,
-  appConfig({ authorizerURL, minioURL })
+  appConfig({ authorizerURL, minioURL }),
 ).catch((err) => console.error(err));

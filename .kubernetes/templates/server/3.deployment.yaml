@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: "%NAMESPACE%"
+  namespace: '%NAMESPACE%'
   name: %NAMESPACE%-server
 spec:
   replicas: 1
@@ -10,7 +10,7 @@ spec:
       pod: %NAMESPACE%-server-container
   template:
     metadata:
-      namespace: "%NAMESPACE%"
+      namespace: '%NAMESPACE%'
       labels:
         app: %NAMESPACE%-server
         pod: %NAMESPACE%-server-container

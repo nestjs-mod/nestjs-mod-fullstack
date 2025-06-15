@@ -43,7 +43,7 @@ test.describe('basic usage', () => {
     await setTimeout(4000);
 
     expect(await page.locator('#serverMessage').innerText()).toContain(
-      'Hello API'
+      'Hello API',
     );
   });
 
@@ -59,7 +59,7 @@ test.describe('basic usage', () => {
       serverTime
         .split(' ')
         .filter((p, i) => i !== 3 && i !== 4)
-        .join(' ')
+        .join(' '),
     ).toEqual(
       new Intl.DateTimeFormat('en-US', {
         dateStyle: 'medium',
@@ -68,7 +68,7 @@ test.describe('basic usage', () => {
         .format(new Date())
         .split(' ')
         .filter((p, i) => i !== 3 && i !== 4)
-        .join(' ')
+        .join(' '),
     );
   });
 });

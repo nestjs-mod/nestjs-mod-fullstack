@@ -18,13 +18,13 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 export class SignInComponent {
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
   onAfterSignIn() {
     if (
       searchIn(
         [AuthRoleInterface.Admin, AuthRoleInterface.User],
-        this.authService.profile$.value?.roles
+        this.authService.profile$.value?.roles,
       )
     ) {
       this.router.navigate(['/webhooks']);

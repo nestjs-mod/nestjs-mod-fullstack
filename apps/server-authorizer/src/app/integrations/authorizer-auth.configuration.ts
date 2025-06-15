@@ -21,7 +21,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
 
   async checkAccessValidator(
     authUser?: AuthUser | null,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: AuthRequest = ctx && getRequestFromExecutionContext(ctx);
 
@@ -50,7 +50,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
     if (signupUserResult.errors.length > 0) {
       this.logger.error(
         signupUserResult.errors[0].message,
-        signupUserResult.errors[0].stack
+        signupUserResult.errors[0].stack,
       );
       if (
         !signupUserResult.errors[0].message.includes('has already signed up')
@@ -68,7 +68,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
       });
 
       this.logger.debug(
-        `Admin with email: ${signupUserResult.data.user.email} successfully created!`
+        `Admin with email: ${signupUserResult.data.user.email} successfully created!`,
       );
     }
   }
@@ -87,12 +87,14 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
   async updateUser(
     externalUserId: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    params: Partial<Record<string, any>>
+    params: Partial<Record<string, any>>,
   ) {
     if (Object.keys(params).length > 0) {
       const paramsForUpdate = Object.entries(params)
         .map(([key, value]) =>
-          typeof value === 'boolean' ? `${key}: ${value}` : `${key}: "${value}"`
+          typeof value === 'boolean'
+            ? `${key}: ${value}`
+            : `${key}: "${value}"`,
         )
         .join(',');
       const updateUserResult = await this.authorizerService.graphqlQuery({
@@ -107,7 +109,7 @@ export class AuthorizerAuthConfiguration implements AuthConfiguration {
       if (updateUserResult.errors.length > 0) {
         this.logger.error(
           updateUserResult.errors[0].message,
-          updateUserResult.errors[0].stack
+          updateUserResult.errors[0].stack,
         );
         throw new AuthError(updateUserResult.errors[0].message);
       }

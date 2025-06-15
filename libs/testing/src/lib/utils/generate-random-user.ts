@@ -25,7 +25,7 @@ export interface GenerateRandomUserResult {
 
 export async function generateRandomUser(
   prefix?: string,
-  options?: Partial<GenerateRandomUserResult>
+  options?: Partial<GenerateRandomUserResult>,
 ): Promise<Required<GenerateRandomUserResult>> {
   prefix = prefix || 'test';
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers

@@ -1,18 +1,18 @@
 {
-    "changelog": true,
-    "npm": true,
-    "github": true,
-    "repositoryUrl": "https://github.com/nestjs-mod/nestjs-mod-fullstack",
-    "branches": [
-        "master",
-        {
-            "name": "beta",
-            "prerelease": true
-        },
-        {
-            "name": "alpha",
-            "prerelease": true,
-            "baseBranch": "beta"
-        }
-    ]
+  "changelog": true,
+  "npm": true,
+  "github": true,
+  "repositoryUrl": "https://github.com/nestjs-mod/nestjs-mod-fullstack",
+  "branches": [
+    "master",
+    {
+      "name": "beta",
+      "prerelease": true
+    },
+    {
+      "name": "alpha",
+      "prerelease": true,
+      "baseBranch": "beta"
+    }
+  ]
 }

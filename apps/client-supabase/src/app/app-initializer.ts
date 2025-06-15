@@ -21,7 +21,7 @@ export class AppInitializer {
     private readonly filesRestSdkAngularService: FilesRestSdkAngularService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
-    private readonly authActiveLangService: AuthActiveLangService
+    private readonly authActiveLangService: AuthActiveLangService,
   ) {}
 
   resolve() {
@@ -31,7 +31,7 @@ export class AppInitializer {
       catchError((err) => {
         console.error(err);
         return of(true);
-      })
+      }),
     );
   }
 
@@ -44,7 +44,7 @@ export class AppInitializer {
     this.subscribeToTokenUpdatesSubscription = merge(
       this.authService.updateHeaders$.asObservable(),
       this.tokensService.getStream(),
-      this.translocoService.langChanges$
+      this.translocoService.langChanges$,
     )
       .pipe(tap(() => this.updateHeaders()))
       .subscribe();
@@ -53,7 +53,7 @@ export class AppInitializer {
   private updateHeaders() {
     const authorizationHeaders = this.authService.getAuthorizationHeaders();
     this.fullstackRestSdkAngularService.updateHeaders(
-      authorizationHeaders || {}
+      authorizationHeaders || {},
     );
     this.webhookRestSdkAngularService.updateHeaders(authorizationHeaders || {});
     this.filesRestSdkAngularService.updateHeaders(authorizationHeaders || {});

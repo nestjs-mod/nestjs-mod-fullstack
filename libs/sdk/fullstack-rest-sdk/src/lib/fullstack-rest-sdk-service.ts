@@ -19,7 +19,7 @@ export class FullstackRestSdkService {
     private options?: {
       serverUrl?: string;
       headers?: Record<string, string>;
-    }
+    },
   ) {
     this.createApiClients();
     this.updateHeaders(options?.headers || {});
@@ -74,7 +74,7 @@ export class FullstackRestSdkService {
       {
         ...(options || {}),
         headers: this.wsHeaders || {},
-      }
+      },
     );
     return new Observable<{ data: T; event: string }>((observer) => {
       wss.on('open', () => {
@@ -91,7 +91,7 @@ export class FullstackRestSdkService {
           JSON.stringify({
             event: eventName,
             data: true,
-          })
+          }),
         );
       });
     }).pipe(
@@ -99,7 +99,7 @@ export class FullstackRestSdkService {
         if (wss?.readyState == WebSocket.OPEN) {
           wss.close();
         }
-      })
+      }),
     );
   }
 
@@ -110,7 +110,7 @@ export class FullstackRestSdkService {
         basePath: this.options?.serverUrl,
       }),
       undefined,
-      this.timeApiAxios
+      this.timeApiAxios,
     );
     //
 
@@ -120,7 +120,7 @@ export class FullstackRestSdkService {
         basePath: this.options?.serverUrl,
       }),
       undefined,
-      this.appApiAxios
+      this.appApiAxios,
     );
     //
 
@@ -130,7 +130,7 @@ export class FullstackRestSdkService {
         basePath: this.options?.serverUrl,
       }),
       undefined,
-      this.authApiAxios
+      this.authApiAxios,
     );
   }
 }

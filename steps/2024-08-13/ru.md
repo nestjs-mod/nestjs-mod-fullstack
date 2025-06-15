@@ -742,7 +742,7 @@ export class AppController {
   constructor(
     @InjectPrismaClient()
     private readonly appPrismaClient: AppPrismaClient,
-    private readonly appService: AppService
+    private readonly appService: AppService,
   ) {}
 
   @Get()

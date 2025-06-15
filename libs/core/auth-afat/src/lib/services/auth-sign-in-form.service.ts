@@ -12,7 +12,7 @@ import { AuthLoginInput } from './auth.types';
 export class AuthSignInFormService {
   constructor(
     protected readonly translocoService: TranslocoService,
-    protected readonly validationService: ValidationService
+    protected readonly validationService: ValidationService,
   ) {}
 
   init() {
@@ -34,7 +34,7 @@ export class AuthSignInFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-in-form.fields.email`
+              `auth.sign-in-form.fields.email`,
             ),
             placeholder: 'email',
             required: true,
@@ -48,7 +48,7 @@ export class AuthSignInFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.sign-in-form.fields.password`
+              `auth.sign-in-form.fields.password`,
             ),
             placeholder: 'password',
             required: true,
@@ -56,7 +56,7 @@ export class AuthSignInFormService {
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 }

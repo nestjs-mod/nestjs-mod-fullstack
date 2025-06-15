@@ -24,12 +24,12 @@ export class AuthActiveLangService {
     @Inject(TRANSLOCO_LOCALE_LANG_MAPPING)
     readonly langToLocaleMapping: LangToLocaleMapping,
     private readonly activeLangService: ActiveLangService,
-    private readonly tokensService: TokensService
+    private readonly tokensService: TokensService,
   ) {}
 
   refreshActiveLang(loadDictionaries?: boolean) {
     return this.getActiveLang().pipe(
-      mergeMap((lang) => this.localSetActiveLang(lang, loadDictionaries))
+      mergeMap((lang) => this.localSetActiveLang(lang, loadDictionaries)),
     );
   }
 
@@ -41,7 +41,7 @@ export class AuthActiveLangService {
     return of(
       localStorage.getItem(AUTH_ACTIVE_USER_LANG_LOCAL_STORAGE_KEY) ||
         localStorage.getItem(AUTH_ACTIVE_GUEST_LANG_LOCAL_STORAGE_KEY) ||
-        this.translocoService.getDefaultLang()
+        this.translocoService.getDefaultLang(),
     );
   }
 
@@ -66,7 +66,7 @@ export class AuthActiveLangService {
             return this.localGetActiveLang();
           }
           return throwError(() => err);
-        })
+        }),
       );
   }
 
@@ -79,7 +79,7 @@ export class AuthActiveLangService {
         tap(() => {
           this.activeLangService.applyActiveLang(lang);
         }),
-        map(() => null)
+        map(() => null),
       );
     }
     this.activeLangService.applyActiveLang(lang);
@@ -105,7 +105,7 @@ export class AuthActiveLangService {
             return this.localSetActiveLang(lang, loadDictionaries);
           }
           return throwError(() => err);
-        })
+        }),
       );
   }
 }

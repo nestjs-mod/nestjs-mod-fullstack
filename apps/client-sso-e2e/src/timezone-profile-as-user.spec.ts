@@ -35,11 +35,11 @@ test.describe('Work with profile as "User" role (timezone', () => {
     });
     await page.evaluate(
       (ssoURL) => localStorage.setItem('ssoURL', ssoURL),
-      get('SERVER_SSO_SSO_URL').asString() || ''
+      get('SERVER_SSO_SSO_URL').asString() || '',
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
-      get('SERVER_SSO_MINIO_URL').required().asString()
+      get('SERVER_SSO_MINIO_URL').required().asString(),
     );
   });
 
@@ -61,7 +61,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+      page.locator('auth-sign-up-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -72,7 +72,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await page
@@ -83,11 +83,13 @@ test.describe('Work with profile as "User" role (timezone', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
+      page
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirmPassword]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-up-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]'),
     ).toHaveText('Sign-up');
 
     await page
@@ -96,17 +98,17 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -114,7 +116,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Sign-out`);
 
     await page
@@ -126,7 +128,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2),
     ).toContainText(`Sign-in`);
   });
 
@@ -143,7 +145,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=email]')
+      page.locator('auth-sign-in-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -154,11 +156,11 @@ test.describe('Work with profile as "User" role (timezone', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=password]')
+      page.locator('auth-sign-in-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-in-form').locator('button[type=submit]')
+      page.locator('auth-sign-in-form').locator('button[type=submit]'),
     ).toHaveText('Sign-in');
 
     await page
@@ -167,11 +169,11 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
@@ -182,7 +184,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       oldServerTime
         .split(' ')
         .filter((p, i) => i !== 3)
-        .join(' ')
+        .join(' '),
     ).toEqual(
       new Intl.DateTimeFormat('en-US', {
         dateStyle: 'medium',
@@ -191,11 +193,11 @@ test.describe('Work with profile as "User" role (timezone', () => {
         .format(addHours(new Date(), new Date().getTimezoneOffset() / 60))
         .split(' ')
         .filter((p, i) => i !== 3)
-        .join(' ')
+        .join(' '),
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -203,7 +205,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .first()
+        .first(),
     ).toContainText(`Profile`);
 
     await page
@@ -220,11 +222,11 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .click();
     await page.keyboard.press('Enter', { delay: 100 });
     await expect(
-      page.locator('auth-profile-form').locator('[placeholder=timezone]')
+      page.locator('auth-profile-form').locator('[placeholder=timezone]'),
     ).toContainText('UTC−12:00: Date Line (west)');
 
     await expect(
-      page.locator('auth-profile-form').locator('button[type=submit]')
+      page.locator('auth-profile-form').locator('button[type=submit]'),
     ).toHaveText('Update');
 
     await page
@@ -233,7 +235,7 @@ test.describe('Work with profile as "User" role (timezone', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await setTimeout(7000);
@@ -265,18 +267,18 @@ test.describe('Work with profile as "User" role (timezone', () => {
         differenceInHours(
           addHours(
             new Date(
-              `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`
+              `1985-05-11T${(newTime.length === 7 ? '0' : '') + newTime}.000Z`,
             ),
-            newTimeIsPM ? 12 : 0
+            newTimeIsPM ? 12 : 0,
           ),
           addHours(
             new Date(
-              `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`
+              `1985-05-11T${(oldTime.length === 7 ? '0' : '') + oldTime}.000Z`,
             ),
-            oldTimeIsPM ? 12 : 0
-          )
-        )
-      )
+            oldTimeIsPM ? 12 : 0,
+          ),
+        ),
+      ),
     ).toBeGreaterThanOrEqual(11);
   });
 });

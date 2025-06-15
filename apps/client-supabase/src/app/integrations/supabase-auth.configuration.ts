@@ -108,7 +108,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {
     this.supabaseClient = new SupabaseClient(supabaseUrl, supabaseKey);
   }
@@ -127,7 +127,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       map(() => {
         this.tokensService.setTokens({});
         return null;
-      })
+      }),
     );
   }
 
@@ -136,7 +136,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       mapUserResponse(),
       map((result) => {
         return result.user ? this.mapToAuthUser(result.user) : undefined;
-      })
+      }),
     );
   }
 
@@ -177,7 +177,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       catchError((err) => {
         console.error(err);
         this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image')
+          this.translocoService.translate('Error while saving image'),
         );
         return of(undefined);
       }),
@@ -188,12 +188,12 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
             email: data.email,
             password: data.newPassword,
             phone: data.phoneNumber,
-          })
+          }),
         ).pipe(
           mapUserResponse(),
           map((result) =>
-            result.user ? this.mapToAuthUser(result.user) : undefined
-          )
+            result.user ? this.mapToAuthUser(result.user) : undefined,
+          ),
         );
       }),
       mergeMap((newData) => {
@@ -208,7 +208,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
         }
         return of(newData);
       }),
-      map(() => null)
+      map(() => null),
     );
   }
 
@@ -216,8 +216,8 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     const refreshToken = this.tokensService.getRefreshToken();
     return from(
       this.supabaseClient.auth.refreshSession(
-        refreshToken ? { refresh_token: refreshToken } : undefined
-      )
+        refreshToken ? { refresh_token: refreshToken } : undefined,
+      ),
     ).pipe(
       mapAuthResponse(),
       map((result) => {
@@ -235,7 +235,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           user: this.mapToAuthUser(result.user),
         };
       }),
-      catchError(() => of({}))
+      catchError(() => of({})),
     );
   }
 
@@ -257,7 +257,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
         options: {
           emailRedirectTo: window.location.origin,
         },
-      })
+      }),
     ).pipe(
       mapAuthResponse(),
       map((result) => ({
@@ -265,7 +265,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           ? this.mapToAuthTokens(result.session)
           : undefined,
         user: result.user ? this.mapToAuthUser(result.user) : undefined,
-      }))
+      })),
     );
   }
 
@@ -278,7 +278,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       this.supabaseClient.auth.signInWithPassword({
         email,
         password,
-      })
+      }),
     ).pipe(
       mapAuthTokenResponsePassword(),
       map((result) => ({
@@ -286,7 +286,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           ? this.mapToAuthTokens(result.session)
           : undefined,
         user: result.user ? this.mapToAuthUser(result.user) : undefined,
-      }))
+      })),
     );
   }
 
@@ -309,7 +309,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   }
 
   completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput
+    data: AuthCompleteForgotPasswordInput,
   ): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }

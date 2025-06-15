@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: "%NAMESPACE%"
+  namespace: '%NAMESPACE%'
   name: %NAMESPACE%-client-config
 data:
   SERVER_AUTHORIZER_PORT: '%SERVER_PORT%'
@@ -9,4 +9,3 @@ data:
   SERVER_AUTHORIZER_CONTAINER_NAME: %NAMESPACE%-server.%NAMESPACE%
   CLIENT_AUTHORIZER_URL: 'https://sso.%SERVER_DOMAIN%'
   CLIENT_MINIO_URL: 'https://files.%SERVER_DOMAIN%'
-

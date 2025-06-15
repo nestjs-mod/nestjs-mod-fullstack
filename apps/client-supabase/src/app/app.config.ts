@@ -79,7 +79,7 @@ export const appConfig = ({
         FormlyModule.forRoot({
           types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],
         }),
-        FormlyNgZorroAntdModule
+        FormlyNgZorroAntdModule,
       ),
       { provide: ErrorHandler, useClass: AppErrorHandler },
       {

@@ -1,18 +1,18 @@
 {
-    "name": "@nestjs-mod-fullstack/fullstack-rest-sdk-angular",
-    "version": "0.0.1",
-    "private": true,
-    "peerDependencies": {
-        "@angular/core": "19.0.5",
-        "@angular/common": "19.0.5",
-        "rxjs": "^7.8.0"
-    },
-    "sideEffects": false,
-    "i18n": [
-        {
-            "scope": "fullstack-rest-sdk-angular",
-            "path": "src/i18n",
-            "strategy": "join"
-        }
-    ]
+  "name": "@nestjs-mod-fullstack/fullstack-rest-sdk-angular",
+  "version": "0.0.1",
+  "private": true,
+  "peerDependencies": {
+    "@angular/core": "19.0.5",
+    "@angular/common": "19.0.5",
+    "rxjs": "^7.8.0"
+  },
+  "sideEffects": false,
+  "i18n": [
+    {
+      "scope": "fullstack-rest-sdk-angular",
+      "path": "src/i18n",
+      "strategy": "join"
+    }
+  ]
 }

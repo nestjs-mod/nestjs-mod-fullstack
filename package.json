@@ -96,7 +96,7 @@
     "test:server-sso": "./node_modules/.bin/nx test server-sso --parallel=false --passWithNoTests --output-style=stream-without-prefixes",
     "_____lint_____": "_____lint_____",
     "lint": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1",
-    "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1 --fix",
+    "lint:fix": "npm run tsc:lint && ./node_modules/.bin/nx run-many --all -t=lint --parallel=1 --fix && ./node_modules/.bin/nx format:write --all",
     "tsc:lint": "./node_modules/.bin/tsc --noEmit -p tsconfig.base.json",
     "_____vercel_____": "_____vercel_____",
     "vercel:pull-environment:production": "vercel pull --yes --environment=production && cp -r .vercel/.env.production.local .env && npx --yes tsx update-files-for-vercel.ts",

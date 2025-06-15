@@ -52,21 +52,21 @@ import { AuthUpdateProfileInput } from '../../services/auth.types';
       >
       </formly-form>
       @if (!hideButtons) {
-      <nz-form-control>
-        <div class="flex justify-between">
-          <div></div>
-          <button
-            nz-button
-            nzType="primary"
-            type="submit"
-            [disabled]="!form.valid"
-            transloco="Update"
-          ></button>
-        </div>
-      </nz-form-control>
+        <nz-form-control>
+          <div class="flex justify-between">
+            <div></div>
+            <button
+              nz-button
+              nzType="primary"
+              type="submit"
+              [disabled]="!form.valid"
+              transloco="Update"
+            ></button>
+          </div>
+        </nz-form-control>
       }
     </form>
-    } `,
+  } `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthProfileFormComponent implements OnInit {
@@ -86,7 +86,7 @@ export class AuthProfileFormComponent implements OnInit {
     private readonly translocoService: TranslocoService,
     private readonly authProfileFormService: AuthProfileFormService,
     private readonly authProfileMapperService: AuthProfileMapperService,
-    private readonly validationService: ValidationService
+    private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit(): void {
@@ -94,14 +94,14 @@ export class AuthProfileFormComponent implements OnInit {
 
     merge(
       this.authProfileFormService.init(),
-      this.translocoService.langChanges$
+      this.translocoService.langChanges$,
     )
       .pipe(
         mergeMap(() => {
           this.fillFromProfile();
           return of(true);
         }),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -117,7 +117,7 @@ export class AuthProfileFormComponent implements OnInit {
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(
-      this.authProfileFormService.getFormlyFields(options)
+      this.authProfileFormService.getFormlyFields(options),
     );
   }
 
@@ -131,30 +131,32 @@ export class AuthProfileFormComponent implements OnInit {
             this.fillFromProfile();
             this.nzMessageService.success(
               this.translocoService.translate(
-                'Profile data updated successfully!'
-              )
+                'Profile data updated successfully!',
+              ),
             );
           }),
           catchError((err) =>
             this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options)
-            )
+              this.setFormlyFields(options),
+            ),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
             this.nzMessageService.error(
-              this.translocoService.translate(err.error?.message || err.message)
+              this.translocoService.translate(
+                err.error?.message || err.message,
+              ),
             );
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
       console.log(this.form.controls);
       this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors')
+        this.translocoService.translate('Validation errors'),
       );
     }
   }
@@ -162,7 +164,7 @@ export class AuthProfileFormComponent implements OnInit {
   private fillFromProfile() {
     this.formlyFields$.next(this.formlyFields$.value);
     this.setFieldsAndModel(
-      this.authService.profile$.value as AuthUpdateProfileInput
+      this.authService.profile$.value as AuthUpdateProfileInput,
     );
   }
 }

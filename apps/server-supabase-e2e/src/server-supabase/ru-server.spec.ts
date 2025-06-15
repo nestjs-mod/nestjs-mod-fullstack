@@ -1,9 +1,11 @@
-import { RestClientHelper } from '@nestjs-mod-fullstack/testing';
+import { FullstackRestClientHelper } from '@nestjs-mod-fullstack/testing';
 
 describe('GET /api (ru)', () => {
   jest.setTimeout(60000);
 
-  const appApi = new RestClientHelper({ activeLang: 'ru' }).getAppApi();
+  const appApi = new FullstackRestClientHelper({
+    activeLang: 'ru',
+  }).getAppApi();
   let newDemoObject: { id: string };
 
   it('should return a message', async () => {
@@ -34,7 +36,7 @@ describe('GET /api (ru)', () => {
 
     expect(res.status).toBe(200);
     expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
-      [newDemoObject]
+      [newDemoObject],
     );
   });
 
@@ -50,7 +52,7 @@ describe('GET /api (ru)', () => {
 
     expect(res.status).toBe(200);
     expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
-      []
+      [],
     );
   });
 });

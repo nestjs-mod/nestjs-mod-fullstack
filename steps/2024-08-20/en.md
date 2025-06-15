@@ -1369,8 +1369,8 @@ export const appConfig: ApplicationConfig = {
         () =>
           new RestClientConfiguration({
             basePath: serverUrl,
-          })
-      )
+          }),
+      ),
     ),
   ],
 };

@@ -13,7 +13,7 @@ export class AuthCacheService {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly keyvService: KeyvService,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   async clearCacheByExternalUserId(externalUserId: string) {
@@ -29,7 +29,7 @@ export class AuthCacheService {
     const cached = await this.keyvService.get<AuthUser>(
       this.getUserCacheKey({
         externalUserId,
-      })
+      }),
     );
     if (cached) {
       return cached as AuthUser;
@@ -43,7 +43,7 @@ export class AuthCacheService {
       await this.keyvService.set(
         this.getUserCacheKey({ externalUserId }),
         user,
-        this.authStaticEnvironments.cacheTTL
+        this.authStaticEnvironments.cacheTTL,
       );
       return user;
     }

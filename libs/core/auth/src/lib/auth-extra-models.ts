@@ -6,7 +6,7 @@ export const AuthEntities = class {};
 
 Object.keys(Prisma)
   .filter(
-    (key) => key.endsWith('ScalarFieldEnum') && !key.startsWith('Migrations')
+    (key) => key.endsWith('ScalarFieldEnum') && !key.startsWith('Migrations'),
   )
   .map((enumName: string) => {
     const keyOfEntity = enumName.split('ScalarFieldEnum')[0];

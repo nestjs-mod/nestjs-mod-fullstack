@@ -7,7 +7,7 @@ import { DemoMapperService } from './demo-mapper.service';
 export class DemoService {
   constructor(
     private readonly fullstackRestSdkAngularService: FullstackRestSdkAngularService,
-    private readonly demoMapperService: DemoMapperService
+    private readonly demoMapperService: DemoMapperService,
   ) {}
 
   findOne(id: string) {

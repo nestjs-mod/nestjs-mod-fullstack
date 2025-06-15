@@ -1,11 +1,11 @@
 {
-    "Auth error": "Auth error",
-    "Forbidden": "Forbidden",
-    "User not found": "User not found",
-    "ok": "ok",
-    "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}",
-    "Unauthorized": "Unauthorized",
-    "Event that fires after user create": "Event that fires after user create",
-    "Event that fires after user delete": "Event that fires after user delete",
-    "Event that fires after user update": "Event that fires after user update"
+  "Auth error": "Auth error",
+  "Forbidden": "Forbidden",
+  "User not found": "User not found",
+  "ok": "ok",
+  "lang must have one of the values: {{values}}": "lang must have one of the values: {{values}}",
+  "Unauthorized": "Unauthorized",
+  "Event that fires after user create": "Event that fires after user create",
+  "Event that fires after user delete": "Event that fires after user delete",
+  "Event that fires after user update": "Event that fires after user update"
 }

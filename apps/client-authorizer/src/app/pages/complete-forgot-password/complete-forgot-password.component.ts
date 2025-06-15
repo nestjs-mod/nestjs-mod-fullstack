@@ -26,7 +26,7 @@ export class CompleteForgotPasswordComponent {
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {
     this.code = this.activatedRoute.snapshot.queryParamMap.get('code');
     this.redirectUri =
@@ -38,7 +38,7 @@ export class CompleteForgotPasswordComponent {
       if (
         searchIn(
           [AuthRoleInterface.Admin, AuthRoleInterface.User],
-          this.authService.profile$.value?.roles
+          this.authService.profile$.value?.roles,
         )
       ) {
         this.router.navigate(['/webhooks']);

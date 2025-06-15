@@ -24,7 +24,7 @@ import { WebhookRestSdkService } from '@nestjs-mod/webhook';
 import { FilesRestSdkService } from '@nestjs-mod/files';
 
 export class FullstackRestClientHelper<
-  T extends 'strict' | 'no_strict' = 'strict'
+  T extends 'strict' | 'no_strict' = 'strict',
 > {
   private authorizerClientID!: string;
 
@@ -65,7 +65,7 @@ export class FullstackRestClientHelper<
       activeLang?: string;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       headers?: any;
-    }
+    },
   ) {
     this.randomUser = options?.randomUser as GenerateRandomUserResult;
     this.createApiClients();
@@ -105,7 +105,7 @@ export class FullstackRestClientHelper<
       {
         ...(options || {}),
         headers,
-      }
+      },
     );
     return new Observable<{ data: T; event: string }>((observer) => {
       wss.on('open', () => {
@@ -122,7 +122,7 @@ export class FullstackRestClientHelper<
           JSON.stringify({
             event: eventName,
             data: true,
-          })
+          }),
         );
       });
     }).pipe(
@@ -130,7 +130,7 @@ export class FullstackRestClientHelper<
         if (wss?.readyState == WebSocket.OPEN) {
           wss.close();
         }
-      })
+      }),
     );
   }
 
@@ -214,14 +214,14 @@ export class FullstackRestClientHelper<
     if (!this.testingSupabaseService) {
       this.testingSupabaseService = new TestingSupabaseService(
         supabaseUrl,
-        supabaseKey
+        supabaseKey,
       );
     }
     return this.testingSupabaseService;
   }
 
   async createAndLoginAsUser(
-    options?: Pick<GenerateRandomUserResult, 'email' | 'password'>
+    options?: Pick<GenerateRandomUserResult, 'email' | 'password'>,
   ) {
     await this.generateRandomUser(options);
     await this.reg();
@@ -231,7 +231,7 @@ export class FullstackRestClientHelper<
   }
 
   async generateRandomUser(
-    options?: Pick<GenerateRandomUserResult, 'email' | 'password'> | undefined
+    options?: Pick<GenerateRandomUserResult, 'email' | 'password'> | undefined,
   ) {
     if (!this.randomUser || options) {
       this.randomUser = await generateRandomUser(undefined, options);
@@ -292,7 +292,7 @@ export class FullstackRestClientHelper<
   async login(
     options?: Partial<
       Pick<GenerateRandomUserResult, 'id' | 'email' | 'password'>
-    >
+    >,
   ) {
     if (!this.randomUser) {
       this.randomUser = await generateRandomUser();
@@ -382,13 +382,13 @@ export class FullstackRestClientHelper<
     if (this.authorizerApiAxios) {
       Object.assign(
         this.authorizerApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
+        this.getAuthorizationHeaders(),
       );
     }
     if (this.fakeEndpointApiAxios) {
       Object.assign(
         this.fakeEndpointApiAxios.defaults.headers.common,
-        this.getAuthorizationHeaders()
+        this.getAuthorizationHeaders(),
       );
     }
   }
@@ -407,7 +407,7 @@ export class FullstackRestClientHelper<
           ? {
               Authorization: this.getAuthorizationHeaders().Authorization,
             }
-          : {}
+          : {},
       );
     }
 
@@ -455,7 +455,7 @@ export class FullstackRestClientHelper<
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.authorizerApiAxios
+      this.authorizerApiAxios,
     );
 
     //
@@ -466,7 +466,7 @@ export class FullstackRestClientHelper<
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.fakeEndpointApiAxios
+      this.fakeEndpointApiAxios,
     );
   }
 

@@ -79,7 +79,7 @@ export const minioURL =
 export const supabaseURL = 'https://${supabaseName}.supabase.co';
 export const supabaseKey =
   '${supabaseAnonKey}';
-`
+`,
 );
 writeFileSync(
   join(__dirname, 'apps/client-supabase/src/environments/environment.ts'),
@@ -89,7 +89,7 @@ export const minioURL =
 export const supabaseURL = 'https://${supabaseName}.supabase.co';
 export const supabaseKey =
   '${supabaseAnonKey}';
-`
+`,
 );
 
 const envContent = Object.entries(parsedEnvs)

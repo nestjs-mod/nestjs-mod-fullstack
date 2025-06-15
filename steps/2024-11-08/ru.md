@@ -298,7 +298,7 @@ export class AuthAuthorizerService {
   async updateUser(
     externalUserId: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    params: Partial<Record<string, any>>
+    params: Partial<Record<string, any>>,
   ) {
     if (Object.keys(params).length > 0) {
       const paramsForUpdate = Object.entries(params)
@@ -336,7 +336,10 @@ import { AuthEnvironments } from '../auth.environments';
 export class AuthAuthorizerBootstrapService implements OnModuleInit {
   private logger = new Logger(AuthAuthorizerBootstrapService.name);
 
-  constructor(private readonly authAuthorizerService: AuthAuthorizerService, private readonly authEnvironments: AuthEnvironments) {}
+  constructor(
+    private readonly authAuthorizerService: AuthAuthorizerService,
+    private readonly authEnvironments: AuthEnvironments,
+  ) {}
 
   async onModuleInit() {
     this.logger.debug('onModuleInit');
@@ -435,7 +438,7 @@ import { WEBHOOK_FEATURE } from '../webhook.constants';
 export class WebhookUsersService {
   constructor(
     @InjectPrismaClient(WEBHOOK_FEATURE)
-    private readonly prismaClient: PrismaClient
+    private readonly prismaClient: PrismaClient,
   ) {}
 
   async createUser(user: Omit<CreateWebhookUserArgs, 'id'>) {
@@ -615,7 +618,7 @@ export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 export class AuthorizerService extends Authorizer {
   constructor(
     @Inject(AUTHORIZER_URL)
-    private readonly authorizerURL: string
+    private readonly authorizerURL: string,
   ) {
     super({
       authorizerURL:
@@ -661,7 +664,7 @@ export class AuthService {
       this.authorizerService.signup({
         ...data,
         email: data.email?.toLowerCase(),
-      })
+      }),
     ).pipe(
       mapGraphqlErrors(),
       map((result) => {
@@ -670,7 +673,7 @@ export class AuthService {
           profile: result?.user,
           tokens: this.tokens$.value,
         };
-      })
+      }),
     );
   }
 
@@ -679,7 +682,7 @@ export class AuthService {
       this.authorizerService.login({
         ...data,
         email: data.email?.toLowerCase(),
-      })
+      }),
     ).pipe(
       mapGraphqlErrors(),
       map((result) => {
@@ -688,7 +691,7 @@ export class AuthService {
           profile: result?.user,
           tokens: this.tokens$.value,
         };
-      })
+      }),
     );
   }
 
@@ -697,7 +700,7 @@ export class AuthService {
       mapGraphqlErrors(),
       tap(() => {
         this.clearProfileAndTokens();
-      })
+      }),
     );
   }
 
@@ -711,7 +714,7 @@ export class AuthService {
         console.error(err);
         this.clearProfileAndTokens();
         return of(null);
-      })
+      }),
     );
   }
 
@@ -811,7 +814,7 @@ export class AuthSignUpFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: AuthSignUpFormComponent,
     private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -881,7 +884,7 @@ export class AuthSignUpFormComponent implements OnInit {
             this.nzMessageService.error(err.message);
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
@@ -970,7 +973,7 @@ export class AuthSignInFormComponent implements OnInit {
     @Inject(NZ_MODAL_DATA)
     private readonly nzModalData: AuthSignInFormComponent,
     private readonly authService: AuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -1027,7 +1030,7 @@ export class AuthSignInFormComponent implements OnInit {
             this.nzMessageService.error(err.message);
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
@@ -1087,7 +1090,11 @@ import { catchError, map, mergeMap, of, Subscription, tap, throwError } from 'rx
 export class AppInitializer {
   private subscribeToTokenUpdatesSubscription?: Subscription;
 
-  constructor(private readonly defaultRestService: DefaultRestService, private readonly webhookRestService: WebhookRestService, private readonly authService: AuthService) {}
+  constructor(
+    private readonly defaultRestService: DefaultRestService,
+    private readonly webhookRestService: WebhookRestService,
+    private readonly authService: AuthService,
+  ) {}
 
   resolve() {
     this.subscribeToTokenUpdates();
@@ -1098,14 +1105,14 @@ export class AppInitializer {
             map(({ clientID }) => {
               this.authService.setAuthorizerClientID(clientID);
               return null;
-            })
+            }),
           )
     ).pipe(
       mergeMap(() => this.authService.refreshToken()),
       catchError((err) => {
         console.error(err);
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -1122,7 +1129,7 @@ export class AppInitializer {
             this.defaultRestService.defaultHeaders = new HttpHeaders(authorizationHeaders);
             this.webhookRestService.defaultHeaders = new HttpHeaders(authorizationHeaders);
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -1168,10 +1175,10 @@ export const appConfig = ({ authorizerURL }: { authorizerURL?: string }): Applic
           () =>
             new RestClientConfiguration({
               basePath: serverUrl,
-            })
+            }),
         ),
         FormlyModule.forRoot(),
-        FormlyNgZorroAntdModule
+        FormlyNgZorroAntdModule,
       ),
       { provide: ErrorHandler, useClass: AppErrorHandler },
       {
@@ -1456,7 +1463,7 @@ export class RestClientHelper {
       serverUrl?: string;
       authorizerURL?: string;
       randomUser?: GenerateRandomUserResult;
-    }
+    },
   ) {
     this.randomUser = options?.randomUser;
     this.createApiClients();
@@ -1607,14 +1614,14 @@ export class RestClientHelper {
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.webhookApiAxios
+      this.webhookApiAxios,
     );
     this.defaultApi = new DefaultApi(
       new Configuration({
         basePath: this.getServerUrl(),
       }),
       undefined,
-      this.defaultApiAxios
+      this.defaultApiAxios,
     );
   }
 

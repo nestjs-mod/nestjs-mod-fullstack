@@ -26,14 +26,14 @@ export const CurrentAuthRequest = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext) => {
     const req = getRequestFromExecutionContext(ctx) as AuthRequest;
     return req;
-  }
+  },
 );
 
 export const CurrentAuthUser = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext) => {
     const req = getRequestFromExecutionContext(ctx) as AuthRequest;
     return req.authUser;
-  }
+  },
 );
 
 function AddHandleConnection() {
@@ -64,8 +64,8 @@ function AddHandleConnection() {
                 authorization: authorizationHeader
                   ? authorizationHeader
                   : queryToken
-                  ? `Bearer ${queryToken}`
-                  : '',
+                    ? `Bearer ${queryToken}`
+                    : '',
               }
             : {}),
           ...(xClientIdHeader
@@ -92,6 +92,6 @@ export function UseAuthInterceptorsAndGuards(options?: {
       UseGuards(...(options?.guards || []), AuthGuard),
       AllowEmptyAuthUser(),
       AddHandleConnection(),
-    ]
+    ],
   );
 }

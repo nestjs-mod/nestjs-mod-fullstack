@@ -32,11 +32,11 @@ test.describe('Validation', () => {
     });
     await page.evaluate(
       (ssoURL) => localStorage.setItem('ssoURL', ssoURL),
-      get('SERVER_SSO_SSO_URL').asString() || ''
+      get('SERVER_SSO_SSO_URL').asString() || '',
     );
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
-      get('SERVER_SSO_MINIO_URL').required().asString()
+      get('SERVER_SSO_MINIO_URL').required().asString(),
     );
   });
 
@@ -58,7 +58,7 @@ test.describe('Validation', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+      page.locator('auth-sign-up-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -69,7 +69,7 @@ test.describe('Validation', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await page
@@ -80,11 +80,13 @@ test.describe('Validation', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
+      page
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirmPassword]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-up-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]'),
     ).toHaveText('Sign-up');
 
     await page
@@ -93,11 +95,11 @@ test.describe('Validation', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
@@ -111,10 +113,10 @@ test.describe('Validation', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(0)
+      page.locator('webhook-form').locator('formly-validation-message').nth(0),
     ).toContainText('field "endpoint" should not be empty');
     await expect(
-      page.locator('webhook-form').locator('formly-validation-message').nth(1)
+      page.locator('webhook-form').locator('formly-validation-message').nth(1),
     ).toContainText('field "event name" should not be empty');
   });
 });

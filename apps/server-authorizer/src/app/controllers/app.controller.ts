@@ -30,7 +30,7 @@ export class AppController {
     @InjectPrismaClient(APP_FEATURE)
     private readonly appPrismaClient: AppPrismaSdk.PrismaClient,
     private readonly appService: AppService,
-    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
+    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>,
   ) {}
 
   @Get('/get-data')
@@ -67,7 +67,7 @@ export class AppController {
   @ApiOkResponse({ type: AppDemo })
   async demoDeleteOne(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @CurrentAuthorizerUser() externalUser?: { id: string }
+    @CurrentAuthorizerUser() externalUser?: { id: string },
   ) {
     const result = await this.appPrismaClient.appDemo.delete({ where: { id } });
 
@@ -84,7 +84,7 @@ export class AppController {
   @ApiOkResponse({ type: AppDemo })
   async demoUpdateOne(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @CurrentAuthorizerUser() externalUser?: { id: string }
+    @CurrentAuthorizerUser() externalUser?: { id: string },
   ) {
     const result = await this.appPrismaClient.appDemo.update({
       data: { name: 'new demo name' + randomUUID(), updatedAt: new Date() },

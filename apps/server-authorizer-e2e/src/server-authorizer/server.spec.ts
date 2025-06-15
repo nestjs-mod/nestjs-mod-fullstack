@@ -34,7 +34,7 @@ describe('GET /api', () => {
 
     expect(res.status).toBe(200);
     expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
-      [newDemoObject]
+      [newDemoObject],
     );
   });
 
@@ -50,7 +50,7 @@ describe('GET /api', () => {
 
     expect(res.status).toBe(200);
     expect(res.data.filter((row) => row.id === newDemoObject.id)).toMatchObject(
-      []
+      [],
     );
   });
 });

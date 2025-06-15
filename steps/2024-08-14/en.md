@@ -544,7 +544,7 @@ export class AppController {
   constructor(
     @InjectPrismaClient()
     private readonly appPrismaClient: AppPrismaClient,
-    private readonly appService: AppService
+    private readonly appService: AppService,
   ) {}
 
   @Get()
@@ -602,8 +602,8 @@ export const appConfig: ApplicationConfig = {
         () =>
           new RestClientConfiguration({
             basePath: 'http://localhost:3000',
-          })
-      )
+          }),
+      ),
     ),
   ],
 };
@@ -664,7 +664,7 @@ describe('AppComponent', () => {
           () =>
             new RestClientConfiguration({
               basePath: 'http://localhost:3000',
-            })
+            }),
         ),
       ],
     }).compileComponents();

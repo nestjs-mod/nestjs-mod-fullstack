@@ -14,5 +14,5 @@ const serverConfig: ApplicationConfig = {
 
 export const config = mergeApplicationConfig(
   appConfig({ minioURL, supabaseKey, supabaseURL }),
-  serverConfig
+  serverConfig,
 );

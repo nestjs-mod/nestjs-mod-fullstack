@@ -119,7 +119,7 @@ export const { AppModule } = createNestModule({
           return new ValidationError(
             ValidationErrorEnum.COMMON,
             undefined,
-            errors
+            errors,
           );
         },
       },

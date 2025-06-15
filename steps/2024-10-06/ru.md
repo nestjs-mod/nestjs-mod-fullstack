@@ -1611,7 +1611,7 @@ export class PrismaToolsService {
     defaultOptions?: {
       defaultCurPage: number;
       defaultPerPage: number;
-    }
+    },
   ): {
     take: number;
     skip: number;
@@ -1643,7 +1643,10 @@ import { PrismaToolsEnvironments } from './prisma-tools.environments';
 export class PrismaToolsExceptionsFilter extends BaseExceptionFilter {
   private logger = new Logger(PrismaToolsExceptionsFilter.name);
 
-  constructor(private readonly prismaToolsService: PrismaToolsService, private readonly prismaToolsEnvironments: PrismaToolsEnvironments) {
+  constructor(
+    private readonly prismaToolsService: PrismaToolsService,
+    private readonly prismaToolsEnvironments: PrismaToolsEnvironments,
+  ) {
     super();
   }
 
@@ -2045,7 +2048,7 @@ export class WebhookController {
     private readonly prismaClient: PrismaClient,
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly prismaToolsService: PrismaToolsService,
-    private readonly webhookToolsService: WebhookToolsService
+    private readonly webhookToolsService: WebhookToolsService,
   ) {}
 
   @Get('profile')
@@ -2272,7 +2275,7 @@ export class WebhookUsersController {
     @InjectPrismaClient(WEBHOOK_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly prismaToolsService: PrismaToolsService,
-    private readonly webhookToolsService: WebhookToolsService
+    private readonly webhookToolsService: WebhookToolsService,
   ) {}
 
   @Get()
@@ -2400,7 +2403,7 @@ import { WebhookUser } from '../generated/rest/dto/webhook_user';
 export class WebhookToolsService {
   externalTenantIdQuery(
     webhookUser: Pick<WebhookUser, 'userRole' | 'externalTenantId'> | null,
-    externalTenantId: string
+    externalTenantId: string,
   ): {
     externalTenantId: string;
   } {
@@ -2449,7 +2452,7 @@ export class WebhookServiceBootstrap implements OnApplicationBootstrap, OnModule
     private readonly webhookEnvironments: WebhookEnvironments,
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly httpService: HttpService,
-    private readonly webhookService: WebhookService
+    private readonly webhookService: WebhookService,
   ) {}
 
   onModuleDestroy() {
@@ -2503,7 +2506,7 @@ export class WebhookServiceBootstrap implements OnApplicationBootstrap, OnModule
                         { headers: new AxiosHeaders(webhook.headers as any) }
                       : {}),
                   })
-                  .pipe(timeout(webhook.requestTimeout || 5000))
+                  .pipe(timeout(webhook.requestTimeout || 5000)),
               );
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               let response: any, responseStatus: string;
@@ -2545,7 +2548,7 @@ export class WebhookServiceBootstrap implements OnApplicationBootstrap, OnModule
               }
             }
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -2600,9 +2603,9 @@ export class WebhookExceptionsFilter extends BaseExceptionFilter {
             message: exception.message,
             metadata: exception.metadata,
           },
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         ),
-        host
+        host,
       );
     } else {
       this.logger.error(exception, exception.stack);
@@ -2641,7 +2644,7 @@ export class WebhookGuard implements CanActivate {
     private readonly prismaClient: PrismaClient,
     private readonly reflector: Reflector,
     private readonly webhookEnvironments: WebhookEnvironments,
-    private readonly webhookConfiguration: WebhookConfiguration
+    private readonly webhookConfiguration: WebhookConfiguration,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -2999,7 +3002,7 @@ export class AppController {
     @InjectPrismaClient('app')
     private readonly appPrismaClient: AppPrismaClient,
     private readonly appService: AppService,
-    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>
+    private readonly webhookService: WebhookService<AppDemoEventName, AppDemo>,
   ) {}
 
   @Get()
@@ -3079,7 +3082,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
           enabled: false,
         },
         user1Headers['x-external-user-id'],
-        user1Headers['x-external-tenant-id']
+        user1Headers['x-external-tenant-id'],
       );
     }
     //
@@ -3092,7 +3095,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
           enabled: false,
         },
         user2Headers['x-external-user-id'],
-        user2Headers['x-external-tenant-id']
+        user2Headers['x-external-tenant-id'],
       );
     }
   });
@@ -3143,7 +3146,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
         eventName: createEventName,
       },
       user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
+      user1Headers['x-external-tenant-id'],
     );
     expect(newWebhook).toMatchObject({
       enabled: false,
@@ -3160,7 +3163,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
         eventName: createEventName,
       },
       user2Headers['x-external-user-id'],
-      user2Headers['x-external-tenant-id']
+      user2Headers['x-external-tenant-id'],
     );
     expect(newWebhook).toMatchObject({
       enabled: false,
@@ -3189,7 +3192,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
+      user1Headers['x-external-tenant-id'],
     );
     expect(oneWebhook).toMatchObject({
       enabled: false,
@@ -3207,7 +3210,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
         endpoint: 'http://example.com/new',
       },
       user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
+      user1Headers['x-external-tenant-id'],
     );
     expect(updatedWebhook).toMatchObject({
       enabled: false,
@@ -3222,7 +3225,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
+      user1Headers['x-external-tenant-id'],
     );
     expect(deletedWebhook).toMatchObject({ message: 'ok' });
 
@@ -3292,7 +3295,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
           enabled: false,
         },
         headers['x-external-user-id'],
-        headers['x-external-tenant-id']
+        headers['x-external-tenant-id'],
       );
     }
     server.close();
@@ -3316,7 +3319,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         headers: { 'app-id': appId },
       },
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
     expect(newWebhook1).toMatchObject({
       enabled: true,
@@ -3334,7 +3337,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         headers: { 'app-id': appId },
       },
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
     expect(newWebhook2).toMatchObject({
       enabled: true,
@@ -3351,7 +3354,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
         headers: { 'app-id': appId },
       },
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
     expect(newWebhook3).toMatchObject({
       enabled: true,
@@ -3408,7 +3411,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
 
     expect(manyWebhookLogs).toMatchObject({
@@ -3430,7 +3433,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       manyWebhooks.webhooks.find((w) => w.eventName === deleteEventName)!.id,
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
 
     expect(manyWebhookLogs).toMatchObject({
@@ -3451,7 +3454,7 @@ describe('CRUD and business operations with WebhookLog as "User" role', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       manyWebhooks.webhooks.find((w) => w.eventName === updateEventName)!.id,
       headers['x-external-user-id'],
-      headers['x-external-tenant-id']
+      headers['x-external-tenant-id'],
     );
 
     expect(manyWebhookLogs).toMatchObject({
@@ -3503,7 +3506,7 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
           enabled: false,
         },
         user1Headers['x-external-user-id'],
-        user1Headers['x-external-tenant-id']
+        user1Headers['x-external-tenant-id'],
       );
     }
     //
@@ -3516,7 +3519,7 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
           enabled: false,
         },
         adminHeaders['x-external-user-id'],
-        adminHeaders['x-external-tenant-id']
+        adminHeaders['x-external-tenant-id'],
       );
     }
   });
@@ -3529,7 +3532,7 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
         eventName: createEventName,
       },
       user1Headers['x-external-user-id'],
-      user1Headers['x-external-tenant-id']
+      user1Headers['x-external-tenant-id'],
     );
     expect(newWebhook).toMatchObject({
       enabled: false,
@@ -3546,7 +3549,7 @@ describe('CRUD operations with Webhook as "Admin" role', () => {
         eventName: createEventName,
       },
       adminHeaders['x-external-user-id'],
-      adminHeaders['x-external-tenant-id']
+      adminHeaders['x-external-tenant-id'],
     );
     expect(newWebhook).toMatchObject({
       enabled: false,
@@ -3610,7 +3613,7 @@ describe('CRUD operations with WebhookUser as "Admin" role', () => {
           enabled: false,
         },
         adminHeaders['x-external-user-id'],
-        adminHeaders['x-external-tenant-id']
+        adminHeaders['x-external-tenant-id'],
       );
     }
   });

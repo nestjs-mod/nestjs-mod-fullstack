@@ -121,7 +121,7 @@ import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-dat
 export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
   constructor(
     // ...
-    private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>
+    private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>,
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
@@ -144,7 +144,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
           concatMap(async (data) => {
             const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
             return this.authTimezoneService.convertObject(data, user?.timezone);
-          })
+          }),
         );
       }
       if (result instanceof Promise && typeof result?.then === 'function') {
@@ -154,7 +154,7 @@ export class AuthTimezoneInterceptor implements NestInterceptor<TData, TData> {
               concatMap(async (data) => {
                 const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
                 return this.authTimezoneService.convertObject(data, user?.timezone);
-              })
+              }),
             );
           } else {
             const user = await this.authCacheService.getCachedUserByExternalUserId(userId);
@@ -194,7 +194,11 @@ import { AuthAsyncLocalStorageData } from '../types/auth-async-local-storage-dat
 
 @Injectable()
 export class AuthTimezonePipe implements PipeTransform {
-  constructor(private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>, private readonly authTimezoneService: AuthTimezoneService, private readonly authEnvironments: AuthEnvironments) {}
+  constructor(
+    private readonly asyncLocalStorage: AsyncLocalStorage<AuthAsyncLocalStorageData>,
+    private readonly authTimezoneService: AuthTimezoneService,
+    private readonly authEnvironments: AuthEnvironments,
+  ) {}
 
   transform(value: unknown) {
     if (!this.authEnvironments.usePipes) {
@@ -268,13 +272,16 @@ import { ActiveLangService } from '../services/active-lang.service';
 export class DateInputComponent extends FieldType<FieldTypeConfig> {
   format$: Observable<string>;
 
-  constructor(private readonly translocoService: TranslocoService, private readonly activeLangService: ActiveLangService) {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly activeLangService: ActiveLangService,
+  ) {
     super();
     this.format$ = translocoService.langChanges$.pipe(
       map((lang) => {
         const { locale } = this.activeLangService.normalizeLangKey(lang);
         return DATE_INPUT_FORMATS[locale] ? DATE_INPUT_FORMATS[locale] : DATE_INPUT_FORMATS['en-US'];
-      })
+      }),
     );
   }
 }
@@ -369,7 +376,7 @@ export class ActiveLangService {
     private readonly translocoLocaleService: TranslocoLocaleService,
     private readonly nzI18nService: NzI18nService,
     @Inject(TRANSLOCO_LOCALE_LANG_MAPPING)
-    readonly langToLocaleMapping: LangToLocaleMapping
+    readonly langToLocaleMapping: LangToLocaleMapping,
   ) {}
 
   applyActiveLang(lang: string) {
@@ -424,7 +431,7 @@ export const appConfig = ({ authorizerURL, minioURL }: { authorizerURL: string; 
         FormlyModule.forRoot({
           // <--updates
           types: [...FILES_FORMLY_FIELDS, ...COMMON_FORMLY_FIELDS],
-        })
+        }),
       ),
       // ...
       provideTranslocoLocale({
@@ -466,13 +473,17 @@ import { WebhookEventsService } from './webhook-events.service';
 export class WebhookFormService {
   protected events: WebhookEventInterface[] = [];
 
-  constructor(protected readonly webhookEventsService: WebhookEventsService, protected readonly translocoService: TranslocoService, protected readonly validationService: ValidationService) {}
+  constructor(
+    protected readonly webhookEventsService: WebhookEventsService,
+    protected readonly translocoService: TranslocoService,
+    protected readonly validationService: ValidationService,
+  ) {}
 
   init() {
     return this.webhookEventsService.findMany().pipe(
       tap((events) => {
         this.events = events;
-      })
+      }),
     );
   }
 
@@ -561,7 +572,7 @@ export class WebhookFormService {
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 }
@@ -669,7 +680,7 @@ test.describe('basic usage (ru)', () => {
       serverTime
         .split(' ')
         .filter((p, i) => i !== 4)
-        .join(' ')
+        .join(' '),
     ).toEqual(
       new Intl.DateTimeFormat('ru-RU', {
         dateStyle: 'medium',
@@ -678,7 +689,7 @@ test.describe('basic usage (ru)', () => {
         .format(new Date())
         .split(' ')
         .filter((p, i) => i !== 4)
-        .join(' ')
+        .join(' '),
     );
   });
 });

@@ -54,7 +54,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
 
   it('should return error "AUTH-001" about empty user', async () => {
     await expect(
-      user2.getWebhookApi().webhookControllerProfile()
+      user2.getWebhookApi().webhookControllerProfile(),
     ).rejects.toHaveProperty('response.data', {
       code: AuthErrorEnum.Auth001,
       message: 'Unauthorized',
@@ -135,7 +135,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       .getWebhookApi()
       .webhookControllerFindOne(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id
+        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       );
     expect(oneWebhook).toMatchObject({
       enabled: false,
@@ -155,7 +155,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
         manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
         {
           endpoint: `${user1.getGeneratedRandomUser().site}/new`,
-        }
+        },
       );
     expect(updatedWebhook).toMatchObject({
       enabled: false,
@@ -172,7 +172,7 @@ describe('CRUD operations with Webhook as "User" role', () => {
       .getWebhookApi()
       .webhookControllerDeleteOne(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id
+        manyWebhooks.webhooks.find((w) => w.eventName === createEventName)!.id,
       );
     expect(deletedWebhook).toMatchObject({ message: 'ok' });
 

@@ -6,7 +6,7 @@ export async function replaceEnvs() {
     __dirname,
     '..',
     'client-authorizer',
-    'browser'
+    'browser',
   );
   if (existsSync(clientBrowserPath)) {
     const files = readdirSync(clientBrowserPath);
@@ -20,12 +20,13 @@ export async function replaceEnvs() {
             .replace(
               new RegExp('___CLIENT_AUTHORIZER_URL___', 'g'),
               process.env.SERVER_AUTHORIZER_AUTHORIZER_AUTHORIZER_URL ||
-                'http://localhost:8080'
+                'http://localhost:8080',
             )
             .replace(
               new RegExp('___CLIENT_MINIO_URL___', 'g'),
-              process.env.SERVER_AUTHORIZER_MINIO_URL || 'http://localhost:9000'
-            )
+              process.env.SERVER_AUTHORIZER_MINIO_URL ||
+                'http://localhost:9000',
+            ),
         );
       }
     }

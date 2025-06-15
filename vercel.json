@@ -1,38 +1,38 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "dist/apps/client-supabase/browser/**",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "dist/apps/server-supabase/main.js",
-            "use": "@vercel/node",
-            "config": {
-              "includeFiles": ["dist/apps/server-supabase/assets/**"]
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "dist/apps/server-supabase/main.js"
-        },
-        {
-            "src": "/favicon.ico",
-            "dest": "dist/apps/client-supabase/browser/favicon.ico"
-        },
-        {
-            "src": "/assets/(.*)",
-            "dest": "dist/apps/client-supabase/browser/assets/$1"
-        },
-        {
-            "src": "/(.*)\\.(.*)",
-            "dest": "dist/apps/client-supabase/browser/$1.$2"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "dist/apps/client-supabase/browser/index.html"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/apps/client-supabase/browser/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "dist/apps/server-supabase/main.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/apps/server-supabase/assets/**"]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "dist/apps/server-supabase/main.js"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "dist/apps/client-supabase/browser/favicon.ico"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "dist/apps/client-supabase/browser/assets/$1"
+    },
+    {
+      "src": "/(.*)\\.(.*)",
+      "dest": "dist/apps/client-supabase/browser/$1.$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/apps/client-supabase/browser/index.html"
+    }
+  ]
 }

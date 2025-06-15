@@ -16,7 +16,7 @@ export class AuthorizerClientID {
 export class AuthorizerController {
   constructor(
     @Optional()
-    private readonly authorizerService?: AuthorizerService
+    private readonly authorizerService?: AuthorizerService,
   ) {}
 
   @Get('/authorizer/client-id')

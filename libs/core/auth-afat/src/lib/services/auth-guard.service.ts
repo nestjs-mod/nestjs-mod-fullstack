@@ -31,7 +31,7 @@ export class AuthGuardService implements CanActivate {
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
@@ -62,7 +62,7 @@ export class AuthGuardService implements CanActivate {
         catchError((err) => {
           console.error(err);
           this.nzMessageService.error(
-            this.translocoService.translate(err.error?.message || err.message)
+            this.translocoService.translate(err.error?.message || err.message),
           );
           if (authGuardData.afterActivate) {
             return from(
@@ -71,11 +71,11 @@ export class AuthGuardService implements CanActivate {
                 authService: this.authService,
                 router: this.router,
                 error: err,
-              })
+              }),
             );
           }
           return of(false);
-        })
+        }),
       );
     }
     return of(true);
@@ -85,15 +85,15 @@ export class AuthGuardService implements CanActivate {
     return this.authAuthService.profile$.pipe(
       map((authUser) => {
         const authGuardDataRoles = (authRoles || []).map((role) =>
-          role.toLowerCase()
+          role.toLowerCase(),
         );
         const result = Boolean(
           (authUser &&
             authGuardDataRoles.length > 0 &&
             authGuardDataRoles.some((r) =>
-              authUser.roles?.map((r) => r.toLowerCase()).includes(r)
+              authUser.roles?.map((r) => r.toLowerCase()).includes(r),
             )) ||
-            (authGuardDataRoles.length === 0 && !authUser?.roles)
+            (authGuardDataRoles.length === 0 && !authUser?.roles),
         );
         if (!result) {
           console.log(result, { authUser, authGuardDataRoles }, [
@@ -104,14 +104,14 @@ export class AuthGuardService implements CanActivate {
                 authGuardDataRoles
                   .map((role) => role.toLowerCase())
                   .some((r) =>
-                    authUser.roles?.map((r) => r.toLowerCase()).includes(r)
+                    authUser.roles?.map((r) => r.toLowerCase()).includes(r),
                   ),
             ],
             [authGuardDataRoles.length === 0, !authUser?.roles],
           ]);
         }
         return result;
-      })
+      }),
     );
   }
 }

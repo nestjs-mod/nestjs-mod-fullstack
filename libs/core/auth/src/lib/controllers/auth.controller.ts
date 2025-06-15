@@ -43,13 +43,13 @@ export class AuthController {
     private readonly prismaClient: PrismaClient,
     private readonly authCacheService: AuthCacheService,
     private readonly translatesStorage: TranslatesStorage,
-    private readonly webhookService: WebhookService
+    private readonly webhookService: WebhookService,
   ) {}
 
   @Get('profile')
   @ApiOkResponse({ type: AuthProfileDto })
   async profile(
-    @CurrentAuthUser() authUser: AuthUser
+    @CurrentAuthUser() authUser: AuthUser,
   ): Promise<AuthProfileDto> {
     return {
       lang: authUser.lang,
@@ -64,7 +64,7 @@ export class AuthController {
   async updateProfile(
     @CurrentAuthUser() authUser: AuthUser,
     @Body() args: AuthProfileDto,
-    @InjectTranslateFunction() getText: TranslateFunction
+    @InjectTranslateFunction() getText: TranslateFunction,
   ) {
     if (args.lang && !this.translatesStorage.locales.includes(args.lang)) {
       throw new ValidationError(undefined, ValidationErrorEnum.COMMON, [
@@ -73,7 +73,7 @@ export class AuthController {
           constraints: {
             isWrongEnumValue: getText(
               'lang must have one of the values: {{values}}',
-              { values: this.translatesStorage.locales.join(', ') }
+              { values: this.translatesStorage.locales.join(', ') },
             ),
           },
         },
@@ -96,7 +96,7 @@ export class AuthController {
       },
     });
     await this.authCacheService.clearCacheByExternalUserId(
-      authUser.externalUserId
+      authUser.externalUserId,
     );
     await this.webhookService.sendEvent({
       eventName: AuthWebhookEvent['auth.user-update'],

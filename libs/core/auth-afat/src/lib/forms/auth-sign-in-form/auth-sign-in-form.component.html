@@ -1,51 +1,54 @@
 @if (formlyFields$ | async; as formlyFields) {
-<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-  <formly-form
-    [model]="formlyModel$ | async"
-    [fields]="formlyFields"
-    [form]="form"
-  >
-  </formly-form>
-  @if (!hideButtons) {
-  <nz-form-control>
-    <div class="flex flex-col justify-center">
-      <button
-        nz-button
-        nzType="primary"
-        type="submit"
-        [disabled]="!form.valid"
-        transloco="Sign-in"
-      ></button>
-      <div class="flex justify-center">
-        <nz-button-group>
-          <a
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <formly-form
+      [model]="formlyModel$ | async"
+      [fields]="formlyFields"
+      [form]="form"
+    >
+    </formly-form>
+    @if (!hideButtons) {
+      <nz-form-control>
+        <div class="flex flex-col justify-center">
+          <button
             nz-button
-            nzType="link"
-            [routerLink]="'/forgot-password'"
-            transloco="Forgot password?"
-          ></a>
-          <a
-            nz-button
-            nzType="link"
-            [routerLink]="'/sign-up'"
-            transloco="Sign-up"
-          ></a>
-        </nz-button-group>
-      </div>
-      @if (oAuthProviders$|async; as oAuthProviders;){
-      <div
-        class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600"
-      >
-        {{ 'or' | transloco }}
-      </div>
-      @for (oAuthProvider of oAuthProviders; track $index) { @if
-      (oAuthProvider.name==='google') {
-      <a nz-button nzType="default" [href]="oAuthProvider.url">
-        <nz-icon nzType="google" /> {{ 'Sign in with Google' | transloco }}
-      </a>
-      } } }
-    </div>
-  </nz-form-control>
-  }
-</form>
+            nzType="primary"
+            type="submit"
+            [disabled]="!form.valid"
+            transloco="Sign-in"
+          ></button>
+          <div class="flex justify-center">
+            <nz-button-group>
+              <a
+                nz-button
+                nzType="link"
+                [routerLink]="'/forgot-password'"
+                transloco="Forgot password?"
+              ></a>
+              <a
+                nz-button
+                nzType="link"
+                [routerLink]="'/sign-up'"
+                transloco="Sign-up"
+              ></a>
+            </nz-button-group>
+          </div>
+          @if (oAuthProviders$ | async; as oAuthProviders) {
+            <div
+              class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600"
+            >
+              {{ 'or' | transloco }}
+            </div>
+            @for (oAuthProvider of oAuthProviders; track $index) {
+              @if (oAuthProvider.name === 'google') {
+                <a nz-button nzType="default" [href]="oAuthProvider.url">
+                  <nz-icon nzType="google" />
+                  {{ 'Sign in with Google' | transloco }}
+                </a>
+              }
+            }
+          }
+        </div>
+      </nz-form-control>
+    }
+  </form>
 }

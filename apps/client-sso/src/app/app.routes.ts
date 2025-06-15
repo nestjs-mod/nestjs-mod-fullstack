@@ -120,7 +120,7 @@ export const appRoutes: Route[] = [
               if (
                 searchIn(
                   [AuthRoleInterface.Admin, AuthRoleInterface.User],
-                  options.authService.profile$.value?.roles
+                  options.authService.profile$.value?.roles,
                 )
               ) {
                 options.router.navigate(['/webhooks']);
@@ -157,7 +157,7 @@ export const appRoutes: Route[] = [
               if (
                 searchIn(
                   [AuthRoleInterface.Admin, AuthRoleInterface.User],
-                  options.authService.profile$.value?.roles
+                  options.authService.profile$.value?.roles,
                 )
               ) {
                 options.router.navigate(['/webhooks']);

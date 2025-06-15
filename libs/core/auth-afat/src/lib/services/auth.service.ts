@@ -33,7 +33,7 @@ export class AuthService {
   constructor(
     protected readonly tokensService: TokensService,
     @Inject(AUTH_CONFIGURATION_TOKEN)
-    protected readonly authConfiguration: AuthConfiguration
+    protected readonly authConfiguration: AuthConfiguration,
   ) {}
 
   updateHeaders() {
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   completeSignUp(
-    data: AuthCompleteSignUpInput
+    data: AuthCompleteSignUpInput,
   ): Observable<AuthUserAndTokens | null> {
     return this.authConfiguration.completeSignUp
       ? this.authConfiguration.completeSignUp(data).pipe(
@@ -50,9 +50,9 @@ export class AuthService {
               map((profile) => ({
                 profile,
                 tokens: result.tokens,
-              }))
+              })),
             );
-          })
+          }),
         )
       : of(null);
   }
@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput
+    data: AuthCompleteForgotPasswordInput,
   ): Observable<AuthUserAndTokens | null> {
     return this.authConfiguration.completeForgotPassword
       ? this.authConfiguration.completeForgotPassword(data).pipe(
@@ -73,9 +73,9 @@ export class AuthService {
               map((profile) => ({
                 profile,
                 tokens: result.tokens,
-              }))
+              })),
             );
-          })
+          }),
         )
       : of(null);
   }
@@ -98,16 +98,16 @@ export class AuthService {
             map((profile) => ({
               profile,
               tokens: result.tokens,
-            }))
+            })),
           );
-        })
+        }),
       );
   }
 
   updateProfile(data: AuthUpdateProfileInput) {
     return this.authConfiguration.updateProfile(data).pipe(
       mergeMap(() => this.authConfiguration.getProfile()),
-      mergeMap((result) => this.setProfile(result))
+      mergeMap((result) => this.setProfile(result)),
     );
   }
 
@@ -123,9 +123,9 @@ export class AuthService {
             map((profile) => ({
               profile,
               tokens: result.tokens,
-            }))
+            })),
           );
-        })
+        }),
       );
   }
 
@@ -137,7 +137,7 @@ export class AuthService {
       catchError((err) => {
         console.error(err);
         return this.clearProfileAndTokens();
-      })
+      }),
     );
   }
 
@@ -149,7 +149,7 @@ export class AuthService {
       catchError((err) => {
         console.error(err);
         return this.clearProfileAndTokens();
-      })
+      }),
     );
   }
 

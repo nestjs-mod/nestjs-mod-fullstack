@@ -69,7 +69,7 @@ export class DemoGridComponent implements OnInit {
     private readonly demoService: DemoService,
     private readonly nzModalService: NzModalService,
     private readonly viewContainerRef: ViewContainerRef,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +84,7 @@ export class DemoGridComponent implements OnInit {
           this.items$.next(result);
           this.selectedIds$.next([]);
         }),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -121,7 +121,7 @@ export class DemoGridComponent implements OnInit {
                   modal.close();
                   this.loadMany();
                 }),
-                untilDestroyed(modal.componentInstance)
+                untilDestroyed(modal.componentInstance),
               )
               .subscribe();
 
@@ -131,7 +131,7 @@ export class DemoGridComponent implements OnInit {
                   modal.close();
                   this.loadMany();
                 }),
-                untilDestroyed(modal.componentInstance)
+                untilDestroyed(modal.componentInstance),
               )
               .subscribe();
 
@@ -155,7 +155,7 @@ export class DemoGridComponent implements OnInit {
             tap(() => {
               this.loadMany();
             }),
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       },

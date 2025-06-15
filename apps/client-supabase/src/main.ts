@@ -5,5 +5,5 @@ import { minioURL, supabaseKey, supabaseURL } from './environments/environment';
 
 bootstrapApplication(
   AppComponent,
-  appConfig({ minioURL, supabaseKey, supabaseURL })
+  appConfig({ minioURL, supabaseKey, supabaseURL }),
 ).catch((err) => console.error(err));

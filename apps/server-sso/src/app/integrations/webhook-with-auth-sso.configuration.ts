@@ -22,13 +22,13 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 export class WebhookWithAuthSsoConfiguration implements SsoConfiguration {
   constructor(
     private readonly webhookUsersService: WebhookUsersService,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   async checkAccessValidator(
     ssoUser?: SsoUserDto,
     options?: CheckAccessOptions,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: WebhookRequest & FilesRequest & AuthRequest & SsoRequest =
       ctx && getRequestFromExecutionContext(ctx);

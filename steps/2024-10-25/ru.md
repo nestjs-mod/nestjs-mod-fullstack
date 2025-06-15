@@ -207,7 +207,7 @@ export class WebhookAuthService {
           return of(null);
         }
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -269,7 +269,7 @@ export class WebhookAuthFormComponent implements OnInit {
     @Inject(WEBHOOK_CONFIGURATION_TOKEN)
     private readonly webhookConfiguration: WebhookConfiguration,
     private readonly webhookAuthService: WebhookAuthService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -281,7 +281,7 @@ export class WebhookAuthFormComponent implements OnInit {
     data: Partial<WebhookAuthCredentials> = {},
     options: { xExternalTenantIdIsRequired: boolean } = {
       xExternalTenantIdIsRequired: true,
-    }
+    },
   ) {
     this.formlyFields$.next([
       {
@@ -337,7 +337,7 @@ export class WebhookAuthFormComponent implements OnInit {
         xExternalTenantId: '',
         xExternalUserId: this.webhookConfiguration.webhookSuperAdminExternalUserId,
       },
-      { xExternalTenantIdIsRequired: false }
+      { xExternalTenantIdIsRequired: false },
     );
   }
 
@@ -421,10 +421,10 @@ export const appConfig: ApplicationConfig = {
         () =>
           new RestClientConfiguration({
             basePath: serverUrl,
-          })
+          }),
       ),
       FormlyModule.forRoot(),
-      FormlyNgZorroAntdModule
+      FormlyNgZorroAntdModule,
     ),
     { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
@@ -497,7 +497,7 @@ export class WebhookGuardService implements CanActivate {
       return this.webhookAuthService.loadWebhookUser().pipe(
         map((webhookUser) => {
           return Boolean((webhookGuardData.roles && webhookUser && webhookGuardData.roles.length > 0 && webhookGuardData.roles.includes(webhookUser.userRole)) || ((webhookGuardData.roles || []).length === 0 && !webhookUser?.userRole));
-        })
+        }),
       );
     }
     return of(true);
@@ -554,7 +554,10 @@ import { WebhookAuthService } from './webhook-auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class WebhookService {
-  constructor(private readonly webhookAuthService: WebhookAuthService, private readonly webhookRestService: WebhookRestService) {}
+  constructor(
+    private readonly webhookAuthService: WebhookAuthService,
+    private readonly webhookRestService: WebhookRestService,
+  ) {}
 
   findOne(id: string) {
     return this.webhookRestService.webhookControllerFindOne(id, this.webhookAuthService.getWebhookAuthCredentials().xExternalUserId, this.webhookAuthService.getWebhookAuthCredentials().xExternalTenantId);
@@ -571,7 +574,7 @@ export class WebhookService {
         ? Object.entries(meta?.sort)
             .map(([key, value]) => `${key}:${value}`)
             .join(',')
-        : undefined
+        : undefined,
     );
   }
 
@@ -648,7 +651,7 @@ export class WebhookFormComponent implements OnInit {
     private readonly nzModalData: WebhookFormComponent,
     private readonly webhookService: WebhookService,
     private readonly webhookEventsService: WebhookEventsService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -663,14 +666,14 @@ export class WebhookFormComponent implements OnInit {
             this.findOne()
               .pipe(
                 tap((result) => this.afterFind.next(result)),
-                untilDestroyed(this)
+                untilDestroyed(this),
               )
               .subscribe();
           } else {
             this.setFieldsAndModel();
           }
         }),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -754,7 +757,7 @@ export class WebhookFormComponent implements OnInit {
               this.nzMessageService.success('Success');
               this.afterUpdate.next(result);
             }),
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       } else {
@@ -765,7 +768,7 @@ export class WebhookFormComponent implements OnInit {
               this.afterCreate.next(result);
             }),
 
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       }
@@ -793,7 +796,7 @@ export class WebhookFormComponent implements OnInit {
     return this.webhookService.findOne(this.id).pipe(
       tap((result) => {
         this.setFieldsAndModel(result);
-      })
+      }),
     );
   }
 
@@ -890,13 +893,17 @@ export class WebhookGridComponent implements OnInit {
 
   private filters?: Record<string, string>;
 
-  constructor(private readonly webhookService: WebhookService, private readonly nzModalService: NzModalService, private readonly viewContainerRef: ViewContainerRef) {
+  constructor(
+    private readonly webhookService: WebhookService,
+    private readonly nzModalService: NzModalService,
+    private readonly viewContainerRef: ViewContainerRef,
+  ) {
     this.searchField.valueChanges
       .pipe(
         debounceTime(700),
         distinctUntilChanged(),
         tap(() => this.loadMany({ force: true })),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -926,7 +933,7 @@ export class WebhookGridComponent implements OnInit {
         omit(['totalResults'], {
           ...this.meta$.value,
           ...this.filters,
-        })
+        }),
       )
     ) {
       return;
@@ -941,13 +948,13 @@ export class WebhookGridComponent implements OnInit {
               ...item,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               headers: JSON.stringify(item.headers) as any,
-            }))
+            })),
           );
           this.meta$.next({ ...result.meta, ...meta });
           this.filters = filters;
           this.selectedIds$.next([]);
         }),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -977,7 +984,7 @@ export class WebhookGridComponent implements OnInit {
                   modal.close();
                   this.loadMany({ force: true });
                 }),
-                untilDestroyed(modal.componentInstance)
+                untilDestroyed(modal.componentInstance),
               )
               .subscribe();
 
@@ -987,7 +994,7 @@ export class WebhookGridComponent implements OnInit {
                   modal.close();
                   this.loadMany({ force: true });
                 }),
-                untilDestroyed(modal.componentInstance)
+                untilDestroyed(modal.componentInstance),
               )
               .subscribe();
 
@@ -1011,7 +1018,7 @@ export class WebhookGridComponent implements OnInit {
             tap(() => {
               this.loadMany({ force: true });
             }),
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       },

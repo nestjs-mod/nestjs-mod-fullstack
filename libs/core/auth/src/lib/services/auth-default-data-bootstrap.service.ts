@@ -9,7 +9,7 @@ export class AuthDefaultDataBootstrapService implements OnModuleInit {
 
   constructor(
     private readonly authConfiguration: AuthConfiguration,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   async onModuleInit() {

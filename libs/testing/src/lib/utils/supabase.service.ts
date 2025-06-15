@@ -62,7 +62,7 @@ export function mapAuthTokenResponsePassword() {
 export class TestingSupabaseService extends SupabaseClient {
   constructor(
     private readonly _supabaseUrl: string,
-    private readonly _supabaseKey: string
+    private readonly _supabaseKey: string,
   ) {
     super(_supabaseUrl, _supabaseKey);
   }

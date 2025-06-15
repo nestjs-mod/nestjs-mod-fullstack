@@ -36,7 +36,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
 
     expect(
       +new Date(time.data as unknown as string) -
-        +new Date(time2.data as unknown as string)
+        +new Date(time2.data as unknown as string),
     ).toBeGreaterThanOrEqual(3 * 60 * 1000);
   });
 
@@ -52,7 +52,7 @@ describe('Get server time from rest api and ws (timezone)', () => {
             path: `/ws/time?token=${restClientHelper.getAccessToken()}`,
             eventName: 'ChangeTimeStream',
           })
-          .pipe(timeout(30000), take(3), toArray())
+          .pipe(timeout(30000), take(3), toArray()),
       );
 
       expect(last3ChangeTimeEvents).toHaveLength(3);
@@ -67,22 +67,22 @@ describe('Get server time from rest api and ws (timezone)', () => {
             path: `/ws/time?token=${restClientHelper.getAccessToken()}`,
             eventName: 'ChangeTimeStream',
           })
-          .pipe(take(3), toArray())
+          .pipe(take(3), toArray()),
       );
 
       expect(newLast3ChangeTimeEvents).toHaveLength(3);
 
       expect(
         +new Date(last3ChangeTimeEvents[0].data as unknown as string) -
-          +new Date(newLast3ChangeTimeEvents[0].data as unknown as string)
+          +new Date(newLast3ChangeTimeEvents[0].data as unknown as string),
       ).toBeGreaterThanOrEqual(3 * 60 * 1000);
       expect(
         +new Date(last3ChangeTimeEvents[1].data as unknown as string) -
-          +new Date(newLast3ChangeTimeEvents[1].data as unknown as string)
+          +new Date(newLast3ChangeTimeEvents[1].data as unknown as string),
       ).toBeGreaterThanOrEqual(3 * 60 * 1000);
       expect(
         +new Date(last3ChangeTimeEvents[2].data as unknown as string) -
-          +new Date(newLast3ChangeTimeEvents[2].data as unknown as string)
+          +new Date(newLast3ChangeTimeEvents[2].data as unknown as string),
       ).toBeGreaterThanOrEqual(3 * 60 * 1000);
     }
   });

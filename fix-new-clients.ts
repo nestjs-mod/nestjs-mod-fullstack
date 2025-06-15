@@ -16,7 +16,7 @@ for (let file of files2) {
       .split('("@prisma/client/runtime')
       .join('("node_modules/@prisma/client/runtime')
       .split('require.resolve(')
-      .join("(await import('node:path')).resolve(")
+      .join("(await import('node:path')).resolve("),
   );
 }
 
@@ -32,7 +32,7 @@ for (let file of files3) {
       readFileSync(file)
         .toString()
         .split('require("node_modules/@prisma')
-        .join('require("@prisma')
+        .join('require("@prisma'),
     );
   }
 }

@@ -15,7 +15,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
 
   async checkAccessValidator(
     authUser?: AuthUser | null,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: AuthRequest = ctx && getRequestFromExecutionContext(ctx);
 

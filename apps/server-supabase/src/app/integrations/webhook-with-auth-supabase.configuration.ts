@@ -28,13 +28,13 @@ export class WebhookWithAuthSupabaseConfiguration
 {
   constructor(
     private readonly webhookUsersService: WebhookUsersService,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   async checkAccessValidator(
     supabaseUser?: SupabaseUser,
     options?: CheckAccessOptions,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: WebhookRequest & FilesRequest & AuthRequest & SupabaseRequest =
       ctx && getRequestFromExecutionContext(ctx);
@@ -52,7 +52,7 @@ export class WebhookWithAuthSupabaseConfiguration
 
     const result = await defaultSupabaseCheckAccessValidator(
       supabaseUser,
-      options
+      options,
     );
 
     if (req?.supabaseUser?.id) {

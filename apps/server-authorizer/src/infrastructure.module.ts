@@ -119,7 +119,7 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
         AUTH_FOLDER,
         'src',
         'prisma',
-        PRISMA_SCHEMA_FILE
+        PRISMA_SCHEMA_FILE,
       ),
       nxProjectJsonFile: join(rootFolder, AUTH_FOLDER, PROJECT_JSON_FILE),
 
@@ -137,7 +137,7 @@ export const INFRASTRUCTURE_MODULE_IMPORTS = [
         'src',
         'lib',
         'generated',
-        'prisma-client'
+        'prisma-client',
       ),
     },
   }),

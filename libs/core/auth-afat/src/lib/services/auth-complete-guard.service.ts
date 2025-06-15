@@ -37,7 +37,7 @@ export class AuthCompleteGuardService implements CanActivate {
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
@@ -59,7 +59,7 @@ export class AuthCompleteGuardService implements CanActivate {
                     activatedRouteSnapshot: route,
                     authService: this.authService,
                     router: this.router,
-                  })
+                  }),
                 )
               : of(true)
           ).pipe(
@@ -67,13 +67,13 @@ export class AuthCompleteGuardService implements CanActivate {
               this.authService.oAuthVerification({
                 verificationCode,
                 clientId: clientId || undefined,
-              })
+              }),
             ),
             map(async () => {
               this.nzMessageService.success(
                 this.translocoService.translate(
-                  'Successful login using external single sign-on system'
-                )
+                  'Successful login using external single sign-on system',
+                ),
               );
               return true;
             }),
@@ -92,8 +92,8 @@ export class AuthCompleteGuardService implements CanActivate {
               console.error(err);
               this.nzMessageService.error(
                 this.translocoService.translate(
-                  err.error?.message || err.message
-                )
+                  err.error?.message || err.message,
+                ),
               );
               if (authCompleteGuardData.afterCompleteSignUp) {
                 return from(
@@ -102,11 +102,11 @@ export class AuthCompleteGuardService implements CanActivate {
                     authService: this.authService,
                     router: this.router,
                     error: err,
-                  })
+                  }),
                 );
               }
               return of(false);
-            })
+            }),
           );
         }
       }
@@ -120,20 +120,20 @@ export class AuthCompleteGuardService implements CanActivate {
                     activatedRouteSnapshot: route,
                     authService: this.authService,
                     router: this.router,
-                  })
+                  }),
                 )
               : of(true)
           ).pipe(
             mergeMap(() =>
               this.authService.completeSignUp({
                 code,
-              })
+              }),
             ),
             map(async () => {
               this.nzMessageService.success(
                 this.translocoService.translate(
-                  'Email address successfully verified'
-                )
+                  'Email address successfully verified',
+                ),
               );
               return true;
             }),
@@ -152,8 +152,8 @@ export class AuthCompleteGuardService implements CanActivate {
               console.error(err);
               this.nzMessageService.error(
                 this.translocoService.translate(
-                  err.error?.message || err.message
-                )
+                  err.error?.message || err.message,
+                ),
               );
               if (authCompleteGuardData.afterCompleteSignUp) {
                 return from(
@@ -162,11 +162,11 @@ export class AuthCompleteGuardService implements CanActivate {
                     authService: this.authService,
                     router: this.router,
                     error: err,
-                  })
+                  }),
                 );
               }
               return of(false);
-            })
+            }),
           );
         }
       }

@@ -37,7 +37,7 @@ test.describe('basic usage (ru)', () => {
 
   test('should change language to RU', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]'),
     ).toContainText(`EN`);
     await page.locator('nz-header').locator('[nz-submenu]').last().click();
 
@@ -45,7 +45,7 @@ test.describe('basic usage (ru)', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Russian`);
 
     await page
@@ -58,7 +58,7 @@ test.describe('basic usage (ru)', () => {
     //
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]')
+      page.locator('nz-header').locator('[nz-submenu]'),
     ).toContainText(`RU`);
   });
 
@@ -70,7 +70,7 @@ test.describe('basic usage (ru)', () => {
     await setTimeout(4000);
 
     expect(await page.locator('#serverMessage').innerText()).toContain(
-      'Привет АПИ'
+      'Привет АПИ',
     );
   });
   test('has serverTime format should be equal to "21 дек. 2024 г., 13:56:00" without "13:56:00"', async () => {
@@ -85,7 +85,7 @@ test.describe('basic usage (ru)', () => {
       serverTime
         .split(' ')
         .filter((p, i) => i !== 4)
-        .join(' ')
+        .join(' '),
     ).toEqual(
       new Intl.DateTimeFormat('ru-RU', {
         dateStyle: 'medium',
@@ -94,7 +94,7 @@ test.describe('basic usage (ru)', () => {
         .format(new Date())
         .split(' ')
         .filter((p, i) => i !== 4)
-        .join(' ')
+        .join(' '),
     );
   });
 });

@@ -68,7 +68,7 @@ const config: runtime.GetPrismaClientConfig = {
 };
 
 config.runtimeDataModel = JSON.parse(
-  '{"models":{"AppDemo":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"}],"dbName":null},"migrations_server":{"fields":[{"name":"installed_rank","kind":"scalar","type":"Int"},{"name":"version","kind":"scalar","type":"String"},{"name":"description","kind":"scalar","type":"String"},{"name":"type","kind":"scalar","type":"String"},{"name":"script","kind":"scalar","type":"String"},{"name":"checksum","kind":"scalar","type":"Int"},{"name":"installed_by","kind":"scalar","type":"String"},{"name":"installed_on","kind":"scalar","type":"DateTime"},{"name":"execution_time","kind":"scalar","type":"Int"},{"name":"success","kind":"scalar","type":"Boolean"}],"dbName":"__migrations_server"}},"enums":{},"types":{}}'
+  '{"models":{"AppDemo":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"}],"dbName":null},"migrations_server":{"fields":[{"name":"installed_rank","kind":"scalar","type":"Int"},{"name":"version","kind":"scalar","type":"String"},{"name":"description","kind":"scalar","type":"String"},{"name":"type","kind":"scalar","type":"String"},{"name":"script","kind":"scalar","type":"String"},{"name":"checksum","kind":"scalar","type":"Int"},{"name":"installed_by","kind":"scalar","type":"String"},{"name":"installed_on","kind":"scalar","type":"DateTime"},{"name":"execution_time","kind":"scalar","type":"Int"},{"name":"success","kind":"scalar","type":"Boolean"}],"dbName":"__migrations_server"}},"enums":{},"types":{}}',
 );
 config.engineWasm = undefined;
 config.compilerWasm = {
@@ -81,7 +81,7 @@ config.compilerWasm = {
     const { readFile } = await import('node:fs/promises');
 
     const wasmModulePath = (await import('node:path')).resolve(
-      'node_modules/@prisma/client/runtime/query_compiler_bg.postgresql.wasm'
+      'node_modules/@prisma/client/runtime/query_compiler_bg.postgresql.wasm',
     );
     const wasmModuleBytes = await readFile(wasmModulePath);
 
@@ -112,11 +112,13 @@ export interface PrismaClientConstructor {
    */
 
   new <
-    ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
+    ClientOptions extends
+      Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
     U = LogOptions<ClientOptions>,
-    ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+    ExtArgs extends
+      runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   >(
-    options?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>
+    options?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>,
   ): PrismaClient<ClientOptions, U, ExtArgs>;
 }
 
@@ -137,15 +139,16 @@ export interface PrismaClientConstructor {
 export interface PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
   U = LogOptions<ClientOptions>,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] };
 
   $on<V extends U>(
     eventType: V,
     callback: (
-      event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent
-    ) => void
+      event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent,
+    ) => void,
   ): PrismaClient;
 
   /**
@@ -238,18 +241,18 @@ export interface PrismaClient<
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(
     arg: [...P],
-    options?: { isolationLevel?: Prisma.TransactionIsolationLevel }
+    options?: { isolationLevel?: Prisma.TransactionIsolationLevel },
   ): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>;
 
   $transaction<R>(
     fn: (
-      prisma: Omit<PrismaClient, runtime.ITXClientDenyList>
+      prisma: Omit<PrismaClient, runtime.ITXClientDenyList>,
     ) => runtime.Types.Utils.JsPromise<R>,
     options?: {
       maxWait?: number;
       timeout?: number;
       isolationLevel?: Prisma.TransactionIsolationLevel;
-    }
+    },
   ): runtime.Types.Utils.JsPromise<R>;
 
   $extends: runtime.Types.Extensions.ExtendsHook<

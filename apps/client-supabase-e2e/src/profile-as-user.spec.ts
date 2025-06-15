@@ -32,7 +32,7 @@ test.describe('Work with profile as "User" role', () => {
     });
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
-      get('SERVER_SUPABASE_MINIO_URL').required().asString()
+      get('SERVER_SUPABASE_MINIO_URL').required().asString(),
     );
   });
 
@@ -54,7 +54,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+      page.locator('auth-sign-up-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -65,7 +65,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await page
@@ -76,11 +76,13 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
+      page
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirmPassword]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-up-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]'),
     ).toHaveText('Sign-up');
 
     await page
@@ -89,17 +91,17 @@ test.describe('Work with profile as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -107,7 +109,7 @@ test.describe('Work with profile as "User" role', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Sign-out`);
 
     await page
@@ -119,7 +121,7 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2),
     ).toContainText(`Sign-in`);
   });
 
@@ -136,7 +138,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=email]')
+      page.locator('auth-sign-in-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -147,11 +149,11 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=password]')
+      page.locator('auth-sign-in-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-in-form').locator('button[type=submit]')
+      page.locator('auth-sign-in-form').locator('button[type=submit]'),
     ).toHaveText('Sign-in');
 
     await page
@@ -160,17 +162,17 @@ test.describe('Work with profile as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('should change password in profile', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -178,7 +180,7 @@ test.describe('Work with profile as "User" role', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .first()
+        .first(),
     ).toContainText(`Profile`);
 
     await page
@@ -197,7 +199,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-profile-form').locator('[placeholder=oldPassword]')
+      page.locator('auth-profile-form').locator('[placeholder=oldPassword]'),
     ).toHaveValue(user.password);
 
     await page
@@ -208,7 +210,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-profile-form').locator('[placeholder=newPassword]')
+      page.locator('auth-profile-form').locator('[placeholder=newPassword]'),
     ).toHaveValue(user.password + user.password);
 
     await page
@@ -221,7 +223,7 @@ test.describe('Work with profile as "User" role', () => {
     await expect(
       page
         .locator('auth-profile-form')
-        .locator('[placeholder=confirmNewPassword]')
+        .locator('[placeholder=confirmNewPassword]'),
     ).toHaveValue(user.password + user.password);
 
     const fileChooserPromise = page.waitForEvent('filechooser');
@@ -231,7 +233,7 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(1000);
 
     await expect(
-      page.locator('auth-profile-form').locator('button[type=submit]')
+      page.locator('auth-profile-form').locator('button[type=submit]'),
     ).toHaveText('Update');
 
     await page
@@ -240,13 +242,13 @@ test.describe('Work with profile as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
   });
 
   test('sign out', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -254,7 +256,7 @@ test.describe('Work with profile as "User" role', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Sign-out`);
 
     await page
@@ -266,7 +268,7 @@ test.describe('Work with profile as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2),
     ).toContainText(`Sign-in`);
   });
 
@@ -283,7 +285,7 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=email]')
+      page.locator('auth-sign-in-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -294,11 +296,11 @@ test.describe('Work with profile as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=password]')
+      page.locator('auth-sign-in-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password + user.password);
 
     await expect(
-      page.locator('auth-sign-in-form').locator('button[type=submit]')
+      page.locator('auth-sign-in-form').locator('button[type=submit]'),
     ).toHaveText('Sign-in');
 
     await page
@@ -307,11 +309,11 @@ test.describe('Work with profile as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 });

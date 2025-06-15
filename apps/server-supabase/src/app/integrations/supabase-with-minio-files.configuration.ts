@@ -8,12 +8,12 @@ import { Injectable } from '@nestjs/common';
 export class SupabaseWithMinioFilesConfiguration implements FilesConfiguration {
   constructor(
     private readonly supabaseService: SupabaseService,
-    private readonly minioFilesService: MinioFilesService
+    private readonly minioFilesService: MinioFilesService,
   ) {}
 
   getFromDownloadUrlWithoutBucketNames(downloadUrl: string) {
     return this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
-      downloadUrl
+      downloadUrl,
     );
   }
 

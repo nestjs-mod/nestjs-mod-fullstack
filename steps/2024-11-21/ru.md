@@ -83,7 +83,7 @@ export class TimeController implements OnGatewayConnection {
       map(() => ({
         data: new Date(),
         event: ChangeTimeStream,
-      }))
+      })),
     );
   }
 }
@@ -171,7 +171,7 @@ export function webSocket<T>({
         JSON.stringify({
           event: eventName,
           data: true,
-        })
+        }),
       );
     });
   }).pipe(
@@ -179,7 +179,7 @@ export function webSocket<T>({
       if (wss?.readyState == WebSocket.OPEN) {
         wss.close();
       }
-    })
+    }),
   );
 }
 ```
@@ -217,7 +217,12 @@ export class AppComponent implements OnInit {
   serverTime$ = new BehaviorSubject('');
   authUser$: Observable<User | undefined>;
 
-  constructor(private readonly timeRestService: TimeRestService, private readonly appRestService: AppRestService, private readonly authService: AuthService, private readonly router: Router) {
+  constructor(
+    private readonly timeRestService: TimeRestService,
+    private readonly appRestService: AppRestService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+  ) {
     this.authUser$ = this.authService.profile$.asObservable();
   }
 
@@ -226,7 +231,7 @@ export class AppComponent implements OnInit {
       .appControllerGetData()
       .pipe(
         tap((result) => this.serverMessage$.next(result.message)),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
 
@@ -235,11 +240,11 @@ export class AppComponent implements OnInit {
       webSocket<string>({
         address: this.timeRestService.configuration.basePath + '/ws/time',
         eventName: 'ChangeTimeStream',
-      }).pipe(map((result) => result.data))
+      }).pipe(map((result) => result.data)),
     )
       .pipe(
         tap((result) => this.serverTime$.next(result as string)),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -249,7 +254,7 @@ export class AppComponent implements OnInit {
       .signOut()
       .pipe(
         tap(() => this.router.navigate(['/home'])),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe();
   }
@@ -320,7 +325,7 @@ describe('Get server time from rest api and ws', () => {
           path: '/ws/time',
           eventName: 'ChangeTimeStream',
         })
-        .pipe(take(3), toArray())
+        .pipe(take(3), toArray()),
     );
 
     expect(last3ChangeTimeEvents).toHaveLength(3);

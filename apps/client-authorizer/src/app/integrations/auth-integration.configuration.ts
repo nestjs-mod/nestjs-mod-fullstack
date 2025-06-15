@@ -46,7 +46,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
     private readonly tokensService: TokensService,
     @Inject(AUTHORIZER_URL)
     private readonly authorizerURL: string,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {
     this.authorizer = new Authorizer({
       authorizerURL:
@@ -74,16 +74,16 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
       map(() => {
         this.tokensService.setTokens({});
         return null;
-      })
+      }),
     );
   }
 
   getProfile(): Observable<AuthUser | undefined> {
     return from(
-      this.authorizer.getProfile(this.getAuthorizationHeaders())
+      this.authorizer.getProfile(this.getAuthorizationHeaders()),
     ).pipe(
       mapGraphqlErrors(),
-      map((result) => (result ? this.mapToAuthUser(result) : undefined))
+      map((result) => (result ? this.mapToAuthUser(result) : undefined)),
     );
   }
 
@@ -122,7 +122,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
       catchError((err) => {
         console.error(err);
         this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image')
+          this.translocoService.translate('Error while saving image'),
         );
         return of(undefined);
       }),
@@ -143,12 +143,12 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
             picture,
             app_data: data.appData,
           },
-          this.getAuthorizationHeaders()
+          this.getAuthorizationHeaders(),
         );
       }),
       mapGraphqlErrors(),
       mergeMap(() =>
-        this.authorizer.getProfile(this.getAuthorizationHeaders())
+        this.authorizer.getProfile(this.getAuthorizationHeaders()),
       ),
       mergeMap(({ data: newData }) => {
         if (
@@ -162,7 +162,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         }
         return of(newData);
       }),
-      map(() => null)
+      map(() => null),
     );
   }
 
@@ -175,8 +175,8 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           : {
               tokens: this.mapToAuthTokens(result),
               user: result.user ? this.mapToAuthUser(result.user) : undefined,
-            }
-      )
+            },
+      ),
     );
   }
 
@@ -197,7 +197,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         roles: data.roles,
         redirect_uri: data.redirectUri,
         app_data: data.appData,
-      })
+      }),
     ).pipe(
       mapGraphqlErrors(),
       map((result) => {
@@ -208,7 +208,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           tokens: result ? this.mapToAuthTokens(result) : undefined,
           user: result?.user ? this.mapToAuthUser(result.user) : undefined,
         };
-      })
+      }),
     );
   }
 
@@ -223,7 +223,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           tokens: result ? this.mapToAuthTokens(result) : undefined,
           user: result?.user ? this.mapToAuthUser(result.user) : undefined,
         };
-      })
+      }),
     );
   }
 
@@ -246,7 +246,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   }
 
   completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput
+    data: AuthCompleteForgotPasswordInput,
   ): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }

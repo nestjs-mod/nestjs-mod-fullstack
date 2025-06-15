@@ -4,15 +4,11 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/client-authorizer/src",
-  "tags": [
-    "authorizer"
-  ],
+  "tags": ["authorizer"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "util",
@@ -28,9 +24,7 @@
         "outputPath": "dist/apps/client-authorizer/browser",
         "index": "apps/client-authorizer/src/index.html",
         "main": "apps/client-authorizer/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/client-authorizer/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -55,9 +49,7 @@
             "output": "/assets/i18n/nestjs-mod-afat/"
           }
         ],
-        "styles": [
-          "apps/client-authorizer/src/styles.scss"
-        ],
+        "styles": ["apps/client-authorizer/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -116,9 +108,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/client-authorizer/jest.config.ts"
       }
@@ -132,9 +122,7 @@
       }
     },
     "server": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/client-authorizer/server",
@@ -173,9 +161,7 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": [
-          "/"
-        ]
+        "routes": ["/"]
       },
       "configurations": {
         "development": {

@@ -26,7 +26,7 @@ import { terminusHealthCheckModuleForRootAsyncOptions } from './integrations/ter
 export const FEATURE_MODULE_IMPORTS = [
   NestjsPinoLoggerModule.forRoot(),
   TerminusHealthCheckModule.forRootAsync(
-    terminusHealthCheckModuleForRootAsyncOptions()
+    terminusHealthCheckModuleForRootAsyncOptions(),
   ),
   PrismaToolsModule.forRoot(),
   PrismaModule.forRoot({
@@ -38,7 +38,7 @@ export const FEATURE_MODULE_IMPORTS = [
         appFolder,
         'src',
         'prisma',
-        `${APP_FEATURE}-${PRISMA_SCHEMA_FILE}`
+        `${APP_FEATURE}-${PRISMA_SCHEMA_FILE}`,
       ),
       provider: 'prisma-client',
       prismaClientFactory: async (options) => {
@@ -59,7 +59,7 @@ export const FEATURE_MODULE_IMPORTS = [
         AUTH_FOLDER,
         'src',
         'prisma',
-        PRISMA_SCHEMA_FILE
+        PRISMA_SCHEMA_FILE,
       ),
       provider: 'prisma-client',
       prismaClientFactory: async (options) => {

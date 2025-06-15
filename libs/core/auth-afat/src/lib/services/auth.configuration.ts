@@ -48,7 +48,7 @@ export class AuthConfiguration {
     return throwError(() => new Error('not implemented'));
   }
   completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput
+    data: AuthCompleteForgotPasswordInput,
   ): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }
@@ -67,5 +67,5 @@ export class AuthConfiguration {
 }
 
 export const AUTH_CONFIGURATION_TOKEN = new InjectionToken<string>(
-  'AUTH_CONFIGURATION_TOKEN'
+  'AUTH_CONFIGURATION_TOKEN',
 );

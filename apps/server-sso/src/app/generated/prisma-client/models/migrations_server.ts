@@ -130,7 +130,8 @@ export type Migrations_serverCountAggregateInputType = {
 };
 
 export type Migrations_serverAggregateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which migrations_server to aggregate.
@@ -195,7 +196,7 @@ export type Migrations_serverAggregateArgs<
 };
 
 export type GetMigrations_serverAggregateType<
-  T extends Migrations_serverAggregateArgs
+  T extends Migrations_serverAggregateArgs,
 > = {
   [P in keyof T & keyof AggregateMigrations_server]: P extends
     | '_count'
@@ -207,7 +208,8 @@ export type GetMigrations_serverAggregateType<
 };
 
 export type migrations_serverGroupByArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.migrations_serverWhereInput;
   orderBy?:
@@ -245,7 +247,7 @@ export type Migrations_serverGroupByOutputType = {
 };
 
 type GetMigrations_serverGroupByPayload<
-  T extends migrations_serverGroupByArgs
+  T extends migrations_serverGroupByArgs,
 > = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Migrations_serverGroupByOutputType, T['by']> & {
@@ -531,7 +533,8 @@ export type BoolFieldUpdateOperationsInput = {
 };
 
 export type migrations_serverSelect<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -549,7 +552,8 @@ export type migrations_serverSelect<
 >;
 
 export type migrations_serverSelectCreateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -567,7 +571,8 @@ export type migrations_serverSelectCreateManyAndReturn<
 >;
 
 export type migrations_serverSelectUpdateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -598,7 +603,8 @@ export type migrations_serverSelectScalar = {
 };
 
 export type migrations_serverOmit<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
   | 'installed_rank'
   | 'version'
@@ -614,7 +620,8 @@ export type migrations_serverOmit<
 >;
 
 export type $migrations_serverPayload<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   name: 'migrations_server';
   objects: {};
@@ -637,11 +644,12 @@ export type $migrations_serverPayload<
 };
 
 export type migrations_serverGetPayload<
-  S extends boolean | null | undefined | migrations_serverDefaultArgs
+  S extends boolean | null | undefined | migrations_serverDefaultArgs,
 > = runtime.Types.Result.GetResult<Prisma.$migrations_serverPayload, S>;
 
 export type migrations_serverCountArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = Omit<
   migrations_serverFindManyArgs,
   'select' | 'include' | 'distinct' | 'omit'
@@ -650,8 +658,9 @@ export type migrations_serverCountArgs<
 };
 
 export interface migrations_serverDelegate<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > {
   [K: symbol]: {
     types: Prisma.TypeMap<ExtArgs>['model']['migrations_server'];
@@ -669,7 +678,7 @@ export interface migrations_serverDelegate<
    * })
    */
   findUnique<T extends migrations_serverFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverFindUniqueArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverFindUniqueArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -698,7 +707,7 @@ export interface migrations_serverDelegate<
     args: Prisma.SelectSubset<
       T,
       migrations_serverFindUniqueOrThrowArgs<ExtArgs>
-    >
+    >,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -725,7 +734,7 @@ export interface migrations_serverDelegate<
    * })
    */
   findFirst<T extends migrations_serverFindFirstArgs>(
-    args?: Prisma.SelectSubset<T, migrations_serverFindFirstArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, migrations_serverFindFirstArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -756,7 +765,7 @@ export interface migrations_serverDelegate<
     args?: Prisma.SelectSubset<
       T,
       migrations_serverFindFirstOrThrowArgs<ExtArgs>
-    >
+    >,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -786,7 +795,7 @@ export interface migrations_serverDelegate<
    *
    */
   findMany<T extends migrations_serverFindManyArgs>(
-    args?: Prisma.SelectSubset<T, migrations_serverFindManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, migrations_serverFindManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -809,7 +818,7 @@ export interface migrations_serverDelegate<
    *
    */
   create<T extends migrations_serverCreateArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverCreateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverCreateArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -835,7 +844,7 @@ export interface migrations_serverDelegate<
    *
    */
   createMany<T extends migrations_serverCreateManyArgs>(
-    args?: Prisma.SelectSubset<T, migrations_serverCreateManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, migrations_serverCreateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -864,7 +873,7 @@ export interface migrations_serverDelegate<
     args?: Prisma.SelectSubset<
       T,
       migrations_serverCreateManyAndReturnArgs<ExtArgs>
-    >
+    >,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -887,7 +896,7 @@ export interface migrations_serverDelegate<
    *
    */
   delete<T extends migrations_serverDeleteArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverDeleteArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverDeleteArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -916,7 +925,7 @@ export interface migrations_serverDelegate<
    *
    */
   update<T extends migrations_serverUpdateArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverUpdateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverUpdateArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -942,7 +951,7 @@ export interface migrations_serverDelegate<
    *
    */
   deleteMany<T extends migrations_serverDeleteManyArgs>(
-    args?: Prisma.SelectSubset<T, migrations_serverDeleteManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, migrations_serverDeleteManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -963,7 +972,7 @@ export interface migrations_serverDelegate<
    *
    */
   updateMany<T extends migrations_serverUpdateManyArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverUpdateManyArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverUpdateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -998,7 +1007,7 @@ export interface migrations_serverDelegate<
     args: Prisma.SelectSubset<
       T,
       migrations_serverUpdateManyAndReturnArgs<ExtArgs>
-    >
+    >,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -1026,7 +1035,7 @@ export interface migrations_serverDelegate<
    * })
    */
   upsert<T extends migrations_serverUpsertArgs>(
-    args: Prisma.SelectSubset<T, migrations_serverUpsertArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, migrations_serverUpsertArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_serverClient<
     runtime.Types.Result.GetResult<
       Prisma.$migrations_serverPayload<ExtArgs>,
@@ -1053,7 +1062,7 @@ export interface migrations_serverDelegate<
    * })
    **/
   count<T extends migrations_serverCountArgs>(
-    args?: Prisma.Subset<T, migrations_serverCountArgs>
+    args?: Prisma.Subset<T, migrations_serverCountArgs>,
   ): Prisma.PrismaPromise<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
@@ -1090,7 +1099,7 @@ export interface migrations_serverDelegate<
    * })
    **/
   aggregate<T extends Migrations_serverAggregateArgs>(
-    args: Prisma.Subset<T, Migrations_serverAggregateArgs>
+    args: Prisma.Subset<T, Migrations_serverAggregateArgs>,
   ): Prisma.PrismaPromise<GetMigrations_serverAggregateType<T>>;
 
   /**
@@ -1131,47 +1140,52 @@ export interface migrations_serverDelegate<
     InputErrors extends ByEmpty extends Prisma.True
       ? `Error: "by" must not be empty.`
       : HavingValid extends Prisma.False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
-        }[HavingFields]
-      : 'take' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends Prisma.True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-        }[OrderFields]
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                    Error,
+                    'Field ',
+                    P,
+                    ` in "having" needs to be provided in "by"`,
+                  ];
+          }[HavingFields]
+        : 'take' extends Prisma.Keys<T>
+          ? 'orderBy' extends Prisma.Keys<T>
+            ? ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields]
+            : 'Error: If you provide "take", you also need to provide "orderBy"'
+          : 'skip' extends Prisma.Keys<T>
+            ? 'orderBy' extends Prisma.Keys<T>
+              ? ByValid extends Prisma.True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "skip", you also need to provide "orderBy"'
+            : ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields],
   >(
     args: Prisma.SubsetIntersection<
       T,
       migrations_serverGroupByArgs,
       OrderByArg
     > &
-      InputErrors
+      InputErrors,
   ): {} extends InputErrors
     ? GetMigrations_serverGroupByPayload<T>
     : Prisma.PrismaPromise<InputErrors>;
@@ -1190,8 +1204,9 @@ export interface migrations_serverDelegate<
 export interface Prisma__migrations_serverClient<
   T,
   Null = never,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
   /**
@@ -1208,7 +1223,7 @@ export interface Prisma__migrations_serverClient<
     onrejected?:
       | ((reason: any) => TResult2 | PromiseLike<TResult2>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
   /**
    * Attaches a callback for only the rejection of the Promise.
@@ -1219,7 +1234,7 @@ export interface Prisma__migrations_serverClient<
     onrejected?:
       | ((reason: any) => TResult | PromiseLike<TResult>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<T | TResult>;
   /**
    * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -1228,7 +1243,7 @@ export interface Prisma__migrations_serverClient<
    * @returns A Promise for the completion of the callback.
    */
   finally(
-    onfinally?: (() => void) | undefined | null
+    onfinally?: (() => void) | undefined | null,
   ): runtime.Types.Utils.JsPromise<T>;
 }
 
@@ -1253,7 +1268,8 @@ export interface migrations_serverFieldRefs {
  * migrations_server findUnique
  */
 export type migrations_serverFindUniqueArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1273,7 +1289,8 @@ export type migrations_serverFindUniqueArgs<
  * migrations_server findUniqueOrThrow
  */
 export type migrations_serverFindUniqueOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1293,7 +1310,8 @@ export type migrations_serverFindUniqueOrThrowArgs<
  * migrations_server findFirst
  */
 export type migrations_serverFindFirstArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1347,7 +1365,8 @@ export type migrations_serverFindFirstArgs<
  * migrations_server findFirstOrThrow
  */
 export type migrations_serverFindFirstOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1401,7 +1420,8 @@ export type migrations_serverFindFirstOrThrowArgs<
  * migrations_server findMany
  */
 export type migrations_serverFindManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1450,7 +1470,8 @@ export type migrations_serverFindManyArgs<
  * migrations_server create
  */
 export type migrations_serverCreateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1473,7 +1494,8 @@ export type migrations_serverCreateArgs<
  * migrations_server createMany
  */
 export type migrations_serverCreateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to create many migrations_servers.
@@ -1488,7 +1510,8 @@ export type migrations_serverCreateManyArgs<
  * migrations_server createManyAndReturn
  */
 export type migrations_serverCreateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1511,7 +1534,8 @@ export type migrations_serverCreateManyAndReturnArgs<
  * migrations_server update
  */
 export type migrations_serverUpdateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1538,7 +1562,8 @@ export type migrations_serverUpdateArgs<
  * migrations_server updateMany
  */
 export type migrations_serverUpdateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to update migrations_servers.
@@ -1561,7 +1586,8 @@ export type migrations_serverUpdateManyArgs<
  * migrations_server updateManyAndReturn
  */
 export type migrations_serverUpdateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1592,7 +1618,8 @@ export type migrations_serverUpdateManyAndReturnArgs<
  * migrations_server upsert
  */
 export type migrations_serverUpsertArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1626,7 +1653,8 @@ export type migrations_serverUpsertArgs<
  * migrations_server delete
  */
 export type migrations_serverDeleteArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server
@@ -1646,7 +1674,8 @@ export type migrations_serverDeleteArgs<
  * migrations_server deleteMany
  */
 export type migrations_serverDeleteManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which migrations_servers to delete
@@ -1662,7 +1691,8 @@ export type migrations_serverDeleteManyArgs<
  * migrations_server without action
  */
 export type migrations_serverDefaultArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_server

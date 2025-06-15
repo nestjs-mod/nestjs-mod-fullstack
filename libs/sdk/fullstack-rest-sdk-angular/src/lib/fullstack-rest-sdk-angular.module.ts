@@ -15,7 +15,7 @@ export class FullstackRestSdkAngularService {
     private readonly fullstackRestClientConfiguration: FullstackRestClientConfiguration,
     private readonly appRestService: AppRestService,
     private readonly authRestService: AuthRestService,
-    private readonly timeRestService: TimeRestService
+    private readonly timeRestService: TimeRestService,
   ) {
     appRestService.configuration.withCredentials = true;
     authRestService.configuration.withCredentials = true;
@@ -63,7 +63,7 @@ export class FullstackRestSdkAngularService {
       (this.fullstackRestClientConfiguration.basePath || '')
         .replace('/api', '')
         .replace('http', 'ws') + path,
-      options
+      options,
     );
     return new Observable<{ data: T; event: string }>((observer) => {
       wss.addEventListener('open', () => {
@@ -80,7 +80,7 @@ export class FullstackRestSdkAngularService {
           JSON.stringify({
             event: eventName,
             data: true,
-          })
+          }),
         );
       });
     }).pipe(
@@ -88,7 +88,7 @@ export class FullstackRestSdkAngularService {
         if (wss?.readyState == WebSocket.OPEN) {
           wss.close();
         }
-      })
+      }),
     );
   }
 }
@@ -96,12 +96,12 @@ export class FullstackRestSdkAngularService {
 @NgModule({})
 export class FullstackRestSdkAngularModule {
   public static forRoot(
-    configuration: Partial<FullstackRestClientConfiguration>
+    configuration: Partial<FullstackRestClientConfiguration>,
   ) {
     const fullstackRestClientConfiguration =
       new FullstackRestClientConfiguration(configuration);
     const fullstackRestClientApiModule = FullstackRestClientApiModule.forRoot(
-      () => fullstackRestClientConfiguration
+      () => fullstackRestClientConfiguration,
     );
     return {
       ngModule: FullstackRestSdkAngularModule,

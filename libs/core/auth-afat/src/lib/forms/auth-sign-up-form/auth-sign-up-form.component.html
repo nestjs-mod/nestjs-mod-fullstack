@@ -1,37 +1,37 @@
 @if (formlyFields$ | async; as formlyFields) {
-<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-  <formly-form
-    [model]="formlyModel$ | async"
-    [fields]="formlyFields"
-    [form]="form"
-  >
-  </formly-form>
-  @if (!hideButtons) {
-  <nz-form-control>
-    <div class="flex flex-col justify-center">
-      <button
-        nz-button
-        nzType="primary"
-        type="submit"
-        [disabled]="!form.valid"
-        transloco="Sign-up"
-      ></button>
-      <div class="flex justify-center">
-        <a
-          nz-button
-          nzType="link"
-          [routerLink]="'/forgot-password'"
-          transloco="Forgot password?"
-        ></a>
-        <a
-          nz-button
-          nzType="link"
-          [routerLink]="'/sign-in'"
-          transloco="Sign-in"
-        ></a>
-      </div>
-    </div>
-  </nz-form-control>
-  }
-</form>
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <formly-form
+      [model]="formlyModel$ | async"
+      [fields]="formlyFields"
+      [form]="form"
+    >
+    </formly-form>
+    @if (!hideButtons) {
+      <nz-form-control>
+        <div class="flex flex-col justify-center">
+          <button
+            nz-button
+            nzType="primary"
+            type="submit"
+            [disabled]="!form.valid"
+            transloco="Sign-up"
+          ></button>
+          <div class="flex justify-center">
+            <a
+              nz-button
+              nzType="link"
+              [routerLink]="'/forgot-password'"
+              transloco="Forgot password?"
+            ></a>
+            <a
+              nz-button
+              nzType="link"
+              [routerLink]="'/sign-in'"
+              transloco="Sign-in"
+            ></a>
+          </div>
+        </div>
+      </nz-form-control>
+    }
+  </form>
 }

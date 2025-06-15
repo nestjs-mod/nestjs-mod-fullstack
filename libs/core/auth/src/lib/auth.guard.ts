@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
     private readonly authStaticEnvironments: AuthStaticEnvironments,
     private readonly authConfiguration: AuthConfiguration,
     private readonly translatesStorage: TranslatesStorage,
-    private readonly webhookService: WebhookService
+    private readonly webhookService: WebhookService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -60,7 +60,7 @@ export class AuthGuard implements CanActivate {
         if (this.authConfiguration.checkAccessValidator) {
           await this.authConfiguration.checkAccessValidator(
             req.authUser,
-            context
+            context,
           );
         }
 
@@ -71,7 +71,7 @@ export class AuthGuard implements CanActivate {
         if (req.externalUserId) {
           await this.tryGetOrCreateCurrentUserWithExternalUserId(
             req,
-            req.externalUserId
+            req.externalUserId,
           );
         }
 
@@ -94,26 +94,26 @@ export class AuthGuard implements CanActivate {
         `${context.getClass().name}.${
           context.getHandler().name
         }: ${result}, authUser: ${JSON.stringify(
-          req.authUser?.id
+          req.authUser?.id,
         )}, externalUser: ${JSON.stringify(
-          req.externalUser
+          req.externalUser,
         )}, externalUserId: ${JSON.stringify(
-          req.externalUserId
-        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`
+          req.externalUserId,
+        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`,
       );
 
       return result;
     } catch (err) {
       this.logger.debug(
         `${context.getClass().name}.${context.getHandler().name}: ${String(
-          err
+          err,
         )}, authUser: ${JSON.stringify(
-          req.authUser?.id
+          req.authUser?.id,
         )}, externalUser: ${JSON.stringify(
-          req.externalUser
+          req.externalUser,
         )}, externalUserId: ${JSON.stringify(
-          req.externalUserId
-        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`
+          req.externalUserId,
+        )}, skipEmptyAuthUser: ${JSON.stringify(req.skipEmptyAuthUser)}`,
       );
       throw err;
     }
@@ -130,7 +130,7 @@ export class AuthGuard implements CanActivate {
 
   private throwErrorIfCurrentUserNotHaveNeededRoles(
     checkAuthRole: AuthRole[] | undefined,
-    req: AuthRequest
+    req: AuthRequest,
   ) {
     if (
       !req.skipEmptyAuthUser &&
@@ -150,12 +150,12 @@ export class AuthGuard implements CanActivate {
 
   private async tryGetOrCreateCurrentUserWithExternalUserId(
     req: AuthRequest,
-    externalUserId: string
+    externalUserId: string,
   ) {
     if (!req.authUser && externalUserId) {
       const authUser =
         await this.authCacheService.getCachedUserByExternalUserId(
-          externalUserId
+          externalUserId,
         );
       req.authUser = authUser;
 
@@ -200,7 +200,7 @@ export class AuthGuard implements CanActivate {
         this.reflector.get(AllowEmptyAuthUser, context.getHandler())) ||
         (typeof context.getClass === 'function' &&
           this.reflector.get(AllowEmptyAuthUser, context.getClass())) ||
-        undefined
+        undefined,
     );
 
     const skipAuthGuard = Boolean(
@@ -208,7 +208,7 @@ export class AuthGuard implements CanActivate {
         this.reflector.get(SkipAuthGuard, context.getHandler())) ||
         (typeof context.getClass === 'function' &&
           this.reflector.get(SkipAuthGuard, context.getClass())) ||
-        undefined
+        undefined,
     );
 
     const checkAuthRole =

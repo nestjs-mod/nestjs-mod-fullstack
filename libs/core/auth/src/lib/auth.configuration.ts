@@ -18,6 +18,6 @@ export class AuthConfiguration {
   })
   checkAccessValidator?: (
     authUser?: AuthUser | null,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) => Promise<void>;
 }

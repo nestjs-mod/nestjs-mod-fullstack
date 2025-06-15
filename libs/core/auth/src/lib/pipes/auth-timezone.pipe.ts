@@ -9,7 +9,7 @@ export class AuthTimezonePipe implements PipeTransform {
   constructor(
     private readonly asyncLocalStorage: AuthAsyncLocalStorageContext,
     private readonly authTimezoneService: AuthTimezoneService,
-    private readonly authStaticEnvironments: AuthStaticEnvironments
+    private readonly authStaticEnvironments: AuthStaticEnvironments,
   ) {}
 
   transform(value: unknown) {
@@ -19,7 +19,7 @@ export class AuthTimezonePipe implements PipeTransform {
 
     const result = this.authTimezoneService.convertObject(
       value,
-      -1 * (this.asyncLocalStorage.get()?.authTimezone || 0) - TIMEZONE_OFFSET
+      -1 * (this.asyncLocalStorage.get()?.authTimezone || 0) - TIMEZONE_OFFSET,
     );
 
     return this.authTimezoneService.convertDatesInObjectToDateStrings(result);

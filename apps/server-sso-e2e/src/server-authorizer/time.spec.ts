@@ -30,18 +30,18 @@ describe('Get server time from rest api and ws', () => {
             path: '/ws/time',
             eventName: 'ChangeTimeStream',
           })
-          .pipe(take(3), toArray())
+          .pipe(take(3), toArray()),
       );
 
       expect(last3ChangeTimeEvents).toHaveLength(3);
       expect(last3ChangeTimeEvents[0].data).toHaveLength(
-        correctStringDateLength
+        correctStringDateLength,
       );
       expect(last3ChangeTimeEvents[1].data).toHaveLength(
-        correctStringDateLength
+        correctStringDateLength,
       );
       expect(last3ChangeTimeEvents[2].data).toHaveLength(
-        correctStringDateLength
+        correctStringDateLength,
       );
       expect(isDateString(last3ChangeTimeEvents[0].data)).toBeTruthy();
       expect(isDateString(last3ChangeTimeEvents[1].data)).toBeTruthy();

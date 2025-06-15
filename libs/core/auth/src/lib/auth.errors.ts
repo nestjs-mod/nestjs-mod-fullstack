@@ -36,10 +36,11 @@ export class AuthError<T = unknown> extends Error {
   constructor(
     message?: string | AuthErrorEnum,
     code?: AuthErrorEnum,
-    metadata?: T
+    metadata?: T,
   ) {
     const messageAsCode = Boolean(
-      message && Object.values(AuthErrorEnum).includes(message as AuthErrorEnum)
+      message &&
+        Object.values(AuthErrorEnum).includes(message as AuthErrorEnum),
     );
     const preparedCode = messageAsCode ? (message as AuthErrorEnum) : code;
     const preparedMessage =

@@ -37,7 +37,7 @@ export function fillAllNeedDatabaseEnvsFromOneMain() {
         rootEnvKeyValue: process.env[rootEnvKey],
         mainDatabaseUrl,
       },
-      'fillAllNeedDatabaseEnvsFromOneMain'
+      'fillAllNeedDatabaseEnvsFromOneMain',
     );
   }
 
@@ -53,7 +53,7 @@ export function fillAllNeedDatabaseEnvsFromOneMain() {
           appEnvKey,
           appEnvKeyValue: process.env[appEnvKey],
         },
-        'fillAllNeedDatabaseEnvsFromOneMain'
+        'fillAllNeedDatabaseEnvsFromOneMain',
       );
     }
     if (!process.env[appEnvKey] && mainDatabaseUrl) {
@@ -72,7 +72,7 @@ export async function createAndFillDatabases() {
       {
         isInfrastructureMode: isInfrastructureMode(),
       },
-      'createAndFillDatabases'
+      'createAndFillDatabases',
     );
   }
   if (isInfrastructureMode()) {
@@ -96,7 +96,7 @@ export async function createAndFillDatabases() {
           rootEnvKey,
           rootEnvKeyValue: process.env[rootEnvKey],
         },
-        'createAndFillDatabases'
+        'createAndFillDatabases',
       );
     }
     if (process.env[appEnvKey]) {

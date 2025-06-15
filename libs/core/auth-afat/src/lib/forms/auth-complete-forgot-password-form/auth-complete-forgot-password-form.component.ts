@@ -81,7 +81,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
     private readonly authCompleteForgotPasswordFormService: AuthCompleteForgotPasswordFormService,
-    private readonly validationService: ValidationService
+    private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +92,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
         untilDestroyed(this),
         tap(() => {
           this.formlyFields$.next(this.formlyFields$.value);
-        })
+        }),
       )
       .subscribe();
 
@@ -108,7 +108,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
       code: '',
       password: '',
       confirmPassword: '',
-    }
+    },
   ) {
     const model = {
       code: this.code,
@@ -130,31 +130,33 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
               this.afterCompleteForgotPassword.next(result);
               this.nzMessageService.success(
                 this.translocoService.translate(
-                  'Your password has been successfully changed!'
-                )
+                  'Your password has been successfully changed!',
+                ),
               );
             }
           }),
           catchError((err) =>
             this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options)
-            )
+              this.setFormlyFields(options),
+            ),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
             this.nzMessageService.error(
-              this.translocoService.translate(err.error?.message || err.message)
+              this.translocoService.translate(
+                err.error?.message || err.message,
+              ),
             );
             return of(null);
           }),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
       console.log(this.form.controls);
       this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors')
+        this.translocoService.translate('Validation errors'),
       );
     }
   }
@@ -164,7 +166,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
     errors?: ValidationErrorMetadataInterface[];
   }) {
     this.formlyFields$.next(
-      this.authCompleteForgotPasswordFormService.getFormlyFields(options)
+      this.authCompleteForgotPasswordFormService.getFormlyFields(options),
     );
   }
 }

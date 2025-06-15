@@ -1,144 +1,144 @@
 # Do not modify this file, it is generated using the DockerCompose module included with NestJS-mod.
-version: "3"
+version: '3'
 services:
   server-sso-postgre-sql:
-    image: "bitnami/postgresql:15.5.0"
-    container_name: "server-sso-postgre-sql"
+    image: 'bitnami/postgresql:15.5.0'
+    container_name: 'server-sso-postgre-sql'
     volumes:
-      - "server-sso-postgre-sql-volume:/bitnami/postgresql"
+      - 'server-sso-postgre-sql-volume:/bitnami/postgresql'
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
-      - "server-sso-network"
+      - 'server-sso-network'
     healthcheck:
       test:
-        - "CMD-SHELL"
-        - "pg_isready -U postgres"
-      interval: "5s"
-      timeout: "5s"
+        - 'CMD-SHELL'
+        - 'pg_isready -U postgres'
+      interval: '5s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
     environment:
-      POSTGRESQL_USERNAME: "${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_USERNAME}"
-      POSTGRESQL_PASSWORD: "${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_PASSWORD}"
-      POSTGRESQL_DATABASE: "${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_DATABASE}"
+      POSTGRESQL_USERNAME: '${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_USERNAME}'
+      POSTGRESQL_PASSWORD: '${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_PASSWORD}'
+      POSTGRESQL_DATABASE: '${SERVER_SSO_POSTGRE_SQL_POSTGRESQL_DATABASE}'
   server-sso-redis:
-    image: "bitnami/redis:7.4.1"
-    container_name: "server-sso-redis"
+    image: 'bitnami/redis:7.4.1'
+    container_name: 'server-sso-redis'
     volumes:
-      - "server-sso-redis-volume:/bitnami/redis/data"
+      - 'server-sso-redis-volume:/bitnami/redis/data'
     ports:
-      - "6379:6379"
+      - '6379:6379'
     networks:
-      - "server-sso-network"
+      - 'server-sso-network'
     environment:
-      REDIS_DATABASE: "${SERVER_SSO_REDIS_REDIS_DATABASE}"
-      REDIS_PASSWORD: "${SERVER_SSO_REDIS_REDIS_PASSWORD}"
-      REDIS_DISABLE_COMMANDS: "${SERVER_SSO_REDIS_REDIS_DISABLE_COMMANDS}"
-      REDIS_IO_THREADS: "${SERVER_SSO_REDIS_REDIS_IO_THREADS}"
-      REDIS_IO_THREADS_DO_READS: "${SERVER_SSO_REDIS_REDIS_IO_THREADS_DO_READS}"
+      REDIS_DATABASE: '${SERVER_SSO_REDIS_REDIS_DATABASE}'
+      REDIS_PASSWORD: '${SERVER_SSO_REDIS_REDIS_PASSWORD}'
+      REDIS_DISABLE_COMMANDS: '${SERVER_SSO_REDIS_REDIS_DISABLE_COMMANDS}'
+      REDIS_IO_THREADS: '${SERVER_SSO_REDIS_REDIS_IO_THREADS}'
+      REDIS_IO_THREADS_DO_READS: '${SERVER_SSO_REDIS_REDIS_IO_THREADS_DO_READS}'
     healthcheck:
       test:
-        - "CMD-SHELL"
-        - "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG"
-      interval: "5s"
-      timeout: "5s"
+        - 'CMD-SHELL'
+        - 'redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping | grep PONG'
+      interval: '5s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
   server-sso-minio:
-    image: "bitnami/minio:2024.11.7"
-    container_name: "server-sso-minio"
+    image: 'bitnami/minio:2024.11.7'
+    container_name: 'server-sso-minio'
     volumes:
-      - "server-sso-minio-volume:/bitnami/minio/data"
+      - 'server-sso-minio-volume:/bitnami/minio/data'
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '9000:9000'
+      - '9001:9001'
     networks:
-      - "server-sso-network"
+      - 'server-sso-network'
     environment:
-      MINIO_ROOT_USER: "${SERVER_SSO_MINIO_MINIO_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${SERVER_SSO_MINIO_MINIO_ROOT_PASSWORD}"
+      MINIO_ROOT_USER: '${SERVER_SSO_MINIO_MINIO_ROOT_USER}'
+      MINIO_ROOT_PASSWORD: '${SERVER_SSO_MINIO_MINIO_ROOT_PASSWORD}'
     healthcheck:
       test:
-        - "CMD-SHELL"
-        - "mc"
-        - "ready"
-        - "local"
-      interval: "5s"
-      timeout: "5s"
+        - 'CMD-SHELL'
+        - 'mc'
+        - 'ready'
+        - 'local'
+      interval: '5s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
   server-sso-maildev:
-    image: "maildev/maildev:2.2.1"
-    container_name: "server-sso-maildev"
+    image: 'maildev/maildev:2.2.1'
+    container_name: 'server-sso-maildev'
     ports:
-      - "1025:1025"
-      - "1080:1080"
+      - '1025:1025'
+      - '1080:1080'
     networks:
-      - "server-sso-network"
+      - 'server-sso-network'
     environment:
-      MAILDEV_SMTP_PORT: "${SERVER_SSO_MAILDEV_MAILDEV_SMTP_PORT}"
-      MAILDEV_WEB_PORT: "${SERVER_SSO_MAILDEV_MAILDEV_WEB_PORT}"
+      MAILDEV_SMTP_PORT: '${SERVER_SSO_MAILDEV_MAILDEV_SMTP_PORT}'
+      MAILDEV_WEB_PORT: '${SERVER_SSO_MAILDEV_MAILDEV_WEB_PORT}'
     healthcheck:
-      test: "wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1"
-      interval: "10s"
-      timeout: "5s"
+      test: 'wget -O - http://localhost:${MAILDEV_WEB_PORT}${MAILDEV_BASE_PATHNAME}/healthz || exit 1'
+      interval: '10s'
+      timeout: '5s'
       retries: 5
     tty: true
-    restart: "always"
+    restart: 'always'
   server-sso-single-sign-on:
-    image: "ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.14.0"
-    container_name: "server-sso-single-sign-on"
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.14.0'
+    container_name: 'server-sso-single-sign-on'
     ports:
-      - "8080:8080"
+      - '8080:8080'
     networks:
-      - "server-sso-network"
+      - 'server-sso-network'
     environment:
-      DATABASE_URL: "${SERVER_SSO_SINGLE_SIGN_ON_DATABASE_URL}"
-      SINGLE_SIGN_ON_PORT: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_PORT}"
-      SINGLE_SIGN_ON_KEYV_URL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_KEYV_URL}"
-      SINGLE_SIGN_ON_MINIO_SERVER_HOST: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_SERVER_HOST}"
-      SINGLE_SIGN_ON_MINIO_ACCESS_KEY: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_ACCESS_KEY}"
-      SINGLE_SIGN_ON_MINIO_SECRET_KEY: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_SECRET_KEY}"
-      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_TRANSPORT: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_TRANSPORT}"
-      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_NAME: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_NAME}"
-      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_EMAIL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_EMAIL}"
-      SINGLE_SIGN_ON_SSO_SERVER_URL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_SERVER_URL}"
-      SINGLE_SIGN_ON_SSO_CLIENT_URL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_CLIENT_URL}"
-      SINGLE_SIGN_ON_SSO_ADMIN_SECRET: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_SECRET}"
-      SINGLE_SIGN_ON_SSO_ADMIN_EMAIL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_EMAIL}"
-      SINGLE_SIGN_ON_SSO_ADMIN_USERNAME: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_USERNAME}"
-      SINGLE_SIGN_ON_SSO_ADMIN_PASSWORD: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_PASSWORD}"
-      SINGLE_SIGN_ON_SSO_USER_AVAILABLE_ROLES: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_USER_AVAILABLE_ROLES}"
-      SINGLE_SIGN_ON_SSO_USER_DEFAULT_ROLES: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_USER_DEFAULT_ROLES}"
-      SINGLE_SIGN_ON_SSO_ADMIN_DEFAULT_ROLES: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_DEFAULT_ROLES}"
-      SINGLE_SIGN_ON_SSO_MANAGER_DEFAULT_ROLES: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_MANAGER_DEFAULT_ROLES}"
-      SINGLE_SIGN_ON_SSO_JWT_SECRET_KEY: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_SECRET_KEY}"
-      SINGLE_SIGN_ON_SSO_JWT_ACCESS_TOKEN_EXPIRES_IN: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_ACCESS_TOKEN_EXPIRES_IN}"
-      SINGLE_SIGN_ON_SSO_JWT_REFRESH_TOKEN_EXPIRES_IN: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_REFRESH_TOKEN_EXPIRES_IN}"
-      SINGLE_SIGN_ON_SSO_CACHE_TTL: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_CACHE_TTL}"
-      SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_PROJECTS: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_PROJECTS}"
-      SINGLE_SIGN_ON_SSO_DEFAULT_PROJECT: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DEFAULT_PROJECT}"
-      SINGLE_SIGN_ON_SSO_DISABLE_EMAIL_VERIFICATION: "${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DISABLE_EMAIL_VERIFICATION}"
-      FEATURE_NAME: "${SERVER_SSO_SINGLE_SIGN_ON_FEATURE_NAME}"
-      DEPENDS_ON_SERVICE_NAMES: "${SERVER_SSO_SINGLE_SIGN_ON_DEPENDS_ON_SERVICE_NAMES}"
-      IMAGE: "${SERVER_SSO_SINGLE_SIGN_ON_IMAGE}"
-      EXTERNAL_CLIENT_PORT: "${SERVER_SSO_SINGLE_SIGN_ON_EXTERNAL_CLIENT_PORT}"
+      DATABASE_URL: '${SERVER_SSO_SINGLE_SIGN_ON_DATABASE_URL}'
+      SINGLE_SIGN_ON_PORT: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_PORT}'
+      SINGLE_SIGN_ON_KEYV_URL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_KEYV_URL}'
+      SINGLE_SIGN_ON_MINIO_SERVER_HOST: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_SERVER_HOST}'
+      SINGLE_SIGN_ON_MINIO_ACCESS_KEY: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_ACCESS_KEY}'
+      SINGLE_SIGN_ON_MINIO_SECRET_KEY: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_MINIO_SECRET_KEY}'
+      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_TRANSPORT: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_TRANSPORT}'
+      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_NAME: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_NAME}'
+      SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_EMAIL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_NOTIFICATIONS_MAIL_DEFAULT_SENDER_EMAIL}'
+      SINGLE_SIGN_ON_SSO_SERVER_URL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_SERVER_URL}'
+      SINGLE_SIGN_ON_SSO_CLIENT_URL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_CLIENT_URL}'
+      SINGLE_SIGN_ON_SSO_ADMIN_SECRET: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_SECRET}'
+      SINGLE_SIGN_ON_SSO_ADMIN_EMAIL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_EMAIL}'
+      SINGLE_SIGN_ON_SSO_ADMIN_USERNAME: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_USERNAME}'
+      SINGLE_SIGN_ON_SSO_ADMIN_PASSWORD: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_PASSWORD}'
+      SINGLE_SIGN_ON_SSO_USER_AVAILABLE_ROLES: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_USER_AVAILABLE_ROLES}'
+      SINGLE_SIGN_ON_SSO_USER_DEFAULT_ROLES: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_USER_DEFAULT_ROLES}'
+      SINGLE_SIGN_ON_SSO_ADMIN_DEFAULT_ROLES: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_ADMIN_DEFAULT_ROLES}'
+      SINGLE_SIGN_ON_SSO_MANAGER_DEFAULT_ROLES: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_MANAGER_DEFAULT_ROLES}'
+      SINGLE_SIGN_ON_SSO_JWT_SECRET_KEY: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_SECRET_KEY}'
+      SINGLE_SIGN_ON_SSO_JWT_ACCESS_TOKEN_EXPIRES_IN: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_ACCESS_TOKEN_EXPIRES_IN}'
+      SINGLE_SIGN_ON_SSO_JWT_REFRESH_TOKEN_EXPIRES_IN: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_JWT_REFRESH_TOKEN_EXPIRES_IN}'
+      SINGLE_SIGN_ON_SSO_CACHE_TTL: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_CACHE_TTL}'
+      SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_PROJECTS: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_PROJECTS}'
+      SINGLE_SIGN_ON_SSO_DEFAULT_PROJECT: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DEFAULT_PROJECT}'
+      SINGLE_SIGN_ON_SSO_DISABLE_EMAIL_VERIFICATION: '${SERVER_SSO_SINGLE_SIGN_ON_SINGLE_SIGN_ON_SSO_DISABLE_EMAIL_VERIFICATION}'
+      FEATURE_NAME: '${SERVER_SSO_SINGLE_SIGN_ON_FEATURE_NAME}'
+      DEPENDS_ON_SERVICE_NAMES: '${SERVER_SSO_SINGLE_SIGN_ON_DEPENDS_ON_SERVICE_NAMES}'
+      IMAGE: '${SERVER_SSO_SINGLE_SIGN_ON_IMAGE}'
+      EXTERNAL_CLIENT_PORT: '${SERVER_SSO_SINGLE_SIGN_ON_EXTERNAL_CLIENT_PORT}'
     tty: true
-    restart: "always"
+    restart: 'always'
     depends_on:
       server-sso-postgre-sql:
-        condition: "service_healthy"
+        condition: 'service_healthy'
 networks:
   server-sso-network:
-    driver: "bridge"
+    driver: 'bridge'
 volumes:
   server-sso-postgre-sql-volume:
-    name: "server-sso-postgre-sql-volume"
+    name: 'server-sso-postgre-sql-volume'
   server-sso-redis-volume:
-    name: "server-sso-redis-volume"
+    name: 'server-sso-redis-volume'
   server-sso-minio-volume:
-    name: "server-sso-minio-volume"
+    name: 'server-sso-minio-volume'

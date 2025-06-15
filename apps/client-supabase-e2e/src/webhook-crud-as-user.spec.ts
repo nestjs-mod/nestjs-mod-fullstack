@@ -33,7 +33,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     });
     await page.evaluate(
       (minioURL) => localStorage.setItem('minioURL', minioURL),
-      get('SERVER_SUPABASE_MINIO_URL').required().asString()
+      get('SERVER_SUPABASE_MINIO_URL').required().asString(),
     );
   });
 
@@ -55,7 +55,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=email]')
+      page.locator('auth-sign-up-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -66,7 +66,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=password]')
+      page.locator('auth-sign-up-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await page
@@ -77,11 +77,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-up-form').locator('[placeholder=confirmPassword]')
+      page
+        .locator('auth-sign-up-form')
+        .locator('[placeholder=confirmPassword]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-up-form').locator('button[type=submit]')
+      page.locator('auth-sign-up-form').locator('button[type=submit]'),
     ).toHaveText('Sign-up');
 
     await page
@@ -90,17 +92,17 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
   test('sign out after sign-up', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -108,7 +110,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Sign-out`);
 
     await page
@@ -120,7 +122,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2),
     ).toContainText(`Sign-in`);
   });
 
@@ -137,7 +139,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=email]')
+      page.locator('auth-sign-in-form').locator('[placeholder=email]'),
     ).toHaveValue(user.email.toLowerCase());
 
     await page
@@ -148,11 +150,11 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('auth-sign-in-form').locator('[placeholder=password]')
+      page.locator('auth-sign-in-form').locator('[placeholder=password]'),
     ).toHaveValue(user.password);
 
     await expect(
-      page.locator('auth-sign-in-form').locator('button[type=submit]')
+      page.locator('auth-sign-in-form').locator('button[type=submit]'),
     ).toHaveText('Sign-in');
 
     await page
@@ -161,11 +163,11 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .click();
 
     await page.waitForSelector(
-      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper'
+      'div.cdk-overlay-container>div.cdk-global-overlay-wrapper',
     );
 
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
   });
 
@@ -184,7 +186,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.keyboard.press('ArrowDown', { delay: 100 });
     await page.keyboard.press('Enter', { delay: 100 });
     await expect(
-      page.locator('webhook-form').locator('[placeholder=eventName]')
+      page.locator('webhook-form').locator('[placeholder=eventName]'),
     ).toContainText('create');
 
     await page
@@ -193,7 +195,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       .click();
     await page.keyboard.type(user.site, { delay: 50 });
     await expect(
-      page.locator('webhook-form').locator('[placeholder=endpoint]').first()
+      page.locator('webhook-form').locator('[placeholder=endpoint]').first(),
     ).toHaveValue(user.site);
 
     await page.locator('webhook-form').locator('[placeholder=headers]').click();
@@ -201,7 +203,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       delay: 50,
     });
     await expect(
-      page.locator('webhook-form').locator('[placeholder=headers]')
+      page.locator('webhook-form').locator('[placeholder=headers]'),
     ).toHaveValue(JSON.stringify(user.email.toLowerCase()));
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
@@ -218,19 +220,19 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       await page.locator('webhook-grid').locator('td').nth(0).textContent()
     )?.trim();
     await expect(
-      page.locator('webhook-grid').locator('td').nth(1)
+      page.locator('webhook-grid').locator('td').nth(1),
     ).toContainText('false');
     await expect(
-      page.locator('webhook-grid').locator('td').nth(2)
+      page.locator('webhook-grid').locator('td').nth(2),
     ).toContainText(user.site);
     await expect(
-      page.locator('webhook-grid').locator('td').nth(3)
+      page.locator('webhook-grid').locator('td').nth(3),
     ).toContainText('app-demo.create');
     await expect(
-      page.locator('webhook-grid').locator('td').nth(4)
+      page.locator('webhook-grid').locator('td').nth(4),
     ).toContainText(JSON.stringify(user.email.toLowerCase()));
     await expect(
-      page.locator('webhook-grid').locator('td').nth(5)
+      page.locator('webhook-grid').locator('td').nth(5),
     ).toContainText('');
   });
 
@@ -246,15 +248,15 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(7000);
 
     await expect(
-      page.locator('webhook-form').locator('[placeholder=eventName]')
+      page.locator('webhook-form').locator('[placeholder=eventName]'),
     ).toContainText('create');
 
     await expect(
-      page.locator('webhook-form').locator('[placeholder=endpoint]').first()
+      page.locator('webhook-form').locator('[placeholder=endpoint]').first(),
     ).toHaveValue(user.site);
 
     await expect(
-      page.locator('webhook-form').locator('[placeholder=headers]')
+      page.locator('webhook-form').locator('[placeholder=headers]'),
     ).toHaveValue(JSON.stringify(user.email.toLowerCase()));
 
     await page
@@ -264,7 +266,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await page.keyboard.press('Control+A', { delay: 100 });
     await page.keyboard.type(`${user.site}/new`, { delay: 100 });
     await expect(
-      page.locator('webhook-form').locator('[placeholder=endpoint]').first()
+      page.locator('webhook-form').locator('[placeholder=endpoint]').first(),
     ).toHaveValue(`${user.site}/new`);
 
     await page.locator('[nz-modal-footer]').locator('button').last().click();
@@ -278,22 +280,22 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-grid').locator('td').nth(0)
+      page.locator('webhook-grid').locator('td').nth(0),
     ).toContainText(webhookId || 'empty');
     await expect(
-      page.locator('webhook-grid').locator('td').nth(1)
+      page.locator('webhook-grid').locator('td').nth(1),
     ).toContainText('false');
     await expect(
-      page.locator('webhook-grid').locator('td').nth(2)
+      page.locator('webhook-grid').locator('td').nth(2),
     ).toContainText(`${user.site}/new`);
     await expect(
-      page.locator('webhook-grid').locator('td').nth(3)
+      page.locator('webhook-grid').locator('td').nth(3),
     ).toContainText('app-demo.create');
     await expect(
-      page.locator('webhook-grid').locator('td').nth(4)
+      page.locator('webhook-grid').locator('td').nth(4),
     ).toContainText(JSON.stringify(user.email.toLowerCase()));
     await expect(
-      page.locator('webhook-grid').locator('td').nth(5)
+      page.locator('webhook-grid').locator('td').nth(5),
     ).toContainText('');
   });
 
@@ -311,7 +313,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await expect(
       page
         .locator('nz-modal-confirm-container')
-        .locator('.ant-modal-confirm-title')
+        .locator('.ant-modal-confirm-title'),
     ).toContainText(`Delete webhook #${webhookId}`);
 
     await page
@@ -324,13 +326,13 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('webhook-grid').locator('nz-embed-empty')
+      page.locator('webhook-grid').locator('nz-embed-empty'),
     ).toContainText(`No Data`);
   });
 
   test('sign out', async () => {
     await expect(
-      page.locator('nz-header').locator('[nz-submenu]').first()
+      page.locator('nz-header').locator('[nz-submenu]').first(),
     ).toContainText(`You are logged in as ${user.email.toLowerCase()}`);
     await page.locator('nz-header').locator('[nz-submenu]').first().click();
 
@@ -338,7 +340,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
       page
         .locator('[nz-submenu-none-inline-child]')
         .locator('[nz-menu-item]')
-        .last()
+        .last(),
     ).toContainText(`Sign-out`);
 
     await page
@@ -350,7 +352,7 @@ test.describe('CRUD operations with Webhook as "User" role', () => {
     await setTimeout(4000);
 
     await expect(
-      page.locator('nz-header').locator('[nz-menu-item]').nth(-2)
+      page.locator('nz-header').locator('[nz-menu-item]').nth(-2),
     ).toContainText(`Sign-in`);
   });
 });

@@ -15,7 +15,7 @@ const parsed = config(
         path: join(__dirname, '..', '..', process.env['ENV_FILE']),
         override: true,
       }
-    : { path: join(__dirname, '..', '..', '.env'), override: true }
+    : { path: join(__dirname, '..', '..', '.env'), override: true },
 );
 
 if (parsed.error) {

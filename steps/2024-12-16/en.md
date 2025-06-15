@@ -212,7 +212,7 @@ export class AuthController {
     @InjectPrismaClient(AUTH_FEATURE)
     private readonly prismaClient: PrismaClient,
     private readonly authCacheService: AuthCacheService,
-    private readonly translatesStorage: TranslatesStorage
+    private readonly translatesStorage: TranslatesStorage,
   ) {}
 
   @Get('profile')
@@ -275,7 +275,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     // ...
-    private readonly translatesStorage: TranslatesStorage
+    private readonly translatesStorage: TranslatesStorage,
   ) {}
 
   // ...
@@ -423,7 +423,10 @@ const AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY = 'activeLang';
 
 @Injectable({ providedIn: 'root' })
 export class AuthActiveLangService {
-  constructor(private readonly authRestService: AuthRestService, private readonly translocoService: TranslocoService) {}
+  constructor(
+    private readonly authRestService: AuthRestService,
+    private readonly translocoService: TranslocoService,
+  ) {}
 
   getActiveLang() {
     return this.authRestService.authControllerProfile().pipe(
@@ -435,7 +438,7 @@ export class AuthActiveLangService {
           return of(localStorage.getItem(AUTH_ACTIVE_LANG_LOCAL_STORAGE_KEY) || this.translocoService.getDefaultLang());
         }
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -451,7 +454,7 @@ export class AuthActiveLangService {
           return of(null);
         }
         return throwError(() => err);
-      })
+      }),
     );
   }
 }

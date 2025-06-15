@@ -19,7 +19,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
 
   async checkAccessValidator(
     authUser?: AuthUser | null,
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ) {
     const req: AuthRequest = ctx && getRequestFromExecutionContext(ctx);
 
@@ -62,7 +62,7 @@ export class SsoAuthConfiguration implements AuthConfiguration {
       });
 
       this.logger.debug(
-        `Admin with email: ${signupUserResult.data.user.email} successfully created!`
+        `Admin with email: ${signupUserResult.data.user.email} successfully created!`,
       );
     } catch (err) {
       if (isAxiosError(err)) {

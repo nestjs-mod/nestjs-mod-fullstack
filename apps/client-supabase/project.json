@@ -8,9 +8,7 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "@nestjs-mod/misc",
@@ -25,9 +23,7 @@
         "outputPath": "dist/apps/client-supabase/browser",
         "index": "apps/client-supabase/src/index.html",
         "main": "apps/client-supabase/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/client-supabase/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -52,9 +48,7 @@
             "output": "/assets/i18n/nestjs-mod-afat/"
           }
         ],
-        "styles": [
-          "apps/client-supabase/src/styles.scss"
-        ],
+        "styles": ["apps/client-supabase/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -113,9 +107,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/client-supabase/jest.config.ts"
       }
@@ -129,9 +121,7 @@
       }
     },
     "server": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/client-supabase/server",
@@ -170,9 +160,7 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": [
-          "/"
-        ]
+        "routes": ["/"]
       },
       "configurations": {
         "development": {

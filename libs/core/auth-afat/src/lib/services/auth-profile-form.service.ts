@@ -12,7 +12,7 @@ import { AuthUpdateProfileInput } from './auth.types';
 export class AuthProfileFormService {
   constructor(
     protected readonly translocoService: TranslocoService,
-    protected readonly validationService: ValidationService
+    protected readonly validationService: ValidationService,
   ) {}
 
   init() {
@@ -34,7 +34,7 @@ export class AuthProfileFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.profile-form.fields.picture`
+              `auth.profile-form.fields.picture`,
             ),
             placeholder: 'picture',
           },
@@ -47,7 +47,7 @@ export class AuthProfileFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.profile-form.fields.old-password`
+              `auth.profile-form.fields.old-password`,
             ),
             placeholder: 'oldPassword',
             type: 'password',
@@ -61,7 +61,7 @@ export class AuthProfileFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.profile-form.fields.new-password`
+              `auth.profile-form.fields.new-password`,
             ),
             placeholder: 'newPassword',
             type: 'password',
@@ -75,14 +75,14 @@ export class AuthProfileFormService {
           },
           props: {
             label: this.translocoService.translate(
-              `auth.profile-form.fields.confirm-new-password`
+              `auth.profile-form.fields.confirm-new-password`,
             ),
             placeholder: 'confirmNewPassword',
             type: 'password',
           },
         },
       ],
-      options?.errors || []
+      options?.errors || [],
     );
   }
 }

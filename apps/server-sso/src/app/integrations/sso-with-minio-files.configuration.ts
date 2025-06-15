@@ -9,7 +9,7 @@ export class SsoWithMinioFilesConfiguration implements FilesConfiguration {
 
   getFromDownloadUrlWithoutBucketNames(downloadUrl: string) {
     return this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
-      downloadUrl
+      downloadUrl,
     );
   }
 
@@ -39,7 +39,7 @@ export class SsoWithMinioFilesConfiguration implements FilesConfiguration {
         expiry: 60,
         ext: ext,
         userId: userId,
-      })
+      }),
     );
   }
 }

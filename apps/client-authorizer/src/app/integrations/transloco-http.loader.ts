@@ -15,23 +15,23 @@ export class TranslocoHttpLoader implements TranslocoLoader {
         .pipe(
           catchError(() => {
             return of({});
-          })
+          }),
         ),
       vendors: this.httpClient
         .get<Record<string, Translation>>(`./assets/i18n/${lang}.vendor.json`)
         .pipe(
           catchError(() => {
             return of({});
-          })
+          }),
         ),
       nestjsModAfat: this.httpClient
-        .get<Record<string, Translation>>(
-          `./assets/i18n/nestjs-mod-afat/${lang}.json`
-        )
+        .get<
+          Record<string, Translation>
+        >(`./assets/i18n/nestjs-mod-afat/${lang}.json`)
         .pipe(
           catchError(() => {
             return of({});
-          })
+          }),
         ),
     }).pipe(
       map(({ translation, vendors, nestjsModAfat }) => {
@@ -54,7 +54,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
           }
         }
         return dictionaries;
-      })
+      }),
     );
   }
 }

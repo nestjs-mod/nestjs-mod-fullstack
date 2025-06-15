@@ -12,7 +12,7 @@ export class AuthTimezoneService {
   convertObject(
     data: TData,
     timezone: number | null | undefined,
-    depth = 10
+    depth = 10,
   ): TData {
     if (depth === 0) {
       return data;
@@ -77,7 +77,7 @@ export class AuthTimezoneService {
           for (const key of keys) {
             (data as TObject)[key] = this.convertDatesInObjectToDateStrings(
               (data as TObject)[key],
-              depth - 1
+              depth - 1,
             );
           }
         }
@@ -92,14 +92,14 @@ export class AuthTimezoneService {
   private convertComplexObject(
     data: TData,
     timezone: number | null | undefined,
-    depth: number
+    depth: number,
   ) {
     const keys = Object.keys(data as object);
     for (const key of keys) {
       (data as TObject)[key] = this.convertObject(
         (data as TObject)[key],
         timezone,
-        depth - 1
+        depth - 1,
       );
     }
   }
@@ -118,7 +118,7 @@ export class AuthTimezoneService {
   private convertArray(
     data: unknown[] | TObject[],
     timezone: number | null | undefined,
-    depth: number
+    depth: number,
   ) {
     const newArray: unknown[] = [];
     for (const item of data) {

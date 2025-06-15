@@ -78,7 +78,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE === 'nestjs') {
     if (isInfrastructureMode()) {
       writeFileSync(
         join(rootFolder, 'app-swagger.json'),
-        JSON.stringify(document)
+        JSON.stringify(document),
       );
     } else {
       await replaceEnvs();
@@ -140,7 +140,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE === 'nestjs') {
                       ...VALIDATION_EXTRA_MODELS,
                       ...WEBHOOK_EXTRA_MODELS,
                     ],
-                  }
+                  },
                 );
                 SwaggerModule.setup('swagger', options.app, document);
 
@@ -149,7 +149,7 @@ if (!isInfrastructureMode() && process.env.APP_TYPE === 'nestjs') {
                 if (isInfrastructureMode()) {
                   writeFileSync(
                     join(rootFolder, 'app-swagger.json'),
-                    JSON.stringify(document)
+                    JSON.stringify(document),
                   );
                 } else {
                   await replaceEnvs();

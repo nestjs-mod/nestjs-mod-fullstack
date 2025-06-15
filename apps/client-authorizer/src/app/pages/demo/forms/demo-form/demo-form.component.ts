@@ -77,7 +77,7 @@ export class DemoFormComponent implements OnInit {
     private readonly demoService: DemoService,
     private readonly nzMessageService: NzMessageService,
     private readonly translocoService: TranslocoService,
-    private readonly demoMapperService: DemoMapperService
+    private readonly demoMapperService: DemoMapperService,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class DemoFormComponent implements OnInit {
       this.findOne()
         .pipe(
           tap((result) => this.afterFind.next(result)),
-          untilDestroyed(this)
+          untilDestroyed(this),
         )
         .subscribe();
     } else {
@@ -107,7 +107,7 @@ export class DemoFormComponent implements OnInit {
           placeholder: 'name',
           readonly: true,
           description: this.translocoService.translate(
-            'read-only field, set and updated on the backend'
+            'read-only field, set and updated on the backend',
           ),
           required: false,
         },
@@ -123,11 +123,11 @@ export class DemoFormComponent implements OnInit {
           .pipe(
             tap((result) => {
               this.nzMessageService.success(
-                this.translocoService.translate('Success')
+                this.translocoService.translate('Success'),
               );
               this.afterUpdate.next(result);
             }),
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       } else {
@@ -135,19 +135,19 @@ export class DemoFormComponent implements OnInit {
           .pipe(
             tap((result) => {
               this.nzMessageService.success(
-                this.translocoService.translate('Success')
+                this.translocoService.translate('Success'),
               );
               this.afterCreate.next(result);
             }),
 
-            untilDestroyed(this)
+            untilDestroyed(this),
           )
           .subscribe();
       }
     } else {
       console.log(this.form.controls);
       this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors')
+        this.translocoService.translate('Validation errors'),
       );
     }
   }
@@ -159,7 +159,7 @@ export class DemoFormComponent implements OnInit {
   updateOne() {
     if (!this.id) {
       return throwError(
-        () => new Error(this.translocoService.translate('id not set'))
+        () => new Error(this.translocoService.translate('id not set')),
       );
     }
     return this.demoService.updateOne(this.id);
@@ -168,13 +168,13 @@ export class DemoFormComponent implements OnInit {
   findOne() {
     if (!this.id) {
       return throwError(
-        () => new Error(this.translocoService.translate('id not set'))
+        () => new Error(this.translocoService.translate('id not set')),
       );
     }
     return this.demoService.findOne(this.id).pipe(
       tap((result) => {
         this.setFieldsAndModel(this.demoMapperService.toForm(result));
-      })
+      }),
     );
   }
 }

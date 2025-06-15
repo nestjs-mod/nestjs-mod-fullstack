@@ -38,7 +38,7 @@ export class TimeController {
       map(() => ({
         data: new Date(),
         event: ChangeTimeStream,
-      }))
+      })),
     );
   }
 }

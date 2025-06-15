@@ -41,14 +41,16 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
     private readonly translocoService: TranslocoService,
     private readonly tokensService: TokensService,
     private readonly nzMessageService: NzMessageService,
-    private readonly ssoRestSdkAngularService: SsoRestSdkAngularService
+    private readonly ssoRestSdkAngularService: SsoRestSdkAngularService,
   ) {
     this.tokensService
       .getStream()
       .pipe(
         tap(() =>
-          ssoRestSdkAngularService.updateHeaders(this.getAuthorizationHeaders())
-        )
+          ssoRestSdkAngularService.updateHeaders(
+            this.getAuthorizationHeaders(),
+          ),
+        ),
       )
       .subscribe();
   }
@@ -70,12 +72,12 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           ? {
               refreshToken,
             }
-          : {}
+          : {},
       )
       .pipe(
         map(() => {
           this.tokensService.setTokens({});
-        })
+        }),
       );
   }
 
@@ -86,7 +88,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
       .pipe(
         map((result) => {
           return this.mapToSsoUser(result);
-        })
+        }),
       );
   }
 
@@ -127,7 +129,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
       catchError((err) => {
         console.error(err);
         this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image')
+          this.translocoService.translate('Error while saving image'),
         );
         return of(undefined);
       }),
@@ -135,7 +137,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         this.fullstackRestSdkAngularService
           .getAuthApi()
           .authControllerProfile()
-          .pipe(map((profile) => ({ ...profile, picture })))
+          .pipe(map((profile) => ({ ...profile, picture }))),
       ),
       mergeMap(({ picture }) => {
         return this.ssoRestSdkAngularService
@@ -152,7 +154,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           });
       }),
       mergeMap(() =>
-        this.ssoRestSdkAngularService.getSsoApi().ssoControllerProfile()
+        this.ssoRestSdkAngularService.getSsoApi().ssoControllerProfile(),
       ),
       mergeMap((newData) => {
         if (
@@ -166,7 +168,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         }
         return of(newData);
       }),
-      map(() => null)
+      map(() => null),
     );
   }
 
@@ -188,9 +190,9 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
             map((result: TokensResponseInterface) => ({
               tokens: this.mapToSsoTokens(result),
               user: this.mapToSsoUser(result.user),
-            }))
-          )
-      )
+            })),
+          ),
+      ),
     );
   }
 
@@ -220,9 +222,9 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
             map((result) => ({
               tokens: this.mapToSsoTokens(result),
               user: this.mapToSsoUser(result.user),
-            }))
-          )
-      )
+            })),
+          ),
+      ),
     );
   }
 
@@ -244,9 +246,9 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
             map((result) => ({
               tokens: this.mapToSsoTokens(result),
               user: this.mapToSsoUser(result.user),
-            }))
-          )
-      )
+            })),
+          ),
+      ),
     );
   }
 
@@ -269,7 +271,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   }
 
   completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput
+    data: AuthCompleteForgotPasswordInput,
   ): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }

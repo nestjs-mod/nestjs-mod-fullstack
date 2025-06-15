@@ -11,7 +11,7 @@ export class AuthorizerWithMinioFilesConfiguration
 
   getFromDownloadUrlWithoutBucketNames(downloadUrl: string) {
     return this.minioFilesService.getFromDownloadUrlWithoutBucketNames(
-      downloadUrl
+      downloadUrl,
     );
   }
 
@@ -41,7 +41,7 @@ export class AuthorizerWithMinioFilesConfiguration
         expiry: 60,
         ext: ext,
         userId: userId,
-      })
+      }),
     );
   }
 }

@@ -68,7 +68,8 @@ export type AppDemoCountAggregateInputType = {
 };
 
 export type AppDemoAggregateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which AppDemo to aggregate.
@@ -129,7 +130,8 @@ export type GetAppDemoAggregateType<T extends AppDemoAggregateArgs> = {
 };
 
 export type AppDemoGroupByArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.AppDemoWhereInput;
   orderBy?:
@@ -300,7 +302,8 @@ export type DateTimeFieldUpdateOperationsInput = {
 };
 
 export type AppDemoSelect<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -312,7 +315,8 @@ export type AppDemoSelect<
 >;
 
 export type AppDemoSelectCreateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -324,7 +328,8 @@ export type AppDemoSelectCreateManyAndReturn<
 >;
 
 export type AppDemoSelectUpdateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
@@ -343,14 +348,16 @@ export type AppDemoSelectScalar = {
 };
 
 export type AppDemoOmit<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
   'id' | 'name' | 'createdAt' | 'updatedAt',
   ExtArgs['result']['appDemo']
 >;
 
 export type $AppDemoPayload<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   name: 'AppDemo';
   objects: {};
@@ -378,18 +385,20 @@ export type $AppDemoPayload<
 };
 
 export type AppDemoGetPayload<
-  S extends boolean | null | undefined | AppDemoDefaultArgs
+  S extends boolean | null | undefined | AppDemoDefaultArgs,
 > = runtime.Types.Result.GetResult<Prisma.$AppDemoPayload, S>;
 
 export type AppDemoCountArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = Omit<AppDemoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
   select?: AppDemoCountAggregateInputType | true;
 };
 
 export interface AppDemoDelegate<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > {
   [K: symbol]: {
     types: Prisma.TypeMap<ExtArgs>['model']['AppDemo'];
@@ -407,7 +416,7 @@ export interface AppDemoDelegate<
    * })
    */
   findUnique<T extends AppDemoFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, AppDemoFindUniqueArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoFindUniqueArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -433,7 +442,7 @@ export interface AppDemoDelegate<
    * })
    */
   findUniqueOrThrow<T extends AppDemoFindUniqueOrThrowArgs>(
-    args: Prisma.SelectSubset<T, AppDemoFindUniqueOrThrowArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoFindUniqueOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -460,7 +469,7 @@ export interface AppDemoDelegate<
    * })
    */
   findFirst<T extends AppDemoFindFirstArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoFindFirstArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoFindFirstArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -488,7 +497,7 @@ export interface AppDemoDelegate<
    * })
    */
   findFirstOrThrow<T extends AppDemoFindFirstOrThrowArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoFindFirstOrThrowArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoFindFirstOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -518,7 +527,7 @@ export interface AppDemoDelegate<
    *
    */
   findMany<T extends AppDemoFindManyArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoFindManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoFindManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -541,7 +550,7 @@ export interface AppDemoDelegate<
    *
    */
   create<T extends AppDemoCreateArgs>(
-    args: Prisma.SelectSubset<T, AppDemoCreateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoCreateArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -567,7 +576,7 @@ export interface AppDemoDelegate<
    *
    */
   createMany<T extends AppDemoCreateManyArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoCreateManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoCreateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -593,7 +602,7 @@ export interface AppDemoDelegate<
    *
    */
   createManyAndReturn<T extends AppDemoCreateManyAndReturnArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoCreateManyAndReturnArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoCreateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -616,7 +625,7 @@ export interface AppDemoDelegate<
    *
    */
   delete<T extends AppDemoDeleteArgs>(
-    args: Prisma.SelectSubset<T, AppDemoDeleteArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoDeleteArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -645,7 +654,7 @@ export interface AppDemoDelegate<
    *
    */
   update<T extends AppDemoUpdateArgs>(
-    args: Prisma.SelectSubset<T, AppDemoUpdateArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoUpdateArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -671,7 +680,7 @@ export interface AppDemoDelegate<
    *
    */
   deleteMany<T extends AppDemoDeleteManyArgs>(
-    args?: Prisma.SelectSubset<T, AppDemoDeleteManyArgs<ExtArgs>>
+    args?: Prisma.SelectSubset<T, AppDemoDeleteManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -692,7 +701,7 @@ export interface AppDemoDelegate<
    *
    */
   updateMany<T extends AppDemoUpdateManyArgs>(
-    args: Prisma.SelectSubset<T, AppDemoUpdateManyArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoUpdateManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<Prisma.BatchPayload>;
 
   /**
@@ -724,7 +733,7 @@ export interface AppDemoDelegate<
    *
    */
   updateManyAndReturn<T extends AppDemoUpdateManyAndReturnArgs>(
-    args: Prisma.SelectSubset<T, AppDemoUpdateManyAndReturnArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoUpdateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -752,7 +761,7 @@ export interface AppDemoDelegate<
    * })
    */
   upsert<T extends AppDemoUpsertArgs>(
-    args: Prisma.SelectSubset<T, AppDemoUpsertArgs<ExtArgs>>
+    args: Prisma.SelectSubset<T, AppDemoUpsertArgs<ExtArgs>>,
   ): Prisma.Prisma__AppDemoClient<
     runtime.Types.Result.GetResult<
       Prisma.$AppDemoPayload<ExtArgs>,
@@ -779,7 +788,7 @@ export interface AppDemoDelegate<
    * })
    **/
   count<T extends AppDemoCountArgs>(
-    args?: Prisma.Subset<T, AppDemoCountArgs>
+    args?: Prisma.Subset<T, AppDemoCountArgs>,
   ): Prisma.PrismaPromise<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
@@ -813,7 +822,7 @@ export interface AppDemoDelegate<
    * })
    **/
   aggregate<T extends AppDemoAggregateArgs>(
-    args: Prisma.Subset<T, AppDemoAggregateArgs>
+    args: Prisma.Subset<T, AppDemoAggregateArgs>,
   ): Prisma.PrismaPromise<GetAppDemoAggregateType<T>>;
 
   /**
@@ -854,43 +863,48 @@ export interface AppDemoDelegate<
     InputErrors extends ByEmpty extends Prisma.True
       ? `Error: "by" must not be empty.`
       : HavingValid extends Prisma.False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
-        }[HavingFields]
-      : 'take' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Prisma.Keys<T>
-      ? 'orderBy' extends Prisma.Keys<T>
-        ? ByValid extends Prisma.True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends Prisma.True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-        }[OrderFields]
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                    Error,
+                    'Field ',
+                    P,
+                    ` in "having" needs to be provided in "by"`,
+                  ];
+          }[HavingFields]
+        : 'take' extends Prisma.Keys<T>
+          ? 'orderBy' extends Prisma.Keys<T>
+            ? ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields]
+            : 'Error: If you provide "take", you also need to provide "orderBy"'
+          : 'skip' extends Prisma.Keys<T>
+            ? 'orderBy' extends Prisma.Keys<T>
+              ? ByValid extends Prisma.True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "skip", you also need to provide "orderBy"'
+            : ByValid extends Prisma.True
+              ? {}
+              : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                }[OrderFields],
   >(
     args: Prisma.SubsetIntersection<T, AppDemoGroupByArgs, OrderByArg> &
-      InputErrors
+      InputErrors,
   ): {} extends InputErrors
     ? GetAppDemoGroupByPayload<T>
     : Prisma.PrismaPromise<InputErrors>;
@@ -909,8 +923,9 @@ export interface AppDemoDelegate<
 export interface Prisma__AppDemoClient<
   T,
   Null = never,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-  GlobalOmitOptions = {}
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
   /**
@@ -927,7 +942,7 @@ export interface Prisma__AppDemoClient<
     onrejected?:
       | ((reason: any) => TResult2 | PromiseLike<TResult2>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
   /**
    * Attaches a callback for only the rejection of the Promise.
@@ -938,7 +953,7 @@ export interface Prisma__AppDemoClient<
     onrejected?:
       | ((reason: any) => TResult | PromiseLike<TResult>)
       | undefined
-      | null
+      | null,
   ): runtime.Types.Utils.JsPromise<T | TResult>;
   /**
    * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -947,7 +962,7 @@ export interface Prisma__AppDemoClient<
    * @returns A Promise for the completion of the callback.
    */
   finally(
-    onfinally?: (() => void) | undefined | null
+    onfinally?: (() => void) | undefined | null,
   ): runtime.Types.Utils.JsPromise<T>;
 }
 
@@ -966,7 +981,8 @@ export interface AppDemoFieldRefs {
  * AppDemo findUnique
  */
 export type AppDemoFindUniqueArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -986,7 +1002,8 @@ export type AppDemoFindUniqueArgs<
  * AppDemo findUniqueOrThrow
  */
 export type AppDemoFindUniqueOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1006,7 +1023,8 @@ export type AppDemoFindUniqueOrThrowArgs<
  * AppDemo findFirst
  */
 export type AppDemoFindFirstArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1058,7 +1076,8 @@ export type AppDemoFindFirstArgs<
  * AppDemo findFirstOrThrow
  */
 export type AppDemoFindFirstOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1110,7 +1129,8 @@ export type AppDemoFindFirstOrThrowArgs<
  * AppDemo findMany
  */
 export type AppDemoFindManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1157,7 +1177,8 @@ export type AppDemoFindManyArgs<
  * AppDemo create
  */
 export type AppDemoCreateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1180,7 +1201,8 @@ export type AppDemoCreateArgs<
  * AppDemo createMany
  */
 export type AppDemoCreateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to create many AppDemos.
@@ -1193,7 +1215,8 @@ export type AppDemoCreateManyArgs<
  * AppDemo createManyAndReturn
  */
 export type AppDemoCreateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1214,7 +1237,8 @@ export type AppDemoCreateManyAndReturnArgs<
  * AppDemo update
  */
 export type AppDemoUpdateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1241,7 +1265,8 @@ export type AppDemoUpdateArgs<
  * AppDemo updateMany
  */
 export type AppDemoUpdateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to update AppDemos.
@@ -1264,7 +1289,8 @@ export type AppDemoUpdateManyArgs<
  * AppDemo updateManyAndReturn
  */
 export type AppDemoUpdateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1295,7 +1321,8 @@ export type AppDemoUpdateManyAndReturnArgs<
  * AppDemo upsert
  */
 export type AppDemoUpsertArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1329,7 +1356,8 @@ export type AppDemoUpsertArgs<
  * AppDemo delete
  */
 export type AppDemoDeleteArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo
@@ -1349,7 +1377,8 @@ export type AppDemoDeleteArgs<
  * AppDemo deleteMany
  */
 export type AppDemoDeleteManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which AppDemos to delete
@@ -1365,7 +1394,8 @@ export type AppDemoDeleteManyArgs<
  * AppDemo without action
  */
 export type AppDemoDefaultArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends
+    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the AppDemo

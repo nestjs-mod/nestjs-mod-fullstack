@@ -183,14 +183,14 @@ export class ValidationErrorMetadata {
               new ValidationErrorMetadataConstraint({
                 name: key,
                 description: value,
-              })
+              }),
           ),
           ...(error.children?.length
             ? {
                 children: this.fromClassValidatorValidationErrors(error.children),
               }
             : {}),
-        })
+        }),
     );
   }
 }
@@ -257,9 +257,9 @@ export class ValidationExceptionsFilter extends BaseExceptionFilter {
             message: exception.message,
             metadata: exception.metadata,
           },
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         ),
-        host
+        host,
       );
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -402,7 +402,7 @@ export class WebhookFormComponent implements OnInit {
     private readonly nzModalData: WebhookFormComponent,
     private readonly webhookService: WebhookService,
     private readonly webhookEventsService: WebhookEventsService,
-    private readonly nzMessageService: NzMessageService
+    private readonly nzMessageService: NzMessageService,
   ) {}
 
   //...
@@ -437,8 +437,8 @@ export class WebhookFormComponent implements OnInit {
             },
           },
         ],
-        errors
-      )
+        errors,
+      ),
     );
   }
 
@@ -455,7 +455,7 @@ export class WebhookFormComponent implements OnInit {
                 message: () => c.description,
               },
             ];
-          })
+          }),
         );
       }
       return f;
