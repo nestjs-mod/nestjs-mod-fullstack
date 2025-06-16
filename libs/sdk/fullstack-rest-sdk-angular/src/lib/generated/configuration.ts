@@ -66,9 +66,7 @@ export class FullstackRestClientConfiguration {
    */
   credentials: { [key: string]: string | (() => string | undefined) };
 
-  constructor(
-    configurationParameters: FullstackRestClientConfigurationParameters = {},
-  ) {
+  constructor(configurationParameters: FullstackRestClientConfigurationParameters = {}) {
     this.apiKeys = configurationParameters.apiKeys;
     this.username = configurationParameters.username;
     this.password = configurationParameters.password;
@@ -90,9 +88,7 @@ export class FullstackRestClientConfiguration {
     // init default bearer credential
     if (!this.credentials['bearer']) {
       this.credentials['bearer'] = () => {
-        return typeof this.accessToken === 'function'
-          ? this.accessToken()
-          : this.accessToken;
+        return typeof this.accessToken === 'function' ? this.accessToken() : this.accessToken;
       };
     }
   }
@@ -146,15 +142,8 @@ export class FullstackRestClientConfiguration {
    * @return True if the given MIME is JSON, false otherwise.
    */
   public isJsonMime(mime: string): boolean {
-    const jsonMime: RegExp = new RegExp(
-      '^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$',
-      'i',
-    );
-    return (
-      mime !== null &&
-      (jsonMime.test(mime) ||
-        mime.toLowerCase() === 'application/json-patch+json')
-    );
+    const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
+    return mime !== null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
   }
 
   public lookupCredential(key: string): string | undefined {

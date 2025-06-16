@@ -33,8 +33,7 @@ export const PrismaClient = $Class.getPrismaClientClass(__dirname);
 export type PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
   Log = $Class.LogOptions<ClientOptions>,
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = $Class.PrismaClient<ClientOptions, Log, ExtArgs>;
 export { Prisma };
 

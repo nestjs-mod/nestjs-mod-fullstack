@@ -78,7 +78,11 @@ export class AppModule {}
 
 ```typescript
 // configuring providers
-import { FullstackRestClientApiModule, FullstackRestClientConfiguration, FullstackRestClientConfigurationParameters } from '';
+import {
+  FullstackRestClientApiModule,
+  FullstackRestClientConfiguration,
+  FullstackRestClientConfigurationParameters,
+} from '';
 
 export function apiConfigFactory(): FullstackRestClientConfiguration {
   const params: FullstackRestClientConfigurationParameters = {

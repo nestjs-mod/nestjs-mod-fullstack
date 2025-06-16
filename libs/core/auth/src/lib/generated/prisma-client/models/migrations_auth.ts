@@ -14,8 +14,7 @@ import type * as Prisma from '../internal/prismaNamespace';
  * Model migrations_auth
  *
  */
-export type migrations_authModel =
-  runtime.Types.Result.DefaultSelection<Prisma.$migrations_authPayload>;
+export type migrations_authModel = runtime.Types.Result.DefaultSelection<Prisma.$migrations_authPayload>;
 
 export type AggregateMigrations_auth = {
   _count: Migrations_authCountAggregateOutputType | null;
@@ -130,8 +129,7 @@ export type Migrations_authCountAggregateInputType = {
 };
 
 export type Migrations_authAggregateArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which migrations_auth to aggregate.
@@ -142,9 +140,7 @@ export type Migrations_authAggregateArgs<
    *
    * Determine the order of migrations_auths to fetch.
    */
-  orderBy?:
-    | Prisma.migrations_authOrderByWithRelationInput
-    | Prisma.migrations_authOrderByWithRelationInput[];
+  orderBy?: Prisma.migrations_authOrderByWithRelationInput | Prisma.migrations_authOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -195,9 +191,7 @@ export type Migrations_authAggregateArgs<
   _max?: Migrations_authMaxAggregateInputType;
 };
 
-export type GetMigrations_authAggregateType<
-  T extends Migrations_authAggregateArgs,
-> = {
+export type GetMigrations_authAggregateType<T extends Migrations_authAggregateArgs> = {
   [P in keyof T & keyof AggregateMigrations_auth]: P extends '_count' | 'count'
     ? T[P] extends true
       ? number
@@ -206,16 +200,11 @@ export type GetMigrations_authAggregateType<
 };
 
 export type migrations_authGroupByArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.migrations_authWhereInput;
-  orderBy?:
-    | Prisma.migrations_authOrderByWithAggregationInput
-    | Prisma.migrations_authOrderByWithAggregationInput[];
-  by:
-    | Prisma.Migrations_authScalarFieldEnum[]
-    | Prisma.Migrations_authScalarFieldEnum;
+  orderBy?: Prisma.migrations_authOrderByWithAggregationInput | Prisma.migrations_authOrderByWithAggregationInput[];
+  by: Prisma.Migrations_authScalarFieldEnum[] | Prisma.Migrations_authScalarFieldEnum;
   having?: Prisma.migrations_authScalarWhereWithAggregatesInput;
   take?: number;
   skip?: number;
@@ -244,19 +233,17 @@ export type Migrations_authGroupByOutputType = {
   _max: Migrations_authMaxAggregateOutputType | null;
 };
 
-type GetMigrations_authGroupByPayload<T extends migrations_authGroupByArgs> =
-  Prisma.PrismaPromise<
-    Array<
-      Prisma.PickEnumerable<Migrations_authGroupByOutputType, T['by']> & {
-        [P in keyof T &
-          keyof Migrations_authGroupByOutputType]: P extends '_count'
-          ? T[P] extends boolean
-            ? number
-            : Prisma.GetScalarType<T[P], Migrations_authGroupByOutputType[P]>
-          : Prisma.GetScalarType<T[P], Migrations_authGroupByOutputType[P]>;
-      }
-    >
-  >;
+type GetMigrations_authGroupByPayload<T extends migrations_authGroupByArgs> = Prisma.PrismaPromise<
+  Array<
+    Prisma.PickEnumerable<Migrations_authGroupByOutputType, T['by']> & {
+      [P in keyof T & keyof Migrations_authGroupByOutputType]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : Prisma.GetScalarType<T[P], Migrations_authGroupByOutputType[P]>
+        : Prisma.GetScalarType<T[P], Migrations_authGroupByOutputType[P]>;
+    }
+  >
+>;
 
 export type migrations_authWhereInput = {
   AND?: Prisma.migrations_authWhereInput | Prisma.migrations_authWhereInput[];
@@ -325,30 +312,17 @@ export type migrations_authOrderByWithAggregationInput = {
 };
 
 export type migrations_authScalarWhereWithAggregatesInput = {
-  AND?:
-    | Prisma.migrations_authScalarWhereWithAggregatesInput
-    | Prisma.migrations_authScalarWhereWithAggregatesInput[];
+  AND?: Prisma.migrations_authScalarWhereWithAggregatesInput | Prisma.migrations_authScalarWhereWithAggregatesInput[];
   OR?: Prisma.migrations_authScalarWhereWithAggregatesInput[];
-  NOT?:
-    | Prisma.migrations_authScalarWhereWithAggregatesInput
-    | Prisma.migrations_authScalarWhereWithAggregatesInput[];
+  NOT?: Prisma.migrations_authScalarWhereWithAggregatesInput | Prisma.migrations_authScalarWhereWithAggregatesInput[];
   installed_rank?: Prisma.IntWithAggregatesFilter<'migrations_auth'> | number;
-  version?:
-    | Prisma.StringNullableWithAggregatesFilter<'migrations_auth'>
-    | string
-    | null;
+  version?: Prisma.StringNullableWithAggregatesFilter<'migrations_auth'> | string | null;
   description?: Prisma.StringWithAggregatesFilter<'migrations_auth'> | string;
   type?: Prisma.StringWithAggregatesFilter<'migrations_auth'> | string;
   script?: Prisma.StringWithAggregatesFilter<'migrations_auth'> | string;
-  checksum?:
-    | Prisma.IntNullableWithAggregatesFilter<'migrations_auth'>
-    | number
-    | null;
+  checksum?: Prisma.IntNullableWithAggregatesFilter<'migrations_auth'> | number | null;
   installed_by?: Prisma.StringWithAggregatesFilter<'migrations_auth'> | string;
-  installed_on?:
-    | Prisma.DateTimeWithAggregatesFilter<'migrations_auth'>
-    | Date
-    | string;
+  installed_on?: Prisma.DateTimeWithAggregatesFilter<'migrations_auth'> | Date | string;
   execution_time?: Prisma.IntWithAggregatesFilter<'migrations_auth'> | number;
   success?: Prisma.BoolWithAggregatesFilter<'migrations_auth'> | boolean;
 };
@@ -516,8 +490,7 @@ export type BoolFieldUpdateOperationsInput = {
 };
 
 export type migrations_authSelect<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -535,8 +508,7 @@ export type migrations_authSelect<
 >;
 
 export type migrations_authSelectCreateManyAndReturn<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -554,8 +526,7 @@ export type migrations_authSelectCreateManyAndReturn<
 >;
 
 export type migrations_authSelectUpdateManyAndReturn<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     installed_rank?: boolean;
@@ -586,8 +557,7 @@ export type migrations_authSelectScalar = {
 };
 
 export type migrations_authOmit<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
   | 'installed_rank'
   | 'version'
@@ -603,8 +573,7 @@ export type migrations_authOmit<
 >;
 
 export type $migrations_authPayload<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   name: 'migrations_auth';
   objects: {};
@@ -626,29 +595,20 @@ export type $migrations_authPayload<
   composites: {};
 };
 
-export type migrations_authGetPayload<
-  S extends boolean | null | undefined | migrations_authDefaultArgs,
-> = runtime.Types.Result.GetResult<Prisma.$migrations_authPayload, S>;
+export type migrations_authGetPayload<S extends boolean | null | undefined | migrations_authDefaultArgs> =
+  runtime.Types.Result.GetResult<Prisma.$migrations_authPayload, S>;
 
 export type migrations_authCountArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
-> = Omit<
-  migrations_authFindManyArgs,
-  'select' | 'include' | 'distinct' | 'omit'
-> & {
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = Omit<migrations_authFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
   select?: Migrations_authCountAggregateInputType | true;
 };
 
 export interface migrations_authDelegate<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   GlobalOmitOptions = {},
 > {
-  [K: symbol]: {
-    types: Prisma.TypeMap<ExtArgs>['model']['migrations_auth'];
-    meta: { name: 'migrations_auth' };
-  };
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['migrations_auth']; meta: { name: 'migrations_auth' } };
   /**
    * Find zero or one Migrations_auth that matches the filter.
    * @param {migrations_authFindUniqueArgs} args - Arguments to find a Migrations_auth
@@ -663,12 +623,7 @@ export interface migrations_authDelegate<
   findUnique<T extends migrations_authFindUniqueArgs>(
     args: Prisma.SelectSubset<T, migrations_authFindUniqueArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'findUnique',
-      GlobalOmitOptions
-    > | null,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null,
     null,
     ExtArgs,
     GlobalOmitOptions
@@ -689,12 +644,7 @@ export interface migrations_authDelegate<
   findUniqueOrThrow<T extends migrations_authFindUniqueOrThrowArgs>(
     args: Prisma.SelectSubset<T, migrations_authFindUniqueOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'findUniqueOrThrow',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -716,12 +666,7 @@ export interface migrations_authDelegate<
   findFirst<T extends migrations_authFindFirstArgs>(
     args?: Prisma.SelectSubset<T, migrations_authFindFirstArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'findFirst',
-      GlobalOmitOptions
-    > | null,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
     null,
     ExtArgs,
     GlobalOmitOptions
@@ -744,12 +689,7 @@ export interface migrations_authDelegate<
   findFirstOrThrow<T extends migrations_authFindFirstOrThrowArgs>(
     args?: Prisma.SelectSubset<T, migrations_authFindFirstOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'findFirstOrThrow',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -774,12 +714,7 @@ export interface migrations_authDelegate<
   findMany<T extends migrations_authFindManyArgs>(
     args?: Prisma.SelectSubset<T, migrations_authFindManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'findMany',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
   >;
 
   /**
@@ -797,12 +732,7 @@ export interface migrations_authDelegate<
   create<T extends migrations_authCreateArgs>(
     args: Prisma.SelectSubset<T, migrations_authCreateArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'create',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -847,17 +777,9 @@ export interface migrations_authDelegate<
    *
    */
   createManyAndReturn<T extends migrations_authCreateManyAndReturnArgs>(
-    args?: Prisma.SelectSubset<
-      T,
-      migrations_authCreateManyAndReturnArgs<ExtArgs>
-    >,
+    args?: Prisma.SelectSubset<T, migrations_authCreateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'createManyAndReturn',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>
   >;
 
   /**
@@ -875,12 +797,7 @@ export interface migrations_authDelegate<
   delete<T extends migrations_authDeleteArgs>(
     args: Prisma.SelectSubset<T, migrations_authDeleteArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'delete',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -904,12 +821,7 @@ export interface migrations_authDelegate<
   update<T extends migrations_authUpdateArgs>(
     args: Prisma.SelectSubset<T, migrations_authUpdateArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'update',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -981,17 +893,9 @@ export interface migrations_authDelegate<
    *
    */
   updateManyAndReturn<T extends migrations_authUpdateManyAndReturnArgs>(
-    args: Prisma.SelectSubset<
-      T,
-      migrations_authUpdateManyAndReturnArgs<ExtArgs>
-    >,
+    args: Prisma.SelectSubset<T, migrations_authUpdateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'updateManyAndReturn',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>
   >;
 
   /**
@@ -1014,12 +918,7 @@ export interface migrations_authDelegate<
   upsert<T extends migrations_authUpsertArgs>(
     args: Prisma.SelectSubset<T, migrations_authUpsertArgs<ExtArgs>>,
   ): Prisma.Prisma__migrations_authClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$migrations_authPayload<ExtArgs>,
-      T,
-      'upsert',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$migrations_authPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -1044,10 +943,7 @@ export interface migrations_authDelegate<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
         ? number
-        : Prisma.GetScalarType<
-            T['select'],
-            Migrations_authCountAggregateOutputType
-          >
+        : Prisma.GetScalarType<T['select'], Migrations_authCountAggregateOutputType>
       : number
   >;
 
@@ -1099,16 +995,11 @@ export interface migrations_authDelegate<
    **/
   groupBy<
     T extends migrations_authGroupByArgs,
-    HasSelectOrTake extends Prisma.Or<
-      Prisma.Extends<'skip', Prisma.Keys<T>>,
-      Prisma.Extends<'take', Prisma.Keys<T>>
-    >,
+    HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>,
     OrderByArg extends Prisma.True extends HasSelectOrTake
       ? { orderBy: migrations_authGroupByArgs['orderBy'] }
       : { orderBy?: migrations_authGroupByArgs['orderBy'] },
-    OrderFields extends Prisma.ExcludeUnderscoreKeys<
-      Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>
-    >,
+    OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>,
     ByFields extends Prisma.MaybeTupleToUnion<T['by']>,
     ByValid extends Prisma.Has<ByFields, OrderFields>,
     HavingFields extends Prisma.GetHavingFields<T['having']>,
@@ -1122,12 +1013,7 @@ export interface migrations_authDelegate<
               ? never
               : P extends string
                 ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                : [
-                    Error,
-                    'Field ',
-                    P,
-                    ` in "having" needs to be provided in "by"`,
-                  ];
+                : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
           }[HavingFields]
         : 'take' extends Prisma.Keys<T>
           ? 'orderBy' extends Prisma.Keys<T>
@@ -1157,11 +1043,8 @@ export interface migrations_authDelegate<
                     : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
                 }[OrderFields],
   >(
-    args: Prisma.SubsetIntersection<T, migrations_authGroupByArgs, OrderByArg> &
-      InputErrors,
-  ): {} extends InputErrors
-    ? GetMigrations_authGroupByPayload<T>
-    : Prisma.PrismaPromise<InputErrors>;
+    args: Prisma.SubsetIntersection<T, migrations_authGroupByArgs, OrderByArg> & InputErrors,
+  ): {} extends InputErrors ? GetMigrations_authGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
   /**
    * Fields of the migrations_auth model
    */
@@ -1177,8 +1060,7 @@ export interface migrations_authDelegate<
 export interface Prisma__migrations_authClient<
   T,
   Null = never,
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
@@ -1189,14 +1071,8 @@ export interface Prisma__migrations_authClient<
    * @returns A Promise for the completion of which ever callback is executed.
    */
   then<TResult1 = T, TResult2 = never>(
-    onfulfilled?:
-      | ((value: T) => TResult1 | PromiseLike<TResult1>)
-      | undefined
-      | null,
-    onrejected?:
-      | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-      | undefined
-      | null,
+    onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
   ): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
   /**
    * Attaches a callback for only the rejection of the Promise.
@@ -1204,10 +1080,7 @@ export interface Prisma__migrations_authClient<
    * @returns A Promise for the completion of the callback.
    */
   catch<TResult = never>(
-    onrejected?:
-      | ((reason: any) => TResult | PromiseLike<TResult>)
-      | undefined
-      | null,
+    onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null,
   ): runtime.Types.Utils.JsPromise<T | TResult>;
   /**
    * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -1215,9 +1088,7 @@ export interface Prisma__migrations_authClient<
    * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
    * @returns A Promise for the completion of the callback.
    */
-  finally(
-    onfinally?: (() => void) | undefined | null,
-  ): runtime.Types.Utils.JsPromise<T>;
+  finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
 }
 
 /**
@@ -1241,8 +1112,7 @@ export interface migrations_authFieldRefs {
  * migrations_auth findUnique
  */
 export type migrations_authFindUniqueArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1262,8 +1132,7 @@ export type migrations_authFindUniqueArgs<
  * migrations_auth findUniqueOrThrow
  */
 export type migrations_authFindUniqueOrThrowArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1283,8 +1152,7 @@ export type migrations_authFindUniqueOrThrowArgs<
  * migrations_auth findFirst
  */
 export type migrations_authFindFirstArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1303,9 +1171,7 @@ export type migrations_authFindFirstArgs<
    *
    * Determine the order of migrations_auths to fetch.
    */
-  orderBy?:
-    | Prisma.migrations_authOrderByWithRelationInput
-    | Prisma.migrations_authOrderByWithRelationInput[];
+  orderBy?: Prisma.migrations_authOrderByWithRelationInput | Prisma.migrations_authOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1329,17 +1195,14 @@ export type migrations_authFindFirstArgs<
    *
    * Filter by unique combinations of migrations_auths.
    */
-  distinct?:
-    | Prisma.Migrations_authScalarFieldEnum
-    | Prisma.Migrations_authScalarFieldEnum[];
+  distinct?: Prisma.Migrations_authScalarFieldEnum | Prisma.Migrations_authScalarFieldEnum[];
 };
 
 /**
  * migrations_auth findFirstOrThrow
  */
 export type migrations_authFindFirstOrThrowArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1358,9 +1221,7 @@ export type migrations_authFindFirstOrThrowArgs<
    *
    * Determine the order of migrations_auths to fetch.
    */
-  orderBy?:
-    | Prisma.migrations_authOrderByWithRelationInput
-    | Prisma.migrations_authOrderByWithRelationInput[];
+  orderBy?: Prisma.migrations_authOrderByWithRelationInput | Prisma.migrations_authOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1384,17 +1245,14 @@ export type migrations_authFindFirstOrThrowArgs<
    *
    * Filter by unique combinations of migrations_auths.
    */
-  distinct?:
-    | Prisma.Migrations_authScalarFieldEnum
-    | Prisma.Migrations_authScalarFieldEnum[];
+  distinct?: Prisma.Migrations_authScalarFieldEnum | Prisma.Migrations_authScalarFieldEnum[];
 };
 
 /**
  * migrations_auth findMany
  */
 export type migrations_authFindManyArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1413,9 +1271,7 @@ export type migrations_authFindManyArgs<
    *
    * Determine the order of migrations_auths to fetch.
    */
-  orderBy?:
-    | Prisma.migrations_authOrderByWithRelationInput
-    | Prisma.migrations_authOrderByWithRelationInput[];
+  orderBy?: Prisma.migrations_authOrderByWithRelationInput | Prisma.migrations_authOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1434,17 +1290,14 @@ export type migrations_authFindManyArgs<
    * Skip the first `n` migrations_auths.
    */
   skip?: number;
-  distinct?:
-    | Prisma.Migrations_authScalarFieldEnum
-    | Prisma.Migrations_authScalarFieldEnum[];
+  distinct?: Prisma.Migrations_authScalarFieldEnum | Prisma.Migrations_authScalarFieldEnum[];
 };
 
 /**
  * migrations_auth create
  */
 export type migrations_authCreateArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1457,25 +1310,19 @@ export type migrations_authCreateArgs<
   /**
    * The data needed to create a migrations_auth.
    */
-  data: Prisma.XOR<
-    Prisma.migrations_authCreateInput,
-    Prisma.migrations_authUncheckedCreateInput
-  >;
+  data: Prisma.XOR<Prisma.migrations_authCreateInput, Prisma.migrations_authUncheckedCreateInput>;
 };
 
 /**
  * migrations_auth createMany
  */
 export type migrations_authCreateManyArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to create many migrations_auths.
    */
-  data:
-    | Prisma.migrations_authCreateManyInput
-    | Prisma.migrations_authCreateManyInput[];
+  data: Prisma.migrations_authCreateManyInput | Prisma.migrations_authCreateManyInput[];
   skipDuplicates?: boolean;
 };
 
@@ -1483,8 +1330,7 @@ export type migrations_authCreateManyArgs<
  * migrations_auth createManyAndReturn
  */
 export type migrations_authCreateManyAndReturnArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1497,9 +1343,7 @@ export type migrations_authCreateManyAndReturnArgs<
   /**
    * The data used to create many migrations_auths.
    */
-  data:
-    | Prisma.migrations_authCreateManyInput
-    | Prisma.migrations_authCreateManyInput[];
+  data: Prisma.migrations_authCreateManyInput | Prisma.migrations_authCreateManyInput[];
   skipDuplicates?: boolean;
 };
 
@@ -1507,8 +1351,7 @@ export type migrations_authCreateManyAndReturnArgs<
  * migrations_auth update
  */
 export type migrations_authUpdateArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1521,10 +1364,7 @@ export type migrations_authUpdateArgs<
   /**
    * The data needed to update a migrations_auth.
    */
-  data: Prisma.XOR<
-    Prisma.migrations_authUpdateInput,
-    Prisma.migrations_authUncheckedUpdateInput
-  >;
+  data: Prisma.XOR<Prisma.migrations_authUpdateInput, Prisma.migrations_authUncheckedUpdateInput>;
   /**
    * Choose, which migrations_auth to update.
    */
@@ -1535,16 +1375,12 @@ export type migrations_authUpdateArgs<
  * migrations_auth updateMany
  */
 export type migrations_authUpdateManyArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to update migrations_auths.
    */
-  data: Prisma.XOR<
-    Prisma.migrations_authUpdateManyMutationInput,
-    Prisma.migrations_authUncheckedUpdateManyInput
-  >;
+  data: Prisma.XOR<Prisma.migrations_authUpdateManyMutationInput, Prisma.migrations_authUncheckedUpdateManyInput>;
   /**
    * Filter which migrations_auths to update
    */
@@ -1559,8 +1395,7 @@ export type migrations_authUpdateManyArgs<
  * migrations_auth updateManyAndReturn
  */
 export type migrations_authUpdateManyAndReturnArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1573,10 +1408,7 @@ export type migrations_authUpdateManyAndReturnArgs<
   /**
    * The data used to update migrations_auths.
    */
-  data: Prisma.XOR<
-    Prisma.migrations_authUpdateManyMutationInput,
-    Prisma.migrations_authUncheckedUpdateManyInput
-  >;
+  data: Prisma.XOR<Prisma.migrations_authUpdateManyMutationInput, Prisma.migrations_authUncheckedUpdateManyInput>;
   /**
    * Filter which migrations_auths to update
    */
@@ -1591,8 +1423,7 @@ export type migrations_authUpdateManyAndReturnArgs<
  * migrations_auth upsert
  */
 export type migrations_authUpsertArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1609,25 +1440,18 @@ export type migrations_authUpsertArgs<
   /**
    * In case the migrations_auth found by the `where` argument doesn't exist, create a new migrations_auth with this data.
    */
-  create: Prisma.XOR<
-    Prisma.migrations_authCreateInput,
-    Prisma.migrations_authUncheckedCreateInput
-  >;
+  create: Prisma.XOR<Prisma.migrations_authCreateInput, Prisma.migrations_authUncheckedCreateInput>;
   /**
    * In case the migrations_auth was found with the provided `where` argument, update it with this data.
    */
-  update: Prisma.XOR<
-    Prisma.migrations_authUpdateInput,
-    Prisma.migrations_authUncheckedUpdateInput
-  >;
+  update: Prisma.XOR<Prisma.migrations_authUpdateInput, Prisma.migrations_authUncheckedUpdateInput>;
 };
 
 /**
  * migrations_auth delete
  */
 export type migrations_authDeleteArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth
@@ -1647,8 +1471,7 @@ export type migrations_authDeleteArgs<
  * migrations_auth deleteMany
  */
 export type migrations_authDeleteManyArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which migrations_auths to delete
@@ -1664,8 +1487,7 @@ export type migrations_authDeleteManyArgs<
  * migrations_auth without action
  */
 export type migrations_authDefaultArgs<
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the migrations_auth

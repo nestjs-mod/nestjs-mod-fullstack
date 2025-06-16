@@ -8,12 +8,7 @@
  * Do not edit the class manually.
  */
 
-export type WebhookStatusInterface =
-  | 'Pending'
-  | 'Process'
-  | 'Success'
-  | 'Error'
-  | 'Timeout';
+export type WebhookStatusInterface = 'Pending' | 'Process' | 'Success' | 'Error' | 'Timeout';
 
 export const WebhookStatusInterface = {
   Pending: 'Pending' as WebhookStatusInterface,

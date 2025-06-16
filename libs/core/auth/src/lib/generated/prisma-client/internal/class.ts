@@ -20,8 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
       value: 'prisma-client',
     },
     output: {
-      value:
-        '/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client',
+      value: '/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/lib/generated/prisma-client',
       fromEnvVar: null,
     },
     config: {
@@ -36,8 +35,7 @@ const config: runtime.GetPrismaClientConfig = {
       },
     ],
     previewFeatures: ['driverAdapters', 'queryCompiler'],
-    sourceFilePath:
-      '/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma',
+    sourceFilePath: '/home/endy/Projects/nestjs-mod/nestjs-mod-fullstack/libs/core/auth/src/prisma/schema.prisma',
     isCustomOutput: true,
   },
   relativePath: '../../../prisma',
@@ -56,8 +54,7 @@ const config: runtime.GetPrismaClientConfig = {
   },
   inlineSchema:
     'generator client {\n  provider = "prisma-client"\n\n  output = "../../../../../libs/core/auth/src/lib/generated/prisma-client"\n\n  previewFeatures = ["queryCompiler", "driverAdapters"]\n\n  moduleFormat = "cjs"\n}\n\ndatasource db {\n  provider = "postgres"\n  url      = env("SERVER_AUTHORIZER_AUTH_DATABASE_URL")\n}\n\ngenerator prismaClassGenerator {\n  provider                        = "prisma-generator-nestjs-dto"\n  output                          = "../lib/generated/rest/dto"\n  flatResourceStructure           = "false"\n  reExport                        = "false"\n  classValidation                 = "true"\n  createDtoPrefix                 = "Create"\n  entitySuffix                    = ""\n  dtoSuffix                       = "Dto"\n  exportRelationModifierClasses   = "true"\n  updateDtoPrefix                 = "Update"\n  definiteAssignmentAssertion     = "true"\n  prettier                        = "true"\n  entityPrefix                    = ""\n  noDependencies                  = "false"\n  fileNamingStyle                 = "kebab"\n  annotateAllDtoProperties        = "true"\n  outputToNestJsResourceStructure = "false"\n}\n\nmodel AuthUser {\n  /// @DtoCreateHidden\n  id             String   @id(map: "PK_AUTH_USER") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid\n  externalUserId String   @unique(map: "UQ_AUTH_USER") @db.Uuid\n  userRole       AuthRole\n  timezone       Float?\n  /// @DtoCreateHidden\n  /// @DtoUpdateHidden\n  createdAt      DateTime @default(now()) @db.Timestamp(6)\n  /// @DtoCreateHidden\n  /// @DtoUpdateHidden\n  updatedAt      DateTime @default(now()) @db.Timestamp(6)\n  lang           String?  @db.VarChar(2)\n\n  @@index([userRole], map: "IDX_AUTH_USER__USER_ROLE")\n}\n\nmodel migrations_auth {\n  installed_rank Int      @id(map: "__migrations_auth_pk")\n  version        String?  @db.VarChar(50)\n  description    String   @db.VarChar(200)\n  type           String   @db.VarChar(20)\n  script         String   @db.VarChar(1000)\n  checksum       Int?\n  installed_by   String   @db.VarChar(100)\n  installed_on   DateTime @default(now()) @db.Timestamp(6)\n  execution_time Int\n  success        Boolean\n\n  @@index([success], map: "__migrations_auth_s_idx")\n  @@map("__migrations_auth")\n}\n\nenum AuthRole {\n  Admin\n  User\n}\n',
-  inlineSchemaHash:
-    '78a7286559f578fec4445e79c473162bc65484bb96d4842a3b6ad501f7324865',
+  inlineSchemaHash: '78a7286559f578fec4445e79c473162bc65484bb96d4842a3b6ad501f7324865',
   copyEngine: true,
   runtimeDataModel: {
     models: {},
@@ -72,10 +69,7 @@ config.runtimeDataModel = JSON.parse(
 );
 config.engineWasm = undefined;
 config.compilerWasm = {
-  getRuntime: async () =>
-    await import(
-      'node_modules/@prisma/client/runtime/query_compiler_bg.postgresql.mjs'
-    ),
+  getRuntime: async () => await import('node_modules/@prisma/client/runtime/query_compiler_bg.postgresql.mjs'),
 
   getQueryCompilerWasmModule: async () => {
     const { readFile } = await import('node:fs/promises');
@@ -89,12 +83,11 @@ config.compilerWasm = {
   },
 };
 
-export type LogOptions<ClientOptions extends Prisma.PrismaClientOptions> =
-  'log' extends keyof ClientOptions
-    ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
-      ? Prisma.GetEvents<ClientOptions['log']>
-      : never
-    : never;
+export type LogOptions<ClientOptions extends Prisma.PrismaClientOptions> = 'log' extends keyof ClientOptions
+  ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
+    ? Prisma.GetEvents<ClientOptions['log']>
+    : never
+  : never;
 
 export interface PrismaClientConstructor {
   /**
@@ -112,11 +105,9 @@ export interface PrismaClientConstructor {
    */
 
   new <
-    ClientOptions extends
-      Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
+    ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
     U = LogOptions<ClientOptions>,
-    ExtArgs extends
-      runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+    ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   >(
     options?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>,
   ): PrismaClient<ClientOptions, U, ExtArgs>;
@@ -139,16 +130,13 @@ export interface PrismaClientConstructor {
 export interface PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
   U = LogOptions<ClientOptions>,
-  ExtArgs extends
-    runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] };
 
   $on<V extends U>(
     eventType: V,
-    callback: (
-      event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent,
-    ) => void,
+    callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void,
   ): PrismaClient;
 
   /**
@@ -177,10 +165,7 @@ export interface PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): Prisma.PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -192,10 +177,7 @@ export interface PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): Prisma.PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -206,10 +188,7 @@ export interface PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): Prisma.PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -221,10 +200,7 @@ export interface PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): Prisma.PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -245,14 +221,8 @@ export interface PrismaClient<
   ): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>;
 
   $transaction<R>(
-    fn: (
-      prisma: Omit<PrismaClient, runtime.ITXClientDenyList>,
-    ) => runtime.Types.Utils.JsPromise<R>,
-    options?: {
-      maxWait?: number;
-      timeout?: number;
-      isolationLevel?: Prisma.TransactionIsolationLevel;
-    },
+    fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => runtime.Types.Utils.JsPromise<R>,
+    options?: { maxWait?: number; timeout?: number; isolationLevel?: Prisma.TransactionIsolationLevel },
   ): runtime.Types.Utils.JsPromise<R>;
 
   $extends: runtime.Types.Extensions.ExtendsHook<

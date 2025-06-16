@@ -31,13 +31,7 @@ import {
 } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
-import {
-  BASE_PATH,
-  COLLECTION_FORMATS,
-  BaseAPI,
-  RequiredError,
-  operationServerMap,
-} from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 /**
  *
@@ -268,8 +262,7 @@ export const AuthUserScalarFieldEnum = {
   Lang: 'lang',
 } as const;
 
-export type AuthUserScalarFieldEnum =
-  (typeof AuthUserScalarFieldEnum)[keyof typeof AuthUserScalarFieldEnum];
+export type AuthUserScalarFieldEnum = (typeof AuthUserScalarFieldEnum)[keyof typeof AuthUserScalarFieldEnum];
 
 /**
  *
@@ -364,8 +357,7 @@ export const FilesErrorEnum = {
   Files001: 'FILES-001',
 } as const;
 
-export type FilesErrorEnum =
-  (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
+export type FilesErrorEnum = (typeof FilesErrorEnum)[keyof typeof FilesErrorEnum];
 
 /**
  *
@@ -498,25 +490,19 @@ export interface TerminusHealthCheckControllerCheck200Response {
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck200Response
    */
-  info?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
+  info?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue } | null;
   /**
    *
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck200Response
    */
-  error?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
+  error?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue } | null;
   /**
    *
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck200Response
    */
-  details?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  };
+  details?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue };
 }
 /**
  *
@@ -550,25 +536,19 @@ export interface TerminusHealthCheckControllerCheck503Response {
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck503Response
    */
-  info?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
+  info?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue } | null;
   /**
    *
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck503Response
    */
-  error?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  } | null;
+  error?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue } | null;
   /**
    *
    * @type {{ [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue; }}
    * @memberof TerminusHealthCheckControllerCheck503Response
    */
-  details?: {
-    [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue;
-  };
+  details?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValue };
 }
 /**
  *
@@ -681,8 +661,7 @@ export const ValidationErrorEnum = {
   Validation000: 'VALIDATION-000',
 } as const;
 
-export type ValidationErrorEnum =
-  (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
+export type ValidationErrorEnum = (typeof ValidationErrorEnum)[keyof typeof ValidationErrorEnum];
 
 /**
  *
@@ -892,8 +871,7 @@ export const WebhookErrorEnum = {
   Webhook005: 'WEBHOOK-005',
 } as const;
 
-export type WebhookErrorEnum =
-  (typeof WebhookErrorEnum)[keyof typeof WebhookErrorEnum];
+export type WebhookErrorEnum = (typeof WebhookErrorEnum)[keyof typeof WebhookErrorEnum];
 
 /**
  *
@@ -1006,8 +984,7 @@ export const WebhookLogScalarFieldEnum = {
   UpdatedAt: 'updatedAt',
 } as const;
 
-export type WebhookLogScalarFieldEnum =
-  (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
+export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum];
 
 /**
  *
@@ -1069,8 +1046,7 @@ export const WebhookScalarFieldEnum = {
   WorkUntilDate: 'workUntilDate',
 } as const;
 
-export type WebhookScalarFieldEnum =
-  (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
+export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum];
 
 /**
  *
@@ -1191,25 +1167,20 @@ export const WebhookUserScalarFieldEnum = {
   UpdatedAt: 'updatedAt',
 } as const;
 
-export type WebhookUserScalarFieldEnum =
-  (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
+export type WebhookUserScalarFieldEnum = (typeof WebhookUserScalarFieldEnum)[keyof typeof WebhookUserScalarFieldEnum];
 
 /**
  * AppApi - axios parameter creator
  * @export
  */
-export const AppApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const AppApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoCreateOne: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerDemoCreateOne: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/demo`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1218,22 +1189,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1246,16 +1208,10 @@ export const AppApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoDeleteOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerDemoDeleteOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('appControllerDemoDeleteOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1263,22 +1219,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1290,9 +1237,7 @@ export const AppApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindMany: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerDemoFindMany: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/demo`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1301,22 +1246,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1329,16 +1265,10 @@ export const AppApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerDemoFindOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('appControllerDemoFindOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1346,22 +1276,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1374,16 +1295,10 @@ export const AppApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoUpdateOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerDemoUpdateOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('appControllerDemoUpdateOne', 'id', id);
-      const localVarPath = `/api/demo/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/demo/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1391,22 +1306,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1418,9 +1324,7 @@ export const AppApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerGetData: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    appControllerGetData: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/get-data`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1429,22 +1333,13 @@ export const AppApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1468,16 +1363,11 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async appControllerDemoCreateOne(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoCreateOne(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoCreateOne(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerDemoCreateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerDemoCreateOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1495,16 +1385,11 @@ export const AppApiFp = function (configuration?: Configuration) {
     async appControllerDemoDeleteOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoDeleteOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoDeleteOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerDemoDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerDemoDeleteOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1520,16 +1405,11 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async appControllerDemoFindMany(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AppDemo>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoFindMany(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AppDemo>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoFindMany(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerDemoFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerDemoFindMany']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1547,16 +1427,11 @@ export const AppApiFp = function (configuration?: Configuration) {
     async appControllerDemoFindOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoFindOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoFindOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerDemoFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerDemoFindOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1574,16 +1449,11 @@ export const AppApiFp = function (configuration?: Configuration) {
     async appControllerDemoUpdateOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerDemoUpdateOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppDemo>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerDemoUpdateOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerDemoUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerDemoUpdateOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1599,16 +1469,11 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async appControllerGetData(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppData>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.appControllerGetData(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppData>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetData(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AppApi.appControllerGetData']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AppApi.appControllerGetData']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -1624,11 +1489,7 @@ export const AppApiFp = function (configuration?: Configuration) {
  * AppApi - factory interface
  * @export
  */
-export const AppApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const AppApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = AppApiFp(configuration);
   return {
     /**
@@ -1636,12 +1497,8 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoCreateOne(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AppDemo> {
-      return localVarFp
-        .appControllerDemoCreateOne(options)
-        .then((request) => request(axios, basePath));
+    appControllerDemoCreateOne(options?: RawAxiosRequestConfig): AxiosPromise<AppDemo> {
+      return localVarFp.appControllerDemoCreateOne(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1649,25 +1506,16 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoDeleteOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AppDemo> {
-      return localVarFp
-        .appControllerDemoDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
+    appControllerDemoDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo> {
+      return localVarFp.appControllerDemoDeleteOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindMany(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<AppDemo>> {
-      return localVarFp
-        .appControllerDemoFindMany(options)
-        .then((request) => request(axios, basePath));
+    appControllerDemoFindMany(options?: RawAxiosRequestConfig): AxiosPromise<Array<AppDemo>> {
+      return localVarFp.appControllerDemoFindMany(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1675,13 +1523,8 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoFindOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AppDemo> {
-      return localVarFp
-        .appControllerDemoFindOne(id, options)
-        .then((request) => request(axios, basePath));
+    appControllerDemoFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo> {
+      return localVarFp.appControllerDemoFindOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1689,25 +1532,16 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerDemoUpdateOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AppDemo> {
-      return localVarFp
-        .appControllerDemoUpdateOne(id, options)
-        .then((request) => request(axios, basePath));
+    appControllerDemoUpdateOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AppDemo> {
+      return localVarFp.appControllerDemoUpdateOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    appControllerGetData(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AppData> {
-      return localVarFp
-        .appControllerGetData(options)
-        .then((request) => request(axios, basePath));
+    appControllerGetData(options?: RawAxiosRequestConfig): AxiosPromise<AppData> {
+      return localVarFp.appControllerGetData(options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -1738,10 +1572,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public appControllerDemoDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public appControllerDemoDeleteOne(id: string, options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .appControllerDemoDeleteOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -1779,10 +1610,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public appControllerDemoUpdateOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public appControllerDemoUpdateOne(id: string, options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .appControllerDemoUpdateOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -1805,18 +1633,14 @@ export class AppApi extends BaseAPI {
  * AuthApi - axios parameter creator
  * @export
  */
-export const AuthApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authControllerProfile: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    authControllerProfile: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/auth/profile`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1825,22 +1649,13 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1858,11 +1673,7 @@ export const AuthApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'authProfileDto' is not null or undefined
-      assertParamExists(
-        'authControllerUpdateProfile',
-        'authProfileDto',
-        authProfileDto,
-      );
+      assertParamExists('authControllerUpdateProfile', 'authProfileDto', authProfileDto);
       const localVarPath = `/api/auth/update-profile`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1871,29 +1682,16 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        authProfileDto,
-        localVarRequestOptions,
-        configuration,
-      );
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(authProfileDto, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1906,16 +1704,10 @@ export const AuthApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authUsersControllerDeleteOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    authUsersControllerDeleteOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('authUsersControllerDeleteOne', 'id', id);
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1923,22 +1715,13 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1969,11 +1752,7 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
@@ -1994,13 +1773,8 @@ export const AuthApiAxiosParamCreator = function (
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2013,16 +1787,10 @@ export const AuthApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authUsersControllerFindOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    authUsersControllerFindOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('authUsersControllerFindOne', 'id', id);
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -2030,22 +1798,13 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2067,15 +1826,8 @@ export const AuthApiAxiosParamCreator = function (
       // verify required parameter 'id' is not null or undefined
       assertParamExists('authUsersControllerUpdateOne', 'id', id);
       // verify required parameter 'updateAuthUserDto' is not null or undefined
-      assertParamExists(
-        'authUsersControllerUpdateOne',
-        'updateAuthUserDto',
-        updateAuthUserDto,
-      );
-      const localVarPath = `/api/auth/users/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      assertParamExists('authUsersControllerUpdateOne', 'updateAuthUserDto', updateAuthUserDto);
+      const localVarPath = `/api/auth/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -2083,29 +1835,16 @@ export const AuthApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        updateAuthUserDto,
-        localVarRequestOptions,
-        configuration,
-      );
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updateAuthUserDto, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2129,16 +1868,11 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async authControllerProfile(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthProfileDto>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authControllerProfile(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthProfileDto>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerProfile(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authControllerProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authControllerProfile']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2156,19 +1890,11 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async authControllerUpdateProfile(
       authProfileDto: AuthProfileDto,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authControllerUpdateProfile(
-          authProfileDto,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerUpdateProfile(authProfileDto, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authControllerUpdateProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authControllerUpdateProfile']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2186,19 +1912,11 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async authUsersControllerDeleteOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerDeleteOne(
-          id,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerDeleteOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authUsersControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2222,25 +1940,17 @@ export const AuthApiFp = function (configuration?: Configuration) {
       searchText?: string,
       sort?: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FindManyAuthUserResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerFindMany(
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyAuthUserResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerFindMany(
+        curPage,
+        perPage,
+        searchText,
+        sort,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authUsersControllerFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authUsersControllerFindMany']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2258,16 +1968,11 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async authUsersControllerFindOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerFindOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authUsersControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authUsersControllerFindOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2287,20 +1992,15 @@ export const AuthApiFp = function (configuration?: Configuration) {
       id: string,
       updateAuthUserDto: UpdateAuthUserDto,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authUsersControllerUpdateOne(
-          id,
-          updateAuthUserDto,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authUsersControllerUpdateOne(
+        id,
+        updateAuthUserDto,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.authUsersControllerUpdateOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2316,11 +2016,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
  * AuthApi - factory interface
  * @export
  */
-export const AuthApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = AuthApiFp(configuration);
   return {
     /**
@@ -2328,12 +2024,8 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authControllerProfile(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AuthProfileDto> {
-      return localVarFp
-        .authControllerProfile(options)
-        .then((request) => request(axios, basePath));
+    authControllerProfile(options?: RawAxiosRequestConfig): AxiosPromise<AuthProfileDto> {
+      return localVarFp.authControllerProfile(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2355,13 +2047,8 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authUsersControllerDeleteOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<StatusResponse> {
-      return localVarFp
-        .authUsersControllerDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
+    authUsersControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse> {
+      return localVarFp.authUsersControllerDeleteOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2380,13 +2067,7 @@ export const AuthApiFactory = function (
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<FindManyAuthUserResponse> {
       return localVarFp
-        .authUsersControllerFindMany(
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options,
-        )
+        .authUsersControllerFindMany(curPage, perPage, searchText, sort, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2395,13 +2076,8 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authUsersControllerFindOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AuthUser> {
-      return localVarFp
-        .authUsersControllerFindOne(id, options)
-        .then((request) => request(axios, basePath));
+    authUsersControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<AuthUser> {
+      return localVarFp.authUsersControllerFindOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2448,10 +2124,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public authControllerUpdateProfile(
-    authProfileDto: AuthProfileDto,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public authControllerUpdateProfile(authProfileDto: AuthProfileDto, options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .authControllerUpdateProfile(authProfileDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -2464,10 +2137,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public authUsersControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public authUsersControllerDeleteOne(id: string, options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .authUsersControllerDeleteOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -2502,10 +2172,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public authUsersControllerFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public authUsersControllerFindOne(id: string, options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .authUsersControllerFindOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -2534,18 +2201,14 @@ export class AuthApi extends BaseAPI {
  * AuthorizerApi - axios parameter creator
  * @export
  */
-export const AuthorizerApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const AuthorizerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authorizerControllerGetAuthorizerClientID: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    authorizerControllerGetAuthorizerClientID: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/authorizer/client-id`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2554,22 +2217,13 @@ export const AuthorizerApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2584,8 +2238,7 @@ export const AuthorizerApiAxiosParamCreator = function (
  * @export
  */
 export const AuthorizerApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    AuthorizerApiAxiosParamCreator(configuration);
+  const localVarAxiosParamCreator = AuthorizerApiAxiosParamCreator(configuration);
   return {
     /**
      *
@@ -2594,21 +2247,12 @@ export const AuthorizerApiFp = function (configuration?: Configuration) {
      */
     async authorizerControllerGetAuthorizerClientID(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<AuthorizerClientID>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.authorizerControllerGetAuthorizerClientID(
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthorizerClientID>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authorizerControllerGetAuthorizerClientID(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap[
-          'AuthorizerApi.authorizerControllerGetAuthorizerClientID'
-        ]?.[localVarOperationServerIndex]?.url;
+        operationServerMap['AuthorizerApi.authorizerControllerGetAuthorizerClientID']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2624,11 +2268,7 @@ export const AuthorizerApiFp = function (configuration?: Configuration) {
  * AuthorizerApi - factory interface
  * @export
  */
-export const AuthorizerApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const AuthorizerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = AuthorizerApiFp(configuration);
   return {
     /**
@@ -2636,12 +2276,8 @@ export const AuthorizerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    authorizerControllerGetAuthorizerClientID(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<AuthorizerClientID> {
-      return localVarFp
-        .authorizerControllerGetAuthorizerClientID(options)
-        .then((request) => request(axios, basePath));
+    authorizerControllerGetAuthorizerClientID(options?: RawAxiosRequestConfig): AxiosPromise<AuthorizerClientID> {
+      return localVarFp.authorizerControllerGetAuthorizerClientID(options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -2659,9 +2295,7 @@ export class AuthorizerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthorizerApi
    */
-  public authorizerControllerGetAuthorizerClientID(
-    options?: RawAxiosRequestConfig,
-  ) {
+  public authorizerControllerGetAuthorizerClientID(options?: RawAxiosRequestConfig) {
     return AuthorizerApiFp(this.configuration)
       .authorizerControllerGetAuthorizerClientID(options)
       .then((request) => request(this.axios, this.basePath));
@@ -2672,18 +2306,14 @@ export class AuthorizerApi extends BaseAPI {
  * FakeEndpointApi - axios parameter creator
  * @export
  */
-export const FakeEndpointApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const FakeEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    fakeEndpointControllerFakeEndpointHandler: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    fakeEndpointControllerFakeEndpointHandler: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/fake-endpoint`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2692,22 +2322,13 @@ export const FakeEndpointApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2725,15 +2346,8 @@ export const FakeEndpointApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
-      assertParamExists(
-        'fakeEndpointControllerFakeEndpointLogs',
-        'appId',
-        appId,
-      );
-      const localVarPath = `/api/fake-endpoint/logs/{appId}`.replace(
-        `{${'appId'}}`,
-        encodeURIComponent(String(appId)),
-      );
+      assertParamExists('fakeEndpointControllerFakeEndpointLogs', 'appId', appId);
+      const localVarPath = `/api/fake-endpoint/logs/{appId}`.replace(`{${'appId'}}`, encodeURIComponent(String(appId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -2741,22 +2355,13 @@ export const FakeEndpointApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2771,8 +2376,7 @@ export const FakeEndpointApiAxiosParamCreator = function (
  * @export
  */
 export const FakeEndpointApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    FakeEndpointApiAxiosParamCreator(configuration);
+  const localVarAxiosParamCreator = FakeEndpointApiAxiosParamCreator(configuration);
   return {
     /**
      *
@@ -2781,18 +2385,12 @@ export const FakeEndpointApiFp = function (configuration?: Configuration) {
      */
     async fakeEndpointControllerFakeEndpointHandler(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointHandler(
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointHandler(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap[
-          'FakeEndpointApi.fakeEndpointControllerFakeEndpointHandler'
-        ]?.[localVarOperationServerIndex]?.url;
+        operationServerMap['FakeEndpointApi.fakeEndpointControllerFakeEndpointHandler']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2810,19 +2408,12 @@ export const FakeEndpointApiFp = function (configuration?: Configuration) {
     async fakeEndpointControllerFakeEndpointLogs(
       appId: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointLogs(
-          appId,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fakeEndpointControllerFakeEndpointLogs(appId, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap[
-          'FakeEndpointApi.fakeEndpointControllerFakeEndpointLogs'
-        ]?.[localVarOperationServerIndex]?.url;
+        operationServerMap['FakeEndpointApi.fakeEndpointControllerFakeEndpointLogs']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -2850,12 +2441,8 @@ export const FakeEndpointApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    fakeEndpointControllerFakeEndpointHandler(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .fakeEndpointControllerFakeEndpointHandler(options)
-        .then((request) => request(axios, basePath));
+    fakeEndpointControllerFakeEndpointHandler(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+      return localVarFp.fakeEndpointControllerFakeEndpointHandler(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2863,10 +2450,7 @@ export const FakeEndpointApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    fakeEndpointControllerFakeEndpointLogs(
-      appId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    fakeEndpointControllerFakeEndpointLogs(appId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
       return localVarFp
         .fakeEndpointControllerFakeEndpointLogs(appId, options)
         .then((request) => request(axios, basePath));
@@ -2887,9 +2471,7 @@ export class FakeEndpointApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof FakeEndpointApi
    */
-  public fakeEndpointControllerFakeEndpointHandler(
-    options?: RawAxiosRequestConfig,
-  ) {
+  public fakeEndpointControllerFakeEndpointHandler(options?: RawAxiosRequestConfig) {
     return FakeEndpointApiFp(this.configuration)
       .fakeEndpointControllerFakeEndpointHandler(options)
       .then((request) => request(this.axios, this.basePath));
@@ -2902,10 +2484,7 @@ export class FakeEndpointApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof FakeEndpointApi
    */
-  public fakeEndpointControllerFakeEndpointLogs(
-    appId: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public fakeEndpointControllerFakeEndpointLogs(appId: string, options?: RawAxiosRequestConfig) {
     return FakeEndpointApiFp(this.configuration)
       .fakeEndpointControllerFakeEndpointLogs(appId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -2916,9 +2495,7 @@ export class FakeEndpointApi extends BaseAPI {
  * FilesApi - axios parameter creator
  * @export
  */
-export const FilesApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const FilesApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
@@ -2931,11 +2508,7 @@ export const FilesApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'downloadUrl' is not null or undefined
-      assertParamExists(
-        'filesControllerDeleteFile',
-        'downloadUrl',
-        downloadUrl,
-      );
+      assertParamExists('filesControllerDeleteFile', 'downloadUrl', downloadUrl);
       const localVarPath = `/api/files/delete-file`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2944,11 +2517,7 @@ export const FilesApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
@@ -2957,13 +2526,8 @@ export const FilesApiAxiosParamCreator = function (
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2976,10 +2540,7 @@ export const FilesApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    filesControllerGetPresignedUrl: async (
-      ext: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    filesControllerGetPresignedUrl: async (ext: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'ext' is not null or undefined
       assertParamExists('filesControllerGetPresignedUrl', 'ext', ext);
       const localVarPath = `/api/files/get-presigned-url`;
@@ -2990,11 +2551,7 @@ export const FilesApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
@@ -3003,13 +2560,8 @@ export const FilesApiAxiosParamCreator = function (
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3035,19 +2587,11 @@ export const FilesApiFp = function (configuration?: Configuration) {
     async filesControllerDeleteFile(
       downloadUrl: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.filesControllerDeleteFile(
-          downloadUrl,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerDeleteFile(downloadUrl, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['FilesApi.filesControllerDeleteFile']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['FilesApi.filesControllerDeleteFile']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3065,22 +2609,11 @@ export const FilesApiFp = function (configuration?: Configuration) {
     async filesControllerGetPresignedUrl(
       ext: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FilesPresignedUrls>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.filesControllerGetPresignedUrl(
-          ext,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilesPresignedUrls>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerGetPresignedUrl(ext, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['FilesApi.filesControllerGetPresignedUrl']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['FilesApi.filesControllerGetPresignedUrl']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3096,11 +2629,7 @@ export const FilesApiFp = function (configuration?: Configuration) {
  * FilesApi - factory interface
  * @export
  */
-export const FilesApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const FilesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = FilesApiFp(configuration);
   return {
     /**
@@ -3109,13 +2638,8 @@ export const FilesApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    filesControllerDeleteFile(
-      downloadUrl: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<StatusResponse> {
-      return localVarFp
-        .filesControllerDeleteFile(downloadUrl, options)
-        .then((request) => request(axios, basePath));
+    filesControllerDeleteFile(downloadUrl: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse> {
+      return localVarFp.filesControllerDeleteFile(downloadUrl, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -3123,13 +2647,8 @@ export const FilesApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    filesControllerGetPresignedUrl(
-      ext: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FilesPresignedUrls> {
-      return localVarFp
-        .filesControllerGetPresignedUrl(ext, options)
-        .then((request) => request(axios, basePath));
+    filesControllerGetPresignedUrl(ext: string, options?: RawAxiosRequestConfig): AxiosPromise<FilesPresignedUrls> {
+      return localVarFp.filesControllerGetPresignedUrl(ext, options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -3148,10 +2667,7 @@ export class FilesApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof FilesApi
    */
-  public filesControllerDeleteFile(
-    downloadUrl: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public filesControllerDeleteFile(downloadUrl: string, options?: RawAxiosRequestConfig) {
     return FilesApiFp(this.configuration)
       .filesControllerDeleteFile(downloadUrl, options)
       .then((request) => request(this.axios, this.basePath));
@@ -3164,10 +2680,7 @@ export class FilesApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof FilesApi
    */
-  public filesControllerGetPresignedUrl(
-    ext: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public filesControllerGetPresignedUrl(ext: string, options?: RawAxiosRequestConfig) {
     return FilesApiFp(this.configuration)
       .filesControllerGetPresignedUrl(ext, options)
       .then((request) => request(this.axios, this.basePath));
@@ -3178,18 +2691,14 @@ export class FilesApi extends BaseAPI {
  * TerminusHealthCheckApi - axios parameter creator
  * @export
  */
-export const TerminusHealthCheckApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const TerminusHealthCheckApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    terminusHealthCheckControllerCheck: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    terminusHealthCheckControllerCheck: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/health`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3198,22 +2707,13 @@ export const TerminusHealthCheckApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3227,11 +2727,8 @@ export const TerminusHealthCheckApiAxiosParamCreator = function (
  * TerminusHealthCheckApi - functional programming interface
  * @export
  */
-export const TerminusHealthCheckApiFp = function (
-  configuration?: Configuration,
-) {
-  const localVarAxiosParamCreator =
-    TerminusHealthCheckApiAxiosParamCreator(configuration);
+export const TerminusHealthCheckApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = TerminusHealthCheckApiAxiosParamCreator(configuration);
   return {
     /**
      *
@@ -3241,20 +2738,13 @@ export const TerminusHealthCheckApiFp = function (
     async terminusHealthCheckControllerCheck(
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TerminusHealthCheckControllerCheck200Response>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(
-          options,
-        );
+      const localVarAxiosArgs = await localVarAxiosParamCreator.terminusHealthCheckControllerCheck(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap[
-          'TerminusHealthCheckApi.terminusHealthCheckControllerCheck'
-        ]?.[localVarOperationServerIndex]?.url;
+        operationServerMap['TerminusHealthCheckApi.terminusHealthCheckControllerCheck']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3285,9 +2775,7 @@ export const TerminusHealthCheckApiFactory = function (
     terminusHealthCheckControllerCheck(
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<TerminusHealthCheckControllerCheck200Response> {
-      return localVarFp
-        .terminusHealthCheckControllerCheck(options)
-        .then((request) => request(axios, basePath));
+      return localVarFp.terminusHealthCheckControllerCheck(options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -3316,18 +2804,14 @@ export class TerminusHealthCheckApi extends BaseAPI {
  * TimeApi - axios parameter creator
  * @export
  */
-export const TimeApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const TimeApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    timeControllerTime: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    timeControllerTime: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/time`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3336,22 +2820,13 @@ export const TimeApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3375,16 +2850,11 @@ export const TimeApiFp = function (configuration?: Configuration) {
      */
     async timeControllerTime(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.timeControllerTime(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.timeControllerTime(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['TimeApi.timeControllerTime']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['TimeApi.timeControllerTime']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3400,11 +2870,7 @@ export const TimeApiFp = function (configuration?: Configuration) {
  * TimeApi - factory interface
  * @export
  */
-export const TimeApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const TimeApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = TimeApiFp(configuration);
   return {
     /**
@@ -3413,9 +2879,7 @@ export const TimeApiFactory = function (
      * @throws {RequiredError}
      */
     timeControllerTime(options?: RawAxiosRequestConfig): AxiosPromise<object> {
-      return localVarFp
-        .timeControllerTime(options)
-        .then((request) => request(axios, basePath));
+      return localVarFp.timeControllerTime(options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -3444,9 +2908,7 @@ export class TimeApi extends BaseAPI {
  * WebhookApi - axios parameter creator
  * @export
  */
-export const WebhookApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
+export const WebhookApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
      *
@@ -3459,11 +2921,7 @@ export const WebhookApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createWebhookDto' is not null or undefined
-      assertParamExists(
-        'webhookControllerCreateOne',
-        'createWebhookDto',
-        createWebhookDto,
-      );
+      assertParamExists('webhookControllerCreateOne', 'createWebhookDto', createWebhookDto);
       const localVarPath = `/api/webhook`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3472,29 +2930,16 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createWebhookDto,
-        localVarRequestOptions,
-        configuration,
-      );
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createWebhookDto, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3507,16 +2952,10 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerDeleteOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookControllerDeleteOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('webhookControllerDeleteOne', 'id', id);
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -3524,22 +2963,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3551,9 +2981,7 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerEvents: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookControllerEvents: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/webhook/events`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3562,22 +2990,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3608,11 +3027,7 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
@@ -3633,13 +3048,8 @@ export const WebhookApiAxiosParamCreator = function (
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3652,16 +3062,10 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerFindOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookControllerFindOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('webhookControllerFindOne', 'id', id);
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -3669,22 +3073,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3696,9 +3091,7 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerProfile: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookControllerProfile: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/webhook/profile`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3707,22 +3100,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3740,11 +3124,7 @@ export const WebhookApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createWebhookDto' is not null or undefined
-      assertParamExists(
-        'webhookControllerTestRequest',
-        'createWebhookDto',
-        createWebhookDto,
-      );
+      assertParamExists('webhookControllerTestRequest', 'createWebhookDto', createWebhookDto);
       const localVarPath = `/api/webhook/test-request`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3753,29 +3133,16 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createWebhookDto,
-        localVarRequestOptions,
-        configuration,
-      );
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createWebhookDto, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3797,15 +3164,8 @@ export const WebhookApiAxiosParamCreator = function (
       // verify required parameter 'id' is not null or undefined
       assertParamExists('webhookControllerUpdateOne', 'id', id);
       // verify required parameter 'updateWebhookDto' is not null or undefined
-      assertParamExists(
-        'webhookControllerUpdateOne',
-        'updateWebhookDto',
-        updateWebhookDto,
-      );
-      const localVarPath = `/api/webhook/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      assertParamExists('webhookControllerUpdateOne', 'updateWebhookDto', updateWebhookDto);
+      const localVarPath = `/api/webhook/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -3813,29 +3173,16 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        updateWebhookDto,
-        localVarRequestOptions,
-        configuration,
-      );
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updateWebhookDto, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3848,16 +3195,10 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookLogsControllerDeleteOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookLogsControllerDeleteOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('webhookLogsControllerDeleteOne', 'id', id);
-      const localVarPath = `/api/webhook/logs/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/webhook/logs/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -3865,22 +3206,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3906,11 +3238,7 @@ export const WebhookApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'webhookId' is not null or undefined
-      assertParamExists(
-        'webhookLogsControllerFindManyLogs',
-        'webhookId',
-        webhookId,
-      );
+      assertParamExists('webhookLogsControllerFindManyLogs', 'webhookId', webhookId);
       const localVarPath = `/api/webhook/logs`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3919,11 +3247,7 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
@@ -3948,13 +3272,8 @@ export const WebhookApiAxiosParamCreator = function (
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3967,16 +3286,10 @@ export const WebhookApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookLogsControllerFindOne: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
+    webhookLogsControllerFindOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('webhookLogsControllerFindOne', 'id', id);
-      const localVarPath = `/api/webhook/logs/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id)),
-      );
+      const localVarPath = `/api/webhook/logs/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -3984,22 +3297,13 @@ export const WebhookApiAxiosParamCreator = function (
         baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -4025,19 +3329,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookControllerCreateOne(
       createWebhookDto: CreateWebhookDto,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerCreateOne(
-          createWebhookDto,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerCreateOne(createWebhookDto, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerCreateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerCreateOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4055,16 +3351,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookControllerDeleteOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerDeleteOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerDeleteOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4080,19 +3371,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
      */
     async webhookControllerEvents(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<Array<WebhookEvent>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerEvents(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WebhookEvent>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerEvents(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerEvents']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerEvents']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4116,25 +3399,17 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       searchText?: string,
       sort?: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FindManyWebhookResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerFindMany(
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyWebhookResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerFindMany(
+        curPage,
+        perPage,
+        searchText,
+        sort,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerFindMany']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerFindMany']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4152,16 +3427,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookControllerFindOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerFindOne(id, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerFindOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerFindOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4177,16 +3447,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
      */
     async webhookControllerProfile(
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerProfile(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerProfile(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerProfile']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerProfile']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4204,22 +3469,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookControllerTestRequest(
       createWebhookDto: CreateWebhookDto,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<WebhookTestRequestResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerTestRequest(
-          createWebhookDto,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookTestRequestResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerTestRequest(createWebhookDto, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerTestRequest']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerTestRequest']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4239,20 +3493,15 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       id: string,
       updateWebhookDto: UpdateWebhookDto,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookControllerUpdateOne(
-          id,
-          updateWebhookDto,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Webhook>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookControllerUpdateOne(
+        id,
+        updateWebhookDto,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookControllerUpdateOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookControllerUpdateOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4270,19 +3519,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookLogsControllerDeleteOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookLogsControllerDeleteOne(
-          id,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookLogsControllerDeleteOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookLogsControllerDeleteOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookLogsControllerDeleteOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4308,26 +3549,18 @@ export const WebhookApiFp = function (configuration?: Configuration) {
       searchText?: string,
       sort?: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<FindManyWebhookLogResponse>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookLogsControllerFindManyLogs(
-          webhookId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindManyWebhookLogResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookLogsControllerFindManyLogs(
+        webhookId,
+        curPage,
+        perPage,
+        searchText,
+        sort,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookLogsControllerFindManyLogs']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookLogsControllerFindManyLogs']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4345,19 +3578,11 @@ export const WebhookApiFp = function (configuration?: Configuration) {
     async webhookLogsControllerFindOne(
       id: string,
       options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookLog>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookLogsControllerFindOne(
-          id,
-          options,
-        );
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookLog>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.webhookLogsControllerFindOne(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['WebhookApi.webhookLogsControllerFindOne']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['WebhookApi.webhookLogsControllerFindOne']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -4373,11 +3598,7 @@ export const WebhookApiFp = function (configuration?: Configuration) {
  * WebhookApi - factory interface
  * @export
  */
-export const WebhookApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
+export const WebhookApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = WebhookApiFp(configuration);
   return {
     /**
@@ -4400,25 +3621,16 @@ export const WebhookApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerDeleteOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<StatusResponse> {
-      return localVarFp
-        .webhookControllerDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
+    webhookControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse> {
+      return localVarFp.webhookControllerDeleteOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerEvents(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<WebhookEvent>> {
-      return localVarFp
-        .webhookControllerEvents(options)
-        .then((request) => request(axios, basePath));
+    webhookControllerEvents(options?: RawAxiosRequestConfig): AxiosPromise<Array<WebhookEvent>> {
+      return localVarFp.webhookControllerEvents(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -4446,25 +3658,16 @@ export const WebhookApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerFindOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Webhook> {
-      return localVarFp
-        .webhookControllerFindOne(id, options)
-        .then((request) => request(axios, basePath));
+    webhookControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<Webhook> {
+      return localVarFp.webhookControllerFindOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookControllerProfile(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WebhookUser> {
-      return localVarFp
-        .webhookControllerProfile(options)
-        .then((request) => request(axios, basePath));
+    webhookControllerProfile(options?: RawAxiosRequestConfig): AxiosPromise<WebhookUser> {
+      return localVarFp.webhookControllerProfile(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -4502,13 +3705,8 @@ export const WebhookApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookLogsControllerDeleteOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<StatusResponse> {
-      return localVarFp
-        .webhookLogsControllerDeleteOne(id, options)
-        .then((request) => request(axios, basePath));
+    webhookLogsControllerDeleteOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StatusResponse> {
+      return localVarFp.webhookLogsControllerDeleteOne(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -4529,14 +3727,7 @@ export const WebhookApiFactory = function (
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<FindManyWebhookLogResponse> {
       return localVarFp
-        .webhookLogsControllerFindManyLogs(
-          webhookId,
-          curPage,
-          perPage,
-          searchText,
-          sort,
-          options,
-        )
+        .webhookLogsControllerFindManyLogs(webhookId, curPage, perPage, searchText, sort, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -4545,13 +3736,8 @@ export const WebhookApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookLogsControllerFindOne(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WebhookLog> {
-      return localVarFp
-        .webhookLogsControllerFindOne(id, options)
-        .then((request) => request(axios, basePath));
+    webhookLogsControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<WebhookLog> {
+      return localVarFp.webhookLogsControllerFindOne(id, options).then((request) => request(axios, basePath));
     },
   };
 };
@@ -4570,10 +3756,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookControllerCreateOne(
-    createWebhookDto: CreateWebhookDto,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookControllerCreateOne(createWebhookDto: CreateWebhookDto, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookControllerCreateOne(createWebhookDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -4586,10 +3769,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookControllerDeleteOne(id: string, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookControllerDeleteOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -4661,10 +3841,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookControllerTestRequest(
-    createWebhookDto: CreateWebhookDto,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookControllerTestRequest(createWebhookDto: CreateWebhookDto, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookControllerTestRequest(createWebhookDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -4678,11 +3855,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookControllerUpdateOne(
-    id: string,
-    updateWebhookDto: UpdateWebhookDto,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookControllerUpdateOne(id: string, updateWebhookDto: UpdateWebhookDto, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookControllerUpdateOne(id, updateWebhookDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -4695,10 +3868,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookLogsControllerDeleteOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookLogsControllerDeleteOne(id: string, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookLogsControllerDeleteOne(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -4724,14 +3894,7 @@ export class WebhookApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return WebhookApiFp(this.configuration)
-      .webhookLogsControllerFindManyLogs(
-        webhookId,
-        curPage,
-        perPage,
-        searchText,
-        sort,
-        options,
-      )
+      .webhookLogsControllerFindManyLogs(webhookId, curPage, perPage, searchText, sort, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4742,10 +3905,7 @@ export class WebhookApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WebhookApi
    */
-  public webhookLogsControllerFindOne(
-    id: string,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public webhookLogsControllerFindOne(id: string, options?: RawAxiosRequestConfig) {
     return WebhookApiFp(this.configuration)
       .webhookLogsControllerFindOne(id, options)
       .then((request) => request(this.axios, this.basePath));

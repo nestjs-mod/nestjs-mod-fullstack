@@ -1,9 +1,4 @@
-import {
-  NgModule,
-  ModuleWithProviders,
-  SkipSelf,
-  Optional,
-} from '@angular/core';
+import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { FullstackRestClientConfiguration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
@@ -19,23 +14,13 @@ export class FullstackRestClientApiModule {
   ): ModuleWithProviders<FullstackRestClientApiModule> {
     return {
       ngModule: FullstackRestClientApiModule,
-      providers: [
-        {
-          provide: FullstackRestClientConfiguration,
-          useFactory: configurationFactory,
-        },
-      ],
+      providers: [{ provide: FullstackRestClientConfiguration, useFactory: configurationFactory }],
     };
   }
 
-  constructor(
-    @Optional() @SkipSelf() parentModule: FullstackRestClientApiModule,
-    @Optional() http: HttpClient,
-  ) {
+  constructor(@Optional() @SkipSelf() parentModule: FullstackRestClientApiModule, @Optional() http: HttpClient) {
     if (parentModule) {
-      throw new Error(
-        'FullstackRestClientApiModule is already loaded. Import in your base AppModule only.',
-      );
+      throw new Error('FullstackRestClientApiModule is already loaded. Import in your base AppModule only.');
     }
     if (!http) {
       throw new Error(

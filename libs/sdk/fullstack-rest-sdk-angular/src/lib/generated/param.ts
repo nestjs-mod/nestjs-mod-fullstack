@@ -23,13 +23,7 @@ export type ParamLocation = 'query' | 'header' | 'path' | 'cookie';
 /**
  * Standard types as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
  */
-export type StandardDataType =
-  | 'integer'
-  | 'number'
-  | 'boolean'
-  | 'string'
-  | 'object'
-  | 'array';
+export type StandardDataType = 'integer' | 'number' | 'boolean' | 'string' | 'object' | 'array';
 
 /**
  * Standard {@link DataType}s plus your own types/classes.

@@ -11,19 +11,7 @@ import { TerminusHealthCheckControllerCheck200ResponseInfoValueInterface } from 
 
 export interface TerminusHealthCheckControllerCheck503ResponseInterface {
   status?: string;
-  info?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  } | null;
-  error?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  } | null;
-  details?: {
-    [
-      key: string
-    ]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface;
-  };
+  info?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface } | null;
+  error?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface } | null;
+  details?: { [key: string]: TerminusHealthCheckControllerCheck200ResponseInfoValueInterface };
 }
