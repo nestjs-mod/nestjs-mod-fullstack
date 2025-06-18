@@ -7,13 +7,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [
-    NzBreadCrumbModule,
-    NzTypographyModule,
-    TranslocoDirective,
-    NzCollapseModule,
-    TranslocoPipe,
-  ],
+  imports: [NzBreadCrumbModule, NzTypographyModule, TranslocoDirective, NzCollapseModule, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class HomeComponent {}

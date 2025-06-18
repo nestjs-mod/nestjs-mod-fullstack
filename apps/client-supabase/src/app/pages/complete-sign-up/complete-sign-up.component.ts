@@ -7,5 +7,6 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
   templateUrl: './complete-sign-up.component.html',
   imports: [NzBreadCrumbModule, TranslocoDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class CompleteSignUpComponent {}

@@ -1,6 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { WebhookErrorInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
@@ -10,14 +9,14 @@ export class AppErrorHandler implements ErrorHandler {
     private translocoService: TranslocoService,
   ) {}
 
-  handleError(err: { error: WebhookErrorInterface }) {
+  handleError(err: { error: { message: string; code: string } } | Error) {
     if ('error' in err && 'code' in err['error']) {
-      this.nzNotificationService.error(
-        err.error.code,
-        this.translocoService.translate(err.error.message),
-      );
+      this.nzNotificationService.error(err.error.code, this.translocoService.translate(err.error.message));
     } else {
-      console.log(err);
+      if ('message' in err) {
+        this.nzNotificationService.error(err.message, this.translocoService.translate(err.message));
+      }
+      console.error(err);
     }
   }
 }

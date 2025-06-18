@@ -10,5 +10,6 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
   templateUrl: './profile.component.html',
   imports: [NzBreadCrumbModule, AuthProfileFormComponent, TranslocoDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ProfileComponent {}

@@ -9,17 +9,9 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {
-  TranslocoDirective,
-  TranslocoPipe,
-  TranslocoService,
-} from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { ValidationService } from '@nestjs-mod/afat';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -30,15 +22,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, of, tap } from 'rxjs';
 import { AuthSignInFormService } from '../../services/auth-sign-in-form.service';
 import { AuthSignInMapperService } from '../../services/auth-sign-in-mapper.service';
 import { AuthService } from '../../services/auth.service';
-import {
-  AuthLoginInput,
-  AuthUserAndTokens,
-  OAuthProvider,
-} from '../../services/auth.types';
+import { AuthLoginInput, AuthUserAndTokens, OAuthProvider } from '../../services/auth.types';
+import { compare } from '@nestjs-mod/misc';
 @UntilDestroy()
 @Component({
   imports: [
@@ -64,6 +53,7 @@ import {
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class AuthSignInFormComponent implements OnInit {
   @Input()
@@ -76,6 +66,7 @@ export class AuthSignInFormComponent implements OnInit {
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
   oAuthProviders$ = new BehaviorSubject<OAuthProvider[] | null>(null);
+  errors?: ValidationErrorMetadataInterface[];
 
   constructor(
     @Optional()
@@ -103,6 +94,18 @@ export class AuthSignInFormComponent implements OnInit {
       )
       .subscribe();
 
+    this.form.valueChanges
+      .pipe(
+        distinctUntilChanged((prev, cur) => compare(prev, cur).different.length === 0),
+        tap((data) => {
+          if (this.errors?.length) {
+            this.setFormlyFields({ data, errors: [] });
+          }
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
     this.setFieldsAndModel({ password: '' });
   }
 
@@ -110,11 +113,7 @@ export class AuthSignInFormComponent implements OnInit {
     this.authService
       .getOAuthProviders()
       .pipe(
-        tap((oAuthProviders) =>
-          this.oAuthProviders$.next(
-            oAuthProviders.length === 0 ? null : oAuthProviders,
-          ),
-        ),
+        tap((oAuthProviders) => this.oAuthProviders$.next(oAuthProviders.length === 0 ? null : oAuthProviders)),
         untilDestroyed(this),
       )
       .subscribe();
@@ -135,24 +134,16 @@ export class AuthSignInFormComponent implements OnInit {
           tap((result) => {
             if (result.tokens) {
               this.afterSignIn.next(result);
-              this.nzMessageService.success(
-                this.translocoService.translate('Success'),
-              );
+              this.nzMessageService.success(this.translocoService.translate('Success'));
             }
           }),
           catchError((err) =>
-            this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options),
-            ),
+            this.validationService.catchAndProcessServerError(err, (options) => this.setFormlyFields(options)),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
-            this.nzMessageService.error(
-              this.translocoService.translate(
-                err.error?.message || err.message,
-              ),
-            );
+            this.nzMessageService.error(this.translocoService.translate(err.error?.message || err.message));
             return of(null);
           }),
           untilDestroyed(this),
@@ -160,18 +151,12 @@ export class AuthSignInFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors'),
-      );
+      this.nzMessageService.warning(this.translocoService.translate('Validation errors'));
     }
   }
 
-  private setFormlyFields(options?: {
-    data?: AuthLoginInput;
-    errors?: ValidationErrorMetadataInterface[];
-  }) {
-    this.formlyFields$.next(
-      this.authSignInFormService.getFormlyFields(options),
-    );
+  private setFormlyFields(options?: { data?: AuthLoginInput; errors?: ValidationErrorMetadataInterface[] }) {
+    this.formlyFields$.next(this.authSignInFormService.getFormlyFields(options));
+    this.errors = options?.errors || [];
   }
 }

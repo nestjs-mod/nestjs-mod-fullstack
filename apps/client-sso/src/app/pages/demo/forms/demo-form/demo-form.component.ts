@@ -9,12 +9,9 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { ValidationErrorMetadataInterface } from '@nestjs-mod/afat';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -23,10 +20,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, tap, throwError } from 'rxjs';
-import {
-  AppDemoModel,
-  DemoMapperService,
-} from '../../services/demo-mapper.service';
+import { AppDemoModel, DemoMapperService } from '../../services/demo-mapper.service';
 import { DemoService } from '../../services/demo.service';
 
 @UntilDestroy()
@@ -44,6 +38,7 @@ import { DemoService } from '../../services/demo.service';
   selector: 'app-demo-form',
   templateUrl: './demo-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class DemoFormComponent implements OnInit {
   @Input()
@@ -69,6 +64,7 @@ export class DemoFormComponent implements OnInit {
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+  errors?: ValidationErrorMetadataInterface[];
 
   constructor(
     @Optional()
@@ -106,9 +102,7 @@ export class DemoFormComponent implements OnInit {
           label: this.translocoService.translate(`demo.form.fields.name`),
           placeholder: 'name',
           readonly: true,
-          description: this.translocoService.translate(
-            'read-only field, set and updated on the backend',
-          ),
+          description: this.translocoService.translate('read-only field, set and updated on the backend'),
           required: false,
         },
       },
@@ -122,9 +116,7 @@ export class DemoFormComponent implements OnInit {
         this.updateOne()
           .pipe(
             tap((result) => {
-              this.nzMessageService.success(
-                this.translocoService.translate('Success'),
-              );
+              this.nzMessageService.success(this.translocoService.translate('Success'));
               this.afterUpdate.next(result);
             }),
             untilDestroyed(this),
@@ -134,9 +126,7 @@ export class DemoFormComponent implements OnInit {
         this.createOne()
           .pipe(
             tap((result) => {
-              this.nzMessageService.success(
-                this.translocoService.translate('Success'),
-              );
+              this.nzMessageService.success(this.translocoService.translate('Success'));
               this.afterCreate.next(result);
             }),
 
@@ -146,9 +136,7 @@ export class DemoFormComponent implements OnInit {
       }
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors'),
-      );
+      this.nzMessageService.warning(this.translocoService.translate('Validation errors'));
     }
   }
 
@@ -158,18 +146,14 @@ export class DemoFormComponent implements OnInit {
 
   updateOne() {
     if (!this.id) {
-      return throwError(
-        () => new Error(this.translocoService.translate('id not set')),
-      );
+      return throwError(() => new Error(this.translocoService.translate('id not set')));
     }
     return this.demoService.updateOne(this.id);
   }
 
   findOne() {
     if (!this.id) {
-      return throwError(
-        () => new Error(this.translocoService.translate('id not set')),
-      );
+      return throwError(() => new Error(this.translocoService.translate('id not set')));
     }
     return this.demoService.findOne(this.id).pipe(
       tap((result) => {

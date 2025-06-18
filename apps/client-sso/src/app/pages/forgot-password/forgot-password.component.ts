@@ -6,11 +6,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  imports: [
-    NzBreadCrumbModule,
-    TranslocoDirective,
-    AuthForgotPasswordFormComponent,
-  ],
+  imports: [NzBreadCrumbModule, TranslocoDirective, AuthForgotPasswordFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ForgotPasswordComponent {}

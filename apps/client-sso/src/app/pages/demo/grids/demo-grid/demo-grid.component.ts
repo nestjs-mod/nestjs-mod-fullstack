@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -19,11 +14,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { BehaviorSubject, tap } from 'rxjs';
 
-import {
-  TranslocoDirective,
-  TranslocoPipe,
-  TranslocoService,
-} from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { marker } from '@jsverse/transloco-keys-manager/marker';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import { DemoFormComponent } from '../../forms/demo-form/demo-form.component';
@@ -53,6 +44,7 @@ import { DemoService } from '../../services/demo.service';
   selector: 'app-demo-grid',
   templateUrl: './demo-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class DemoGridComponent implements OnInit {
   items$ = new BehaviorSubject<AppDemoModel[]>([]);
@@ -90,10 +82,7 @@ export class DemoGridComponent implements OnInit {
   }
 
   showCreateOrUpdateModal(id?: string): void {
-    const modal = this.nzModalService.create<
-      DemoFormComponent,
-      DemoFormComponent
-    >({
+    const modal = this.nzModalService.create<DemoFormComponent, DemoFormComponent>({
       nzTitle: id
         ? this.translocoService.translate('Update demo', { id })
         : this.translocoService.translate('Create demo'),
@@ -111,9 +100,7 @@ export class DemoGridComponent implements OnInit {
           },
         },
         {
-          label: id
-            ? this.translocoService.translate('Save')
-            : this.translocoService.translate('Create'),
+          label: id ? this.translocoService.translate('Save') : this.translocoService.translate('Create'),
           onClick: () => {
             modal.componentInstance?.afterUpdate
               .pipe(

@@ -1,12 +1,7 @@
 import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import {
-  LangDefinition,
-  TranslocoDirective,
-  TranslocoPipe,
-  TranslocoService,
-} from '@jsverse/transloco';
+import { LangDefinition, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import {
   AuthActiveLangService,
@@ -15,10 +10,7 @@ import {
   TokensService,
   UserPipe,
 } from '@nestjs-mod-fullstack/auth-afat';
-import {
-  AuthRoleInterface,
-  FullstackRestSdkAngularService,
-} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
+import { AuthRoleInterface, FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { addHours } from 'date-fns';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -50,6 +42,7 @@ import { APP_TITLE } from './app.constants';
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class AppComponent implements OnInit {
   title!: string;
@@ -97,10 +90,7 @@ export class AppComponent implements OnInit {
   }
 
   setActiveLang(lang: string) {
-    this.authActiveLangService
-      .setActiveLang(lang)
-      .pipe(untilDestroyed(this))
-      .subscribe();
+    this.authActiveLangService.setActiveLang(lang).pipe(untilDestroyed(this)).subscribe();
   }
 
   signOut() {
@@ -114,9 +104,7 @@ export class AppComponent implements OnInit {
   }
 
   private loadAvailableLangs() {
-    this.availableLangs$.next(
-      this.translocoService.getAvailableLangs() as LangDefinition[],
-    );
+    this.availableLangs$.next(this.translocoService.getAvailableLangs() as LangDefinition[]);
   }
 
   private subscribeToLangChanges() {
@@ -139,21 +127,13 @@ export class AppComponent implements OnInit {
         .pipe(
           switchMap((token) =>
             this.fullstackRestSdkAngularService.webSocket<string>({
-              path: token?.access_token
-                ? `/ws/time?token=${token?.access_token}`
-                : '/ws/time',
+              path: token?.access_token ? `/ws/time?token=${token?.access_token}` : '/ws/time',
               eventName: 'ChangeTimeStream',
             }),
           ),
         )
         .pipe(map((result) => result.data)),
-    ).pipe(
-      tap((result) =>
-        this.serverTime$.next(
-          addHours(new Date(result as string), TIMEZONE_OFFSET),
-        ),
-      ),
-    );
+    ).pipe(tap((result) => this.serverTime$.next(addHours(new Date(result as string), TIMEZONE_OFFSET))));
   }
 
   private fillServerMessage() {

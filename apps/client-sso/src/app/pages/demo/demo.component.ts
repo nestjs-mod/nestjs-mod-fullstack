@@ -8,13 +8,8 @@ import { DemoGridComponent } from './grids/demo-grid/demo-grid.component';
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    NzBreadCrumbModule,
-    DemoGridComponent,
-    NzGridModule,
-    NzLayoutModule,
-    TranslocoDirective,
-  ],
+  imports: [NzBreadCrumbModule, DemoGridComponent, NzGridModule, NzLayoutModule, TranslocoDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class DemoComponent {}

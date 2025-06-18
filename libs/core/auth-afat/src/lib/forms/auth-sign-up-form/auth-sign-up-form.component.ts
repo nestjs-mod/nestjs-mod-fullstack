@@ -9,11 +9,7 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
@@ -25,11 +21,12 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, of, tap } from 'rxjs';
 import { AuthSignUpFormService } from '../../services/auth-sign-up-form.service';
 import { AuthSignUpMapperService } from '../../services/auth-sign-up-mapper.service';
 import { AuthService } from '../../services/auth.service';
 import { AuthSignupInput, AuthUserAndTokens } from '../../services/auth.types';
+import { compare } from '@nestjs-mod/misc';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +51,7 @@ import { AuthSignupInput, AuthUserAndTokens } from '../../services/auth.types';
   selector: 'auth-sign-up-form',
   templateUrl: './auth-sign-up-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class AuthSignUpFormComponent implements OnInit {
   @Input()
@@ -65,6 +63,7 @@ export class AuthSignUpFormComponent implements OnInit {
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+  errors?: ValidationErrorMetadataInterface[];
 
   constructor(
     @Optional()
@@ -90,12 +89,22 @@ export class AuthSignUpFormComponent implements OnInit {
       )
       .subscribe();
 
+    this.form.valueChanges
+      .pipe(
+        distinctUntilChanged((prev, cur) => compare(prev, cur).different.length === 0),
+        tap((data) => {
+          if (this.errors?.length) {
+            this.setFormlyFields({ data, errors: [] });
+          }
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
     this.setFieldsAndModel({ password: '', confirmPassword: '' });
   }
 
-  setFieldsAndModel(
-    data: AuthSignupInput = { password: '', confirmPassword: '' },
-  ) {
+  setFieldsAndModel(data: AuthSignupInput = { password: '', confirmPassword: '' }) {
     const model = this.authSignUpMapperService.toModel(data);
     this.setFormlyFields({ data: model });
     this.formlyModel$.next(model);
@@ -110,24 +119,16 @@ export class AuthSignUpFormComponent implements OnInit {
           tap((result) => {
             if (result.tokens) {
               this.afterSignUp.next(result);
-              this.nzMessageService.success(
-                this.translocoService.translate('Success'),
-              );
+              this.nzMessageService.success(this.translocoService.translate('Success'));
             }
           }),
           catchError((err) =>
-            this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options),
-            ),
+            this.validationService.catchAndProcessServerError(err, (options) => this.setFormlyFields(options)),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
-            this.nzMessageService.error(
-              this.translocoService.translate(
-                err.error?.message || err.message,
-              ),
-            );
+            this.nzMessageService.error(this.translocoService.translate(err.error?.message || err.message));
             return of(null);
           }),
           untilDestroyed(this),
@@ -135,18 +136,12 @@ export class AuthSignUpFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors'),
-      );
+      this.nzMessageService.warning(this.translocoService.translate('Validation errors'));
     }
   }
 
-  private setFormlyFields(options?: {
-    data?: AuthSignupInput;
-    errors?: ValidationErrorMetadataInterface[];
-  }) {
-    this.formlyFields$.next(
-      this.authSignUpFormService.getFormlyFields(options),
-    );
+  private setFormlyFields(options?: { data?: AuthSignupInput; errors?: ValidationErrorMetadataInterface[] }) {
+    this.formlyFields$.next(this.authSignUpFormService.getFormlyFields(options));
+    this.errors = options?.errors || [];
   }
 }

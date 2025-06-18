@@ -1,17 +1,6 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Input,
-  OnInit,
-  Optional,
-} from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
@@ -23,11 +12,12 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, merge, mergeMap, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, merge, mergeMap, of, tap } from 'rxjs';
 import { AuthProfileFormService } from '../../services/auth-profile-form.service';
 import { AuthProfileMapperService } from '../../services/auth-profile-mapper.service';
 import { AuthService } from '../../services/auth.service';
 import { AuthUpdateProfileInput } from '../../services/auth.types';
+import { compare } from '@nestjs-mod/misc';
 
 @UntilDestroy()
 @Component({
@@ -45,29 +35,19 @@ import { AuthUpdateProfileInput } from '../../services/auth.types';
   selector: 'auth-profile-form',
   template: `@if (formlyFields$ | async; as formlyFields) {
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-      <formly-form
-        [model]="formlyModel$ | async"
-        [fields]="formlyFields"
-        [form]="form"
-      >
-      </formly-form>
+      <formly-form [model]="formlyModel$ | async" [fields]="formlyFields" [form]="form"> </formly-form>
       @if (!hideButtons) {
         <nz-form-control>
           <div class="flex justify-between">
             <div></div>
-            <button
-              nz-button
-              nzType="primary"
-              type="submit"
-              [disabled]="!form.valid"
-              transloco="Update"
-            ></button>
+            <button nz-button nzType="primary" type="submit" [disabled]="!form.valid" transloco="Update"></button>
           </div>
         </nz-form-control>
       }
     </form>
   } `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class AuthProfileFormComponent implements OnInit {
   @Input()
@@ -76,6 +56,7 @@ export class AuthProfileFormComponent implements OnInit {
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+  errors?: ValidationErrorMetadataInterface[];
 
   constructor(
     @Optional()
@@ -92,14 +73,23 @@ export class AuthProfileFormComponent implements OnInit {
   ngOnInit(): void {
     Object.assign(this, this.nzModalData);
 
-    merge(
-      this.authProfileFormService.init(),
-      this.translocoService.langChanges$,
-    )
+    merge(this.authProfileFormService.init(), this.translocoService.langChanges$)
       .pipe(
         mergeMap(() => {
           this.fillFromProfile();
           return of(true);
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    this.form.valueChanges
+      .pipe(
+        distinctUntilChanged((prev, cur) => compare(prev, cur).different.length === 0),
+        tap((data) => {
+          if (this.errors?.length) {
+            this.setFormlyFields({ data, errors: [] });
+          }
         }),
         untilDestroyed(this),
       )
@@ -116,9 +106,8 @@ export class AuthProfileFormComponent implements OnInit {
     data?: Partial<AuthUpdateProfileInput>;
     errors?: ValidationErrorMetadataInterface[];
   }) {
-    this.formlyFields$.next(
-      this.authProfileFormService.getFormlyFields(options),
-    );
+    this.formlyFields$.next(this.authProfileFormService.getFormlyFields(options));
+    this.errors = options?.errors || [];
   }
 
   submitForm(): void {
@@ -129,25 +118,15 @@ export class AuthProfileFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.fillFromProfile();
-            this.nzMessageService.success(
-              this.translocoService.translate(
-                'Profile data updated successfully!',
-              ),
-            );
+            this.nzMessageService.success(this.translocoService.translate('Profile data updated successfully!'));
           }),
           catchError((err) =>
-            this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options),
-            ),
+            this.validationService.catchAndProcessServerError(err, (options) => this.setFormlyFields(options)),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
-            this.nzMessageService.error(
-              this.translocoService.translate(
-                err.error?.message || err.message,
-              ),
-            );
+            this.nzMessageService.error(this.translocoService.translate(err.error?.message || err.message));
             return of(null);
           }),
           untilDestroyed(this),
@@ -155,16 +134,12 @@ export class AuthProfileFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors'),
-      );
+      this.nzMessageService.warning(this.translocoService.translate('Validation errors'));
     }
   }
 
   private fillFromProfile() {
     this.formlyFields$.next(this.formlyFields$.value);
-    this.setFieldsAndModel(
-      this.authService.profile$.value as AuthUpdateProfileInput,
-    );
+    this.setFieldsAndModel(this.authService.profile$.value as AuthUpdateProfileInput);
   }
 }

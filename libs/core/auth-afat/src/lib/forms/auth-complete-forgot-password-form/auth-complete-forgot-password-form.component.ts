@@ -9,11 +9,7 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ValidationErrorMetadataInterface } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
@@ -25,13 +21,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, of, tap } from 'rxjs';
 import { AuthCompleteForgotPasswordFormService } from '../../services/auth-complete-forgot-password-form.service';
 import { AuthService } from '../../services/auth.service';
-import {
-  AuthCompleteForgotPasswordInput,
-  AuthUserAndTokens,
-} from '../../services/auth.types';
+import { AuthCompleteForgotPasswordInput, AuthUserAndTokens } from '../../services/auth.types';
+import { compare } from '@nestjs-mod/misc';
 
 @UntilDestroy()
 @Component({
@@ -56,6 +50,7 @@ import {
   selector: 'auth-complete-forgot-password-form',
   templateUrl: './auth-complete-forgot-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class AuthCompleteForgotPasswordFormComponent implements OnInit {
   @Input()
@@ -72,6 +67,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
   form = new UntypedFormGroup({});
   formlyModel$ = new BehaviorSubject<object | null>(null);
   formlyFields$ = new BehaviorSubject<FormlyFieldConfig[] | null>(null);
+  errors?: ValidationErrorMetadataInterface[];
 
   constructor(
     @Optional()
@@ -93,6 +89,18 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
         tap(() => {
           this.formlyFields$.next(this.formlyFields$.value);
         }),
+      )
+      .subscribe();
+
+    this.form.valueChanges
+      .pipe(
+        distinctUntilChanged((prev, cur) => compare(prev, cur).different.length === 0),
+        tap((data) => {
+          if (this.errors?.length) {
+            this.setFormlyFields({ data, errors: [] });
+          }
+        }),
+        untilDestroyed(this),
       )
       .subscribe();
 
@@ -129,25 +137,17 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
             if (result) {
               this.afterCompleteForgotPassword.next(result);
               this.nzMessageService.success(
-                this.translocoService.translate(
-                  'Your password has been successfully changed!',
-                ),
+                this.translocoService.translate('Your password has been successfully changed!'),
               );
             }
           }),
           catchError((err) =>
-            this.validationService.catchAndProcessServerError(err, (options) =>
-              this.setFormlyFields(options),
-            ),
+            this.validationService.catchAndProcessServerError(err, (options) => this.setFormlyFields(options)),
           ),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           catchError((err: any) => {
             console.error(err);
-            this.nzMessageService.error(
-              this.translocoService.translate(
-                err.error?.message || err.message,
-              ),
-            );
+            this.nzMessageService.error(this.translocoService.translate(err.error?.message || err.message));
             return of(null);
           }),
           untilDestroyed(this),
@@ -155,9 +155,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
         .subscribe();
     } else {
       console.log(this.form.controls);
-      this.nzMessageService.warning(
-        this.translocoService.translate('Validation errors'),
-      );
+      this.nzMessageService.warning(this.translocoService.translate('Validation errors'));
     }
   }
 
@@ -165,8 +163,7 @@ export class AuthCompleteForgotPasswordFormComponent implements OnInit {
     data?: AuthCompleteForgotPasswordInput;
     errors?: ValidationErrorMetadataInterface[];
   }) {
-    this.formlyFields$.next(
-      this.authCompleteForgotPasswordFormService.getFormlyFields(options),
-    );
+    this.formlyFields$.next(this.authCompleteForgotPasswordFormService.getFormlyFields(options));
+    this.errors = options?.errors || [];
   }
 }
