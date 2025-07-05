@@ -23,7 +23,7 @@ COPY --chown=node:node ./apps/server-authorizer/package.json ./dist/apps/server-
 RUN npm run prisma:generate -- --verbose
 # Remove unnecessary packages
 RUN rm -rf /usr/src/app/node_modules/@nx && \
-    rm -rf /usr/src/app/node_modules/@brakebein/prisma-generator-nestjs-dto@1.24.0-beta5 && \
+    rm -rf /usr/src/app/node_modules/@brakebein/prisma-generator-nestjs-dto@1.28.0 && \
     rm -rf /usr/src/app/node_modules/@angular  && \
     rm -rf /usr/src/app/node_modules/@swc  && \
     rm -rf /usr/src/app/node_modules/@babel  && \
