@@ -90,7 +90,7 @@ services:
     tty: true
     restart: 'always'
   server-sso-single-sign-on:
-    image: 'ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.14.0'
+    image: 'ghcr.io/nestjs-mod/nestjs-mod-sso-server:1.18.2'
     container_name: 'server-sso-single-sign-on'
     ports:
       - '8080:8080'
@@ -120,8 +120,8 @@ services:
       SINGLE_SIGN_ON_SSO_JWT_ACCESS_TOKEN_EXPIRES_IN: ''
       SINGLE_SIGN_ON_SSO_JWT_REFRESH_TOKEN_EXPIRES_IN: ''
       SINGLE_SIGN_ON_SSO_CACHE_TTL: ''
-      SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_PROJECTS: ''
-      SINGLE_SIGN_ON_SSO_DEFAULT_PROJECT: ''
+      SINGLE_SIGN_ON_SSO_DEFAULT_PUBLIC_TENANTS: ''
+      SINGLE_SIGN_ON_SSO_DEFAULT_TENANT: ''
       SINGLE_SIGN_ON_SSO_DISABLE_EMAIL_VERIFICATION: ''
       FEATURE_NAME: ''
       DEPENDS_ON_SERVICE_NAMES: ''
