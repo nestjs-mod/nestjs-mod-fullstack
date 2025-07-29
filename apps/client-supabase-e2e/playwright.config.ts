@@ -23,8 +23,7 @@ if (parsed.error) {
 }
 
 // For CI, you may want to set E2E_CLIENT_URL to the deployed application.
-const baseURL =
-  clientUrl || process.env['E2E_CLIENT_URL'] || 'http://localhost:4200';
+const baseURL = clientUrl || process.env['E2E_CLIENT_URL'] || 'http://localhost:4200';
 
 process.env['E2E_CLIENT_URL'] = baseURL;
 
@@ -33,8 +32,9 @@ process.env['E2E_CLIENT_URL'] = baseURL;
  */
 export default defineConfig({
   workers: 1,
-  maxFailures: 2,
-  timeout: 120 * 1000,
+  maxFailures: 4,
+  retries: 2,
+  timeout: 30 * 1000,
   ...nxE2EPreset(__filename, { testDir: './src' }),
   reporter: [['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

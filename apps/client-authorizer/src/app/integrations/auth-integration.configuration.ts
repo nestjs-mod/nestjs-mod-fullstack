@@ -1,10 +1,5 @@
 import { Inject, InjectionToken, Provider } from '@angular/core';
-import {
-  Authorizer,
-  AuthToken,
-  ConfigType,
-  User,
-} from '@authorizerdev/authorizer-js';
+import { Authorizer, AuthToken, ConfigType, User } from '@authorizerdev/authorizer-js';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   AUTH_CONFIGURATION_TOKEN,
@@ -24,15 +19,7 @@ import { FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-
 import { FilesService } from '@nestjs-mod/files-afat';
 import { mapGraphqlErrors } from '@nestjs-mod/misc';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {
-  catchError,
-  from,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  throwError,
-} from 'rxjs';
+import { catchError, from, map, mergeMap, Observable, of, throwError } from 'rxjs';
 
 export const AUTHORIZER_URL = new InjectionToken<string>('AuthorizerURL');
 
@@ -79,9 +66,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   }
 
   getProfile(): Observable<AuthUser | undefined> {
-    return from(
-      this.authorizer.getProfile(this.getAuthorizationHeaders()),
-    ).pipe(
+    return from(this.authorizer.getProfile(this.getAuthorizationHeaders())).pipe(
       mapGraphqlErrors(),
       map((result) => (result ? this.mapToAuthUser(result) : undefined)),
     );
@@ -114,16 +99,10 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
     const oldData = data;
-    return (
-      data.picture
-        ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
-        : of('')
-    ).pipe(
+    return (data.picture ? this.filesService.getPresignedUrlAndUploadFile(data.picture) : of('')).pipe(
       catchError((err) => {
         console.error(err);
-        this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image'),
-        );
+        this.nzMessageService.error(this.translocoService.translate('Error while saving image'));
         return of(undefined);
       }),
       mergeMap((picture) => {
@@ -147,18 +126,14 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
         );
       }),
       mapGraphqlErrors(),
-      mergeMap(() =>
-        this.authorizer.getProfile(this.getAuthorizationHeaders()),
-      ),
+      mergeMap(() => this.authorizer.getProfile(this.getAuthorizationHeaders())),
       mergeMap(({ data: newData }) => {
         if (
           oldData?.picture &&
           typeof oldData?.picture === 'string' &&
           (newData as AuthUpdateProfileInput)?.picture !== oldData.picture
         ) {
-          return this.filesService
-            .deleteFile(oldData.picture)
-            .pipe(map(() => newData));
+          return this.filesService.deleteFile(oldData.picture).pipe(map(() => newData));
         }
         return of(newData);
       }),
@@ -230,11 +205,6 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
     const accessToken = this.tokensService.getAccessToken();
-    if (!accessToken) {
-      return {
-        'Accept-language': lang,
-      };
-    }
     return {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       'Accept-language': lang,
@@ -245,9 +215,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
     return throwError(() => new Error('not implemented'));
   }
 
-  completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput,
-  ): Observable<AuthUserAndTokens> {
+  completeForgotPassword(data: AuthCompleteForgotPasswordInput): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }
 

@@ -15,10 +15,7 @@ import {
   OAuthVerificationInput,
   TokensService,
 } from '@nestjs-mod-fullstack/auth-afat';
-import {
-  AuthRoleInterface,
-  FullstackRestSdkAngularService,
-} from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
+import { AuthRoleInterface, FullstackRestSdkAngularService } from '@nestjs-mod-fullstack/fullstack-rest-sdk-angular';
 import { FilesService } from '@nestjs-mod/files-afat';
 import { searchIn } from '@nestjs-mod/misc';
 import {
@@ -31,15 +28,7 @@ import {
   UserResponse,
 } from '@supabase/supabase-js';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {
-  catchError,
-  from,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  throwError,
-} from 'rxjs';
+import { catchError, from, map, mergeMap, Observable, of, throwError } from 'rxjs';
 
 export const SUPABASE_URL = new InjectionToken<string>('SupabaseUrl');
 export const SUPABASE_KEY = new InjectionToken<string>('SupabaseKey');
@@ -160,25 +149,17 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
       email: result.email || '',
       id: result.id,
       preferredUsername: 'empty',
-      roles: searchIn(AuthRoleInterface.Admin, result.role)
-        ? [AuthRoleInterface.Admin]
-        : [AuthRoleInterface.User],
+      roles: searchIn(AuthRoleInterface.Admin, result.role) ? [AuthRoleInterface.Admin] : [AuthRoleInterface.User],
       picture: result.user_metadata['picture'],
     };
   }
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
     const oldData = data;
-    return (
-      data.picture
-        ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
-        : of('')
-    ).pipe(
+    return (data.picture ? this.filesService.getPresignedUrlAndUploadFile(data.picture) : of('')).pipe(
       catchError((err) => {
         console.error(err);
-        this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image'),
-        );
+        this.nzMessageService.error(this.translocoService.translate('Error while saving image'));
         return of(undefined);
       }),
       mergeMap((picture) => {
@@ -191,9 +172,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           }),
         ).pipe(
           mapUserResponse(),
-          map((result) =>
-            result.user ? this.mapToAuthUser(result.user) : undefined,
-          ),
+          map((result) => (result.user ? this.mapToAuthUser(result.user) : undefined)),
         );
       }),
       mergeMap((newData) => {
@@ -202,9 +181,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
           typeof oldData?.picture === 'string' &&
           (newData as AuthUpdateProfileInput)?.picture !== oldData.picture
         ) {
-          return this.filesService
-            .deleteFile(oldData.picture)
-            .pipe(map(() => newData));
+          return this.filesService.deleteFile(oldData.picture).pipe(map(() => newData));
         }
         return of(newData);
       }),
@@ -215,9 +192,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   refreshToken(): Observable<AuthUserAndTokens | undefined> {
     const refreshToken = this.tokensService.getRefreshToken();
     return from(
-      this.supabaseClient.auth.refreshSession(
-        refreshToken ? { refresh_token: refreshToken } : undefined,
-      ),
+      this.supabaseClient.auth.refreshSession(refreshToken ? { refresh_token: refreshToken } : undefined),
     ).pipe(
       mapAuthResponse(),
       map((result) => {
@@ -261,9 +236,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     ).pipe(
       mapAuthResponse(),
       map((result) => ({
-        tokens: result.session
-          ? this.mapToAuthTokens(result.session)
-          : undefined,
+        tokens: result.session ? this.mapToAuthTokens(result.session) : undefined,
         user: result.user ? this.mapToAuthUser(result.user) : undefined,
       })),
     );
@@ -282,9 +255,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     ).pipe(
       mapAuthTokenResponsePassword(),
       map((result) => ({
-        tokens: result.session
-          ? this.mapToAuthTokens(result.session)
-          : undefined,
+        tokens: result.session ? this.mapToAuthTokens(result.session) : undefined,
         user: result.user ? this.mapToAuthUser(result.user) : undefined,
       })),
     );
@@ -293,11 +264,6 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
     const accessToken = this.tokensService.getAccessToken();
-    if (!accessToken) {
-      return {
-        'Accept-language': lang,
-      };
-    }
     return {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       'Accept-language': lang,
@@ -308,9 +274,7 @@ export class SupabaseAuthConfiguration implements AuthConfiguration {
     return throwError(() => new Error('not implemented'));
   }
 
-  completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput,
-  ): Observable<AuthUserAndTokens> {
+  completeForgotPassword(data: AuthCompleteForgotPasswordInput): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }
 

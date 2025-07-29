@@ -22,15 +22,7 @@ import {
   TokensResponseInterface,
 } from '@nestjs-mod/sso-rest-sdk-angular';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {
-  catchError,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  tap,
-  throwError,
-} from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
 
 export const SSO_URL = new InjectionToken<string>('SsoURL');
 
@@ -45,13 +37,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   ) {
     this.tokensService
       .getStream()
-      .pipe(
-        tap(() =>
-          ssoRestSdkAngularService.updateHeaders(
-            this.getAuthorizationHeaders(),
-          ),
-        ),
-      )
+      .pipe(tap(() => ssoRestSdkAngularService.updateHeaders(this.getAuthorizationHeaders())))
       .subscribe();
   }
 
@@ -121,16 +107,10 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
 
   updateProfile(data: AuthUpdateProfileInput): Observable<void | null> {
     const oldData = data;
-    return (
-      data.picture
-        ? this.filesService.getPresignedUrlAndUploadFile(data.picture)
-        : of('')
-    ).pipe(
+    return (data.picture ? this.filesService.getPresignedUrlAndUploadFile(data.picture) : of('')).pipe(
       catchError((err) => {
         console.error(err);
-        this.nzMessageService.error(
-          this.translocoService.translate('Error while saving image'),
-        );
+        this.nzMessageService.error(this.translocoService.translate('Error while saving image'));
         return of(undefined);
       }),
       mergeMap((picture) =>
@@ -140,31 +120,21 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
           .pipe(map((profile) => ({ ...profile, picture }))),
       ),
       mergeMap(({ picture }) => {
-        return this.ssoRestSdkAngularService
-          .getSsoApi()
-          .ssoControllerUpdateProfile({
-            birthdate: data.birthdate,
-            firstname: data.givenName,
-            gender: data.gender,
-            lastname: data.familyName,
-            picture,
-            password: data.newPassword,
-            confirmPassword: data.confirmNewPassword,
-            oldPassword: data.oldPassword,
-          });
+        return this.ssoRestSdkAngularService.getSsoApi().ssoControllerUpdateProfile({
+          birthdate: data.birthdate,
+          firstname: data.givenName,
+          gender: data.gender,
+          lastname: data.familyName,
+          picture,
+          password: data.newPassword,
+          confirmPassword: data.confirmNewPassword,
+          oldPassword: data.oldPassword,
+        });
       }),
-      mergeMap(() =>
-        this.ssoRestSdkAngularService.getSsoApi().ssoControllerProfile(),
-      ),
+      mergeMap(() => this.ssoRestSdkAngularService.getSsoApi().ssoControllerProfile()),
       mergeMap((newData) => {
-        if (
-          oldData?.picture &&
-          typeof oldData?.picture === 'string' &&
-          newData.picture !== oldData.picture
-        ) {
-          return this.filesService
-            .deleteFile(oldData.picture)
-            .pipe(map(() => newData));
+        if (oldData?.picture && typeof oldData?.picture === 'string' && newData.picture !== oldData.picture) {
+          return this.filesService.deleteFile(oldData.picture).pipe(map(() => newData));
         }
         return of(newData);
       }),
@@ -255,11 +225,6 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
   getAuthorizationHeaders(): Record<string, string> {
     const lang = this.translocoService.getActiveLang();
     const accessToken = this.tokensService.getAccessToken();
-    if (!accessToken) {
-      return {
-        'Accept-language': lang,
-      };
-    }
     return {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       'Accept-language': lang,
@@ -270,9 +235,7 @@ export class AuthIntegrationConfiguration implements AuthConfiguration {
     return throwError(() => new Error('not implemented'));
   }
 
-  completeForgotPassword(
-    data: AuthCompleteForgotPasswordInput,
-  ): Observable<AuthUserAndTokens> {
+  completeForgotPassword(data: AuthCompleteForgotPasswordInput): Observable<AuthUserAndTokens> {
     return throwError(() => new Error('not implemented'));
   }
 
